@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "cf:build": "opennextjs-cloudflare build",
-    "cf:preview": "wrangler pages dev",
-    "cf:deploy": "wrangler pages deploy"
+    "cf:preview": "wrangler dev",
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
