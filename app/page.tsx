@@ -11,36 +11,6 @@ const services = [
     accent: "#c9b4ff",
     href: "/saju",
   },
-  {
-    id: "new-year",
-    character: "까치도령",
-    title: "신년 운세",
-    desc: "2026년 병오년, 당신의 한 해를 풀어드립니다",
-    emoji: "🎋",
-    bg: "#0a2a0a",
-    accent: "#90ee90",
-    href: "/new-year",
-  },
-  {
-    id: "saju-love",
-    character: "색동낭자",
-    title: "연애 사주",
-    desc: "당신의 인연을 풀어드려요",
-    emoji: "🌸",
-    bg: "#2a0a1a",
-    accent: "#ffb4c8",
-    href: "/saju-love",
-  },
-  {
-    id: "face",
-    character: "관상가 양반",
-    title: "정통 관상",
-    desc: "사진 한 장이면 AI가 성격, 연애운, 재물운, 직업운까지",
-    emoji: "🪬",
-    bg: "#1a1a0a",
-    accent: "#ffd700",
-    href: "/face",
-  },
 ];
 
 export default function Home() {
