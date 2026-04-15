@@ -662,9 +662,9 @@ export async function POST(req: NextRequest) {
       maxTokens = SECTION_TOKENS[sectionIdx];
     }
 
-    // ── Gemini API (generateContent → SSE 변환) ──
+    // ── Gemini API 스트리밍 ──
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${process.env.GOOGLE_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?key=${process.env.GOOGLE_API_KEY}&alt=sse`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -681,29 +681,41 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "AI 호출 실패" }, { status: 500 });
     }
 
-    const geminiData = await geminiRes.json() as {
-      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-    };
-    const aiText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-
     const encoder = new TextEncoder();
-    const lines: string[] = [];
-
-    if (sajuAnalysis && section === "opener") {
-      lines.push(`data: ${JSON.stringify({ t: 'm', d: sajuAnalysis })}\n\n`);
-    }
-    const CHUNK = 20;
-    for (let i = 0; i < aiText.length; i += CHUNK) {
-      lines.push(`data: ${JSON.stringify({ t: 'x', v: aiText.slice(i, i + CHUNK) })}\n\n`);
-    }
-    lines.push('data: [DONE]\n\n');
-
-    const sseText = lines.join('');
+    const geminiBody = geminiRes.body!;
 
     const readable = new ReadableStream({
-      start(controller) {
-        controller.enqueue(encoder.encode(sseText));
-        controller.close();
+      async start(controller) {
+        if (sajuAnalysis && section === "opener") {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ t: 'm', d: sajuAnalysis })}\n\n`));
+        }
+        const reader = geminiBody.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value, { stream: true });
+            const lines = buf.split('\n');
+            buf = lines.pop() ?? '';
+            for (const line of lines) {
+              if (!line.startsWith('data: ')) continue;
+              const raw = line.slice(6).trim();
+              if (!raw) continue;
+              try {
+                const chunk = JSON.parse(raw) as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
+                const text = chunk?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+                if (text) {
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ t: 'x', v: text })}\n\n`));
+                }
+              } catch { continue; }
+            }
+          }
+        } finally {
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+          controller.close();
+        }
       },
     });
 
@@ -711,6 +723,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
+        'X-Accel-Buffering': 'no',
       },
     });
   } catch (err) {

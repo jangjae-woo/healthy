@@ -416,6 +416,14 @@ export default function SajuSlideResult() {
             } else if (msg.t === 'x' && msg.v) {
               full += msg.v;
               setAiContent(prev => ({ ...prev, [key]:{ status:'loading', content: full } }));
+              // 스트리밍 중에도 페이지 분할 — 첫 페이지 즉시 표시
+              if (key !== 'opener') {
+                const partial = splitIntoPages(full);
+                if (partial.length > 1) {
+                  setAiPages(prev => ({ ...prev, [key]: partial }));
+                  setAiPage(prev => ({ ...prev, [key]: prev[key] ?? 0 }));
+                }
+              }
             } else if (msg.t === 'e') {
               throw new Error();
             }
