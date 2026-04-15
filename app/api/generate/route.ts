@@ -1,4 +1,5 @@
-import Anthropic from "@anthropic-ai/sdk";
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from "next/server";
 import { calculateFourPillars } from "manseryeok";
 import {
@@ -7,7 +8,7 @@ import {
   type SajuAnalysis,
 } from "@/lib/saju-calculator";
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const GEMINI_MODEL = "gemini-2.5-flash";
 
 const HOUR_MAP: Record<string, number> = {
   "모름": 12, "자시(23-01)": 23, "축시(01-03)": 1, "인시(03-05)": 3,
@@ -663,47 +664,45 @@ export async function POST(req: NextRequest) {
       maxTokens = SECTION_TOKENS[sectionIdx];
     }
 
-    // ── API 키 모드 — 스트리밍 ──
-    const anthropicStream = client.messages.stream({
-      model: "claude-opus-4-6",
-      max_tokens: maxTokens,
-      messages: [{ role: "user", content: prompt }],
-    });
+    // ── Gemini API (generateContent → SSE 변환) ──
+    const geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${process.env.GOOGLE_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: maxTokens },
+        }),
+      }
+    );
+
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text();
+      console.error("Gemini error:", geminiRes.status, errText);
+      return NextResponse.json({ error: "AI 호출 실패" }, { status: 500 });
+    }
+
+    const geminiData = await geminiRes.json() as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+    };
+    const aiText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
 
     const encoder = new TextEncoder();
-    const readable = new ReadableStream({
-      async start(controller) {
-        // opener 섹션은 사주 데이터를 먼저 전송
-        if (sajuAnalysis && section === "opener") {
-          controller.enqueue(encoder.encode(
-            `data: ${JSON.stringify({ t: 'm', d: sajuAnalysis })}\n\n`
-          ));
-        }
-        try {
-          for await (const event of anthropicStream) {
-            if (
-              event.type === 'content_block_delta' &&
-              event.delta.type === 'text_delta'
-            ) {
-              controller.enqueue(encoder.encode(
-                `data: ${JSON.stringify({ t: 'x', v: event.delta.text })}\n\n`
-              ));
-            }
-          }
-        } catch {
-          controller.enqueue(encoder.encode(
-            `data: ${JSON.stringify({ t: 'e' })}\n\n`
-          ));
-        }
-        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-        controller.close();
-      },
-      cancel() {
-        anthropicStream.abort();
-      },
-    });
+    const lines: string[] = [];
 
-    return new Response(readable, {
+    if (sajuAnalysis && section === "opener") {
+      lines.push(`data: ${JSON.stringify({ t: 'm', d: sajuAnalysis })}\n\n`);
+    }
+    const CHUNK = 20;
+    for (let i = 0; i < aiText.length; i += CHUNK) {
+      lines.push(`data: ${JSON.stringify({ t: 'x', v: aiText.slice(i, i + CHUNK) })}\n\n`);
+    }
+    lines.push('data: [DONE]\n\n');
+
+    const body = encoder.encode(lines.join(''));
+
+    return new Response(body, {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
