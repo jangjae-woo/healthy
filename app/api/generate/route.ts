@@ -1,5 +1,3 @@
-export const runtime = 'edge';
-
 import { NextRequest, NextResponse } from "next/server";
 import { calculateFourPillars } from "manseryeok";
 import {
@@ -627,7 +625,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const ctx = sajuAnalysis ? buildCtx(sajuAnalysis, data.name) : '';
+    const ctx = sajuAnalysis != null ? buildCtx(sajuAnalysis, data.name) : '';
 
     let prompt: string;
     let maxTokens: number;
@@ -672,7 +670,7 @@ export async function POST(req: NextRequest) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { maxOutputTokens: maxTokens },
+          generationConfig: { maxOutputTokens: maxTokens, thinkingConfig: { thinkingBudget: 0 } },
         }),
       }
     );
@@ -700,9 +698,16 @@ export async function POST(req: NextRequest) {
     }
     lines.push('data: [DONE]\n\n');
 
-    const body = encoder.encode(lines.join(''));
+    const sseText = lines.join('');
 
-    return new Response(body, {
+    const readable = new ReadableStream({
+      start(controller) {
+        controller.enqueue(encoder.encode(sseText));
+        controller.close();
+      },
+    });
+
+    return new Response(readable, {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
