@@ -39,29 +39,29 @@ const SEUN_YEARS = [
 
 // 섹션 첫 슬라이드에 표시할 인라인 헤더 (인트로 별도 슬라이드 없음)
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
-  13:{ title:'핵심 요약',   icon:'✦'  },
-  14:{ title:'나라는 사람', icon:'🪞' },
-  16:{ title:'돈과 일',    icon:'💰' },
-  18:{ title:'사람과 사랑',icon:'🤝' },
-  21:{ title:'몸과 마음',  icon:'🌿' },
-  22:{ title:'숨겨진 카드',icon:'✨' },
-  23:{ title:'흐르는 시간',icon:'🌊' },
-  25:{ title:'나침반',     icon:'🧭' },
-  26:{ title:'결',         icon:'🌙' },
+  3: { title:'핵심 요약',   icon:'✦'  },
+  4: { title:'나라는 사람', icon:'🪞' },
+  6: { title:'돈과 일',    icon:'💰' },
+  8: { title:'사람과 사랑',icon:'🤝' },
+  11:{ title:'몸과 마음',  icon:'🌿' },
+  12:{ title:'숨겨진 카드',icon:'✨' },
+  13:{ title:'흐르는 시간',icon:'🌊' },
+  15:{ title:'나침반',     icon:'🧭' },
+  16:{ title:'결',         icon:'🌙' },
 };
 
 // 슬라이드 → AI 섹션 키 매핑
 const SLIDE_AI: Record<number,string> = {
   1: 'opener',
-  13:'overview',
-  14:'personality1', 15:'personality2',
-  16:'money1',       17:'money2',
-  18:'love1',        19:'love2', 20:'love3',
-  21:'health',
-  22:'hidden',
-  23:'timeline1',    24:'timeline2',
-  25:'compass',
-  26:'closing',
+  3: 'overview',
+  4: 'personality1', 5: 'personality2',
+  6: 'money1',       7: 'money2',
+  8: 'love1',        9: 'love2', 10: 'love3',
+  11: 'health',
+  12: 'hidden',
+  13: 'timeline1',   14: 'timeline2',
+  15: 'compass',
+  16: 'closing',
 };
 
 // 섹션별 기본 이미지 (페이지 0 배너)
@@ -115,23 +115,23 @@ const KEYWORD_IMAGE: Array<{ m: string[]; img: string }> = [
 
 // TOC 섹션 목록
 const TOC_ITEMS = [
-  { label:'사주 원국',  slide:2  },
-  { label:'핵심 요약',  slide:13 },
-  { label:'나라는 사람',slide:14 },
-  { label:'돈과 일',    slide:16 },
-  { label:'사람과 사랑',slide:18 },
-  { label:'몸과 마음',  slide:21 },
-  { label:'숨겨진 카드',slide:22 },
-  { label:'흐르는 시간',slide:23 },
-  { label:'나침반',     slide:25 },
-  { label:'결',         slide:26 },
+  { label:'핵심 요약',  slide:3  },
+  { label:'나라는 사람',slide:4  },
+  { label:'돈과 일',    slide:6  },
+  { label:'사람과 사랑',slide:8  },
+  { label:'몸과 마음',  slide:11 },
+  { label:'숨겨진 카드',slide:12 },
+  { label:'흐르는 시간',slide:13 },
+  { label:'나침반',     slide:15 },
+  { label:'결',         slide:16 },
+  { label:'사주 원국',  slide:18 },
 ];
 
 // 슬라이드 상수
-const FREE_END  = 11;   // 마지막 무료 슬라이드 (풀이 목차)
-const PAYWALL   = 12;   // 결제 슬라이드
-const AI_START  = 13;   // 첫 AI 풀이 슬라이드 (overview)
-const TOTAL     = 29;   // 전체 (슬라이드 0~28)
+const FREE_END  = 1;   // opener is last free slide
+const PAYWALL   = 2;
+const AI_START  = 3;
+const TOTAL     = 29;
 
 // 에너지 점수
 function calcEnergyScore(elements:Record<string,number>) {
@@ -681,7 +681,7 @@ export default function SajuSlideResult() {
     if (slide>0) setSlide(s=>s-1);
   }
   function goSlide(n:number) {
-    if (n>=AI_START && !unlocked) { setSlide(PAYWALL); return; }
+    if (n>=AI_START && n<=17 && !unlocked) { setSlide(PAYWALL); return; }
     setSlide(n); setShowToc(false);
     // 목차로 이동 시 해당 섹션 첫 페이지로
     const key = SLIDE_AI[n];
@@ -694,6 +694,8 @@ export default function SajuSlideResult() {
   // 현재 섹션 이름
   function currentSection() {
     if (slide<=FREE_END||slide===PAYWALL) return null;
+    if (slide===17) return '선인에게 묻다';
+    if (slide>=18) return '사주 원국';
     const sorted = Object.keys(SECTION_LABELS).map(Number).sort((a,b)=>a-b);
     let label = null;
     for (const s of sorted) {
@@ -784,7 +786,7 @@ ${sectionsHtml}
   function renderSlide() {
 
     // 로딩 (saju 계산 대기) — opener(slide 1)는 sajuData 없어도 렌더 가능
-    if (!sajuData && slide>=2 && slide<=FREE_END) {
+    if (!sajuData && slide>=18 && slide<=27) {
       return (
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
           <div className="w-8 h-8 rounded-full border-2 animate-spin"
@@ -849,8 +851,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 2: 사주원국 ─
-    if (slide===2) {
+    // ─ Slide 18: 사주원국 ─
+    if (slide===18) {
       const { pillars, sipseong, isHourUnknown } = sajuData!;
       const cols = [
         { label:'시(時)', p:pillars.hour,  ss:sipseong.hour,  empty:isHourUnknown },
@@ -924,8 +926,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 3: 일간 소개 ─
-    if (slide===3) {
+    // ─ Slide 19: 일간 소개 ─
+    if (slide===19) {
       const info = ILGAN_INFO[sajuData!.ilgan];
       return (
         <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 py-6">
@@ -948,8 +950,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 4: 오행 분포 ─
-    if (slide===4) {
+    // ─ Slide 20: 오행 분포 ─
+    if (slide===20) {
       const { elements, yongsin } = sajuData!;
       const total = Object.values(elements).reduce((a,b)=>a+b,0)||1;
       const strong = Object.entries(elements).filter(([,n])=>n>=2).map(([el])=>el);
@@ -986,8 +988,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 5: 에너지 총량 ─
-    if (slide===5) {
+    // ─ Slide 21: 에너지 총량 ─
+    if (slide===21) {
       const { score, label, max } = calcEnergyScore(sajuData!.elements);
       const pct = Math.round((score/max)*100);
       return (
@@ -1020,8 +1022,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 6: 내 기둥 ─
-    if (slide===6) {
+    // ─ Slide 22: 내 기둥 ─
+    if (slide===22) {
       const { pillars, sipseong, isHourUnknown } = sajuData!;
       const rows = [
         { label:'연주(年柱)', sub:'유년·가족', p:pillars.year,  ss:sipseong.year },
@@ -1061,8 +1063,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 7: 십성 배치도 ─
-    if (slide===7) {
+    // ─ Slide 23: 십성 배치도 ─
+    if (slide===23) {
       const counts = getSipseongCounts(sajuData!.sipseong);
       const maxCount = Math.max(...Object.values(counts),1);
       const catColors: Record<string,string> = {
@@ -1105,8 +1107,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 8: 신살 지도 ─
-    if (slide===8) {
+    // ─ Slide 24: 신살 지도 ─
+    if (slide===24) {
       const sinsal = sajuData!.sinsal;
       return (
         <div className="flex-1 py-4">
@@ -1136,8 +1138,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 9: 대운 타임라인 ─
-    if (slide===9) {
+    // ─ Slide 25: 대운 타임라인 ─
+    if (slide===25) {
       const { daeun } = sajuData!;
       const _now = new Date();
       const _bm = parseInt(month), _bd = parseInt(day);
@@ -1176,8 +1178,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 10: 세운표 2026-2030 ─
-    if (slide===10) {
+    // ─ Slide 26: 세운표 2026-2030 ─
+    if (slide===26) {
       const ilgan = sajuData!.ilgan;
       const currentYear = new Date().getFullYear();
       return (
@@ -1214,8 +1216,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 11: 풀이 목차 ─
-    if (slide===11) {
+    // ─ Slide 27: 풀이 목차 ─
+    if (slide===27) {
       const sections = [
         { icon:'🪞', label:'나라는 사람', items:['강점과 약점','겉모습 VS 속마음','일주 DNA'] },
         { icon:'💰', label:'돈과 일', items:['재물과 나의 관계','돈이 새는 이유','커리어 타이밍'] },
@@ -1274,8 +1276,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 12: 결제/인증 ─
-    if (slide===12) {
+    // ─ Slide 2: 결제/인증 ─
+    if (slide===2) {
       const ilganReviews: Record<string, string> = {
         갑:'거목 일간이라 그런지 재물 파트가 소름이었어요',
         을:'연애 섹션에서 제 연애 패턴을 딱 집었어요',
@@ -1352,8 +1354,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 13: 핵심 요약 (overview) ─
-    if (slide===13) {
+    // ─ Slide 3: 핵심 요약 (overview) ─
+    if (slide===3) {
       const st = aiContent['overview'];
       const content = st?.content || '';
       return (
@@ -1460,8 +1462,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 26: 선인에게 묻다 (Q&A) ─
-    if (slide===26) {
+    // ─ Slide 17: 선인에게 묻다 (Q&A) ─
+    if (slide===17) {
       const MAX_Q = 3;
       const remaining = MAX_Q - questionCount;
       const handleSubmit = () => {
@@ -1555,8 +1557,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 27: 마지막 + PDF ─
-    if (slide===27) {
+    // ─ Slide 28: 마지막 + PDF ─
+    if (slide===28) {
       return (
         <div className="flex-1 flex flex-col items-center justify-center text-center gap-8 py-6">
           <div>
@@ -1631,7 +1633,7 @@ ${sectionsHtml}
             <button onClick={()=>setShowToc(false)} style={{color:`${ACCENT}77`}}>✕</button>
           </div>
           {TOC_ITEMS.map(item=>{
-            const locked = item.slide>=AI_START && !unlocked;
+            const locked = item.slide>=AI_START && item.slide<=17 && !unlocked;
             const isCurrent = slide===item.slide ||
               (slide>item.slide && (()=>{
                 const idx = TOC_ITEMS.findIndex(t=>t.slide===item.slide);
@@ -1675,7 +1677,6 @@ ${sectionsHtml}
                 color: BG,
               }}>
               {slide===FREE_END?(unlocked?'풀이 보기 →':'🔮 풀이 열기'):
-               slide===AI_START-1?'풀이 시작 →':
                '다음 →'}
             </button>
           )}
