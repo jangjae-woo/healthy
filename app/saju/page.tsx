@@ -3,7 +3,7 @@ import ServiceLanding from "@/components/ServiceLanding";
 export default function SajuPage() {
   return (
     <ServiceLanding
-      character="운학선인"
+      character="묵도인"
       title="평생 사주"
       tagline="단 한 번의 풀이, 평생을 간직할 나의 사주"
       emoji="🌙"
@@ -18,7 +18,7 @@ export default function SajuPage() {
         "숨겨진 카드 — 잠재력과 신살 풀이",
         "흐르는 시간 — 향후 5년 대운 분석",
         "나침반 — 용신과 오늘부터 할 것",
-        "결 — 운학선인의 인생 당부",
+        "결 — 묵도인의 인생 당부",
       ]}
     />
   );

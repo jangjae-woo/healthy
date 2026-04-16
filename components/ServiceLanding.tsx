@@ -34,7 +34,7 @@ export default function ServiceLanding({
           {character}
         </p>
         <h1 className="text-2xl font-bold text-white mb-3">{title}</h1>
-        <p className="text-sm leading-relaxed max-w-xs" style={{ color: `${accent}99` }}>
+        <p className="text-sm leading-relaxed max-w-xs break-keep" style={{ color: `${accent}99` }}>
           {tagline}
         </p>
       </div>

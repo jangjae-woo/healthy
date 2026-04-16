@@ -91,10 +91,8 @@ const SOLAR_TERM_BASE = [
 const JEL_INDICES = [0,2,4,6,8,10,12,14,16,18,20,22];
 
 function getSolarTermDate(year: number, termIndex: number): Date {
-  const century = Math.floor(year / 100);
   const yc = year % 100;
-  const adj = Math.floor(yc / 4) - Math.floor(century / 4);
-  const day = Math.floor(SOLAR_TERM_BASE[termIndex] + 0.2422 * yc + adj);
+  const day = Math.floor(SOLAR_TERM_BASE[termIndex] + 0.2422 * yc) - Math.floor(yc / 4);
   const month = Math.floor(termIndex / 2);
   return new Date(year, month, day);
 }

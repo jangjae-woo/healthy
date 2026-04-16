@@ -1,0 +1,310 @@
+
+> saju@0.1.0 dev
+> next dev --port 3456
+
+▲ Next.js 16.2.3 (Turbopack)
+- Local:         http://localhost:3456
+- Network:       http://192.168.219.114:3456
+- Environments: .env.local
+✓ Ready in 7.1s
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\new\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\new\Desktop\saju\package-lock.json
+
+
+ GET / 200 in 829ms (next.js: 557ms, application-code: 272ms)
+ GET / 200 in 86ms (next.js: 15ms, application-code: 72ms)
+ GET / 200 in 70ms (next.js: 7ms, application-code: 64ms)
+ GET / 200 in 81ms (next.js: 6ms, application-code: 75ms)
+ GET /saju 200 in 90ms (next.js: 42ms, application-code: 48ms)
+ GET /saju/form 200 in 72ms (next.js: 39ms, application-code: 34ms)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=2&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 105ms (next.js: 52ms, application-code: 52ms)
+ POST /api/generate 200 in 46s (next.js: 247ms, application-code: 46s)
+ POST /api/generate 200 in 77s (next.js: 278ms, application-code: 77s)
+ POST /api/generate 200 in 2.7min (next.js: 9ms, application-code: 2.7min)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error [HeadersTimeoutError]: Headers Timeout Error
+      at ignore-listed frames {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+ POST /api/generate 500 in 5.0min (next.js: 25ms, application-code: 5.0min)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error [HeadersTimeoutError]: Headers Timeout Error
+      at ignore-listed frames {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+ POST /api/generate 500 in 5.0min (next.js: 17ms, application-code: 5.0min)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error [HeadersTimeoutError]: Headers Timeout Error
+      at ignore-listed frames {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+ POST /api/generate 500 in 5.0min (next.js: 22ms, application-code: 5.0min)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error [HeadersTimeoutError]: Headers Timeout Error
+      at ignore-listed frames {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+ POST /api/generate 500 in 5.0min (next.js: 12ms, application-code: 5.0min)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+ POST /api/generate 500 in 141ms (next.js: 10ms, application-code: 132ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+ POST /api/generate 500 in 220ms (next.js: 21ms, application-code: 200ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+ POST /api/generate 500 in 293ms (next.js: 28ms, application-code: 265ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+ POST /api/generate 500 in 368ms (next.js: 36ms, application-code: 332ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+ POST /api/generate 500 in 95ms (next.js: 3ms, application-code: 92ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+ POST /api/generate 500 in 168ms (next.js: 8ms, application-code: 160ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error [HeadersTimeoutError]: Headers Timeout Error
+      at ignore-listed frames {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+ POST /api/generate 500 in 5.0min (next.js: 4ms, application-code: 5.0min)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:673:24)
+  671 |
+  672 |     if (relayUrl) {
+> 673 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  674 |         method: "POST",
+  675 |         headers: { "Content-Type": "application/json" },
+  676 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error [HeadersTimeoutError]: Headers Timeout Error
+      at ignore-listed frames {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}
+ POST /api/generate 500 in 5.0min (next.js: 4ms, application-code: 5.0min)
+✓ Compiled in 102ms
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=2&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 221ms (next.js: 129ms, application-code: 92ms)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=2&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 193ms (next.js: 101ms, application-code: 92ms)
+✓ Compiled in 57ms
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=2&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 195ms (next.js: 112ms, application-code: 82ms)
+✓ Compiled in 52ms
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=2&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 197ms (next.js: 122ms, application-code: 75ms)
+✓ Compiled in 72ms
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=2&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 213ms (next.js: 120ms, application-code: 92ms)
+ GET / 200 in 192ms (next.js: 20ms, application-code: 172ms)
+ GET /saju 200 in 50ms (next.js: 17ms, application-code: 33ms)
+ GET /saju/form 200 in 49ms (next.js: 17ms, application-code: 32ms)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=02&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 119ms (next.js: 37ms, application-code: 82ms)
+ POST /api/generate 200 in 39.2s (next.js: 354ms, application-code: 38.9s)
+ POST /api/generate 200 in 70s (next.js: 379ms, application-code: 69s)
+ POST /api/generate 200 in 2.5min (next.js: 4ms, application-code: 2.5min)
+ POST /api/generate 200 in 2.6min (next.js: 4ms, application-code: 2.6min)
+ POST /api/generate 200 in 2.6min (next.js: 3ms, application-code: 2.6min)
+✓ Compiled in 107ms
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=02&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 670ms (next.js: 576ms, application-code: 95ms)
+ POST /api/generate 200 in 2.7min (next.js: 3ms, application-code: 2.7min)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=02&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 190ms (next.js: 106ms, application-code: 83ms)
+✓ Compiled in 977ms
+ POST /api/generate 200 in 2.6min (next.js: 91ms, application-code: 2.6min)
+ POST /api/generate 200 in 2.9min (next.js: 75ms, application-code: 2.9min)
+Error: 릴레이 오류: 500
+    at POST (app\api\generate\route.ts:677:31)
+  675 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }),
+  676 |       });
+> 677 |       if (!relayRes.ok) throw new Error(`릴레이 오류: ${relayRes.status}`);
+      |                               ^
+  678 |       const relayData = await relayRes.json();
+  679 |       const resultText = relayData.result ?? '';
+  680 |       return NextResponse.json({
+ POST /api/generate 500 in 3.8min (next.js: 3ms, application-code: 3.8min)
+ POST /api/generate 200 in 2.8min (next.js: 4ms, application-code: 2.8min)
+ POST /api/generate 200 in 4.4s (next.js: 3ms, application-code: 4.4s)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=02&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 378ms (next.js: 4ms, application-code: 374ms)
+ POST /api/generate 200 in 2.6min (next.js: 3ms, application-code: 2.6min)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=02&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 59ms (next.js: 5ms, application-code: 54ms)
+ POST /api/generate 200 in 826ms (next.js: 4ms, application-code: 822ms)
+ GET /saju/result?name=%EC%9E%A5%EC%9E%AC%EC%9A%B0&gender=%EB%82%A8&year=1992&month=02&day=17&hour=%EC%98%A4%EC%8B%9C%2811-13%29&calendarType=%EC%96%91%EB%A0%A5&type=saju 200 in 61ms (next.js: 4ms, application-code: 57ms)
+ GET / 200 in 325ms (next.js: 159ms, application-code: 166ms)
+ POST /api/generate 200 in 1720ms (next.js: 6ms, application-code: 1714ms)
+ GET /saju 200 in 179ms (next.js: 135ms, application-code: 44ms)
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:672:24)
+  670 |
+  671 |     if (relayUrl) {
+> 672 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  673 |         method: "POST",
+  674 |         headers: { "Content-Type": "application/json" },
+  675 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error: read ECONNRESET
+      at ignore-listed frames {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:672:24)
+  670 |
+  671 |     if (relayUrl) {
+> 672 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  673 |         method: "POST",
+  674 |         headers: { "Content-Type": "application/json" },
+  675 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error: read ECONNRESET
+      at ignore-listed frames {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+TypeError: fetch failed
+    at async POST (app\api\generate\route.ts:672:24)
+  670 |
+  671 |     if (relayUrl) {
+> 672 |       const relayRes = await fetch(`${relayUrl}/relay`, {
+      |                        ^
+  673 |         method: "POST",
+  674 |         headers: { "Content-Type": "application/json" },
+  675 |         body: JSON.stringify({ prompt, max_tokens: maxTokens }), {
+  [cause]: Error: read ECONNRESET
+      at ignore-listed frames {
+    errno: -4077,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+}
+ GET / 200 in 76ms (next.js: 5ms, application-code: 70ms)
+ GET /saju 200 in 29ms (next.js: 3ms, application-code: 26ms)
+ GET /saju/form 200 in 180ms (next.js: 130ms, application-code: 50ms)
+[?25h

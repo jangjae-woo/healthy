@@ -29,7 +29,7 @@ export default function SajuChatForm() {
   // 첫 메시지
   useEffect(() => {
     const t = setTimeout(() => {
-      aiMsg("안녕하세요.\n저는 운학선인입니다.\n\n성함을 알려주시겠습니까?", "q0", () => setStep(0));
+      aiMsg("안녕하세요.\n저는 묵도인입니다.\n\n성함을 알려주시겠습니까?", "q0", () => setStep(0));
     }, 500);
     return () => clearTimeout(t);
   }, []);
@@ -108,7 +108,7 @@ export default function SajuChatForm() {
           命
         </div>
         <div>
-          <div className="text-sm font-bold text-white">운학선인</div>
+          <div className="text-sm font-bold text-white">묵도인</div>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
             <span className="text-[10px]" style={{ color: `${ACCENT}55` }}>명리학 선생</span>

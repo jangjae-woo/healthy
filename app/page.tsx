@@ -3,13 +3,33 @@ import Link from "next/link";
 const services = [
   {
     id: "saju",
-    character: "운학선인",
+    character: "묵도인",
     title: "평생 사주",
     desc: "단 한 번의 풀이, 평생을 간직할 나의 사주",
-    emoji: "🌙",
     bg: "#1a0a2e",
     accent: "#c9b4ff",
+    charImg: "/char-saju.png",
     href: "/saju",
+  },
+  {
+    id: "moving",
+    character: "정도인",
+    title: "이사날짜 운세",
+    desc: "손없는 날과 내 사주로 찾는 최적의 이사 날짜",
+    bg: "#0a1e14",
+    accent: "#5ec98e",
+    charImg: "/char-moving.png",
+    href: "/moving",
+  },
+  {
+    id: "naming",
+    character: "황도인",
+    title: "이름 짓기 · 개명",
+    desc: "사주 오행을 보완하고 원하는 느낌을 담은 이름 추천",
+    bg: "#1e1408",
+    accent: "#e8b84b",
+    charImg: "/char-naming.png",
+    href: "/naming",
   },
 ];
 
@@ -18,17 +38,17 @@ export default function Home() {
     <main
       className="min-h-screen flex flex-col items-center px-4 py-12"
       style={{
-        background: "linear-gradient(180deg, #1a0d00 0%, #2d1b0e 50%, #3d2510 100%)",
+        background: "linear-gradient(180deg, #120800 0%, #2d1b0e 50%, #3d2510 100%)",
       }}
     >
       {/* 헤더 */}
       <div className="text-center mb-10">
-        <div className="text-5xl mb-3">☯️</div>
+        <div className="text-5xl mb-3" style={{ filter: "drop-shadow(0 0 12px #d9770688)" }}>☯</div>
         <h1 className="text-3xl font-bold tracking-widest mb-1" style={{ color: "#fef3c7" }}>
-          AI 양반가
+          팔자원
         </h1>
-        <p className="text-sm tracking-wider" style={{ color: "#d97706aa" }}>
-          정통 사주 · 관상 · 운세
+        <p className="text-sm tracking-widest" style={{ color: "#d97706aa" }}>
+          八字苑 · AI 명리풀이
         </p>
       </div>
 
@@ -37,38 +57,57 @@ export default function Home() {
         {services.map((s) => (
           <Link key={s.id} href={s.href}>
             <div
-              className="rounded-2xl p-5 flex items-center gap-4 cursor-pointer transition-transform duration-150 hover:scale-[1.02] active:scale-[0.98]"
+              className="relative overflow-hidden rounded-2xl cursor-pointer transition-transform duration-150 hover:scale-[1.02] active:scale-[0.98]"
               style={{
-                backgroundColor: s.bg,
-                border: `1px solid ${s.accent}33`,
+                background: `radial-gradient(ellipse at 15% 60%, ${s.accent}28 0%, ${s.bg} 60%)`,
+                border: `1px solid ${s.accent}55`,
+                boxShadow: `0 4px 24px ${s.accent}20`,
+                minHeight: "100px",
               }}
             >
+              {/* 캐릭터 이미지 */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={s.charImg}
+                alt={s.character}
+                className="absolute bottom-0 right-0 pointer-events-none select-none"
+                style={{
+                  height: "120%",
+                  width: "auto",
+                  maxWidth: "48%",
+                  objectFit: "contain",
+                  objectPosition: "bottom right",
+                }}
+              />
+
+              {/* 오른쪽 끝 그라데이션 페이드 */}
               <div
-                className="text-4xl w-14 h-14 flex items-center justify-center rounded-xl flex-shrink-0"
-                style={{ backgroundColor: `${s.accent}18` }}
-              >
-                {s.emoji}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs mb-0.5" style={{ color: `${s.accent}88` }}>
+                className="absolute top-0 right-0 h-full w-12 pointer-events-none"
+                style={{
+                  background: `linear-gradient(to left, ${s.bg}cc 0%, transparent 100%)`,
+                }}
+              />
+
+              {/* 텍스트 */}
+              <div className="relative z-10 py-6 pl-5" style={{ paddingRight: "46%" }}>
+                <div className="text-xs mb-1 font-medium tracking-wider" style={{ color: `${s.accent}aa` }}>
                   {s.character}
                 </div>
-                <div className="text-lg font-bold text-white mb-1">{s.title}</div>
-                <div className="text-xs leading-relaxed" style={{ color: `${s.accent}77` }}>
+                <div className="text-xl font-bold text-white mb-1 leading-tight">
+                  {s.title}
+                </div>
+                <div className="text-xs leading-relaxed line-clamp-2" style={{ color: `${s.accent}88` }}>
                   {s.desc}
                 </div>
               </div>
-              <span className="text-xl flex-shrink-0" style={{ color: `${s.accent}55` }}>
-                ›
-              </span>
             </div>
           </Link>
         ))}
       </div>
 
       {/* 푸터 */}
-      <div className="mt-16 text-center text-xs space-y-2" style={{ color: "#78350f88" }}>
-        <p>© 2025 AI 양반가. All Rights Reserved.</p>
+      <div className="mt-16 text-center text-xs space-y-2" style={{ color: "#78350f77" }}>
+        <p>© 2025 팔자원. All Rights Reserved.</p>
         <div className="flex gap-4 justify-center">
           <a href="/terms" className="hover:underline">이용약관</a>
           <a href="/privacy" className="hover:underline">개인정보처리방침</a>

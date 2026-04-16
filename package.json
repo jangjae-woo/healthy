@@ -6,13 +6,11 @@
     "dev": "next dev --port 3456",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "cf:build": "opennextjs-cloudflare build",
-    "cf:preview": "wrangler dev",
-    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
+    "lint": "eslint"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
+    "@google/generative-ai": "^0.24.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.8.0",
@@ -22,7 +20,6 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.19.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

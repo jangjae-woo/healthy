@@ -39,47 +39,99 @@ const SEUN_YEARS = [
 
 // 섹션 첫 슬라이드에 표시할 인라인 헤더 (인트로 별도 슬라이드 없음)
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
-  13:{ title:'나라는 사람', icon:'🪞' },
-  15:{ title:'돈과 일',    icon:'💰' },
-  17:{ title:'사람과 사랑',icon:'🤝' },
-  20:{ title:'몸과 마음',  icon:'🌿' },
-  21:{ title:'숨겨진 카드',icon:'✨' },
-  22:{ title:'흐르는 시간',icon:'🌊' },
-  24:{ title:'나침반',     icon:'🧭' },
-  25:{ title:'결',         icon:'🌙' },
+  13:{ title:'핵심 요약',   icon:'✦'  },
+  14:{ title:'나라는 사람', icon:'🪞' },
+  16:{ title:'돈과 일',    icon:'💰' },
+  18:{ title:'사람과 사랑',icon:'🤝' },
+  21:{ title:'몸과 마음',  icon:'🌿' },
+  22:{ title:'숨겨진 카드',icon:'✨' },
+  23:{ title:'흐르는 시간',icon:'🌊' },
+  25:{ title:'나침반',     icon:'🧭' },
+  26:{ title:'결',         icon:'🌙' },
 };
 
 // 슬라이드 → AI 섹션 키 매핑
 const SLIDE_AI: Record<number,string> = {
   1: 'opener',
-  13:'personality1', 14:'personality2',
-  15:'money1',       16:'money2',
-  17:'love1',        18:'love2', 19:'love3',
-  20:'health',
-  21:'hidden',
-  22:'timeline1',    23:'timeline2',
-  24:'compass',
-  25:'closing',
+  13:'overview',
+  14:'personality1', 15:'personality2',
+  16:'money1',       17:'money2',
+  18:'love1',        19:'love2', 20:'love3',
+  21:'health',
+  22:'hidden',
+  23:'timeline1',    24:'timeline2',
+  25:'compass',
+  26:'closing',
 };
+
+// 섹션별 기본 이미지 (페이지 0 배너)
+const SECTION_IMAGE: Record<string, string> = {
+  money1:'재물_돈',    money2:'사업_기회',
+  love1:'사랑_인연',  love2:'새_인연',     love3:'귀인_도움',
+  health:'건강_몸',   hidden:'묵도인_악운경고',
+  timeline1:'대운_전환', timeline2:'전환점_변화',
+  compass:'때를_기다려라', closing:'묵도인_마무리',
+};
+
+// 키워드 → 이미지 (페이지 1+ 트리거)
+const KEYWORD_IMAGE: Array<{ m: string[]; img: string }> = [
+  { m:['도화살'],                            img:'도화살' },
+  { m:['역마살'],                            img:'역마살' },
+  { m:['천을귀인'],                          img:'천을귀인' },
+  { m:['겁살'],                              img:'겁살' },
+  { m:['신장','방광','허리 통증'],            img:'신장_방광_허리' },
+  { m:['심장','혈압'],                       img:'심장_혈압' },
+  { m:['기관지','호흡기','폐 기능'],          img:'폐_피부_기관지' },
+  { m:['위장','소화불량','소화기'],           img:'위장_소화' },
+  { m:['수술','입원'],                        img:'수술_조심' },
+  { m:['음주','과음'],                        img:'음주_조심' },
+  { m:['교통사고','낙상','추락'],             img:'낙상_추락_조심' },
+  { m:['횡재','큰 재물'],                    img:'큰돈_들어옴' },
+  { m:['재물이 빠져','돈이 빠져나가'],        img:'돈이_새는_시기' },
+  { m:['투자 조심','투자에 신중'],            img:'투자_조심' },
+  { m:['이별','헤어짐'],                     img:'이별_헤어짐' },
+  { m:['새로운 인연','인연이 옵니다'],        img:'새_인연' },
+  { m:['배신','소인배'],                     img:'소인배_배신_조심' },
+  { m:['구설수','험담'],                     img:'구설수_조심' },
+  { m:['이직','전직'],                       img:'이직_전환' },
+  { m:['창업','사업 기회'],                  img:'사업_기회' },
+  { m:['승진','성취'],                       img:'승진_성취' },
+  { m:['직장 갈등','직장 내'],               img:'직장_갈등' },
+  { m:['전환점','대운이 바뀌'],              img:'전환점_변화' },
+  { m:['봄이 올','좋은 시기가'],             img:'봄이_온다' },
+  { m:['인내하','기다려야'],                 img:'겨울_인내' },
+  { m:['때를 기다'],                         img:'때를_기다려라' },
+  { m:['갈등','충돌'],                       img:'갈등_다툼' },
+  { m:['외로움','고독'],                     img:'외로움_고독' },
+  { m:['귀인이 나타','귀인을 만나'],         img:'귀인_등장' },
+  { m:['법적','소송'],                       img:'법적_분쟁_조심' },
+  { m:['도난','사기를'],                     img:'도난_사기_조심' },
+  { m:['화재','감전'],                       img:'화재_전기_조심' },
+  { m:['조심하시','주의하시'],               img:'조심_경계' },
+  { m:['재물운','재성'],                     img:'재물_돈' },
+  { m:['사랑','연애'],                       img:'사랑_인연' },
+  { m:['건강'],                              img:'건강_몸' },
+];
 
 // TOC 섹션 목록
 const TOC_ITEMS = [
   { label:'사주 원국',  slide:2  },
-  { label:'나라는 사람',slide:13 },
-  { label:'돈과 일',    slide:15 },
-  { label:'사람과 사랑',slide:17 },
-  { label:'몸과 마음',  slide:20 },
-  { label:'숨겨진 카드',slide:21 },
-  { label:'흐르는 시간',slide:22 },
-  { label:'나침반',     slide:24 },
-  { label:'결',         slide:25 },
+  { label:'핵심 요약',  slide:13 },
+  { label:'나라는 사람',slide:14 },
+  { label:'돈과 일',    slide:16 },
+  { label:'사람과 사랑',slide:18 },
+  { label:'몸과 마음',  slide:21 },
+  { label:'숨겨진 카드',slide:22 },
+  { label:'흐르는 시간',slide:23 },
+  { label:'나침반',     slide:25 },
+  { label:'결',         slide:26 },
 ];
 
 // 슬라이드 상수
 const FREE_END  = 11;   // 마지막 무료 슬라이드 (풀이 목차)
 const PAYWALL   = 12;   // 결제 슬라이드
-const AI_START  = 13;   // 첫 AI 풀이 슬라이드
-const TOTAL     = 27;   // 전체 (슬라이드 0~26)
+const AI_START  = 13;   // 첫 AI 풀이 슬라이드 (overview)
+const TOTAL     = 29;   // 전체 (슬라이드 0~28)
 
 // 에너지 점수
 function calcEnergyScore(elements:Record<string,number>) {
@@ -225,7 +277,7 @@ function splitIntoPages(text: string): string[] {
     for (let i = 0; i < boldSections.length; i++) {
       const s = boldSections[i];
       const contentLines = s.split('\n').map(l => l.trim())
-        .filter(l => l && !/^\*\*[^*]+\*\*$/.test(l) && !l.startsWith('[요약:'));
+        .filter(l => l && !/^\*\*[^*]+\*\*$/.test(l));
       if (contentLines.length === 0 && i < boldSections.length - 1) {
         boldSections[i + 1] = s + '\n' + boldSections[i + 1];
       } else {
@@ -352,6 +404,34 @@ function AiLoader({ sajuData }: { sajuData: SajuAnalysis | null }) {
   );
 }
 
+// 이미지 배너 컴포넌트
+function ImageBanner({ name, height=108 }:{ name:string; height?:number }) {
+  return (
+    <div className="relative w-full rounded-xl overflow-hidden flex-shrink-0 mb-3" style={{height}}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={`/image/${encodeURIComponent(name)}.jpeg`} alt=""
+        className="w-full h-full object-cover" style={{objectPosition:'center 25%'}} />
+      <div className="absolute inset-0"
+        style={{background:`linear-gradient(to bottom, transparent 20%, ${BG} 100%)`}} />
+    </div>
+  );
+}
+
+// 슬라이드/페이지 이미지 결정
+function getPageImage(aiKey:string, pgIdx:number, text:string, data:SajuAnalysis|null):string|null {
+  if (pgIdx===0) {
+    if (aiKey==='personality1'||aiKey==='personality2') {
+      if (data) { const {score}=calcEnergyScore(data.elements); return score>=310?'신강_사주':'신약_사주'; }
+      return null;
+    }
+    return SECTION_IMAGE[aiKey]??null;
+  }
+  for (const {m,img} of KEYWORD_IMAGE) {
+    if (m.some(kw=>text.includes(kw))) return img;
+  }
+  return null;
+}
+
 type SectionState = { status:"idle"|"loading"|"done"|"error"; content:string };
 
 // ── 메인 컴포넌트 ─────────────────────────────────────────────
@@ -360,7 +440,7 @@ export default function SajuSlideResult() {
   const [slide, setSlide]         = useState(0);
   const [sajuData, setSajuData]   = useState<SajuAnalysis|null>(null);
   const [aiContent, setAiContent] = useState<Record<string,SectionState>>(() => {
-    const keys = ['opener','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
+    const keys = ['opener','overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
     return Object.fromEntries(keys.map(k=>[k,{status:'idle',content:''}]));
   });
   const [unlocked, setUnlocked]   = useState(false);
@@ -371,6 +451,14 @@ export default function SajuSlideResult() {
   // AI 콘텐츠 페이지 분할 상태
   const [aiPages, setAiPages]     = useState<Record<string,string[]>>({});
   const [aiPage, setAiPage]       = useState<Record<string,number>>({});
+  const [qaInput, setQaInput]         = useState('');
+  const [qaLoading, setQaLoading]     = useState(false);
+  const [qaHistory, setQaHistory]     = useState<{q:string;a:string}[]>([]);
+  const [questionCount, setQuestionCount] = useState(0);
+  const [pendingQ, setPendingQ]       = useState('');
+  const [qaPayPhone, setQaPayPhone]   = useState('');
+  const [qaPayState, setQaPayState]   = useState<'none'|'input'|'paying'>('none');
+  const [qaPayProgress, setQaPayProgress] = useState(0);
   const slideRef = useRef<HTMLDivElement>(null);
 
   const name         = params.get("name")         || "";
@@ -451,6 +539,72 @@ export default function SajuSlideResult() {
     });
   };
 
+  // Q&A 질문 fetch
+  const fetchQA = (question: string): void => {
+    const idx = qaHistory.length;
+    setQaHistory(prev => [...prev, { q: question, a: '' }]);
+    setQaLoading(true);
+
+    // 각 섹션의 인트로(핵심 요약)를 모아 Q&A context 구성
+    const KEY_LABELS: Record<string,string> = {
+      personality1:'나라는 사람 (강점·성격)',
+      personality2:'나라는 사람 (일주·재능)',
+      money1:'재물운', money2:'직업운',
+      love1:'사랑·궁합', love2:'연애 스타일', love3:'결혼운',
+      health:'건강', hidden:'숨겨진 카드',
+      timeline1:'대운 흐름', timeline2:'세운 흐름',
+      compass:'나침반', closing:'마무리',
+    };
+    const summaries = Object.entries(KEY_LABELS).map(([key, label]) => {
+      const pages = aiPages[key];
+      const intro = pages && pages.length > 1
+        ? pages[0]
+        : aiContent[key]?.content?.split(/^###/m)[0]?.trim();
+      return intro ? `[${label}]\n${intro}` : null;
+    }).filter(Boolean).join('\n\n');
+
+    fetch("/api/generate", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ ...baseBody, section:'qa', question, summaries }),
+    }).then(async res => {
+      if (!res.ok) throw new Error();
+      const ct = res.headers.get('Content-Type') ?? '';
+      if (ct.includes('text/event-stream')) {
+        const reader = res.body!.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        let full = '';
+        outer: while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const lines = buf.split('\n');
+          buf = lines.pop() ?? '';
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const raw = line.slice(6);
+            if (raw === '[DONE]') break outer;
+            let msg: { t: string; v?: string };
+            try { msg = JSON.parse(raw); } catch { continue; }
+            if (msg.t === 'x' && msg.v) {
+              full += msg.v;
+              setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:full} : e));
+            }
+          }
+        }
+        setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:full} : e));
+      } else {
+        const d = await res.json();
+        setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:d.result??''} : e));
+      }
+      setQuestionCount(c => c+1);
+      setQaLoading(false);
+    }).catch(() => {
+      setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:'오류가 발생했습니다. 잠시 후 다시 시도해주세요.'} : e));
+      setQaLoading(false);
+    });
+  };
+
   // 초기 로드: opener만
   useEffect(()=>{
     fetchSection('opener');
@@ -460,7 +614,7 @@ export default function SajuSlideResult() {
   // 잠금 해제 시 병렬 fetch (릴레이: 멀티스레드 서버 / API키: Claude 동시 요청 지원)
   useEffect(()=>{
     if (!unlocked) return;
-    const keys = ['personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
+    const keys = ['overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
     keys.forEach(k => fetchSection(k));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unlocked]);
@@ -477,6 +631,27 @@ export default function SajuSlideResult() {
         setTimeout(()=>{ setUnlocked(true); setSlide(AI_START); },700);
       }
       setPayProgress(Math.min(100,Math.round(p)));
+    },170);
+  }
+
+  // Q&A 유료 결제 시뮬레이션
+  function handleQAPay() {
+    if (qaPayPhone.replace(/\D/g,"").length<10) return;
+    setQaPayState('paying');
+    let p=0;
+    const iv = setInterval(()=>{
+      p += Math.random()*7+2;
+      if (p>=100) {
+        p=100; clearInterval(iv);
+        setTimeout(()=>{
+          setQaPayState('none');
+          setQaPayPhone('');
+          setQaPayProgress(0);
+          fetchQA(pendingQ);
+          setPendingQ('');
+        }, 700);
+      }
+      setQaPayProgress(Math.min(100,Math.round(p)));
     },170);
   }
 
@@ -589,7 +764,7 @@ export default function SajuSlideResult() {
 </div>
 ${openerText ? `<div class="opener">${openerText}</div>` : ''}
 ${sectionsHtml}
-<div class="footer">운학선인 평생 사주 풀이 · AI 명리학 · ${new Date().getFullYear()}년</div>
+<div class="footer">묵도인 평생 사주 풀이 · AI 명리학 · ${new Date().getFullYear()}년</div>
 <script>setTimeout(()=>{ window.print(); },800);</script>
 </body></html>`);
     win.document.close();
@@ -597,9 +772,9 @@ ${sectionsHtml}
 
   function handleShare() {
     const url = typeof window !== 'undefined' ? window.location.origin + '/saju' : 'https://saju.vercel.app';
-    const text = 'AI 명리학 대가 운학선인의 평생 사주 풀이 — 소름 돋는 정확도를 경험해보세요';
+    const text = 'AI 명리학 대가 묵도인의 평생 사주 풀이 — 소름 돋는 정확도를 경험해보세요';
     if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({ title: '운학선인 평생 사주', text, url }).catch(() => {});
+      navigator.share({ title: '묵도인 평생 사주', text, url }).catch(() => {});
     } else {
       navigator.clipboard?.writeText(url).then(() => alert('링크가 복사되었습니다!')).catch(() => alert(url));
     }
@@ -634,7 +809,7 @@ ${sectionsHtml}
           <p className="text-sm text-white/60">{year}년 {month}월 {day}일 ({calendarType})</p>
           <p className="text-sm text-white/60">{gender}성 · {hour}</p>
         </div>
-        <p className="text-xs mt-2" style={{color:`${ACCENT}55`}}>운학선인이 풀어드립니다</p>
+        <p className="text-xs mt-2" style={{color:`${ACCENT}55`}}>묵도인이 풀어드립니다</p>
       </div>
     );
 
@@ -642,31 +817,34 @@ ${sectionsHtml}
     if (slide===1) {
       const st = aiContent['opener']?.status;
       return (
-        <div className="flex-1 flex flex-col items-center justify-center text-center py-8 gap-6">
-          <div className="text-3xl" style={{color:ACCENT}}>☽</div>
-          <div>
-            <p className="text-xs mb-2" style={{color:`${ACCENT}66`}}>선인의 첫마디</p>
-            {st==='loading' && !aiContent['opener']?.content ? (
-              <div className="flex gap-1.5 justify-center items-center h-12">
-                {[0,1,2].map(i=>(
-                  <div key={i} className="w-2 h-2 rounded-full animate-bounce"
-                    style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
+        <div className="flex-1 flex flex-col text-center">
+          <ImageBanner name="묵도인_등장" height={180} />
+          <div className="flex flex-col items-center gap-6 py-6 px-4">
+            <div className="text-3xl" style={{color:ACCENT}}>☽</div>
+            <div>
+              <p className="text-xs mb-2" style={{color:`${ACCENT}66`}}>선인의 첫마디</p>
+              {st==='loading' && !aiContent['opener']?.content ? (
+                <div className="flex gap-1.5 justify-center items-center h-12">
+                  {[0,1,2].map(i=>(
+                    <div key={i} className="w-2 h-2 rounded-full animate-bounce"
+                      style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-base leading-relaxed text-white/90 whitespace-pre-line max-w-xs mx-auto">
+                  {aiContent['opener']?.content||'...'}
+                </p>
+              )}
+            </div>
+            {sajuData && (
+              <div className="flex gap-2 flex-wrap justify-center mt-2">
+                {ILGAN_INFO[sajuData.ilgan]?.tags.map(t=>(
+                  <span key={t} className="text-xs px-2.5 py-1 rounded-full"
+                    style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>{t}</span>
                 ))}
               </div>
-            ) : (
-              <p className="text-base leading-relaxed text-white/90 whitespace-pre-line max-w-xs mx-auto">
-                {aiContent['opener']?.content||'...'}
-              </p>
             )}
           </div>
-          {sajuData && (
-            <div className="flex gap-2 flex-wrap justify-center mt-2">
-              {ILGAN_INFO[sajuData.ilgan]?.tags.map(t=>(
-                <span key={t} className="text-xs px-2.5 py-1 rounded-full"
-                  style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>{t}</span>
-              ))}
-            </div>
-          )}
         </div>
       );
     }
@@ -961,7 +1139,10 @@ ${sectionsHtml}
     // ─ Slide 9: 대운 타임라인 ─
     if (slide===9) {
       const { daeun } = sajuData!;
-      const currentAge = new Date().getFullYear() - parseInt(year) + 1;
+      const _now = new Date();
+      const _bm = parseInt(month), _bd = parseInt(day);
+      const currentAge = _now.getFullYear() - parseInt(year) -
+        (_now.getMonth() + 1 < _bm || (_now.getMonth() + 1 === _bm && _now.getDate() < _bd) ? 1 : 0);
       return (
         <div className="flex-1 py-4">
           <h2 className="text-center text-base font-bold text-white mb-2">대운 타임라인</h2>
@@ -1043,7 +1224,7 @@ ${sectionsHtml}
         { icon:'✨', label:'숨겨진 카드', items:['잠재력','신살 풀이'] },
         { icon:'🌊', label:'흐르는 시간', items:['과거·현재 대운','향후 5년 세운'] },
         { icon:'🧭', label:'나침반', items:['용신','오늘부터 할 수 있는 것'] },
-        { icon:'🌙', label:'결', items:['인생 키워드','운학선인의 당부'] },
+        { icon:'🌙', label:'결', items:['인생 키워드','묵도인의 당부'] },
       ];
       const scores = sajuData ? calcFortuneScores(sajuData) : [];
       return (
@@ -1111,7 +1292,8 @@ ${sectionsHtml}
       const review = ilganReviews[ilgan] ?? '이렇게 구체적인 풀이는 처음이었어요';
       const ilganHanja = sajuData ? (STEM_HANJA[ilgan as keyof typeof STEM_HANJA] ?? ilgan) : '';
       return (
-        <div className="flex-1 flex flex-col items-center justify-center gap-5 py-4 text-center">
+        <div className="flex-1 flex flex-col gap-5 py-4 text-center">
+          <ImageBanner name="묵도인_페이월" height={128} />
           {/* 소셜 프루프 */}
           <div className="w-full rounded-2xl p-4" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}20`}}>
             <p className="text-[11px] mb-3" style={{color:`${ACCENT}77`}}>
@@ -1170,6 +1352,51 @@ ${sectionsHtml}
       );
     }
 
+    // ─ Slide 13: 핵심 요약 (overview) ─
+    if (slide===13) {
+      const st = aiContent['overview'];
+      const content = st?.content || '';
+      return (
+        <div className="flex-1 flex flex-col py-3">
+          <div className="flex items-center gap-2 mb-4 pb-2" style={{borderBottom:`1px solid ${ACCENT}20`}}>
+            <span className="text-2xl">✦</span>
+            <h2 className="text-lg font-bold text-white">핵심 요약</h2>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+            {st?.status==='loading' && !content ? <AiLoader sajuData={sajuData}/> :
+             st?.status==='error' ? <p className="text-base text-red-400 text-center py-8">오류가 발생했습니다</p> :
+             <div className="space-y-4">
+               {[
+                 { key:'💰', label:'재물·직업운', color:'#fbbf24' },
+                 { key:'🌿', label:'건강운',       color:'#4ade80' },
+                 { key:'🤝', label:'연애·관계운',  color:'#f472b6' },
+               ].map(({ key, label, color }) => {
+                 const regex = new RegExp(`${key}[^\\n]*\\n?([\\s\\S]*?)(?=${['💰','🌿','🤝'].filter(k=>k!==key).map(k=>`${k}`).join('|')}|$)`);
+                 const match = content.match(regex);
+                 const text = match ? match[1].trim() : '';
+                 return (
+                   <div key={label} className="rounded-2xl p-4" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}22`}}>
+                     <div className="flex items-center gap-2 mb-2">
+                       <span className="text-xl">{key}</span>
+                       <span className="text-sm font-bold" style={{color}}>{label}</span>
+                     </div>
+                     {text
+                       ? <p className="text-[15px] leading-relaxed text-white/85">{text}</p>
+                       : <div className="flex gap-1 items-center h-5">{[0,1,2].map(i=>(
+                           <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
+                             style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
+                         ))}</div>
+                     }
+                   </div>
+                 );
+               })}
+             </div>
+            }
+          </div>
+        </div>
+      );
+    }
+
     // ─ AI 풀이 슬라이드 ─
     const aiKey = SLIDE_AI[slide];
     if (aiKey && aiKey!=='opener') {
@@ -1205,31 +1432,27 @@ ${sectionsHtml}
               ))}
             </div>
           )}
+          {(() => { const img = getPageImage(aiKey, pgIdx, pageText, sajuData); return img ? <ImageBanner name={img} height={pgIdx===0?108:76} /> : null; })()}
           <div className="flex-1 overflow-y-auto">
             {st?.status==='loading' && !st?.content ? <AiLoader sajuData={sajuData}/> :
              st?.status==='error'   ? <p className="text-base text-red-400 text-center py-8">오류가 발생했습니다</p> :
              (() => {
-               const summaryMatch = pageText.match(/^\[요약:\s*(.+?)\]/);
-               const bodyText = summaryMatch ? pageText.replace(/^\[요약:\s*.+?\]\n?/, '') : pageText;
-               return (
-                 <>
-                   {summaryMatch && pgIdx === 0 && (
-                     <div className="mb-4 px-4 py-3 rounded-2xl" style={{
-                       background:`linear-gradient(135deg,${ACCENT}22,${ACCENT}0a)`,
-                       border:`1px solid ${ACCENT}44`,
-                     }}>
-                       <p className="text-[11px] mb-1" style={{color:`${ACCENT}88`}}>💡 핵심</p>
-                       <p className="text-[15px] font-semibold leading-snug" style={{color:ACCENT}}>
-                         {summaryMatch[1]}
-                       </p>
-                     </div>
-                   )}
-                   {st?.status === 'loading'
-                     ? <>{formatText(bodyText)}</>
-                     : <TypeWriter key={`${aiKey}-${pgIdx}`} text={bodyText} />
-                   }
-                 </>
-               );
+               const INTRO_SECTIONS = new Set(['money1','money2','health','love1','love2','love3']);
+               const isIntro = pgIdx === 0 && totalPgs > 1 && INTRO_SECTIONS.has(aiKey);
+               if (isIntro) {
+                 return (
+                   <div className="px-4 py-4 rounded-2xl" style={{
+                     background:`linear-gradient(135deg,${ACCENT}22,${ACCENT}0a)`,
+                     border:`1px solid ${ACCENT}44`,
+                   }}>
+                     <p className="text-[11px] mb-2" style={{color:`${ACCENT}88`}}>💡 핵심 요약</p>
+                     <TypeWriter key={`${aiKey}-intro`} text={pageText} />
+                   </div>
+                 );
+               }
+               return st?.status === 'loading'
+                 ? <>{formatText(pageText)}</>
+                 : <TypeWriter key={`${aiKey}-${pgIdx}`} text={pageText} />;
              })()
             }
           </div>
@@ -1237,15 +1460,110 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 26: 마지막 + PDF ─
+    // ─ Slide 26: 선인에게 묻다 (Q&A) ─
     if (slide===26) {
+      const MAX_Q = 3;
+      const remaining = MAX_Q - questionCount;
+      const handleSubmit = () => {
+        if (!qaInput.trim() || qaLoading || questionCount >= MAX_Q) return;
+        fetchQA(qaInput.trim());
+        setQaInput('');
+      };
+      return (
+        <div className="flex-1 flex flex-col py-3 gap-3">
+          {/* 헤더 */}
+          <div className="text-center flex-shrink-0">
+            <span className="text-2xl">🔮</span>
+            <h2 className="text-base font-bold text-white mt-1">선인에게 묻다</h2>
+            <p className="text-[11px] mt-0.5" style={{color:`${ACCENT}55`}}>
+              {questionCount < MAX_Q
+                ? `${remaining}번 질문할 수 있습니다`
+                : '질문 횟수를 모두 사용했습니다'}
+            </p>
+          </div>
+
+          {/* 빈 상태 */}
+          {qaHistory.length===0&&(
+            <div className="flex-1 flex flex-col items-center justify-center gap-1 text-center">
+              <p className="text-xs text-white/30">평생 사주 풀이를 바탕으로</p>
+              <p className="text-xs text-white/30">궁금한 것을 무엇이든 물어보세요</p>
+            </div>
+          )}
+
+          {/* Q&A 기록 */}
+          {qaHistory.length>0&&(
+            <div className="flex-1 overflow-y-auto space-y-3 min-h-0">
+              {qaHistory.map((item,i)=>(
+                <div key={i} className="space-y-2">
+                  <div className="flex justify-end">
+                    <div className="max-w-[80%] px-3 py-2 rounded-2xl rounded-tr-sm text-sm text-white/90"
+                      style={{backgroundColor:`${ACCENT}22`}}>
+                      {item.q}
+                    </div>
+                  </div>
+                  {item.a?(
+                    <div className="flex justify-start">
+                      <div className="max-w-[90%] px-3 py-2.5 rounded-2xl rounded-tl-sm text-[13px] leading-relaxed text-white/80"
+                        style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}20`}}>
+                        {formatText(item.a)}
+                      </div>
+                    </div>
+                  ):qaLoading&&i===qaHistory.length-1?(
+                    <div className="flex gap-1.5 items-center pl-1 py-1">
+                      {[0,1,2].map(j=>(
+                        <div key={j} className="w-1.5 h-1.5 rounded-full animate-bounce"
+                          style={{backgroundColor:ACCENT,animationDelay:`${j*150}ms`}}/>
+                      ))}
+                    </div>
+                  ):null}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* 입력 영역 */}
+          {questionCount < MAX_Q && (
+            <div className="flex gap-2 flex-shrink-0">
+              <input
+                value={qaInput}
+                onChange={e=>setQaInput(e.target.value)}
+                onKeyDown={e=>e.key==='Enter'&&!e.shiftKey&&handleSubmit()}
+                placeholder="무엇이든 물어보세요"
+                className="flex-1 px-3 py-2.5 rounded-xl text-white text-sm outline-none"
+                style={{backgroundColor:`${ACCENT}0f`,border:`1px solid ${ACCENT}33`}}
+                disabled={qaLoading}
+              />
+              <button
+                onClick={handleSubmit}
+                disabled={!qaInput.trim()||qaLoading}
+                className="px-4 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
+                style={{backgroundColor:qaInput.trim()&&!qaLoading?ACCENT:`${ACCENT}33`,color:BG}}>
+                묻기
+              </button>
+            </div>
+          )}
+
+          {/* 질문 소진 메시지 */}
+          {questionCount >= MAX_Q && !qaLoading && (
+            <div className="flex-shrink-0 text-center py-3">
+              <p className="text-xs" style={{color:`${ACCENT}44`}}>
+                선인과의 문답이 마무리되었습니다
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─ Slide 27: 마지막 + PDF ─
+    if (slide===27) {
       return (
         <div className="flex-1 flex flex-col items-center justify-center text-center gap-8 py-6">
           <div>
             <div className="text-4xl mb-4">🌙</div>
             <p className="text-lg font-bold text-white">命은 흐름이지,</p>
             <p className="text-lg font-bold text-white">정해진 것이 아닙니다.</p>
-            <p className="text-sm mt-3" style={{color:`${ACCENT}77`}}>— 운학선인</p>
+            <p className="text-sm mt-3" style={{color:`${ACCENT}77`}}>— 묵도인</p>
           </div>
           <div className="w-full space-y-3 max-w-xs">
             <button
