@@ -40,15 +40,15 @@ const SEUN_YEARS = [
 
 // 섹션 첫 슬라이드에 표시할 인라인 헤더 (인트로 별도 슬라이드 없음)
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
-  12:{ title:'핵심 요약',   icon:'✦'  },
-  13:{ title:'나라는 사람', icon:'🪞' },
-  15:{ title:'돈과 일',    icon:'💰' },
-  17:{ title:'사람과 사랑',icon:'🤝' },
-  20:{ title:'몸과 마음',  icon:'🌿' },
-  21:{ title:'숨겨진 카드',icon:'✨' },
-  22:{ title:'흐르는 시간',icon:'🌊' },
-  24:{ title:'나침반',     icon:'🧭' },
-  25:{ title:'결',         icon:'🌙' },
+  12:{ title:'핵심 요약 아이템', icon:'✦' },
+  13:{ title:'당신은 누구',      icon:'✦' },
+  15:{ title:'관계·재물·직업·학문', icon:'✦' },
+  17:{ title:'인연의 자리',      icon:'✦' },
+  20:{ title:'인연의 자리',      icon:'✦' },
+  21:{ title:'특수 기운',        icon:'✦' },
+  22:{ title:'시기별 흐름',      icon:'✦' },
+  24:{ title:'종합 해석',        icon:'✦' },
+  25:{ title:'종합 해석',        icon:'✦' },
 };
 
 // 슬라이드 → AI 섹션 키 매핑
@@ -116,16 +116,15 @@ const KEYWORD_IMAGE: Array<{ m: string[]; img: string }> = [
 
 // TOC 섹션 목록
 const TOC_ITEMS = [
-  { label:'사주 원국',  slide:2  },
-  { label:'핵심 요약',  slide:12 },
-  { label:'나라는 사람',slide:13 },
-  { label:'돈과 일',    slide:15 },
-  { label:'사람과 사랑',slide:17 },
-  { label:'몸과 마음',  slide:20 },
-  { label:'숨겨진 카드',slide:21 },
-  { label:'흐르는 시간',slide:22 },
-  { label:'나침반',     slide:24 },
-  { label:'결',         slide:25 },
+  { label:'사주팔자 뽑기',     slide:2  },
+  { label:'다섯 기운 균형',     slide:4  },
+  { label:'핵심 요약 아이템',    slide:12 },
+  { label:'당신은 누구',       slide:13 },
+  { label:'관계·재물·직업·학문', slide:15 },
+  { label:'인연의 자리',       slide:17 },
+  { label:'특수 기운',         slide:21 },
+  { label:'시기별 흐름',       slide:22 },
+  { label:'종합 해석',         slide:24 },
 ];
 
 // 슬라이드 상수
@@ -966,9 +965,8 @@ export default function SajuSlideResult() {
   // 현재 섹션 이름
   function currentSection() {
     if (slide<=FREE_END) return null;
-    if (slide>=2 && slide<=10) return '사주 원국';
+    if (slide>=2 && slide<=10) return '사주팔자';
     if (slide===GUIDE) return '풀이 안내';
-    if (slide===26) return '선인에게 묻다';
     const sorted = Object.keys(SECTION_LABELS).map(Number).sort((a,b)=>a-b);
     let label = null;
     for (const s of sorted) {
