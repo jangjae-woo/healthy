@@ -312,9 +312,6 @@ export function calcSinsal(
     if (others.includes(g.반안)) sinsal.push('반안살');
     if (others.includes(g.역마)) sinsal.push('역마살');
     if (others.includes(g.화개)) sinsal.push('화개살');
-    if (others.includes(g.겁살)) sinsal.push('겁살');
-    if (others.includes(g.재살)) sinsal.push('재살');
-    if (others.includes(g.망신)) sinsal.push('망신살');
     if (others.includes(g.도화)) sinsal.push('도화살');
   }
 
@@ -326,13 +323,9 @@ export function calcSinsal(
   };
   if (YANGIN[ilgan] && hasB(YANGIN[ilgan])) sinsal.push('양인살');
 
-  // 괴강살 (일주 기준)
+  // 괴강살 (일주 기준) — 긍정 해석(강인한 의지)으로 유지
   const GOEGANG = ['경진','경술','임진','임술','무술'];
   if (GOEGANG.includes(dayStem + dayBranch)) sinsal.push('괴강살');
-
-  // 백호살 (모든 기둥 검사 — 간단히 일주만)
-  const BAEKHO = ['갑진','을미','병술','정축','무진','임술','계축'];
-  if (BAEKHO.includes(dayStem + dayBranch)) sinsal.push('백호살');
 
   // 현침살 (갑·신·묘·오 중 2개 이상)
   const HYEONCHIM_S = ['갑','신'];
@@ -341,39 +334,13 @@ export function calcSinsal(
                 + allBranches.filter(b => HYEONCHIM_B.includes(b)).length;
   if (hcCount >= 2) sinsal.push('현침살');
 
-  // 탕화살 (인·오·축 중 2개 이상)
-  const TANGHWA = ['인','오','축'];
-  if (allBranches.filter(b => TANGHWA.includes(b)).length >= 2) sinsal.push('탕화살');
-
-  // 원진살 (일지와 타 지지 쌍)
-  const WONJIN: Record<string,string> = {
-    자:'미', 축:'오', 인:'유', 묘:'신', 진:'해', 사:'술',
-    미:'자', 오:'축', 유:'인', 신:'묘', 해:'진', 술:'사',
-  };
-  const dayOthers = allBranches.filter(b => b !== dayBranch && b);
-  if (WONJIN[dayBranch] && dayOthers.includes(WONJIN[dayBranch])) sinsal.push('원진살');
-
-  // 귀문관살 (일지와 타 지지 쌍)
+  // 귀문관살 (일지와 타 지지 쌍) — 긍정 해석(영적 감각)으로 유지
   const GWIMUN: Record<string,string> = {
     자:'유', 축:'오', 인:'미', 묘:'신', 진:'해', 사:'술',
     유:'자', 오:'축', 미:'인', 신:'묘', 해:'진', 술:'사',
   };
+  const dayOthers = allBranches.filter(b => b !== dayBranch && b);
   if (GWIMUN[dayBranch] && dayOthers.includes(GWIMUN[dayBranch])) sinsal.push('귀문관살');
-
-  // ── 고독/특수 (4) ──
-  // 고신살 (년지 기준)
-  const GOSIN: Record<string,string> = {
-    해:'인',자:'인',축:'인', 인:'사',묘:'사',진:'사',
-    사:'신',오:'신',미:'신', 신:'해',유:'해',술:'해',
-  };
-  if (GOSIN[yearBranch] && others.includes(GOSIN[yearBranch])) sinsal.push('고신살');
-
-  // 과숙살 (년지 기준)
-  const GWASUK: Record<string,string> = {
-    해:'술',자:'술',축:'술', 인:'축',묘:'축',진:'축',
-    사:'진',오:'진',미:'진', 신:'미',유:'미',술:'미',
-  };
-  if (GWASUK[yearBranch] && others.includes(GWASUK[yearBranch])) sinsal.push('과숙살');
 
   // 홍염살 (일간 기준)
   const HONGYEOM: Record<string,string> = {
@@ -381,24 +348,6 @@ export function calcSinsal(
     기:'진', 경:'술', 신:'유', 임:'신', 계:'신',
   };
   if (HONGYEOM[ilgan] && hasB(HONGYEOM[ilgan])) sinsal.push('홍염살');
-
-  // 공망 (일주 기준, 60갑자 순)
-  const GM: Record<string,string[]> = {
-    갑자:['술','해'],을축:['술','해'],병인:['술','해'],정묘:['술','해'],무진:['술','해'],
-    기사:['술','해'],경오:['술','해'],신미:['술','해'],임신:['술','해'],계유:['술','해'],
-    갑술:['신','유'],을해:['신','유'],병자:['신','유'],정축:['신','유'],무인:['신','유'],
-    기묘:['신','유'],경진:['신','유'],신사:['신','유'],임오:['신','유'],계미:['신','유'],
-    갑신:['오','미'],을유:['오','미'],병술:['오','미'],정해:['오','미'],무자:['오','미'],
-    기축:['오','미'],경인:['오','미'],신묘:['오','미'],임진:['오','미'],계사:['오','미'],
-    갑오:['진','사'],을미:['진','사'],병신:['진','사'],정유:['진','사'],무술:['진','사'],
-    기해:['진','사'],경자:['진','사'],신축:['진','사'],임인:['진','사'],계묘:['진','사'],
-    갑진:['인','묘'],을사:['인','묘'],병오:['인','묘'],정미:['인','묘'],무신:['인','묘'],
-    기유:['인','묘'],경술:['인','묘'],신해:['인','묘'],임자:['인','묘'],계축:['인','묘'],
-    갑인:['자','축'],을묘:['자','축'],병진:['자','축'],정사:['자','축'],무오:['자','축'],
-    기미:['자','축'],경신:['자','축'],신유:['자','축'],임술:['자','축'],계해:['자','축'],
-  };
-  const gmB = GM[dayStem + dayBranch];
-  if (gmB && gmB.some(b => hasB(b))) sinsal.push('공망');
 
   return [...new Set(sinsal)];
 }
@@ -568,28 +517,18 @@ export const SINSAL_INFO: Record<string, { icon: string; desc: string; category:
   학당귀인: { icon: '🎓', desc: '공부와 지혜가 깊어 교육·연구에 적합합니다.', category: '귀인' },
   복성귀인: { icon: '✨', desc: '평생 복과 행운이 따르는 길성입니다.', category: '귀인' },
   금여:    { icon: '💰', desc: '재물과 배우자 복, 풍족한 삶을 상징합니다.', category: '귀인' },
-  // 12신살 (주요 8개)
+  // 12신살 (긍정 5개)
   장성살: { icon: '⚔️', desc: '리더십과 권위, 큰 조직을 이끌 기운이 있습니다.', category: '12신살' },
   반안살: { icon: '🏇', desc: '명예와 출세, 말년 복이 있는 길성입니다.', category: '12신살' },
   역마살: { icon: '🏇', desc: '활동력이 강하고 여행·이동·변화가 많습니다.', category: '12신살' },
   화개살: { icon: '🎨', desc: '예술·종교·학문에 깊은 인연이 있습니다.', category: '12신살' },
   도화살: { icon: '🌸', desc: '매력과 인기, 이성운이 뛰어납니다.', category: '12신살' },
-  겁살:   { icon: '⚡', desc: '외부로부터의 예기치 않은 손실이나 충격을 조심하세요.', category: '12신살' },
-  재살:   { icon: '🔥', desc: '관재·재앙이 따를 수 있어 신중한 처신이 필요합니다.', category: '12신살' },
-  망신살: { icon: '💔', desc: '실수로 인한 망신·손실을 조심해야 합니다.', category: '12신살' },
-  // 흉살
-  양인살:   { icon: '🗡️', desc: '강한 추진력과 기운. 군경·의료 분야에 적합합니다.', category: '흉살' },
-  괴강살:   { icon: '⚡', desc: '강인한 의지와 극단적 성향. 성공 아니면 실패.', category: '흉살' },
-  백호살:   { icon: '🐯', desc: '사고·수술·혈광을 각별히 조심해야 합니다.', category: '흉살' },
-  현침살:   { icon: '📍', desc: '날카로운 말과 손재주. 의료·침술업에 인연이 있습니다.', category: '흉살' },
-  탕화살:   { icon: '🔥', desc: '화상·사고·충동을 조심해야 합니다.', category: '흉살' },
-  원진살:   { icon: '😤', desc: '원망·갈등을 쉽게 쌓음. 인간관계에 주의가 필요합니다.', category: '흉살' },
-  귀문관살: { icon: '👁️', desc: '예민하고 영적 감각이 뛰어나나 신경쇠약을 조심하세요.', category: '흉살' },
-  // 고독/특수
-  고신살:   { icon: '🌑', desc: '고독한 기운. 배우자 인연이 늦게 오는 경향.', category: '특수' },
-  과숙살:   { icon: '🌑', desc: '고독한 기운. 여성에게 더 강하게 작용합니다.', category: '특수' },
+  // 특수 기운
+  양인살:   { icon: '🗡️', desc: '강한 추진력과 리더 기운. 군경·의료 분야에 적합합니다.', category: '특수' },
+  괴강살:   { icon: '⚡', desc: '강인한 의지와 카리스마. 한번 시작하면 끝까지 해내는 기운입니다.', category: '특수' },
+  현침살:   { icon: '📍', desc: '날카로운 판단과 손재주. 의료·침술·정밀 작업에 인연이 있습니다.', category: '특수' },
+  귀문관살: { icon: '👁️', desc: '예민하고 영적 감각이 뛰어나 남들이 못 보는 것을 봅니다.', category: '특수' },
   홍염살:   { icon: '🌹', desc: '이성을 끄는 매력과 강한 연애운이 있습니다.', category: '특수' },
-  공망:     { icon: '⭕', desc: '해당 방면의 성취가 허무하거나 공허해지는 자리.', category: '특수' },
 };
 
 // ─── 전체 분석 타입 ────────────────────────────
