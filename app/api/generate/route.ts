@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { calculateFourPillars } from "manseryeok";
 import {
   getSipseong, calcDaeun, calcSinsal, calcElements, getYongsin, calcMonthPillar, calcYearPillar,
+  calcCompatibility,
   STEM_HANJA, BRANCH_HANJA,
-  type SajuAnalysis,
+  type SajuAnalysis, type CompatibilityResult,
 } from "@/lib/saju-calculator";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
@@ -851,11 +852,156 @@ ${d.summaries}
 한국어 경어체.`,
 };
 
+// ─── 궁합 프롬프트 ──────────────────────────────
+function buildMatchingPrompt(
+  d: Record<string,string>,
+  sajuA: SajuAnalysis,
+  sajuB: SajuAnalysis,
+  compat: CompatibilityResult
+): string {
+  const ctxA = buildCtx(sajuA, d.myName);
+  const ctxB = buildCtx(sajuB, d.partnerName);
+  return `당신은 30년 경력의 정통 명리학 대가 "월하도인(月下老人)"입니다. 수많은 인연을 풀이한 경험으로, 두 사람의 사주만 봐도 관계의 본질을 꿰뚫어 봅니다.
+
+━━━ 당신(${d.myName}) 사주 ━━━
+${ctxA}
+
+━━━ 상대(${d.partnerName}) 사주 ━━━
+${ctxB}
+
+━━━ 자동 계산된 궁합 지표 ━━━
+• 종합 점수: ${compat.score}점 / 100
+• 점수 라벨: "${compat.scoreLabel}"
+• 일간 관계: ${compat.ilganRelation} — ${compat.ilganDetail}
+• 당신이 상대에게 보충하는 기운: ${compat.elementBalance.aHelpsB.join('·') || '없음'}
+• 상대가 당신에게 보충하는 기운: ${compat.elementBalance.bHelpsA.join('·') || '없음'}
+• 둘 다 부족한 기운: ${compat.elementBalance.sharedWeak.join('·') || '없음'}
+• 일지(배우자궁) 관계: ${compat.branchRelations.ilji}
+• 지지 삼합: ${compat.branchRelations.samhap.join(', ') || '없음'}
+• 지지 육합: ${compat.branchRelations.yukhap.join(', ') || '없음'}
+• 지지 충: ${compat.branchRelations.chung.join(', ') || '없음'}
+• 관계의 강점: ${compat.strengths.join(' / ') || '없음'}
+• 관계의 약점: ${compat.weaknesses.join(' / ') || '없음'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[풀이 요청 — 아래 9개 소제목을 순서대로 작성. 각 소제목 아래 2~3문단 이내]
+
+### 선인의 첫마디
+이 두 분의 인연에 대한 시적인 2~3문장 인사. "${d.myName}님"과 "${d.partnerName}님"의 이름을 언급하고, 두 분의 일간 기질을 자연에 비유해 시작.
+
+### 한 줄 궁합
+궁합 점수 ${compat.score}점과 "${compat.scoreLabel}" 라벨의 의미를 2~3문장으로 풀이. 왜 이 점수가 나왔는지 핵심 이유 1~2가지.
+
+### 두 사람의 본질
+${d.myName}님은 어떤 사람이고(일간·기질), ${d.partnerName}님은 어떤 사람인지. 각자 2~3문장씩 대비되게 서술. "당신은 OO, 상대는 OO" 구도로 선명하게.
+
+### 우리 둘의 기운
+오행 궁합. 서로의 부족함을 어떻게 채워주는지, 혹은 어떻게 충돌하는지. 구체적 오행 언급 (자동 계산된 보충 기운 참조).
+
+### 관계의 언어
+십성 관점에서 본 관계 역학. ${d.myName}님에게 ${d.partnerName}님이 어떤 십성 역할을 하는지, 그 반대도. "서로에게 주는 것과 받는 것" 중심.
+
+### 침실의 기운
+일지(日支) 관계 — ${compat.branchRelations.ilji}. 배우자궁에서 본 친밀감·신뢰·갈등 포인트. 감성적으로 풀되 저속하지 않게.
+
+### 인연의 깊이
+지지 합·충 종합 — 삼합/육합이 있으면 "운명적", 충이 많으면 "도전적". 결혼까지 갈 가능성을 두 사람 사주 구조로 평가.
+
+### 함께하는 시간
+두 분의 대운이 어떻게 맞물리는지. 황금기나 시련기가 언제인지. 구체적 나이나 연도로 언급.
+
+### 관계의 그림자와 빛
+✓ 관계의 강점 (보석 같은 부분)
+✓ 반복되는 갈등 패턴
+✓ "${d.myName}님이 ${d.partnerName}님과 잘 지내려면" 구체적 조언 1~2가지
+✓ 마지막은 따뜻한 응원 한 문단
+
+[규칙]
+- 두 분 모두에게 동등한 관점 (한쪽만 비난·칭찬 금지)
+- "${d.myName}님이", "${d.partnerName}님이" 처럼 두 이름 자연스럽게 번갈아 호명
+- 구체적 간지·오행·십성 근거 반드시 포함
+- 바넘 표현 금지 (누구에게나 해당하는 뻔한 말 금지)
+- 한자 사자성어 섹션당 1~2개 가능 (동상이몽·부창부수·천생연분 등, 의미 한글 병기)
+- 한국어 경어체, 문학적 흐름`;
+}
+
 // ─── API 핸들러 ───────────────────────────────
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { type, section, ...data } = body;
+
+    // ─── 궁합 (matching) 처리 ───
+    if (type === 'matching' && section === 'matching') {
+      const sajuA = computeFullSaju(
+        parseInt(data.myYear), parseInt(data.myMonth), parseInt(data.myDay),
+        data.myHour ?? "모름",
+        data.myCalendar === "음력",
+        data.myGender ?? "남"
+      );
+      const sajuB = computeFullSaju(
+        parseInt(data.partnerYear), parseInt(data.partnerMonth), parseInt(data.partnerDay),
+        data.partnerHour ?? "모름",
+        data.partnerCalendar === "음력",
+        data.partnerGender ?? "남"
+      );
+      if (!sajuA || !sajuB) {
+        return NextResponse.json({ error: "사주 분석 실패" }, { status: 400 });
+      }
+      const compat = calcCompatibility(sajuA, sajuB);
+      const prompt = buildMatchingPrompt(data, sajuA, sajuB, compat);
+
+      // 스트리밍 응답
+      const apiKey = process.env.GOOGLE_GENAI_API_KEY || process.env.GEMINI_API_KEY;
+      if (!apiKey) return NextResponse.json({ error: "API 키 없음" }, { status: 500 });
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { maxOutputTokens: 4500, thinkingConfig: { thinkingBudget: 0 } },
+          }),
+        }
+      );
+      if (!res.ok || !res.body) return NextResponse.json({ error: "생성 실패" }, { status: 500 });
+
+      const encoder = new TextEncoder();
+      const stream = new ReadableStream({
+        async start(controller) {
+          const enqueue = (obj: Record<string, unknown>) =>
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
+          enqueue({ t: 'm', d: { sajuA, sajuB, compat } });
+          const reader = res.body!.getReader();
+          const decoder = new TextDecoder();
+          let buf = "";
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value, { stream: true });
+            const lines = buf.split("\n");
+            buf = lines.pop() ?? "";
+            for (const line of lines) {
+              if (!line.startsWith("data: ")) continue;
+              try {
+                const json = JSON.parse(line.slice(6));
+                const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (text) enqueue({ t: 'x', v: text });
+              } catch {}
+            }
+          }
+          enqueue({ t: 'd' });
+          controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+          controller.close();
+        },
+      });
+      return new Response(stream, {
+        headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-cache" },
+      });
+    }
 
     // 사주 분석
     let sajuAnalysis: SajuAnalysis | null = null;

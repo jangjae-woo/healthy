@@ -552,3 +552,165 @@ export interface SajuAnalysis {
   sinsal: string[];
   isHourUnknown: boolean;
 }
+
+// ─── 궁합 분석 ────────────────────────────────
+export interface CompatibilityResult {
+  score: number;           // 0-100
+  scoreLabel: string;      // "운명 같은 인연" 등
+  ilganRelation: string;   // 상생·상극·비화 등
+  ilganDetail: string;     // 구체 설명
+  elementBalance: {
+    aHelpsB: string[];     // A가 B에게 보충해주는 오행
+    bHelpsA: string[];     // B가 A에게 보충해주는 오행
+    sharedStrong: string[]; // 둘 다 강한 오행
+    sharedWeak: string[];  // 둘 다 약한 오행
+  };
+  branchRelations: {
+    ilji: string;          // 일지 관계 설명 (합·충·형·없음)
+    samhap: string[];      // 두 사람 지지 합쳐서 삼합 성립한 것
+    yukhap: string[];      // 육합
+    chung: string[];       // 충
+  };
+  sharedSinsal: string[];  // 공유 신살
+  strengths: string[];     // 궁합 강점
+  weaknesses: string[];    // 궁합 약점
+}
+
+export function calcCompatibility(
+  a: SajuAnalysis,
+  b: SajuAnalysis
+): CompatibilityResult {
+  const aIlgan = a.ilgan as Stem;
+  const bIlgan = b.ilgan as Stem;
+  const aElem = STEM_ELEM[aIlgan];
+  const bElem = STEM_ELEM[bIlgan];
+
+  // 1. 일간 관계
+  let ilganRelation: string;
+  let ilganDetail: string;
+  let ilganScore = 0;
+  if (aElem === bElem) {
+    ilganRelation = '비화(比和)';
+    ilganDetail = '같은 오행으로 서로 닮아 통하지만, 경쟁 구도가 생길 수 있는 관계입니다.';
+    ilganScore = 14;
+  } else if (GENERATES[aElem] === bElem) {
+    ilganRelation = '상생 (당신이 상대를 살림)';
+    ilganDetail = '당신의 기운이 상대를 키우고 살리는 관계입니다. 당신이 주는 쪽.';
+    ilganScore = 18;
+  } else if (GENERATES[bElem] === aElem) {
+    ilganRelation = '상생 (상대가 당신을 살림)';
+    ilganDetail = '상대의 기운이 당신을 북돋고 키워주는 관계입니다. 당신이 받는 쪽.';
+    ilganScore = 20;
+  } else if (CONTROLS[aElem] === bElem) {
+    ilganRelation = '상극 (당신이 상대를 제어)';
+    ilganDetail = '당신의 기운이 상대를 억누를 수 있는 관계입니다. 조심이 필요합니다.';
+    ilganScore = 8;
+  } else {
+    ilganRelation = '상극 (상대가 당신을 제어)';
+    ilganDetail = '상대의 기운이 당신을 눌러 스트레스를 유발할 수 있는 관계입니다.';
+    ilganScore = 6;
+  }
+
+  // 2. 오행 균형 — 부족한 걸 채워주는가
+  const aTotal = Object.values(a.elements).reduce((x, y) => x + y, 0) || 1;
+  const bTotal = Object.values(b.elements).reduce((x, y) => x + y, 0) || 1;
+  const ELEMS = ['목','화','토','금','수'];
+  const aHelpsB: string[] = [];
+  const bHelpsA: string[] = [];
+  const sharedStrong: string[] = [];
+  const sharedWeak: string[] = [];
+  for (const el of ELEMS) {
+    const aPct = ((a.elements as Record<string,number>)[el] || 0) / aTotal;
+    const bPct = ((b.elements as Record<string,number>)[el] || 0) / bTotal;
+    if (aPct >= 0.22 && bPct >= 0.22) sharedStrong.push(el);
+    if (aPct < 0.10 && bPct < 0.10) sharedWeak.push(el);
+    if (aPct < 0.10 && bPct >= 0.20) bHelpsA.push(el);
+    if (bPct < 0.10 && aPct >= 0.20) aHelpsB.push(el);
+  }
+  const elemScore = Math.min(25,
+    (aHelpsB.length + bHelpsA.length) * 6 - sharedWeak.length * 3
+  );
+
+  // 3. 일지 (배우자궁) 관계
+  const aIlji = a.pillars.day.branch as Branch;
+  const bIlji = b.pillars.day.branch as Branch;
+  let iljiText = '특별한 관계 없음';
+  let iljiScore = 10;
+  for (const { pair } of JIJI_YUKHAP) {
+    if ((pair[0] === aIlji && pair[1] === bIlji) || (pair[0] === bIlji && pair[1] === aIlji)) {
+      iljiText = `일지 육합 (${pair[0]}${pair[1]}합)`; iljiScore = 22; break;
+    }
+  }
+  for (const [x, y] of JIJI_YUKCHUNG) {
+    if ((x === aIlji && y === bIlji) || (x === bIlji && y === aIlji)) {
+      iljiText = `일지 충 (${x}${y}충)`; iljiScore = 5; break;
+    }
+  }
+  if (aIlji === bIlji) { iljiText = `일지 동일 (${aIlji}${aIlji})`; iljiScore = 16; }
+
+  // 4. 전체 지지 합·충
+  const allA = [a.pillars.year.branch, a.pillars.month.branch, a.pillars.day.branch, ...(a.pillars.hour ? [a.pillars.hour.branch] : [])];
+  const allB = [b.pillars.year.branch, b.pillars.month.branch, b.pillars.day.branch, ...(b.pillars.hour ? [b.pillars.hour.branch] : [])];
+  const samhap: string[] = [];
+  const yukhap: string[] = [];
+  const chung: string[] = [];
+  for (const { members, hwa } of JIJI_SAMHAP) {
+    const inA = members.filter(m => allA.includes(m));
+    const inB = members.filter(m => allB.includes(m));
+    if (inA.length + inB.length >= 3 && inA.length > 0 && inB.length > 0) {
+      samhap.push(`${members.join('')} 삼합 → ${hwa}국(局)`);
+    }
+  }
+  for (const { pair, hwa } of JIJI_YUKHAP) {
+    if (allA.includes(pair[0]) && allB.includes(pair[1])) yukhap.push(`${pair[0]}${pair[1]}합(${hwa})`);
+    if (allA.includes(pair[1]) && allB.includes(pair[0])) yukhap.push(`${pair[1]}${pair[0]}합(${hwa})`);
+  }
+  for (const [x, y] of JIJI_YUKCHUNG) {
+    if (allA.includes(x) && allB.includes(y)) chung.push(`${x}${y}충`);
+    if (allA.includes(y) && allB.includes(x)) chung.push(`${y}${x}충`);
+  }
+  const branchScore = Math.min(20,
+    samhap.length * 8 + yukhap.length * 4 - chung.length * 3
+  );
+
+  // 5. 공유 신살
+  const sharedSinsal = a.sinsal.filter(s => b.sinsal.includes(s));
+  const sinsalScore = Math.min(15, sharedSinsal.length * 3);
+
+  // 총점 (기본 10 + 위 항목들)
+  const rawScore = 10 + ilganScore + Math.max(0, elemScore) + iljiScore + Math.max(0, branchScore) + sinsalScore;
+  const score = Math.max(30, Math.min(98, Math.round(rawScore)));
+
+  // 점수 라벨
+  let scoreLabel: string;
+  if (score >= 85) scoreLabel = '운명 같은 인연';
+  else if (score >= 70) scoreLabel = '서로를 빛나게 하는 사이';
+  else if (score >= 55) scoreLabel = '노력으로 다져가는 관계';
+  else if (score >= 40) scoreLabel = '서로를 이해하려는 노력 필요';
+  else scoreLabel = '도전이 따르는 인연';
+
+  // 강점·약점 수집
+  const strengths: string[] = [];
+  const weaknesses: string[] = [];
+  if (ilganScore >= 16) strengths.push(`일간 ${ilganRelation}`);
+  if (ilganScore < 10) weaknesses.push(`일간 ${ilganRelation}`);
+  if (aHelpsB.length > 0) strengths.push(`당신이 ${aHelpsB.join('·')} 기운을 상대에게 보충`);
+  if (bHelpsA.length > 0) strengths.push(`상대가 ${bHelpsA.join('·')} 기운을 당신에게 보충`);
+  if (sharedWeak.length >= 2) weaknesses.push(`둘 다 ${sharedWeak.join('·')} 기운이 부족`);
+  if (iljiScore >= 16) strengths.push(iljiText);
+  if (iljiScore <= 8) weaknesses.push(iljiText);
+  if (samhap.length > 0) strengths.push(`지지 삼합 — ${samhap.join(', ')}`);
+  if (chung.length >= 2) weaknesses.push(`지지 충 ${chung.length}회 — 잦은 갈등 주의`);
+
+  return {
+    score,
+    scoreLabel,
+    ilganRelation,
+    ilganDetail,
+    elementBalance: { aHelpsB, bHelpsA, sharedStrong, sharedWeak },
+    branchRelations: { ilji: iljiText, samhap, yukhap, chung },
+    sharedSinsal,
+    strengths,
+    weaknesses,
+  };
+}
