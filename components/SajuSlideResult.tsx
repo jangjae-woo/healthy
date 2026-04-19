@@ -507,6 +507,7 @@ export default function SajuSlideResult() {
   const tapStartRef = useRef<{x:number; y:number} | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null);
   const savedRef = useRef(false);
+  const aiContentRef = useRef<Record<string,SectionState>>({});
 
   const name         = params.get("name")         || "";
   const gender       = params.get("gender")       || "";
@@ -635,9 +636,13 @@ export default function SajuSlideResult() {
   // AI 섹션 fetch 헬퍼
   const fetchSection = (key: string): Promise<void> => {
     setAiContent(prev => ({ ...prev, [key]:{ status:'loading', content:'' } }));
+    const extra: Record<string,string> = {};
+    if (key === 'compass') {
+      extra.overviewContent = aiContentRef.current['overview']?.content || '';
+    }
     return fetch("/api/generate", {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ ...baseBody, section:key }),
+      body: JSON.stringify({ ...baseBody, section:key, ...extra }),
     }).then(async res => {
       if (!res.ok) throw new Error();
       const ct = res.headers.get('Content-Type') ?? '';
@@ -682,7 +687,11 @@ export default function SajuSlideResult() {
           setAiPages(prev => ({ ...prev, [key]: splitIntoPages(full) }));
           setAiPage(prev => ({ ...prev, [key]: prev[key] ?? 0 }));
         }
-        setAiContent(prev => ({ ...prev, [key]:{ status:'done', content: full } }));
+        setAiContent(prev => {
+          const next = { ...prev, [key]:{ status:'done' as const, content: full } };
+          aiContentRef.current = next;
+          return next;
+        });
 
       } else {
         // ── JSON 모드 (릴레이) ──
