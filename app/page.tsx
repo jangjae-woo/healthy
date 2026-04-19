@@ -12,6 +12,16 @@ const services = [
     href: "/saju",
   },
   {
+    id: "matching",
+    character: "월하도인",
+    title: "연인과의 궁합",
+    desc: "두 사람의 사주로 풀어보는 인연의 깊이",
+    bg: "#1a0f20",
+    accent: "#d4a8e8",
+    charImg: "/char-saju.png",
+    href: "/matching",
+  },
+  {
     id: "moving",
     character: "정도인",
     title: "이사날짜 운세",
