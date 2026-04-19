@@ -936,6 +936,7 @@ export default function SajuSlideResult() {
     if (slide===7)        { setSlide(11); return; }   // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
     if (slide===12 && ovPage===0) { setOvPage(1); return; }  // 핵심요약 페이지 2
     if (slide===12 && ovPage===1) { setOvPage(0); }          // 다음 슬라이드 전에 리셋
+    if (slide===22)       { setSlide(24); return; }   // 세운 timeline2(23) 건너뜀 (API는 호출됨)
     if (slide===25)       { setSlide(27); return; }   // Q&A 슬라이드 숨김
     if (slide<TOTAL-1)    setSlide(s=>s+1);
   }
@@ -949,6 +950,12 @@ export default function SajuSlideResult() {
     if (slide===6)   { setSlide(4); return; }    // 에너지 총량(5) 건너뜀
     if (slide===11)  { setSlide(7); return; }    // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
     if (slide===12 && ovPage===1) { setOvPage(0); return; }  // 핵심요약 페이지 1로
+    if (slide===24)  {                           // 세운(23) 건너뜀 — timeline1 마지막 페이지로 복귀
+      const tlPages = aiPages['timeline1'] || [];
+      if (tlPages.length > 0) setAiPage(prev => ({ ...prev, timeline1: tlPages.length - 1 }));
+      setSlide(22);
+      return;
+    }
     if (slide===27)  { setSlide(25); return; }   // Q&A 슬라이드 숨김
     if (slide>0) setSlide(s=>s-1);
   }
