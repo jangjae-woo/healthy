@@ -2,14 +2,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   type SajuAnalysis,
   getSipseong,
   STEM_HANJA, BRANCH_HANJA, SIPSEONG_COLOR, SINSAL_INFO,
 } from "@/lib/saju-calculator";
 
-const ACCENT = "#c9b4ff";
-const BG     = "#1a0a2e";
+const ACCENT = "#c9960c";
+const BG     = "#0d1a0f";
 
 // ── 일간 정보 ────────────────────────────────────────────────
 const ILGAN_INFO: Record<string, { hanja:string; name:string; desc:string; tags:string[] }> = {
@@ -39,29 +40,29 @@ const SEUN_YEARS = [
 
 // 섹션 첫 슬라이드에 표시할 인라인 헤더 (인트로 별도 슬라이드 없음)
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
-  3: { title:'핵심 요약',   icon:'✦'  },
-  4: { title:'나라는 사람', icon:'🪞' },
-  6: { title:'돈과 일',    icon:'💰' },
-  8: { title:'사람과 사랑',icon:'🤝' },
-  11:{ title:'몸과 마음',  icon:'🌿' },
-  12:{ title:'숨겨진 카드',icon:'✨' },
-  13:{ title:'흐르는 시간',icon:'🌊' },
-  15:{ title:'나침반',     icon:'🧭' },
-  16:{ title:'결',         icon:'🌙' },
+  12:{ title:'핵심 요약',   icon:'✦'  },
+  13:{ title:'나라는 사람', icon:'🪞' },
+  15:{ title:'돈과 일',    icon:'💰' },
+  17:{ title:'사람과 사랑',icon:'🤝' },
+  20:{ title:'몸과 마음',  icon:'🌿' },
+  21:{ title:'숨겨진 카드',icon:'✨' },
+  22:{ title:'흐르는 시간',icon:'🌊' },
+  24:{ title:'나침반',     icon:'🧭' },
+  25:{ title:'결',         icon:'🌙' },
 };
 
 // 슬라이드 → AI 섹션 키 매핑
 const SLIDE_AI: Record<number,string> = {
   1: 'opener',
-  3: 'overview',
-  4: 'personality1', 5: 'personality2',
-  6: 'money1',       7: 'money2',
-  8: 'love1',        9: 'love2', 10: 'love3',
-  11: 'health',
-  12: 'hidden',
-  13: 'timeline1',   14: 'timeline2',
-  15: 'compass',
-  16: 'closing',
+  12: 'overview',
+  13: 'personality1', 14: 'personality2',
+  15: 'money1',       16: 'money2',
+  17: 'love1',        18: 'love2', 19: 'love3',
+  20: 'health',
+  21: 'hidden',
+  22: 'timeline1',    23: 'timeline2',
+  24: 'compass',
+  25: 'closing',
 };
 
 // 섹션별 기본 이미지 (페이지 0 배너)
@@ -115,23 +116,24 @@ const KEYWORD_IMAGE: Array<{ m: string[]; img: string }> = [
 
 // TOC 섹션 목록
 const TOC_ITEMS = [
-  { label:'핵심 요약',  slide:3  },
-  { label:'나라는 사람',slide:4  },
-  { label:'돈과 일',    slide:6  },
-  { label:'사람과 사랑',slide:8  },
-  { label:'몸과 마음',  slide:11 },
-  { label:'숨겨진 카드',slide:12 },
-  { label:'흐르는 시간',slide:13 },
-  { label:'나침반',     slide:15 },
-  { label:'결',         slide:16 },
-  { label:'사주 원국',  slide:18 },
+  { label:'사주 원국',  slide:2  },
+  { label:'핵심 요약',  slide:12 },
+  { label:'나라는 사람',slide:13 },
+  { label:'돈과 일',    slide:15 },
+  { label:'사람과 사랑',slide:17 },
+  { label:'몸과 마음',  slide:20 },
+  { label:'숨겨진 카드',slide:21 },
+  { label:'흐르는 시간',slide:22 },
+  { label:'나침반',     slide:24 },
+  { label:'결',         slide:25 },
 ];
 
 // 슬라이드 상수
-const FREE_END  = 1;   // opener is last free slide
-const PAYWALL   = 2;
-const AI_START  = 3;
-const TOTAL     = 29;
+const FREE_END  = 11;  // GUIDE가 마지막 무료 슬라이드
+const AI_START  = 12;  // 핵심 요약부터 유료
+const GUIDE     = 11;  // 목차 안내 슬라이드
+const TOTAL     = 28;
+const PRICE     = 45900;
 
 // 에너지 점수
 function calcEnergyScore(elements:Record<string,number>) {
@@ -207,30 +209,51 @@ function getSipseongCounts(sipseong:SajuAnalysis['sipseong']) {
 }
 
 // 텍스트 포맷터
+function stripBold(s: string) { return s.replace(/\*\*/g, ''); }
+function renderHeading(raw: string, size: 'h2'|'h3', key: number) {
+  const text = stripBold(raw);
+  const parts = text.split(/\s*[—–-]\s*/);
+  const main = parts[0].trim();
+  const sub  = parts.length > 1 ? parts.slice(1).join(' ').trim() : null;
+  const cls  = size==='h2'
+    ? "saju-prose font-bold mt-4 mb-8 text-[22px] leading-snug text-center w-full"
+    : "saju-prose font-bold mt-6 mb-8 text-[20px] leading-snug text-center w-full";
+  if (sub) {
+    return (
+      <div key={key} className={`${cls} flex flex-col items-center gap-1`} style={{color:ACCENT}}>
+        <span>{main}</span>
+        <span className="text-[16px] font-medium" style={{color:`${ACCENT}cc`}}>{sub}</span>
+      </div>
+    );
+  }
+  return size==='h2'
+    ? <h2 key={key} className={cls} style={{color:ACCENT}}>{main}</h2>
+    : <h3 key={key} className={cls} style={{color:ACCENT}}>{main}</h3>;
+}
 function formatText(text:string) {
   return text.split("\n").map((line,i) => {
     // # 단독 제목 (소넷 출력 호환 — ## 로 격상)
     if (line.startsWith("# ") && !line.startsWith("## "))
-      return <h2 key={i} className="font-bold mt-3 mb-3 text-[26px]" style={{color:ACCENT}}>{line.replace(/^#\s*/, '')}</h2>;
+      return renderHeading(line.replace(/^#\s*/, ''), 'h2', i);
     // ▶ 소제목 (소넷 출력 호환 — ### 로 변환)
     if (line.startsWith("▶ "))
-      return <h3 key={i} className="font-bold mt-4 mb-3 text-[22px] leading-snug" style={{color:ACCENT}}>{line.replace(/^▶\s*/, '')}</h3>;
+      return renderHeading(line.replace(/^▶\s*/, ''), 'h3', i);
     // ### 부제목
     if (line.startsWith("### "))
-      return <h3 key={i} className="font-bold mt-4 mb-3 text-[22px] leading-snug" style={{color:ACCENT}}>{line.replace(/^###\s*\d*\.?\s*/, '')}</h3>;
+      return renderHeading(line.replace(/^###\s*(\d+\.\s*)?/, ''), 'h3', i);
     // ## 제목
     if (line.startsWith("## "))
-      return <h2 key={i} className="font-bold mt-3 mb-3 text-[26px]" style={{color:ACCENT}}>{line.replace(/^##\s*/, '')}</h2>;
+      return renderHeading(line.replace(/^##\s*/, ''), 'h2', i);
     // --- 구분선 → 스킵
     if (line.trim() === "---")
-      return <div key={i} className="h-1"/>;
+      return <div key={i} className="h-2"/>;
     // **굵게** 단독 줄
     if (/^\*\*[^*]+\*\*$/.test(line.trim()))
-      return <h3 key={i} className="font-bold mt-5 mb-3 text-[20px]" style={{color:ACCENT}}>{line.replace(/\*\*/g,"")}</h3>;
+      return <h3 key={i} className="saju-prose font-bold mt-6 mb-8 text-[20px] text-center w-full" style={{color:ACCENT}}>{line.replace(/\*\*/g,"")}</h3>;
     // 인라인 **굵게**
     if (/\*\*[^*]+\*\*/.test(line))
       return (
-        <p key={i} className="text-[17px] leading-[1.85] text-white/90 mb-3">
+        <p key={i} className="saju-prose saju-body text-[17px] leading-[2.1] mb-4">
           {line.split(/(\*\*[^*]+\*\*)/).map((p2,j) =>
             /^\*\*[^*]+\*\*$/.test(p2)
               ? <strong key={j} style={{color:ACCENT}}>{p2.replace(/\*\*/g,"")}</strong>
@@ -240,14 +263,14 @@ function formatText(text:string) {
       );
     // 숫자 목록 (1. 2. 3. 형태)
     if (/^\d+\.\s/.test(line))
-      return <li key={i} className="text-[17px] leading-[1.85] text-white/80 ml-5 mb-2 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
+      return <li key={i} className="saju-prose saju-body text-[17px] leading-[2.1] ml-5 mb-3 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
     // 불릿
     if (line.startsWith("- ")||line.startsWith("• "))
-      return <li key={i} className="text-[17px] leading-[1.85] text-white/80 ml-5 mb-2 list-disc">{line.slice(2)}</li>;
+      return <li key={i} className="saju-prose saju-body text-[17px] leading-[2.1] ml-5 mb-3 list-disc">{line.slice(2)}</li>;
     // 빈 줄
-    if (line.trim()==="") return <div key={i} className="h-2"/>;
+    if (line.trim()==="") return <div key={i} className="h-3"/>;
     // 일반 텍스트
-    return <p key={i} className="text-[17px] leading-[1.85] text-white/85 mb-3">{line}</p>;
+    return <p key={i} className="saju-prose saju-body text-[17px] leading-[2.1] mb-4">{line}</p>;
   });
 }
 
@@ -267,7 +290,21 @@ function splitIntoPages(text: string): string[] {
         merged.push(s);
       }
     }
-    return merged.length > 0 ? merged : [text];
+    // 2단계: 각 섹션 내부에 단락(\n\n)이 여러 개면 추가 분리
+    const result: string[] = [];
+    for (const page of merged) {
+      const titleMatch = page.match(/^(###\s.*|▶\s.*)\n/);
+      const title = titleMatch ? titleMatch[0] : '';
+      const body = title ? page.slice(title.length) : page;
+      const paras = body.split(/\n{2,}/).map(s => s.trim()).filter(s => s);
+      if (paras.length > 1) {
+        result.push(title + paras[0]);
+        for (const p of paras.slice(1)) result.push(p);
+      } else {
+        result.push(page);
+      }
+    }
+    return result.length > 0 ? result : [text];
   }
   // ### 없으면 **굵게** 줄 기준으로 분리
   const boldSections = text.split(/(?=^\*\*[^*]+\*\*$)/m).map(s => s.trim()).filter(s => s);
@@ -303,6 +340,9 @@ function splitIntoPages(text: string): string[] {
     }
     return fixed.length > 0 ? fixed : [text];
   }
+  // ### 도 **bold** 도 없으면 빈 줄(\n\n) 기준으로 단락 분할
+  const paragraphs = text.split(/\n{2,}/).map(s => s.trim()).filter(s => s);
+  if (paragraphs.length > 1) return paragraphs;
   return [text];
 }
 
@@ -328,7 +368,8 @@ function getSectionBadges(key: string, data: SajuAnalysis): string[] {
   const yongsin = `용신 ${ELEM_HANJA[data.yongsin] ?? ''}${data.yongsin}`;
   const wolji  = `월지 ${data.sipseong.month.branch}`;
   const baewoo = `배우자궁 ${data.sipseong.day.branch}`;
-  const weakEl = Object.entries(data.elements).filter(([,n])=>n===0).map(([el])=>ELEM_HANJA[el]+el);
+  const elemTotal = Object.values(data.elements).reduce((a,b)=>a+b,0)||1;
+  const weakEl = Object.entries(data.elements).filter(([,n])=>n/elemTotal<0.10).map(([el])=>ELEM_HANJA[el]+el);
   const sinsal  = data.sinsal.length > 0 ? `신살 ${data.sinsal.slice(0,2).join('·')}` : '';
   const allSS   = [
     data.sipseong.year.stem, data.sipseong.year.branch,
@@ -405,12 +446,12 @@ function AiLoader({ sajuData }: { sajuData: SajuAnalysis | null }) {
 }
 
 // 이미지 배너 컴포넌트
-function ImageBanner({ name, height=108 }:{ name:string; height?:number }) {
+function ImageBanner({ name }:{ name:string }) {
   return (
-    <div className="relative w-full rounded-xl overflow-hidden flex-shrink-0 mb-3" style={{height}}>
+    <div className="relative w-full rounded-xl overflow-hidden flex-shrink-0 mb-3 aspect-square">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={`/image/${encodeURIComponent(name)}.jpeg`} alt=""
-        className="w-full h-full object-cover" style={{objectPosition:'center 25%'}} />
+        className="w-full h-full object-cover" style={{objectPosition:'center center'}} />
       <div className="absolute inset-0"
         style={{background:`linear-gradient(to bottom, transparent 20%, ${BG} 100%)`}} />
     </div>
@@ -443,11 +484,13 @@ export default function SajuSlideResult() {
     const keys = ['opener','overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
     return Object.fromEntries(keys.map(k=>[k,{status:'idle',content:''}]));
   });
-  const [unlocked, setUnlocked]   = useState(false);
-  const [phone, setPhone]         = useState("");
-  const [paying, setPaying]       = useState(false);
-  const [payProgress, setPayProgress] = useState(0);
-  const [showToc, setShowToc]     = useState(false);
+  const [unlocked, setUnlocked]       = useState(false);
+  const [paying, setPaying]           = useState(false);
+  const [ovPage, setOvPage]           = useState(0);
+  const [showToc, setShowToc]         = useState(false);
+  const [urlCopied, setUrlCopied]     = useState(false);
+  const [serverRetrying, setServerRetrying] = useState(false);
+  const [serverFailed, setServerFailed]     = useState(false);
   // AI 콘텐츠 페이지 분할 상태
   const [aiPages, setAiPages]     = useState<Record<string,string[]>>({});
   const [aiPage, setAiPage]       = useState<Record<string,number>>({});
@@ -459,7 +502,11 @@ export default function SajuSlideResult() {
   const [qaPayPhone, setQaPayPhone]   = useState('');
   const [qaPayState, setQaPayState]   = useState<'none'|'input'|'paying'>('none');
   const [qaPayProgress, setQaPayProgress] = useState(0);
+  const [hintDismissed, setHintDismissed] = useState(false);
   const slideRef = useRef<HTMLDivElement>(null);
+  const tapStartRef = useRef<{x:number; y:number} | null>(null);
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null);
+  const savedRef = useRef(false);
 
   const name         = params.get("name")         || "";
   const gender       = params.get("gender")       || "";
@@ -468,8 +515,122 @@ export default function SajuSlideResult() {
   const day          = params.get("day")          || "";
   const hour         = params.get("hour")         || "";
   const calendarType = params.get("calendarType") || "양력";
+  const isSavedUrl   = params.get("saved") === "1";
 
   const baseBody = { type:"saju", name, gender, year, month, day, hour, calendarType };
+  const cacheKey = name ? `saju_v1_${name}_${year}_${month}_${day}_${hour}_${gender}_${calendarType}` : '';
+
+  // PayApp 결제 완료 감지
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('unlocked') === '1') {
+      setUnlocked(true);
+      urlParams.delete('unlocked');
+      const newSearch = urlParams.toString();
+      window.history.replaceState({}, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+    }
+  }, []);
+
+  // localStorage 캐시 로드 → 없으면 서버(Google Sheets) 확인 (마운트 시 1회)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!cacheKey) return;
+    const applyContent = (aiData: Record<string, SectionState>) => {
+      setAiContent(aiData);
+      const pages: Record<string, string[]> = {};
+      for (const [k, v] of Object.entries(aiData)) {
+        if (v.status === 'done' && v.content && k !== 'opener') {
+          pages[k] = splitIntoPages(v.content);
+        }
+      }
+      setAiPages(pages);
+      setUnlocked(true);
+    };
+    // 1) localStorage 확인
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const data = JSON.parse(cached) as { aiContent: Record<string, SectionState> };
+        if (data.aiContent) { applyContent(data.aiContent); return; }
+      }
+    } catch {}
+    // 2) 서버 확인 — saved=1이면 재시도 3회, 실패해도 AI 생성 절대 안 함
+    if (isSavedUrl) {
+      setServerRetrying(true);
+      let attempts = 0;
+      const tryLoad = () => {
+        fetch(`/api/load-reading?key=${encodeURIComponent(cacheKey)}`)
+          .then(r => r.json())
+          .then((res: { found: boolean; aiContent?: Record<string, SectionState>; qaHistory?: {q:string;a:string}[] }) => {
+            if (res.found && res.aiContent) {
+              savedRef.current = true;
+              applyContent(res.aiContent);
+              if (res.qaHistory?.length) {
+                setQaHistory(res.qaHistory);
+                setQuestionCount(3);
+              }
+              setServerRetrying(false);
+              try { localStorage.setItem(cacheKey, JSON.stringify({ aiContent: res.aiContent })); } catch {}
+            } else {
+              attempts++;
+              if (attempts < 3) { setTimeout(tryLoad, 2000); }
+              else { setServerRetrying(false); setServerFailed(true); }
+            }
+          })
+          .catch(() => {
+            attempts++;
+            if (attempts < 3) { setTimeout(tryLoad, 2000); }
+            else { setServerRetrying(false); setServerFailed(true); }
+          });
+      };
+      tryLoad();
+    } else {
+      // saved=1 없으면 1회만 확인, 없으면 정상 흐름(신규 사용자)
+      fetch(`/api/load-reading?key=${encodeURIComponent(cacheKey)}`)
+        .then(r => r.json())
+        .then((res: { found: boolean; aiContent?: Record<string, SectionState>; qaHistory?: {q:string;a:string}[] }) => {
+          if (!res.found || !res.aiContent) return;
+          savedRef.current = true;
+          applyContent(res.aiContent);
+          if (res.qaHistory?.length) {
+            setQaHistory(res.qaHistory);
+            setQuestionCount(res.qaHistory.length);
+          }
+          try { localStorage.setItem(cacheKey, JSON.stringify({ aiContent: res.aiContent })); } catch {}
+        })
+        .catch(() => {});
+    }
+  }, []);
+
+  // 모든 섹션 완료 시 Google Sheets에 저장 (1회)
+  useEffect(() => {
+    if (!cacheKey || !unlocked || savedRef.current) return;
+    const SECS = ['opener','overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
+    if (!SECS.every(k => aiContent[k]?.status === 'done')) return;
+    savedRef.current = true;
+    fetch('/api/save-reading', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: cacheKey, aiContent, qaHistory }),
+    }).then(() => {
+      if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href);
+        url.searchParams.set('saved', '1');
+        window.history.replaceState({}, '', url.toString());
+      }
+    }).catch(() => {});
+  }, [aiContent, cacheKey, unlocked]);
+
+  // localStorage 캐시 저장 (완료된 섹션이 생길 때마다 debounce)
+  useEffect(() => {
+    if (!cacheKey) return;
+    const hasDone = Object.values(aiContent).some(s => s.status === 'done');
+    if (!hasDone) return;
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      try { localStorage.setItem(cacheKey, JSON.stringify({ aiContent })); } catch {}
+    }, 1500);
+  }, [aiContent, cacheKey]);
 
   // AI 섹션 fetch 헬퍼
   const fetchSection = (key: string): Promise<void> => {
@@ -569,6 +730,7 @@ export default function SajuSlideResult() {
     }).then(async res => {
       if (!res.ok) throw new Error();
       const ct = res.headers.get('Content-Type') ?? '';
+      let finalAnswer = '';
       if (ct.includes('text/event-stream')) {
         const reader = res.body!.getReader();
         const decoder = new TextDecoder();
@@ -593,12 +755,34 @@ export default function SajuSlideResult() {
           }
         }
         setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:full} : e));
+        finalAnswer = full;
       } else {
         const d = await res.json();
-        setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:d.result??''} : e));
+        finalAnswer = d.result ?? '';
+        setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:finalAnswer} : e));
       }
       setQuestionCount(c => c+1);
       setQaLoading(false);
+      // Q&A 기록 서버 저장 (savedRef가 true일 때만 — 풀이가 서버에 있을 때)
+      if (savedRef.current && cacheKey) {
+        const historyForSave = [...qaHistory, { q: question, a: finalAnswer }];
+        fetch('/api/save-reading', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: cacheKey, qaHistory: historyForSave }),
+        }).catch(() => {});
+      }
+      // Google Sheets에 질문 로깅 (fire-and-forget)
+      fetch('/api/log-question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          birth: `${year}년 ${month}월 ${day}일 ${hour} (${calendarType}) ${gender}성`,
+          question,
+          answer: finalAnswer,
+        }),
+      }).catch(() => {});
     }).catch(() => {
       setQaHistory(prev => prev.map((e,i) => i===idx ? {...e, a:'오류가 발생했습니다. 잠시 후 다시 시도해주세요.'} : e));
       setQaLoading(false);
@@ -611,28 +795,19 @@ export default function SajuSlideResult() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 잠금 해제 시 병렬 fetch (릴레이: 멀티스레드 서버 / API키: Claude 동시 요청 지원)
+  // 잠금 해제 시 순차 fetch — 앞 섹션부터 하나씩
   useEffect(()=>{
     if (!unlocked) return;
     const keys = ['overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
-    keys.forEach(k => fetchSection(k));
+    (async () => {
+      for (const k of keys) {
+        if (['idle','error'].includes(aiContent[k]?.status ?? 'idle')) {
+          await fetchSection(k);
+        }
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unlocked]);
-
-  // 결제 시뮬레이션
-  function handlePay() {
-    if (phone.replace(/\D/g,"").length<10) return;
-    setPaying(true);
-    let p=0;
-    const iv = setInterval(()=>{
-      p += Math.random()*7+2;
-      if (p>=100) {
-        p=100; clearInterval(iv);
-        setTimeout(()=>{ setUnlocked(true); setSlide(AI_START); },700);
-      }
-      setPayProgress(Math.min(100,Math.round(p)));
-    },170);
-  }
 
   // Q&A 유료 결제 시뮬레이션
   function handleQAPay() {
@@ -657,9 +832,88 @@ export default function SajuSlideResult() {
 
   // 현재 슬라이드의 AI 페이지 정보
   const curAiKey   = SLIDE_AI[slide];
-  const curPages   = (curAiKey && curAiKey !== 'opener') ? (aiPages[curAiKey] || []) : [];
+  const curPages   = (curAiKey && curAiKey !== 'opener' && curAiKey !== 'overview') ? (aiPages[curAiKey] || []) : [];
   const curPgIdx   = curAiKey ? (aiPage[curAiKey] || 0) : 0;
   const hasMorePages = curPages.length > 1 && curPgIdx < curPages.length - 1;
+
+  // 섹션별 합산 페이지
+  const p1Pages  = aiPages['personality1'] || [];
+  const p2Pages  = aiPages['personality2'] || [];
+  const m1Pages  = aiPages['money1']       || [];
+  const m2Pages  = aiPages['money2']       || [];
+  const l1Pages  = aiPages['love1']        || [];
+  const l2Pages  = aiPages['love2']        || [];
+  const l3Pages  = aiPages['love3']        || [];
+  const t1Pages  = aiPages['timeline1']    || [];
+  const t2Pages  = aiPages['timeline2']    || [];
+
+  // 헤더 페이지 표시 문자열
+  const headerPageText = (() => {
+    // 나라는 사람 (personality1+2)
+    if (slide === 13 && p1Pages.length > 0) {
+      const total = p1Pages.length + p2Pages.length || p1Pages.length;
+      return `${curPgIdx + 1} / ${total}`;
+    }
+    if (slide === 14 && p2Pages.length > 0) {
+      return `${p1Pages.length + curPgIdx + 1} / ${p1Pages.length + p2Pages.length}`;
+    }
+    // 돈과 일 (money1+2)
+    if (slide === 15 && m1Pages.length > 0) {
+      const total = m1Pages.length + m2Pages.length || m1Pages.length;
+      return `${curPgIdx + 1} / ${total}`;
+    }
+    if (slide === 16 && m2Pages.length > 0) {
+      return `${m1Pages.length + curPgIdx + 1} / ${m1Pages.length + m2Pages.length}`;
+    }
+    // 사람과 사랑 (love1+2+3)
+    if (slide === 17 && l1Pages.length > 0) {
+      const total = l1Pages.length + l2Pages.length + l3Pages.length || l1Pages.length;
+      return `${curPgIdx + 1} / ${total}`;
+    }
+    if (slide === 18 && l2Pages.length > 0) {
+      return `${l1Pages.length + curPgIdx + 1} / ${l1Pages.length + l2Pages.length + l3Pages.length}`;
+    }
+    if (slide === 19 && l3Pages.length > 0) {
+      return `${l1Pages.length + l2Pages.length + curPgIdx + 1} / ${l1Pages.length + l2Pages.length + l3Pages.length}`;
+    }
+    // 흐르는 시간 (timeline1+2)
+    if (slide === 22 && t1Pages.length > 0) {
+      const total = t1Pages.length + t2Pages.length || t1Pages.length;
+      return `${curPgIdx + 1} / ${total}`;
+    }
+    if (slide === 23 && t2Pages.length > 0) {
+      return `${t1Pages.length + curPgIdx + 1} / ${t1Pages.length + t2Pages.length}`;
+    }
+    if (curPages.length > 1) return `${curPgIdx + 1} / ${curPages.length}`;
+    if (curPages.length === 1) return `1 / 1`;
+    return null;
+  })();
+
+  async function handlePayment() {
+    if (paying) return;
+    setPaying(true);
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('unlocked', '1');
+      const returnUrl = `${window.location.origin}/saju/result?${urlParams.toString()}`;
+      const phone = urlParams.get('phone') || '';
+      const res = await fetch('/api/payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price: PRICE, returnUrl, recvphone: phone }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || '결제 요청에 실패했습니다.');
+        setPaying(false);
+      }
+    } catch {
+      alert('서버 오류가 발생했습니다.');
+      setPaying(false);
+    }
+  }
 
   // 네비게이션
   function goNext() {
@@ -668,8 +922,13 @@ export default function SajuSlideResult() {
       setAiPage(prev => ({ ...prev, [curAiKey!]: curPgIdx + 1 }));
       return;
     }
-    if (slide===FREE_END) { setSlide(unlocked?AI_START:PAYWALL); return; }
-    if (slide===PAYWALL)  return;
+    if (slide===FREE_END) { setUnlocked(true); setSlide(AI_START); return; }
+    if (slide===2)        { setSlide(4); return; }    // 일간 소개(3) 건너뜀
+    if (slide===4)        { setSlide(6); return; }    // 에너지 총량(5) 건너뜀
+    if (slide===7)        { setSlide(11); return; }   // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
+    if (slide===12 && ovPage===0) { setOvPage(1); return; }  // 핵심요약 페이지 2
+    if (slide===12 && ovPage===1) { setOvPage(0); }          // 다음 슬라이드 전에 리셋
+    if (slide===25)       { setSlide(27); return; }   // Q&A 슬라이드 숨김
     if (slide<TOTAL-1)    setSlide(s=>s+1);
   }
   function goPrev() {
@@ -678,24 +937,29 @@ export default function SajuSlideResult() {
       setAiPage(prev => ({ ...prev, [curAiKey]: curPgIdx - 1 }));
       return;
     }
+    if (slide===4)   { setSlide(2); return; }    // 일간 소개(3) 건너뜀
+    if (slide===6)   { setSlide(4); return; }    // 에너지 총량(5) 건너뜀
+    if (slide===11)  { setSlide(7); return; }    // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
+    if (slide===12 && ovPage===1) { setOvPage(0); return; }  // 핵심요약 페이지 1로
+    if (slide===27)  { setSlide(25); return; }   // Q&A 슬라이드 숨김
     if (slide>0) setSlide(s=>s-1);
   }
   function goSlide(n:number) {
-    if (n>=AI_START && n<=17 && !unlocked) { setSlide(PAYWALL); return; }
     setSlide(n); setShowToc(false);
     // 목차로 이동 시 해당 섹션 첫 페이지로
     const key = SLIDE_AI[n];
     if (key) setAiPage(prev => ({ ...prev, [key]: 0 }));
   }
 
-  const canGoNext  = hasMorePages || (slide!==PAYWALL && slide<TOTAL-1);
+  const canGoNext  = hasMorePages || slide<TOTAL-1;
   const isLastSlide = slide===TOTAL-1 && !hasMorePages;
 
   // 현재 섹션 이름
   function currentSection() {
-    if (slide<=FREE_END||slide===PAYWALL) return null;
-    if (slide===17) return '선인에게 묻다';
-    if (slide>=18) return '사주 원국';
+    if (slide<=FREE_END) return null;
+    if (slide>=2 && slide<=10) return '사주 원국';
+    if (slide===GUIDE) return '풀이 안내';
+    if (slide===26) return '선인에게 묻다';
     const sorted = Object.keys(SECTION_LABELS).map(Number).sort((a,b)=>a-b);
     let label = null;
     for (const s of sorted) {
@@ -704,8 +968,8 @@ export default function SajuSlideResult() {
     return label;
   }
 
-  // PDF 다운로드
-  function handleDownloadPDF() {
+  // 전체 풀이 공유
+  function handleShareFull() {
     const aiKeys = [
       { title:'나라는 사람',   keys:['personality1','personality2'] },
       { title:'돈과 일',       keys:['money1','money2'] },
@@ -716,60 +980,54 @@ export default function SajuSlideResult() {
       { title:'나침반',        keys:['compass'] },
       { title:'결',            keys:['closing'] },
     ];
-
-    const sectionsHtml = aiKeys.map(sec=>{
-      const content = sec.keys
-        .map(k=>aiContent[k]?.content||'')
-        .filter(Boolean)
-        .join('\n\n')
-        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-        .replace(/\n/g,'<br>');
-      return `<div class="section">
-        <h2>${sec.title}</h2>
-        <div class="content">${content||'<span style="color:#999">준비 중...</span>'}</div>
-      </div>`;
-    }).join('');
-
-    const openerText = (aiContent['opener']?.content||'').replace(/\n/g,'<br>');
-    const ilganInfo = sajuData ? ILGAN_INFO[sajuData.ilgan] : null;
-
-    const win = window.open('','_blank');
-    if (!win) { alert('팝업이 차단되었습니다. 팝업 허용 후 다시 시도해주세요.'); return; }
-    win.document.write(`<!DOCTYPE html><html lang="ko"><head>
-<meta charset="UTF-8">
-<title>${name}님의 평생 사주 풀이</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family:'Noto Sans KR',sans-serif; padding:48px; max-width:720px; margin:0 auto; color:#1a0a2e; line-height:1.85; font-size:14px; }
-  .cover { text-align:center; padding:60px 0 40px; border-bottom:2px solid #7c3aed; margin-bottom:40px; }
-  .cover h1 { font-size:28px; font-weight:700; color:#1a0a2e; }
-  .cover .sub { color:#7c3aed; font-size:16px; margin-top:8px; }
-  .cover .meta { color:#666; font-size:13px; margin-top:6px; }
-  .opener { background:#f5f0ff; border-left:4px solid #7c3aed; padding:20px 24px; margin:24px 0; border-radius:0 8px 8px 0; font-style:italic; color:#4a1d96; }
-  .section { margin:48px 0; page-break-before:always; }
-  .section:first-child { page-break-before:avoid; }
-  .section h2 { font-size:20px; font-weight:700; color:#7c3aed; border-bottom:2px solid #ede9fe; padding-bottom:10px; margin-bottom:20px; }
-  .content { color:#333; line-height:1.9; }
-  strong { color:#7c3aed; font-weight:700; }
-  .footer { text-align:center; margin-top:80px; padding-top:24px; border-top:1px solid #eee; color:#999; font-size:12px; }
-  @media print {
-    body { padding:32px; }
-    .section { page-break-before:always; }
-    .section:first-of-type { page-break-before:avoid; }
+    const opener = aiContent['opener']?.content || '';
+    const body = aiKeys.map(sec => {
+      const content = sec.keys.map(k => aiContent[k]?.content || '').filter(Boolean).join('\n\n');
+      return `[ ${sec.title} ]\n${content}`;
+    }).join('\n\n──────────\n\n');
+    const text = `✨ ${name}님의 평생 사주 풀이\n\n${opener}\n\n──────────\n\n${body}\n\n묵도인 평생 사주 · https://saju-kappa-hazel.vercel.app/saju`;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({ title:`${name}님의 평생 사주 풀이`, text }).catch(()=>{});
+    } else {
+      navigator.clipboard?.writeText(text).then(()=>alert('풀이 전체가 복사되었습니다!')).catch(()=>{});
+    }
   }
-</style></head><body>
-<div class="cover">
-  <h1>${name}님의 평생 사주 풀이</h1>
-  <div class="sub">${ilganInfo?`${ilganInfo.hanja} ${ilganInfo.name}`:''}</div>
-  <div class="meta">${year}년 ${month}월 ${day}일 (${calendarType}) · ${gender}성 · ${hour}</div>
-</div>
-${openerText ? `<div class="opener">${openerText}</div>` : ''}
-${sectionsHtml}
-<div class="footer">묵도인 평생 사주 풀이 · AI 명리학 · ${new Date().getFullYear()}년</div>
-<script>setTimeout(()=>{ window.print(); },800);</script>
-</body></html>`);
-    win.document.close();
+
+  // 사주 아이템 6가지 공유
+  function handleShareItems() {
+    const overviewContent = aiContent['overview']?.content || '';
+    function extractItem(emoji: string): string {
+      const line = overviewContent.split('\n').find(l => l.includes(emoji));
+      if (!line) return '';
+      const dashIdx = line.indexOf('—');
+      const colonIdx = line.indexOf(':');
+      if (colonIdx < 0) return '';
+      const raw = dashIdx >= 0 ? line.slice(colonIdx + 1, dashIdx) : line.slice(colonIdx + 1);
+      return raw.replace(/\*\*/g, '').trim();
+    }
+    const items = [
+      { emoji:'🐯', label:'수호 동물' },
+      { emoji:'🌸', label:'궁합 식물' },
+      { emoji:'🎨', label:'행운 색깔' },
+      { emoji:'🔢', label:'행운 숫자' },
+      { emoji:'🐾', label:'궁합 동물' },
+      { emoji:'💎', label:'궁합 보석' },
+    ];
+    const lines = items.map(({ emoji, label }) => `${emoji} ${label}: ${extractItem(emoji) || '?'}`).join('\n');
+    const text = `✨ 내 사주 아이템 6가지\n\n${lines}\n\n나도 알아보기 → https://saju-kappa-hazel.vercel.app/saju`;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({ title:'내 사주 아이템 6가지', text }).catch(()=>{});
+    } else {
+      navigator.clipboard?.writeText(text).then(()=>alert('복사되었습니다!')).catch(()=>{});
+    }
+  }
+
+  function handleCopyUrl() {
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+    navigator.clipboard?.writeText(url).then(() => {
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 2000);
+    }).catch(() => {});
   }
 
   function handleShare() {
@@ -785,13 +1043,72 @@ ${sectionsHtml}
   // ── 슬라이드 렌더 ────────────────────────────────────────────
   function renderSlide() {
 
-    // 로딩 (saju 계산 대기) — opener(slide 1)는 sajuData 없어도 렌더 가능
-    if (!sajuData && slide>=18 && slide<=27) {
+    // saved=1 URL: 서버 불러오기 중 / 실패
+    if (serverRetrying) {
+      return (
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-6">
+          <div className="w-8 h-8 rounded-full border-2 animate-spin flex-shrink-0"
+            style={{borderColor:`${ACCENT}33`,borderTopColor:ACCENT}}/>
+          <p className="text-sm text-white/70">이전 풀이를 불러오는 중...</p>
+          <p className="text-xs" style={{color:`${ACCENT}44`}}>잠시만 기다려주세요</p>
+        </div>
+      );
+    }
+    if (serverFailed) {
+      return (
+        <div className="flex-1 flex flex-col items-center justify-center gap-5 text-center px-6">
+          <p className="text-sm text-white/70">풀이를 불러오지 못했습니다</p>
+          <p className="text-xs" style={{color:`${ACCENT}55`}}>서버가 잠시 혼잡합니다. 다시 시도해주세요.</p>
+          <button
+            onClick={() => {
+              setServerFailed(false);
+              setServerRetrying(true);
+              let attempts = 0;
+              const tryLoad = () => {
+                fetch(`/api/load-reading?key=${encodeURIComponent(cacheKey)}`)
+                  .then(r => r.json())
+                  .then((res: { found: boolean; aiContent?: Record<string, SectionState> }) => {
+                    if (res.found && res.aiContent) {
+                      savedRef.current = true;
+                      setAiContent(res.aiContent);
+                      const pages: Record<string, string[]> = {};
+                      for (const [k, v] of Object.entries(res.aiContent)) {
+                        if (v.status === 'done' && v.content && k !== 'opener') pages[k] = splitIntoPages(v.content);
+                      }
+                      setAiPages(pages);
+                      setUnlocked(true);
+                      setServerRetrying(false);
+                      setSlide(AI_START);
+                      try { localStorage.setItem(cacheKey, JSON.stringify({ aiContent: res.aiContent })); } catch {}
+                    } else {
+                      attempts++;
+                      if (attempts < 3) setTimeout(tryLoad, 2000);
+                      else { setServerRetrying(false); setServerFailed(true); }
+                    }
+                  })
+                  .catch(() => {
+                    attempts++;
+                    if (attempts < 3) setTimeout(tryLoad, 2000);
+                    else { setServerRetrying(false); setServerFailed(true); }
+                  });
+              };
+              tryLoad();
+            }}
+            className="px-6 py-3 rounded-2xl text-sm font-bold transition-all active:scale-95"
+            style={{backgroundColor:ACCENT,color:BG}}>
+            다시 시도하기
+          </button>
+        </div>
+      );
+    }
+
+    // 로딩 (saju 계산 대기) — opener(slide 0-1)는 sajuData 없어도 렌더 가능
+    if (!sajuData && slide >= 2) {
       return (
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
           <div className="w-8 h-8 rounded-full border-2 animate-spin"
             style={{borderColor:`${ACCENT}33`,borderTopColor:ACCENT}}/>
-          <p className="text-xs" style={{color:`${ACCENT}66`}}>사주 계산 중...</p>
+          <p className="text-xs" style={{color:`${ACCENT}66`}}>사주 풀이 준비 중...</p>
         </div>
       );
     }
@@ -800,18 +1117,18 @@ ${sectionsHtml}
     if (slide===0) return (
       <div className="flex-1 flex flex-col items-center justify-center text-center gap-6 py-8">
         <div className="w-24 h-24 rounded-full flex items-center justify-center text-5xl font-bold"
-          style={{backgroundColor:`${ACCENT}15`,border:`2px solid ${ACCENT}44`,color:ACCENT}}>
+          style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}88`,color:'#f0c040'}}>
           命
         </div>
         <div>
           <h2 className="text-2xl font-bold text-white mb-1">{name}님의</h2>
-          <h2 className="text-2xl font-bold" style={{color:ACCENT}}>평생 사주 풀이</h2>
+          <h2 className="text-2xl font-bold" style={{color:'#f0c040'}}>평생 사주 풀이</h2>
         </div>
         <div className="space-y-1">
-          <p className="text-sm text-white/60">{year}년 {month}월 {day}일 ({calendarType})</p>
-          <p className="text-sm text-white/60">{gender}성 · {hour}</p>
+          <p className="text-sm" style={{color:'rgba(255,255,255,0.80)'}}>{year}년 {month}월 {day}일 ({calendarType})</p>
+          <p className="text-sm" style={{color:'rgba(255,255,255,0.80)'}}>{gender}성 · {hour}</p>
         </div>
-        <p className="text-xs mt-2" style={{color:`${ACCENT}55`}}>묵도인이 풀어드립니다</p>
+        <p className="text-sm mt-2" style={{color:'rgba(255,255,255,0.60)'}}>묵도인이 풀어드립니다</p>
       </div>
     );
 
@@ -820,20 +1137,20 @@ ${sectionsHtml}
       const st = aiContent['opener']?.status;
       return (
         <div className="flex-1 flex flex-col text-center">
-          <ImageBanner name="묵도인_등장" height={180} />
+          <ImageBanner name="묵도인_등장" />
           <div className="flex flex-col items-center gap-6 py-6 px-4">
-            <div className="text-3xl" style={{color:ACCENT}}>☽</div>
+            <div className="text-3xl" style={{color:'#f0c040'}}>☽</div>
             <div>
-              <p className="text-xs mb-2" style={{color:`${ACCENT}66`}}>선인의 첫마디</p>
+              <p className="text-sm font-semibold mb-3" style={{color:'rgba(255,255,255,0.85)'}}>선인의 첫마디</p>
               {st==='loading' && !aiContent['opener']?.content ? (
                 <div className="flex gap-1.5 justify-center items-center h-12">
                   {[0,1,2].map(i=>(
                     <div key={i} className="w-2 h-2 rounded-full animate-bounce"
-                      style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
+                      style={{backgroundColor:'#f0c040',animationDelay:`${i*150}ms`}}/>
                   ))}
                 </div>
               ) : (
-                <p className="text-base leading-relaxed text-white/90 whitespace-pre-line max-w-xs mx-auto">
+                <p className="saju-body text-base leading-relaxed whitespace-pre-line max-w-xs mx-auto" style={{color:'rgba(255,255,255,0.90)'}}>
                   {aiContent['opener']?.content||'...'}
                 </p>
               )}
@@ -842,7 +1159,7 @@ ${sectionsHtml}
               <div className="flex gap-2 flex-wrap justify-center mt-2">
                 {ILGAN_INFO[sajuData.ilgan]?.tags.map(t=>(
                   <span key={t} className="text-xs px-2.5 py-1 rounded-full"
-                    style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>{t}</span>
+                    style={{backgroundColor:`${ACCENT}25`,color:'#f0c040'}}>{t}</span>
                 ))}
               </div>
             )}
@@ -851,145 +1168,209 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 18: 사주원국 ─
-    if (slide===18) {
+    // ─ Slide 2: 사주원국 ─
+    if (slide===2) {
       const { pillars, sipseong, isHourUnknown } = sajuData!;
+      const BRIGHT = "#f0c040";
       const cols = [
-        { label:'시(時)', p:pillars.hour,  ss:sipseong.hour,  empty:isHourUnknown },
-        { label:'일(日)', p:pillars.day,   ss:sipseong.day,   empty:false },
-        { label:'월(月)', p:pillars.month, ss:sipseong.month, empty:false },
-        { label:'연(年)', p:pillars.year,  ss:sipseong.year,  empty:false },
+        { label:'시주(時柱)', sub:'노년·자녀', p:pillars.hour,  ss:sipseong.hour,  empty:isHourUnknown, isDay:false },
+        { label:'일주(日柱)', sub:'나·중년',   p:pillars.day,   ss:sipseong.day,   empty:false,          isDay:true  },
+        { label:'월주(月柱)', sub:'사회·청년', p:pillars.month, ss:sipseong.month, empty:false,          isDay:false },
+        { label:'연주(年柱)', sub:'뿌리·유년', p:pillars.year,  ss:sipseong.year,  empty:false,          isDay:false },
       ];
       return (
-        <div className="flex-1 py-4">
-          <h2 className="text-center text-base font-bold text-white mb-4">사주원국 (四柱原局)</h2>
-          <div className="rounded-2xl overflow-hidden" style={{border:`1px solid ${ACCENT}33`,backgroundColor:`${ACCENT}08`}}>
-            <table className="w-full text-center text-xs">
-              <thead><tr>{cols.map(c=>(
-                <th key={c.label} className="py-2 font-normal" style={{color:`${ACCENT}77`,width:'25%',borderBottom:`1px solid ${ACCENT}22`}}>{c.label}</th>
-              ))}</tr></thead>
-              <tbody>
-                <tr style={{borderTop:`1px solid ${ACCENT}15`}}>
-                  {cols.map(c=>(
-                    <td key={c.label} className="py-3">
-                      {c.empty||!c.p?<span style={{color:`${ACCENT}44`}}>─</span>:(
-                        <div>
-                          <div className="text-xl font-bold" style={{color:ACCENT}}>{STEM_HANJA[c.p.stem as keyof typeof STEM_HANJA]??c.p.stem}</div>
-                          <div className="text-[10px] mt-0.5" style={{color:`${ACCENT}77`}}>{c.p.stem}</div>
-                        </div>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                <tr style={{backgroundColor:`${ACCENT}06`}}>
-                  {cols.map((c,i)=>(
-                    <td key={c.label} className="py-1">
-                      {c.empty||!c.ss?<span style={{color:`${ACCENT}33`}}>─</span>:(
-                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded"
-                          style={{color:i===1?ACCENT:(SIPSEONG_COLOR[c.ss.stem]??`${ACCENT}99`),backgroundColor:i===1?`${ACCENT}22`:'transparent'}}>
-                          {i===1?'일간':c.ss.stem}
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">사주원국 (四柱原局)</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>태어난 연·월·일·시로 본 당신의 타고난 운명 설계도</p>
+          </div>
+          <div className="flex gap-1.5">
+            {cols.map(c=>(
+              <div key={c.label} className="flex-1 flex flex-col items-center rounded-xl py-3 px-1 gap-1"
+                style={{
+                  backgroundColor: c.isDay?`${ACCENT}1a`:'rgba(255,255,255,0.07)',
+                  border: c.isDay?`1.5px solid ${ACCENT}cc`:'1px solid rgba(255,255,255,0.18)',
+                }}>
+                <div className="text-[11px] font-bold text-center leading-tight" style={{color:c.isDay?BRIGHT:'rgba(255,255,255,0.90)'}}>{c.label}</div>
+                <div className="text-[10px] text-center" style={{color:'rgba(255,255,255,0.60)'}}>{c.sub}</div>
+                {c.empty||!c.p?(
+                  <div className="flex-1 flex items-center justify-center text-lg" style={{color:'rgba(255,255,255,0.25)'}}>─</div>
+                ):(
+                  <>
+                    <div className="mt-2 text-center">
+                      <div className="text-3xl font-bold leading-none" style={{color:BRIGHT}}>{STEM_HANJA[c.p.stem as keyof typeof STEM_HANJA]??c.p.stem}</div>
+                      <div className="text-[18px] mt-1 font-medium leading-none" style={{color:'rgba(255,220,100,0.90)'}}>{c.p.stem}</div>
+                    </div>
+                    <div className="w-full my-2" style={{height:'1px',backgroundColor:'rgba(255,255,255,0.18)'}}/>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold leading-none text-white">{BRANCH_HANJA[c.p.branch as keyof typeof BRANCH_HANJA]??c.p.branch}</div>
+                      <div className="text-[18px] mt-1 font-medium leading-none" style={{color:'rgba(255,255,255,0.80)'}}>{c.p.branch}</div>
+                    </div>
+                    {c.ss&&(
+                      <div className="mt-2">
+                        <span className="text-[11px] px-2 py-0.5 rounded-full"
+                          style={{
+                            backgroundColor:c.isDay?`${ACCENT}28`:'rgba(255,255,255,0.12)',
+                            color:c.isDay?BRIGHT:(SIPSEONG_COLOR[c.ss.stem]??'rgba(255,255,255,0.80)'),
+                          }}>
+                          {c.isDay?'일간':c.ss.stem}
                         </span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                <tr style={{borderTop:`1px solid ${ACCENT}20`}}>
-                  {cols.map(c=>(
-                    <td key={c.label} className="py-3">
-                      {c.empty||!c.p?<span style={{color:`${ACCENT}44`}}>─</span>:(
-                        <div>
-                          <div className="text-xl font-bold text-white">{BRANCH_HANJA[c.p.branch as keyof typeof BRANCH_HANJA]??c.p.branch}</div>
-                          <div className="text-[10px] mt-0.5" style={{color:`${ACCENT}77`}}>{c.p.branch}</div>
-                        </div>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                <tr style={{backgroundColor:`${ACCENT}06`}}>
-                  {cols.map(c=>(
-                    <td key={c.label} className="py-1">
-                      {c.empty||!c.ss?<span style={{color:`${ACCENT}33`}}>─</span>:(
-                        <span className="text-[10px] font-medium" style={{color:SIPSEONG_COLOR[c.ss.branch]??`${ACCENT}77`}}>
-                          {c.ss.branch}
-                        </span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
           </div>
-          <p className="text-center text-xs mt-3" style={{color:`${ACCENT}55`}}>
-            일주: {sajuData!.ilgan}{pillars.day.branch} · 일간 {STEM_HANJA[sajuData!.ilgan as keyof typeof STEM_HANJA]??sajuData!.ilgan}({sajuData!.ilgan})
-          </p>
-        </div>
-      );
-    }
-
-    // ─ Slide 19: 일간 소개 ─
-    if (slide===19) {
-      const info = ILGAN_INFO[sajuData!.ilgan];
-      return (
-        <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 py-6">
-          <p className="text-xs" style={{color:`${ACCENT}66`}}>일간(日干) 소개</p>
-          <div className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-bold"
-            style={{backgroundColor:`${ACCENT}15`,border:`2px solid ${ACCENT}55`,color:ACCENT}}>
-            {info?.hanja||'?'}
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-white">{info?.name}</h3>
-            <p className="text-sm text-white/70 mt-2 leading-relaxed max-w-[260px]">{info?.desc}</p>
-          </div>
-          <div className="flex gap-2 flex-wrap justify-center">
-            {info?.tags.map(t=>(
-              <span key={t} className="text-xs px-3 py-1 rounded-full"
-                style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>{t}</span>
+          <div className="rounded-xl p-3 space-y-2" style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
+            <p className="text-xs font-semibold mb-2" style={{color:BRIGHT}}>각 기둥이 말하는 것</p>
+            {([
+              { k:'연주(年柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 해의 기운. 조상에게 물려받은 기질과 어린 시절 환경을 담고 있습니다.' },
+              { k:'월주(月柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 달의 기운. 청년기의 성장 환경과 사회에서의 역할·직업운을 나타냅니다.' },
+              { k:'일주(日柱)', color:BRIGHT,                   desc:'태어난 날의 기운. 나 자신의 본질과 배우자 자리. 사주에서 가장 핵심 기둥입니다.' },
+              { k:'시주(時柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 시의 기운. 노년의 삶과 자녀와의 인연, 말년 복을 나타냅니다.' },
+            ] as const).map(({k,color,desc})=>(
+              <div key={k}>
+                <span className="text-xs font-bold" style={{color}}>{k}</span>
+                <p className="text-[11px] leading-relaxed mt-0.5" style={{color:'rgba(255,255,255,0.75)'}}>{desc}</p>
+              </div>
             ))}
           </div>
         </div>
       );
     }
 
-    // ─ Slide 20: 오행 분포 ─
-    if (slide===20) {
-      const { elements, yongsin } = sajuData!;
-      const total = Object.values(elements).reduce((a,b)=>a+b,0)||1;
-      const strong = Object.entries(elements).filter(([,n])=>n>=2).map(([el])=>el);
-      const weak   = Object.entries(elements).filter(([,n])=>n===0).map(([el])=>el);
+    // ─ Slide 3: 일간 소개 ─
+    if (slide===3) {
+      const info = ILGAN_INFO[sajuData!.ilgan];
       return (
-        <div className="flex-1 py-4">
-          <h2 className="text-center text-base font-bold text-white mb-5">오행 분포</h2>
-          <div className="space-y-3">
-            {Object.entries(elements).map(([el,n])=>{
-              const pct = Math.round((n/total)*100);
-              return (
-                <div key={el}>
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold" style={{color:ELEM_COLORS[el]}}>{ELEM_HANJA[el]}</span>
-                      <span className="text-xs text-white/60">{el}</span>
-                      {el===yongsin&&<span className="text-[10px] px-1.5 py-0.5 rounded" style={{backgroundColor:`${ELEM_COLORS[el]}33`,color:ELEM_COLORS[el]}}>용신</span>}
-                    </div>
-                    <span className="text-xs text-white/50">{pct}%</span>
-                  </div>
-                  <div className="h-2 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}15`}}>
-                    <div className="h-full rounded-full transition-all" style={{width:`${pct}%`,backgroundColor:ELEM_COLORS[el]}}/>
-                  </div>
-                </div>
-              );
-            })}
+        <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 py-6">
+          <p className="text-sm font-semibold" style={{color:'rgba(255,255,255,0.85)'}}>일간(日干) 소개</p>
+          <div className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-bold"
+            style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}99`,color:'#f0c040'}}>
+            {info?.hanja||'?'}
           </div>
-          <div className="mt-5 p-3 rounded-xl space-y-1" style={{backgroundColor:`${ACCENT}10`}}>
-            {strong.length>0&&<p className="text-xs" style={{color:ACCENT}}>강한 오행: {strong.map(e=>ELEM_HANJA[e]+e).join(' · ')}</p>}
-            {weak.length>0&&<p className="text-xs text-white/50">부족한 오행: {weak.map(e=>ELEM_HANJA[e]+e).join(' · ')}</p>}
-            <p className="text-xs" style={{color:ELEM_COLORS[yongsin]||ACCENT}}>용신: {ELEM_HANJA[yongsin]}{yongsin}</p>
+          <div>
+            <h3 className="text-lg font-bold text-white">{info?.name}</h3>
+            <p className="text-sm mt-2 leading-relaxed max-w-[260px]" style={{color:'rgba(255,255,255,0.82)'}}>{info?.desc}</p>
+          </div>
+          <div className="flex gap-2 flex-wrap justify-center">
+            {info?.tags.map(t=>(
+              <span key={t} className="text-xs px-3 py-1 rounded-full"
+                style={{backgroundColor:`${ACCENT}25`,color:'#f0c040'}}>{t}</span>
+            ))}
           </div>
         </div>
       );
     }
 
-    // ─ Slide 21: 에너지 총량 ─
-    if (slide===21) {
+    // ─ Slide 4: 오행 분포 (거미줄 레이더) ─
+    if (slide===4) {
+      const { elements, yongsin } = sajuData!;
+      const total = Object.values(elements).reduce((a,b)=>a+b,0)||1;
+      const ELEM_DESC: Record<string,string> = {
+        목:'창의·성장', 화:'열정·표현', 토:'안정·신뢰', 금:'결단·의지', 수:'지혜·직관',
+      };
+      const TYPE_DESC: Record<string,string> = {
+        목:'성장 지향적이고 창의적인 사람', 화:'열정적이고 표현력이 넘치는 사람',
+        토:'믿음직하고 안정감을 주는 사람', 금:'논리적이고 결단력 있는 사람',
+        수:'직관이 강하고 유연한 사람',
+      };
+      const ELEM_ORDER = ['목','화','토','금','수'];
+      const topEl = (Object.entries(elements).sort((a,b)=>b[1]-a[1])[0]?.[0]) ?? '목';
+      const cx=170, cy=175, R=88;
+      const MIN_SCALE = 0.05;
+      const maxVal = Math.max(...ELEM_ORDER.map(el=>((elements as Record<string,number>)[el]||0)), 1);
+      const angs = ELEM_ORDER.map((_,i)=>(i*72-90)*Math.PI/180);
+      const pt = (i:number, s:number):[number,number] => [
+        cx + R*s*Math.cos(angs[i]),
+        cy + R*s*Math.sin(angs[i]),
+      ];
+      const gridPts = (s:number) => ELEM_ORDER.map((_,i)=>pt(i,s).join(',')).join(' ');
+      const dataPts = ELEM_ORDER.map((el,i)=>{
+        const raw = ((elements as Record<string,number>)[el]||0)/maxVal;
+        const s = Math.max(MIN_SCALE, raw);
+        return pt(i,s).join(',');
+      }).join(' ');
+      const LO = 1.48;
+      return (
+        <div className="flex-1 py-2 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-white">오행 분포</h2>
+            <p className="text-sm mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>타고난 다섯 에너지의 균형</p>
+          </div>
+          {/* 거미줄 SVG */}
+          <div className="flex justify-center">
+            <svg width="340" height="330" viewBox="0 0 340 330">
+              {/* 그리드 거미줄 */}
+              {[0.25,0.5,0.75,1.0].map((s,gi)=>(
+                <polygon key={gi} points={gridPts(s)}
+                  fill="none"
+                  stroke={s===1.0?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.10)'}
+                  strokeWidth={s===1.0?1.2:0.8}/>
+              ))}
+              {/* 축선 (중심 → 꼭짓점) */}
+              {ELEM_ORDER.map((_,i)=>{
+                const [x,y]=pt(i,1);
+                return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
+                  stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>;
+              })}
+              {/* 데이터 폴리곤 */}
+              <polygon points={dataPts}
+                fill={`${ELEM_COLORS[topEl]}35`}
+                stroke={ELEM_COLORS[topEl]}
+                strokeWidth="2.5"
+                strokeLinejoin="round"/>
+              {/* 외부 레이블 */}
+              {ELEM_ORDER.map((el,i)=>{
+                const [lx,ly]=pt(i,LO);
+                const pct=Math.round(((elements as Record<string,number>)[el]||0)/total*100);
+                const isTop=el===topEl;
+                const anchor = lx<cx-10?'end':lx>cx+10?'start':'middle';
+                const dx = anchor==='end'?-4:anchor==='start'?4:0;
+                return (
+                  <g key={i}>
+                    <text x={lx+dx} y={ly-12} textAnchor={anchor} fontSize="24" fontWeight="bold"
+                      fill={ELEM_COLORS[el]}>
+                      {ELEM_HANJA[el]}
+                    </text>
+                    <text x={lx+dx} y={ly+12} textAnchor={anchor} fontSize="18" fontWeight={isTop?'bold':'normal'}
+                      fill={ELEM_COLORS[el]}>
+                      {pct}%
+                    </text>
+                    <text x={lx+dx} y={ly+28} textAnchor={anchor} fontSize="13"
+                      fill="rgba(255,255,255,0.65)">
+                      {ELEM_DESC[el].split('·')[0]}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+          {/* 용신 */}
+          <div className="rounded-xl px-4 py-3 flex items-center gap-3"
+            style={{backgroundColor:`${ELEM_COLORS[yongsin]}22`,border:`1.5px solid ${ELEM_COLORS[yongsin]}77`}}>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{backgroundColor:`${ELEM_COLORS[yongsin]}33`,border:`1.5px solid ${ELEM_COLORS[yongsin]}`}}>
+              <span style={{fontSize:18,fontWeight:'bold',color:ELEM_COLORS[yongsin]}}>{ELEM_HANJA[yongsin]}</span>
+            </div>
+            <div>
+              <p className="text-sm" style={{color:'rgba(255,255,255,0.65)'}}>나에게 필요한 에너지 (용신)</p>
+              <p className="text-base font-bold" style={{color:ELEM_COLORS[yongsin]}}>{yongsin} — {ELEM_DESC[yongsin]}</p>
+            </div>
+          </div>
+          {/* 정체성 */}
+          <div className="rounded-xl px-4 py-3 text-center"
+            style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
+            <p className="text-sm" style={{color:'rgba(255,255,255,0.60)'}}>당신은</p>
+            <p className="text-base font-bold text-white mt-1">{ELEM_HANJA[topEl]}{topEl}형 — {TYPE_DESC[topEl]}</p>
+          </div>
+        </div>
+      );
+    }
+
+    // ─ Slide 5: 에너지 총량 ─
+    if (slide===5) {
       const { score, label, max } = calcEnergyScore(sajuData!.elements);
       const pct = Math.round((score/max)*100);
       return (
@@ -1022,39 +1403,90 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 22: 내 기둥 ─
-    if (slide===22) {
+    // ─ Slide 6: 사주팔자 ─
+    if (slide===6) {
       const { pillars, sipseong, isHourUnknown } = sajuData!;
+      const BRIGHT = "#f0c040";
+      const STEM_EL: Record<string,string> = {
+        갑:'목',을:'목',병:'화',정:'화',무:'토',기:'토',경:'금',신:'금',임:'수',계:'수',
+      };
+      const BRANCH_EL: Record<string,string> = {
+        자:'수',축:'토',인:'목',묘:'목',진:'토',사:'화',오:'화',미:'토',신:'금',유:'금',술:'토',해:'수',
+      };
+      const SS_DESC: Record<string,string> = {
+        비견:'형제·독립', 겁재:'경쟁·재물변동',
+        식신:'재능·먹을복', 상관:'예술·자유',
+        편재:'사업·투자', 정재:'성실·고정수입',
+        편관:'권력·도전', 정관:'명예·안정',
+        편인:'전문기술·고독', 정인:'학문·인덕',
+      };
+      const sc = (s:string) => ELEM_COLORS[STEM_EL[s]??''] ?? BRIGHT;
+      const bc = (b:string) => ELEM_COLORS[BRANCH_EL[b]??''] ?? 'rgba(255,255,255,0.90)';
       const rows = [
-        { label:'연주(年柱)', sub:'유년·가족', p:pillars.year,  ss:sipseong.year },
-        { label:'월주(月柱)', sub:'청년·사회', p:pillars.month, ss:sipseong.month },
-        { label:'일주(日柱)', sub:'중년·본인', p:pillars.day,   ss:sipseong.day },
-        { label:'시주(時柱)', sub:'노년·자녀', p:isHourUnknown?null:pillars.hour, ss:isHourUnknown?null:sipseong.hour },
+        { label:'연주(年柱)', sub:'유년·가족', p:pillars.year,  ss:sipseong.year,  isDay:false },
+        { label:'월주(月柱)', sub:'청년·사회', p:pillars.month, ss:sipseong.month, isDay:false },
+        { label:'일주(日柱)', sub:'중년·본인', p:pillars.day,   ss:sipseong.day,   isDay:true  },
+        { label:'시주(時柱)', sub:'노년·자녀', p:isHourUnknown?null:pillars.hour, ss:isHourUnknown?null:sipseong.hour, isDay:false },
       ];
       return (
-        <div className="flex-1 py-4">
-          <h2 className="text-center text-base font-bold text-white mb-4">내 기둥</h2>
-          <div className="space-y-2">
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">사주팔자 (四柱八字)</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.60)'}}>여덟 글자에 담긴 나의 운명 코드</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
             {rows.map(r=>(
-              <div key={r.label} className="flex items-center p-3 rounded-xl gap-3"
-                style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}20`}}>
-                <div className="text-center w-16 flex-shrink-0">
-                  <div className="text-[10px] font-bold text-white/80">{r.label}</div>
-                  <div className="text-[9px]" style={{color:`${ACCENT}55`}}>{r.sub}</div>
+              <div key={r.label} className="rounded-xl p-3 flex flex-col gap-1.5"
+                style={{
+                  backgroundColor: r.isDay?`${ACCENT}1a`:'rgba(255,255,255,0.05)',
+                  border: r.isDay?`1.5px solid ${ACCENT}cc`:'1px solid rgba(255,255,255,0.14)',
+                }}>
+                {/* 헤더 */}
+                <div>
+                  <div className="text-xs font-bold" style={{color:r.isDay?BRIGHT:'rgba(255,255,255,0.90)'}}>{r.label}</div>
+                  <div className="text-[10px] mt-0.5" style={{color:r.isDay?`${ACCENT}cc`:'rgba(255,255,255,0.50)'}}>{r.sub}</div>
                 </div>
                 {r.p?(
-                  <div className="flex items-center gap-3">
-                    <div className="text-center">
-                      <div className="text-xl font-bold" style={{color:ACCENT}}>{STEM_HANJA[r.p.stem as keyof typeof STEM_HANJA]}</div>
-                      <div className="text-xl font-bold text-white">{BRANCH_HANJA[r.p.branch as keyof typeof BRANCH_HANJA]}</div>
+                  <>
+                    {/* 한자 */}
+                    <div className="flex items-center justify-center gap-3 py-1">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold leading-none" style={{color:sc(r.p.stem)}}>
+                          {STEM_HANJA[r.p.stem as keyof typeof STEM_HANJA]}
+                        </div>
+                        <div className="text-[10px] mt-1" style={{color:'rgba(255,255,255,0.55)'}}>{r.p.stem}</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-3xl font-bold leading-none" style={{color:bc(r.p.branch)}}>
+                          {BRANCH_HANJA[r.p.branch as keyof typeof BRANCH_HANJA]}
+                        </div>
+                        <div className="text-[10px] mt-1" style={{color:'rgba(255,255,255,0.55)'}}>{r.p.branch}</div>
+                      </div>
                     </div>
-                    <div className="text-[10px] space-y-0.5">
-                      <div style={{color:SIPSEONG_COLOR[r.ss!.stem]??`${ACCENT}99`}}>{r.ss!.stem}</div>
-                      <div style={{color:SIPSEONG_COLOR[r.ss!.branch]??`${ACCENT}77`}}>{r.ss!.branch}</div>
-                    </div>
-                  </div>
+                    {/* 십성 */}
+                    {r.ss&&(
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="text-[11px] px-2 py-0.5 rounded-full font-medium flex-shrink-0"
+                            style={{backgroundColor:`${SIPSEONG_COLOR[r.ss.stem]??ACCENT}25`,color:SIPSEONG_COLOR[r.ss.stem]??ACCENT}}>
+                            {r.ss.stem}
+                          </span>
+                          <span className="text-[10px] text-right" style={{color:'rgba(255,255,255,0.55)'}}>{SS_DESC[r.ss.stem]}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="text-[11px] px-2 py-0.5 rounded-full font-medium flex-shrink-0"
+                            style={{backgroundColor:`${SIPSEONG_COLOR[r.ss.branch]??ACCENT}25`,color:SIPSEONG_COLOR[r.ss.branch]??ACCENT}}>
+                            {r.ss.branch}
+                          </span>
+                          <span className="text-[10px] text-right" style={{color:'rgba(255,255,255,0.55)'}}>{SS_DESC[r.ss.branch]}</span>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 ):(
-                  <span className="text-xs" style={{color:`${ACCENT}44`}}>시간 미상</span>
+                  <div className="flex-1 flex items-center justify-center">
+                    <span className="text-xs" style={{color:'rgba(255,255,255,0.35)'}}>시간 미상</span>
+                  </div>
                 )}
               </div>
             ))}
@@ -1063,83 +1495,167 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 23: 십성 배치도 ─
-    if (slide===23) {
+    // ─ Slide 7: 십성 배치도 (레이더) ─
+    if (slide===7) {
       const counts = getSipseongCounts(sajuData!.sipseong);
-      const maxCount = Math.max(...Object.values(counts),1);
       const catColors: Record<string,string> = {
         비겁:'#60a5fa', 식상:'#34d399', 재성:'#fbbf24', 관성:'#f87171', 인성:'#a78bfa'
       };
+      const SS_DESC_LONG: Record<string,string> = {
+        비겁:'독립적이고 자주적인 성향이 강합니다',
+        식상:'창의성과 표현력이 뛰어납니다',
+        재성:'현실 감각과 재물 복이 있습니다',
+        관성:'조직과 명예를 중시합니다',
+        인성:'학문과 배움을 좋아합니다',
+      };
+      const SS_LIST: { key:string; desc:string }[] = [
+        { key:'비겁', desc:'자립심·경쟁심·의리가 강하고 동료 복이 있습니다' },
+        { key:'식상', desc:'말솜씨·예술 감각·자유로움이 뛰어납니다' },
+        { key:'재성', desc:'돈을 잘 벌고 관리하며 현실적입니다' },
+        { key:'관성', desc:'책임감·명예욕·조직 적응력이 강합니다' },
+        { key:'인성', desc:'공부 운·어머니 덕·배움의 욕구가 있습니다' },
+      ];
+      const SS_ORDER = ['비겁','식상','재성','관성','인성'];
+      const maxCount = Math.max(...Object.values(counts),1);
+      const topCat = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0] ?? '비겁';
+      const cx=170, cy=175, R=88;
+      const MIN_SCALE = 0.05;
+      const angs = SS_ORDER.map((_,i)=>(i*72-90)*Math.PI/180);
+      const pt = (i:number, s:number):[number,number] => [
+        cx + R*s*Math.cos(angs[i]),
+        cy + R*s*Math.sin(angs[i]),
+      ];
+      const gridPts = (s:number) => SS_ORDER.map((_,i)=>pt(i,s).join(',')).join(' ');
+      const dataPts = SS_ORDER.map((cat,i)=>{
+        const raw = (counts[cat]||0)/maxCount;
+        const s = Math.max(MIN_SCALE, raw);
+        return pt(i,s).join(',');
+      }).join(' ');
+      const LO = 1.48;
       return (
-        <div className="flex-1 py-4">
-          <h2 className="text-center text-base font-bold text-white mb-5">십성 배치도</h2>
-          <div className="space-y-4">
-            {Object.entries(counts).map(([cat,n])=>(
-              <div key={cat}>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium" style={{color:catColors[cat]}}>{cat}</span>
-                  <span className="text-xs text-white/40">{n}개</span>
-                </div>
-                <div className="h-2.5 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}15`}}>
-                  <div className="h-full rounded-full" style={{
-                    width:`${(n/maxCount)*100}%`,
-                    backgroundColor:catColors[cat],
-                    minWidth:n>0?'8px':'0'
-                  }}/>
-                </div>
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">십성 배치도</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>나를 구성하는 다섯 가지 관계 에너지</p>
+          </div>
+          <div className="flex justify-center">
+            <svg width="360" height="300" viewBox="-10 10 360 300">
+              {[0.25,0.5,0.75,1.0].map((s,gi)=>(
+                <polygon key={gi} points={gridPts(s)}
+                  fill="none"
+                  stroke={s===1.0?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.10)'}
+                  strokeWidth={s===1.0?1.2:0.8}/>
+              ))}
+              {SS_ORDER.map((_,i)=>{
+                const [x,y]=pt(i,1);
+                return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
+                  stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>;
+              })}
+              <polygon points={dataPts}
+                fill={`${catColors[topCat]}35`}
+                stroke={catColors[topCat]}
+                strokeWidth="2.5"
+                strokeLinejoin="round"/>
+              {SS_ORDER.map((cat,i)=>{
+                const [lx,ly]=pt(i,LO);
+                const n = counts[cat]||0;
+                const isTop = cat===topCat;
+                const anchor = lx<cx-10?'end':lx>cx+10?'start':'middle';
+                const dx = anchor==='end'?-4:anchor==='start'?4:0;
+                return (
+                  <g key={i}>
+                    <text x={lx+dx} y={ly-6} textAnchor={anchor} fontSize="18" fontWeight="bold"
+                      fill={catColors[cat]}>
+                      {cat}
+                    </text>
+                    <text x={lx+dx} y={ly+14} textAnchor={anchor} fontSize="16" fontWeight={isTop?'bold':'normal'}
+                      fill={catColors[cat]}>
+                      {n}개
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+          {/* 기운 설명 리스트 */}
+          <div className="rounded-xl px-4 py-3 space-y-2"
+            style={{backgroundColor:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.12)'}}>
+            {SS_LIST.map(({key,desc})=>(
+              <div key={key} className="flex items-start gap-2">
+                <span className="text-xs font-bold flex-shrink-0 w-10" style={{color:catColors[key]}}>{key}</span>
+                <span className="text-[11px] leading-relaxed" style={{color:'rgba(255,255,255,0.75)'}}>{desc}</span>
               </div>
             ))}
           </div>
-          <div className="mt-5 p-3 rounded-xl" style={{backgroundColor:`${ACCENT}10`}}>
-            {(() => {
-              const top = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
-              const desc: Record<string,string> = {
-                비겁:'독립적이고 자주적인 성향이 강합니다',
-                식상:'창의성과 표현력이 뛰어납니다',
-                재성:'현실 감각과 재물 복이 있습니다',
-                관성:'조직과 명예를 중시합니다',
-                인성:'학문과 배움을 좋아합니다',
-              };
-              return <p className="text-xs text-white/70">{top[0]} 비중이 높습니다 — {desc[top[0]]}</p>;
-            })()}
+          {/* 가장 많은 기운 */}
+          <div className="rounded-xl px-4 py-3 text-center"
+            style={{backgroundColor:`${catColors[topCat]}22`,border:`1.5px solid ${catColors[topCat]}66`}}>
+            <p className="text-sm" style={{color:'rgba(255,255,255,0.65)'}}>가장 많은 기운</p>
+            <p className="text-base font-bold mt-1" style={{color:catColors[topCat]}}>
+              {topCat} — {SS_DESC_LONG[topCat]}
+            </p>
           </div>
         </div>
       );
     }
 
-    // ─ Slide 24: 신살 지도 ─
-    if (slide===24) {
+    // ─ Slide 8: 운명의 별자리 ─
+    if (slide===8) {
       const sinsal = sajuData!.sinsal;
+      type SinsalInfo = { icon:string; desc:string; category:string };
+      const CAT_ORDER = ['귀인','12신살','흉살','특수'];
+      const CAT_COLOR: Record<string,string> = {
+        귀인:'#fbbf24', '12신살':'#a78bfa', 흉살:'#f87171', 특수:'#60a5fa',
+      };
+      const grouped: Record<string,string[]> = {};
+      for (const ss of sinsal) {
+        const info = (SINSAL_INFO as Record<string,SinsalInfo>)[ss];
+        const cat = info?.category || '특수';
+        (grouped[cat] = grouped[cat] || []).push(ss);
+      }
       return (
-        <div className="flex-1 py-4">
-          <h2 className="text-center text-base font-bold text-white mb-4">신살 지도</h2>
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">운명의 별자리</h2>
+            <p className="text-xs mt-1 leading-relaxed" style={{color:'rgba(255,255,255,0.65)'}}>
+              사주 속에 숨어있는 특별한 기운들.<br/>
+              태어날 때부터 가지고 있는 재능과 약점, 삶의 방향을 알려주는 별들입니다.
+            </p>
+          </div>
           {sinsal.length===0?(
             <div className="flex-1 flex items-center justify-center">
-              <p className="text-sm text-white/40 text-center">특별한 신살이 없습니다<br/>평범하지만 안정된 기운입니다</p>
+              <p className="text-sm text-white/40 text-center">특별한 별자리가 없습니다<br/>평범하지만 안정된 기운입니다</p>
             </div>
           ):(
-            <div className="space-y-3">
-              {sinsal.map(ss=>{
-                const info = (SINSAL_INFO as Record<string,{icon:string;desc:string}>)[ss];
-                return (
-                  <div key={ss} className="flex items-start gap-3 p-3 rounded-xl"
-                    style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}20`}}>
-                    <span className="text-2xl flex-shrink-0">{info?.icon||'⭐'}</span>
-                    <div>
-                      <div className="text-sm font-bold text-white">{ss}</div>
-                      <div className="text-xs text-white/60 mt-0.5">{info?.desc||'특별한 기운을 가진 신살입니다'}</div>
-                    </div>
+            <div className="space-y-4">
+              {CAT_ORDER.filter(cat => grouped[cat]?.length).map(cat => (
+                <div key={cat}>
+                  <p className="text-xs font-bold mb-2" style={{color:CAT_COLOR[cat]}}>{cat} · {grouped[cat].length}</p>
+                  <div className="space-y-2">
+                    {grouped[cat].map(ss => {
+                      const info = (SINSAL_INFO as Record<string,SinsalInfo>)[ss];
+                      return (
+                        <div key={ss} className="flex items-start gap-3 p-3 rounded-xl"
+                          style={{backgroundColor:`${CAT_COLOR[cat]}12`,border:`1px solid ${CAT_COLOR[cat]}33`}}>
+                          <span className="text-xl flex-shrink-0">{info?.icon||'⭐'}</span>
+                          <div>
+                            <div className="text-sm font-bold text-white">{ss}</div>
+                            <div className="text-[11px] mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>{info?.desc||''}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           )}
         </div>
       );
     }
 
-    // ─ Slide 25: 대운 타임라인 ─
-    if (slide===25) {
+    // ─ Slide 9: 대운 타임라인 ─
+    if (slide===9) {
       const { daeun } = sajuData!;
       const _now = new Date();
       const _bm = parseInt(month), _bd = parseInt(day);
@@ -1178,8 +1694,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 26: 세운표 2026-2030 ─
-    if (slide===26) {
+    // ─ Slide 10: 세운표 2026-2030 ─
+    if (slide===10) {
       const ilgan = sajuData!.ilgan;
       const currentYear = new Date().getFullYear();
       return (
@@ -1216,184 +1732,152 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 27: 풀이 목차 ─
-    if (slide===27) {
-      const sections = [
-        { icon:'🪞', label:'나라는 사람', items:['강점과 약점','겉모습 VS 속마음','일주 DNA'] },
-        { icon:'💰', label:'돈과 일', items:['재물과 나의 관계','돈이 새는 이유','커리어 타이밍'] },
-        { icon:'🤝', label:'사람과 사랑', items:['맞는 사람','사랑법','결혼과 귀인'] },
-        { icon:'🌿', label:'몸과 마음', items:['건강 분석','건강 지키는 법'] },
-        { icon:'✨', label:'숨겨진 카드', items:['잠재력','신살 풀이'] },
-        { icon:'🌊', label:'흐르는 시간', items:['과거·현재 대운','향후 5년 세운'] },
-        { icon:'🧭', label:'나침반', items:['용신','오늘부터 할 수 있는 것'] },
-        { icon:'🌙', label:'결', items:['인생 키워드','묵도인의 당부'] },
-      ];
-      const scores = sajuData ? calcFortuneScores(sajuData) : [];
-      return (
-        <div className="flex-1 py-4 overflow-y-auto">
-          <h2 className="text-center text-base font-bold text-white mb-1">풀이 목차</h2>
-          <p className="text-center text-xs mb-3" style={{color:`${ACCENT}55`}}>아래 내용이 준비되어 있습니다</p>
-          <div className="space-y-1.5 mb-4">
-            {sections.map(s=>(
-              <div key={s.label} className="flex items-center gap-3 p-2 rounded-xl"
-                style={{backgroundColor:`${ACCENT}0a`,border:`1px solid ${ACCENT}18`}}>
-                <span className="text-sm flex-shrink-0">{s.icon}</span>
-                <div>
-                  <div className="text-xs font-bold text-white">{s.label}</div>
-                  <div className="text-[10px] text-white/40">{s.items.join(' · ')}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {scores.length > 0 && (
-            <div className="rounded-2xl p-4 relative overflow-hidden"
-              style={{backgroundColor:`${ACCENT}0d`, border:`1px solid ${ACCENT}25`}}>
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-xs font-bold text-white">운세 미리보기</p>
-                <span className="text-[10px] px-2 py-0.5 rounded-full"
-                  style={{backgroundColor:ACCENT,color:BG}}>🔒 잠금</span>
-              </div>
-              <div className="space-y-2">
-                {scores.map(({ label, score, icon }) => (
-                  <div key={label} className="flex items-center gap-3">
-                    <span className="text-sm w-4">{icon}</span>
-                    <span className="text-xs text-white/70 w-14 flex-shrink-0">{label}</span>
-                    <div className="flex-1 h-2 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}20`}}>
-                      <div className="h-full rounded-full blur-[2px]"
-                        style={{width:`${score}%`, background:`linear-gradient(90deg,${ACCENT}88,${ACCENT})`}}/>
-                    </div>
-                    <span className="text-xs w-8 text-right blur-[4px] select-none"
-                      style={{color:ACCENT}}>{score}점</span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-center text-[10px] mt-3" style={{color:`${ACCENT}55`}}>
-                잠금 해제 시 상세 풀이 제공
-              </p>
-            </div>
-          )}
-        </div>
-      );
-    }
 
-    // ─ Slide 2: 결제/인증 ─
-    if (slide===2) {
-      const ilganReviews: Record<string, string> = {
-        갑:'거목 일간이라 그런지 재물 파트가 소름이었어요',
-        을:'연애 섹션에서 제 연애 패턴을 딱 집었어요',
-        병:'성격 분석이 저를 오래 알던 사람이 쓴 것 같았어요',
-        정:'일주 DNA 파트에서 눈물 날 뻔했어요',
-        무:'대운 흐름이 지나온 제 인생과 너무 맞아서 놀랐어요',
-        기:'재물 섹션이 왜 돈이 안 모이는지 정확히 짚었어요',
-        경:'강점·약점 분석이 이렇게 구체적일 수가 있나요',
-        신:'숨겨진 재능 파트에서 제가 몰랐던 저를 발견했어요',
-        임:'처음으로 사주가 설득력 있게 느껴진 경험이었어요',
-        계:'직업운 섹션이 제 커리어 고민을 정확히 풀어줬어요',
-      };
-      const ilgan = sajuData?.ilgan ?? '';
-      const review = ilganReviews[ilgan] ?? '이렇게 구체적인 풀이는 처음이었어요';
-      const ilganHanja = sajuData ? (STEM_HANJA[ilgan as keyof typeof STEM_HANJA] ?? ilgan) : '';
-      return (
-        <div className="flex-1 flex flex-col gap-5 py-4 text-center">
-          <ImageBanner name="묵도인_페이월" height={128} />
-          {/* 소셜 프루프 */}
-          <div className="w-full rounded-2xl p-4" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}20`}}>
-            <p className="text-[11px] mb-3" style={{color:`${ACCENT}77`}}>
-              이번 달 <span className="font-bold" style={{color:ACCENT}}>1,247명</span>이 풀이를 받았습니다
-            </p>
-            <div className="text-left space-y-2">
-              {[
-                { text: review, tag: `${ilganHanja || '甲'} 일간` },
-                { text: '재물 섹션에서 제 돈 패턴을 정확히 짚었어요', tag: '壬 일간' },
-                { text: '일주 분석이 소름 돋을 만큼 맞았어요', tag: '丁 일간' },
-              ].map((r, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <span className="text-[10px] px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5"
-                    style={{backgroundColor:`${ACCENT}22`, color:ACCENT}}>{r.tag}</span>
-                  <p className="text-[11px] text-white/70 leading-snug text-left">"{r.text}"</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="text-4xl">🔮</div>
-          <div>
-            <h2 className="text-lg font-bold text-white">풀이를 잠금 해제하세요</h2>
-            <p className="text-xs mt-2 text-white/50">연락처를 입력하시면<br/>전체 풀이를 무료로 보실 수 있습니다</p>
-          </div>
-          {!paying?(
-            <div className="w-full max-w-xs space-y-3">
-              <input
-                value={phone}
-                onChange={e=>setPhone(e.target.value)}
-                placeholder="010-0000-0000"
-                inputMode="tel"
-                className="w-full px-4 py-3 rounded-xl text-white text-sm outline-none text-center"
-                style={{backgroundColor:`${ACCENT}0f`,border:`1px solid ${ACCENT}33`}}
-              />
-              <button
-                onClick={handlePay}
-                disabled={phone.replace(/\D/g,"").length<10}
-                className="w-full py-3.5 rounded-xl text-sm font-bold transition-all active:scale-95"
-                style={{
-                  backgroundColor: phone.replace(/\D/g,"").length>=10?ACCENT:`${ACCENT}33`,
-                  color: BG,
-                }}>
-                🌙 &nbsp;전체 풀이 보기
-              </button>
-            </div>
-          ):(
-            <div className="w-full max-w-xs space-y-3">
-              <p className="text-xs" style={{color:ACCENT}}>풀이 준비 중... {payProgress}%</p>
-              <div className="h-2 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}20`}}>
-                <div className="h-full rounded-full transition-all"
-                  style={{width:`${payProgress}%`,background:`linear-gradient(90deg,${ACCENT}88,${ACCENT})`}}/>
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    // ─ Slide 3: 핵심 요약 (overview) ─
-    if (slide===3) {
+    // ─ Slide 11: 핵심 요약 (overview) ─
+    if (slide===12) {
       const st = aiContent['overview'];
       const content = st?.content || '';
+
+      const fortuneItems = [
+        { key:'💰', label:'재물·직업운', color:'#fbbf24' },
+        { key:'🌿', label:'건강운',       color:'#4ade80' },
+        { key:'🤝', label:'연애·관계운',  color:'#f472b6' },
+      ];
+      const allFortuneKeys = fortuneItems.map(i=>i.key);
+
+      const sajuItems = [
+        { key:'🐯', label:'수호 동물' },
+        { key:'🌸', label:'궁합 식물' },
+        { key:'🎨', label:'행운 색깔' },
+        { key:'🔢', label:'행운 숫자' },
+        { key:'🐾', label:'궁합 동물' },
+        { key:'💎', label:'궁합 보석' },
+      ];
+      const allSajuKeys = sajuItems.map(i=>i.key);
+      const allItemKeys = [...allFortuneKeys, ...allSajuKeys];
+
+      function parseItemText(emoji: string): string {
+        const escaped = emoji.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const others = allItemKeys.filter(k=>k!==emoji).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+        const regex = new RegExp(`${escaped}[^\\n]*\\n?([\\s\\S]*?)(?=---|${others.join('|')}|$)`);
+        const match = content.match(regex);
+        return match ? match[1].trim() : '';
+      }
+
+      function parseSajuItemValue(emoji: string): { name: string; reason: string } {
+        const line = content.split('\n').find(l => l.includes(emoji));
+        if (!line) return { name:'', reason:'' };
+        const dashIdx = line.indexOf('—');
+        if (dashIdx === -1) {
+          const colonIdx = line.indexOf(':');
+          return { name: colonIdx>=0 ? line.slice(colonIdx+1).trim() : '', reason:'' };
+        }
+        const afterEmoji = line.slice(line.indexOf(emoji)+2);
+        const colonIdx = afterEmoji.indexOf(':');
+        const rawName = colonIdx>=0 ? afterEmoji.slice(colonIdx+1, afterEmoji.indexOf('—')).trim() : '';
+        const name = rawName.replace(/\*\*/g, '');
+        const reason = afterEmoji.slice(afterEmoji.indexOf('—')+1).trim().replace(/\*\*/g, '');
+        return { name, reason };
+      }
+
+      const loading = st?.status==='loading' && !content;
       return (
         <div className="flex-1 flex flex-col py-3">
-          <div className="flex items-center gap-2 mb-4 pb-2" style={{borderBottom:`1px solid ${ACCENT}20`}}>
-            <span className="text-2xl">✦</span>
-            <h2 className="text-lg font-bold text-white">핵심 요약</h2>
-          </div>
-          <div className="flex-1 overflow-y-auto">
-            {st?.status==='loading' && !content ? <AiLoader sajuData={sajuData}/> :
+          <div className="flex-1 overflow-y-auto space-y-3">
+            {loading ? <AiLoader sajuData={sajuData}/> :
              st?.status==='error' ? <p className="text-base text-red-400 text-center py-8">오류가 발생했습니다</p> :
-             <div className="space-y-4">
-               {[
-                 { key:'💰', label:'재물·직업운', color:'#fbbf24' },
-                 { key:'🌿', label:'건강운',       color:'#4ade80' },
-                 { key:'🤝', label:'연애·관계운',  color:'#f472b6' },
-               ].map(({ key, label, color }) => {
-                 const regex = new RegExp(`${key}[^\\n]*\\n?([\\s\\S]*?)(?=${['💰','🌿','🤝'].filter(k=>k!==key).map(k=>`${k}`).join('|')}|$)`);
-                 const match = content.match(regex);
-                 const text = match ? match[1].trim() : '';
-                 return (
-                   <div key={label} className="rounded-2xl p-4" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}22`}}>
-                     <div className="flex items-center gap-2 mb-2">
-                       <span className="text-xl">{key}</span>
-                       <span className="text-sm font-bold" style={{color}}>{label}</span>
+             ovPage === 0 ? (
+               /* 페이지 1: 운세 3카드 */
+               <div className="space-y-3">
+                 <p className="text-center text-xs mb-1" style={{color:`${ACCENT}99`}}>운세 요약 · 1/2</p>
+                 {fortuneItems.map(({ key, label, color }) => {
+                   const text = parseItemText(key);
+                   return (
+                     <div key={label} className="rounded-2xl p-4" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}22`}}>
+                       <div className="flex items-center gap-2 mb-2">
+                         <span className="text-sm font-bold" style={{color}}>{label}</span>
+                       </div>
+                       {text
+                         ? <p className="saju-body text-[15px] leading-relaxed">{text}</p>
+                         : <div className="flex gap-1 items-center h-5">{[0,1,2].map(i=>(
+                             <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
+                               style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
+                           ))}</div>
+                       }
                      </div>
-                     {text
-                       ? <p className="text-[15px] leading-relaxed text-white/85">{text}</p>
-                       : <div className="flex gap-1 items-center h-5">{[0,1,2].map(i=>(
-                           <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
-                             style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
-                         ))}</div>
-                     }
-                   </div>
-                 );
-               })}
-             </div>
+                   );
+                 })}
+               </div>
+             ) : (
+               /* 페이지 2: 나만의 사주 아이템 */
+               <div>
+                 <p className="text-center text-xs mb-3" style={{color:`${ACCENT}99`}}>나만의 사주 아이템 · 2/2</p>
+                 <div className="grid grid-cols-2 gap-2">
+                   {sajuItems.map(({ key, label }) => {
+                     const { name, reason } = parseSajuItemValue(key);
+                     return (
+                       <div key={label} className="rounded-xl p-3" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}22`}}>
+                         <div className="flex items-center gap-1.5 mb-1">
+                           <span className="text-[11px] text-white/50">{label}</span>
+                         </div>
+                         {name
+                           ? <>
+                               <p className="text-[15px] font-bold text-white">{name}</p>
+                               {reason && <p className="text-[11px] text-white/55 mt-0.5 leading-snug">{reason}</p>}
+                             </>
+                           : <div className="flex gap-1 items-center h-4">{[0,1,2].map(i=>(
+                               <div key={i} className="w-1 h-1 rounded-full animate-bounce"
+                                 style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
+                             ))}</div>
+                         }
+                       </div>
+                     );
+                   })}
+                 </div>
+               </div>
+             )
             }
+          </div>
+        </div>
+      );
+    }
+
+    // ─ Slide 4: 목차 안내 ─
+    if (slide===GUIDE) {
+      const features = [
+        '나라는 사람 — 강점·약점·일주 DNA',
+        '돈과 일 — 재물운과 커리어 타이밍',
+        '사람과 사랑 — 연애 스타일과 인연 시기',
+        '몸과 마음 — 건강 취약 부위와 관리법',
+        '숨겨진 카드 — 잠재력과 신살 풀이',
+        '흐르는 시간 — 향후 5년 대운 분석',
+        '나침반 — 용신과 오늘부터 할 것',
+        '결 — 묵도인의 인생 당부',
+      ];
+      return (
+        <div className="flex-1 flex flex-col overflow-y-auto py-3 gap-4">
+          {/* 목차 안내 — 맨 위 */}
+          <div className="flex items-center gap-2 px-3 py-3 rounded-xl flex-shrink-0"
+            style={{backgroundColor:`${ACCENT}15`, border:`1px solid ${ACCENT}30`}}>
+            <span className="text-base">💡</span>
+            <p className="text-sm font-medium" style={{color:`${ACCENT}ee`}}>
+              우측 상단 <span className="font-bold">목차 ↓</span> 버튼으로 원하는 항목에 바로 이동할 수 있습니다
+            </p>
+          </div>
+          {/* 신뢰 문구 */}
+          <p className="text-sm leading-relaxed px-1" style={{color:`${ACCENT}bb`}}>
+            수천 년간 동아시아에서 전승된 사주팔자(四柱八字) 해석 체계와 만세력의 천간·지지 원리를 기반으로 풀이합니다.
+          </p>
+          {/* 풀이 내용 */}
+          <div className="rounded-2xl p-4" style={{backgroundColor:`${ACCENT}11`, border:`1px solid ${ACCENT}22`}}>
+            <p className="text-xs font-bold mb-3 tracking-wider" style={{color:`${ACCENT}99`}}>풀이 내용</p>
+            <ul className="space-y-2">
+              {features.map((f, i) => (
+                <li key={i} className="flex items-center gap-2 text-sm text-white">
+                  <span style={{color:ACCENT}}>✦</span>{f}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       );
@@ -1410,51 +1894,31 @@ ${sectionsHtml}
       const totalPgs = pages.length;
       const badges = sajuData ? getSectionBadges(aiKey, sajuData) : [];
       return (
-        <div className="flex-1 py-3 flex flex-col">
-          <div className="flex items-center justify-between mb-2 pb-2" style={{borderBottom:`1px solid ${ACCENT}20`}}>
-            {secLabel ? (
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{secLabel.icon}</span>
-                <h2 className="text-lg font-bold text-white">{secLabel.title}</h2>
-              </div>
-            ) : <div/>}
-            {totalPgs > 1 && (
-              <span className="text-sm tabular-nums" style={{color:`${ACCENT}66`}}>
-                {pgIdx+1} / {totalPgs}
-              </span>
-            )}
-          </div>
-          {badges.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-3">
-              {badges.map((badge, i) => (
-                <span key={i} className="text-[11px] px-2 py-0.5 rounded-full"
-                  style={{backgroundColor:`${ACCENT}18`, color:`${ACCENT}bb`, border:`1px solid ${ACCENT}30`}}>
-                  {badge}
-                </span>
-              ))}
-            </div>
-          )}
-          {(() => { const img = getPageImage(aiKey, pgIdx, pageText, sajuData); return img ? <ImageBanner name={img} height={pgIdx===0?108:76} /> : null; })()}
+        <div className="flex-1 py-5 flex flex-col">
+          {pgIdx===0 && (() => { const img = getPageImage(aiKey, pgIdx, pageText, sajuData); return img ? <ImageBanner name={img} /> : null; })()}
           <div className="flex-1 overflow-y-auto">
             {st?.status==='loading' && !st?.content ? <AiLoader sajuData={sajuData}/> :
              st?.status==='error'   ? <p className="text-base text-red-400 text-center py-8">오류가 발생했습니다</p> :
              (() => {
-               const INTRO_SECTIONS = new Set(['money1','money2','health','love1','love2','love3']);
-               const isIntro = pgIdx === 0 && totalPgs > 1 && INTRO_SECTIONS.has(aiKey);
+               // [요약: ...] 형식이면 대괄호 제거
+               let cleanText = pageText;
+               const summaryMatch = pageText.match(/^\s*\[요약:\s*([\s\S]*?)\]\s*$/);
+               if (summaryMatch) cleanText = summaryMatch[1].trim();
+               const isIntro = pgIdx === 0 && totalPgs > 1;
                if (isIntro) {
                  return (
                    <div className="px-4 py-4 rounded-2xl" style={{
                      background:`linear-gradient(135deg,${ACCENT}22,${ACCENT}0a)`,
                      border:`1px solid ${ACCENT}44`,
                    }}>
-                     <p className="text-[11px] mb-2" style={{color:`${ACCENT}88`}}>💡 핵심 요약</p>
-                     <TypeWriter key={`${aiKey}-intro`} text={pageText} />
+                     <p className="text-[11px] mb-2" style={{color:`${ACCENT}88`}}>핵심 요약</p>
+                     <TypeWriter key={`${aiKey}-intro`} text={cleanText} />
                    </div>
                  );
                }
                return st?.status === 'loading'
-                 ? <>{formatText(pageText)}</>
-                 : <TypeWriter key={`${aiKey}-${pgIdx}`} text={pageText} />;
+                 ? <>{formatText(cleanText)}</>
+                 : <TypeWriter key={`${aiKey}-${pgIdx}`} text={cleanText} />;
              })()
             }
           </div>
@@ -1462,8 +1926,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 17: 선인에게 묻다 (Q&A) ─
-    if (slide===17) {
+    // ─ Slide 26: 선인에게 묻다 (Q&A) ─
+    if (slide===26) {
       const MAX_Q = 3;
       const remaining = MAX_Q - questionCount;
       const handleSubmit = () => {
@@ -1478,9 +1942,11 @@ ${sectionsHtml}
             <span className="text-2xl">🔮</span>
             <h2 className="text-base font-bold text-white mt-1">선인에게 묻다</h2>
             <p className="text-[11px] mt-0.5" style={{color:`${ACCENT}55`}}>
-              {questionCount < MAX_Q
-                ? `${remaining}번 질문할 수 있습니다`
-                : '질문 횟수를 모두 사용했습니다'}
+              {isSavedUrl
+                ? '이미 완료된 질문 기록입니다'
+                : questionCount < MAX_Q
+                  ? `${remaining}번 질문할 수 있습니다`
+                  : '질문 횟수를 모두 사용했습니다'}
             </p>
           </div>
 
@@ -1523,8 +1989,8 @@ ${sectionsHtml}
             </div>
           )}
 
-          {/* 입력 영역 */}
-          {questionCount < MAX_Q && (
+          {/* 입력 영역 — URL 공유 받은 경우 숨김 */}
+          {!isSavedUrl && questionCount < MAX_Q && (
             <div className="flex gap-2 flex-shrink-0">
               <input
                 value={qaInput}
@@ -1557,8 +2023,8 @@ ${sectionsHtml}
       );
     }
 
-    // ─ Slide 28: 마지막 + PDF ─
-    if (slide===28) {
+    // ─ Slide 27: 마지막 ─
+    if (slide===27) {
       return (
         <div className="flex-1 flex flex-col items-center justify-center text-center gap-8 py-6">
           <div>
@@ -1569,16 +2035,22 @@ ${sectionsHtml}
           </div>
           <div className="w-full space-y-3 max-w-xs">
             <button
-              onClick={handleDownloadPDF}
+              onClick={handleShareFull}
               className="w-full py-4 rounded-2xl text-sm font-bold transition-all active:scale-95"
               style={{backgroundColor:ACCENT,color:BG}}>
-              📄 &nbsp;풀이 전체 PDF 다운로드
+              💬 &nbsp;풀이 전체 공유하기
             </button>
             <button
-              onClick={handleShare}
+              onClick={handleShareItems}
               className="w-full py-3.5 rounded-2xl text-sm font-medium transition-all active:scale-95"
               style={{backgroundColor:`${ACCENT}22`,color:ACCENT,border:`1px solid ${ACCENT}44`}}>
-              🔗 &nbsp;친구에게 공유하기
+              🐾 &nbsp;사주 아이템 6가지 공유하기
+            </button>
+            <button
+              onClick={handleCopyUrl}
+              className="w-full py-3.5 rounded-2xl text-sm font-medium transition-all active:scale-95"
+              style={{backgroundColor:urlCopied?`#4ade8022`:`${ACCENT}22`,color:urlCopied?'#4ade80':ACCENT,border:`1px solid ${urlCopied?'#4ade8044':ACCENT+'44'}`}}>
+              {urlCopied ? '✓ 복사 완료!' : '🔗 내 사주 URL 복사하기'}
             </button>
             <Link href="/saju"
               className="block w-full py-3 rounded-2xl text-sm font-medium text-center transition-all"
@@ -1597,43 +2069,50 @@ ${sectionsHtml}
   const sectionLabel = currentSection();
 
   return (
-    <div className="min-h-screen" style={{background:`linear-gradient(180deg,${BG} 0%,#0d0019 100%)`}}>
+    <div className="min-h-screen" style={{background:`linear-gradient(180deg,${BG} 0%,#060d07 100%)`}}>
     <main className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col relative">
 
       {/* 헤더 */}
       <div className="flex items-center justify-between px-4 py-3 flex-shrink-0"
-        style={{borderBottom:`1px solid ${ACCENT}18`,background:`linear-gradient(180deg,${BG} 0%,#0d0019 100%)`}}>
+        style={{borderBottom:`1px solid ${ACCENT}18`,background:`linear-gradient(180deg,${BG} 0%,#060d07 100%)`}}>
         <div className="flex items-center gap-2">
           <button onClick={goPrev} disabled={slide===0}
             className="w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all"
             style={{backgroundColor:slide>0?`${ACCENT}18`:'transparent',color:slide>0?ACCENT:`${ACCENT}33`}}>
             ←
           </button>
-          <span className="text-xs" style={{color:`${ACCENT}55`}}>
-            {slide<=FREE_END||slide===PAYWALL ? `${Math.min(slide+1,FREE_END+1)} / ${FREE_END+1}` :
+          <span className="text-lg font-bold text-white">
+            {slide<=FREE_END ? `${slide + 1 - [3,5,8,9,10].filter(s=>s<slide).length} / 7` :
              sectionLabel ? sectionLabel :
              `${slide - AI_START + 1} / ${TOTAL - AI_START}`}
           </span>
         </div>
 
-        {/* TOC 버튼 */}
-        <button onClick={()=>setShowToc(v=>!v)}
-          className="text-xs px-3 py-1.5 rounded-xl transition-all"
-          style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>
-          목차 ↓
-        </button>
+        <div className="flex items-center gap-2">
+          {headerPageText && slide > FREE_END && (
+            <span className="text-xs tabular-nums" style={{color:`${ACCENT}77`}}>
+              {headerPageText}
+            </span>
+          )}
+          {/* TOC 버튼 */}
+          <button onClick={()=>setShowToc(v=>!v)}
+            className="text-xs px-3 py-1.5 rounded-xl transition-all"
+            style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>
+            목차 ↓
+          </button>
+        </div>
       </div>
 
       {/* TOC 드롭다운 */}
       {showToc&&(
         <div className="absolute top-14 right-4 z-50 rounded-2xl shadow-2xl overflow-hidden"
-          style={{backgroundColor:'#0d0019',border:`1px solid ${ACCENT}33`,minWidth:'180px'}}>
+          style={{backgroundColor:'#060d07',border:`1px solid ${ACCENT}33`,minWidth:'180px'}}>
           <div className="flex items-center justify-between px-4 py-3" style={{borderBottom:`1px solid ${ACCENT}18`}}>
             <span className="text-sm font-bold text-white">목차</span>
             <button onClick={()=>setShowToc(false)} style={{color:`${ACCENT}77`}}>✕</button>
           </div>
           {TOC_ITEMS.map(item=>{
-            const locked = item.slide>=AI_START && item.slide<=17 && !unlocked;
+            const locked = false;
             const isCurrent = slide===item.slide ||
               (slide>item.slide && (()=>{
                 const idx = TOC_ITEMS.findIndex(t=>t.slide===item.slide);
@@ -1658,30 +2137,67 @@ ${sectionsHtml}
       )}
 
       {/* 슬라이드 영역 */}
-      <div ref={slideRef} className="flex-1 overflow-hidden flex flex-col" onClick={()=>showToc&&setShowToc(false)}>
-        <div key={slide} className="slide-enter flex-1 flex flex-col px-4 pt-4 pb-2 overflow-y-auto">
+      <div
+        ref={slideRef}
+        className="flex-1 overflow-hidden flex flex-col relative"
+        onTouchStart={e => {
+          tapStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }}
+        onTouchEnd={e => {
+          if (!tapStartRef.current) return;
+          const dx = Math.abs(e.changedTouches[0].clientX - tapStartRef.current.x);
+          const dy = Math.abs(e.changedTouches[0].clientY - tapStartRef.current.y);
+          if (dx < 12 && dy < 12) {
+            const target = e.target as HTMLElement;
+            if (target.closest('button,a,input,textarea,select,[role="button"]')) return;
+            setHintDismissed(true);
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.changedTouches[0].clientX - rect.left;
+            if (x > rect.width / 2) goNext(); else goPrev();
+          }
+          tapStartRef.current = null;
+        }}
+        onClick={e => {
+          if (showToc) { setShowToc(false); return; }
+          if ('ontouchstart' in window) return; // 터치 기기는 onTouchEnd 처리
+          const target = e.target as HTMLElement;
+          if (target.closest('button,a,input,textarea,select,[role="button"]')) return;
+          setHintDismissed(true);
+          const rect = e.currentTarget.getBoundingClientRect();
+          if (e.clientX - rect.left > rect.width / 2) goNext(); else goPrev();
+        }}
+      >
+        <div key={slide} className="saju-prose slide-enter flex-1 flex flex-col px-4 pt-4 pb-2 overflow-y-auto">
           {renderSlide()}
         </div>
+
+        {/* 좌우 탭존 화살표 — 포인터 이벤트 없이 시각 안내만 */}
+        {(
+          <>
+            {slide > 0 && (
+              <div className="absolute left-1 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center w-8 h-16 rounded-full"
+                style={{backgroundColor:`${ACCENT}12`}}>
+                <span className="text-xl font-light select-none" style={{color:`${ACCENT}55`}}>‹</span>
+              </div>
+            )}
+            {canGoNext && (
+              <div className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center w-8 h-16 rounded-full"
+                style={{backgroundColor:`${ACCENT}12`}}>
+                <span className="text-xl font-light select-none" style={{color:`${ACCENT}55`}}>›</span>
+              </div>
+            )}
+            {slide===FREE_END && canGoNext && !hintDismissed && (
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center gap-2 px-2 py-3 rounded-2xl"
+                style={{animation:'fadeIn 1s ease 0.5s both', backgroundColor:`${ACCENT}18`, border:`1px solid ${ACCENT}33`}}>
+                <span className="text-2xl select-none" style={{color:ACCENT}}>›</span>
+                <span className="text-[12px] font-medium select-none" style={{color:`${ACCENT}dd`}}>탭하여</span>
+                <span className="text-[12px] font-medium select-none" style={{color:`${ACCENT}dd`}}>다음으로</span>
+              </div>
+            )}
+          </>
+        )}
       </div>
 
-      {/* 하단 네비게이션 */}
-      {slide!==PAYWALL&&(
-        <div className="flex-shrink-0 px-4 pb-8 pt-2">
-          {isLastSlide ? null : (
-            <button
-              onClick={goNext}
-              disabled={!canGoNext}
-              className="w-full py-4 rounded-2xl text-sm font-bold tracking-widest transition-all active:scale-95"
-              style={{
-                backgroundColor: canGoNext?ACCENT:`${ACCENT}33`,
-                color: BG,
-              }}>
-              {slide===FREE_END?(unlocked?'풀이 보기 →':'🔮 풀이 열기'):
-               '다음 →'}
-            </button>
-          )}
-        </div>
-      )}
 
     </main>
     </div>

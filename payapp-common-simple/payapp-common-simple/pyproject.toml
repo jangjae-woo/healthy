@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "payapp-common-simple"
+version = "0.1.0"
+description = "PayApp 결제 API 통합 라이브러리 — 결제 요청, 콜백 라우팅, HMAC 서명, IP/linkval 검증"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = ["payapp", "payment", "korea", "fastapi", "webhook", "callback"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "httpx>=0.28",
+]
+
+[project.optional-dependencies]
+fastapi = ["fastapi>=0.115"]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "respx>=0.22",
+    "fastapi>=0.115",
+    "httpx>=0.28",
+]
+
+[tool.setuptools.packages.find]
+include = ["payapp_common_simple*"]
+
+[tool.setuptools.package-data]
+payapp_common_simple = ["py.typed"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

@@ -7,6 +7,7 @@ export default function MovingPage() {
       title="이사날짜 운세"
       tagline="손없는 날과 나의 사주로 찾는 최적의 이사 날짜"
       emoji="🏠"
+      image="/char-moving.png"
       bg="#0a1e14"
       accent="#5ec98e"
       formHref="/moving/form"

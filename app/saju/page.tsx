@@ -7,8 +7,11 @@ export default function SajuPage() {
       title="평생 사주"
       tagline="단 한 번의 풀이, 평생을 간직할 나의 사주"
       emoji="🌙"
-      bg="#1a0a2e"
-      accent="#c9b4ff"
+      image="/char-saju.png"
+      refKey="saju_ref"
+      bg="#0d1a0f"
+      bgEnd="#060d07"
+      accent="#c9960c"
       formHref="/saju/form"
       features={[
         "나라는 사람 — 강점·약점·일주 DNA",

@@ -7,6 +7,7 @@ export default function NamingPage() {
       title="이름 짓기 · 개명"
       tagline="사주 오행을 보완하고 원하는 느낌을 담은 이름 추천"
       emoji="✍️"
+      image="/char-naming.png"
       bg="#1e1408"
       accent="#e8b84b"
       formHref="/naming/form"

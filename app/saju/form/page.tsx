@@ -1,32 +1,39 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const HOURS = [
-  "모름", "자시(23-01)", "축시(01-03)", "인시(03-05)", "묘시(05-07)",
-  "진시(07-09)", "사시(09-11)", "오시(11-13)", "미시(13-15)",
-  "신시(15-17)", "유시(17-19)", "술시(19-21)", "해시(21-23)",
+  "시간 모름",
+  "자시 (23:30~01:29)", "축시 (01:30~03:29)", "인시 (03:30~05:29)",
+  "묘시 (05:30~07:29)", "진시 (07:30~09:29)", "사시 (09:30~11:29)",
+  "오시 (11:30~13:29)", "미시 (13:30~15:29)", "신시 (15:30~17:29)",
+  "유시 (17:30~19:29)", "술시 (19:30~21:29)", "해시 (21:30~23:29)",
 ];
 
-const ACCENT = "#c9b4ff";
-const BG = "#1a0a2e";
+const ACCENT = "#c9960c";
+const GOLD = "#FFD700";
+const BG = "#0d1a0f";
+const PRICE = 45900;
 
 interface Msg { id: string; from: "ai" | "user"; text: string; }
 
 export default function SajuChatForm() {
-  const router = useRouter();
-  const [step, setStep] = useState(-1); // -1: not started
+  const [step, setStep] = useState(-1);
+  const [refDiscount, setRefDiscount] = useState(false);
+  const [paying, setPaying] = useState(false);
   const [form, setForm] = useState({
     name: "", gender: "", year: "", month: "", day: "",
-    hour: "모름", calendarType: "양력",
+    hour: "시간 모름", calendarType: "양력", phone: "",
   });
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // 첫 메시지
+  useEffect(() => {
+    try { if (localStorage.getItem('saju_ref')) setRefDiscount(true); } catch {}
+  }, []);
+
   useEffect(() => {
     const t = setTimeout(() => {
       aiMsg("안녕하세요.\n저는 묵도인입니다.\n\n성함을 알려주시겠습니까?", "q0", () => setStep(0));
@@ -34,10 +41,9 @@ export default function SajuChatForm() {
     return () => clearTimeout(t);
   }, []);
 
-  // 스크롤
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs, isTyping]);
+  }, [msgs, isTyping, step]);
 
   function aiMsg(text: string, id: string, onDone?: () => void) {
     setIsTyping(true);
@@ -50,11 +56,10 @@ export default function SajuChatForm() {
 
   function userMsg(text: string, id: string, onDone?: () => void) {
     setMsgs(prev => [...prev, { id, from: "user", text }]);
-    setStep(-1); // 입력 숨기기
+    setStep(-1);
     setTimeout(() => onDone?.(), 400);
   }
 
-  // ── 각 단계 핸들러 ──
   function submitName() {
     const name = inputValue.trim();
     if (!name) return;
@@ -82,31 +87,37 @@ export default function SajuChatForm() {
   function submitHour(h: string) {
     setForm(f => ({ ...f, hour: h }));
     userMsg(h, "a3", () => {
-      aiMsg(`${form.name}님의 사주를 풀이할\n준비가 되었습니다.`, "q4", () => setStep(4));
+      aiMsg("결과를 문자로 받아볼 전화번호를 입력해주세요.", "q4", () => setStep(4));
+    });
+  }
+
+  function submitPhone() {
+    const phone = inputValue.trim();
+    if (!phone) return;
+    setForm(f => ({ ...f, phone }));
+    setInputValue("");
+    userMsg(phone, "a4", () => {
+      aiMsg(`${form.name}님의 사주를 풀이할\n준비가 되었습니다.`, "q5", () => setStep(5));
     });
   }
 
   function handleSubmit() {
-    const params = new URLSearchParams({ ...form, type: "saju" });
-    router.push(`/saju/result?${params.toString()}`);
+    if (paying) return;
+    setPaying(true);
+    const params = new URLSearchParams({ ...form, type: 'saju' });
+    window.location.href = `/saju/result?${params.toString()}`;
   }
 
   return (
-    <div className="min-h-screen" style={{ background: `linear-gradient(180deg, ${BG} 0%, #0d0019 100%)` }}>
+    <div className="min-h-screen" style={{ background: `linear-gradient(180deg, ${BG} 0%, #060d07 100%)` }}>
     <main
       className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col"
-      style={{ background: `linear-gradient(180deg, ${BG} 0%, #0d0019 100%)` }}
+      style={{ background: `linear-gradient(180deg, ${BG} 0%, #060d07 100%)` }}
     >
       {/* 헤더 */}
-      <div
-        className="flex items-center gap-3 px-4 py-3 flex-shrink-0"
-        style={{ borderBottom: `1px solid ${ACCENT}18` }}
-      >
+      <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ borderBottom: `1px solid ${ACCENT}18` }}>
         <Link href="/saju" className="text-sm" style={{ color: `${ACCENT}66` }}>←</Link>
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-          style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>
-          命
-        </div>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>命</div>
         <div>
           <div className="text-sm font-bold text-white">묵도인</div>
           <div className="flex items-center gap-1">
@@ -116,106 +127,64 @@ export default function SajuChatForm() {
         </div>
       </div>
 
-      {/* 채팅 영역 */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      {/* 채팅 + 인라인 입력 */}
+      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-5 pb-10">
+
         {msgs.map(msg => (
-          <div key={msg.id}
-            className={`flex items-end gap-2 ${msg.from === "user" ? "justify-end" : "justify-start"}`}
-          >
+          <div key={msg.id} className={`flex items-end gap-2 ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
             {msg.from === "ai" && (
-              <div
-                className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold mb-0.5"
-                style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}
-              >
-                命
-              </div>
+              <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold mb-0.5" style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>命</div>
             )}
-            <div
-              className="max-w-[78%] px-4 py-3 text-sm whitespace-pre-line leading-relaxed"
-              style={{
-                backgroundColor: msg.from === "ai" ? `${ACCENT}18` : ACCENT,
-                color: msg.from === "ai" ? "white" : BG,
-                borderRadius: msg.from === "ai" ? "4px 18px 18px 18px" : "18px 4px 18px 18px",
-              }}
-            >
-              {msg.text}
-            </div>
+            {msg.from === "ai" ? (
+              <div className="max-w-[78%] px-4 py-3 text-sm whitespace-pre-line leading-relaxed" style={{ backgroundColor: `${ACCENT}18`, color: "white", borderRadius: "4px 18px 18px 18px" }}>
+                {msg.text}
+              </div>
+            ) : (
+              <span className="text-sm text-white pb-0.5" style={{ borderBottom: "1px solid rgba(255,255,255,0.35)" }}>
+                {msg.text}
+              </span>
+            )}
           </div>
         ))}
 
-        {/* 타이핑 애니메이션 */}
+        {/* 타이핑 */}
         {isTyping && (
           <div className="flex items-end gap-2">
-            <div
-              className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold"
-              style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}
-            >
-              命
-            </div>
-            <div
-              className="px-4 py-3"
-              style={{ backgroundColor: `${ACCENT}18`, borderRadius: "4px 18px 18px 18px" }}
-            >
+            <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold" style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>命</div>
+            <div className="px-4 py-3" style={{ backgroundColor: `${ACCENT}18`, borderRadius: "4px 18px 18px 18px" }}>
               <div className="flex gap-1 items-center h-4">
                 {[0, 1, 2].map(i => (
-                  <div
-                    key={i}
-                    className="w-1.5 h-1.5 rounded-full animate-bounce"
-                    style={{ backgroundColor: ACCENT, animationDelay: `${i * 150}ms` }}
-                  />
+                  <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: ACCENT, animationDelay: `${i * 150}ms` }} />
                 ))}
               </div>
             </div>
           </div>
         )}
 
-        <div ref={bottomRef} />
-      </div>
-
-      {/* 입력 영역 */}
-      <div
-        className="flex-shrink-0 px-4 pb-8 pt-3"
-        style={{ borderTop: `1px solid ${ACCENT}18` }}
-      >
         {/* 이름 입력 */}
         {step === 0 && (
-          <div className="flex gap-2">
+          <div className="flex justify-end gap-2">
             <input
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
               onKeyDown={e => e.key === "Enter" && submitName()}
-              placeholder="이름을 입력하세요"
+              placeholder="이름 입력"
               autoFocus
-              className="flex-1 rounded-xl px-4 py-3 text-white text-sm outline-none"
-              style={{
-                backgroundColor: `${ACCENT}0f`,
-                border: `1px solid ${ACCENT}33`,
-              }}
+              className="rounded-lg px-3 py-2 text-white text-sm outline-none w-36"
+              style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
             />
-            <button
-              onClick={submitName}
-              disabled={!inputValue.trim()}
-              className="px-5 py-3 rounded-xl text-sm font-bold transition-all"
-              style={{
-                backgroundColor: inputValue.trim() ? ACCENT : `${ACCENT}33`,
-                color: BG,
-              }}
-            >
-              →
-            </button>
+            <button onClick={submitName} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
+              style={{ backgroundColor: inputValue.trim() ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>→</button>
           </div>
         )}
 
         {/* 성별 선택 */}
         {step === 1 && (
-          <div className="grid grid-cols-2 gap-3">
-            {[["남", "👨 남성"], ["여", "👩 여성"]].map(([val, label]) => (
-              <button
-                key={val}
-                onClick={() => submitGender(val)}
-                className="py-4 rounded-2xl text-sm font-bold transition-all active:scale-95"
-                style={{ backgroundColor: `${ACCENT}18`, color: ACCENT, border: `1px solid ${ACCENT}33` }}
-              >
+          <div className="flex justify-end gap-2">
+            {[["남", "남성"], ["여", "여성"]].map(([val, label]) => (
+              <button key={val} onClick={() => submitGender(val)}
+                className="px-5 py-2 rounded-lg text-sm font-medium"
+                style={{ backgroundColor: `${ACCENT}22`, color: "white", border: `1px solid ${ACCENT}44` }}>
                 {label}
               </button>
             ))}
@@ -224,49 +193,33 @@ export default function SajuChatForm() {
 
         {/* 생년월일 */}
         {step === 2 && (
-          <div className="space-y-3">
-            <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col items-end gap-3">
+            <div className="flex gap-4 text-sm">
               {["양력", "음력"].map(c => (
-                <button
-                  key={c}
-                  onClick={() => setForm(f => ({ ...f, calendarType: c }))}
-                  className="py-2.5 rounded-xl text-sm font-medium transition-all"
-                  style={{
-                    backgroundColor: form.calendarType === c ? ACCENT : `${ACCENT}18`,
-                    color: form.calendarType === c ? BG : ACCENT,
-                    border: `1px solid ${ACCENT}33`,
-                  }}
-                >
-                  {c}
+                <button key={c} onClick={() => setForm(f => ({ ...f, calendarType: c }))}
+                  className="flex items-center gap-1"
+                  style={{ color: form.calendarType === c ? GOLD : `${ACCENT}77` }}>
+                  {form.calendarType === c ? "✓" : "○"} {c}
                 </button>
               ))}
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex gap-2">
               {[
-                { key: "year", placeholder: "년도", max: 4 },
-                { key: "month", placeholder: "월", max: 2 },
-                { key: "day", placeholder: "일", max: 2 },
-              ].map(({ key, placeholder, max }) => (
-                <input
-                  key={key}
-                  placeholder={placeholder}
-                  maxLength={max}
+                { key: "year", placeholder: "년도", w: "w-20", max: 4 },
+                { key: "month", placeholder: "월", w: "w-12", max: 2 },
+                { key: "day", placeholder: "일", w: "w-12", max: 2 },
+              ].map(({ key, placeholder, w, max }) => (
+                <input key={key} placeholder={placeholder} maxLength={max}
                   value={form[key as keyof typeof form]}
                   onChange={e => setForm(f => ({ ...f, [key]: e.target.value.replace(/\D/g, "") }))}
-                  className="rounded-xl px-3 py-3 text-white text-sm text-center outline-none"
-                  style={{ backgroundColor: `${ACCENT}0f`, border: `1px solid ${ACCENT}33` }}
+                  className={`${w} px-2 py-2 text-white text-sm text-center outline-none`}
+                  style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
                 />
               ))}
             </div>
-            <button
-              onClick={submitDate}
-              disabled={!form.year || !form.month || !form.day}
-              className="w-full py-3 rounded-xl text-sm font-bold transition-all active:scale-95"
-              style={{
-                backgroundColor: (form.year && form.month && form.day) ? ACCENT : `${ACCENT}33`,
-                color: BG,
-              }}
-            >
+            <button onClick={submitDate} disabled={!form.year || !form.month || !form.day}
+              className="px-6 py-2 rounded-lg text-sm font-bold"
+              style={{ backgroundColor: (form.year && form.month && form.day) ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>
               확인
             </button>
           </div>
@@ -274,30 +227,51 @@ export default function SajuChatForm() {
 
         {/* 시간 선택 */}
         {step === 3 && (
-          <div className="grid grid-cols-3 gap-2 max-h-44 overflow-y-auto">
+          <div className="flex flex-wrap justify-end gap-2">
             {HOURS.map(h => (
-              <button
-                key={h}
-                onClick={() => submitHour(h)}
-                className="py-2.5 rounded-xl text-xs font-medium transition-all active:scale-95"
-                style={{ backgroundColor: `${ACCENT}18`, color: ACCENT, border: `1px solid ${ACCENT}22` }}
-              >
+              <button key={h} onClick={() => submitHour(h)}
+                className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all active:scale-95"
+                style={{ backgroundColor: `${ACCENT}22`, color: "white", border: `1px solid ${ACCENT}44` }}>
                 {h}
               </button>
             ))}
           </div>
         )}
 
-        {/* 시작 버튼 */}
+        {/* 전화번호 입력 */}
         {step === 4 && (
-          <button
-            onClick={handleSubmit}
-            className="w-full py-4 rounded-2xl text-base font-bold tracking-widest transition-all active:scale-95"
-            style={{ backgroundColor: ACCENT, color: BG }}
-          >
-            🌙 &nbsp;사주 풀이 시작
-          </button>
+          <div className="flex justify-end gap-2">
+            <input
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value.replace(/\D/g, ""))}
+              onKeyDown={e => e.key === "Enter" && submitPhone()}
+              placeholder="010-0000-0000"
+              maxLength={11}
+              autoFocus
+              className="rounded-lg px-3 py-2 text-white text-sm outline-none w-40"
+              style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
+            />
+            <button onClick={submitPhone} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
+              style={{ backgroundColor: inputValue.trim() ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>→</button>
+          </div>
         )}
+
+        {/* 결제 버튼 */}
+        {step === 5 && (
+          <div className="mt-2">
+            <button onClick={handleSubmit} disabled={paying}
+              className="w-full py-4 rounded-2xl text-base font-bold tracking-widest transition-all active:scale-95"
+              style={{
+                background: paying ? `${GOLD}66` : "linear-gradient(135deg, #FFE066 0%, #FFD700 40%, #FFA800 100%)",
+                color: "#1a0d00",
+                boxShadow: paying ? "none" : `0 0 24px ${GOLD}99, 0 0 8px ${GOLD}66`,
+              }}>
+              {paying ? '결제창 여는 중...' : '🌙 \u00a0사주 풀이 시작'}
+            </button>
+          </div>
+        )}
+
+        <div ref={bottomRef} />
       </div>
     </main>
     </div>

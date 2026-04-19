@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import { useEffect } from "react";
 
 interface Props {
   character: string;
@@ -8,17 +10,27 @@ interface Props {
   features: string[];
   emoji: string;
   bg: string;
+  bgEnd?: string;
   accent: string;
   formHref: string;
+  image?: string;
+  refKey?: string;
 }
 
 export default function ServiceLanding({
-  character, title, tagline, features, emoji, bg, accent, formHref,
+  character, title, tagline, features, emoji, bg, bgEnd = "#1a0d00", accent, formHref, image, refKey,
 }: Props) {
+  useEffect(() => {
+    if (!refKey) return;
+    try {
+      const ref = new URLSearchParams(window.location.search).get('ref');
+      if (ref) localStorage.setItem(refKey, ref);
+    } catch {}
+  }, [refKey]);
   return (
     <main
       className="min-h-screen flex flex-col items-center px-4 py-8"
-      style={{ background: `linear-gradient(180deg, ${bg} 0%, #1a0d00 100%)` }}
+      style={{ background: `linear-gradient(180deg, ${bg} 0%, ${bgEnd} 100%)` }}
     >
       {/* 뒤로가기 */}
       <div className="w-full max-w-sm mb-6">
@@ -28,41 +40,30 @@ export default function ServiceLanding({
       </div>
 
       {/* 캐릭터 영역 */}
-      <div className="text-center mb-8">
-        <div className="text-7xl mb-4">{emoji}</div>
-        <p className="text-xs tracking-widest mb-1" style={{ color: `${accent}77` }}>
+      <div className="text-center mb-10">
+        {image
+          ? <Image src={image} alt={character} width={280} height={280} className="mx-auto mb-6 object-contain" />
+          : <div className="text-9xl mb-6">{emoji}</div>
+        }
+        <p className="text-sm tracking-widest mb-2" style={{ color: `${accent}77` }}>
           {character}
         </p>
-        <h1 className="text-2xl font-bold text-white mb-3">{title}</h1>
-        <p className="text-sm leading-relaxed max-w-xs break-keep" style={{ color: `${accent}99` }}>
+        <h1 className="text-4xl font-bold text-white mb-4">{title}</h1>
+        <p className="text-base leading-relaxed max-w-xs break-keep" style={{ color: `${accent}99` }}>
           {tagline}
         </p>
-      </div>
-
-      {/* 포함 내용 */}
-      <div
-        className="w-full max-w-sm rounded-2xl p-5 mb-8"
-        style={{ backgroundColor: `${accent}11`, border: `1px solid ${accent}22` }}
-      >
-        <p className="text-xs font-bold mb-3 tracking-wider" style={{ color: `${accent}99` }}>
-          풀이 내용
-        </p>
-        <ul className="space-y-2">
-          {features.map((f, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm text-white">
-              <span style={{ color: accent }}>✦</span>
-              {f}
-            </li>
-          ))}
-        </ul>
       </div>
 
       {/* 시작 버튼 */}
       <div className="w-full max-w-sm">
         <Link href={formHref}>
           <button
-            className="w-full py-4 rounded-2xl text-base font-bold tracking-wider transition-opacity hover:opacity-90 active:opacity-70"
-            style={{ backgroundColor: accent, color: bg }}
+            className="w-full py-4 rounded-2xl text-base font-bold tracking-wider transition-all hover:brightness-110 active:scale-95"
+            style={{
+              background: "linear-gradient(135deg, #FFE066 0%, #FFD700 40%, #FFA800 100%)",
+              color: "#1a0d00",
+              boxShadow: "0 0 24px #FFD70099, 0 0 8px #FFD70066, 0 4px 16px #FFA80044",
+            }}
           >
             시작하기
           </button>

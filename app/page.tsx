@@ -6,8 +6,8 @@ const services = [
     character: "묵도인",
     title: "평생 사주",
     desc: "단 한 번의 풀이, 평생을 간직할 나의 사주",
-    bg: "#1a0a2e",
-    accent: "#c9b4ff",
+    bg: "#0d1a0f",
+    accent: "#c9960c",
     charImg: "/char-saju.png",
     href: "/saju",
   },
@@ -38,17 +38,17 @@ export default function Home() {
     <main
       className="min-h-screen flex flex-col items-center px-4 py-12"
       style={{
-        background: "linear-gradient(180deg, #120800 0%, #2d1b0e 50%, #3d2510 100%)",
+        background: "linear-gradient(180deg, #0d1a0f 0%, #060d07 100%)",
       }}
     >
       {/* 헤더 */}
       <div className="text-center mb-10">
-        <div className="text-5xl mb-3" style={{ filter: "drop-shadow(0 0 12px #d9770688)" }}>☯</div>
+        <div className="text-5xl mb-3" style={{ color: "#d97706", filter: "drop-shadow(0 0 18px #d97706cc) drop-shadow(0 0 6px #fbbf24aa)" }}>☯</div>
         <h1 className="text-3xl font-bold tracking-widest mb-1" style={{ color: "#fef3c7" }}>
           팔자원
         </h1>
         <p className="text-sm tracking-widest" style={{ color: "#d97706aa" }}>
-          八字苑 · AI 명리풀이
+          八字苑 · 명리풀이
         </p>
       </div>
 
@@ -59,9 +59,9 @@ export default function Home() {
             <div
               className="relative overflow-hidden rounded-2xl cursor-pointer transition-transform duration-150 hover:scale-[1.02] active:scale-[0.98]"
               style={{
-                background: `radial-gradient(ellipse at 15% 60%, ${s.accent}28 0%, ${s.bg} 60%)`,
-                border: `1px solid ${s.accent}55`,
-                boxShadow: `0 4px 24px ${s.accent}20`,
+                background: `linear-gradient(135deg, #0d0d0d 0%, #111008 100%)`,
+                border: `1.5px solid #5ec98e`,
+                boxShadow: `0 0 28px #5ec98e88, 0 0 8px #5ec98e66, 0 4px 24px #5ec98e44`,
                 minHeight: "100px",
               }}
             >

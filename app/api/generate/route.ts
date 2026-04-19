@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { calculateFourPillars } from "manseryeok";
 import {
-  getSipseong, calcDaeun, calcSinsal, calcElements, getYongsin,
+  getSipseong, calcDaeun, calcSinsal, calcElements, getYongsin, calcMonthPillar, calcYearPillar,
   STEM_HANJA, BRANCH_HANJA,
   type SajuAnalysis,
 } from "@/lib/saju-calculator";
@@ -9,10 +9,11 @@ import {
 const GEMINI_MODEL = "gemini-2.5-flash";
 
 const HOUR_MAP: Record<string, number> = {
-  "모름": 12, "자시(23-01)": 23, "축시(01-03)": 1, "인시(03-05)": 3,
-  "묘시(05-07)": 5, "진시(07-09)": 7, "사시(09-11)": 9, "오시(11-13)": 11,
-  "미시(13-15)": 13, "신시(15-17)": 15, "유시(17-19)": 17,
-  "술시(19-21)": 19, "해시(21-23)": 21,
+  "시간 모름": 12, "모름": 12,
+  "자시 (23:30~01:29)": 0,  "축시 (01:30~03:29)": 2,  "인시 (03:30~05:29)": 4,
+  "묘시 (05:30~07:29)": 6,  "진시 (07:30~09:29)": 8,  "사시 (09:30~11:29)": 10,
+  "오시 (11:30~13:29)": 12, "미시 (13:30~15:29)": 14, "신시 (15:30~17:29)": 16,
+  "유시 (17:30~19:29)": 18, "술시 (19:30~21:29)": 20, "해시 (21:30~23:29)": 22,
 };
 
 const ELEM_DESC: Record<string, string> = {
@@ -37,9 +38,11 @@ function computeFullSaju(
     const isHourUnknown = hourStr === "모름";
     const p = calculateFourPillars({ year, month, day, hour, minute: 0, isLunar });
 
+    const correctedYear  = calcYearPillar(year, month, day);
+    const correctedMonth = calcMonthPillar(year, month, day);
     const pillars: SajuAnalysis['pillars'] = {
-      year:  { stem: p.year.heavenlyStem,  branch: p.year.earthlyBranch },
-      month: { stem: p.month.heavenlyStem, branch: p.month.earthlyBranch },
+      year:  correctedYear,
+      month: correctedMonth,
       day:   { stem: p.day.heavenlyStem,   branch: p.day.earthlyBranch },
       hour:  isHourUnknown ? null : { stem: p.hour.heavenlyStem, branch: p.hour.earthlyBranch },
     };
@@ -59,7 +62,11 @@ function computeFullSaju(
     const elements = calcElements(allStems, allBranches);
     const yongsin  = getYongsin(ilgan, elements);
     const daeun    = calcDaeun(year, month, day, pillars.year.stem, pillars.month, gender);
-    const sinsal   = calcSinsal(pillars.year.branch, pillars.day.branch, ilgan, allBranches);
+    const sinsal   = calcSinsal(
+      pillars.year.branch, pillars.day.branch, ilgan,
+      allBranches, allStems,
+      pillars.month.branch, pillars.day.stem
+    );
 
     return { pillars, ilgan, sipseong, elements, yongsin, daeun, sinsal, isHourUnknown };
   } catch (e) {
@@ -68,23 +75,78 @@ function computeFullSaju(
   }
 }
 
+// ─── 합·충·형 분석 ────────────────────────────
+function buildInteractions(stems: string[], branches: string[]): string {
+  const r: string[] = [];
+
+  // 천간합
+  const STEM_HAP: [string,string,string][] = [
+    ['갑','기','土화'],['을','경','金화'],['병','신','水화'],
+    ['정','임','木화'],['무','계','火화'],
+  ];
+  for (const [a,b,res] of STEM_HAP)
+    if (stems.includes(a)&&stems.includes(b)) r.push(`천간 ${a}${b}합(${res})`);
+
+  // 지지충
+  const CHUNG: [string,string][] = [
+    ['자','오'],['축','미'],['인','신'],['묘','유'],['진','술'],['사','해'],
+  ];
+  for (const [a,b] of CHUNG)
+    if (branches.includes(a)&&branches.includes(b)) r.push(`${a}${b}충(沖)`);
+
+  // 지지합
+  const BRANCH_HAP: [string,string][] = [
+    ['자','축'],['인','해'],['묘','술'],['진','유'],['사','신'],['오','미'],
+  ];
+  for (const [a,b] of BRANCH_HAP)
+    if (branches.includes(a)&&branches.includes(b)) r.push(`${a}${b}합(合)`);
+
+  // 삼합 (2개 이상이면 반합)
+  const SAMHAP: [string,string,string,string][] = [
+    ['해','묘','미','木국'],['인','오','술','火국'],
+    ['사','유','축','金국'],['신','자','진','水국'],
+  ];
+  for (const [a,b,c,name] of SAMHAP) {
+    const hit = [a,b,c].filter(x=>branches.includes(x));
+    if (hit.length===3) r.push(`삼합 ${name} 완성(${hit.join('')})`);
+    else if (hit.length===2) r.push(`반합 ${name}(${hit.join('')})`);
+  }
+
+  // 형
+  if (['인','사','신'].filter(x=>branches.includes(x)).length>=2)
+    r.push(`인사신 삼형(${['인','사','신'].filter(x=>branches.includes(x)).join('')})`);
+  if (['축','술','미'].filter(x=>branches.includes(x)).length>=2)
+    r.push(`축술미 삼형(${['축','술','미'].filter(x=>branches.includes(x)).join('')})`);
+  if (branches.includes('자')&&branches.includes('묘')) r.push('자묘 상형');
+
+  return r.length>0 ? `【합·충·형】${r.join(' / ')}` : '';
+}
+
 // ─── 사주 데이터 → 프롬프트 컨텍스트 ─────────
 function buildCtx(s: SajuAnalysis, name: string): string {
   const h = (st: string) => STEM_HANJA[st as keyof typeof STEM_HANJA] ?? st;
   const b = (br: string) => BRANCH_HANJA[br as keyof typeof BRANCH_HANJA] ?? br;
   const pp = (p: {stem:string;branch:string}|null) => p ? `${h(p.stem)}${b(p.branch)}(${p.stem}${p.branch})` : '미상';
 
+  const totalElem = (Object.values(s.elements) as number[]).reduce((a,b)=>a+b,0) || 1;
   const elemSummary = (Object.entries(s.elements) as [string,number][])
-    .map(([el,n])=>`${ELEM_DESC[el]}(${n})`)
-    .join(', ');
-  const strong = (Object.entries(s.elements) as [string,number][]).filter(([,n])=>n>=2).map(([el])=>el).join('/') || '없음';
-  const weak   = (Object.entries(s.elements) as [string,number][]).filter(([,n])=>n===0).map(([el])=>el).join('/') || '없음';
+    .sort((a,b)=>b[1]-a[1])
+    .map(([el,n])=>`${ELEM_DESC[el]} ${Math.round(n/totalElem*100)}%`)
+    .join(' / ');
+  const strong = (Object.entries(s.elements) as [string,number][])
+    .filter(([,n])=>n/totalElem>=0.22).map(([el])=>el).join('/') || '없음';
+  const weak   = (Object.entries(s.elements) as [string,number][])
+    .filter(([,n])=>n/totalElem<0.10).map(([el])=>el).join('/') || '없음';
 
   const daeunStr = s.daeun.cycles.slice(0,6)
     .map(c=>`${c.age}세 ${h(c.stem)}${b(c.branch)}운`).join(' → ');
 
   const ssRow = (label: string, p:{stem:string;branch:string}|null) =>
     p ? `${label}: 천간 ${p.stem}(${SS_DESC[p.stem]?.split('-')[0]??p.stem}) / 지지 ${p.branch}(${SS_DESC[p.branch]?.split('-')[0]??p.branch})` : '';
+
+  const allStems2    = [s.pillars.year.stem, s.pillars.month.stem, s.pillars.day.stem, ...(s.pillars.hour?[s.pillars.hour.stem]:[])];
+  const allBranches2 = [s.pillars.year.branch, s.pillars.month.branch, s.pillars.day.branch, ...(s.pillars.hour?[s.pillars.hour.branch]:[])];
+  const interactions = buildInteractions(allStems2, allBranches2);
 
   return `
 【사주원국】연주:${pp(s.pillars.year)} 월주:${pp(s.pillars.month)} 일주:${pp(s.pillars.day)} 시주:${pp(s.pillars.hour)}
@@ -102,7 +164,8 @@ ${s.sipseong.hour?ssRow('시주',s.sipseong.hour):'시주: 미상'}
 【오행 분포】${elemSummary}
 강한 오행: ${strong} / 부족한 오행: ${weak} / 용신: ${s.yongsin}(${ELEM_DESC[s.yongsin]})
 【대운(${s.daeun.direction}·${s.daeun.number}세 시작)】${daeunStr}
-【신살】${s.sinsal.join(', ') || '없음'}`.trim();
+【신살】${s.sinsal.join(', ') || '없음'}
+${interactions}`.trim();
 }
 
 // ─── 섹션별 프롬프트 ──────────────────────────
@@ -414,6 +477,7 @@ ${ctx}
 ✗ 사용자 동조 금지: 사주 데이터가 말하는 것을 말하라. 듣기 좋은 말이 아닌 정확한 풀이
 ✗ 포맷 금지: # 제목, ## 제목, ▶ 기호 — 모두 사용 절대 금지
 ✗ 허용 포맷 외 사용 금지: 오직 ### 소제목, **굵게**, - 불릿 3가지만 허용
+✗ 대운 단독 표기 금지: "25세 갑진", "35세 경오" 처럼 나이+간지 단독 표기 절대 금지 — 반드시 "○○세부터 시작되는 ○○ 대운" 또는 "○○ 대운(○○세~○○세)" 형식으로만 쓸 것
 
 [필수 규칙]
 ✓ 간지 이름 반드시 언급 (예: "월간 편관이 일간 임수를 극하므로...")
@@ -497,14 +561,14 @@ ${d.year}년생 기준 재물운이 좋아지는 대운과 연도를 구체적�
 [풀이 요청]
 먼저 이 섹션의 핵심을 2~3문장으로 자연스럽게 요약해 주세요 (### 소제목 없이 일반 문장으로만). 그런 다음 아래 5개의 ### 소제목을 순서대로 각각 독립적으로 작성하세요. 각 소제목은 하나의 페이지가 됩니다. 각 소제목 아래 내용은 2~3문단 이내로 제한하세요.
 
-### 잘 맞는 직업과 환경
-용신 오행으로 보는 잘 맞는 업종·직무·환경. 구체적 직업명 3개 이상 제시.
+### 잘 맞는 일의 성향
+용신 오행으로 보는 이 사람이 빛나는 '일의 성격'. **절대 특정 직업명(세무사·회계사·엔지니어·변호사 등) 나열 금지.** 대신 "정확성을 요하는 분야", "사람을 다루는 일", "디테일을 놓치지 않는 일" 같이 성향·방향·요구되는 역량 중심으로 서술. 어떤 환경(조직/독립, 대기업/스타트업 등)이 맞는지도 포함.
 
 ### 이상적인 업무 스타일
 관성·재성 배치로 보는 이상적인 업무 스타일(조직형 vs 독립형, 기획형 vs 실행형 등). 이 사주가 일에서 가장 빛나는 조건.
 
-### 피해야 할 직업 유형
-절대 맞지 않는 직업 유형과 그 이유 — 오행 충극 근거 제시.
+### 피해야 할 일의 성향
+절대 맞지 않는 '일의 성격'과 그 이유 — 오행 충극 근거 제시. **특정 직업명 금지.** "반복 업무", "감정 소모가 큰 일" 같이 성향 중심으로 서술.
 
 ### 지금 대운과 커리어
 지금 대운(${new Date().getFullYear()}년 기준)이 커리어에 어떤 영향을 주는지. 이직·창업·승진에 유리한 시기와 피해야 할 시기.
@@ -567,7 +631,7 @@ ${d.year}년생 기준 재물운이 좋아지는 대운과 연도를 구체적�
 결혼 후 실제 부부 관계의 역학 — 누가 주도하고, 어디서 마찰이 생기는지. 결혼 생활에서 주의할 점 2가지.
 
 ### 결혼 적기
-대운 흐름 기준 구체적 나이대 또는 연도 제시(${d.year}년생 기준).
+대운 흐름 기준 반드시 2년 이내 구간으로 특정할 것 (예: "○○세~○○세", "○○년~○○년"). 넓은 범위(10년·20대 등) 절대 금지.
 
 ### 귀인을 만나는 법
 이 사주에서 귀인 역할을 하는 십성 유형. 귀인을 만나기 좋은 장소·상황·시기. 현재 대운 기준 귀인 운이 언제 강해지는지.
@@ -615,19 +679,29 @@ ${s?.sinsal && s.sinsal.length > 0
   timeline1: (d, ctx) => `${buildHeader(d, ctx)}
 
 [풀이 요청]
-아래 4개의 ### 소제목을 순서대로 각각 독립적으로 작성하세요. 각 소제목은 하나의 페이지가 됩니다. 각 소제목 아래 내용은 2~3문단 이내로 제한하세요.
+아래 7개의 ### 소제목을 순서대로 각각 독립적으로 작성하세요. 각 소제목은 하나의 페이지가 됩니다. 각 소제목 아래 내용은 2~3문단 이내로 제한하세요.
+각 연령대에 해당하는 대운 간지를 반드시 명시하고, 그 대운이 일간에게 생인지 극인지 분석하세요.
 
-### 초반 대운 (1~20대)
-초반 대운의 기운과 그 시기에 어떤 일이 있었을지. 일간에게 생인지 극인지.
+### 10대 — [이 시기의 핵심 키워드]
+10대에 해당하는 대운 간지와 의미. 학업·가정환경·성격 형성에 어떤 영향을 주는지.
 
-### 중반 대운 (20~40대)
-중반 대운에서 어떤 변화가 왔고 어떤 선택의 기로가 있었을지. 좋았던 시기와 힘들었던 시기.
+### 20대 — [이 시기의 핵심 키워드]
+20대 대운 간지와 의미. 사회 진출·연애·자아 확립 측면에서의 흐름.
 
-### 지금 이 시기
-${new Date().getFullYear()}년 현재 대운의 간지와 의미. 지금 시기의 명리학적 테마. 지금 가장 중요한 선택이나 행동.
+### 30대 — [이 시기의 핵심 키워드]
+30대 대운 간지와 의미. 커리어·결혼·재물 측면에서의 흐름. 좋은 시기와 주의할 시기.
 
-### 다음 대운 준비
-언제부터 다음 대운이 시작되고 어떻게 달라지는지. 지금부터 준비해야 할 것.
+### 40대 — [이 시기의 핵심 키워드]
+40대 대운 간지와 의미. 사업·승진·가정 안정 측면에서의 흐름.
+
+### 50대 — [이 시기의 핵심 키워드]
+50대 대운 간지와 의미. 인생 전환점·건강·노후 준비 측면에서의 흐름.
+
+### 60대 — [이 시기의 핵심 키워드]
+60대 대운 간지와 의미. 은퇴·인간관계·건강 측면에서의 흐름.
+
+### 70대 이후 — [이 시기의 핵심 키워드]
+70대 이후 대운 간지와 의미. 노년의 삶의 질과 핵심 과제.
 
 한국어 경어체.`,
 
@@ -664,11 +738,11 @@ ${new Date().getFullYear()}년 현재 대운의 간지와 의미. 지금 시기�
 ### 행운의 색깔·방향·숫자
 용신 오행 기반 행운의 색깔(2~3가지), 유익한 방향(사무실·침실), 행운의 숫자와 활용법.
 
-### 유익한 음식과 활동
-용신 기반 유익한 음식·음료 5가지 이상. 추천 운동 및 활동. 아침 루틴 1가지.
+### 오늘부터 실천할 루틴
+용신 기운을 일상에서 채우는 구체적 방법. 아침 루틴 1가지, 저녁 루틴 1가지. 이번 주 당장 실천할 수 있는 것 1가지를 구체적으로.
 
 ### 이 사주로 살아가는 법
-이 사주의 강점을 극대화하는 방법. 약점이 발동하는 신호와 그 순간 할 수 있는 것. 10년 후 ${d.name}님이 되어 있을 긍정적 모습과 핵심 한 마디.
+이 사주의 강점을 극대화하는 방법. 약점이 발동하는 신호와 그 순간 할 수 있는 것. 10년 후 ${d.name}님이 되어 있을 긍정적 모습을 2~3문장으로 생생하게 그려주세요. 마지막으로 ${d.name}님에게 전하는 진심 어린 응원 한 문단(3~4문장)으로 마무리하세요.
 
 한국어 경어체.`,
 
@@ -693,8 +767,9 @@ ${d.name}님 사주의 가장 핵심적인 메시지를 담은 마지막 말씀.
   overview: (d, ctx) => `${buildHeader(d, ctx)}
 
 [풀이 요청]
-${d.name}님의 사주를 바탕으로 아래 3가지 핵심 운세를 각각 2~3문장으로 요약해 주세요.
-### 소제목 없이, 아래 형식 그대로 작성하세요.
+${d.name}님의 사주를 바탕으로 아래 형식 그대로 작성하세요. ### 소제목 금지.
+
+--- 운세 요약 (각 항목 정확히 2문장) ---
 
 💰 재물·직업운
 이 사주의 돈 버는 방식과 재물 흐름의 핵심. 주의할 점 1가지 포함.
@@ -705,7 +780,16 @@ ${d.name}님의 사주를 바탕으로 아래 3가지 핵심 운세를 각각 2~
 🤝 연애·관계운
 이 사주의 연애 스타일과 인연 흐름의 핵심.
 
-각 항목 반드시 2~3문장 이내. 구체적 간지·오행 근거 포함. 한국어 경어체.`,
+--- 나만의 사주 아이템 (각 항목: 이름만, 이유는 한 문장) ---
+
+🐯 수호 동물: [동물 이름] — [이 사주 오행·간지와 어울리는 이유 한 문장]
+🌸 궁합 식물: [식물 이름] — [이유 한 문장]
+🎨 행운 색깔: [색깔 이름] — [이유 한 문장]
+🔢 행운 숫자: [숫자 1~2개] — [이유 한 문장]
+🐾 궁합 동물: [실제 키울 수 있는 애완동물 이름] — [이 사주 오행과 어울리는 이유 한 문장]
+💎 궁합 보석: [보석 이름] — [이유 한 문장]
+
+구체적 간지·오행 근거 포함. 한국어 경어체.`,
 
   qa: (d) => `당신은 30년 경력 명리학 대가 묵도인입니다.
 
@@ -771,7 +855,7 @@ export async function POST(req: NextRequest) {
     } else if (SAJU_PROMPTS[section]) {
       // 새 평생 사주 섹션
       prompt = SAJU_PROMPTS[section](data, ctx, sajuAnalysis);
-      maxTokens = section === 'qa' ? 3000 : section === 'overview' ? 800 : 3000;
+      maxTokens = section === 'qa' ? 3000 : section === 'overview' ? 2500 : 3000;
     } else {
       const sectionIdx = Math.max(0, Math.min(2, (parseInt(section) || 1) - 1));
       const promptFns = SECTION_PROMPTS[type] || SECTION_PROMPTS.saju;
