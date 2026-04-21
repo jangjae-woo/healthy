@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import PaymentModal from "@/components/PaymentModal";
 import {
   type SajuAnalysis,
   getSipseong,
@@ -122,6 +123,7 @@ const TOC_ITEMS = [
   { label:'당신은 누구',       slide:13 },
   { label:'관계·재물·직업·학문', slide:15 },
   { label:'인연의 자리',       slide:17 },
+  { label:'몸과 마음',         slide:20 },
   { label:'특수 기운',         slide:21 },
   { label:'시기별 흐름',       slide:22 },
   { label:'종합 해석',         slide:24 },
@@ -132,7 +134,7 @@ const FREE_END  = 11;  // GUIDE가 마지막 무료 슬라이드
 const AI_START  = 12;  // 핵심 요약부터 유료
 const GUIDE     = 11;  // 목차 안내 슬라이드
 const TOTAL     = 28;
-const PRICE     = 23900;  // 평생사주 공동구매가
+const PRICE     = 32900;  // 평생사주 소비자가
 
 // 에너지 점수
 function calcEnergyScore(elements:Record<string,number>) {
@@ -485,6 +487,7 @@ export default function SajuSlideResult() {
   });
   const [unlocked, setUnlocked]       = useState(false);
   const [paying, setPaying]           = useState(false);
+  const [showPayModal, setShowPayModal] = useState(false);
   const [ovPage, setOvPage]           = useState(0);
   const [showToc, setShowToc]         = useState(false);
   const [urlCopied, setUrlCopied]     = useState(false);
@@ -523,11 +526,17 @@ export default function SajuSlideResult() {
   // PayApp 결제 완료 감지
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    const justPaid = urlParams.get('justpaid') === '1';
     if (urlParams.get('unlocked') === '1') {
       setUnlocked(true);
       urlParams.delete('unlocked');
+      urlParams.delete('justpaid');
       const newSearch = urlParams.toString();
       window.history.replaceState({}, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
+    }
+    if (justPaid) {
+      setSlide(AI_START);
+      setOvPage(0);
     }
   }, []);
 
@@ -897,90 +906,35 @@ export default function SajuSlideResult() {
     return null;
   })();
 
-  async function handlePayment() {
+  async function handlePayment(payerName: string, payerPhone: string) {
     if (paying) return;
     setPaying(true);
     try {
-      // 1) 주문 생성 (서버에서 orderId 발급)
       const urlParams = new URLSearchParams(window.location.search);
-      const resultPath = `/saju/result?${urlParams.toString()}`;
-      const successUrl = `${window.location.origin}/payment/success?returnUrl=${encodeURIComponent(resultPath)}`;
-
+      urlParams.set('unlocked', '1');
+      const returnUrl = `${window.location.origin}/api/payment/complete?${urlParams.toString()}`;
       const res = await fetch('/api/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: PRICE,
-          goodsName: '평생 사주 풀이 (공동구매가)',
-          returnUrl: successUrl,
+          price: PRICE,
+          returnUrl,
+          recvphone: payerPhone,
+          name: payerName,
         }),
       });
       const data = await res.json();
-      if (!data.clientKey || !data.orderId) {
-        alert(data.error || '결제 준비에 실패했습니다.');
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || '결제 요청에 실패했습니다.');
         setPaying(false);
-        return;
+        throw new Error(data.error || '결제 요청 실패');
       }
-
-      // 2) 나이스페이먼츠 SDK 동적 로드 후 결제창 호출
-      await loadNicePaySdk();
-      // @ts-ignore
-      if (typeof window.AUTHNICE === 'undefined') {
-        alert('나이스페이먼츠 SDK 로드 실패');
-        setPaying(false);
-        return;
-      }
-      // 전달값 사전 검증 (clientId 형식 디버그)
-      const ck = (data.clientKey || '').trim();
-      console.log('[NicePay] clientId =', ck, 'length =', ck.length);
-      if (!ck) {
-        alert('clientKey가 비어있음. /api/payment/debug 확인 필요');
-        setPaying(false);
-        return;
-      }
-      // @ts-ignore
-      window.AUTHNICE.requestPay({
-        clientId: ck,
-        method: 'card',
-        orderId: data.orderId,
-        amount: data.amount,
-        goodsName: data.goodsName,
-        returnUrl: data.returnUrl,
-        fnError: (err: any) => {
-          alert(
-            `결제 오류:\n` +
-            `메시지: ${err?.errorMsg || JSON.stringify(err)}\n` +
-            `clientId 길이: ${ck.length}\n` +
-            `clientId 앞4: ${ck.slice(0, 4)}\n` +
-            `clientId 뒤4: ${ck.slice(-4)}`
-          );
-          setPaying(false);
-        },
-      });
-    } catch (e: any) {
-      alert('서버 오류: ' + (e?.message || '알 수 없음'));
+    } catch (e) {
       setPaying(false);
+      throw e;
     }
-  }
-
-  function loadNicePaySdk(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      // @ts-ignore
-      if (typeof window.AUTHNICE !== 'undefined') return resolve();
-      const exist = document.querySelector('script[data-nicepay-sdk]');
-      if (exist) {
-        exist.addEventListener('load', () => resolve());
-        exist.addEventListener('error', () => reject(new Error('SDK load fail')));
-        return;
-      }
-      const s = document.createElement('script');
-      s.src = 'https://pay.nicepay.co.kr/v1/js/';
-      s.async = true;
-      s.setAttribute('data-nicepay-sdk', '1');
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error('SDK load fail'));
-      document.body.appendChild(s);
-    });
   }
 
   // 네비게이션
@@ -990,7 +944,13 @@ export default function SajuSlideResult() {
       setAiPage(prev => ({ ...prev, [curAiKey!]: curPgIdx + 1 }));
       return;
     }
-    if (slide===FREE_END) { setUnlocked(true); setSlide(AI_START); return; }
+    if (slide===FREE_END) {
+      const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
+      const alreadyPaid = unlocked || params.get('unlocked') === '1';
+      if (alreadyPaid) { setUnlocked(true); setSlide(AI_START); return; }
+      setShowPayModal(true);
+      return;
+    }
     if (slide===2)        { setSlide(4); return; }    // 일간 소개(3) 건너뜀
     if (slide===4)        { setSlide(6); return; }    // 에너지 총량(5) 건너뜀
     if (slide===7)        { setSlide(11); return; }   // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
@@ -1935,6 +1895,7 @@ export default function SajuSlideResult() {
         '당신은 누구 — 일간의 본질과 기질',
         '관계·재물·직업·학문 — 십성의 배치',
         '인연의 자리 — 사랑·가족·배우자 궁',
+        '몸과 마음 — 건강과 정신의 흐름',
         '특수 기운 — 운명의 별자리 19가지',
         '시기별 흐름 — 대운·세운·삼재',
         '종합 해석 — 통변(通變)과 나아갈 방향',
@@ -2285,6 +2246,15 @@ export default function SajuSlideResult() {
 
 
     </main>
+    <PaymentModal
+      open={showPayModal}
+      onClose={() => setShowPayModal(false)}
+      price={PRICE}
+      goodsName="평생 사주 풀이"
+      onSubmit={async ({ name, phone }) => {
+        await handlePayment(name, phone);
+      }}
+    />
     </div>
   );
 }

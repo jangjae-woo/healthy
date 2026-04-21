@@ -87,16 +87,6 @@ export default function SajuChatForm() {
   function submitHour(h: string) {
     setForm(f => ({ ...f, hour: h }));
     userMsg(h, "a3", () => {
-      aiMsg("결과를 문자로 받아볼 전화번호를 입력해주세요.", "q4", () => setStep(4));
-    });
-  }
-
-  function submitPhone() {
-    const phone = inputValue.trim();
-    if (!phone) return;
-    setForm(f => ({ ...f, phone }));
-    setInputValue("");
-    userMsg(phone, "a4", () => {
       aiMsg(`${form.name}님의 사주를 풀이할\n준비가 되었습니다.`, "q5", () => setStep(5));
     });
   }
@@ -235,24 +225,6 @@ export default function SajuChatForm() {
                 {h}
               </button>
             ))}
-          </div>
-        )}
-
-        {/* 전화번호 입력 */}
-        {step === 4 && (
-          <div className="flex justify-end gap-2">
-            <input
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={e => e.key === "Enter" && submitPhone()}
-              placeholder="010-0000-0000"
-              maxLength={11}
-              autoFocus
-              className="rounded-lg px-3 py-2 text-white text-sm outline-none w-40"
-              style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
-            />
-            <button onClick={submitPhone} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
-              style={{ backgroundColor: inputValue.trim() ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>→</button>
           </div>
         )}
 
