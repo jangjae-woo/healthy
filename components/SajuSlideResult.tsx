@@ -44,7 +44,7 @@ const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
   13:{ title:'당신은 누구',      icon:'✦' },
   15:{ title:'관계·재물·직업·학문', icon:'✦' },
   17:{ title:'인연의 자리',      icon:'✦' },
-  20:{ title:'인연의 자리',      icon:'✦' },
+  20:{ title:'몸과 마음',        icon:'✦' },
   21:{ title:'특수 기운',        icon:'✦' },
   22:{ title:'시기별 흐름',      icon:'✦' },
   24:{ title:'종합 해석',        icon:'✦' },
@@ -132,7 +132,7 @@ const FREE_END  = 11;  // GUIDE가 마지막 무료 슬라이드
 const AI_START  = 12;  // 핵심 요약부터 유료
 const GUIDE     = 11;  // 목차 안내 슬라이드
 const TOTAL     = 28;
-const PRICE     = 45900;
+const PRICE     = 23900;  // 평생사주 공동구매가
 
 // 에너지 점수
 function calcEnergyScore(elements:Record<string,number>) {
@@ -901,26 +901,86 @@ export default function SajuSlideResult() {
     if (paying) return;
     setPaying(true);
     try {
+      // 1) 주문 생성 (서버에서 orderId 발급)
       const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set('unlocked', '1');
-      const returnUrl = `${window.location.origin}/saju/result?${urlParams.toString()}`;
-      const phone = urlParams.get('phone') || '';
+      const resultPath = `/saju/result?${urlParams.toString()}`;
+      const successUrl = `${window.location.origin}/payment/success?returnUrl=${encodeURIComponent(resultPath)}`;
+
       const res = await fetch('/api/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ price: PRICE, returnUrl, recvphone: phone }),
+        body: JSON.stringify({
+          amount: PRICE,
+          goodsName: '평생 사주 풀이 (공동구매가)',
+          returnUrl: successUrl,
+        }),
       });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || '결제 요청에 실패했습니다.');
+      if (!data.clientKey || !data.orderId) {
+        alert(data.error || '결제 준비에 실패했습니다.');
         setPaying(false);
+        return;
       }
-    } catch {
-      alert('서버 오류가 발생했습니다.');
+
+      // 2) 나이스페이먼츠 SDK 동적 로드 후 결제창 호출
+      await loadNicePaySdk();
+      // @ts-ignore
+      if (typeof window.AUTHNICE === 'undefined') {
+        alert('나이스페이먼츠 SDK 로드 실패');
+        setPaying(false);
+        return;
+      }
+      // 전달값 사전 검증 (clientId 형식 디버그)
+      const ck = (data.clientKey || '').trim();
+      console.log('[NicePay] clientId =', ck, 'length =', ck.length);
+      if (!ck) {
+        alert('clientKey가 비어있음. /api/payment/debug 확인 필요');
+        setPaying(false);
+        return;
+      }
+      // @ts-ignore
+      window.AUTHNICE.requestPay({
+        clientId: ck,
+        method: 'card',
+        orderId: data.orderId,
+        amount: data.amount,
+        goodsName: data.goodsName,
+        returnUrl: data.returnUrl,
+        fnError: (err: any) => {
+          alert(
+            `결제 오류:\n` +
+            `메시지: ${err?.errorMsg || JSON.stringify(err)}\n` +
+            `clientId 길이: ${ck.length}\n` +
+            `clientId 앞4: ${ck.slice(0, 4)}\n` +
+            `clientId 뒤4: ${ck.slice(-4)}`
+          );
+          setPaying(false);
+        },
+      });
+    } catch (e: any) {
+      alert('서버 오류: ' + (e?.message || '알 수 없음'));
       setPaying(false);
     }
+  }
+
+  function loadNicePaySdk(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      if (typeof window.AUTHNICE !== 'undefined') return resolve();
+      const exist = document.querySelector('script[data-nicepay-sdk]');
+      if (exist) {
+        exist.addEventListener('load', () => resolve());
+        exist.addEventListener('error', () => reject(new Error('SDK load fail')));
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = 'https://pay.nicepay.co.kr/v1/js/';
+      s.async = true;
+      s.setAttribute('data-nicepay-sdk', '1');
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('SDK load fail'));
+      document.body.appendChild(s);
+    });
   }
 
   // 네비게이션
@@ -1616,7 +1676,7 @@ export default function SajuSlideResult() {
     // ─ Slide 8: 운명의 별자리 ─
     if (slide===8) {
       const sinsal = sajuData!.sinsal;
-      type SinsalInfo = { icon:string; desc:string; category:string };
+      type SinsalInfo = { icon:string; hanja:string; subtitle:string; desc:string; category:string };
       const CAT_ORDER = ['귀인','12신살','흉살','특수'];
       const CAT_COLOR: Record<string,string> = {
         귀인:'#fbbf24', '12신살':'#a78bfa', 흉살:'#f87171', 특수:'#60a5fa',
@@ -1653,8 +1713,20 @@ export default function SajuSlideResult() {
                           style={{backgroundColor:`${CAT_COLOR[cat]}12`,border:`1px solid ${CAT_COLOR[cat]}33`}}>
                           <span className="text-xl flex-shrink-0">{info?.icon||'⭐'}</span>
                           <div>
-                            <div className="text-sm font-bold text-white">{ss}</div>
-                            <div className="text-[11px] mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>{info?.desc||''}</div>
+                            <div className="text-sm font-bold text-white">
+                              {ss}
+                              {info?.hanja && (
+                                <span className="ml-1 font-normal" style={{color:'rgba(255,255,255,0.45)'}}>
+                                  ({info.hanja})
+                                </span>
+                              )}
+                            </div>
+                            {info?.subtitle && (
+                              <div className="text-[11px] italic mt-0.5" style={{color:`${CAT_COLOR[cat]}cc`}}>
+                                — {info.subtitle}
+                              </div>
+                            )}
+                            <div className="text-[11px] mt-1" style={{color:'rgba(255,255,255,0.70)'}}>{info?.desc||''}</div>
                           </div>
                         </div>
                       );

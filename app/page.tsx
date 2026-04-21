@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SiteFooter from "@/components/SiteFooter";
 
 const services = [
   {
@@ -115,15 +116,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* 푸터 */}
-      <div className="mt-16 text-center text-xs space-y-2" style={{ color: "#78350f77" }}>
-        <p>© 2025 팔자원. All Rights Reserved.</p>
-        <div className="flex gap-4 justify-center">
-          <a href="/terms" className="hover:underline">이용약관</a>
-          <a href="/privacy" className="hover:underline">개인정보처리방침</a>
-          <a href="/refund" className="hover:underline">환불정책</a>
-        </div>
-      </div>
+      <SiteFooter />
     </main>
   );
 }

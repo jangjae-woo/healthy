@@ -507,28 +507,28 @@ export function getYongsin(ilgan: string, elements: Elements): string {
 }
 
 // ─── 신살 이름/설명 ────────────────────────────
-export const SINSAL_INFO: Record<string, { icon: string; desc: string; category: string }> = {
+export const SINSAL_INFO: Record<string, { icon: string; hanja: string; subtitle: string; desc: string; category: string }> = {
   // 귀인 (吉星)
-  천을귀인: { icon: '⭐', desc: '위기 때마다 귀인이 나타나 도움을 줍니다. 최고의 길성.', category: '귀인' },
-  천덕귀인: { icon: '☀️', desc: '하늘이 내린 덕으로 평생 안정과 복을 누립니다.', category: '귀인' },
-  월덕귀인: { icon: '🌙', desc: '어머니의 덕과 가정의 평화를 상징합니다.', category: '귀인' },
-  태극귀인: { icon: '☯️', desc: '영적 감각과 신비로운 기운이 있습니다.', category: '귀인' },
-  문창귀인: { icon: '📚', desc: '학문·시험·예술에 재능이 뛰어납니다.', category: '귀인' },
-  학당귀인: { icon: '🎓', desc: '공부와 지혜가 깊어 교육·연구에 적합합니다.', category: '귀인' },
-  복성귀인: { icon: '✨', desc: '평생 복과 행운이 따르는 길성입니다.', category: '귀인' },
-  금여:    { icon: '💰', desc: '재물과 배우자 복, 풍족한 삶을 상징합니다.', category: '귀인' },
+  천을귀인: { icon: '⭐', hanja: '天乙貴人', subtitle: '하늘이 보낸 최고의 길성', desc: '위기 때마다 귀인이 나타나 도움을 줍니다. 최고의 길성.', category: '귀인' },
+  천덕귀인: { icon: '☀️', hanja: '天德貴人', subtitle: '하늘의 덕을 내려받는 별', desc: '하늘이 내린 덕으로 평생 안정과 복을 누립니다.', category: '귀인' },
+  월덕귀인: { icon: '🌙', hanja: '月德貴人', subtitle: '어머니와 가정의 덕을 상징하는 별', desc: '어머니의 덕과 가정의 평화를 상징합니다.', category: '귀인' },
+  태극귀인: { icon: '☯️', hanja: '太極貴人', subtitle: '음양 조화를 이루는 귀인', desc: '영적 감각과 신비로운 기운이 있습니다.', category: '귀인' },
+  문창귀인: { icon: '📚', hanja: '文昌貴人', subtitle: '학문과 예술의 재능을 주는 별', desc: '학문·시험·예술에 재능이 뛰어납니다.', category: '귀인' },
+  학당귀인: { icon: '🎓', hanja: '學堂貴人', subtitle: '공부와 지혜의 깊이를 상징', desc: '공부와 지혜가 깊어 교육·연구에 적합합니다.', category: '귀인' },
+  복성귀인: { icon: '✨', hanja: '福星貴人', subtitle: '평생의 복과 행운의 별', desc: '평생 복과 행운이 따르는 길성입니다.', category: '귀인' },
+  금여:    { icon: '💰', hanja: '金輿',     subtitle: '재물과 배우자 복의 황금수레', desc: '재물과 배우자 복, 풍족한 삶을 상징합니다.', category: '귀인' },
   // 12신살 (긍정 5개)
-  장성살: { icon: '⚔️', desc: '리더십과 권위, 큰 조직을 이끌 기운이 있습니다.', category: '12신살' },
-  반안살: { icon: '🏇', desc: '명예와 출세, 말년 복이 있는 길성입니다.', category: '12신살' },
-  역마살: { icon: '🏇', desc: '활동력이 강하고 여행·이동·변화가 많습니다.', category: '12신살' },
-  화개살: { icon: '🎨', desc: '예술·종교·학문에 깊은 인연이 있습니다.', category: '12신살' },
-  도화살: { icon: '🌸', desc: '매력과 인기, 이성운이 뛰어납니다.', category: '12신살' },
+  장성살: { icon: '⚔️', hanja: '將星煞', subtitle: '리더십과 권위의 별', desc: '리더십과 권위, 큰 조직을 이끌 기운이 있습니다.', category: '12신살' },
+  반안살: { icon: '🏇', hanja: '攀鞍煞', subtitle: '명예와 출세, 말년 복의 별', desc: '명예와 출세, 말년 복이 있는 길성입니다.', category: '12신살' },
+  역마살: { icon: '🏇', hanja: '驛馬煞', subtitle: '이동·변화·여행의 기운', desc: '활동력이 강하고 여행·이동·변화가 많습니다.', category: '12신살' },
+  화개살: { icon: '🎨', hanja: '華蓋煞', subtitle: '예술·종교·학문의 인연', desc: '예술·종교·학문에 깊은 인연이 있습니다.', category: '12신살' },
+  도화살: { icon: '🌸', hanja: '桃花煞', subtitle: '매력과 인기의 기운', desc: '매력과 인기, 이성운이 뛰어납니다.', category: '12신살' },
   // 특수 기운
-  양인살:   { icon: '🗡️', desc: '강한 추진력과 리더 기운. 군경·의료 분야에 적합합니다.', category: '특수' },
-  괴강살:   { icon: '⚡', desc: '강인한 의지와 카리스마. 한번 시작하면 끝까지 해내는 기운입니다.', category: '특수' },
-  현침살:   { icon: '📍', desc: '날카로운 판단과 손재주. 의료·침술·정밀 작업에 인연이 있습니다.', category: '특수' },
-  귀문관살: { icon: '👁️', desc: '예민하고 영적 감각이 뛰어나 남들이 못 보는 것을 봅니다.', category: '특수' },
-  홍염살:   { icon: '🌹', desc: '이성을 끄는 매력과 강한 연애운이 있습니다.', category: '특수' },
+  양인살:   { icon: '🗡️', hanja: '羊刃煞',   subtitle: '강한 추진력과 리더의 기운', desc: '강한 추진력과 리더 기운. 군경·의료 분야에 적합합니다.', category: '특수' },
+  괴강살:   { icon: '⚡', hanja: '魁罡煞',   subtitle: '강인한 의지와 카리스마의 별', desc: '강인한 의지와 카리스마. 한번 시작하면 끝까지 해내는 기운입니다.', category: '특수' },
+  현침살:   { icon: '📍', hanja: '懸針煞',   subtitle: '날카로운 판단과 손재주의 별', desc: '날카로운 판단과 손재주. 의료·침술·정밀 작업에 인연이 있습니다.', category: '특수' },
+  귀문관살: { icon: '👁️', hanja: '鬼門關煞', subtitle: '예민함과 영적 감각의 별', desc: '예민하고 영적 감각이 뛰어나 남들이 못 보는 것을 봅니다.', category: '특수' },
+  홍염살:   { icon: '🌹', hanja: '紅艶煞',   subtitle: '이성을 끄는 매력의 별', desc: '이성을 끄는 매력과 강한 연애운이 있습니다.', category: '특수' },
 };
 
 // ─── 전체 분석 타입 ────────────────────────────
