@@ -956,7 +956,7 @@ export async function POST(req: NextRequest) {
       const prompt = buildMatchingPrompt(data, sajuA, sajuB, compat);
 
       // 스트리밍 응답
-      const apiKey = process.env.GOOGLE_GENAI_API_KEY || process.env.GEMINI_API_KEY;
+      const apiKey = process.env.GOOGLE_API_KEY;
       if (!apiKey) return NextResponse.json({ error: "API 키 없음" }, { status: 500 });
 
       const res = await fetch(

@@ -25,7 +25,6 @@ export default function MatchingChatForm() {
     myHour: "시간 모름", myCalendar: "양력",
     partnerName: "", partnerGender: "", partnerYear: "", partnerMonth: "", partnerDay: "",
     partnerHour: "시간 모름", partnerCalendar: "양력",
-    phone: "",
   });
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -111,16 +110,6 @@ export default function MatchingChatForm() {
   function submitPartnerHour(h: string) {
     setForm(f => ({ ...f, partnerHour: h }));
     userMsg(h, "a7", () =>
-      aiMsg("결과를 문자로 받아볼 전화번호를 입력해주세요.", "q8", () => setStep(8))
-    );
-  }
-  // Q8 — 전화번호
-  function submitPhone() {
-    const v = inputValue.trim();
-    if (!v) return;
-    setForm(f => ({ ...f, phone: v }));
-    setInputValue("");
-    userMsg(v, "a8", () =>
       aiMsg(`${form.myName}님과 ${form.partnerName}님의\n인연을 풀이할 준비가 되었습니다.`, "q9", () => setStep(9))
     );
   }
@@ -273,24 +262,6 @@ export default function MatchingChatForm() {
 
         {/* Q7 — 상대 시간 */}
         {step === 7 && <HourGrid hours={HOURS} onSelect={submitPartnerHour} accent={ACCENT} />}
-
-        {/* Q8 — 전화번호 */}
-        {step === 8 && (
-          <div className="flex justify-end gap-2">
-            <input
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value.replace(/\D/g, ""))}
-              onKeyDown={e => e.key === "Enter" && submitPhone()}
-              placeholder="010-0000-0000"
-              maxLength={11}
-              autoFocus
-              className="rounded-lg px-3 py-2 text-white text-sm outline-none w-40"
-              style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
-            />
-            <button onClick={submitPhone} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
-              style={{ backgroundColor: inputValue.trim() ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>→</button>
-          </div>
-        )}
 
         {/* Q9 — 궁합 풀이 시작 */}
         {step === 9 && (
