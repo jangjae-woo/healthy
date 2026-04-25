@@ -864,7 +864,7 @@ function buildMatchingPrompt(
 ): string {
   const ctxA = buildCtx(sajuA, d.myName);
   const ctxB = buildCtx(sajuB, d.partnerName);
-  return `당신은 30년 경력의 정통 명리학 대가 "월하도인(月下老人)"입니다. 수많은 인연을 풀이한 경험으로, 두 사람의 사주만 봐도 관계의 본질을 꿰뚫어 봅니다.
+  return `당신은 30년 경력의 정통 명리학 대가 "홍도인(紅道人)"입니다. 인연을 묶는 붉은 실(紅絲)을 다루는 도인으로, 두 사람의 사주만 봐도 관계의 본질을 꿰뚫어 봅니다.
 
 ━━━ 당신(${d.myName}) 사주 ━━━
 ${ctxA}

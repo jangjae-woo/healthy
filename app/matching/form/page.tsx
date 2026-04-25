@@ -33,7 +33,7 @@ export default function MatchingChatForm() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      aiMsg("안녕하세요.\n저는 월하도인입니다.\n\n두 분의 인연을 함께 풀어드리겠습니다.\n\n먼저 당신의 성함을 알려주시겠습니까?", "q0", () => setStep(0));
+      aiMsg("안녕하세요.\n저는 홍도인입니다.\n\n두 분의 인연을 함께 풀어드리겠습니다.\n\n먼저 당신의 성함을 알려주시겠습니까?", "q0", () => setStep(0));
     }, 500);
     return () => clearTimeout(t);
   }, []);
@@ -131,9 +131,9 @@ export default function MatchingChatForm() {
       {/* 헤더 */}
       <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ borderBottom: `1px solid ${ACCENT}18` }}>
         <Link href="/matching" className="text-sm" style={{ color: `${ACCENT}66` }}>←</Link>
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>緣</div>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>紅</div>
         <div>
-          <div className="text-sm font-bold text-white">월하도인</div>
+          <div className="text-sm font-bold text-white">홍도인</div>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
             <span className="text-[10px]" style={{ color: `${ACCENT}55` }}>인연 상담가</span>

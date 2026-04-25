@@ -3,7 +3,7 @@ import ServiceLanding from "@/components/ServiceLanding";
 export default function MatchingPage() {
   return (
     <ServiceLanding
-      character="월하도인"
+      character="홍도인"
       title="연인과의 궁합"
       tagline="두 사람의 사주로 풀어보는 인연의 깊이"
       emoji="🌹"
