@@ -31,39 +31,113 @@ export function withSubjectParticle(name: string): string {
   return `${name}이`;
 }
 
+/** 한글 받침에 따른 목적격 조사(을/를) */
+function withObjectParticle(s: string): string {
+  if (!s) return s;
+  const last = s.charCodeAt(s.length - 1);
+  if (last >= 0xAC00 && last <= 0xD7A3) {
+    const hasJongseong = (last - 0xAC00) % 28 !== 0;
+    return hasJongseong ? `${s}을` : `${s}를`;
+  }
+  return `${s}을`;
+}
+
+/** 한글 받침에 따른 도구격 조사(으로/로) — ㄹ 받침은 '로' */
+function withInstrumentalParticle(s: string): string {
+  if (!s) return s;
+  const last = s.charCodeAt(s.length - 1);
+  if (last >= 0xAC00 && last <= 0xD7A3) {
+    const jong = (last - 0xAC00) % 28;
+    if (jong === 0 || jong === 8) return `${s}로`; // 받침 없음 or ㄹ
+    return `${s}으로`;
+  }
+  return `${s}으로`;
+}
+
 /**
- * 부모-아이 한 줄 궁합 카피
- * - 부모가 아이에게 보충해주는 오행(aHelpsB)을 동사구로 변환
- * - 일간 관계가 비화면 "닮은 결로 함께 가는"
- * - 일간 관계가 상극(부모→아이)이면 "곧은 방향을 단련시켜 주는"
- * - 그 외 채울 게 없으면 "닮은 결을 나누는"
- * 결과: "[동사구] 사이"
+ * 부모-아이 한 줄 궁합 카피 (직관적 매트릭스)
+ * 패턴: "[아이의 결]에 [부모의 결]을 [동사] 사이"
+ * - 1순위: 일간 관계로 큰 구도 결정 (비화 / 상생 / 상극)
+ * - 2순위: 부모가 채워주는 오행(aHelpsB)으로 부모의 결 확정
+ * - 부모 역할별 동사·결 어휘 차별화 → 같은 관계·같은 오행이어도 카피 분리
  */
-export function parentChildOneLiner(compat: {
-  ilganRelation: string;
-  elementBalance: { aHelpsB: string[] };
-}): string {
+export function parentChildOneLiner(
+  compat: { ilganRelation: string; elementBalance: { aHelpsB: string[] } },
+  role: "mom" | "dad" = "mom",
+  childElement?: string,
+): string {
   const ilgan = compat.ilganRelation || "";
   const helps = compat.elementBalance?.aHelpsB ?? [];
+  const isMom = role === "mom";
 
-  const ELEM_VERB: Record<string, string> = {
-    토: "안정의 결을 채워주는",
-    금: "단단한 방향을 잡아주는",
-    수: "차분한 지혜를 더해주는",
-    목: "성장의 결을 키워주는",
-    화: "따뜻한 활기를 더해주는",
+  // 비화 — 같은 본질
+  if (ilgan.includes("비화")) {
+    return isMom
+      ? "닮은 결로 마음이 통하는 사이"
+      : "닮은 결로 어깨 나란히 가는 사이";
+  }
+
+  // 아이의 결 (강한 면 — 일간 오행 기반, base 형 — 조사는 caller에서 부착)
+  const CHILD_TRAIT: Record<string, string> = {
+    목: "뻗어가는 마음",
+    화: "뜨거운 마음",
+    토: "묵직한 의지",
+    금: "날카로운 결단",
+    수: "깊이 잠긴 마음",
+  };
+  // 엄마 — 선물(도구)으로 시작 → 정서적 동사 (안1 + 안5 혼합 톤)
+  // 형식: "[gift]으로 [trait]을 [verb] 사이"
+  const MOM_BY_HELPS: Record<string, [gift: string, verb: string]> = {
+    목: ["유연함", "부드럽게 풀어주는"],
+    화: ["따스한 온기", "살며시 데워주는"],
+    토: ["포근한 품", "가만히 감싸안는"],
+    금: ["단단한 손길", "조용히 다독이는"],
+    수: ["잔잔한 결", "살며시 가라앉혀주는"],
+  };
+  // 아빠 — 아이 결로 시작 → 방향성 동사
+  // 형식: "[trait]에 [gift]을 [verb] 사이"
+  const DAD_BY_HELPS: Record<string, [gift: string, verb: string]> = {
+    목: ["새로운 길", "활짝 열어주는"],
+    화: ["환한 등불", "앞에서 비춰주는"],
+    토: ["든든한 기둥", "단단히 세워주는"],
+    금: ["곧은 방향", "흔들림 없이 잡아주는"],
+    수: ["고요한 분별", "차분히 일러주는"],
   };
 
   if (helps.length > 0) {
-    const first = helps[0];
-    const verb = ELEM_VERB[first];
-    if (verb) return `${verb} 사이`;
+    const trait = (childElement && CHILD_TRAIT[childElement]) || "흩어지는 마음";
+    if (isMom && MOM_BY_HELPS[helps[0]]) {
+      const [gift, verb] = MOM_BY_HELPS[helps[0]];
+      return `${withInstrumentalParticle(gift)} ${withObjectParticle(trait)} ${verb} 사이`;
+    }
+    if (!isMom && DAD_BY_HELPS[helps[0]]) {
+      const [gift, verb] = DAD_BY_HELPS[helps[0]];
+      return `${trait}에 ${withObjectParticle(gift)} ${verb} 사이`;
+    }
   }
-  if (ilgan.includes("비화")) return "닮은 결로 함께 가는 사이";
+
+  // 일간 관계 폴백 — 채울 게 없는 경우
   if (ilgan.includes("상극") && ilgan.includes("당신이 상대를 제어")) {
-    return "곧은 방향을 단련시켜 주는 사이";
+    return isMom
+      ? "곧은 마음을 빚어주는 사이"
+      : "곧은 방향을 단련시켜 주는 사이";
   }
-  return "닮은 결을 나누는 사이";
+  if (ilgan.includes("상극") && ilgan.includes("상대가 당신을 제어")) {
+    return isMom
+      ? "아이로 인해 마음이 단단해지는 사이"
+      : "아이로 인해 결이 다듬어지는 사이";
+  }
+  if (ilgan.includes("상생") && ilgan.includes("당신이 상대를 살림")) {
+    return isMom
+      ? "포근히 감싸 키워주는 사이"
+      : "든든히 밀어주며 키워주는 사이";
+  }
+  if (ilgan.includes("상생") && ilgan.includes("상대가 당신을 살림")) {
+    return isMom
+      ? "아이의 기운으로 환해지는 사이"
+      : "아이로 인해 결이 채워지는 사이";
+  }
+  return "결이 잘 어우러지는 사이";
 }
 
 /**

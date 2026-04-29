@@ -230,7 +230,7 @@ export function getSipseongCounts(saju: SajuAnalysis): SipseongCount {
 export const SIPSEONG_DESC: Record<keyof SipseongCount, string> = {
   비겁: "자립·경쟁",
   식상: "표현·창의",
-  재성: "현실·관리",
+  재성: "돈·물건의 결",
   관성: "절제·규율",
   인성: "학습·사색",
 };
@@ -482,9 +482,12 @@ export function inferTantrumTriggers(saju: SajuAnalysis): TantrumTrigger[] {
   const yanginActive = sinsal.includes("양인살") || sinsal.includes("괴강살");
   const yanginScore = yanginActive ? 82 : Math.min(100, Math.round((bigyeop / 4) * 60));
   // 4. 절제 회로 (土·관성) — 멈출 수 있는 힘
+  // 관성(0~5)과 토 비율(0~50%)을 50/50으로 합쳐 0~100 범위로 정규화
   const toMax = elem.토 ?? 0;
-  const restraintRaw = gwansong * 1.2 + toMax * 0.6;
-  const restraintScore = Math.min(100, Math.round((restraintRaw / 6) * 100));
+  const restraintScore = Math.min(
+    100,
+    Math.round((Math.min(gwansong, 5) / 5) * 50 + (Math.min(toMax, 50) / 50) * 50),
+  );
 
   return [
     {
@@ -507,7 +510,7 @@ export function inferTantrumTriggers(saju: SajuAnalysis): TantrumTrigger[] {
     },
     {
       name: "절제 회로(土)",
-      subtitle: `"멈출 수 있는 힘" — ${Math.round(((elem.토 ?? 0) / fireMax) * 100)}%`,
+      subtitle: `"멈출 수 있는 힘" — ${restraintScore}%`,
       score: restraintScore,
       color: "#fbbf24",
     },

@@ -66,6 +66,7 @@ import {
   type ObservationGuide,
 } from "@/lib/parent-child-observation";
 import { softenIlganRelation, softenIljiRelation, softenChungList, withChildHonorific, parentChildOneLiner } from "@/lib/wording";
+import { ensureChildHonorific } from "@/lib/text-postprocess";
 
 const ACCENT = "#f0a8b8";  // 따뜻한 로즈 핑크
 const GOLD = "#FFD700";
@@ -1735,7 +1736,8 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
   ];
   const gridPts = (s: number) => ELEM_ORDER.map((_, i) => pt(i, s).join(",")).join(" ");
   const dataPts = ELEM_ORDER.map((el, i) => {
-    const raw = (adjusted[el] || 0) / maxVal;
+    // 절대 스케일 — 100%가 꼭짓점 (이전: 최댓값 기준 상대 스케일)
+    const raw = (adjusted[el] || 0) / 100;
     const s = Math.max(MIN_SCALE, raw);
     return pt(i, s).join(",");
   }).join(" ");
@@ -1747,6 +1749,18 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
           <polygon key={gi} points={gridPts(s)} fill="none"
             stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
+        ))}
+        {/* 그리드 % 라벨 — 절대 스케일 가독성 (ElementsRadar 한정) */}
+        {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
+          <text
+            key={`gl-${gi}`}
+            x={cx + 4}
+            y={cy - R * s + 3}
+            fontSize="9"
+            fill="rgba(255,255,255,0.35)"
+          >
+            {Math.round(s * 100)}%
+          </text>
         ))}
         {ELEM_ORDER.map((_, i) => {
           const [x, y] = pt(i, 1);
@@ -1797,11 +1811,11 @@ const SIPSEONG_SPECTRUM: Record<string, { label: string; weak: string; strong: s
     explain: "자녀가 마음과 생각을 바깥으로 어떻게 풀어내는지의 결",
   },
   재성: {
-    label: "나의 손에 쥐는 결",
-    weak: "이상·꿈에 더 끌리고 현실 감각은 천천히 자람 — 손에 잡히는 것보다 마음의 그림이 큼",
-    strong: "현실 감각이 좋고 실용적임 — 손에 잡히는 것·구체적인 결과를 좋아함",
-    balanced: "이상과 현실이 고루 — 꿈도 꾸고 실용도 챙김",
-    explain: "자녀가 무엇에 끌리고 무엇을 손에 쥐려 하는지의 결",
+    label: "손에 잡히는 결",
+    weak: "손에 잡히는 결과보다 머릿속 이상에 끌림 — 결과 챙김이 늦은 편",
+    strong: "돈·물건·결과를 챙기는 감각이 좋고 실용적임",
+    balanced: "이상과 결과가 고루 — 꿈도 꾸고 실리도 챙김",
+    explain: "자녀가 돈·물건·구체적 결과에 어떻게 끌리는지의 결",
   },
   관성: {
     label: "절제하는 결",
@@ -1904,7 +1918,8 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
   ];
   const gridPts = (s: number) => ORDER.map((_, i) => pt(i, s).join(",")).join(" ");
   const dataPts = ORDER.map((k, i) => {
-    const raw = displayCounts[k] / maxVal;
+    // 절대 스케일 — 8 = 사주 8글자 모두 한 결에 집중되었을 때 (이전: 최댓값 기준 상대)
+    const raw = displayCounts[k] / 8;
     const s = Math.max(MIN_SCALE, raw);
     return pt(i, s).join(",");
   }).join(" ");
@@ -1917,11 +1932,42 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
             stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
+        {/* 그리드 % 라벨 — 절대 스케일 가독성 (SipseongRadar 한정) */}
+        {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
+          <text
+            key={`sgl-${gi}`}
+            x={cx + 4}
+            y={cy - R * s + 3}
+            fontSize="9"
+            fill="rgba(255,255,255,0.35)"
+          >
+            {Math.round(s * 100)}%
+          </text>
+        ))}
         {ORDER.map((_, i) => {
           const [x, y] = pt(i, 1);
           return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />;
         })}
-        <polygon points={dataPts} fill={`${ACCENT}33`} stroke={ACCENT} strokeWidth="2.5" strokeLinejoin="round" />
+        {/* 방사형 막대 — 0인 결은 그리지 않음 (연결 폴리곤 대신 직관적 막대) */}
+        {ORDER.map((k, i) => {
+          if (counts[k] === 0) return null;
+          const raw = displayCounts[k] / 8;
+          const s = Math.max(MIN_SCALE, raw);
+          const [x, y] = pt(i, s);
+          return (
+            <line
+              key={`bar-${i}`}
+              x1={cx}
+              y1={cy}
+              x2={x}
+              y2={y}
+              stroke={ACCENT}
+              strokeWidth="6"
+              strokeLinecap="round"
+              opacity={0.85}
+            />
+          );
+        })}
         {ORDER.map((k, i) => {
           const [lx, ly] = pt(i, LO);
           const isTop = k === top;
@@ -2465,7 +2511,11 @@ export default function ParentChildSlideResult() {
           for (const line of lines) {
             if (!line.startsWith("data: ")) continue;
             const raw = line.slice(6);
-            if (raw === "[DONE]") break outer;
+            if (raw === "[DONE]") {
+              // 스트림 완료 — 자녀 호칭(양/군) 후처리 안전망 적용
+              setContent(ensureChildHonorific(full, childName, params.get("childGender") || ""));
+              break outer;
+            }
             try {
               const msg = JSON.parse(raw);
               if (msg.t === "m" && msg.d) {
@@ -2847,12 +2897,12 @@ export default function ParentChildSlideResult() {
             <p className="text-xs font-bold" style={{ color: ACCENT }}>가족 인연의 결</p>
             {hasMom && momCompat && (
               <p className="text-xs" style={{ color: "rgba(255,255,255,0.78)" }}>
-                • 엄마와 아이의 궁합: {parentChildOneLiner(momCompat)}
+                • 엄마와 아이의 궁합: {parentChildOneLiner(momCompat, "mom", sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : undefined)}
               </p>
             )}
             {hasDad && dadCompat && (
               <p className="text-xs" style={{ color: "rgba(255,255,255,0.78)" }}>
-                • 아빠와 아이의 궁합: {parentChildOneLiner(dadCompat)}
+                • 아빠와 아이의 궁합: {parentChildOneLiner(dadCompat, "dad", sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : undefined)}
               </p>
             )}
           </div>
