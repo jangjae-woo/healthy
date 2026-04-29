@@ -3,9 +3,9 @@ import ServiceLanding from "@/components/ServiceLanding";
 export default function NamingPage() {
   return (
     <ServiceLanding
-      character="황도인"
+      character="황도인(煌道人)"
       title="이름 짓기 · 개명"
-      tagline="사주 오행을 보완하고 원하는 느낌을 담은 이름 추천"
+      tagline="이름을 빛내는 길 — 사주 오행을 보완하는 정통 작명"
       emoji="✍️"
       image="/char-naming.png"
       bg="#1e1408"

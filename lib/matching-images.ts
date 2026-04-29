@@ -74,7 +74,7 @@ export function characterPairLabel(ilganA: string, ilganB: string): { a: string;
 }
 
 // ── 2. 사자성어 라벨 (15장) ──
-// 점수 + 관계 지표로 결정. 우선순위 위→아래
+// 관계 패턴(일간/합/충/오행 보충)만으로 결정. 점수 사용 X.
 export interface SajaSeongeoResult {
   hanja: string;        // "天生緣分"
   hangul: string;       // "천생연분"
@@ -82,7 +82,6 @@ export interface SajaSeongeoResult {
   image: string;        // 파일명
 }
 export function pickSajaSeongeo(compat: CompatibilityResult): SajaSeongeoResult {
-  const s = compat.score;
   const ilgan = compat.ilganRelation; // '비화(比和)', '상생 (...)', '상극 (...)' 중 하나
   const isSangsaeng = ilgan.includes("상생");
   const isSanggeuk = ilgan.includes("상극");
@@ -90,39 +89,45 @@ export function pickSajaSeongeo(compat: CompatibilityResult): SajaSeongeoResult 
   const chungs = compat.branchRelations.chung.length;
   const samhap = compat.branchRelations.samhap.length;
   const yukhap = compat.branchRelations.yukhap.length;
+  const totalHap = samhap + yukhap;
+  const helps = compat.elementBalance.aHelpsB.length + compat.elementBalance.bHelpsA.length;
 
-  // 90+ 강한 인연
-  if (s >= 90 && (samhap >= 1 || yukhap >= 1))
+  // ── 가장 좋은 인연 ──
+  if (isSangsaeng && samhap >= 1 && chungs === 0)
     return { hanja: "天生緣分", hangul: "천생연분", meaning: "하늘이 맺어준 인연", image: "016_사자성어_천생연분.png" };
-  if (s >= 88 && isSangsaeng && yukhap >= 1)
+  if (isSangsaeng && yukhap >= 1 && chungs === 0)
     return { hanja: "百年偕老", hangul: "백년해로", meaning: "백 년을 함께 늙어감", image: "017_사자성어_백년해로.jpeg" };
-  if (s >= 85 && isSangsaeng)
-    return { hanja: "夫唱婦隨", hangul: "부창부수", meaning: "서로를 따르는 조화로운 인연", image: "018_사자성어_부창부수.png" };
-  if (s >= 85 && samhap >= 1)
+  if (samhap >= 1 && helps >= 1)
     return { hanja: "一心同體", hangul: "일심동체", meaning: "한 마음 한 몸", image: "019_사자성어_일심동체.png" };
-  // 70-84 양호
-  if (s >= 75 && isBihwa)
-    return { hanja: "和而不同", hangul: "화이부동", meaning: "다르지만 조화로움", image: "020_사자성어_화이부동.jpeg" };
-  if (s >= 75 && yukhap >= 1)
+  if (isSangsaeng && helps >= 2)
+    return { hanja: "夫唱婦隨", hangul: "부창부수", meaning: "서로를 따르는 조화로운 인연", image: "018_사자성어_부창부수.png" };
+
+  // ── 좋은 인연 ──
+  if (isSangsaeng && yukhap >= 1)
     return { hanja: "水魚之交", hangul: "수어지교", meaning: "물과 물고기처럼 떨어질 수 없는 사이", image: "021_사자성어_수어지교.png" };
-  if (s >= 72)
+  if (isBihwa && totalHap >= 1)
+    return { hanja: "和而不同", hangul: "화이부동", meaning: "다르지만 조화로움", image: "020_사자성어_화이부동.jpeg" };
+  if (isSangsaeng && chungs <= 1)
     return { hanja: "膠漆之交", hangul: "교칠지교", meaning: "아교와 옻처럼 단단히 붙은 인연", image: "022_사자성어_교칠지교.png" };
-  if (s >= 70)
+  if (helps >= 2 && chungs === 0)
     return { hanja: "擧案齊眉", hangul: "거안제미", meaning: "서로 공경하는 인연", image: "023_사자성어_거안제미.png" };
-  if (s >= 68)
+  if (totalHap >= 1)
     return { hanja: "以心傳心", hangul: "이심전심", meaning: "마음에서 마음으로 통함", image: "024_사자성어_이심전심.png" };
-  // 50-69 노력형
-  if (s >= 60 && chungs >= 1)
-    return { hanja: "捲土重來", hangul: "권토중래", meaning: "흙먼지 일으키며 다시 일어섬", image: "025_사자성어_권토중래.jpeg" };
-  if (s >= 55)
-    return { hanja: "塞翁之馬", hangul: "새옹지마", meaning: "변화무쌍한 인연", image: "026_사자성어_새옹지마.png" };
-  if (s >= 50)
-    return { hanja: "同床異夢", hangul: "동상이몽", meaning: "같이 있어도 다른 꿈을 꾸는 사이", image: "027_사자성어_동상이몽.png" };
-  // 50 미만 도전적
-  if (s >= 40 && chungs >= 2)
-    return { hanja: "氷炭之間", hangul: "빙탄지간", meaning: "얼음과 숯처럼 어울리기 힘든 사이", image: "028_사자성어_빙탄지간.png" };
-  if (chungs >= 2 || isSanggeuk)
-    return { hanja: "犬猿之間", hangul: "견원지간", meaning: "개와 원숭이처럼 부딪히는 사이", image: "029_사자성어_견원지간.png" };
+
+  // ── 깊어지는 인연 ──
+  if (isSangsaeng)
+    return { hanja: "塞翁之馬", hangul: "새옹지마", meaning: "변화 속에서도 결국 좋은 길로", image: "026_사자성어_새옹지마.png" };
+  if (isBihwa)
+    return { hanja: "同床異夢", hangul: "동상이몽", meaning: "같은 자리에 있어도 다른 꿈을 꾸는 사이", image: "027_사자성어_동상이몽.png" };
+  if (chungs >= 1 && totalHap >= 1)
+    return { hanja: "捲土重來", hangul: "권토중래", meaning: "흙먼지 속에서도 다시 일어서는 인연", image: "025_사자성어_권토중래.jpeg" };
+
+  // ── 도전적 인연 ──
+  if (isSanggeuk && chungs >= 2)
+    return { hanja: "氷炭之間", hangul: "빙탄지간", meaning: "얼음과 숯, 다른 본성이 만난 사이", image: "028_사자성어_빙탄지간.png" };
+  if (isSanggeuk)
+    return { hanja: "犬猿之間", hangul: "견원지간", meaning: "다른 결의 두 사람", image: "029_사자성어_견원지간.png" };
+
   return { hanja: "風雲之會", hangul: "풍운지회", meaning: "바람과 구름이 만나는 운명적 인연", image: "030_사자성어_풍운지회.png" };
 }
 
@@ -235,7 +240,129 @@ export function pickShareCardBg(score: number, mood?: string): string {
   return "077_공유_무드_영원.png";
 }
 
-// ── 7. 키워드 매칭 이미지 (40장) — AI 본문 스캔 ──
+// ── 7. 인연 카드 (16종) — 사주 데이터 기반 자동 선택 ──
+export interface InyeonCardResult {
+  hanja: string;        // "天生緣分卡"
+  hangul: string;       // "천생연분카"
+  short: string;        // 짧은 한 줄 풀이
+  meaning: string;      // 한 단락 풀이
+  hueA: string;         // 그라데이션 색 1
+  hueB: string;         // 그라데이션 색 2
+}
+
+const STEM_TO_ELEM_FOR_CARD: Record<string, string> = {
+  갑: "목", 을: "목", 병: "화", 정: "화", 무: "토",
+  기: "토", 경: "금", 신: "금", 임: "수", 계: "수",
+};
+const ELEM_HUE: Record<string, string> = {
+  목: "#22c55e", 화: "#ef4444", 토: "#f59e0b", 금: "#94a3b8", 수: "#60a5fa",
+};
+
+export function pickInyeonCard(
+  ilganA: string,
+  ilganB: string,
+  compat: CompatibilityResult,
+  sharedSinsalCount: number = 0
+): InyeonCardResult {
+  const elA = STEM_TO_ELEM_FOR_CARD[ilganA] ?? "토";
+  const elB = STEM_TO_ELEM_FOR_CARD[ilganB] ?? "토";
+  const isSamhap = compat.branchRelations.samhap.length > 0;
+  const isYukhap = compat.branchRelations.yukhap.length > 0;
+  const isChung = compat.branchRelations.chung.length > 0;
+  const ilgan = compat.ilganRelation;
+  const isSangsaeng = ilgan.includes("상생");
+  const isBihwa = ilgan.includes("비화");
+  const isSanggeuk = ilgan.includes("상극");
+  const helps = compat.elementBalance.aHelpsB.length + compat.elementBalance.bHelpsA.length;
+  const hueA = ELEM_HUE[elA];
+  const hueB = ELEM_HUE[elB];
+
+  // 같은 일주(거울 인연) — sajucalculator에서 정확한 일주 비교는 어려우니 일간 동일로 근사
+  if (ilganA === ilganB && isBihwa)
+    return { hanja: "鏡像之緣卡", hangul: "거울 인연", short: "닮은 결로 마주 보는 운명",
+      meaning: "두 분의 일간이 같은 결로 흐릅니다. 마치 거울을 보듯 서로의 본질이 비춰지는 인연입니다.",
+      hueA, hueB };
+
+  // 천생연분 — 삼합 + 상생 + 충 없음
+  if (isSamhap && isSangsaeng && !isChung)
+    return { hanja: "天生緣分卡", hangul: "천생연분", short: "하늘이 맺어준 운명적 인연",
+      meaning: "지지의 삼합(三合)과 일간의 상생(相生)이 맞물려, 하늘이 맺어준 인연의 결이 흐릅니다.",
+      hueA: "#FFD700", hueB: hueB };
+
+  // 호보상성 — 서로 용신 채움 (helps 강함)
+  if (helps >= 2 && isSangsaeng)
+    return { hanja: "互補相成卡", hangul: "호보상성", short: "서로의 부족함을 채우는 인연",
+      meaning: "두 분이 서로의 사주에서 부족한 기운을 채워주는 결로 만났습니다. 함께 있을수록 완성되는 인연입니다.",
+      hueA, hueB };
+
+  // 만리동풍 — 같은 신살 다수
+  if (sharedSinsalCount >= 2)
+    return { hanja: "萬里同風卡", hangul: "만리동풍", short: "같은 바람을 맞고 있는 인연",
+      meaning: "두 분의 사주에 같은 신살(神煞)이 흘러, 만리 떨어져도 같은 바람을 맞고 있는 듯한 동질의 결입니다.",
+      hueA, hueB };
+
+  // 풍운제회 — 충 + 합 동시 강함
+  if (isChung && (isSamhap || isYukhap))
+    return { hanja: "風雲際會卡", hangul: "풍운제회", short: "바람과 구름이 만나는 격동의 인연",
+      meaning: "지지의 충(衝)과 합(合)이 동시에 흘러, 격렬하면서도 운명적인 결입니다. 잔잔하지 않으나 깊습니다.",
+      hueA: "#a855f7", hueB: hueA };
+
+  // 오행 페어 카드들
+  const elPair = [elA, elB].sort().join("");
+  if (elPair === "목화")
+    return { hanja: "木火通明卡", hangul: "목화통명", short: "나무가 불을 살리는 인연",
+      meaning: "목(木)이 화(火)를 살리고 화가 목을 빛나게 하는, 가장 자연스럽게 흐르는 결입니다.",
+      hueA: ELEM_HUE.목, hueB: ELEM_HUE.화 };
+  if (elPair === "금수")
+    return { hanja: "金水相生卡", hangul: "금수상생", short: "맑은 물이 단단한 금을 만나는 인연",
+      meaning: "금(金)이 수(水)를 낳고 수가 금을 빛나게 하는, 맑고 깊은 결의 인연입니다.",
+      hueA: ELEM_HUE.금, hueB: ELEM_HUE.수 };
+  if (elPair === "수토" || elPair === "토수")
+    return { hanja: "山水相依卡", hangul: "산수상의", short: "산과 호수가 마주 비추는 인연",
+      meaning: "토(土)의 굳건함과 수(水)의 유연함이 마주 비춰, 서로 다른 결로 안정을 주는 인연입니다.",
+      hueA: ELEM_HUE.토, hueB: ELEM_HUE.수 };
+  if (elPair === "수화" || elPair === "화수")
+    return { hanja: "烈火寒水卡", hangul: "열화한수", short: "불과 물의 만남, 자극의 인연",
+      meaning: "열(熱)의 화와 한(寒)의 수가 만나 서로를 단련하고 깨우는 결입니다. 평탄하진 않으나 깊습니다.",
+      hueA: ELEM_HUE.화, hueB: ELEM_HUE.수 };
+
+  // 홍사견인 (도화·홍염 영역) — 일단 상생 + 합 약하면
+  if (isSangsaeng && isYukhap)
+    return { hanja: "紅絲牽引卡", hangul: "홍사견인", short: "붉은 실에 끌려가는 인연",
+      meaning: "보이지 않는 붉은 실(紅絲)이 두 분을 끌어당기고 있는 결입니다. 거부할 수 없는 끌림이 흐릅니다.",
+      hueA: "#ec4899", hueB: hueA };
+
+  // 천리상사 — 상극이지만 합 있음 (멀리서도 묶임)
+  if (isSanggeuk && (isSamhap || isYukhap))
+    return { hanja: "千里相思卡", hangul: "천리상사", short: "멀리 있어도 마음이 묶인 인연",
+      meaning: "결이 다르지만 어딘가에서 묶인 끈이 있어, 멀리 있을수록 더 그리워지는 인연입니다.",
+      hueA, hueB };
+
+  // 부평봉수 — 합 약하고 충 강함
+  if (isChung && !isSamhap && !isYukhap)
+    return { hanja: "浮萍逢水卡", hangul: "부평봉수", short: "물 위 부평초처럼 흔들리는 인연",
+      meaning: "물 위에 떠 있는 부평초(浮萍)처럼, 흐름에 따라 흔들리는 결입니다. 단단함보다 유동의 결입니다.",
+      hueA, hueB };
+
+  // 춘추쌍화 — 봄(목) + 가을(금) 만남
+  if ((elA === "목" && elB === "금") || (elA === "금" && elB === "목"))
+    return { hanja: "春秋雙花卡", hangul: "춘추쌍화", short: "봄꽃과 가을꽃이 마주 핀 인연",
+      meaning: "목(春)과 금(秋)이 마주 핀 두 꽃처럼, 정반대의 결이 서로를 비추는 인연입니다.",
+      hueA: ELEM_HUE.목, hueB: ELEM_HUE.금 };
+
+  // 화이부동 — 비화
+  if (isBihwa)
+    return { hanja: "和而不同卡", hangul: "화이부동", short: "닮았으나 다름이 있는 인연",
+      meaning: "같은 결을 가졌으나 미묘한 다름이 있어, 서로를 흥미롭게 비추는 결입니다.",
+      hueA, hueB };
+
+  // fallback
+  return { hanja: "風雲之會卡", hangul: "풍운지회", short: "바람과 구름이 만나는 인연",
+    meaning: "바람과 구름이 만나는 운명적 결입니다. 정해진 답 없이, 두 분이 함께 만들어가는 인연의 결입니다.",
+    hueA, hueB };
+}
+
+// ── 키워드 매칭 이미지 (40장) — AI 본문 스캔 ──
 export const MATCHING_KEYWORD_IMAGE: Array<{ m: string[]; img: string }> = [
   { m: ["운명적 만남", "운명의 만남", "운명처럼 만"], img: "078_키워드_운명적만남.png" },
   { m: ["첫 만남", "처음 만났", "처음 보았"],         img: "079_키워드_첫만남.png" },

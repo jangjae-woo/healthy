@@ -22,7 +22,7 @@ export default function NamingForm() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      aiMsg("안녕하세요.\n저는 황도인입니다.\n\n이름을 지어드릴 분의 성별을 알려주세요.", "q0", () => setStep(0));
+      aiMsg("안녕하세요.\n저는 황도인(煌道人)입니다.\n\n이름은 사주의 부족을 채워주는 또 하나의 결입니다.\n이름을 지어드릴 분의 성별을 알려주세요.", "q0", () => setStep(0));
     }, 500);
     return () => clearTimeout(t);
   }, []);
@@ -99,7 +99,7 @@ export default function NamingForm() {
             名
           </div>
           <div>
-            <div className="text-sm font-bold text-white">황도인</div>
+            <div className="text-sm font-bold text-white">황도인(煌道人)</div>
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
               <span className="text-[10px]" style={{ color: `${ACCENT}55` }}>작명·개명 전문가</span>

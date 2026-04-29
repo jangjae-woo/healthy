@@ -14,9 +14,9 @@ export default function NewYearFormPage() {
         </Link>
       </div>
       <div className="text-center mb-8">
-        <div className="text-4xl mb-2">🎋</div>
+        <div className="text-3xl mb-2 font-bold" style={{ color: "#90ee90" }}>歲</div>
         <h1 className="text-xl font-bold text-white mb-1">신년 운세</h1>
-        <p className="text-xs" style={{ color: "#90ee9077" }}>정보를 입력하면 AI가 분석해드립니다</p>
+        <p className="text-xs" style={{ color: "#90ee9099" }}>세도인(歲道人)이 2026년 병오년(丙午)의 결을 풀이해드립니다</p>
       </div>
       <SajuForm
         type="new-year"

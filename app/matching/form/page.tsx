@@ -10,6 +10,24 @@ const HOURS = [
   "유시 (17:30~19:29)", "술시 (19:30~21:29)", "해시 (21:30~23:29)",
 ];
 
+// 관계 유형 12가지 + 직접 입력
+// 4개 그룹: 로맨틱 / 사회 / 가족·기타 / 팬덤
+// 펫은 정통 사주명리학 영역 밖이라 제외 (출생일 정확성·시주 부재·고전 근거 부족)
+const RELATIONSHIP_OPTIONS: Array<{ value: string; label: string; group: "romantic" | "social" | "family" | "fan"; aLabel?: string; bLabel?: string }> = [
+  { value: "친구",           label: "친구",          group: "social", aLabel: "나", bLabel: "친구" },
+  { value: "썸남썸녀",       label: "썸남 / 썸녀",   group: "romantic", aLabel: "나", bLabel: "상대" },
+  { value: "연인",           label: "연인",          group: "romantic", aLabel: "나", bLabel: "연인" },
+  { value: "배우자",         label: "배우자",        group: "romantic", aLabel: "나", bLabel: "배우자" },
+  { value: "전연인",         label: "전 연인",       group: "romantic", aLabel: "나", bLabel: "전 연인" },
+  { value: "전배우자",       label: "전 배우자",     group: "romantic", aLabel: "나", bLabel: "전 배우자" },
+  { value: "부모와자녀",     label: "부모와 자녀",   group: "family", aLabel: "부모", bLabel: "자녀" },
+  { value: "형제자매",       label: "형제 / 자매",   group: "family", aLabel: "본인", bLabel: "형제·자매" },
+  { value: "직장동료",       label: "직장 동료",     group: "social", aLabel: "나", bLabel: "동료" },
+  { value: "사업파트너",     label: "사업 파트너",   group: "social", aLabel: "나", bLabel: "파트너" },
+  { value: "아이돌과팬",     label: "아이돌과 팬",   group: "fan", aLabel: "팬", bLabel: "아이돌" },
+  { value: "아이돌과아이돌", label: "아이돌과 아이돌", group: "fan", aLabel: "멤버 A", bLabel: "멤버 B" },
+];
+
 const ACCENT = "#d4a8e8";
 const GOLD = "#FFD700";
 const BG = "#1a0f20";
@@ -20,7 +38,10 @@ interface Msg { id: string; from: "ai" | "user"; text: string; }
 export default function MatchingChatForm() {
   const [step, setStep] = useState(-1);
   const [paying, setPaying] = useState(false);
+  const [modal, setModal] = useState<null | "parent-child" | "custom">(null);
+  const [customRelInput, setCustomRelInput] = useState("");
   const [form, setForm] = useState({
+    relationshipType: "", relationshipLabel: "",
     myName: "", myGender: "", myYear: "", myMonth: "", myDay: "",
     myHour: "시간 모름", myCalendar: "양력",
     partnerName: "", partnerGender: "", partnerYear: "", partnerMonth: "", partnerDay: "",
@@ -33,7 +54,11 @@ export default function MatchingChatForm() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      aiMsg("안녕하세요.\n저는 홍도인입니다.\n\n두 분의 인연을 함께 풀어드리겠습니다.\n\n먼저 당신의 성함을 알려주시겠습니까?", "q0", () => setStep(0));
+      aiMsg(
+        "안녕하세요.\n저는 홍도인입니다.\n\n붉은 실(紅絲)에 묶인 모든 인연을 풀어드립니다.\n\n먼저 두 분은 어떤 관계이신가요?",
+        "qRel",
+        () => setStep(100)
+      );
     }, 500);
     return () => clearTimeout(t);
   }, []);
@@ -55,6 +80,30 @@ export default function MatchingChatForm() {
     setMsgs(prev => [...prev, { id, from: "user", text }]);
     setStep(-1);
     setTimeout(() => onDone?.(), 400);
+  }
+
+  // ── 관계 유형 선택 (step 100) ──
+  function submitRelationship(opt: typeof RELATIONSHIP_OPTIONS[number]) {
+    // 부모와 자녀 → 자도인으로 안내 (자도인이 더 깊이 풀이)
+    if (opt.value === "부모와자녀") {
+      setModal("parent-child");
+      return;
+    }
+    setForm((f) => ({ ...f, relationshipType: opt.value, relationshipLabel: opt.label }));
+    const aL = opt.aLabel ?? "나";
+    userMsg(opt.label, "aRel", () =>
+      aiMsg(`${opt.label} 관계로군요.\n\n${aL}의 성함부터 알려주시겠습니까?`, "q0", () => setStep(0))
+    );
+  }
+  function submitCustomRelationship() {
+    const v = customRelInput.trim();
+    if (!v) return;
+    setForm((f) => ({ ...f, relationshipType: "직접입력", relationshipLabel: v }));
+    setModal(null);
+    setCustomRelInput("");
+    userMsg(v, "aRel", () =>
+      aiMsg(`'${v}' 관계로군요.\n\n첫 번째 분의 성함부터 알려주시겠습니까?`, "q0", () => setStep(0))
+    );
   }
 
   // Q0 — 내 이름
@@ -80,8 +129,10 @@ export default function MatchingChatForm() {
   // Q3 — 내 시간
   function submitMyHour(h: string) {
     setForm(f => ({ ...f, myHour: h }));
+    const opt = RELATIONSHIP_OPTIONS.find((o) => o.value === form.relationshipType);
+    const partnerLabel = opt?.bLabel ?? "상대";
     userMsg(h, "a3", () =>
-      aiMsg("이제 궁합을 볼 상대분에 대해 여쭙겠습니다.\n\n상대분의 성함(또는 별명)을 알려주세요.", "q4", () => setStep(4))
+      aiMsg(`이제 ${partnerLabel}분에 대해 여쭙겠습니다.\n\n${partnerLabel}분의 성함(또는 별명)을 알려주세요.`, "q4", () => setStep(4))
     );
   }
   // Q4 — 상대 이름
@@ -121,6 +172,14 @@ export default function MatchingChatForm() {
     const params = new URLSearchParams({ ...form, type: 'matching' });
     window.location.href = `/matching/result?${params.toString()}`;
   }
+
+  // 관계 유형 그룹별 색조
+  const GROUP_HUE: Record<string, string> = {
+    romantic: "#ff6b9d",
+    social: "#7dd3c0",
+    family: "#f5b942",
+    fan: "#c89cff",
+  };
 
   return (
     <div className="min-h-screen" style={{ background: `linear-gradient(180deg, ${BG} 0%, #0a0510 100%)` }}>
@@ -169,6 +228,40 @@ export default function MatchingChatForm() {
                   <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: ACCENT, animationDelay: `${i * 150}ms` }} />
                 ))}
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Q-Rel — 관계 유형 선택 (step 100) */}
+        {step === 100 && (
+          <div className="flex justify-end">
+            <div className="w-full max-w-[340px] grid grid-cols-2 gap-2">
+              {RELATIONSHIP_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => submitRelationship(opt)}
+                  className="px-3 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95 text-left flex items-center gap-2"
+                  style={{
+                    backgroundColor: `${ACCENT}1a`,
+                    color: "white",
+                    border: `1px solid ${ACCENT}44`,
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: GROUP_HUE[opt.group] ?? ACCENT }} />
+                  <span className="flex-1">{opt.label}</span>
+                </button>
+              ))}
+              <button
+                onClick={() => setModal("custom")}
+                className="col-span-2 px-3 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95"
+                style={{
+                  backgroundColor: `${GOLD}11`,
+                  color: GOLD,
+                  border: `1px dashed ${GOLD}66`,
+                }}
+              >
+                ✎ 직접 입력
+              </button>
             </div>
           </div>
         )}
@@ -263,7 +356,7 @@ export default function MatchingChatForm() {
         {/* Q7 — 상대 시간 */}
         {step === 7 && <HourGrid hours={HOURS} onSelect={submitPartnerHour} accent={ACCENT} />}
 
-        {/* Q9 — 궁합 풀이 시작 */}
+        {/* Q9 — 인연 풀이 시작 */}
         {step === 9 && (
           <div className="mt-2">
             <button onClick={handleSubmit} disabled={paying}
@@ -273,7 +366,7 @@ export default function MatchingChatForm() {
                 color: "#1a0d00",
                 boxShadow: paying ? "none" : `0 0 24px ${GOLD}99, 0 0 8px ${GOLD}66`,
               }}>
-              🌹 {"\u00A0"}궁합 풀이 시작
+              🌹 {"\u00A0"}인연 풀이 시작
             </button>
           </div>
         )}
@@ -281,6 +374,60 @@ export default function MatchingChatForm() {
         <div ref={bottomRef} />
       </div>
     </main>
+
+    {/* ── 모달: 부모와 자녀 → 자도인 안내 ── */}
+    {modal === "parent-child" && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: "rgba(0,0,0,0.7)" }}>
+        <div className="w-full max-w-[360px] rounded-2xl p-6" style={{ backgroundColor: BG, border: `1px solid ${ACCENT}33` }}>
+          <div className="text-center mb-4">
+            <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center text-lg font-bold" style={{ backgroundColor: "#f5b94222", color: "#f5b942" }}>慈</div>
+            <h3 className="text-base font-bold text-white mb-2">부모와 자녀의 인연은</h3>
+            <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
+              <strong style={{ color: "#f5b942" }}>자도인(慈道人)</strong>이 더 깊이 풀이합니다.<br />
+              어머니와 아이의 결을 정통 명리로 짚어드리는 별도 도원으로 안내드릴까요?
+            </p>
+          </div>
+          <div className="flex gap-2 mt-5">
+            <button onClick={() => setModal(null)} className="flex-1 py-3 rounded-xl text-sm" style={{ backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.65)" }}>
+              돌아가기
+            </button>
+            <Link href="/parent-child" className="flex-1 py-3 rounded-xl text-sm font-bold text-center" style={{ background: "linear-gradient(135deg, #f5b942 0%, #d4951f 100%)", color: "#1a0d00" }}>
+              자도인으로 →
+            </Link>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ── 모달: 직접 입력 ── */}
+    {modal === "custom" && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: "rgba(0,0,0,0.7)" }}>
+        <div className="w-full max-w-[360px] rounded-2xl p-6" style={{ backgroundColor: BG, border: `1px solid ${GOLD}55` }}>
+          <h3 className="text-base font-bold text-white mb-2 text-center">관계를 직접 입력해주세요</h3>
+          <p className="text-xs text-center mb-4" style={{ color: "rgba(255,255,255,0.55)" }}>
+            예: 외할머니와 손녀, 멘토와 멘티, 스승과 제자
+          </p>
+          <input
+            value={customRelInput}
+            onChange={(e) => setCustomRelInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submitCustomRelationship()}
+            placeholder="관계 입력"
+            autoFocus
+            maxLength={20}
+            className="w-full px-3 py-3 text-white text-sm outline-none rounded-lg text-center"
+            style={{ background: "rgba(255,255,255,0.05)", border: `1.5px solid ${GOLD}66` }}
+          />
+          <div className="flex gap-2 mt-4">
+            <button onClick={() => { setModal(null); setCustomRelInput(""); }} className="flex-1 py-3 rounded-xl text-sm" style={{ backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.65)" }}>
+              취소
+            </button>
+            <button onClick={submitCustomRelationship} disabled={!customRelInput.trim()} className="flex-1 py-3 rounded-xl text-sm font-bold" style={{ backgroundColor: customRelInput.trim() ? GOLD : `${GOLD}33`, color: "#1a0d00" }}>
+              확인
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
     </div>
   );
 }

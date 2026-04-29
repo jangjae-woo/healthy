@@ -12,7 +12,6 @@ const services = [
     en: "Lifetime Reading",
     title: "평생 사주",
     desc: "단 한 번의 풀이, 평생을 간직할 나의 사주",
-    tagline: "타고난 그릇과 평생의 흐름을 한 번에",
     price: null,
     bonus: false,
     href: "/saju",
@@ -20,13 +19,22 @@ const services = [
   {
     id: "matching",
     hanja: "緣",
-    en: "Compatibility",
-    title: "연인과의 궁합",
-    desc: "두 사람의 사주로 풀어보는 인연의 깊이",
-    tagline: "둘의 운명이 겹치는 지점을 읽는다",
+    en: "In-yeon",
+    title: "인연",
+    desc: "연인·친구·가족·동료 — 두 사람의 사주로 풀어보는 모든 인연의 결",
     price: null,
     bonus: false,
     href: "/matching",
+  },
+  {
+    id: "parent-child",
+    hanja: "慈",
+    en: "Mother & Child",
+    title: "엄마와 아이 궁합",
+    desc: "사랑으로 이어진 두 사람의 결을 풀어드립니다",
+    price: null,
+    bonus: false,
+    href: "/parent-child",
   },
   {
     id: "moving",
@@ -34,7 +42,6 @@ const services = [
     en: "Auspicious Day",
     title: "이사날짜 운세",
     desc: "손없는 날과 사주로 찾는 최적의 이사 날짜",
-    tagline: "",
     price: null,
     bonus: true,
     href: "/moving",
@@ -45,7 +52,6 @@ const services = [
     en: "Naming",
     title: "이름 짓기 · 개명",
     desc: "사주 오행을 보완하는 이름 추천",
-    tagline: "",
     price: null,
     bonus: true,
     href: "/naming",
@@ -225,7 +231,21 @@ export default function Home() {
                   className="pt-3 flex items-center justify-between"
                   style={{ borderTop: `1px solid ${GOLD}22` }}
                 >
-                  {s.bonus ? (
+                  {s.price ? (
+                    <>
+                      <div className="flex items-baseline gap-1">
+                        <span
+                          className="text-xl font-bold"
+                          style={{ color: GOLD_LIGHT, fontFamily: "'Noto Serif KR', serif" }}
+                        >
+                          {s.price}
+                        </span>
+                      </div>
+                      <span className="text-[10px]" style={{ color: `${GOLD}aa` }}>
+                        시작하기 →
+                      </span>
+                    </>
+                  ) : s.bonus ? (
                     <>
                       <span className="text-[11px]" style={{ color: `${GOLD_LIGHT}cc` }}>
                         평생 사주 또는 궁합 구매 시 무료
@@ -236,13 +256,8 @@ export default function Home() {
                     </>
                   ) : (
                     <>
-                      <span
-                        className="text-[11px] italic"
-                        style={{ color: `${GOLD_LIGHT}cc`, fontFamily: "'Noto Serif KR', serif" }}
-                      >
-                        {s.tagline}
-                      </span>
-                      <span className="text-[10px] whitespace-nowrap ml-2" style={{ color: `${GOLD}aa` }}>
+                      <span />
+                      <span className="text-[11px]" style={{ color: `${GOLD}cc` }}>
                         시작하기 →
                       </span>
                     </>

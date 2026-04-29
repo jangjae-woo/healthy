@@ -70,7 +70,7 @@ export default function TermsPage() {
               <li>회사는 이용자에게 다음과 같은 서비스를 제공합니다.
                 <ul className="list-disc pl-5 mt-1">
                   <li>평생 사주 풀이</li>
-                  <li>연인과의 궁합 풀이</li>
+                  <li>인연 풀이 (연인·친구·가족·동료 등)</li>
                   <li>기타 회사가 추가로 제공하는 명리 관련 디지털 콘텐츠</li>
                 </ul>
               </li>

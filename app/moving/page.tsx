@@ -3,9 +3,9 @@ import ServiceLanding from "@/components/ServiceLanding";
 export default function MovingPage() {
   return (
     <ServiceLanding
-      character="정도인"
+      character="정도인(定道人)"
       title="이사날짜 운세"
-      tagline="손없는 날과 나의 사주로 찾는 최적의 이사 날짜"
+      tagline="자리를 정하는 길 — 손없는 날과 사주로 찾는 최적의 이사 날짜"
       emoji="🏠"
       image="/char-moving.png"
       bg="#0a1e14"

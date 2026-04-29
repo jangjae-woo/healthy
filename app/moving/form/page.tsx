@@ -25,7 +25,7 @@ export default function MovingForm() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      aiMsg("안녕하세요.\n저는 정도인입니다.\n\n이사를 준비 중이신 분의 성함을 알려주세요.", "q0", () => setStep(0));
+      aiMsg("안녕하세요.\n저는 정도인(定道人)입니다.\n\n자리를 정하는 일은 사주 결의 한 갈래입니다.\n이사를 준비 중이신 분의 성함을 알려주세요.", "q0", () => setStep(0));
     }, 500);
     return () => clearTimeout(t);
   }, []);
@@ -99,7 +99,7 @@ export default function MovingForm() {
             宅
           </div>
           <div>
-            <div className="text-sm font-bold text-white">정도인</div>
+            <div className="text-sm font-bold text-white">정도인(定道人)</div>
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
               <span className="text-[10px]" style={{ color: `${ACCENT}55` }}>이사택일 전문가</span>
