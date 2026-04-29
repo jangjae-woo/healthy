@@ -65,7 +65,7 @@ import {
   getObservationGuide,
   type ObservationGuide,
 } from "@/lib/parent-child-observation";
-import { softenIlganRelation, softenIljiRelation, softenChungList } from "@/lib/wording";
+import { softenIlganRelation, softenIljiRelation, softenChungList, withChildHonorific, parentChildOneLiner } from "@/lib/wording";
 
 const ACCENT = "#f0a8b8";  // 따뜻한 로즈 핑크
 const GOLD = "#FFD700";
@@ -2847,12 +2847,12 @@ export default function ParentChildSlideResult() {
             <p className="text-xs font-bold" style={{ color: ACCENT }}>가족 인연의 결</p>
             {hasMom && momCompat && (
               <p className="text-xs" style={{ color: "rgba(255,255,255,0.78)" }}>
-                • 엄마와 아이의 본질이 만나는 결: {softenIlganRelation(momCompat.ilganRelation, momName, childName)}
+                • 엄마와 아이의 궁합: {parentChildOneLiner(momCompat)}
               </p>
             )}
             {hasDad && dadCompat && (
               <p className="text-xs" style={{ color: "rgba(255,255,255,0.78)" }}>
-                • 아빠와 아이의 본질이 만나는 결: {softenIlganRelation(dadCompat.ilganRelation, dadName, childName)}
+                • 아빠와 아이의 궁합: {parentChildOneLiner(dadCompat)}
               </p>
             )}
           </div>

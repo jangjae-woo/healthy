@@ -3,6 +3,70 @@
 // calcCompatibility 자체는 무수정 (평생사주에 영향 X).
 
 /**
+ * 아이 이름 + 성별별 호칭
+ * - "여" → "전아인양"
+ * - "남" → "전아인군"
+ * - 그 외(빈값/모름) → 그대로
+ */
+export function withChildHonorific(name: string, gender?: string): string {
+  if (!name) return name;
+  if (gender === "여") return `${name}양`;
+  if (gender === "남") return `${name}군`;
+  return name;
+}
+
+/**
+ * 한글 이름 + 받침에 따른 주격 조사(이/가)
+ * - "김수지" → "김수지가"
+ * - "전아인" → "전아인이"
+ */
+export function withSubjectParticle(name: string): string {
+  if (!name) return name;
+  const last = name.charCodeAt(name.length - 1);
+  // 한글 음절 범위 가-힣 (0xAC00 ~ 0xD7A3)
+  if (last >= 0xAC00 && last <= 0xD7A3) {
+    const hasJongseong = (last - 0xAC00) % 28 !== 0;
+    return hasJongseong ? `${name}이` : `${name}가`;
+  }
+  return `${name}이`;
+}
+
+/**
+ * 부모-아이 한 줄 궁합 카피
+ * - 부모가 아이에게 보충해주는 오행(aHelpsB)을 동사구로 변환
+ * - 일간 관계가 비화면 "닮은 결로 함께 가는"
+ * - 일간 관계가 상극(부모→아이)이면 "곧은 방향을 단련시켜 주는"
+ * - 그 외 채울 게 없으면 "닮은 결을 나누는"
+ * 결과: "[동사구] 사이"
+ */
+export function parentChildOneLiner(compat: {
+  ilganRelation: string;
+  elementBalance: { aHelpsB: string[] };
+}): string {
+  const ilgan = compat.ilganRelation || "";
+  const helps = compat.elementBalance?.aHelpsB ?? [];
+
+  const ELEM_VERB: Record<string, string> = {
+    토: "안정의 결을 채워주는",
+    금: "단단한 방향을 잡아주는",
+    수: "차분한 지혜를 더해주는",
+    목: "성장의 결을 키워주는",
+    화: "따뜻한 활기를 더해주는",
+  };
+
+  if (helps.length > 0) {
+    const first = helps[0];
+    const verb = ELEM_VERB[first];
+    if (verb) return `${verb} 사이`;
+  }
+  if (ilgan.includes("비화")) return "닮은 결로 함께 가는 사이";
+  if (ilgan.includes("상극") && ilgan.includes("당신이 상대를 제어")) {
+    return "곧은 방향을 단련시켜 주는 사이";
+  }
+  return "닮은 결을 나누는 사이";
+}
+
+/**
  * 일간 관계 부드러운 표현
  * - "상극 (당신이 상대를 제어)" → "다듬어 주는 결 (당신 → 상대)"
  * - "비화" → "닮은 결 (比和)"
