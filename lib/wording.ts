@@ -65,19 +65,23 @@ export function parentChildOneLiner(
   compat: { ilganRelation: string; elementBalance: { aHelpsB: string[] } },
   role: "mom" | "dad" = "mom",
   childElement?: string,
+  parentElement?: string,
+  seedString?: string,
 ): string {
   const ilgan = compat.ilganRelation || "";
   const helps = compat.elementBalance?.aHelpsB ?? [];
   const isMom = role === "mom";
+  const parentLabel = isMom ? "엄마" : "아빠";
 
-  // 비화 — 같은 본질
-  if (ilgan.includes("비화")) {
-    return isMom
-      ? "닮은 결로 마음이 통하는 사이"
-      : "닮은 결로 어깨 나란히 가는 사이";
-  }
+  // 사주 해시 → 변형 인덱스 (0~2)
+  const variantIdx = (() => {
+    if (!seedString) return 0;
+    let h = 0;
+    for (let i = 0; i < seedString.length; i++) h = (h * 31 + seedString.charCodeAt(i)) | 0;
+    return Math.abs(h) % 3;
+  })();
 
-  // 아이의 결 (강한 면 — 일간 오행 기반, base 형 — 조사는 caller에서 부착)
+  // 아이의 결 (강한 면 — 일간 오행 기반)
   const CHILD_TRAIT: Record<string, string> = {
     목: "뻗어가는 마음",
     화: "뜨거운 마음",
@@ -85,59 +89,85 @@ export function parentChildOneLiner(
     금: "날카로운 결단",
     수: "깊이 잠긴 마음",
   };
-  // 엄마 — 선물(도구)으로 시작 → 정서적 동사 (안1 + 안5 혼합 톤)
-  // 형식: "[gift]으로 [trait]을 [verb] 사이"
-  const MOM_BY_HELPS: Record<string, [gift: string, verb: string]> = {
-    목: ["유연함", "부드럽게 풀어주는"],
-    화: ["따스한 온기", "살며시 데워주는"],
-    토: ["포근한 품", "가만히 감싸안는"],
-    금: ["단단한 손길", "조용히 다독이는"],
-    수: ["잔잔한 결", "살며시 가라앉혀주는"],
+  // 부모 일간 오행 → 자연 비유 (5종)
+  const PARENT_IMAGERY: Record<string, string> = {
+    목: "봄풀 같은 부드러운",
+    화: "햇살 같은 환한",
+    토: "들판 같은 너른",
+    금: "보석 같은 맑은",
+    수: "강물 같은 깊은",
   };
-  // 아빠 — 아이 결로 시작 → 방향성 동사
-  // 형식: "[trait]에 [gift]을 [verb] 사이"
-  const DAD_BY_HELPS: Record<string, [gift: string, verb: string]> = {
-    목: ["새로운 길", "활짝 열어주는"],
-    화: ["환한 등불", "앞에서 비춰주는"],
-    토: ["든든한 기둥", "단단히 세워주는"],
-    금: ["곧은 방향", "흔들림 없이 잡아주는"],
-    수: ["고요한 분별", "차분히 일러주는"],
+
+  // ── 주 매트릭스 (helps 있음) — 5 × 5 × 3 변형 ─────────────────
+  // 엄마: "[parent_imagery] 결로, [gift]으로 [trait]을 [verb_variant] 사이"
+  const MOM_BY_HELPS_V: Record<string, { gift: string; verbs: [string, string, string] }> = {
+    목: { gift: "유연함", verbs: ["부드럽게 풀어주는", "살며시 어루만지는", "가만히 펼쳐주는"] },
+    화: { gift: "따스한 온기", verbs: ["살며시 데워주는", "환하게 비춰주는", "부드럽게 감싸주는"] },
+    토: { gift: "포근한 품", verbs: ["가만히 감싸안는", "묵묵히 받쳐주는", "따뜻이 다독이는"] },
+    금: { gift: "단단한 손길", verbs: ["조용히 다독이는", "차분히 잡아주는", "흔들림 없이 지켜주는"] },
+    수: { gift: "잔잔한 결", verbs: ["살며시 가라앉혀주는", "부드럽게 다스려주는", "깊이 받아주는"] },
+  };
+  const DAD_BY_HELPS_V: Record<string, { gift: string; verbs: [string, string, string] }> = {
+    목: { gift: "새로운 길", verbs: ["활짝 열어주는", "넓게 펼쳐주는", "또렷이 보여주는"] },
+    화: { gift: "환한 등불", verbs: ["앞에서 비춰주는", "환하게 밝혀주는", "또렷이 비춰주는"] },
+    토: { gift: "든든한 기둥", verbs: ["단단히 세워주는", "묵직하게 받쳐주는", "흔들림 없이 받쳐주는"] },
+    금: { gift: "곧은 방향", verbs: ["흔들림 없이 잡아주는", "곧고 단단히 잡아주는", "또렷이 가르쳐주는"] },
+    수: { gift: "고요한 분별", verbs: ["차분히 일러주는", "조용히 가르쳐주는", "깊이 일깨워주는"] },
   };
 
   if (helps.length > 0) {
     const trait = (childElement && CHILD_TRAIT[childElement]) || "흩어지는 마음";
-    if (isMom && MOM_BY_HELPS[helps[0]]) {
-      const [gift, verb] = MOM_BY_HELPS[helps[0]];
-      return `${withInstrumentalParticle(gift)} ${withObjectParticle(trait)} ${verb} 사이`;
-    }
-    if (!isMom && DAD_BY_HELPS[helps[0]]) {
-      const [gift, verb] = DAD_BY_HELPS[helps[0]];
-      return `${trait}에 ${withObjectParticle(gift)} ${verb} 사이`;
+    const parentImg = (parentElement && PARENT_IMAGERY[parentElement]) || "";
+    const map = isMom ? MOM_BY_HELPS_V : DAD_BY_HELPS_V;
+    const cell = map[helps[0]];
+    if (cell) {
+      const verb = cell.verbs[variantIdx];
+      const prefix = parentImg ? `${parentLabel}의 ${parentImg} 결로, ` : "";
+      if (isMom) {
+        return `${prefix}${withInstrumentalParticle(cell.gift)} ${withObjectParticle(trait)} ${verb} 사이`;
+      }
+      return `${prefix}${trait}에 ${withObjectParticle(cell.gift)} ${verb} 사이`;
     }
   }
 
-  // 일간 관계 폴백 — 채울 게 없는 경우
-  if (ilgan.includes("상극") && ilgan.includes("당신이 상대를 제어")) {
-    return isMom
-      ? "곧은 마음을 빚어주는 사이"
-      : "곧은 방향을 단련시켜 주는 사이";
-  }
-  if (ilgan.includes("상극") && ilgan.includes("상대가 당신을 제어")) {
-    return isMom
-      ? "아이로 인해 마음이 단단해지는 사이"
-      : "아이로 인해 결이 다듬어지는 사이";
-  }
-  if (ilgan.includes("상생") && ilgan.includes("당신이 상대를 살림")) {
-    return isMom
-      ? "포근히 감싸 키워주는 사이"
-      : "든든히 밀어주며 키워주는 사이";
-  }
-  if (ilgan.includes("상생") && ilgan.includes("상대가 당신을 살림")) {
-    return isMom
-      ? "아이의 기운으로 환해지는 사이"
-      : "아이로 인해 결이 채워지는 사이";
-  }
-  return "결이 잘 어우러지는 사이";
+  // ── 폴백 (helps 없음) — 부모오행 × 일간관계 × 아이 trait × 3 변형 ─────────
+  // 형식: "[parent_label]의 [parent_imagery] 결이 아이의 [trait]을 [fallback_verb] 사이"
+  const trait = (childElement && CHILD_TRAIT[childElement]) || "흩어지는 마음";
+  const parentImg = (parentElement && PARENT_IMAGERY[parentElement]) || "타고난";
+
+  // 일간 관계별 fallback verb 변형 (역할별 3변형)
+  const FALLBACK_VERBS: Record<string, { mom: [string, string, string]; dad: [string, string, string] }> = {
+    "비화": {
+      mom: ["닮은 결로 마음을 나누는", "같은 결로 함께 흐르는", "닮은 결로 가만히 통하는"],
+      dad: ["닮은 결로 어깨 나란히 가는", "같은 결로 함께 걷는", "닮은 결로 든든히 함께하는"],
+    },
+    "상극_부모→아이": {
+      mom: ["곧게 빚어주는", "단단히 다듬어주는", "정성껏 어루만지는"],
+      dad: ["단단히 단련시켜 주는", "굳건히 잡아주는", "곧고 단단히 가르쳐주는"],
+    },
+    "상극_아이→부모": {
+      mom: ["묵묵히 받쳐주는", "가만히 감싸안는", "조용히 받아주는"],
+      dad: ["곧게 받아주는", "흔들림 없이 받쳐주는", "단단히 품어주는"],
+    },
+    "상생_부모→아이": {
+      mom: ["포근히 감싸 키워주는", "따뜻이 길러주는", "부드럽게 키워내는"],
+      dad: ["든든히 밀어주며 키워주는", "굳건히 받쳐 키워주는", "묵직하게 길러주는"],
+    },
+    "상생_아이→부모": {
+      mom: ["따뜻하게 받아주는", "환하게 받아주는", "포근히 받아주는"],
+      dad: ["든든하게 받아주는", "넉넉히 받아주는", "묵직하게 받아주는"],
+    },
+  };
+  let key = "비화";
+  if (ilgan.includes("비화")) key = "비화";
+  else if (ilgan.includes("상극") && ilgan.includes("당신이 상대를 제어")) key = "상극_부모→아이";
+  else if (ilgan.includes("상극") && ilgan.includes("상대가 당신을 제어")) key = "상극_아이→부모";
+  else if (ilgan.includes("상생") && ilgan.includes("당신이 상대를 살림")) key = "상생_부모→아이";
+  else if (ilgan.includes("상생") && ilgan.includes("상대가 당신을 살림")) key = "상생_아이→부모";
+
+  const verbSet = FALLBACK_VERBS[key];
+  const verb = (isMom ? verbSet.mom : verbSet.dad)[variantIdx];
+  return `${parentLabel}의 ${parentImg} 결이 아이의 ${withObjectParticle(trait)} ${verb} 사이`;
 }
 
 /**

@@ -3,7 +3,9 @@
 // 사주 명리 통설(오행 색·방향·계절·감각) 기반. AI는 키워드를 받아 한 줄 정제만.
 
 export type Element5 = "목" | "화" | "토" | "금" | "수";
-export type AgeTier = "infant" | "child" | "teen"; // 0-3 / 4-9 / 10+
+export type AgeTier = "infant" | "child" | "teen"; // 매트릭스 내부 3분류
+// 외부 발달 단계(4분류)와의 매핑: infant→infant / preschool, elementary→child / secondary→teen
+export type AgeStage = "infant" | "preschool" | "elementary" | "secondary";
 export type CardKind =
   | "immediate" // 즉효 처방 — 자녀 본인이 10분 안 회복
   | "daily" // 일상 처방 — 매일·매주 루틴
@@ -22,6 +24,14 @@ export function classifyAgeTier(ageInYears: number): AgeTier {
   if (ageInYears <= 3) return "infant";
   if (ageInYears <= 9) return "child";
   return "teen";
+}
+
+// 4분류(발달 단계) → 매트릭스 3분류 매핑
+export function stageToTier(stage?: AgeStage, fallbackAge?: number): AgeTier {
+  if (!stage) return classifyAgeTier(fallbackAge ?? 7);
+  if (stage === "infant") return "infant";
+  if (stage === "secondary") return "teen";
+  return "child"; // preschool + elementary 모두 child 매트릭스 사용
 }
 
 // ── 매트릭스 (5 × 3 × 6 × 3 = 270) ─────────────
@@ -544,8 +554,9 @@ export function buildPrescriptionSet(
   weakElement: Element5,
   ageInYears: number,
   seedString: string,
+  ageStage?: AgeStage,
 ): PrescriptionSet {
-  const tier = classifyAgeTier(ageInYears);
+  const tier = stageToTier(ageStage, ageInYears);
   const cells = M[weakElement][tier];
   const idx = hashIndex(seedString, 3);
   return {

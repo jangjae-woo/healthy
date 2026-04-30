@@ -230,7 +230,7 @@ export function getSipseongCounts(saju: SajuAnalysis): SipseongCount {
 export const SIPSEONG_DESC: Record<keyof SipseongCount, string> = {
   비겁: "자립·경쟁",
   식상: "표현·창의",
-  재성: "돈·물건의 결",
+  재성: "돈·결과",
   관성: "절제·규율",
   인성: "학습·사색",
 };
@@ -284,6 +284,7 @@ export interface FriendStyle {
   y: number;            // -1 ~ +1 (관찰 ↔ 적극)
   dominant: "이끄는 결" | "중재하는 결" | "관찰하는 결" | "어우러지는 결";
   desc: string;
+  basis: string;        // 📌 사주 근거 — 결정론적 한 줄 (한글 풀이 + 한자 병기)
 }
 export function inferFriendStyle(saju: SajuAnalysis): FriendStyle {
   const ss = collectSipseong(saju);
@@ -309,11 +310,31 @@ export function inferFriendStyle(saju: SajuAnalysis): FriendStyle {
 
   let dominant: FriendStyle["dominant"];
   let desc: string;
-  if (y >= 0 && x < 0) { dominant = "이끄는 결"; desc = "친구들 앞에서 방향을 세우고 분위기를 이끄는 모습"; }
-  else if (y >= 0 && x >= 0) { dominant = "중재하는 결"; desc = "친구들 사이를 연결하고 어울려 노는 모습"; }
-  else if (y < 0 && x < 0) { dominant = "관찰하는 결"; desc = "한 발짝 떨어져 살피며 깊이 다가가는 모습"; }
-  else { dominant = "어우러지는 결"; desc = "조용히 곁에 머물며 자연스럽게 함께하는 모습"; }
-  return { x, y, dominant, desc };
+  let basis: string;
+  // 📌 사주 근거 — 한글 풀이(한자 병기) + 결론 화살표
+  const insongLabel = `받아들임의 결(印) ${insong}개`;
+  const siksangLabel = `표현(食) ${siksang}개`;
+  const bigyeopLabel = `자기주장(比劫) ${bigyeop}개`;
+  const gwansongLabel = `책임(官) ${gwansong}개`;
+  const jaesongLabel = `연결(財) ${jaesong}개`;
+  if (y >= 0 && x < 0) {
+    dominant = "이끄는 결";
+    desc = "친구들 앞에서 방향을 세우고 분위기를 이끄는 모습";
+    basis = `${bigyeopLabel} · ${gwansongLabel}\n→ 방향 세우는 리더형`;
+  } else if (y >= 0 && x >= 0) {
+    dominant = "중재하는 결";
+    desc = "친구들 사이를 연결하고 어울려 노는 모습";
+    basis = `${siksangLabel} · ${jaesongLabel}\n→ 사람 사이 잇는 중재형`;
+  } else if (y < 0 && x < 0) {
+    dominant = "관찰하는 결";
+    desc = "한 발짝 떨어져 살피며 깊이 다가가는 모습";
+    basis = `${insongLabel} · ${siksangLabel}\n→ 멀리서 살피는 관찰형`;
+  } else {
+    dominant = "어우러지는 결";
+    desc = "조용히 곁에 머물며 자연스럽게 함께하는 모습";
+    basis = `${insongLabel} · ${jaesongLabel}\n→ 곁에 머무는 동반형`;
+  }
+  return { x, y, dominant, desc, basis };
 }
 
 // ── 통하는 훈육 4채널 ──────────────────────────────
@@ -343,6 +364,36 @@ export function inferDisciplineChannels(saju: SajuAnalysis): DisciplineChannel[]
     score: Math.round((r.v / max) * 100),
     desc: r.desc,
   }));
+}
+
+// 📌 통하는 훈육 차트의 사주 근거 — 결정론 한 줄 (TOP1 채널 기반)
+export function inferDisciplineBasis(saju: SajuAnalysis): string {
+  const ss = collectSipseong(saju);
+  const elem = saju.elements as Record<string, number>;
+  const insong = countAny(ss, "편인", "정인");
+  const siksang = countAny(ss, "식신", "상관");
+  const gwansong = countAny(ss, "편관", "정관");
+  const jaesong = countAny(ss, "편재", "정재");
+  // 가장 강한 채널 식별 (inferDisciplineChannels 와 동일 공식)
+  const channels: Record<string, number> = {
+    "단호함": gwansong * 1.5 + (elem.금 ?? 0) * 0.5,
+    "부드러움": insong * 1.5 + (elem.수 ?? 0) * 0.5,
+    "논리": gwansong * 0.8 + insong * 1.0 + (elem.금 ?? 0) * 0.4,
+    "감정": siksang * 1.2 + jaesong * 0.5 + (elem.화 ?? 0) * 0.5,
+  };
+  const top = Object.entries(channels).sort((a, b) => b[1] - a[1])[0][0];
+  switch (top) {
+    case "단호함":
+      return `책임(官) ${gwansong}개 · 금(金) ${Math.round(elem.금 ?? 0)}\n→ 분명한 선·짧은 말이 닿는 결`;
+    case "부드러움":
+      return `받아들임의 결(印) ${insong}개 · 수(水) ${Math.round(elem.수 ?? 0)}\n→ 다정한 톤·여유 있는 설명이 닿는 결`;
+    case "논리":
+      return `받아들임(印) ${insong}개 · 책임(官) ${gwansong}개\n→ 이유를 풀어주면 흡수하는 결`;
+    case "감정":
+      return `표현(食) ${siksang}개 · 화(火) ${Math.round(elem.화 ?? 0)}\n→ 감정에 이름 붙여주면 풀리는 결`;
+    default:
+      return `받아들임(印) ${insong}개 · 표현(食) ${siksang}개\n→ 자녀 결에 맞춘 톤이 가장 잘 닿음`;
+  }
 }
 
 // ── 절대 하면 안 되는 5가지 — 위험도 카드 ──────────────────────────────
@@ -465,7 +516,10 @@ export interface TantrumTrigger {
   score: number;      // 0-100
   color: string;
 }
-export function inferTantrumTriggers(saju: SajuAnalysis): TantrumTrigger[] {
+export function inferTantrumTriggers(
+  saju: SajuAnalysis,
+  ageStage?: "infant" | "preschool" | "elementary" | "secondary",
+): TantrumTrigger[] {
   const ss = collectSipseong(saju);
   const elem = saju.elements as Record<string, number>;
   const sinsal = saju.sinsal ?? [];
@@ -489,10 +543,20 @@ export function inferTantrumTriggers(saju: SajuAnalysis): TantrumTrigger[] {
     Math.round((Math.min(gwansong, 5) / 5) * 50 + (Math.min(toMax, 50) / 50) * 50),
   );
 
+  // subtitle 단위 통일 — 4개 막대 모두 0~100% 로 환산해 비교 가능하게
+  const yanginPhrase = yanginActive
+    ? ageStage === "infant"
+      ? "한 번 터지면 오래 가는 결"
+      : ageStage === "preschool"
+      ? "한 번 폭발하면 길어지는 떼"
+      : "한 번 폭발하면 강함"
+    : ageStage === "infant"
+    ? "평소엔 잠잠 — 피로·졸림 누적 시"
+    : "잠재 — 스트레스 누적 시";
   return [
     {
       name: "비견·겁재 강도",
-      subtitle: `"내가 옳다는 결" — ${bigyeop}회`,
+      subtitle: `"내가 옳다는 결" — ${bigyeopScore}%`,
       score: bigyeopScore,
       color: "#a78bfa",
     },
@@ -503,8 +567,8 @@ export function inferTantrumTriggers(saju: SajuAnalysis): TantrumTrigger[] {
       color: "#f87171",
     },
     {
-      name: "양인살 발동",
-      subtitle: yanginActive ? "한 번 폭발하면 강함" : "잠재 — 스트레스 누적 시",
+      name: ageStage === "infant" ? "강한 감정 결" : ageStage === "preschool" ? "큰 떼 결" : "격렬한 감정 결",
+      subtitle: `${yanginPhrase} — ${yanginScore}%`,
       score: yanginScore,
       color: "#fb7185",
     },
@@ -539,15 +603,19 @@ export function inferFriendDistance(saju: SajuAnalysis): FriendDistance {
 
   let label: string;
   let basis: string;
+  // 📌 사주 근거 — 한글 풀이(한자 병기) + 결론 화살표 (FriendStyle과 동일 포맷)
+  const insongLabel = `받아들임의 결(印) ${insong}개`;
+  const siksangLabel = `표현(食) ${siksang}개`;
+  const bigyeopLabel = `자기주장(比劫) ${bigyeop}개`;
   if (position >= 70) {
     label = "멀리 — 자녀 스스로 풀게 두기";
-    basis = `자기 주관(비겁 ${bigyeop})·표현(식상 ${siksang})이 강해, 부모 개입이 오히려 자존을 건드립니다.`;
+    basis = `${bigyeopLabel} · ${siksangLabel}\n→ 자존이 단단해 부모 개입이 오히려 거슬림`;
   } else if (position >= 45) {
     label = "중간 거리 — 지켜보다 신호가 올 때만";
-    basis = `자기 주관과 사색이 균형을 이뤄, 가까이 있되 먼저 나서지 않는 거리가 가장 좋습니다.`;
+    basis = `${bigyeopLabel} · ${insongLabel}\n→ 자기주장과 사색이 균형 — 신호 올 때만`;
   } else {
     label = "가까이 — 곁에서 마음 함께 풀어주기";
-    basis = `사색(인성 ${insong})이 깊어 혼자 곱씹기 쉬워요. 곁에서 감정을 같이 짚어주면 풀립니다.`;
+    basis = `${insongLabel} · 수(水) ${Math.round(elem.수 ?? 0)}\n→ 사색 깊고 혼자 곱씹기 쉬워 곁에서 풀기`;
   }
   return { position, label, basis };
 }
@@ -630,7 +698,7 @@ export interface DigitalGauge {
   riskLabel: "낮음" | "보통" | "높음";
   basis: string;
 }
-export function inferDigitalGauge(saju: SajuAnalysis): DigitalGauge {
+export function inferDigitalGauge(saju: SajuAnalysis, ageCap?: number): DigitalGauge {
   const ss = collectSipseong(saju);
   const elem = saju.elements as Record<string, number>;
   const siksang = countAny(ss, "식신", "상관");
@@ -642,18 +710,26 @@ export function inferDigitalGauge(saju: SajuAnalysis): DigitalGauge {
   let riskLabel: "낮음" | "보통" | "높음";
   let safeMin: number, safeMax: number;
   let basis: string;
+  // 📌 사주 근거 — 한글 풀이(한자 병기) + 결론 화살표 (통일 포맷)
+  const fireLabel = `불의 결(火) ${Math.round(fire)}`;
+  const siksangLabel = `표현(食) ${siksang}개`;
   if (riskLevel >= 70) {
     riskLabel = "높음";
     safeMin = 30; safeMax = 60;
-    basis = `불의 결과 식상이 강해 자극에 즉각 빨려 들어가는 자녀 — 짧고 끊는 사용이 핵심`;
+    basis = `${fireLabel} · ${siksangLabel}\n→ 자극에 즉각 빨려 들어가 — 짧고 끊는 사용 필수`;
   } else if (riskLevel >= 40) {
     riskLabel = "보통";
     safeMin = 60; safeMax = 90;
-    basis = `자극과 차분함이 균형 — 정해진 시간·정해진 콘텐츠로 자율 연습 가능`;
+    basis = `${fireLabel} · ${siksangLabel}\n→ 자극과 차분함 균형 — 정해진 시간·콘텐츠로 자율 연습`;
   } else {
     riskLabel = "낮음";
     safeMin = 90; safeMax = 120;
-    basis = `자극에 비교적 차분한 결 — 디지털을 도구로 잘 활용할 수 있는 자녀`;
+    basis = `${fireLabel} · ${siksangLabel}\n→ 자극에 차분한 결 — 도구로 잘 활용 가능`;
+  }
+  // 발달 단계 상한(보건복지부 권고) 적용 — 영아 30/유아 60/초등 120/중고등 180
+  if (typeof ageCap === "number" && ageCap > 0) {
+    if (safeMax > ageCap) safeMax = ageCap;
+    if (safeMin > ageCap) safeMin = Math.max(0, ageCap - 30);
   }
   return { safeMin, safeMax, riskLevel, riskLabel, basis };
 }
@@ -805,7 +881,7 @@ const YANG_STEMS = ["갑", "병", "무", "경", "임"];
 const ELEM_GEN: Record<string, string> = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
 const ELEM_CTL: Record<string, string> = { 목: "토", 토: "수", 수: "화", 화: "금", 금: "목" };
 
-export function inferIlganRelation(parent: SajuAnalysis, child: SajuAnalysis): IlganRelation {
+export function inferIlganRelation(parent: SajuAnalysis, child: SajuAnalysis, parentLabel: string = "부모"): IlganRelation {
   const pStem = parent.ilgan, cStem = child.ilgan;
   const pElem = STEM_ELEM[pStem] ?? "토";
   const cElem = STEM_ELEM[cStem] ?? "토";
@@ -821,41 +897,41 @@ export function inferIlganRelation(parent: SajuAnalysis, child: SajuAnalysis): I
   let detail: string;
 
   if (pElem === cElem) {
-    // 비화
+    // 비화 — 자원 프레임: 비춰주는·풀어내는
     type = "비화";
     direction = sameYinYang ? "=" : "↔";
     color = "#a78bfa";
     emoji = "🪞";
     label = sameYinYang
-      ? "같은 결로 비추는 사이"
-      : "닮은 결이지만 방식이 다른 사이";
+      ? "닮은 결로 서로를 비춰주는 사이"
+      : "같은 본질을 다른 길로 풀어내는 사이";
     detail = sameYinYang
-      ? `엄마와 아이 모두 ${ELEM_KOR[pElem].kor}의 본질을 지녔습니다. 같은 방향을 보고 같은 방식으로 마음을 쓰는 거울 같은 사이입니다.`
-      : `같은 ${ELEM_KOR[pElem].kor}의 본질이지만 풀어내는 방식이 다릅니다. 닮은 듯 다른 결로 서로의 거울이 되어 줍니다.`;
+      ? `${parentLabel}와 아이 모두 ${ELEM_KOR[pElem].kor}의 본질을 지녔습니다. 같은 방향을 보고 같은 방식으로 마음을 쓰는 깊은 동행입니다.`
+      : `같은 ${ELEM_KOR[pElem].kor}의 본질을 서로 다른 길로 풀어내는 사이입니다. 닮음 속의 다름이 서로의 결을 더 풍부하게 만들어 줍니다.`;
   } else if (ELEM_GEN[pElem] === cElem) {
-    // 부모 → 자녀 (생)
+    // 부모 → 자녀 (생) — 자원 프레임: 키워주는
     type = "생"; direction = "→";
     color = "#34d399"; emoji = "🌱";
-    label = `${ELEM_KOR[pElem].kor}이 ${ELEM_KOR[cElem].kor}을 키우는 결`;
-    detail = `엄마의 ${ELEM_KOR[pElem].kor}이 아이의 ${ELEM_KOR[cElem].kor}을 자연스럽게 키워주는 사이입니다. 가만히 있어도 흐름이 부모에서 자녀로 흘러갑니다.`;
+    label = `${ELEM_KOR[pElem].kor}이 ${ELEM_KOR[cElem].kor}을 키워주는 결`;
+    detail = `${parentLabel}의 ${ELEM_KOR[pElem].kor}이 아이의 ${ELEM_KOR[cElem].kor}을 자연스럽게 키워주는 사이입니다. 가만히 있어도 따뜻한 흐름이 ${parentLabel}에서 자녀로 흘러갑니다.`;
   } else if (ELEM_GEN[cElem] === pElem) {
-    // 자녀 → 부모 (생, 역방향)
+    // 자녀 → 부모 (생) — 자원 프레임: 새 활력 채워주는
     type = "생"; direction = "←";
     color = "#7dd3c0"; emoji = "🌿";
-    label = `아이의 ${ELEM_KOR[cElem].kor}이 부모를 살리는 결`;
-    detail = `아이의 ${ELEM_KOR[cElem].kor}이 오히려 부모에게 활력을 주는 결입니다. 자녀에게서 부모가 배우고 회복하는 흐름이 자연스럽습니다.`;
+    label = `아이의 ${ELEM_KOR[cElem].kor}이 ${parentLabel}에게 새 활력을 채워주는 결`;
+    detail = `아이의 ${ELEM_KOR[cElem].kor}이 ${parentLabel}에게 새로운 활력을 채워주는 사이입니다. 자녀에게서 ${parentLabel}가 함께 회복하고 자라는 흐름이 자연스럽게 흘러갑니다.`;
   } else if (ELEM_CTL[pElem] === cElem) {
-    // 부모 → 자녀 (극, 다듬는)
+    // 부모 → 자녀 (극) — 자원 프레임 + X3 조건 명시 (명리 진실 일부 보존)
     type = "극"; direction = "→";
-    color = "#fbbf24"; emoji = "✂️";
-    label = `${ELEM_KOR[pElem].kor}이 ${ELEM_KOR[cElem].kor}을 다듬는 결`;
-    detail = `엄마의 ${ELEM_KOR[pElem].kor}이 아이의 ${ELEM_KOR[cElem].kor}을 곧게 단련시키는 사이입니다. 잘 닿으면 깊은 가르침이 되고, 과해지면 누르는 결이 됩니다.`;
+    color = "#fbbf24"; emoji = "🌳";
+    label = `${ELEM_KOR[pElem].kor}이 ${ELEM_KOR[cElem].kor}에 단단한 뿌리가 되어주는 결`;
+    detail = `${parentLabel}의 곧은 ${ELEM_KOR[pElem].kor}과 아이의 유연한 ${ELEM_KOR[cElem].kor}이 만나, 적절히 닿으면 단단한 뿌리가 되어주는 사이입니다. 자녀의 페이스에 맞춰 다가가실 때 깊은 가르침이 되어 자녀의 결이 단단하게 자라납니다.`;
   } else if (ELEM_CTL[cElem] === pElem) {
-    // 자녀 → 부모 (극, 역방향)
+    // 자녀 → 부모 (극) — 자원 프레임 + X3 조건 명시
     type = "극"; direction = "←";
-    color = "#fb923c"; emoji = "⚡";
-    label = `아이의 ${ELEM_KOR[cElem].kor}이 부모를 흔드는 결`;
-    detail = `아이의 ${ELEM_KOR[cElem].kor}이 부모의 ${ELEM_KOR[pElem].kor}을 살짝 흔드는 결입니다. 부모가 자녀에게서 자기 결을 다시 살펴보게 되는 사이입니다.`;
+    color = "#fb923c"; emoji = "✨";
+    label = `아이의 ${ELEM_KOR[cElem].kor}이 ${parentLabel}에게 새 시야를 열어주는 결`;
+    detail = `아이의 ${ELEM_KOR[cElem].kor}과 ${parentLabel}의 ${ELEM_KOR[pElem].kor}이 만나, 자연스럽게 닿을 때 새로운 시야가 서로에게 열리는 사이입니다. ${parentLabel}가 자녀에게서 자기 결을 다시 발견하고 함께 자라나는 동행입니다.`;
   } else {
     // 기본 (이론적으로 불가)
     type = "비화"; direction = "↔";

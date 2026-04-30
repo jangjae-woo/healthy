@@ -18,6 +18,52 @@ const ILGAN_IMAGERY: Record<string, string> = {
   계: "깊이 잠긴 맑은 샘물",
 };
 
+// ── 사전: 일간(10간) × 자녀에게 줄 수 있는 응답 동사 (3변형) ─────────
+// imagery와 동사 일치 강제 — AI가 imagery·동사 모순 만들지 못하게 사전화
+const ILGAN_RESPONSE_VERBS: Record<string, [string, string, string]> = {
+  갑: ["곧은 방향을 그어주는", "위로 자라나도록 곁에 서는", "함께 자라가는 그늘이 되는"],
+  을: ["부드럽게 풀어주는", "유연함을 더해주는", "살랑이며 받아주는"],
+  병: ["환하게 비춰주는", "온기를 더해주는", "빛을 흘려주는"],
+  정: ["따뜻이 다독이는", "은은히 비춰주는", "가까이서 빛이 되어주는"],
+  무: ["너르게 받아주는", "자리를 내어주는", "든든히 받쳐주는"],
+  기: ["부드럽게 품어주는", "넉넉히 받아주는", "자라게 돕는"],
+  경: ["단단한 울타리가 되어주는", "곧은 결단을 보여주는", "흔들림 없이 지켜주는"],
+  신: ["맑은 결단을 일러주는", "선명한 길을 비춰주는", "단정한 결을 보여주는"],
+  임: ["도도한 흐름으로 받쳐주는", "깊이를 더해주는", "흐름의 길을 열어주는"],
+  계: ["잔잔히 받아주는", "차분한 깊이를 더해주는", "조용히 흘러주는"],
+};
+
+// 사주 해시 → 변형 인덱스 (0~2) 결정
+function pickVariant(seed: string): number {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
+  return Math.abs(h) % 3;
+}
+
+// 부모 일간 → 자녀에게 줄 응답 동사 (사주 해시 기반)
+export function pickParentResponseVerb(parentIlgan: string, seedString: string): string {
+  const verbs = ILGAN_RESPONSE_VERBS[parentIlgan];
+  if (!verbs) return "함께하는";
+  return verbs[pickVariant(seedString)];
+}
+
+// ── 사전: 자녀 일간 오행 × 마무리 문구 (3변형) ─────────────
+// 자녀 영향 마무리에서 imagery 일치 + 긍정 인상 + 명리 정확 강제
+const CHILD_GROWTH_PHRASES: Record<string, [string, string, string]> = {
+  목: ["곧게 뻗어 자라가는", "유연하게 새 결을 펼치는", "위로 한결같이 자라가는"],
+  화: ["환하게 빛을 펼쳐가는", "따뜻한 활기로 자라는", "환한 표현을 풍부히 펼치는"],
+  토: ["자기 자리를 단단히 다져가는", "넉넉하고 든든히 자라는", "흔들림 없이 자기 결을 가꾸는"],
+  금: ["맑은 결단을 키워가는", "곧고 단단히 자라는", "선명한 결을 다듬어가는"],
+  수: ["깊은 지혜를 흘려가는", "차분히 흐름을 키우는", "잔잔히 자기 결을 깊여가는"],
+};
+
+// 자녀 일간 오행 → 마무리 문구 (사주 해시 기반)
+export function pickChildGrowthPhrase(childElement: string, seedString: string): string {
+  const phrases = CHILD_GROWTH_PHRASES[childElement];
+  if (!phrases) return "자기 결을 차분히 키워가는";
+  return phrases[pickVariant(seedString)];
+}
+
 // ── 사전: 천간 한자 ─────────────────────────────────────
 const STEM_HANJA: Record<string, string> = {
   갑: "甲", 을: "乙", 병: "丙", 정: "丁", 무: "戊",
@@ -91,6 +137,9 @@ export interface OpenerSeed {
   parentSipseongTone: string;   // 톤 풀이
   fillsElement: string | null;
   fillsQuality: string | null;
+  reframeHint: string;            // "부모 → 아이 영향" 방향성 강제용
+  responseVerb: string;           // imagery 일치 응답 동사 (자녀에게)
+  childGrowthPhrase: string;      // 자녀 imagery 일치 마무리 문구
   text: string;                  // 프롬프트에 그대로 박을 멀티라인 시드
 }
 
@@ -98,9 +147,31 @@ function ilganRelationLabel(parentElem: string, childElem: string): string {
   if (parentElem === childElem) return "비화 — 같은 본질의 결";
   if (GENERATES[parentElem] === childElem) return "상생, 부모가 아이에게 흘려주는 결";
   if (GENERATES[childElem] === parentElem) return "상생, 아이가 부모를 받쳐주는 결";
-  if (CONTROLS[parentElem] === childElem) return "상극, 부모가 아이를 다듬는 결";
-  if (CONTROLS[childElem] === parentElem) return "상극, 아이가 부모를 단련시키는 결";
+  // "상극" 단어 일반 인식 부정 → 풀어쓰기로 강제 (시드에서 사라지면 AI가 본문에 못 옮김)
+  if (CONTROLS[parentElem] === childElem) return "부모의 결이 아이의 결을 곧게 다듬어 주는 만남";
+  if (CONTROLS[childElem] === parentElem) return "아이의 결이 부모의 결을 단단히 다져주는 만남";
   return "관계 미상";
+}
+
+// 보고서는 항상 "부모 → 아이 영향" 방향으로 마무리 — 명리 방향이 자녀→부모일지라도 reframe.
+function reframeToChildImpact(parentElem: string, childElem: string, parentRole: "엄마" | "아빠"): string {
+  // 명리 방향이 child→parent인 경우, 부모 행동을 받아주기·울타리·돌려주기로 reframe
+  if (parentElem === childElem) {
+    return `${parentRole}는 아이와 같은 본질의 결을 가졌으니, 본문은 두 사람이 같은 결로 통하며 ${parentRole}의 안정이 아이에게 같은 자리를 내주는 형태로 마무리. 마지막 문장은 반드시 "아이가 ~한 자녀로 자라난다"로.`;
+  }
+  if (GENERATES[parentElem] === childElem) {
+    return `명리적으로 부모가 아이에게 결을 흘려주는 방향. 본문은 ${parentRole}가 아이에게 결을 키워주는 톤. 마지막 문장: "아이가 ~한 자녀로 자라난다".`;
+  }
+  if (GENERATES[childElem] === parentElem) {
+    return `명리적으로는 자녀가 부모를 살리는 방향이지만, 보고서는 부모→자녀 영향으로 reframe. ${parentRole}는 아이의 결을 받아 안정으로 응답하며 든든한 울타리가 되어주는 톤. 마지막 문장은 반드시 "아이가 ${parentRole} 곁에서 ~한 자녀로 자라난다".`;
+  }
+  if (CONTROLS[parentElem] === childElem) {
+    return `명리적으로 부모가 아이를 다듬는 방향. 본문은 ${parentRole}가 아이의 결을 곧게 잡아주는 톤. 마지막 문장: "아이가 ~한 자녀로 자라난다".`;
+  }
+  if (CONTROLS[childElem] === parentElem) {
+    return `명리적으로는 자녀가 부모를 다스리는 방향이지만, 보고서는 부모→자녀 영향으로 reframe. ${parentRole}는 아이의 강한 결을 받아주며 든든한 울타리가 되어 아이가 자기 자리를 잡고 성장하도록 받쳐주는 톤. 마지막 문장은 반드시 "아이가 ${parentRole} 곁에서 ~한 자녀로 자라난다".`;
+  }
+  return `본문 마지막 문장은 반드시 "아이가 ~한 자녀로 자라난다"로 끝낼 것.`;
 }
 
 export function buildOpenerSeed(
@@ -123,13 +194,20 @@ export function buildOpenerSeed(
   const tone = SIPSEONG_TONE[sipseong] ?? "";
   const sipHanja = SIPSEONG_HANJA[sipseong] ?? "";
   const fillsQuality = helpsElement ? ELEM_QUALITY[helpsElement] ?? null : null;
+  const reframeHint = reframeToChildImpact(pElem, cElem, parentRole);
+  // 사주 해시로 응답 동사 결정 — 같은 사주는 같은 결과, 다른 사주는 다른 결과
+  const seedString = `${parentName}-${childName}-${pIlgan}-${cIlgan}`;
+  const responseVerb = pickParentResponseVerb(pIlgan, seedString);
+  const childGrowthPhrase = pickChildGrowthPhrase(cElem, seedString);
 
   const text = [
     `[${parentRole} ${parentName}]: ${STEM_HANJA[pIlgan]}${pElem} — ${ILGAN_IMAGERY[pIlgan]}`,
     `[아이 ${childName}]: ${STEM_HANJA[cIlgan]}${cElem} — ${ILGAN_IMAGERY[cIlgan]}`,
     `[일간 관계]: ${ilganRel}`,
-    `[${parentRole}→아이 결의 역할]: ${sipseong}(${sipHanja}) — ${tone}`,
+    `[${parentRole}이 자녀에게 줄 응답 동사 (imagery 일치, 사주 해시 결정)]: "${responseVerb}"`,
+    `[자녀 마무리 문구 (imagery 일치, 긍정 인상)]: "${childGrowthPhrase} 자녀로 자라날 것입니다"`,
     `[${parentRole}이 아이에게 채워주는 오행]: ${helpsElement ?? "특별히 없음"}${fillsQuality ? ` (${fillsQuality})` : ""}`,
+    `[방향성 reframe]: ${reframeHint}`,
   ].join("\n");
 
   return {
@@ -150,6 +228,9 @@ export function buildOpenerSeed(
     parentSipseongTone: tone,
     fillsElement: helpsElement,
     fillsQuality,
+    reframeHint,
+    responseVerb,
+    childGrowthPhrase,
     text,
   };
 }

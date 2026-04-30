@@ -140,6 +140,32 @@ export default function ParentChildForm() {
             }
           />
 
+          {/* 만 2세 미만 자녀 — 미발현 단계 안내 */}
+          {(() => {
+            const y = parseInt(child.year || "0") || 0;
+            const m = parseInt(child.month || "1") || 1;
+            const dd = parseInt(child.day || "1") || 1;
+            if (!y) return null;
+            const now = new Date();
+            const months = (now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m) - (now.getDate() < dd ? 1 : 0);
+            if (months >= 24 || months < 0) return null;
+            return (
+              <div
+                className="rounded-xl p-3 mb-3 text-[12px] leading-relaxed"
+                style={{
+                  backgroundColor: "rgba(240, 168, 184, 0.10)",
+                  border: "1px solid rgba(240, 168, 184, 0.35)",
+                  color: "rgba(255,255,255,0.85)",
+                }}
+              >
+                💡 <strong>만 2세 미만 자녀는 사주의 결이 행동에 본격 발현되기 전입니다.</strong>
+                <br />
+                지금은 <strong>&quot;타고난 결의 큰 그림&quot;을 미리 보고 부모님의 양육 가이드로 활용</strong>하시는 용도로 권장드립니다.
+                본격적인 풀이는 만 2~3세 이후 다시 받아보시면 더 깊이 있는 결과를 보실 수 있습니다.
+              </div>
+            );
+          })()}
+
           {/* 엄마 카드 — 토글 */}
           <ToggleCard
             title="엄마"

@@ -21,6 +21,7 @@ import {
   inferJobRadar,
   inferFriendStyle,
   inferDisciplineChannels,
+  inferDisciplineBasis,
   inferDangerCards,
   inferGuideHighlights,
   inferTantrumTriggers,
@@ -66,7 +67,7 @@ import {
   type ObservationGuide,
 } from "@/lib/parent-child-observation";
 import { softenIlganRelation, softenIljiRelation, softenChungList, withChildHonorific, parentChildOneLiner } from "@/lib/wording";
-import { ensureChildHonorific } from "@/lib/text-postprocess";
+import { ensureChildHonorific, softenNegatives } from "@/lib/text-postprocess";
 
 const ACCENT = "#f0a8b8";  // 따뜻한 로즈 핑크
 const GOLD = "#FFD700";
@@ -151,22 +152,42 @@ interface SlideDef {
   aiSectionIdx?: number;   // SECTION_HEADERS의 인덱스
   chartPages?: number;
   hue?: string;
+  coverPage?: boolean;     // 섹션 시작 표지 페이지 추가 여부
 }
 
-// 엄마/아빠 입력 여부에 따라 슬라이드 배치 생성
-function buildSlideLayout(hasMom: boolean, hasDad: boolean): SlideDef[] {
+// 섹션 표지 데이터 — 이모지 심볼 + 한글 강조 (kind별)
+const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: string; en: string; subtitle: string }>> = {
+  overview: { partLabel: "Part 02", symbol: "🌱", en: "Our Child at a Glance", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
+  heart: { partLabel: "Part 03", symbol: "💗", en: "Child's Heart", subtitle: "감정과 기질이 흐르는 결의 자리" },
+  guide: { partLabel: "Part 04", symbol: "🤝", en: "Parenting Guide", subtitle: "일상에서 함께 빚어가는 양육의 결" },
+  mom: { partLabel: "Part 05", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
+  dad: { partLabel: "Part 06", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
+  talent: { partLabel: "Part 07", symbol: "⭐", en: "Strength · Talent · Path", subtitle: "타고난 결이 빛나는 자리" },
+  "last-word": { partLabel: "Part 08", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
+};
+
+// 엄마/아빠 입력 여부 + 자녀 발달 단계에 따라 슬라이드 배치 생성
+// 영아(infant): 진로·재능 슬라이드 숨김 (talent 슬라이드 제거)
+function buildSlideLayout(
+  hasMom: boolean,
+  hasDad: boolean,
+  ageStage?: "infant" | "preschool" | "elementary" | "secondary",
+): SlideDef[] {
   const layout: SlideDef[] = [
     { kind: "cover", title: "" },
     { kind: "pillars", title: "사주팔자" },
     { kind: "first-word", title: "자도인의 첫마디", aiSectionIdx: 0, hue: "#f5b942" },
-    { kind: "overview", title: "한눈에 보는 우리 아이", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0" },
-    { kind: "heart", title: "우리 아이의 마음", aiSectionIdx: 2, hue: "#c89cff" },
-    { kind: "guide", title: "실전 양육 가이드", aiSectionIdx: 3, hue: "#ff9d6b" },
+    { kind: "overview", title: "한눈에 보는 우리 아이", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
+    { kind: "heart", title: "우리 아이의 마음", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
+    { kind: "guide", title: "실전 양육 가이드", aiSectionIdx: 3, hue: "#ff9d6b", coverPage: true },
   ];
-  if (hasMom) layout.push({ kind: "mom", title: "엄마와 우리 아이", aiSectionIdx: 4, hue: "#f5b942" });
-  if (hasDad) layout.push({ kind: "dad", title: "아빠와 우리 아이", aiSectionIdx: 5, hue: "#7eb6ff" });
-  layout.push({ kind: "talent", title: "강점·재능·진로", aiSectionIdx: 6, chartPages: 1, hue: "#ffd166" });
-  layout.push({ kind: "last-word", title: "자도인의 마지막 당부", aiSectionIdx: 7, hue: "#d4a8e8" });
+  if (hasMom) layout.push({ kind: "mom", title: "엄마와 우리 아이", aiSectionIdx: 4, hue: "#f0a8b8", coverPage: true });
+  if (hasDad) layout.push({ kind: "dad", title: "아빠와 우리 아이", aiSectionIdx: 5, hue: "#7eb6ff", coverPage: true });
+  // 영아는 재능·진로 슬라이드 숨김 (또래·학습·진로 어휘가 발달 단계와 안 맞음)
+  if (ageStage !== "infant") {
+    layout.push({ kind: "talent", title: "강점·재능·진로", aiSectionIdx: 6, chartPages: 1, hue: "#ffd166", coverPage: true });
+  }
+  layout.push({ kind: "last-word", title: "자도인의 마지막 당부", aiSectionIdx: 7, hue: "#d4a8e8", coverPage: true });
   layout.push({ kind: "share", title: "공유하기" });
   return layout;
 }
@@ -270,7 +291,7 @@ function highlightHanja(text: string, key = "h"): ReactNode[] {
   return parts.length ? parts : [text];
 }
 
-function formatText(text: string) {
+function formatText(text: string, hue: string = ACCENT) {
   return text.split("\n").map((line, i) => {
     const l = line.trim();
     if (!l) return <div key={i} className="h-3" />;
@@ -285,15 +306,15 @@ function formatText(text: string) {
       return (
         <div key={i} className="flex gap-3 mb-3 items-start">
           <div className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center font-bold text-[15px]"
-            style={{ backgroundColor: `${ACCENT}33`, color: ACCENT, border: `1.5px solid ${ACCENT}` }}>
+            style={{ backgroundColor: `${hue}33`, color: hue, border: `1.5px solid ${hue}` }}>
             {num}
           </div>
           <div className="flex-1">
-            <p className="font-bold text-[15px] mb-1" style={{ color: ACCENT }}>{keyword}</p>
+            <p className="font-bold text-[15px] mb-1" style={{ color: hue }}>{keyword}</p>
             <p className="text-[14px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.88)" }}>
               {body.split(/(\*\*[^*]+\*\*)/).map((p, j) =>
                 /^\*\*[^*]+\*\*$/.test(p) ? (
-                  <strong key={j} style={{ color: ACCENT }}>{p.replace(/\*\*/g, "")}</strong>
+                  <strong key={j} style={{ color: hue }}>{p.replace(/\*\*/g, "")}</strong>
                 ) : (
                   <span key={j}>{highlightHanja(p, `s${i}-${j}`)}</span>
                 )
@@ -305,7 +326,7 @@ function formatText(text: string) {
     }
     if (l.startsWith("**") && l.endsWith("**"))
       return (
-        <p key={i} className="font-bold mt-3 mb-2 text-[16px]" style={{ color: ACCENT }}>
+        <p key={i} className="font-bold mt-3 mb-2 text-[16px]" style={{ color: hue }}>
           {l.slice(2, -2)}
         </p>
       );
@@ -314,7 +335,7 @@ function formatText(text: string) {
         <p key={i} className="text-[15px] leading-[1.85] mb-3" style={{ color: "rgba(255,255,255,0.92)" }}>
           {l.split(/(\*\*[^*]+\*\*)/).map((p, j) =>
             /^\*\*[^*]+\*\*$/.test(p) ? (
-              <strong key={j} style={{ color: ACCENT }}>{highlightHanja(p.replace(/\*\*/g, ""), `b${i}-${j}`)}</strong>
+              <strong key={j} style={{ color: hue }}>{highlightHanja(p.replace(/\*\*/g, ""), `b${i}-${j}`)}</strong>
             ) : (
               <span key={j}>{highlightHanja(p, `t${i}-${j}`)}</span>
             )
@@ -324,7 +345,7 @@ function formatText(text: string) {
     if (l.startsWith("✓ "))
       return (
         <p key={i} className="text-[15px] leading-[1.85] mb-3 pl-5 relative" style={{ color: "rgba(255,255,255,0.90)" }}>
-          <span className="absolute left-0" style={{ color: ACCENT }}>✓</span>
+          <span className="absolute left-0" style={{ color: hue }}>✓</span>
           {highlightHanja(l.slice(2), `c${i}`)}
         </p>
       );
@@ -834,11 +855,9 @@ function FriendDistanceSlider({ fd }: { fd: FriendDistance }) {
           </div>
         </div>
         <div className="mt-4 text-center">
-          <p className="font-bold mb-1" style={{ color: ACCENT, fontSize: 14 }}>{fd.label}</p>
-          <p className="leading-[1.65]" style={{ color: "rgba(255,255,255,0.75)", fontSize: 12 }}>
-            {fd.basis}
-          </p>
+          <p className="font-bold" style={{ color: ACCENT, fontSize: 14 }}>{fd.label}</p>
         </div>
+        <SajuBasisBox basis={fd.basis} />
       </div>
     </div>
   );
@@ -981,9 +1000,7 @@ function DigitalGaugeCard({ gauge }: { gauge: DigitalGauge }) {
             </p>
           </div>
         </div>
-        <p className="leading-[1.65] text-center" style={{ color: "rgba(255,255,255,0.78)", fontSize: 12 }}>
-          {gauge.basis}
-        </p>
+        <SajuBasisBox basis={gauge.basis} />
       </div>
     </div>
   );
@@ -1065,7 +1082,7 @@ function ElementCompareRadar({
   const R = 78;
   const ELEMS = ["목", "화", "토", "금", "수"] as const;
   const labels = ["나무", "불", "흙", "쇠", "물"];
-  const childColor = "#fb923c";
+  const childColor = "#7dd3c0"; // mint teal — 엄마(rose pink)와 보색 가까워 시각 구분 명확
 
   const point = (i: number, value: number) => {
     const angle = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
@@ -1153,15 +1170,21 @@ function ElementCompareRadar({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="rounded-xl p-3" style={{ background: "rgba(125,211,192,0.1)", border: "1px solid rgba(125,211,192,0.3)" }}>
-          <p className="text-[10px] mb-1" style={{ color: "#7dd3c0" }}>가장 닮은 결</p>
-          <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[10px] mb-0.5" style={{ color: "#7dd3c0" }}>가장 비슷한 비중의 결</p>
+          <p className="text-[12px] mb-1" style={{ color: "rgba(255,255,255,0.9)" }}>
             {cmp.similar.kor}
+          </p>
+          <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>
+            (두 분 모두 비슷한 비중)
           </p>
         </div>
         <div className="rounded-xl p-3" style={{ background: "rgba(251,146,60,0.1)", border: "1px solid rgba(251,146,60,0.3)" }}>
-          <p className="text-[10px] mb-1" style={{ color: "#fb923c" }}>가장 다른 결</p>
-          <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[10px] mb-0.5" style={{ color: "#7dd3c0" }}>가장 비중이 다른 결</p>
+          <p className="text-[12px] mb-1" style={{ color: "rgba(255,255,255,0.9)" }}>
             {cmp.different.kor}
+          </p>
+          <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>
+            (한쪽이 강하고 한쪽이 약함)
           </p>
         </div>
       </div>
@@ -1171,7 +1194,7 @@ function ElementCompareRadar({
 
 // ── ② 일간 관계 카드 ──────────────────────────────────────────────
 function IlganRelationCard({ rel, parentLabel, parentColor }: { rel: IlganRelation; parentLabel: string; parentColor: string }) {
-  const childColor = "#fb923c";
+  const childColor = "#7dd3c0"; // mint teal — 엄마(rose pink)와 보색 가까워 시각 구분 명확
   return (
     <div className="space-y-3">
       <p className="text-[11px] text-center" style={{ color: "rgba(255,255,255,0.65)" }}>
@@ -1226,20 +1249,23 @@ function IlganRelationCard({ rel, parentLabel, parentColor }: { rel: IlganRelati
 
 // ── ③ 채워주는 vs 부족한 기운 흐름 ────────────────────────────────
 function ElementFlowChart({ flow, parentLabel, parentColor }: { flow: FlowGiven; parentLabel: string; parentColor: string }) {
+  // 임계값: intensity ≥ 25% 인 흐름만 의미있는 보충으로 표시 (그 이하는 본문 AI 와 정합 깨지는 미미한 차이)
+  const FLOW_THRESHOLD = 25;
+  const meaningfulGives = flow.parentGives.filter((g) => g.intensity >= FLOW_THRESHOLD);
   return (
     <div className="space-y-3">
       <p className="text-[11px] text-center" style={{ color: "rgba(255,255,255,0.65)" }}>
-        {parentLabel}이 흘려주는 결 → 아이에게 닿는 결
+        {parentLabel}의 흘려주는 결 → 아이에게 닿는 결
       </p>
 
-      {/* 부모가 채워주는 기운 */}
-      {flow.parentGives.length > 0 ? (
+      {/* 부모가 채워주는 기운 — 임계값 25% 이상만 */}
+      {meaningfulGives.length > 0 ? (
         <div className="rounded-xl p-4" style={{ background: `${parentColor}08`, border: `1px solid ${parentColor}30` }}>
           <p className="text-[11px] mb-3" style={{ color: parentColor }}>
-            ✨ {parentLabel}이 자녀에게 채워주는 기운
+            ✨ {parentLabel}가 자녀에게 채워주는 기운
           </p>
           <div className="space-y-2.5">
-            {flow.parentGives.map((g, i) => (
+            {meaningfulGives.map((g, i) => (
               <div key={i}>
                 <div className="flex items-baseline justify-between mb-1">
                   <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.9)" }}>
@@ -1258,7 +1284,7 @@ function ElementFlowChart({ flow, parentLabel, parentColor }: { flow: FlowGiven;
       ) : (
         <div className="rounded-xl p-3 text-center" style={{ background: "rgba(255,255,255,0.03)" }}>
           <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.7)" }}>
-            특별히 한 가지로 흘려주는 결은 없고, 전반적으로 비슷한 결의 부모입니다.
+            특별히 채워주는 결은 없고, 전반적으로 비슷한 결의 부모입니다.
           </p>
         </div>
       )}
@@ -1283,21 +1309,7 @@ function ElementFlowChart({ flow, parentLabel, parentColor }: { flow: FlowGiven;
         </div>
       )}
 
-      {/* 두 분 입력 시 — 겹침/보완 라벨 */}
-      {(flow.overlapLabel || flow.complementLabel) && (
-        <div className="rounded-xl p-3" style={{ background: "rgba(167,139,250,0.06)", border: "1px solid rgba(167,139,250,0.25)" }}>
-          {flow.overlapLabel && (
-            <p className="text-[11px] mb-1" style={{ color: "#a78bfa" }}>
-              {flow.overlapLabel}
-            </p>
-          )}
-          {flow.complementLabel && (
-            <p className="text-[11px]" style={{ color: "#a78bfa" }}>
-              {flow.complementLabel}
-            </p>
-          )}
-        </div>
-      )}
+      {/* complementLabel·overlapLabel 박스 제거 — 메인 박스(parentGives)와 데이터 모순 + "다른 부모와 다르게" 라벨 모호 */}
     </div>
   );
 }
@@ -1361,13 +1373,14 @@ function SynergyGrid({ cards, color }: { cards: SynergyCards; color: string }) {
 }
 
 // ── ⑤ 갈등 카드 (좌·중·우 충돌 카드) ─────────────────────────────
-type ConflictItem = { parentSide: string; childSide: string; scene: string; emoji: string };
+type ConflictItem = { parentSide: string; childSide: string; scene: string; emoji: string; basis?: string };
 type ConflictCards = { items: ConflictItem[] };
 function parseConflictCards(text: string): ConflictCards | null {
   const lines = text.split("\n").map((l) => l.trim());
   const items: ConflictItem[] = [];
   let inList = false;
-  for (const l of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
     if (!l) continue;
     if (l.startsWith("[갈등]") || l.startsWith("[부딪히는]") || l.startsWith("[충돌]")) { inList = true; continue; }
     if (!inList) continue;
@@ -1378,13 +1391,20 @@ function parseConflictCards(text: string): ConflictCards | null {
     // 형식: **부모결 ↔ 아이결** — 일상 장면
     const m = rest.match(/^\*\*(.+?)\s*[↔⇄·]\s*(.+?)\*\*\s*[—–-]\s*(.+)$/);
     if (!m) continue;
-    items.push({ parentSide: m[1].trim(), childSide: m[2].trim(), scene: m[3].trim(), emoji });
+    // 다음 줄이 📌 사주 근거면 캡처
+    let basis: string | undefined;
+    const nextLine = lines[i + 1];
+    if (nextLine && /^📌/.test(nextLine)) {
+      basis = nextLine.replace(/^📌\s*/, "").trim();
+      i++; // 📌 줄 소비
+    }
+    items.push({ parentSide: m[1].trim(), childSide: m[2].trim(), scene: m[3].trim(), emoji, basis });
   }
   if (items.length === 0) return null;
   return { items };
 }
 function ConflictCardsGrid({ cards, parentColor, parentLabel }: { cards: ConflictCards; parentColor: string; parentLabel: string }) {
-  const childColor = "#fb923c";
+  const childColor = "#7dd3c0"; // mint teal — 엄마(rose pink)와 보색 가까워 시각 구분 명확
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 px-1">
@@ -1420,6 +1440,19 @@ function ConflictCardsGrid({ cards, parentColor, parentLabel }: { cards: Conflic
             <p className="text-[12px] leading-[1.55] pt-2" style={{ color: "rgba(255,255,255,0.78)", borderTop: "1px dashed rgba(255,255,255,0.1)" }}>
               {it.scene}
             </p>
+            {it.basis && (
+              <div
+                className="mt-2.5 rounded-md px-2.5 py-1.5"
+                style={{
+                  background: "rgba(245,185,66,0.06)",
+                  border: `1px solid ${ACCENT}40`,
+                }}
+              >
+                <p className="text-[10.5px] leading-[1.5]" style={{ color: ACCENT, fontWeight: 600 }}>
+                  📌 <span style={{ color: "rgba(255,255,255,0.82)", fontWeight: 400 }}>{it.basis}</span>
+                </p>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -1736,22 +1769,23 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
   ];
   const gridPts = (s: number) => ELEM_ORDER.map((_, i) => pt(i, s).join(",")).join(" ");
   const dataPts = ELEM_ORDER.map((el, i) => {
-    // 절대 스케일 — 100%가 꼭짓점 (이전: 최댓값 기준 상대 스케일)
-    const raw = (adjusted[el] || 0) / 100;
-    const s = Math.max(MIN_SCALE, raw);
+    // 절대 스케일 — 50%가 꼭짓점 (단일 오행의 현실적 최대값 기준)
+    // 50% 초과(드문 종왕격 등)는 1.0으로 cap하여 격자 밖 튀어나옴 방지
+    const raw = (adjusted[el] || 0) / 50;
+    const s = Math.min(1.0, Math.max(MIN_SCALE, raw));
     return pt(i, s).join(",");
   }).join(" ");
   const LO = 1.5;
   return (
     <div className="flex justify-center">
       <svg width="340" height="320" viewBox="0 0 340 320">
-        {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
+        {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
           <polygon key={gi} points={gridPts(s)} fill="none"
             stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
-        {/* 그리드 % 라벨 — 절대 스케일 가독성 (ElementsRadar 한정) */}
-        {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
+        {/* 그리드 % 라벨 — 절대 스케일(/50) 가독성 (ElementsRadar 한정) */}
+        {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
           <text
             key={`gl-${gi}`}
             x={cx + 4}
@@ -1759,7 +1793,7 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
             fontSize="9"
             fill="rgba(255,255,255,0.35)"
           >
-            {Math.round(s * 100)}%
+            {Math.round(s * 50)}%
           </text>
         ))}
         {ELEM_ORDER.map((_, i) => {
@@ -1918,22 +1952,23 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
   ];
   const gridPts = (s: number) => ORDER.map((_, i) => pt(i, s).join(",")).join(" ");
   const dataPts = ORDER.map((k, i) => {
-    // 절대 스케일 — 8 = 사주 8글자 모두 한 결에 집중되었을 때 (이전: 최댓값 기준 상대)
-    const raw = displayCounts[k] / 8;
-    const s = Math.max(MIN_SCALE, raw);
+    // 절대 스케일 — 5 = 단일 십성의 현실적 최대값 (보통 0~4 범위, 종격은 5+)
+    // 5 초과(드문 종격)는 1.0으로 cap하여 격자 밖 튀어나옴 방지
+    const raw = displayCounts[k] / 5;
+    const s = Math.min(1.0, Math.max(MIN_SCALE, raw));
     return pt(i, s).join(",");
   }).join(" ");
   const LO = 1.42;
   return (
     <div className="flex justify-center">
       <svg width="340" height="380" viewBox="0 0 340 380">
-        {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
+        {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
           <polygon key={gi} points={gridPts(s)} fill="none"
             stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
-        {/* 그리드 % 라벨 — 절대 스케일 가독성 (SipseongRadar 한정) */}
-        {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
+        {/* 그리드 라벨 — 십성 카운트 기준 (1/2/3/4/5) */}
+        {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
           <text
             key={`sgl-${gi}`}
             x={cx + 4}
@@ -1941,7 +1976,7 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
             fontSize="9"
             fill="rgba(255,255,255,0.35)"
           >
-            {Math.round(s * 100)}%
+            {Math.round(s * 5)}
           </text>
         ))}
         {ORDER.map((_, i) => {
@@ -1951,8 +1986,9 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
         {/* 방사형 막대 — 0인 결은 그리지 않음 (연결 폴리곤 대신 직관적 막대) */}
         {ORDER.map((k, i) => {
           if (counts[k] === 0) return null;
-          const raw = displayCounts[k] / 8;
-          const s = Math.max(MIN_SCALE, raw);
+          // 절대 스케일 — 5 = 단일 십성의 현실적 최대값 (5 초과는 cap)
+          const raw = displayCounts[k] / 5;
+          const s = Math.min(1.0, Math.max(MIN_SCALE, raw));
           const [x, y] = pt(i, s);
           return (
             <line
@@ -2171,6 +2207,33 @@ function JobRadar({ items }: { items: JobRadarItem[] }) {
 }
 
 // ── 친구 사귀는 스타일 2x2 매트릭스 ──────────────
+// ── 📌 사주 근거 박스 — 결정론 라벨 (차트 카드 안에서 재사용) ──
+function SajuBasisBox({ basis }: { basis: string }) {
+  if (!basis) return null;
+  return (
+    <div
+      className="mt-3 rounded-lg px-3 py-2.5"
+      style={{
+        background: "rgba(245,185,66,0.06)",
+        border: `1px solid ${ACCENT}40`,
+      }}
+    >
+      <p
+        className="text-[10.5px] tracking-[0.18em] mb-1.5"
+        style={{ color: ACCENT, fontWeight: 600 }}
+      >
+        📌 사주 근거
+      </p>
+      <p
+        className="text-[11.5px] leading-[1.6] whitespace-pre-line"
+        style={{ color: "rgba(255,255,255,0.82)" }}
+      >
+        {basis}
+      </p>
+    </div>
+  );
+}
+
 function FriendStyleMatrix({ fs }: { fs: FriendStyle }) {
   const SIZE = 240;
   const PAD = 30;
@@ -2211,12 +2274,13 @@ function FriendStyleMatrix({ fs }: { fs: FriendStyle }) {
           {fs.desc}
         </p>
       </div>
+      <SajuBasisBox basis={fs.basis} />
     </div>
   );
 }
 
 // ── 통하는 훈육 4채널 막대 ──────────────
-function DisciplineBars({ list }: { list: DisciplineChannel[] }) {
+function DisciplineBars({ list, basis }: { list: DisciplineChannel[]; basis?: string }) {
   const max = Math.max(...list.map((c) => c.score), 1);
   const top = [...list].sort((a, b) => b.score - a.score)[0];
   const bottom = [...list].sort((a, b) => a.score - b.score)[0];
@@ -2250,55 +2314,81 @@ function DisciplineBars({ list }: { list: DisciplineChannel[] }) {
           );
         })}
       </div>
+      {basis && <SajuBasisBox basis={basis} />}
     </div>
   );
 }
 
 // ── 절대 하면 안 되는 5가지 위험도 카드 ──────────────
+// 텍스트 밀도 분산: 상위 2개는 풀 카드(사주 근거 포함) / 하위 3개는 콤팩트 미니 카드
 function DangerCards({ list }: { list: DangerCard[] }) {
   const sorted = [...list].sort((a, b) => b.level - a.level);
+  const topTwo = sorted.slice(0, 2);
+  const restThree = sorted.slice(2);
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+      {/* 섹션 A — 상위 2개 풀 카드 */}
       <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
-        ─ 이 자녀에게 가장 치명적인 5가지 ─
+        ─ 이 자녀에게 가장 치명적인 2가지 ─
       </p>
       <div className="space-y-2.5">
-        {sorted.map((c, i) => {
-          const isCritical = i < 2; // 상위 2개 빨간 강조 + 사주 근거
-          const danger = isCritical ? "#ef4444" : c.level >= 3 ? "#f5b942" : "rgba(255,255,255,0.4)";
-          return (
-            <div key={c.name} className="rounded-xl p-3"
-              style={{
-                backgroundColor: isCritical ? "rgba(239,68,68,0.08)" : "rgba(255,255,255,0.03)",
-                border: `1px solid ${isCritical ? "rgba(239,68,68,0.4)" : "rgba(255,255,255,0.1)"}`,
-              }}>
-              <div className="flex items-baseline justify-between mb-1.5 gap-2">
-                <span className="text-[13.5px] font-bold leading-snug" style={{ color: isCritical ? "#ff8a8a" : "rgba(255,255,255,0.85)" }}>
-                  {c.name}
-                </span>
-                <span className="text-[12px] flex-shrink-0" style={{ color: danger, letterSpacing: "1px" }}>
-                  {"★".repeat(c.level)}{"☆".repeat(5 - c.level)}
-                </span>
-              </div>
-              <p className="text-[12px] leading-snug" style={{ color: "rgba(255,255,255,0.7)" }}>
-                {c.why}
-              </p>
-              {/* 상위 2개만 사주 근거 박스 */}
-              {isCritical && (
-                <div className="mt-2.5 rounded-lg p-2.5"
-                  style={{ backgroundColor: "rgba(239,68,68,0.06)", borderLeft: `3px solid #ef4444` }}>
-                  <p className="text-[10px] tracking-wider mb-1" style={{ color: "#ff8a8a", fontWeight: "bold" }}>
-                    ─ 왜 {i === 0 ? "가장" : "특히"} 치명적인가 (사주 근거) ─
-                  </p>
-                  <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
-                    {c.sajuBasis}
-                  </p>
-                </div>
-              )}
+        {topTwo.map((c, i) => (
+          <div key={c.name} className="rounded-xl p-3"
+            style={{
+              backgroundColor: "rgba(239,68,68,0.08)",
+              border: `1px solid rgba(239,68,68,0.4)`,
+            }}>
+            <div className="flex items-baseline justify-between mb-1.5 gap-2">
+              <span className="text-[13.5px] font-bold leading-snug" style={{ color: "#ff8a8a" }}>
+                {c.name}
+              </span>
+              <span className="text-[12px] flex-shrink-0" style={{ color: "#ef4444", letterSpacing: "1px" }}>
+                {"★".repeat(c.level)}{"☆".repeat(5 - c.level)}
+              </span>
             </div>
-          );
-        })}
+            <p className="text-[12px] leading-snug" style={{ color: "rgba(255,255,255,0.7)" }}>
+              {c.why}
+            </p>
+            <div className="mt-2.5 rounded-lg p-2.5"
+              style={{ backgroundColor: "rgba(239,68,68,0.06)", borderLeft: `3px solid #ef4444` }}>
+              <p className="text-[10px] tracking-wider mb-1" style={{ color: "#ff8a8a", fontWeight: "bold" }}>
+                ─ 왜 {i === 0 ? "가장" : "특히"} 치명적인가 (사주 근거) ─
+              </p>
+              <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
+                {c.sajuBasis}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
+
+      {/* 섹션 B — 하위 3개 콤팩트 미니 카드 */}
+      {restThree.length > 0 && (
+        <>
+          <p className="text-[10px] tracking-[0.25em] text-center mt-4 mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
+            ─ 그 외 살펴볼 결 ─
+          </p>
+          <div className="space-y-1.5">
+            {restThree.map((c) => {
+              const danger = c.level >= 3 ? "#f5b942" : "rgba(255,255,255,0.4)";
+              return (
+                <div key={c.name} className="flex items-center justify-between rounded-lg px-3 py-2"
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0.03)",
+                    border: `1px solid rgba(255,255,255,0.08)`,
+                  }}>
+                  <span className="text-[12.5px] leading-snug" style={{ color: "rgba(255,255,255,0.78)" }}>
+                    {c.name}
+                  </span>
+                  <span className="text-[11px] flex-shrink-0 ml-2" style={{ color: danger, letterSpacing: "1px" }}>
+                    {"★".repeat(c.level)}{"☆".repeat(5 - c.level)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -2448,7 +2538,19 @@ export default function ParentChildSlideResult() {
   const childName = params.get("childName") || "아이";
 
   // 동적 슬라이드 레이아웃 (엄마/아빠 입력 여부에 따라)
-  const slideLayout = buildSlideLayout(hasMom, hasDad);
+  const childAgeStageMemo = (() => {
+    const y = parseInt(params.get("childYear") || "0") || 0;
+    const m = parseInt(params.get("childMonth") || "1") || 1;
+    const d = parseInt(params.get("childDay") || "1") || 1;
+    if (!y) return "elementary" as const;
+    const now = new Date();
+    const months = (now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m) - (now.getDate() < d ? 1 : 0);
+    if (months <= 35) return "infant" as const;
+    if (months <= 83) return "preschool" as const;
+    if (months <= 156) return "elementary" as const;
+    return "secondary" as const;
+  })();
+  const slideLayout = buildSlideLayout(hasMom, hasDad, childAgeStageMemo);
   const TOTAL_SLIDES = slideLayout.length;
   const curLayout = slideLayout[slide];
   // 호환용 — primary compat (모자이면 momCompat, 부자이면 dadCompat)
@@ -2513,7 +2615,7 @@ export default function ParentChildSlideResult() {
             const raw = line.slice(6);
             if (raw === "[DONE]") {
               // 스트림 완료 — 자녀 호칭(양/군) 후처리 안전망 적용
-              setContent(ensureChildHonorific(full, childName, params.get("childGender") || ""));
+              setContent(softenNegatives(ensureChildHonorific(full, childName, params.get("childGender") || "")));
               break outer;
             }
             try {
@@ -2527,7 +2629,8 @@ export default function ParentChildSlideResult() {
                 setLoading(false);
               } else if (msg.t === "x" && msg.v) {
                 full += msg.v;
-                setContent(full);
+                // 스트리밍 중에도 강 부정 단어 즉시 치환 (사용자가 일순간이라도 노출 안 되게)
+                setContent(softenNegatives(full));
               }
             } catch {}
           }
@@ -2543,10 +2646,73 @@ export default function ParentChildSlideResult() {
   const sections = parseSections(content);
   const curAiSectionIdx = curLayout?.aiSectionIdx;
   const curAiText = curAiSectionIdx !== undefined ? sections[curAiSectionIdx] || "" : "";
-  const curPages = curAiText ? splitIntoPages(curAiText) : [];
+  // 영아: heart 슬라이드의 "회복과 환경" 처방 페이지 숨김 (보편 육아 상식과 변별 약함)
+  // AI가 헤더를 빼먹어도 본문 패턴(자녀/부모 + 처방 키워드)으로 catch
+  const isRecoveryPage = (p: string): boolean => {
+    if (/###\s*회복과 환경/.test(p)) return true;
+    const hasChildBlock = /\[자녀\]/.test(p);
+    const hasParentBlock = /\[부모\]/.test(p);
+    const hasPrescriptionKw = /즉효 처방|일상 처방|피해야 할 결|깔아주는 환경/.test(p);
+    return (hasChildBlock && hasParentBlock) || hasPrescriptionKw;
+  };
+  // 영아·유아: guide 슬라이드의 "떼·고집" 두 페이지 숨김 (이 시기 떼는 발달적 본능, 사주 트리거 풀이 부적절)
+  const isTantrumPage = (p: string): boolean => {
+    if (/###\s*떼.{0,3}고집/.test(p)) return true;
+    if (/비견.겁재 강도|강한 감정 결|절제 회로/.test(p)) return true;
+    if (/STOP.{0,3}NAME.{0,3}GUIDE|\*\*1단계.{0,5}멈춤|\*\*2단계.{0,5}인정|\*\*3단계.{0,5}안내/.test(p)) return true;
+    return false;
+  };
+  // 영아·유아: guide 슬라이드의 "통하는 훈육 vs 역효과 훈육" 페이지 숨김
+  // (4채널 분류가 보편 양육서와 겹쳐 변별력 약하고, 영아엔 "논리적 설명" 처방이 발달적 부적합)
+  const isDisciplinePage = (p: string): boolean => {
+    if (/###\s*통하는 훈육|역효과 훈육/.test(p)) return true;
+    if (/잘 통하는 훈육|가장 역효과/.test(p)) return true;
+    return false;
+  };
+  // 영아·유아: 칭찬·잠자리·디지털·자존감 4페이지 — 보편 양육서와 변별 약하고 영아엔 언어 미발달
+  const isPraisePage = (p: string): boolean => {
+    if (/###\s*통하는 칭찬|역효과 칭찬/.test(p)) return true;
+    if (/\[좋은 칭찬\]/.test(p) && /\[역효과 칭찬\]/.test(p)) return true;
+    return false;
+  };
+  const isLifestylePage = (p: string): boolean => {
+    if (/###\s*잠자리.{0,3}식습관/.test(p)) return true;
+    return false;
+  };
+  const isDigitalPage = (p: string): boolean => {
+    if (/###\s*디지털.{0,3}미디어/.test(p)) return true;
+    return false;
+  };
+  const isSelfEsteemPage = (p: string): boolean => {
+    if (/###\s*자존감 보호/.test(p)) return true;
+    if (/\[멘트\]/.test(p) && /부모의 한 마디|부모의 말/.test(p)) return true;
+    return false;
+  };
+  const filterPagesForKind = (pages: string[], kind?: string): string[] => {
+    if (kind === "heart" && childAgeStageMemo === "infant") {
+      return pages.filter((p) => !isRecoveryPage(p));
+    }
+    if (kind === "guide") {
+      const isYoungStage = childAgeStageMemo === "infant" || childAgeStageMemo === "preschool";
+      return pages.filter((p) => {
+        if (isDisciplinePage(p)) return false; // 전 연령 — 훈육 4채널 페이지 숨김
+        if (isYoungStage) {
+          if (isTantrumPage(p)) return false;     // 떼·고집 두 페이지
+          if (isPraisePage(p)) return false;      // 칭찬 카드
+          if (isLifestylePage(p)) return false;   // 잠자리·식습관 4채널
+          if (isDigitalPage(p)) return false;     // 디지털 게이지
+          if (isSelfEsteemPage(p)) return false;  // 자존감 멘트
+        }
+        return true;
+      });
+    }
+    return pages;
+  };
+  const curPages = curAiText ? filterPagesForKind(splitIntoPages(curAiText), curLayout?.kind) : [];
   const chartPagesOf = (s: number): number => slideLayout[s]?.chartPages ?? 0;
+  const coverPagesOf = (s: number): number => slideLayout[s]?.coverPage ? 1 : 0;
   const hasChartPage = chartPagesOf(slide) > 0;
-  const totalPagesForSlide = chartPagesOf(slide) + Math.max(curPages.length, 1);
+  const totalPagesForSlide = coverPagesOf(slide) + chartPagesOf(slide) + Math.max(curPages.length, 1);
   const hasMorePages = totalPagesForSlide > 1 && aiPage < totalPagesForSlide - 1;
 
   // ── 전체 페이지 카운트 (모든 슬라이드의 페이지 합) ─────────
@@ -2554,8 +2720,9 @@ export default function ParentChildSlideResult() {
     const sIdx = slideLayout[s]?.aiSectionIdx;
     if (sIdx === undefined) return 1; // AI 매핑 없는 슬라이드 = 1페이지
     const text = sections[sIdx] ?? "";
-    const aiPgs = text ? splitIntoPages(text).length : 1;
-    return chartPagesOf(s) + Math.max(aiPgs, 1);
+    const rawPages = text ? splitIntoPages(text) : [];
+    const aiPgs = filterPagesForKind(rawPages, slideLayout[s]?.kind).length || 1;
+    return coverPagesOf(s) + chartPagesOf(s) + Math.max(aiPgs, 1);
   }
   let cumPagesBefore = 0;
   for (let s = 0; s < slide; s++) cumPagesBefore += pagesOfSlide(s);
@@ -2725,18 +2892,31 @@ export default function ParentChildSlideResult() {
   const childJobRadar: JobRadarItem[] | null = sajuChild ? inferJobRadar(sajuChild) : null;
   const childFriendStyle: FriendStyle | null = sajuChild ? inferFriendStyle(sajuChild) : null;
   const childDiscipline: DisciplineChannel[] | null = sajuChild ? inferDisciplineChannels(sajuChild) : null;
+  const childDisciplineBasis: string = sajuChild ? inferDisciplineBasis(sajuChild) : "";
   const childDanger: DangerCard[] | null = sajuChild ? inferDangerCards(sajuChild) : null;
   const childGuideHighlights: GuideHighlight[] | null = sajuChild ? inferGuideHighlights(sajuChild) : null;
-  const childTantrum: TantrumTrigger[] | null = sajuChild ? inferTantrumTriggers(sajuChild) : null;
+  const childTantrum: TantrumTrigger[] | null = sajuChild ? inferTantrumTriggers(sajuChild, childAgeStageMemo) : null;
   const childFriendDist: FriendDistance | null = sajuChild ? inferFriendDistance(sajuChild) : null;
   const childLifestyle: LifestyleChannel[] | null = sajuChild ? inferLifestyle(sajuChild) : null;
-  const childDigital: DigitalGauge | null = sajuChild ? inferDigitalGauge(sajuChild) : null;
+  const childDigitalCap = (() => {
+    const y = parseInt(params.get("childYear") || "0") || 0;
+    const m = parseInt(params.get("childMonth") || "1") || 1;
+    const d = parseInt(params.get("childDay") || "1") || 1;
+    if (!y) return undefined;
+    const now = new Date();
+    const months = (now.getFullYear() - y) * 12 + (now.getMonth() + 1 - m) - (now.getDate() < d ? 1 : 0);
+    if (months <= 35) return 30;
+    if (months <= 83) return 60;
+    if (months <= 156) return 120;
+    return 180;
+  })();
+  const childDigital: DigitalGauge | null = sajuChild ? inferDigitalGauge(sajuChild, childDigitalCap) : null;
   // 부모-자녀 비교 데이터 (PART 4·5)
   const momCompare: ElementCompare | null = sajuChild && sajuMom ? inferElementCompare(sajuMom, sajuChild) : null;
-  const momIlganRel: IlganRelation | null = sajuChild && sajuMom ? inferIlganRelation(sajuMom, sajuChild) : null;
+  const momIlganRel: IlganRelation | null = sajuChild && sajuMom ? inferIlganRelation(sajuMom, sajuChild, "엄마") : null;
   const momFlow: FlowGiven | null = sajuChild && sajuMom ? inferFlowGiven(sajuMom, sajuChild, sajuDad) : null;
   const dadCompare: ElementCompare | null = sajuChild && sajuDad ? inferElementCompare(sajuDad, sajuChild) : null;
-  const dadIlganRel: IlganRelation | null = sajuChild && sajuDad ? inferIlganRelation(sajuDad, sajuChild) : null;
+  const dadIlganRel: IlganRelation | null = sajuChild && sajuDad ? inferIlganRelation(sajuDad, sajuChild, "아빠") : null;
   const dadFlow: FlowGiven | null = sajuChild && sajuDad ? inferFlowGiven(sajuDad, sajuChild, sajuMom) : null;
   const childSipseongCounts = sajuChild ? getSipseongCounts(sajuChild) : null;
   const childDaeun = sajuChild ? evaluateDaeunTimeline(sajuChild) : null;
@@ -2897,12 +3077,24 @@ export default function ParentChildSlideResult() {
             <p className="text-xs font-bold" style={{ color: ACCENT }}>가족 인연의 결</p>
             {hasMom && momCompat && (
               <p className="text-xs" style={{ color: "rgba(255,255,255,0.78)" }}>
-                • 엄마와 아이의 궁합: {parentChildOneLiner(momCompat, "mom", sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : undefined)}
+                • 엄마가 아이에게 주는 결: {parentChildOneLiner(
+                  momCompat,
+                  "mom",
+                  sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : undefined,
+                  sajuMom ? STEM_TO_ELEM[sajuMom.ilgan] : undefined,
+                  `mom-${childName}-${params.get("childYear") || ""}-${params.get("childMonth") || ""}-${params.get("childDay") || ""}`,
+                )}
               </p>
             )}
             {hasDad && dadCompat && (
               <p className="text-xs" style={{ color: "rgba(255,255,255,0.78)" }}>
-                • 아빠와 아이의 궁합: {parentChildOneLiner(dadCompat, "dad", sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : undefined)}
+                • 아빠가 아이에게 주는 결: {parentChildOneLiner(
+                  dadCompat,
+                  "dad",
+                  sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : undefined,
+                  sajuDad ? STEM_TO_ELEM[sajuDad.ilgan] : undefined,
+                  `dad-${childName}-${params.get("childYear") || ""}-${params.get("childMonth") || ""}-${params.get("childDay") || ""}`,
+                )}
               </p>
             )}
           </div>
@@ -2916,12 +3108,66 @@ export default function ParentChildSlideResult() {
       const title = curLayout.title;
       const kind = curLayout.kind;
 
+      const hasCover = !!curLayout.coverPage;
+      const isCoverPage = hasCover && aiPage === 0;
+      const shiftedPage = hasCover ? aiPage - 1 : aiPage;
       const chartPageCount = chartPagesOf(slide);
-      const totalPages = chartPageCount + Math.max(curPages.length, 1);
-      const isChartPage = chartPageCount > 0 && aiPage < chartPageCount;
-      const aiTextIdx = aiPage - chartPageCount;
-      const aiText = curPages[aiTextIdx] || "";
+      const totalPages = (hasCover ? 1 : 0) + chartPageCount + Math.max(curPages.length, 1);
+      const isChartPage = !isCoverPage && chartPageCount > 0 && shiftedPage < chartPageCount;
+      const aiTextIdx = shiftedPage - chartPageCount;
+      const aiText = !isCoverPage ? (curPages[aiTextIdx] || "") : "";
       const partHue = curLayout.hue ?? ACCENT;
+      const cover = SECTION_COVER[kind];
+
+      // 섹션 표지 페이지 전용 렌더링 — 이모지 심볼 + 한글 강조
+      if (isCoverPage && cover) {
+        return (
+          <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+            <p className="text-[11px] tracking-[0.4em] mb-2" style={{ color: `${partHue}99` }}>
+              {cover.partLabel}
+            </p>
+            <p className="text-[10px] italic mb-10" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Cormorant Garamond', serif" }}>
+              {cover.en}
+            </p>
+            {/* 큼직한 이모지 — slide hue 글로우로 부드럽게 감싸기 */}
+            <div
+              className="text-[88px] leading-none mb-10 flex items-center justify-center rounded-full"
+              style={{
+                width: 160,
+                height: 160,
+                background: `radial-gradient(circle, ${partHue}33 0%, ${partHue}10 60%, transparent 100%)`,
+                filter: `drop-shadow(0 0 24px ${partHue}55)`,
+              }}
+            >
+              {cover.symbol}
+            </div>
+            {/* 한글 큰 글자 — 자간 넓게, 메인 디자인 요소 */}
+            <h2
+              className="text-[26px] font-bold text-center mb-6"
+              style={{
+                color: "rgba(255,255,255,0.95)",
+                letterSpacing: "0.22em",
+                lineHeight: 1.4,
+              }}
+            >
+              {title}
+            </h2>
+            {/* 그라디언트 라인 액센트 */}
+            <div
+              className="w-16 h-px mb-6"
+              style={{
+                background: `linear-gradient(to right, transparent, ${partHue}, transparent)`,
+              }}
+            />
+            <p className="text-[12.5px] text-center leading-relaxed px-4" style={{ color: "rgba(255,255,255,0.7)" }}>
+              {cover.subtitle}
+            </p>
+            <p className="text-[10px] mt-10" style={{ color: `${partHue}66` }}>
+              1 / {totalPages}
+            </p>
+          </div>
+        );
+      }
 
       return (
         <div className="flex-1 flex flex-col py-2">
@@ -2937,7 +3183,7 @@ export default function ParentChildSlideResult() {
           </div>
           <div className="flex-1 px-1">
             {/* Slide 3 차트 1: 오행 5각 + 양 끝 스펙트럼 표 */}
-            {isChartPage && kind === "overview" && aiPage === 0 && sajuChild && (
+            {isChartPage && kind === "overview" && shiftedPage === 0 && sajuChild && (
               <div className="space-y-3">
                 <h4 className="text-sm font-bold text-center mb-1" style={{ color: BRIGHT }}>
                   다섯 가지 자연의 결
@@ -2950,7 +3196,7 @@ export default function ParentChildSlideResult() {
               </div>
             )}
             {/* Slide 3 차트 2: 십성 5각 (10가지 성향의 지도) */}
-            {isChartPage && kind === "overview" && aiPage === 1 && childSipseongCounts && (
+            {isChartPage && kind === "overview" && shiftedPage === 1 && childSipseongCounts && (
               <div className="space-y-3">
                 <h4 className="text-sm font-bold text-center mb-1" style={{ color: BRIGHT }}>
                   10가지 성향의 지도
@@ -2996,47 +3242,67 @@ export default function ParentChildSlideResult() {
                   </div>
                 )}
                 {/* 실전 양육 가이드 — AI 페이지별 시각화 */}
-                {/* idx 0: 떼·고집 진짜 이유 → 4가지 트리거 막대 */}
-                {kind === "guide" && aiTextIdx === 0 && childTantrum && (
-                  <TantrumTriggerBars triggers={childTantrum} />
-                )}
-                {/* idx 1: 떼·고집 단계별 매뉴얼 → TantrumStepFlow (formatText 인터셉트) */}
-                {/* idx 2: 친구 사귀는 스타일 — 2x2 매트릭스 (기존 유지) */}
-                {kind === "guide" && aiTextIdx === 2 && childFriendStyle && (
-                  <FriendStyleMatrix fs={childFriendStyle} />
-                )}
-                {/* idx 3: 친구 갈등 시 부모 개입 거리 → 슬라이더 */}
-                {kind === "guide" && aiTextIdx === 3 && childFriendDist && (
-                  <FriendDistanceSlider fd={childFriendDist} />
-                )}
-                {/* idx 4: 통하는 훈육 → 4채널 막대 (기존 유지) */}
-                {kind === "guide" && aiTextIdx === 4 && childDiscipline && (
-                  <DisciplineBars list={childDiscipline} />
-                )}
-                {/* idx 5: 통하는 칭찬 vs 역효과 칭찬 → 좌우 카드 (formatText 인터셉트) */}
-                {/* idx 6: 잠자리·식습관 → 4채널 게이지 */}
-                {kind === "guide" && aiTextIdx === 6 && childLifestyle && (
-                  <LifestyleGauges channels={childLifestyle} />
-                )}
-                {/* idx 7: 디지털·미디어 → 안전·위험 게이지 */}
-                {kind === "guide" && aiTextIdx === 7 && childDigital && (
-                  <DigitalGaugeCard gauge={childDigital} />
-                )}
-                {/* idx 8: 자존감 보호 → 멘트 카드 (formatText 인터셉트) */}
-                {/* idx 9: 절대 하면 안 되는 5가지 → DangerCards (기존 유지) */}
-                {kind === "guide" && aiTextIdx === 9 && childDanger && (
-                  <DangerCards list={childDanger} />
-                )}
+                {/* 페이지 제거 → 차트 idx 시프트 매핑 */}
+                {/* 영아·유아 제거: 0,1 (떼) + 4 (훈육) + 5,6,7,8 (칭찬·잠자리·디지털·자존감) → 남은 원래 idx: 2,3,9 */}
+                {/* 초등·중고등 제거: 4 (훈육) → 남은 원래 idx: 0,1,2,3,5,6,7,8,9 */}
+                {(() => {
+                  const isYoungStage = childAgeStageMemo === "infant" || childAgeStageMemo === "preschool";
+                  const guideIdx = (originalIdx: number): number => {
+                    if (isYoungStage) {
+                      // 영아·유아: 친구 스타일(2)→0, 친구 거리(3)→1, 위험카드(9)→2 / 나머지 모두 비활성
+                      if (originalIdx === 2) return 0;
+                      if (originalIdx === 3) return 1;
+                      if (originalIdx === 9) return 2;
+                      return -1;
+                    }
+                    // 초등·중고등: 훈육(4) 만 제거 → idx 5+ 는 -1
+                    if (originalIdx === 4) return -1;
+                    if (originalIdx >= 5) return originalIdx - 1;
+                    return originalIdx;
+                  };
+                  return (
+                    <>
+                      {/* idx 0: 떼·고집 진짜 이유 → 4가지 트리거 막대 (영아·유아엔 -2 → 매칭 안 됨, 자연 숨김) */}
+                      {kind === "guide" && aiTextIdx === guideIdx(0) && childTantrum && (
+                        <TantrumTriggerBars triggers={childTantrum} />
+                      )}
+                      {/* idx 2: 친구 사귀는 스타일 — 2x2 매트릭스 */}
+                      {kind === "guide" && aiTextIdx === guideIdx(2) && childFriendStyle && (
+                        <FriendStyleMatrix fs={childFriendStyle} />
+                      )}
+                      {/* idx 3: 친구 갈등 시 부모 개입 거리 → 슬라이더 */}
+                      {kind === "guide" && aiTextIdx === guideIdx(3) && childFriendDist && (
+                        <FriendDistanceSlider fd={childFriendDist} />
+                      )}
+                      {/* idx 4: 통하는 훈육 → 4채널 막대 */}
+                      {kind === "guide" && aiTextIdx === guideIdx(4) && childDiscipline && (
+                        <DisciplineBars list={childDiscipline} basis={childDisciplineBasis} />
+                      )}
+                      {/* idx 6: 잠자리·식습관 → 4채널 게이지 */}
+                      {kind === "guide" && aiTextIdx === guideIdx(6) && childLifestyle && (
+                        <LifestyleGauges channels={childLifestyle} />
+                      )}
+                      {/* idx 7: 디지털·미디어 → 안전·위험 게이지 */}
+                      {kind === "guide" && aiTextIdx === guideIdx(7) && childDigital && (
+                        <DigitalGaugeCard gauge={childDigital} />
+                      )}
+                      {/* idx 9: 절대 하면 안 되는 5가지 → DangerCards */}
+                      {kind === "guide" && aiTextIdx === guideIdx(9) && childDanger && (
+                        <DangerCards list={childDanger} />
+                      )}
+                    </>
+                  );
+                })()}
 
                 {/* ── 엄마와 우리 아이 (PART 4) ──────────────────── */}
                 {kind === "mom" && aiTextIdx === 0 && momCompare && (
-                  <ElementCompareRadar cmp={momCompare} parentLabel="엄마" parentColor="#f5b942" childLabel="아이" />
+                  <ElementCompareRadar cmp={momCompare} parentLabel="엄마" parentColor="#f0a8b8" childLabel="아이" />
                 )}
                 {kind === "mom" && aiTextIdx === 1 && momIlganRel && (
-                  <IlganRelationCard rel={momIlganRel} parentLabel="엄마" parentColor="#f5b942" />
+                  <IlganRelationCard rel={momIlganRel} parentLabel="엄마" parentColor="#f0a8b8" />
                 )}
                 {kind === "mom" && aiTextIdx === 2 && momFlow && (
-                  <ElementFlowChart flow={momFlow} parentLabel="엄마" parentColor="#f5b942" />
+                  <ElementFlowChart flow={momFlow} parentLabel="엄마" parentColor="#f0a8b8" />
                 )}
                 {/* idx 3 (시너지) · idx 4 (갈등) · idx 5 (선물) — formatText 인터셉트로 처리 */}
 
@@ -3090,17 +3356,17 @@ export default function ParentChildSlideResult() {
                   ) : kind === "guide" && /###\s*자존감 보호/.test(aiText) && parseSelfEsteemMents(aiText) ? (
                     <SelfEsteemMentCards ments={parseSelfEsteemMents(aiText)!} />
                   ) : (kind === "mom" || kind === "dad") && /###\s*잘 통하는 영역/.test(aiText) && parseSynergyCards(aiText) ? (
-                    <SynergyGrid cards={parseSynergyCards(aiText)!} color={kind === "mom" ? "#f5b942" : "#7eb6ff"} />
+                    <SynergyGrid cards={parseSynergyCards(aiText)!} color={kind === "mom" ? "#f0a8b8" : "#7eb6ff"} />
                   ) : (kind === "mom" || kind === "dad") && /###\s*갈등이 반복/.test(aiText) && parseConflictCards(aiText) ? (
                     <ConflictCardsGrid
                       cards={parseConflictCards(aiText)!}
-                      parentColor={kind === "mom" ? "#f5b942" : "#7eb6ff"}
+                      parentColor={kind === "mom" ? "#f0a8b8" : "#7eb6ff"}
                       parentLabel={kind === "mom" ? "엄마" : "아빠"}
                     />
                   ) : (kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)가 의식적으로/.test(aiText) && parseGiftCard(aiText) ? (
-                    <GiftBoxCard gift={parseGiftCard(aiText)!} color={kind === "mom" ? "#f5b942" : "#7eb6ff"} />
+                    <GiftBoxCard gift={parseGiftCard(aiText)!} color={kind === "mom" ? "#f0a8b8" : "#7eb6ff"} />
                   ) : (
-                    formatText(aiText)
+                    formatText(aiText, partHue)
                   )
                 ) : (
                   <div className="flex gap-1.5 justify-center items-center py-8">
