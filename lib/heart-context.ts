@@ -74,7 +74,7 @@ const SIX_FACTOR_TOP1_DAILY: Record<string, Record<AgeStage, string>> = {
     secondary: "자녀는 다양한 활동·도전·새 경험을 통해 자기 결을 키우며, 정적인 환경보다 능동적으로 움직이는 환경에서 자기다움을 발휘합니다.",
   },
   표현력: {
-    infant: "앞으로 자녀는 자신의 마음을 풍부히 드러내는 결을 자주 보이며, 옹알이·표정·몸짓으로 마음을 환히 펼치는 모습이 두드러질 것입니다.",
+    infant: "앞으로 자녀는 자신의 마음을 풍부히 드러내는 결을 자주 보이며, 표정·몸짓·작은 소리로 마음을 환히 펼치는 모습이 두드러질 것입니다.",
     preschool: "자녀는 이야기·노래·놀이로 마음을 펼치는 결을 자주 보이며, 자신의 생각과 감정을 자연스럽게 말과 행동으로 드러냅니다.",
     elementary: "자녀는 발표·창작·이야기에서 가장 빛나며, 자신의 마음을 환히 드러내고 주변과 소통하는 데 거침없는 모습을 자주 보입니다.",
     secondary: "자녀는 자기 표현·창작·소통에서 자기다움을 발휘하며, 마음을 풍부히 드러내는 결로 또래·세상과 자연스럽게 연결됩니다.",
@@ -162,6 +162,24 @@ const SIX_FACTOR_CHILD_OUTRO: Record<string, string> = {
   자기조절: "차분하고 단단한 페이스로 자기 길을 닦아가는 자녀로 자라날 결입니다",
 };
 
+// 영아(0~35개월) milestone 어휘 — 사주 풀이 본문에 결부 금지 (lib/age-stage.ts ban list 동기화)
+// 결정론 매트릭스가 ban 검열 layer 를 우회하므로, 매트릭스 출력에 직접 검증 적용.
+const FORBIDDEN_INFANT_MILESTONES = [
+  "옹알이", "뒤집기", "기기", "잡고 일어서기", "걷기", "기어가기",
+  "잠투정", "밤잠 설침", "보채기", "안아달라기", "안기다", "안기기", "안기는",
+  "이유식", "젖", "기저귀", "낯가림", "분리불안", "눈맞춤",
+  "까꿍", "박수", "손뼉", "흉내내기",
+];
+
+function validateSixFactorMilestoneBan(text: string, stage: AgeStage, contextLabel: string): void {
+  if (stage !== "infant") return;
+  for (const w of FORBIDDEN_INFANT_MILESTONES) {
+    if (text.includes(w)) {
+      throw new Error(`[6요인 매트릭스 milestone 위반] 영아 단계 ban 어휘 '${w}' 가 ${contextLabel} 에 포함됨. lib/heart-context.ts 매트릭스 점검 필요.`);
+    }
+  }
+}
+
 export function buildSixFactorBodyContext(
   sixFactor: Record<string, number>,
   stage: AgeStage,
@@ -182,6 +200,9 @@ export function buildSixFactorBodyContext(
   const lineOutro = `${childLabel}은 ${SIX_FACTOR_CHILD_OUTRO[top1] ?? "자기 결을 차분히 키우는 자녀로 자라날 결입니다"}.`;
 
   const body = `${childLabel}의 가장 두드러진 행동 결은 **${top3Display}** 입니다. ${lineDaily} ${lineWeak} ${lineParent} ${lineOutro}`;
+
+  // 영아 단계: milestone 어휘 자동 검증 (매트릭스 결정론이 ban 검열 우회 차단)
+  validateSixFactorMilestoneBan(body, stage, `6요인 본문 (TOP1=${top1}, WEAK=${weakest})`);
 
   return [
     "[6가지 행동 결의 강도 — 결정론 본문 (그대로 출력 강제)]",

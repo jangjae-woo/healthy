@@ -137,8 +137,8 @@ const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
   화: {
     infant: {
       immediate: [
-        { emoji: "🌞", text: "햇볕 자리에서 까꿍·간지럽히기 1분" },
-        { emoji: "🎵", text: "엄마와 동요 한 곡 박수치며 부르기" },
+        { emoji: "🌞", text: "햇볕 자리에서 환한 표정으로 마주보기 1분" },
+        { emoji: "🎵", text: "엄마와 동요 한 곡 리듬 맞춰 함께 부르기" },
         { emoji: "🤲", text: "거울 보고 함께 환하게 웃어주기" },
       ],
       daily: [
@@ -157,9 +157,9 @@ const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
         { emoji: "🕯️", text: "은은한 따뜻한 조명" },
       ],
       sense: [
-        { emoji: "🎵", text: "밝고 경쾌한 동요·박수 소리" },
+        { emoji: "🎵", text: "밝고 경쾌한 동요·리듬 소리" },
         { emoji: "🟡", text: "따뜻한 색 그림책·모빌" },
-        { emoji: "👏", text: "엄마의 환한 표정과 박수" },
+        { emoji: "😊", text: "엄마의 환한 표정과 웃음" },
       ],
       rhythm: [
         { emoji: "🌞", text: "정오 무렵 활동량 ↑" },
@@ -235,7 +235,7 @@ const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
   토: {
     infant: {
       immediate: [
-        { emoji: "🤱", text: "엄마 무릎에 앉혀 가만히 안아주기" },
+        { emoji: "🤱", text: "엄마 무릎 곁에 앉혀 가만히 함께 머물기" },
         { emoji: "🍯", text: "따뜻한 간식·차 한 모금 함께 먹기" },
         { emoji: "🛏️", text: "익숙한 이불·인형 곁에 두기" },
       ],
@@ -333,7 +333,7 @@ const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
   금: {
     infant: {
       immediate: [
-        { emoji: "🪟", text: "장난감 한 칸 정리하고 박수 받기" },
+        { emoji: "🪟", text: "장난감 한 칸 정리하고 환한 칭찬 받기" },
         { emoji: "🔔", text: "맑은 종소리 함께 듣기" },
         { emoji: "👏", text: "한 가지 일 끝까지 마무리한 뒤 칭찬" },
       ],
@@ -432,7 +432,7 @@ const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
     infant: {
       immediate: [
         { emoji: "🛁", text: "따뜻한 물에 손·발 잠깐 담그기" },
-        { emoji: "🌙", text: "조명 낮추고 가만히 안아주기" },
+        { emoji: "🌙", text: "조명 낮추고 가만히 곁에 머물러주기" },
         { emoji: "💧", text: "물 한 모금 천천히 마시게 하기" },
       ],
       daily: [
