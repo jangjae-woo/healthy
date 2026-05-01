@@ -866,7 +866,7 @@ export interface IlganRelation {
   childElem: string;
   childKor: string;
   type: "생" | "극" | "비화";  // 관계 종류
-  direction: "→" | "←" | "↔" | "=";
+  direction: "→" | "←" | "↔" | "=" | "·";
   label: string;             // "엄마가 아이를 키우는 결" 같은 부드러운 라벨
   color: string;             // 관계별 색깔
   emoji: string;
@@ -896,10 +896,13 @@ export function inferIlganRelation(parent: SajuAnalysis, child: SajuAnalysis, pa
   let emoji: string;
   let detail: string;
 
+  // 처방 4 — 일간 관계 카드 방향 중립화
+  // 이전: ←/→ 화살표로 명리 방향 표시 → 본문(부모→자녀 reframe)과 충돌
+  // 이후: ↔ (만남) / · (동일) 로 중립화 → 차트-본문 방향 모순 제거
   if (pElem === cElem) {
-    // 비화 — 자원 프레임: 비춰주는·풀어내는
+    // 비화 — 닮은 결로 비춰주는
     type = "비화";
-    direction = sameYinYang ? "=" : "↔";
+    direction = sameYinYang ? "·" : "↔";
     color = "#a78bfa";
     emoji = "🪞";
     label = sameYinYang
@@ -909,29 +912,29 @@ export function inferIlganRelation(parent: SajuAnalysis, child: SajuAnalysis, pa
       ? `${parentLabel}와 아이 모두 ${ELEM_KOR[pElem].kor}의 본질을 지녔습니다. 같은 방향을 보고 같은 방식으로 마음을 쓰는 깊은 동행입니다.`
       : `같은 ${ELEM_KOR[pElem].kor}의 본질을 서로 다른 길로 풀어내는 사이입니다. 닮음 속의 다름이 서로의 결을 더 풍부하게 만들어 줍니다.`;
   } else if (ELEM_GEN[pElem] === cElem) {
-    // 부모 → 자녀 (생) — 자원 프레임: 키워주는
-    type = "생"; direction = "→";
+    // 생(부모→자녀) — 자라남이 흐르는 사이 (방향 중립)
+    type = "생"; direction = "↔";
     color = "#34d399"; emoji = "🌱";
-    label = `${ELEM_KOR[pElem].kor}이 ${ELEM_KOR[cElem].kor}을 키워주는 결`;
-    detail = `${parentLabel}의 ${ELEM_KOR[pElem].kor}이 아이의 ${ELEM_KOR[cElem].kor}을 자연스럽게 키워주는 사이입니다. 가만히 있어도 따뜻한 흐름이 ${parentLabel}에서 자녀로 흘러갑니다.`;
+    label = `${ELEM_KOR[pElem].kor}과 ${ELEM_KOR[cElem].kor}이 자라남으로 흐르는 결`;
+    detail = `${parentLabel}의 ${ELEM_KOR[pElem].kor}과 아이의 ${ELEM_KOR[cElem].kor}이 만나, 따뜻한 자라남이 자연스럽게 흐르는 사이입니다. 가만히 있어도 두 결의 만남이 서로를 키워줍니다.`;
   } else if (ELEM_GEN[cElem] === pElem) {
-    // 자녀 → 부모 (생) — 자원 프레임: 새 활력 채워주는
-    type = "생"; direction = "←";
+    // 생(자녀→부모) — 활력을 주고받는 사이 (방향 중립)
+    type = "생"; direction = "↔";
     color = "#7dd3c0"; emoji = "🌿";
-    label = `아이의 ${ELEM_KOR[cElem].kor}이 ${parentLabel}에게 새 활력을 채워주는 결`;
-    detail = `아이의 ${ELEM_KOR[cElem].kor}이 ${parentLabel}에게 새로운 활력을 채워주는 사이입니다. 자녀에게서 ${parentLabel}가 함께 회복하고 자라는 흐름이 자연스럽게 흘러갑니다.`;
+    label = `${ELEM_KOR[pElem].kor}과 ${ELEM_KOR[cElem].kor}이 활력을 주고받는 결`;
+    detail = `${parentLabel}의 ${ELEM_KOR[pElem].kor}과 아이의 ${ELEM_KOR[cElem].kor}이 서로에게 새로운 활력을 채워주는 사이입니다. 함께 회복하고 자라나는 흐름이 자연스럽게 흘러갑니다.`;
   } else if (ELEM_CTL[pElem] === cElem) {
-    // 부모 → 자녀 (극) — 자원 프레임 + X3 조건 명시 (명리 진실 일부 보존)
-    type = "극"; direction = "→";
+    // 극(부모→자녀) — 단단한 만남이 되는 사이 (방향 중립 + X3 조건)
+    type = "극"; direction = "↔";
     color = "#fbbf24"; emoji = "🌳";
-    label = `${ELEM_KOR[pElem].kor}이 ${ELEM_KOR[cElem].kor}에 단단한 뿌리가 되어주는 결`;
-    detail = `${parentLabel}의 곧은 ${ELEM_KOR[pElem].kor}과 아이의 유연한 ${ELEM_KOR[cElem].kor}이 만나, 적절히 닿으면 단단한 뿌리가 되어주는 사이입니다. 자녀의 페이스에 맞춰 다가가실 때 깊은 가르침이 되어 자녀의 결이 단단하게 자라납니다.`;
+    label = `${ELEM_KOR[pElem].kor}과 ${ELEM_KOR[cElem].kor}이 단단한 만남이 되는 결`;
+    detail = `${parentLabel}의 곧은 ${ELEM_KOR[pElem].kor}과 아이의 유연한 ${ELEM_KOR[cElem].kor}이 만나, 적절히 닿을 때 서로에게 단단한 뿌리가 되어주는 사이입니다. 자녀의 페이스에 맞춰 다가가실 때 깊은 가르침이 되어 자녀의 결이 단단하게 자라납니다.`;
   } else if (ELEM_CTL[cElem] === pElem) {
-    // 자녀 → 부모 (극) — 자원 프레임 + X3 조건 명시
-    type = "극"; direction = "←";
+    // 극(자녀→부모) — 새 시야가 열리는 사이 (방향 중립 + X3 조건)
+    type = "극"; direction = "↔";
     color = "#fb923c"; emoji = "✨";
-    label = `아이의 ${ELEM_KOR[cElem].kor}이 ${parentLabel}에게 새 시야를 열어주는 결`;
-    detail = `아이의 ${ELEM_KOR[cElem].kor}과 ${parentLabel}의 ${ELEM_KOR[pElem].kor}이 만나, 자연스럽게 닿을 때 새로운 시야가 서로에게 열리는 사이입니다. ${parentLabel}가 자녀에게서 자기 결을 다시 발견하고 함께 자라나는 동행입니다.`;
+    label = `${ELEM_KOR[pElem].kor}과 ${ELEM_KOR[cElem].kor}이 새 시야를 열어주는 결`;
+    detail = `${parentLabel}의 ${ELEM_KOR[pElem].kor}과 아이의 ${ELEM_KOR[cElem].kor}이 만나, 자연스럽게 닿을 때 새로운 시야가 서로에게 열리는 사이입니다. ${parentLabel}와 자녀가 함께 자라나는 동행입니다.`;
   } else {
     // 기본 (이론적으로 불가)
     type = "비화"; direction = "↔";

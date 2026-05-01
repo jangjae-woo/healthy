@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { calculateFourPillars } from "manseryeok";
 
-// Vercel 함수 최대 실행 시간 — parent-child 같이 큰 보고서는 Gemini 응답에 30~60초 소요됨
-// Vercel Pro plan: 최대 300초까지 가능. 기본 (60초) 으론 mom·dad 섹션이 잘림.
-export const maxDuration = 300;
+// Vercel 함수 최대 실행 시간 — Hobby plan 한도(60초). 처방 1 (차트 결과 직접 주입) 으로 프롬프트 압축돼 60초 내 응답 가능 예상.
+// 만약 mom·dad 섹션 다시 잘리면 Pro plan 업그레이드 후 300 으로 복구.
+export const maxDuration = 60;
 import {
   getSipseong, calcDaeun, calcSinsal, calcElements, getYongsin, calcMonthPillar, calcYearPillar,
   calcCompatibility,
@@ -21,6 +21,7 @@ import {
   inferDangerCards,
   getSipseongCounts,
   inferElementCompare,
+  inferFlowGiven,
 } from "@/lib/parent-child-charts";
 import { pickSajaSeongeo, type SajaSeongeoResult } from "@/lib/matching-images";
 import { buildOpenerSeed, describeChildSipseongStrength, classifyElementDistribution, classifySipseongDistribution } from "@/lib/opener-seed";
@@ -914,6 +915,9 @@ function buildParentChildPrompt(
   // 닮은 결/다른 결 — 차트와 정합 (AI hallucination 차단)
   const momCompare = sajuMom ? inferElementCompare(sajuMom, sajuChild) : null;
   const dadCompare = sajuDad ? inferElementCompare(sajuDad, sajuChild) : null;
+  // 흐름 차트 — 차트와 본문 element 정합 (결함 1 차단)
+  const momFlow = sajuMom ? inferFlowGiven(sajuMom, sajuChild, sajuDad ?? undefined) : null;
+  const dadFlow = sajuDad ? inferFlowGiven(sajuDad, sajuChild, sajuMom ?? undefined) : null;
   const childLabel = d.childGender === "남" ? "아들" : "딸";
 
   // ── 자녀 양/음 기운 사전 계산 (외향-내향 시각화와 AI 일관성) ──
@@ -1572,7 +1576,18 @@ ${hasMom ? `## 엄마와 우리 아이
 ### 엄마가 채워주는 vs 부족한 기운
 ※ 페이지 위에 흐름 차트(엄마 → 아이 채워주는 결 + 둘 다 약한 결)가 자동 표시됩니다.
 
-본문은 한 단락(2~3줄). 차트의 가장 큰 채워주는 결을 일상 장면으로 풀어쓰기. 사주 용어 노출 X.${hasDad ? '\n★ 아빠도 입력 — 아빠 섹션과 겹치는 결은 차트가 자동 표시하므로 본문에서 다시 짚지 말 것.' : ''}
+[차트 결과 — 반드시 이대로만 본문에 사용]
+- 가장 큰 채워주는 결: ${momFlow?.parentGives[0]?.kor ?? "(없음 — 임계값 미달)"}${momFlow?.parentGives[0] ? ` (+${momFlow.parentGives[0].intensity}%)` : ""}
+- 두 번째: ${momFlow?.parentGives[1]?.kor ?? "(없음)"}
+- 둘 다 약한 결: ${momFlow?.bothLack.map(b => b.kor).join("·") || "(없음)"}
+- Fallback 케이스: ${(momFlow?.parentGives.length ?? 0) === 0 ? "예 — 차트가 'fallback' 메시지로 표시됨" : "아니오"}
+
+🔴 **AI hallucination 차단 — 본문 작성 규칙**:
+- 본문은 위 차트 결과의 element 만 사용. 다른 오행(예: 차트에 없는 "쇠의 결" 같은 것) 임의 추가 절대 금지.
+- Fallback "예" 케이스: "특별히 채워주는 결은 없고, 두 분 모두 ${momFlow?.bothLack[0]?.kor ?? "어떤"} 결이 약하니..." 톤으로 작성. element 단정 금지.
+- Fallback "아니오" 케이스: "어머님께서 채워주는 가장 큰 기운은 **${momFlow?.parentGives[0]?.kor ?? ""}**입니다..." 톤. 차트 element 그대로 인용.
+
+본문은 한 단락(2~3줄). 사주 용어 노출 X.${hasDad ? '\n★ 아빠도 입력 — 아빠 섹션과 겹치는 결은 차트가 자동 표시하므로 본문에서 다시 짚지 말 것.' : ''}
 
 ### 잘 통하는 영역 — 시너지
 ※ 페이지 위에 시너지 카드 3장이 자동 표시됩니다.
@@ -1640,7 +1655,13 @@ ${hasMom ? `## 엄마와 우리 아이
 ※ 페이지 위에 일간 관계 카드가 자동 표시됩니다.
 
 본문은 한 단락(2~3줄). 카드의 관계가 ${d.dadName}님과 ${d.childName}의 일상에 어떻게 드러나는지.${hasMom ? '\n★ 엄마-아이 일간 관계와 같으면 "두 분 모두 ~한 결로 만나심", 다르면 "엄마와 다른 결로 보완하시는 아빠" 식 한 줄.' : ''}
-🔴 **절대 금지 단어**: "상극", "相剋", "충(沖)", "양인살", "괴강", "공망", "칠살", "형(刑)", "흉(凶)", "억누르다", "짓누르다", "압박", "꺾다", "다치다", "위협", "위축", "약하게 만들다", "거슬리다", "무너뜨리다". 부정 뉘앙스 금지 — 모든 결을 따뜻하게 풀어쓸 것. "다듬는 결" 카드라도 "단단히 받쳐주는 결"·"방향을 짚어주는 결" 등 부드러운 어휘만 사용.
+🔴 **절대 금지 단어**: "상극", "相剋", "충(沖)", "양인살", "괴강", "공망", "칠살", "형(刑)", "흉(凶)", "억누르다", "짓누르다", "압박", "꺾다", "다치다", "위협", "위축", "약하게 만들다", "거슬리다", "무너뜨리다". 부정 뉘앙스 금지 — 모든 결을 따뜻하게 풀어쓸 것. "다듬는 결" 카드라도 "단단히 받쳐주는 결"·"방향을 짚어주는 결" 등 부드러운 어휘만 사용.${hasMom ? `
+🔴 **자녀 본질 묘사 중복 금지** (mom 섹션 Part 05 와 차별화):
+- mom 섹션이 자녀를 "환하게 비추는 불의 본질" / "햇살 같은 결" / "밝게 빛나는" 등으로 묘사했으니, dad 섹션은 **다른 측면**으로 표현.
+- ✅ dad 섹션 자녀 묘사 권장 어휘: "따뜻하게 자라나는 빛" / "안에서 영그는 햇살" / "꽃봉오리 같은 결" / "아직 펼쳐질 가능성의 빛" — 자녀의 잠재력·자라남 측면 강조.
+- ✅ 또는 자녀 본질 묘사 짧게 또는 생략, 대신 만남·관계 묘사에 집중 ("두 결이 만나면..." 같은 시작).
+- ❌ mom 섹션과 동일한 자녀 묘사 어휘 절대 반복 금지.` : ""}
+${hasMom ? `★ 본문 마지막은 **균형형 마무리 두 문장** 권장 — 자원(가르침이 뿌리가 됨) + 한계(지나치지 않을 때) 함께 표현 (mom 섹션과 동일 패턴이지만 어휘는 다르게).` : ''}
 ★ 본문 마지막은 **균형형 마무리 두 문장** 권장 — 자원(가르침이 뿌리가 됨) + 한계(지나치지 않을 때) 함께 표현:
 
 [형식]
@@ -1657,6 +1678,18 @@ ${hasMom ? `## 엄마와 우리 아이
 
 ### 아빠가 채워주는 vs 부족한 기운
 ※ 페이지 위에 흐름 차트가 자동 표시됩니다.
+
+[차트 결과 — 반드시 이대로만 본문에 사용]
+- 가장 큰 채워주는 결: ${dadFlow?.parentGives[0]?.kor ?? "(없음 — 임계값 미달)"}${dadFlow?.parentGives[0] ? ` (+${dadFlow.parentGives[0].intensity}%)` : ""}
+- 두 번째: ${dadFlow?.parentGives[1]?.kor ?? "(없음)"}
+- 둘 다 약한 결: ${dadFlow?.bothLack.map(b => b.kor).join("·") || "(없음)"}
+- Fallback 케이스: ${(dadFlow?.parentGives.length ?? 0) === 0 ? "예 — 차트가 'fallback' 메시지로 표시됨" : "아니오"}
+
+🔴 **AI hallucination 차단 + 부모 간 중복 차단**:
+- 본문은 위 차트 결과의 element 만 사용. 다른 오행 임의 추가 절대 금지.
+- Fallback "예" 케이스: "특별히 채워주는 결은 없고, 두 분 모두 ${dadFlow?.bothLack[0]?.kor ?? "어떤"} 결이 약하니..." 톤. element 단정 금지.
+- Fallback "아니오" 케이스: "아버님께서 채워주는 가장 큰 기운은 **${dadFlow?.parentGives[0]?.kor ?? ""}**입니다..." 톤.${hasMom ? `
+- 🔴 **엄마 섹션(Part 05)과 키워드·element 중복 금지**: 엄마 섹션이 같은 element 를 다뤘다면 dad 섹션은 다른 측면(아빠 특유의 안정·방향성·기둥의 결)으로 풀이. 아빠가 다루는 element 가 엄마와 다르면 본문에서 그 차이를 명시 ("어머님이 ~ 결이라면 아버님은 ~ 결").` : ""}
 
 본문은 한 단락(2~3줄). 사주 용어 노출 X.${hasMom ? '\n★ 엄마와 겹치는 결은 차트가 자동 표시 — 본문에서 다시 짚지 말 것. 아빠만 흘려주는 결 위주로.' : ''}
 
