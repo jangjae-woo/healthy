@@ -3322,8 +3322,9 @@ export default function ParentChildSlideResult() {
                 {kind === "heart" && aiTextIdx === 0 && sajuChild && (
                   <YinYangBar saju={sajuChild} />
                 )}
-                {/* 슬라이드 4 (마음) 3번째 AI 페이지(6가지 행동 결의 강도) — 6요인 막대 */}
-                {kind === "heart" && aiTextIdx === 2 && sajuChild && childSipseongCounts && (
+                {/* 슬라이드 4 (마음) 2번째 AI 페이지(6가지 행동 결의 강도) — 6요인 막대 */}
+                {/* (이전 idx 2 였으나 ### 9가지 기질 차원 페이지 제거 후 idx 1 로 시프트됨) */}
+                {kind === "heart" && aiTextIdx === 1 && sajuChild && childSipseongCounts && (
                   <div className="mb-4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
                     <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
                       ─ 6가지 행동 결의 강도 ─
