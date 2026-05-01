@@ -1665,7 +1665,19 @@ function YinYangBar({ saju }: { saju: SajuAnalysis }) {
         <div className="h-full" style={{ width: `${yinPct}%`, background: "linear-gradient(90deg, #7eb6ff, #5e9eff)" }} />
       </div>
       <p className="text-[12px] mt-3 leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.7)" }}>
-        우리 아이는 <strong style={{ color: dominant === "외향" ? "#ff9d6b" : "#7eb6ff" }}>{dominant}적인 성향</strong>이 {Math.max(yangPct, yinPct)}% — {dominant === "외향" ? "사람·활동 속에서 에너지를 얻는 편" : "혼자 사색하며 에너지를 충전하는 편"}
+        우리 아이는 <strong style={{ color: dominant === "외향" ? "#ff9d6b" : "#7eb6ff" }}>{dominant}적인 성향</strong>이 {Math.max(yangPct, yinPct)}% — {(() => {
+          // 강도별 분기 (3단계 × 2 = 6 변종) — 같은 외향/내향이라도 강도별로 다른 메시지
+          const max = Math.max(yangPct, yinPct);
+          if (dominant === "외향") {
+            if (max >= 70) return "사람·활동 속에서 에너지를 얻는 편 (활기형)";
+            if (max >= 60) return "사람·활동을 좋아하면서도 혼자 시간도 챙기는 편 (균형형 외향)";
+            return "외향이 살짝 우세 — 사람과 혼자 시간을 비슷하게 좋아하는 편 (양면형)";
+          } else {
+            if (max >= 70) return "혼자 사색하며 에너지를 충전하는 편 (사색형)";
+            if (max >= 60) return "혼자 시간을 선호하면서도 가까운 사람과 어울리는 편 (균형형 내향)";
+            return "내향이 살짝 우세 — 혼자와 함께를 비슷하게 좋아하는 편 (양면형)";
+          }
+        })()}
       </p>
     </div>
   );
@@ -2271,6 +2283,11 @@ function FriendStyleMatrix({ fs }: { fs: FriendStyle }) {
           style={{ backgroundColor: `${ACCENT}22`, color: BRIGHT, border: `1px solid ${ACCENT}66` }}>
           {fs.dominant}
         </span>
+        {fs.subtitle && (
+          <p className="text-[11.5px] mt-1.5 leading-snug px-3" style={{ color: ACCENT }}>
+            {fs.subtitle}
+          </p>
+        )}
         <p className="text-[12px] mt-2 leading-relaxed px-3" style={{ color: "rgba(255,255,255,0.7)" }}>
           {fs.desc}
         </p>

@@ -285,6 +285,7 @@ export interface FriendStyle {
   dominant: "이끄는 결" | "중재하는 결" | "관찰하는 결" | "어우러지는 결";
   desc: string;
   basis: string;        // 📌 사주 근거 — 결정론적 한 줄 (한글 풀이 + 한자 병기)
+  subtitle: string;     // 일간 메타포 동적 부제 — 같은 dominant 도 자녀마다 다른 부제 (1000+ 변종)
 }
 export function inferFriendStyle(saju: SajuAnalysis): FriendStyle {
   const ss = collectSipseong(saju);
@@ -334,7 +335,23 @@ export function inferFriendStyle(saju: SajuAnalysis): FriendStyle {
     desc = "조용히 곁에 머물며 자연스럽게 함께하는 모습";
     basis = `${insongLabel} · ${jaesongLabel}\n→ 곁에 머무는 동반형`;
   }
-  return { x, y, dominant, desc, basis };
+  // 일간 메타포 동적 부제 — 같은 dominant 도 자녀 일간별로 다른 부제 (10간 × 4 = 40 변종 + 카운트 변동까지 1000+)
+  const stemMetaphor: Record<string, string> = {
+    갑: "큰 나무처럼 곧게", 을: "부드러운 풀처럼 유연하게",
+    병: "환한 햇살처럼 밝게", 정: "다정한 촛불처럼 따뜻하게",
+    무: "큰 산처럼 묵직하게", 기: "기름진 들판처럼 너르게",
+    경: "강철처럼 단단하게", 신: "보석처럼 맑게",
+    임: "큰 바다처럼 넉넉하게", 계: "이슬비처럼 섬세하게",
+  };
+  const metaphor = stemMetaphor[saju.ilgan] ?? "자기 결로";
+  const dominantVerb: Record<string, string> = {
+    "이끄는 결": "방향을 세우는",
+    "중재하는 결": "사람 사이를 연결하는",
+    "관찰하는 결": "한 발짝 살피며 다가가는",
+    "어우러지는 결": "곁에 머물며 어우러지는",
+  };
+  const subtitle = `${metaphor} ${dominantVerb[dominant]} 결`;
+  return { x, y, dominant, desc, basis, subtitle };
 }
 
 // ── 통하는 훈육 4채널 ──────────────────────────────
