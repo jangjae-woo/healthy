@@ -1084,7 +1084,8 @@ ${d.childName} 현재 만 ${age}세 — ${stage}
 [작성 시제·관점 가이드] ${stageHint}
 
 ━━━ 자동 계산된 궁합 지표 ━━━
-• 가족 인연의 결: ${saja.hanja} ${saja.hangul} — ${saja.meaning}
+• 가족 인연의 결 (표지 키워드): "${saja.keyword}" — ${saja.meaning}
+• 표지 부제 (메타포): ${saja.subtitle}
 ${hasMom && momCompat ? `• [엄마-아이] 일간 관계: ${momCompat.ilganRelation} — ${momCompat.ilganDetail}
 • [엄마-아이] 엄마가 채워주는 기운: ${momCompat.elementBalance.aHelpsB.join('·') || '없음'}
 • [엄마-아이] 아이가 가져다주는 기운: ${momCompat.elementBalance.bHelpsA.join('·') || '없음'}
@@ -2170,7 +2171,13 @@ export async function POST(req: NextRequest) {
       const primaryCompat = momCompat || dadCompat!;
       const familySaja = (hasMom && hasDad && sajuMom && sajuDad)
         ? pickFamilyTrioSaja(sajuMom, sajuDad, sajuChild)
-        : pickFamilySajaSeongeo(primaryCompat, data.childGender);
+        : pickFamilySajaSeongeo(
+            primaryCompat,
+            data.childGender,
+            sajuMom ?? sajuDad ?? undefined,
+            sajuChild,
+            sajuMom ? "엄마" : "아빠",
+          );
       const prompt = buildParentChildPrompt(
         data, sajuChild, sajuMom, sajuDad, momCompat, dadCompat, familySaja
       );

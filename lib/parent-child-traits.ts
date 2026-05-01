@@ -3,74 +3,39 @@
 
 import type { SajuAnalysis, CompatibilityResult } from "./saju-calculator";
 
-// ── 가족 사자성어 (점수 X, 관계 패턴 기반) ──
+// ── 가족 인연의 결 (옵션 α 강화 — 한자 X, 메타포 동적) ──
+// 표지의 큰 키워드 + 한 줄 의미 + 일간 메타포 동적 부제
+// 기존 hanja/hangul 필드는 호환 위해 optional 로 유지 (matching 슬라이드 등 다른 곳 영향 X)
 export interface FamilySajaSeongeo {
-  hanja: string;     // "天倫之情"
-  hangul: string;    // "천륜지정"
-  meaning: string;   // 한 줄 의미
+  keyword: string;       // 큰 키워드 (한국어, 6~12자) — "두 햇살이 키우는 가족"
+  meaning: string;       // 한 줄 의미 (정적, 카테고리 의미)
+  subtitle: string;      // 동적 부제 (일간 메타포 조합) — "환한 햇살과 큰 나무가 너른 산을 함께 키우는 자리"
+  hanja?: string;        // legacy (호환용 — 사용 X)
+  hangul?: string;       // legacy
 }
 
-export function pickFamilySajaSeongeo(
-  compat: CompatibilityResult,
-  childGender?: string
-): FamilySajaSeongeo {
-  const ilgan = compat.ilganRelation;
-  const isSangsaeng = ilgan.includes("상생");
-  const isSanggeuk = ilgan.includes("상극");
-  const isBihwa = ilgan.includes("비화");
-  const chungs = compat.branchRelations.chung.length;
-  const samhap = compat.branchRelations.samhap.length;
-  const yukhap = compat.branchRelations.yukhap.length;
-  const totalHap = samhap + yukhap;
-  const momHelps = compat.elementBalance.aHelpsB.length;  // 엄마가 아이에게 채워줌
-  const childHelps = compat.elementBalance.bHelpsA.length; // 아이가 엄마에게 채워줌
+// ── 일간별 메타포 사전 (10간) — 부제 동적 생성용 ──
+// 표지에서만 사용 (시적·메타포). 본문(자도인의 첫마디 등)은 명리 용어 사용.
+const STEM_METAPHOR: Record<string, string> = {
+  갑: "큰 나무", 을: "부드러운 풀",
+  병: "환한 햇살", 정: "다정한 촛불",
+  무: "큰 산", 기: "기름진 들판",
+  경: "강철", 신: "보석",
+  임: "큰 바다", 계: "이슬비",
+};
 
-  // 자녀 성별별 사자성어 분기 — 子(아들) vs 女(딸) 구분
-  const isDaughter = childGender === "여";
-
-  // 가장 깊은 인연
-  if (isSangsaeng && samhap >= 1 && chungs === 0)
-    return { hanja: "天倫之情", hangul: "천륜지정", meaning: "하늘이 맺어준 깊은 정" };
-  if (isSangsaeng && yukhap >= 1) {
-    return isDaughter
-      ? { hanja: "母女相生", hangul: "모녀상생", meaning: "서로를 살리는 모녀 인연" }
-      : { hanja: "母子相生", hangul: "모자상생", meaning: "서로를 살리는 모자 인연" };
-  }
-
-  // 어머니 중심 인연
-  if (isSangsaeng && momHelps >= 1)
-    return { hanja: "慈母之愛", hangul: "자모지애", meaning: "어머니의 따뜻한 사랑이 닿는 인연" };
-  if (childHelps >= 1)
-    return { hanja: "血脈相承", hangul: "혈맥상승", meaning: "핏줄이 자연스럽게 이어지며 서로를 채우는 인연" };
-
-  // 화목한 인연
-  if (samhap >= 1 || (isBihwa && totalHap >= 1))
-    return { hanja: "和氣致祥", hangul: "화기치상", meaning: "화목한 기운이 복을 부르는 가족" };
-  if (isSangsaeng) {
-    return isDaughter
-      ? { hanja: "母慈女孝", hangul: "모자녀효", meaning: "어머니의 자비와 딸의 효심" }
-      : { hanja: "母慈子孝", hangul: "모자자효", meaning: "어머니의 자비와 아들의 효심" };
-  }
-  if (isBihwa)
-    return { hanja: "和而不同", hangul: "화이부동", meaning: "다르지만 조화로운 결" };
-
-  // 다듬어가는 인연
-  if (isSanggeuk && totalHap >= 1) {
-    return isDaughter
-      ? { hanja: "母賢女孝", hangul: "모현녀효", meaning: "지혜로 다듬고 마음으로 따르는 모녀 인연" }
-      : { hanja: "母賢子孝", hangul: "모현자효", meaning: "지혜로 다듬고 마음으로 따르는 모자 인연" };
-  }
-  if (isSanggeuk && chungs >= 1)
-    return { hanja: "琢磨成器", hangul: "탁마성기", meaning: "다듬어 빛나는 그릇이 되는 인연" };
-  if (chungs >= 1)
-    return { hanja: "苦盡甘來", hangul: "고진감래", meaning: "쓴맛 끝에 단맛이 오는 인연" };
-
-  // 기본 — 천륜의 베이스
-  return { hanja: "天倫之情", hangul: "천륜지정", meaning: "끊을 수 없는 깊은 인연" };
+function metaphorOf(ilgan: string): string {
+  return STEM_METAPHOR[ilgan] ?? "흐르는 결";
 }
 
-// ── 가족 3명 통합 사자성어 (엄마·아빠·아이) ──
-// 세 명의 일간 오행 관계로 매칭
+// 두 부모 메타포 자연 연결 ("환한 햇살과 큰 나무" / "환한 햇살과 다정한 촛불의 두 빛")
+function joinParentMetaphors(momIlgan: string, dadIlgan: string): string {
+  const mm = metaphorOf(momIlgan);
+  const dm = metaphorOf(dadIlgan);
+  return mm === dm ? `두 ${mm}` : `${mm}과 ${dm}`;
+}
+
+// ── 양친+자녀 매트릭스 (12 카테고리) ──
 export function pickFamilyTrioSaja(
   sajuMom: SajuAnalysis,
   sajuDad: SajuAnalysis,
@@ -80,35 +45,246 @@ export function pickFamilyTrioSaja(
   const elemDad = STEM_ELEM[sajuDad.ilgan] ?? "수";
   const elemChild = STEM_ELEM[sajuChild.ilgan] ?? "수";
 
-  // 엄마/아빠가 아이를 살리는지 (相生)
   const generates: Record<string, string> = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
-  const momGeneratesChild = generates[elemMom] === elemChild;
-  const dadGeneratesChild = generates[elemDad] === elemChild;
-  const allSameElem = elemMom === elemDad && elemDad === elemChild;
+  const controls: Record<string, string> = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+  const momGen = generates[elemMom] === elemChild;
+  const dadGen = generates[elemDad] === elemChild;
+  const momCtl = controls[elemMom] === elemChild;
+  const dadCtl = controls[elemDad] === elemChild;
+  const childGenMom = generates[elemChild] === elemMom;
+  const childGenDad = generates[elemChild] === elemDad;
+  const allSame = elemMom === elemDad && elemDad === elemChild;
   const momDadSame = elemMom === elemDad;
+  const momChildSame = elemMom === elemChild;
+  const dadChildSame = elemDad === elemChild;
 
-  // 셋 다 같은 오행 → 三才相生 (천·지·인 통일)
-  if (allSameElem)
-    return { hanja: "三才相生", hangul: "삼재상생", meaning: "천·지·인 세 결이 하나로 흐르는 가족" };
+  const parents = joinParentMetaphors(sajuMom.ilgan, sajuDad.ilgan);
+  const childM = metaphorOf(sajuChild.ilgan);
 
-  // 엄마·아빠 둘 다 아이를 살림 → 雙翼育鳥 (양 날개가 새를 키움)
-  if (momGeneratesChild && dadGeneratesChild)
-    return { hanja: "雙翼育鳥", hangul: "쌍익육조", meaning: "두 날개가 함께 자녀를 키우는 가족" };
+  // 1. 셋 다 같은 오행
+  if (allSame)
+    return {
+      keyword: "한 결로 흐르는 가족",
+      meaning: "세 분이 같은 본질을 지닌, 깊은 동행의 가족",
+      subtitle: `${parents}과 ${childM}이 같은 결로 흐르는 자리입니다`,
+    };
 
-  // 한 분이 살리고 다른 분이 비화/보완 → 衆星共月 (별과 달이 함께 비춤)
-  if ((momGeneratesChild || dadGeneratesChild) && momDadSame)
-    return { hanja: "衆星共月", hangul: "중성공월", meaning: "별과 달이 함께 자녀를 비추는 가족" };
+  // 2. 부모 둘 다 자녀를 살림 (生)
+  if (momGen && dadGen)
+    return {
+      keyword: "두 햇살이 키우는 가족",
+      meaning: "부모님 두 분이 함께 자녀를 키워가는 가족",
+      subtitle: `${parents}이 ${childM}을 함께 키워주는 자리입니다`,
+    };
 
-  // 한 분이 살림 (다른 분은 다른 결) → 三和共成 (셋이 어우러져 함께 이룸)
-  if (momGeneratesChild || dadGeneratesChild)
-    return { hanja: "三和共成", hangul: "삼화공성", meaning: "셋이 어우러져 함께 이루는 가족" };
+  // 3. 부모 둘 다 자녀를 다듬음 (剋)
+  if (momCtl && dadCtl)
+    return {
+      keyword: "두 손길이 받쳐주는 가족",
+      meaning: "부모님 두 분이 자녀에게 단단한 뿌리가 되어주는 가족",
+      subtitle: `${parents}이 ${childM}을 단단히 받쳐주는 자리입니다`,
+    };
 
-  // 엄마·아빠 일간 오행이 같음 → 鸞鳳和鳴 (난새·봉황이 어울려 노래)
+  // 4. 엄마 살림 + 아빠 다듬음
+  if (momGen && dadCtl)
+    return {
+      keyword: "자애와 엄정의 만남",
+      meaning: "어머니의 자애와 아버지의 엄정이 함께 닿는 가족",
+      subtitle: `${metaphorOf(sajuMom.ilgan)}이 ${childM}을 키우고, ${metaphorOf(sajuDad.ilgan)}이 받쳐주는 자리입니다`,
+    };
+
+  // 5. 엄마 다듬음 + 아빠 살림
+  if (momCtl && dadGen)
+    return {
+      keyword: "엄정과 자애의 만남",
+      meaning: "어머니의 엄정과 아버지의 자애가 함께 닿는 가족",
+      subtitle: `${metaphorOf(sajuMom.ilgan)}이 ${childM}을 받쳐주고, ${metaphorOf(sajuDad.ilgan)}이 키우는 자리입니다`,
+    };
+
+  // 6. 한 분 살림 + 부모 같은 오행
+  if ((momGen || dadGen) && momDadSame)
+    return {
+      keyword: "별과 달이 비추는 가족",
+      meaning: "두 분이 같은 결로 자녀에게 빛을 비추는 가족",
+      subtitle: `${parents}이 ${childM}에게 같은 결의 빛을 비추는 자리입니다`,
+    };
+
+  // 7. 자녀가 부모 둘 다 살림 (자녀가 부모를 키움)
+  if (childGenMom && childGenDad)
+    return {
+      keyword: "자녀가 활력을 주는 가족",
+      meaning: "자녀의 결이 부모님께 새 활력을 채워주는 가족",
+      subtitle: `${childM}이 ${parents}에게 새 활력을 채워주는 자리입니다`,
+    };
+
+  // 8. 한 분만 살림 (다른 분은 비화·보완)
+  if (momGen || dadGen)
+    return {
+      keyword: "셋이 어우러지는 가족",
+      meaning: "세 분이 자연스럽게 어우러져 함께 이루는 가족",
+      subtitle: `${parents}이 ${childM}을 함께 어우러져 키우는 자리입니다`,
+    };
+
+  // 9. 부모 같은 오행 (자녀와 다름)
   if (momDadSame)
-    return { hanja: "鸞鳳和鳴", hangul: "난봉화명", meaning: "두 분의 결이 같은 노래로 어울리는 가족" };
+    return {
+      keyword: "두 결이 어울리는 가족",
+      meaning: "부모님 두 분의 결이 같은 노래로 어울리는 가족",
+      subtitle: `${parents}이 ${childM}을 함께 둘러주는 자리입니다`,
+    };
 
-  // 그 외 — 五德同行 (다섯 덕이 함께 흐름)
-  return { hanja: "五德同行", hangul: "오덕동행", meaning: "다섯 덕이 함께 흐르는 가족" };
+  // 10. 자녀가 부모 한 분 살림
+  if (childGenMom || childGenDad)
+    return {
+      keyword: "서로 채워주는 가족",
+      meaning: "부모와 자녀가 서로 활력을 주고받는 가족",
+      subtitle: `${parents}과 ${childM}이 서로의 결을 채워주는 자리입니다`,
+    };
+
+  // 11. 한쪽 부모만 자녀와 비화
+  if (momChildSame || dadChildSame)
+    return {
+      keyword: "닮은 결과 다른 결의 만남",
+      meaning: "한 분과는 닮은 결, 한 분과는 다른 결로 만나는 가족",
+      subtitle: `${parents}과 ${childM}이 닮음과 다름으로 만나는 자리입니다`,
+    };
+
+  // 12. 그 외 — 다섯 결이 흐름
+  return {
+    keyword: "다섯 결이 흐르는 가족",
+    meaning: "다섯 가지 결이 자연스럽게 흐르며 어우러지는 가족",
+    subtitle: `${parents}과 ${childM}이 다섯 결로 함께 흐르는 자리입니다`,
+  };
+}
+
+// ── 한 부모+자녀 매트릭스 (엄마/아빠 공통, parentRole 분기) ──
+export function pickFamilySajaSeongeo(
+  compat: CompatibilityResult,
+  childGender?: string,
+  sajuParent?: SajuAnalysis,
+  sajuChild?: SajuAnalysis,
+  parentRole: "엄마" | "아빠" = "엄마",
+): FamilySajaSeongeo {
+  const ilgan = compat.ilganRelation;
+  const isSangsaeng = ilgan.includes("상생");
+  const isSanggeuk = ilgan.includes("상극");
+  const isBihwa = ilgan.includes("비화");
+  const chungs = compat.branchRelations.chung.length;
+  const samhap = compat.branchRelations.samhap.length;
+  const yukhap = compat.branchRelations.yukhap.length;
+  const totalHap = samhap + yukhap;
+  const parentHelps = compat.elementBalance.aHelpsB.length;
+  const childHelps = compat.elementBalance.bHelpsA.length;
+  const isDaughter = childGender === "여";
+  const isMom = parentRole === "엄마";
+
+  // 메타포 부제 — 사주 데이터 있으면 동적, 없으면 기본
+  const parentM = sajuParent ? metaphorOf(sajuParent.ilgan) : (isMom ? "어머님의 결" : "아버님의 결");
+  const childM = sajuChild ? metaphorOf(sajuChild.ilgan) : "자녀의 결";
+
+  // 자녀 성별 호칭 (모녀/모자/부녀/부자)
+  const childCall = isDaughter ? "딸" : "아들";
+  const parentChildPair = isMom
+    ? (isDaughter ? "모녀" : "모자")
+    : (isDaughter ? "부녀" : "부자");
+  const parentCall = isMom ? "어머님" : "아버님";
+
+  // 1. 상생 + 삼합 + 충 X — 가장 깊은 인연
+  if (isSangsaeng && samhap >= 1 && chungs === 0)
+    return {
+      keyword: `하늘이 맺어준 ${parentChildPair} 인연`,
+      meaning: "깊고 자연스러운 흐름으로 이어진 인연",
+      subtitle: `${parentM}과 ${childM}이 자연스럽게 흐르는 자리입니다`,
+    };
+
+  // 2. 상생 + 육합
+  if (isSangsaeng && yukhap >= 1)
+    return {
+      keyword: `서로를 살리는 ${parentChildPair} 결`,
+      meaning: "두 결이 서로에게 빛이 되는 인연",
+      subtitle: `${parentM}과 ${childM}이 서로를 살려주는 자리입니다`,
+    };
+
+  // 3. 상생 + 부모가 채워줌
+  if (isSangsaeng && parentHelps >= 1)
+    return {
+      keyword: isMom ? "자애가 닿는 결" : "든든함이 닿는 결",
+      meaning: isMom
+        ? "어머니의 따뜻한 사랑이 자녀에게 닿는 인연"
+        : "아버지의 든든한 사랑이 자녀에게 닿는 인연",
+      subtitle: `${parentM}이 ${childM}을 따뜻하게 키우는 자리입니다`,
+    };
+
+  // 4. 자녀가 부모를 채워줌
+  if (childHelps >= 1)
+    return {
+      keyword: "자녀가 활력을 주는 결",
+      meaning: "자녀의 결이 부모에게 새 활력을 채워주는 인연",
+      subtitle: `${childM}이 ${parentCall}의 ${parentM}에 새 활력을 채워주는 자리입니다`,
+    };
+
+  // 5. 화목 (삼합 또는 비화+합)
+  if (samhap >= 1 || (isBihwa && totalHap >= 1))
+    return {
+      keyword: "화목한 결의 가족",
+      meaning: "두 결이 자연스럽게 어우러지는 화목한 인연",
+      subtitle: `${parentM}과 ${childM}이 자연스럽게 어우러지는 자리입니다`,
+    };
+
+  // 6. 상생 (그 외)
+  if (isSangsaeng)
+    return {
+      keyword: isMom
+        ? `자애로운 어머니와 효심 깊은 ${childCall}`
+        : `든든한 아버지와 효심 깊은 ${childCall}`,
+      meaning: isMom
+        ? `어머니의 자애와 ${childCall}의 마음이 만나는 인연`
+        : `아버지의 든든함과 ${childCall}의 마음이 만나는 인연`,
+      subtitle: `${parentM}이 ${childM}을 키우고, ${childM}이 ${parentM}에게 닿는 자리입니다`,
+    };
+
+  // 7. 비화
+  if (isBihwa)
+    return {
+      keyword: "닮은 듯 다른 결의 만남",
+      meaning: "닮은 본질을 다른 길로 풀어내는 인연",
+      subtitle: `${parentM}과 ${childM}이 닮음 속의 다름으로 만나는 자리입니다`,
+    };
+
+  // 8. 상극 + 합
+  if (isSanggeuk && totalHap >= 1)
+    return {
+      keyword: isMom
+        ? `지혜로운 어머니와 마음 따라가는 ${childCall}`
+        : `엄정한 아버지와 마음 따라가는 ${childCall}`,
+      meaning: isMom
+        ? `어머니의 지혜로 다듬고 ${childCall}이 마음으로 따르는 인연`
+        : `아버지의 엄정함으로 다듬고 ${childCall}이 마음으로 따르는 인연`,
+      subtitle: `${parentM}이 ${childM}을 단단히 받쳐주는 자리입니다`,
+    };
+
+  // 9. 상극 + 충
+  if (isSanggeuk && chungs >= 1)
+    return {
+      keyword: "다듬어 빛나는 결",
+      meaning: "단련을 통해 빛나는 그릇이 되는 인연",
+      subtitle: `${parentM}이 ${childM}을 두드려 빛나게 하는 자리입니다`,
+    };
+
+  // 10. 충
+  if (chungs >= 1)
+    return {
+      keyword: "쓴맛 끝에 단맛이 오는 결",
+      meaning: "어려움 뒤에 깊은 결실이 오는 인연",
+      subtitle: `${parentM}과 ${childM}이 부딪히며 자라나는 자리입니다`,
+    };
+
+  // 11. 기본
+  return {
+    keyword: `끊을 수 없는 ${parentChildPair} 인연`,
+    meaning: "어떤 결이든 깊이 이어지는 인연",
+    subtitle: `${parentM}과 ${childM}이 깊이 이어지는 자리입니다`,
+  };
 }
 
 const STEM_ELEM: Record<string, string> = {

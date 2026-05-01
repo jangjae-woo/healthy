@@ -54,6 +54,7 @@ import {
   inferDominantMeaning,
   inferPositiveSinsal,
   pickFamilySajaSeongeo,
+  pickFamilyTrioSaja,
   getAnimalCharacter,
   type IljuInfo,
   type YongsinMeaning,
@@ -2926,7 +2927,18 @@ export default function ParentChildSlideResult() {
   const childSinsalReading: PositiveSinsalReading | null = sajuChild ? inferPositiveSinsal(sajuChild) : null;
   const childObs: ObservationGuide | null = sajuChild ? getObservationGuide(sajuChild) : null;
   const childGenderParam = params.get("childGender") || "";
-  const familySaja: FamilySajaSeongeo | null = compat ? pickFamilySajaSeongeo(compat, childGenderParam) : null;
+  // 가족 인연의 결 — 양친이면 trio, 한 분만이면 dyad (parentRole 분기로 엄마/아빠 어휘 구분)
+  const familySaja: FamilySajaSeongeo | null = (() => {
+    if (sajuChild && sajuMom && sajuDad) {
+      return pickFamilyTrioSaja(sajuMom, sajuDad, sajuChild);
+    }
+    if (compat) {
+      const role: "엄마" | "아빠" = sajuMom ? "엄마" : "아빠";
+      const sajuParent = sajuMom ?? sajuDad ?? undefined;
+      return pickFamilySajaSeongeo(compat, childGenderParam, sajuParent ?? undefined, sajuChild ?? undefined, role);
+    }
+    return null;
+  })();
   const childAnimal: AnimalCharacter | null = sajuChild ? getAnimalCharacter(sajuChild) : null;
   // 아이 현재 만 나이 계산
   const childYearN = parseInt(params.get("childYear") || "0") || 0;
@@ -2983,7 +2995,7 @@ export default function ParentChildSlideResult() {
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
             자도인(慈道人) 가족 인연 풀이
           </p>
-          {/* 사자성어 메인 카드 — 점수 게이지 자리에 */}
+          {/* 가족 인연의 결 메인 카드 — 한국어 키워드 + 동적 메타포 부제 */}
           {familySaja && (
             <div
               className="rounded-3xl px-8 py-7 max-w-sm"
@@ -2993,18 +3005,23 @@ export default function ParentChildSlideResult() {
                 boxShadow: `0 0 28px ${ACCENT}33`,
               }}
             >
-              <p className="text-[10px] tracking-[0.3em] mb-2" style={{ color: `${ACCENT}aa` }}>
+              <p className="text-[10px] tracking-[0.3em] mb-3" style={{ color: `${ACCENT}aa` }}>
                 ─ 가족 인연의 결 ─
               </p>
-              <p className="text-5xl font-bold tracking-wider mb-3" style={{ color: GOLD }}>
-                {familySaja.hanja}
+              <p className="text-2xl font-bold leading-snug mb-3" style={{ color: GOLD }}>
+                {familySaja.keyword}
               </p>
-              <p className="text-lg font-bold" style={{ color: ACCENT }}>
-                {familySaja.hangul}
-              </p>
-              <p className="text-sm mt-3 leading-relaxed" style={{ color: "rgba(255,255,255,0.88)" }}>
+              <p className="text-sm leading-relaxed mb-3" style={{ color: "rgba(255,255,255,0.78)" }}>
                 {familySaja.meaning}
               </p>
+              {familySaja.subtitle && (
+                <p className="text-[13px] leading-[1.7] pt-3" style={{
+                  color: ACCENT,
+                  borderTop: `1px dashed ${ACCENT}55`,
+                }}>
+                  {familySaja.subtitle}
+                </p>
+              )}
             </div>
           )}
           {/* 자도인 첫마디는 슬라이드 3에서 별도 표시 — 커버에서는 제외 */}
@@ -3406,15 +3423,17 @@ export default function ParentChildSlideResult() {
                 <h2 className="text-xl font-bold text-white">{momName} · {childName}</h2>
                 {familySaja && (
                   <>
-                    <p className="text-6xl font-bold tracking-wider" style={{ color: GOLD }}>
-                      {familySaja.hanja}
-                    </p>
-                    <p className="text-base font-bold" style={{ color: BRIGHT }}>
-                      {familySaja.hangul}
+                    <p className="text-2xl font-bold leading-snug px-4" style={{ color: GOLD }}>
+                      {familySaja.keyword}
                     </p>
                     <p className="text-xs px-4 leading-relaxed" style={{ color: "rgba(255,255,255,0.88)" }}>
                       {familySaja.meaning}
                     </p>
+                    {familySaja.subtitle && (
+                      <p className="text-[11px] px-4 leading-relaxed" style={{ color: BRIGHT }}>
+                        {familySaja.subtitle}
+                      </p>
+                    )}
                   </>
                 )}
                 {childAnimal && (
