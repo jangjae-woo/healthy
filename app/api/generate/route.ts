@@ -11,7 +11,7 @@ import {
   type SajuAnalysis, type CompatibilityResult,
 } from "@/lib/saju-calculator";
 import { adjustForParentChild } from "@/lib/parent-child-compat";
-import { pickFamilySajaSeongeo, pickFamilyTrioSaja, inferGiftCard, type FamilySajaSeongeo } from "@/lib/parent-child-traits";
+import { pickFamilySajaSeongeo, pickFamilyTrioSaja, inferGiftCard, inferSynergyCards, type FamilySajaSeongeo } from "@/lib/parent-child-traits";
 import {
   infer8Intelligences,
   inferJobRadar,
@@ -921,6 +921,9 @@ function buildParentChildPrompt(
   // 한 가지 선물 — 결정론 매트릭스 (자녀 일간 오행 × 부모 역할)
   const momGift = sajuMom ? inferGiftCard(sajuChild, "엄마") : null;
   const dadGift = sajuDad ? inferGiftCard(sajuChild, "아빠") : null;
+  // 시너지 카드 — 결정론 매트릭스 (자녀 일간 오행 × 부모 역할)
+  const momSynergy = sajuMom ? inferSynergyCards(sajuChild, "엄마") : null;
+  const dadSynergy = sajuDad ? inferSynergyCards(sajuChild, "아빠") : null;
   const childLabel = d.childGender === "남" ? "아들" : "딸";
 
   // ── 자녀 양/음 기운 사전 계산 (외향-내향 시각화와 AI 일관성) ──
@@ -1596,9 +1599,19 @@ ${hasMom ? `## 엄마와 우리 아이
 ※ 페이지 위에 5각 레이더(엄마 vs 아이 오행 분포 겹친 차트)가 자동 표시됩니다.
 
 본문은 한 단락(2~3줄). 차트의 **가장 비슷한 비중의 결: ${momCompare?.similar.kor ?? "—"}** 과 **가장 비중이 다른 결: ${momCompare?.different.kor ?? "—"}** 이 일상에서 어떻게 드러나는지 풀어쓰기.
-🔴 **AI hallucination 차단**: 위 차트가 명시한 **두 결만** 본문에 사용. 차트에 없는 다른 오행(예: 위에 명시 안 된 결을 "닮은 결"·"다른 결"로 추가) 절대 임의 추가 금지. "두 분 모두 ○○과 △△에서 닮은 결" 처럼 차트 외 오행 추가 X.
-✅ "닮은 결"의 의미: **두 분의 사주에서 비슷한 비중을 차지하는 결** (절대량이 아닌 비율). 본문에서 자연스럽게 풀어쓰면 "두 분 모두 사주에서 비슷한 비중으로 ○○의 결을 지니심" 톤.
-차트 수치 직접 언급 X. 사주 용어(일간·비화 등) 노출 X.
+
+🔴 **비중 정보 (반드시 본문 톤에 반영)**:
+- 닮은 결 (${momCompare?.similar.kor ?? "—"}) — 어머니 ${momCompare?.similar.parentPct ?? 0}% / 자녀 ${momCompare?.similar.childPct ?? 0}% / 평균 ${momCompare?.similar.avgPct ?? 0}%
+- 다른 결 (${momCompare?.different.kor ?? "—"}) — 어머니 ${momCompare?.different.parentPct ?? 0}% / 자녀 ${momCompare?.different.childPct ?? 0}%
+
+🔴 **평균 비중별 본문 톤 분기 (반드시 일치)**:
+- 평균 **≤20%** (둘 다 약함): "두 분 모두 ${momCompare?.similar.kor} 의 결이 **약한 편**" 톤. ❌ "활기찬 열정" 같이 강한 결로 표현 금지. ✅ "외부에서 보충하면 좋은 결" 같은 부드러운 톤.
+- 평균 **21~30%** (둘 다 적당): "두 분 모두 ${momCompare?.similar.kor} 의 결이 **적당히** 자리 잡고 있음" 톤.
+- 평균 **≥30%** (둘 다 강함): "두 분 모두 ${momCompare?.similar.kor} 의 결이 **두드러지게** 강함" 톤.
+
+🔴 **AI hallucination 차단**: 위 차트가 명시한 **두 결만** 본문에 사용. 차트에 없는 다른 오행 절대 임의 추가 금지.
+✅ "닮은 결"의 의미: **두 분의 사주에서 비슷한 비중을 차지하는 결** (절대량이 아닌 비율). 비중도 본문에 반영.
+차트 수치 (%) 직접 노출 X. 사주 용어(일간·비화 등) 노출 X.
 
 ### 일간 관계의 결
 ※ 페이지 위에 일간 관계 카드(좌-중-우 흐름)가 자동 표시됩니다.
@@ -1638,20 +1651,14 @@ ${hasMom ? `## 엄마와 우리 아이
 ### 잘 통하는 영역 — 시너지
 ※ 페이지 위에 시너지 카드 3장이 자동 표시됩니다.
 
-★★★ **반드시 이 형식 그대로 출력**:
+★★★ **결정론 매트릭스 결과 — 반드시 이대로 그대로 출력 (자녀 일간 오행 기반, 어휘 변경 절대 금지)**:
 
 [시너지]
-• [이모지] **영역 키워드(3~8글자)** — ${d.momName}님과 ${d.childName}이 그 영역에서 어떻게 잘 통하는지 한 줄
-• [이모지] **영역 키워드** — 한 줄
-• [이모지] **영역 키워드** — 한 줄
+• ${momSynergy?.[0]?.emoji ?? "🎨"} **${momSynergy?.[0]?.keyword ?? "함께하는 활동"}** — ${momSynergy?.[0]?.body ?? "두 분의 결이 자연스럽게 어우러집니다"}
+• ${momSynergy?.[1]?.emoji ?? "🌿"} **${momSynergy?.[1]?.keyword ?? "조용한 공간"}** — ${momSynergy?.[1]?.body ?? "차분한 환경에서 마음이 가장 잘 통합니다"}
+• ${momSynergy?.[2]?.emoji ?? "💬"} **${momSynergy?.[2]?.keyword ?? "마음 나누는 시간"}** — ${momSynergy?.[2]?.body ?? "두 분의 친밀함을 키웁니다"}
 
-[좋은 예]
-[시너지]
-• 🎨 **함께하는 활동** — 같이 그림 그리고 만들기를 할 때 두 분의 결이 자연스럽게 어우러집니다
-• 🌿 **조용한 공간** — 카페나 도서관처럼 차분한 환경에서 마음이 가장 잘 통합니다
-• 💬 **밤의 대화** — 잠자리 들기 전 하루 이야기를 나누는 시간이 두 분의 친밀함을 키웁니다
-
-★ 3개 카드 이모지 모두 다름. 영역은 활동·환경·대화·취미·휴식 중 자연스럽게.
+🔴 위 매트릭스 결과를 **이모지·키워드·본문 모두 그대로** 출력. AI 가 임의로 변경 X. 일반 양육 어휘 (그림·도서관·잠자리 대화 등) 첨가 금지 — 위 결정론 결과만 사용.
 
 ### 갈등이 반복되는 지점
 ※ 페이지 위에 충돌 카드 2~3장이 자동 표시됩니다.
@@ -1695,8 +1702,18 @@ ${momGift?.emoji ?? "🎁"} **${momGift?.keyword ?? "있는 그대로 봐주기"
 ※ 페이지 위에 5각 레이더(아빠 vs 아이 오행 분포 겹친 차트)가 자동 표시됩니다.
 
 본문은 한 단락(2~3줄). 차트의 **가장 비슷한 비중의 결: ${dadCompare?.similar.kor ?? "—"}** 과 **가장 비중이 다른 결: ${dadCompare?.different.kor ?? "—"}** 을 일상 장면으로 풀어쓰기. 아버님 특유의 "기둥의 결"(안정·방향성) 관점.
+
+🔴 **비중 정보 (반드시 본문 톤에 반영)**:
+- 닮은 결 (${dadCompare?.similar.kor ?? "—"}) — 아버지 ${dadCompare?.similar.parentPct ?? 0}% / 자녀 ${dadCompare?.similar.childPct ?? 0}% / 평균 ${dadCompare?.similar.avgPct ?? 0}%
+- 다른 결 (${dadCompare?.different.kor ?? "—"}) — 아버지 ${dadCompare?.different.parentPct ?? 0}% / 자녀 ${dadCompare?.different.childPct ?? 0}%
+
+🔴 **평균 비중별 본문 톤 분기 (반드시 일치)**:
+- 평균 **≤20%** (둘 다 약함): "두 분 모두 ${dadCompare?.similar.kor} 의 결이 **약한 편**" 톤. ❌ "활기찬 열정" 같은 강한 결로 묘사 금지. ✅ "외부에서 보충하면 좋은 결" 톤.
+- 평균 **21~30%** (둘 다 적당): "두 분 모두 ${dadCompare?.similar.kor} 의 결이 **적당히** 자리 잡고 있음" 톤.
+- 평균 **≥30%** (둘 다 강함): "두 분 모두 ${dadCompare?.similar.kor} 의 결이 **두드러지게** 강함" 톤.
+
 🔴 **AI hallucination 차단**: 위 차트가 명시한 **두 결만** 본문에 사용. 차트에 없는 다른 오행 임의 추가 금지.
-✅ "닮은 결"의 의미: **두 분의 사주에서 비슷한 비중을 차지하는 결** (절대량이 아닌 비율).${hasMom ? '\n★ 어머님 비교(PART 4)와 톤·내용 자연스럽게 이어지되, 아버님 특유 결 강조 — 부드러움보다 기둥·방향성.' : ''}
+✅ "닮은 결"의 의미: **두 분의 사주에서 비슷한 비중을 차지하는 결** (절대량이 아닌 비율). 비중도 본문에 반영.${hasMom ? '\n★ 어머님 비교(PART 4)와 톤·내용 자연스럽게 이어지되, 아버님 특유 결 강조 — 부드러움보다 기둥·방향성.' : ''}
 
 ### 일간 관계의 결
 ※ 페이지 위에 일간 관계 카드가 자동 표시됩니다.
@@ -1743,14 +1760,14 @@ ${hasMom ? `★ 본문 마지막은 **균형형 마무리 두 문장** 권장 �
 ### 잘 통하는 영역 — 시너지
 ※ 페이지 위에 시너지 카드 3장이 자동 표시됩니다.
 
-★★★ **반드시 이 형식 그대로 출력**:
+★★★ **결정론 매트릭스 결과 — 반드시 이대로 그대로 출력 (자녀 일간 오행 기반, 어휘 변경 절대 금지)**:
 
 [시너지]
-• [이모지] **영역 키워드** — ${d.dadName}님과 ${d.childName}이 그 영역에서 어떻게 잘 통하는지 한 줄
-• [이모지] **영역 키워드** — 한 줄
-• [이모지] **영역 키워드** — 한 줄
+• ${dadSynergy?.[0]?.emoji ?? "🌳"} **${dadSynergy?.[0]?.keyword ?? "함께하는 활동"}** — ${dadSynergy?.[0]?.body ?? "두 분의 결이 자연스럽게 어우러집니다"}
+• ${dadSynergy?.[1]?.emoji ?? "🏞️"} **${dadSynergy?.[1]?.keyword ?? "넓은 공간"}** — ${dadSynergy?.[1]?.body ?? "자녀가 자기 길을 펼칩니다"}
+• ${dadSynergy?.[2]?.emoji ?? "💪"} **${dadSynergy?.[2]?.keyword ?? "도전 격려"}** — ${dadSynergy?.[2]?.body ?? "자녀의 결을 단단히 받쳐줍니다"}
 
-★ 아빠 섹션은 활동·도전·움직임 중심 영역 (예: 운동·탐험·만들기·여행·방향 잡기)
+🔴 위 매트릭스 결과를 **이모지·키워드·본문 모두 그대로** 출력. AI 가 임의로 변경 X. 일반 양육 어휘 첨가 금지 — 위 결정론 결과만 사용.${hasMom ? '\n★ mom 시너지 (Part 05) 와 겹치는 카드가 있어도 그대로 출력 (parentRole 분기로 mom·dad 메타포가 다르게 설계됨).' : ''}
 
 ### 갈등이 반복되는 지점
 ※ 페이지 위에 충돌 카드 2~3장이 자동 표시됩니다.

@@ -96,6 +96,81 @@ export function inferGiftCard(sajuChild: SajuAnalysis, parentRole: "엄마" | "�
   return data;
 }
 
+// ── 시너지 카드 매트릭스 — 자녀 일간 오행 × 부모 역할 (5×2 = 10가지) ──
+// 각 케이스 = 3장 카드 (활동·환경·대화)
+export interface SynergyCard {
+  emoji: string;
+  keyword: string;
+  body: string;
+}
+const SYNERGY_MATRIX: Record<string, Record<"엄마" | "아빠", SynergyCard[]>> = {
+  목: {
+    엄마: [
+      { emoji: "🌱", keyword: "자라남의 활동", body: "함께 식물을 가꾸거나 새싹을 관찰하는 시간이 두 분의 결을 자연스럽게 잇습니다" },
+      { emoji: "🌳", keyword: "자연 속 산책", body: "공원이나 숲처럼 자라나는 생명을 만나는 환경에서 가장 편안해집니다" },
+      { emoji: "💬", keyword: "성장의 이야기", body: "자녀가 발견한 작은 변화를 함께 이야기 나눌 때 깊이 통합니다" },
+    ],
+    아빠: [
+      { emoji: "🌳", keyword: "함께 뻗어가는 활동", body: "야외 탐험·모험 놀이를 할 때 두 분의 결이 함께 자라납니다" },
+      { emoji: "🏞️", keyword: "넓은 공간", body: "공원·등산로처럼 시야가 트인 환경에서 자녀가 자기 길을 펼칩니다" },
+      { emoji: "💪", keyword: "도전 격려", body: "새로운 시도를 응원하는 한 마디가 자녀의 결을 단단히 받쳐줍니다" },
+    ],
+  },
+  화: {
+    엄마: [
+      { emoji: "🎨", keyword: "표현하는 활동", body: "함께 그림 그리고 노래하고 역할 놀이를 할 때 두 분의 결이 환하게 어우러집니다" },
+      { emoji: "☀️", keyword: "환한 공간", body: "햇볕 가득한 자리·따뜻한 사람들이 모이는 환경에서 마음이 가장 잘 통합니다" },
+      { emoji: "💛", keyword: "감정 인정", body: "자녀의 표현을 있는 그대로 받아주는 한 마디가 자녀의 빛을 더 밝게 만듭니다" },
+    ],
+    아빠: [
+      { emoji: "🔥", keyword: "활기찬 운동", body: "함께 뛰고 움직이는 활동에서 두 분의 결이 자연스럽게 만납니다" },
+      { emoji: "🎉", keyword: "환한 모임", body: "활기찬 분위기·사람 많은 환경에서 자녀가 자기 빛을 환히 펼칩니다" },
+      { emoji: "✨", keyword: "빛을 인정하는 말", body: "자녀의 빛나는 순간을 환히 인정해주실 때 두 분이 깊이 통합니다" },
+    ],
+  },
+  토: {
+    엄마: [
+      { emoji: "🍳", keyword: "꾸준한 일상 활동", body: "함께 요리하거나 정리하는 반복적 활동에서 두 분의 결이 안정적으로 어우러집니다" },
+      { emoji: "🏠", keyword: "익숙한 자리", body: "같은 시간·같은 자리에서 보내는 의식적 시간이 가장 편안합니다" },
+      { emoji: "🤲", keyword: "꾸준함의 인정", body: "자녀의 묵묵한 노력을 짚어주시는 한 마디가 자녀의 결을 깊이 다집니다" },
+    ],
+    아빠: [
+      { emoji: "🔨", keyword: "함께 만드는 활동", body: "텃밭·DIY·블록 쌓기처럼 손으로 만드는 작업에서 두 분의 결이 단단히 만납니다" },
+      { emoji: "🏞️", keyword: "안정된 자리", body: "변화가 적은 환경·예측 가능한 일상에서 자녀가 가장 편안합니다" },
+      { emoji: "🛡️", keyword: "신뢰의 한 마디", body: "흔들림 없이 곁에 있겠다는 표현이 자녀의 결을 단단히 받쳐줍니다" },
+    ],
+  },
+  금: {
+    엄마: [
+      { emoji: "🧩", keyword: "정확한 활동", body: "퍼즐·정리정돈·세밀한 만들기에서 두 분의 결이 깔끔하게 어우러집니다" },
+      { emoji: "🪟", keyword: "정돈된 공간", body: "맑은 공기·정돈된 환경에서 자녀의 결이 가장 또렷해집니다" },
+      { emoji: "💎", keyword: "결단의 인정", body: "자녀가 스스로 결정한 순간을 짚어주시는 한 마디가 깊이 통합니다" },
+    ],
+    아빠: [
+      { emoji: "⚒️", keyword: "수련의 활동", body: "한 가지를 정확히 익히는 연습·집중 활동에서 두 분의 결이 단단히 만납니다" },
+      { emoji: "🪟", keyword: "조용한 자기 공간", body: "자녀만의 정돈된 자리·맑은 환경에서 자기 결을 다듬습니다" },
+      { emoji: "🧭", keyword: "명료한 대화", body: "짧고 분명한 한 마디가 자녀의 결을 더 또렷하게 만듭니다" },
+    ],
+  },
+  수: {
+    엄마: [
+      { emoji: "📖", keyword: "사색의 활동", body: "함께 책을 읽거나 조용히 그림을 그리는 시간이 두 분의 결을 깊이 잇습니다" },
+      { emoji: "🌙", keyword: "조용한 자리", body: "차분한 공간·물 가까운 환경에서 자녀의 결이 가장 깊어집니다" },
+      { emoji: "💧", keyword: "깊은 이야기 듣기", body: "자녀의 사색을 끝까지 들어주시는 시간이 두 분의 친밀함을 키웁니다" },
+    ],
+    아빠: [
+      { emoji: "📚", keyword: "탐구의 활동", body: "도서관·박물관·자연 관찰처럼 깊이 탐구하는 활동에서 두 분의 결이 만납니다" },
+      { emoji: "🌊", keyword: "차분한 자리", body: "조용한 환경·물 가까운 자리에서 자녀가 자기 사색을 펼칩니다" },
+      { emoji: "❓", keyword: "질문 던지기", body: "답을 주기보다 좋은 질문을 던지시는 것이 자녀의 결을 깊게 합니다" },
+    ],
+  },
+};
+
+export function inferSynergyCards(sajuChild: SajuAnalysis, parentRole: "엄마" | "아빠"): SynergyCard[] {
+  const elem = STEM_TO_ELEM_LOCAL[sajuChild.ilgan] ?? "토";
+  return SYNERGY_MATRIX[elem]?.[parentRole] ?? SYNERGY_MATRIX["토"][parentRole];
+}
+
 // ── 일간별 메타포 사전 (10간) — 부제 동적 생성용 ──
 // 표지에서만 사용 (시적·메타포). 본문(자도인의 첫마디 등)은 명리 용어 사용.
 const STEM_METAPHOR: Record<string, string> = {

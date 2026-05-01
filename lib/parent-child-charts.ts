@@ -858,10 +858,10 @@ const ELEM_KOR: Record<string, { kor: string; emoji: string }> = {
 export interface ElementCompare {
   parent: { 목: number; 화: number; 토: number; 금: number; 수: number };
   child: { 목: number; 화: number; 토: number; 금: number; 수: number };
-  similar: { elem: string; kor: string; emoji: string };       // 가장 닮은 오행
-  different: { elem: string; kor: string; emoji: string };     // 가장 차이나는 오행
-  parentStrong: { elem: string; kor: string; emoji: string };  // 부모만 강한 오행
-  childStrong: { elem: string; kor: string; emoji: string };   // 자녀만 강한 오행
+  similar: { elem: string; kor: string; emoji: string; parentPct: number; childPct: number; avgPct: number };
+  different: { elem: string; kor: string; emoji: string; parentPct: number; childPct: number };
+  parentStrong: { elem: string; kor: string; emoji: string };
+  childStrong: { elem: string; kor: string; emoji: string };
 }
 export function inferElementCompare(parent: SajuAnalysis, child: SajuAnalysis): ElementCompare {
   // 백분율 정규화
@@ -901,10 +901,16 @@ export function inferElementCompare(parent: SajuAnalysis, child: SajuAnalysis): 
     if (cAdv > cStrong) { cStrong = cAdv; cStrongElem = e; }
   }
   const wrap = (e: string) => ({ elem: e, kor: ELEM_KOR[e].kor, emoji: ELEM_KOR[e].emoji });
+  // 비중 정보 추가 — 차트-본문 모순 차단용
+  const similarParentPct = p[similarElem as keyof typeof p];
+  const similarChildPct = c[similarElem as keyof typeof c];
+  const similarAvg = Math.round((similarParentPct + similarChildPct) / 2);
+  const diffParentPct = p[diffElem as keyof typeof p];
+  const diffChildPct = c[diffElem as keyof typeof c];
   return {
     parent: p, child: c,
-    similar: wrap(similarElem),
-    different: wrap(diffElem),
+    similar: { ...wrap(similarElem), parentPct: similarParentPct, childPct: similarChildPct, avgPct: similarAvg },
+    different: { ...wrap(diffElem), parentPct: diffParentPct, childPct: diffChildPct },
     parentStrong: wrap(pStrongElem),
     childStrong: wrap(cStrongElem),
   };
