@@ -194,16 +194,33 @@ function buildSlideLayout(
 }
 
 // AI 섹션 헤더 — 모든 가능한 ## 헤더 (parseSections가 매칭만 하므로 전부 등록)
+// 호칭 통일 처방 (엄마→어머님) 으로 AI 가 헤더에도 "어머님" 출력 시 매칭 실패 방지 위해 동의어도 등록
 const SECTION_HEADERS = [
   "자도인의 첫마디",          // idx 0
   "한눈에 보는 우리 아이",     // idx 1
   "우리 아이의 마음",          // idx 2
   "실전 양육 가이드",          // idx 3
-  "엄마와 우리 아이",          // idx 4
-  "아빠와 우리 아이",          // idx 5
+  "엄마와 우리 아이",          // idx 4 — 표준
+  "어머님과 우리 아이",        // idx 4 — 동의어 (호칭 통일 처방 영향)
+  "아빠와 우리 아이",          // idx 5 — 표준
+  "아버님과 우리 아이",        // idx 5 — 동의어
   "강점·재능·진로",            // idx 6
   "자도인의 마지막 당부",      // idx 7
 ];
+
+// 헤더 동의어 매핑 — parseSections 에서 동의어를 표준 idx 로 매핑
+const HEADER_SYNONYMS: Record<string, number> = {
+  "자도인의 첫마디": 0,
+  "한눈에 보는 우리 아이": 1,
+  "우리 아이의 마음": 2,
+  "실전 양육 가이드": 3,
+  "엄마와 우리 아이": 4,
+  "어머님과 우리 아이": 4,
+  "아빠와 우리 아이": 5,
+  "아버님과 우리 아이": 5,
+  "강점·재능·진로": 6,
+  "자도인의 마지막 당부": 7,
+};
 
 // (구 SLIDE_TO_AI_SECTION / SLIDE_TITLES → 동적 SlideDef.layout으로 대체됨)
 
@@ -227,9 +244,10 @@ function parseSections(text: string): Record<number, string> {
     const isLevel3 = trimmed.startsWith("### ") || trimmed.startsWith("#### ");
     if (isLevel2 || isLevel3) {
       const header = trimmed.replace(/^#+\s*/, "");
-      for (let i = 0; i < SECTION_HEADERS.length; i++) {
-        if (header === SECTION_HEADERS[i] || header.startsWith(SECTION_HEADERS[i])) {
-          matched = i;
+      // 동의어 매핑 우선 검색 (정확 매칭)
+      for (const [syn, idx] of Object.entries(HEADER_SYNONYMS)) {
+        if (header === syn || header.startsWith(syn)) {
+          matched = idx;
           break;
         }
       }
