@@ -1374,7 +1374,7 @@ function SynergyGrid({ cards, color }: { cards: SynergyCards; color: string }) {
 }
 
 // ── ⑤ 갈등 카드 (좌·중·우 충돌 카드) ─────────────────────────────
-type ConflictItem = { parentSide: string; childSide: string; scene: string; emoji: string; basis?: string };
+type ConflictItem = { parentSide: string; childSide: string; scene: string; emoji: string; basis?: string; guide?: string };
 type ConflictCards = { items: ConflictItem[] };
 function parseConflictCards(text: string): ConflictCards | null {
   const lines = text.split("\n").map((l) => l.trim());
@@ -1392,14 +1392,25 @@ function parseConflictCards(text: string): ConflictCards | null {
     // 형식: **부모결 ↔ 아이결** — 일상 장면
     const m = rest.match(/^\*\*(.+?)\s*[↔⇄·]\s*(.+?)\*\*\s*[—–-]\s*(.+)$/);
     if (!m) continue;
-    // 다음 줄이 📌 사주 근거면 캡처
+    // 다음 줄(들)에서 📌 사주 근거 / 💡 가이드 캡처
     let basis: string | undefined;
-    const nextLine = lines[i + 1];
-    if (nextLine && /^📌/.test(nextLine)) {
-      basis = nextLine.replace(/^📌\s*/, "").trim();
-      i++; // 📌 줄 소비
+    let guide: string | undefined;
+    let look = i + 1;
+    while (look < lines.length) {
+      const nl = lines[look];
+      if (/^📌/.test(nl)) {
+        basis = nl.replace(/^📌\s*/, "").trim();
+        look++;
+        i = look - 1;
+      } else if (/^💡/.test(nl)) {
+        guide = nl.replace(/^💡\s*/, "").trim();
+        look++;
+        i = look - 1;
+      } else {
+        break;
+      }
     }
-    items.push({ parentSide: m[1].trim(), childSide: m[2].trim(), scene: m[3].trim(), emoji, basis });
+    items.push({ parentSide: m[1].trim(), childSide: m[2].trim(), scene: m[3].trim(), emoji, basis, guide });
   }
   if (items.length === 0) return null;
   return { items };
@@ -1451,6 +1462,19 @@ function ConflictCardsGrid({ cards, parentColor, parentLabel }: { cards: Conflic
               >
                 <p className="text-[10.5px] leading-[1.5]" style={{ color: ACCENT, fontWeight: 600 }}>
                   📌 <span style={{ color: "rgba(255,255,255,0.82)", fontWeight: 400 }}>{it.basis}</span>
+                </p>
+              </div>
+            )}
+            {it.guide && (
+              <div
+                className="mt-1.5 rounded-md px-2.5 py-1.5"
+                style={{
+                  background: "rgba(125,211,192,0.07)",
+                  border: `1px solid #7dd3c055`,
+                }}
+              >
+                <p className="text-[10.5px] leading-[1.5]" style={{ color: "#7dd3c0", fontWeight: 600 }}>
+                  💡 <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 400 }}>{it.guide}</span>
                 </p>
               </div>
             )}
