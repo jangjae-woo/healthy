@@ -1537,7 +1537,21 @@ function GiftBoxCard({ gift, color }: { gift: GiftCard; color: string }) {
           className="leading-[1.7] italic mx-auto max-w-md"
           style={{ color: "rgba(255,255,255,0.9)", fontSize: 13.5 }}
         >
-          "{gift.quote}"
+          "{(() => {
+            // 마크다운 ** 강조 처리
+            const parts: ReactNode[] = [];
+            const re = /\*\*(.+?)\*\*/g;
+            let last = 0;
+            let m: RegExpExecArray | null;
+            let i = 0;
+            while ((m = re.exec(gift.quote)) !== null) {
+              if (m.index > last) parts.push(gift.quote.slice(last, m.index));
+              parts.push(<strong key={`g-${i++}`} style={{ color, fontWeight: 700, fontStyle: "normal" }}>{m[1]}</strong>);
+              last = m.index + m[0].length;
+            }
+            if (last < gift.quote.length) parts.push(gift.quote.slice(last));
+            return parts.length > 0 ? parts : gift.quote;
+          })()}"
         </p>
       </div>
     </div>

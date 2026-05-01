@@ -11,7 +11,7 @@ import {
   type SajuAnalysis, type CompatibilityResult,
 } from "@/lib/saju-calculator";
 import { adjustForParentChild } from "@/lib/parent-child-compat";
-import { pickFamilySajaSeongeo, pickFamilyTrioSaja, type FamilySajaSeongeo } from "@/lib/parent-child-traits";
+import { pickFamilySajaSeongeo, pickFamilyTrioSaja, inferGiftCard, type FamilySajaSeongeo } from "@/lib/parent-child-traits";
 import {
   infer8Intelligences,
   inferJobRadar,
@@ -918,6 +918,9 @@ function buildParentChildPrompt(
   // 흐름 차트 — 차트와 본문 element 정합 (결함 1 차단)
   const momFlow = sajuMom ? inferFlowGiven(sajuMom, sajuChild, sajuDad ?? undefined) : null;
   const dadFlow = sajuDad ? inferFlowGiven(sajuDad, sajuChild, sajuMom ?? undefined) : null;
+  // 한 가지 선물 — 결정론 매트릭스 (자녀 일간 오행 × 부모 역할)
+  const momGift = sajuMom ? inferGiftCard(sajuChild, "엄마") : null;
+  const dadGift = sajuDad ? inferGiftCard(sajuChild, "아빠") : null;
   const childLabel = d.childGender === "남" ? "아들" : "딸";
 
   // ── 자녀 양/음 기운 사전 계산 (외향-내향 시각화와 AI 일관성) ──
@@ -1679,16 +1682,12 @@ ${hasMom ? `## 엄마와 우리 아이
 ### 엄마가 의식적으로 조절할 점
 ※ 페이지 위에 선물 박스 카드(큰 1장)가 자동 표시됩니다.
 
-★★★ **반드시 이 형식 그대로 출력**:
+★★★ **결정론 매트릭스 결과 — 반드시 이대로 그대로 출력 (자녀 일간 오행 기반, 어휘 변경 절대 금지)**:
 
 [선물]
-[이모지] **핵심 한 마디(3~7글자)** — 엄마가 일상에서 한 가지를 줄 수 있다면 무엇인지, 시적이지 않은 자연스러운 한국어 1~2문장
+${momGift?.emoji ?? "🎁"} **${momGift?.keyword ?? "있는 그대로 봐주기"}** — ${momGift?.quote ?? "어머님의 결이 가장 빛나는 길입니다"}
 
-[좋은 예]
-[선물]
-💛 **있는 그대로 봐주기** — 결과를 재기보다 아이가 그 자리에서 펼치는 결을 가만히 따라가 봐주는 것. 엄마의 따뜻한 결이 가장 빛나는 길입니다
-
-★ 정확히 1개 카드. 키워드는 짧게, 본문은 따뜻하지만 시적이지 않게.
+🔴 위 매트릭스 결과를 **이모지·키워드·본문 모두 그대로** 출력. AI 가 임의로 변경 X. 마크다운 \`**...**\` 강조도 그대로 유지.
 
 ` : ''}${hasDad ? `## 아빠와 우리 아이
 
@@ -1779,12 +1778,12 @@ ${hasMom ? `★ 본문 마지막은 **균형형 마무리 두 문장** 권장 �
 ### 아빠가 의식적으로 조절할 점
 ※ 페이지 위에 선물 박스 카드가 자동 표시됩니다.
 
-★★★ **반드시 이 형식 그대로 출력**:
+★★★ **결정론 매트릭스 결과 — 반드시 이대로 그대로 출력 (자녀 일간 오행 기반, 어휘 변경 절대 금지)**:
 
 [선물]
-[이모지] **핵심 한 마디** — 아빠가 한 가지를 조절한다면 무엇인지 자연스러운 한국어 1~2문장
+${dadGift?.emoji ?? "🎁"} **${dadGift?.keyword ?? "흔들림 없는 자리"}** — ${dadGift?.quote ?? "아버님의 결이 가장 빛나는 길입니다"}
 
-★ 정확히 1개. 단호함·기준·강함의 결이 너무 앞서가지 않게 하는 톤.
+🔴 위 매트릭스 결과를 **이모지·키워드·본문 모두 그대로** 출력. AI 가 임의로 변경 X. 마크다운 \`**...**\` 강조도 그대로 유지.
 
 ` : ''}## 강점·재능·진로
 
