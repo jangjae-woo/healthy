@@ -203,12 +203,50 @@ const YONGSIN_HINT: Record<AgeStage, string> = {
   elementary: "★ 초등 단계 — 부모 50% / 자녀 50%. 함께 채워가는 결.",
   secondary: "★ 중·고등 단계 — 자녀 80% / 부모 20%. 자녀 스스로 채워가고 부모는 곁에서 응원.",
 };
-export function buildYongsinContext(yongsin: string, stage: AgeStage): string {
-  return [
+// 일간 → 오행 매핑 (천간 10간)
+const STEM_TO_ELEM: Record<string, string> = {
+  갑: "목", 을: "목", 병: "화", 정: "화", 무: "토",
+  기: "토", 경: "금", 신: "금", 임: "수", 계: "수",
+};
+
+const ELEM_KOR_LOCAL: Record<string, string> = {
+  목: "나무의 결", 화: "불의 결", 토: "흙의 결",
+  금: "쇠의 결", 수: "물의 결",
+};
+
+export function buildYongsinContext(
+  yongsin: string,
+  stage: AgeStage,
+  sajuChild?: SajuAnalysis,
+): string {
+  const ilganElem = sajuChild ? STEM_TO_ELEM[sajuChild.ilgan] : "";
+  const isYongsinSameAsIlgan = !!ilganElem && ilganElem === yongsin;
+  const lines: string[] = [
     "[평생 빛나는 결 — 용신(用神, 사주에서 채워야 할 가장 중요한 결)]",
     `용신: ${yongsin || "특정 없음"}`,
+  ];
+  if (sajuChild) {
+    lines.push(`자녀 일간 오행: ${ilganElem} (${ELEM_KOR_LOCAL[ilganElem] ?? ilganElem})`);
+    if (isYongsinSameAsIlgan) {
+      lines.push(
+        `🔴 **일간 = 용신 케이스 (자녀 본질과 채워야 할 결이 같음)**:`,
+        `- 자녀 본질도 ${ELEM_KOR_LOCAL[yongsin]}, 평생 채워가면 빛나는 결도 ${ELEM_KOR_LOCAL[yongsin]}.`,
+        `- ✅ "이 결은 자녀의 타고난 본질과도 닿아 있으며" 같은 표현 OK.`,
+        `- ✅ 권장 톤: "본질이 곧 빛내야 할 결" / "타고난 결을 더 강화하는".`,
+      );
+    } else {
+      lines.push(
+        `🔴 **일간 ≠ 용신 케이스 (자녀 본질과 채워야 할 결이 다름)**:`,
+        `- 자녀 본질: ${ELEM_KOR_LOCAL[ilganElem]} / 평생 채워가면 빛나는 결: ${ELEM_KOR_LOCAL[yongsin]}.`,
+        `- ❌ **절대 금지**: "본질과 닿아 있다", "타고난 본질과 통한다" 같은 본질-용신 동일시 표현 (사주에 모순).`,
+        `- ✅ **권장 형식**: "자녀의 타고난 본질은 ${ELEM_KOR_LOCAL[ilganElem]}이지만, 평생 채워가면 빛나는 한 결은 ${ELEM_KOR_LOCAL[yongsin]}입니다. 본질의 ${ELEM_KOR_LOCAL[ilganElem]}이 ${ELEM_KOR_LOCAL[yongsin]}을 만나면..." 형태로 두 결을 분명히 구분.`,
+      );
+    }
+  }
+  lines.push(
     YONGSIN_HINT[stage],
     "★ '용신' 한자 단어는 본문에 노출 X. '평생 채워주면 빛나는 한 결'로 풀어쓰기.",
     "★ 부모/자녀 역할 비중을 본문에 자연스럽게 반영 (영아=부모 가이드, 중고등=자녀 자기결정).",
-  ].join("\n");
+  );
+  return lines.join("\n");
 }

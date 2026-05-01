@@ -1002,7 +1002,7 @@ function buildParentChildPrompt(
   const sipseongDeepCtx = buildSipseongDeepContext(sipCounts, childAgeStage);
   const sinsalCtx = buildSinsalContext(sajuChild.sinsal ?? [], childAgeStage);
   const meetClashCtx = buildMeetClashContext(sajuChild, childAgeStage);
-  const yongsinCtx = buildYongsinContext(sajuChild.yongsin ?? "", childAgeStage);
+  const yongsinCtx = buildYongsinContext(sajuChild.yongsin ?? "", childAgeStage, sajuChild);
   const ageStageContext = `
 ━━━ 자녀 발달 단계 — 톤·어휘 가이드 (★ 모든 본문에 반드시 적용) ━━━
 [현재 단계: ${ageStageKor(childAgeStage)}]
