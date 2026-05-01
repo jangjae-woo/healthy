@@ -27,7 +27,7 @@ import { pickSajaSeongeo, type SajaSeongeoResult } from "@/lib/matching-images";
 import { buildOpenerSeed, describeChildSipseongStrength, classifyElementDistribution, classifySipseongDistribution } from "@/lib/opener-seed";
 import { buildPrescriptionSet, pickWeakestElement } from "@/lib/element-prescription";
 import { classifyAgeStage, ageStageKor, ageToneGuide, dailyDigitalLimit } from "@/lib/age-stage";
-import { buildSipseongDeepContext, buildSinsalContext, buildMeetClashContext, buildYongsinContext } from "@/lib/heart-context";
+import { buildSipseongDeepContext, buildSinsalContext, buildMeetClashContext, buildYongsinContext, buildSixFactorBodyContext } from "@/lib/heart-context";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -991,6 +991,12 @@ function buildParentChildPrompt(
     parseInt(d.childDay ?? "1") || 1,
   );
   const childToneGuide = ageToneGuide(childAgeStage);
+  const sixFactorBodyCtx = buildSixFactorBodyContext(
+    sixFactor,
+    childAgeStage,
+    d.childName ?? "자녀",
+    d.childGender ?? "남",
+  );
   const childDigitalLimit = dailyDigitalLimit(childAgeStage);
 
   // 회복 처방 매트릭스 — 약한 오행 + 발달 단계 + 사주 해시 기반 (5×4×6×3 = 360 풀)
@@ -1378,25 +1384,13 @@ ${introExtroDirection === "외향"
 ★ **구체적인 % 수치는 본문에 절대 언급하지 말 것** (페이지 위에 자동 시각화 막대가 표시됩니다). 대신 일상 행동·선호로 한 단락 묘사. 친구 관계·새 환경에서 어떻게 반응하는지 구체적 장면 1~2개 포함.
 
 ### 6가지 행동 결의 강도
-★★★ **반드시 다음 사전 계산 결과만 사용**: TOP 3 = **${sixFactorTop3}** (페이지 위 막대 차트와 동일).
+${sixFactorBodyCtx}
 
-[작성 형식 — 정확히 5문장 한 단락]
-1. **(첫 줄)** "${d.childName}${d.childGender === '남' ? '군' : '양'}의 가장 두드러진 행동 결은 **${sixFactorTop3}** 입니다." (도입)
-2. **(둘째·셋째 줄)** 이 3개 결이 자녀의 일상에서 어떻게 보일지 **미래 예고 톤**으로 구체적 장면 1~2개 그릴 것. 예: "앞으로 자녀는 작은 변화에도 깊이 반응하며, 자극이 너무 많을 때는 스스로 한 발 물러서서 정리하는 결을 보일 것입니다."
-3. **(넷째 줄)** **부모 양육 권고 한 줄**: "부모님께서 ~한 환경을 마련해주시면 이 결이 더 깊이 자라납니다."
-4. **(다섯째 줄)** **자녀 영향 마무리**: "${d.childName}${d.childGender === '남' ? '군' : '양'}은 ~한 자녀로 자라날 결입니다."
-
-[엄격 규칙]
-- ★ 차트 라벨 어휘만 사용: 활동성·표현력·감수성·끈기·창의성·자기조절
-- ✗ **십성 한자 명시 절대 금지**: 식상, 인성, 비겁, 관성, 재성, 비견, 겁재, 정재, 편재, 정관, 편관, 정인, 편인, 식신, 상관 — 한자 카테고리 절대 본문 노출 X (괄호 안에도 X). "기운(식상)" "기운(인성)" "기운(비겁)" 같은 패턴 일체 금지.
-- ✗ **십성 풀이 어휘도 절대 금지**: "표현하는 기운", "받아들임·사색의 기운", "자기를 세우는 기운", "절제·규율의 기운", "손에 잡히는 것을 챙기려는 기운" 같은 십성 카테고리 풀이 표현 본문 노출 X.
-- ✅ **차트 라벨 어휘만 사용**: 활동성, 표현력, 감수성, 끈기, 창의성, 자기조절 — 이 6개 단어만 본문에 등장 가능.
-- ✅ 좋은 예: "김수진양의 표현력이 100점으로 가장 두드러져, 일상에서 자기 마음을 환히 드러내는 모습이 자주 보일 것입니다."
-- ✗ 나쁜 예: "김수진양은 표현하는 기운(식상)과 사색하는 기운(인성)이..." (한자·풀이 어휘 둘 다 X)
-- ✗ milestone 단어 금지 (영아 톤 가이드 참조): 옹알이·뒤집기·안기다·잠투정 등
-- ✗ TOP3 외 나머지 3개 결 절대 언급 X (감수성·자기조절·끈기가 TOP이면 활동성·표현력·창의성 언급 X)
-- ★ 영아 단계는 단정형 현재 묘사 X — "앞으로 ~ 보일 것입니다" 미래 예고 톤만
-- 🔴 **이전 페이지 (3/7 행동 결 카드) 와 중복 금지**: 자녀 본질 결 어휘 (예: "표현력·창의성·감수성이 두드러지는 자녀") 의 일반적 묘사는 이미 3/7에서 다뤘음. 본 페이지(4/7)는 **차트 데이터 기반 일상 장면 위주**로 작성. ❌ "표현력·창의성·감수성이 강한 자녀입니다" 같은 일반 결 묘사 반복 금지. ✅ "감수성 [점수]점이 가장 두드러져, 일상에서 ~한 모습으로 드러납니다" 같이 차트 수치 인용 + 구체 일상 장면 위주.
+[엄격 규칙 — 결정론 본문이지만 안전장치 명시]
+- ★★★ 위 본문을 정확히 그대로 출력. 자유 풀이·문장 추가·재배치·요약 절대 금지.
+- ✗ 십성 한자 절대 금지: 식상·인성·비겁·관성·재성·비견·겁재·정재·편재·정관·편관·정인·편인·식신·상관
+- ✗ 십성 풀이 어휘 절대 금지: "표현하는 기운", "자기를 세우는 기운", "절제·규율의 기운", "받아들임·사색의 기운", "손에 잡히는 것을 챙기려는 기운"
+- ✅ 차트 라벨 어휘만 등장 가능: 활동성·표현력·감수성·끈기·창의성·자기조절
 
 ### 다섯 색깔의 결 (십성 5분류)
 ${sipseongDeepCtx}
