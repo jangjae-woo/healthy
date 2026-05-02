@@ -1766,7 +1766,7 @@ function SpectrumTable({ elements }: { elements: Record<string, number> }) {
       </p>
       <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
         {ORDER.map((el) => {
-          const pct = Math.round(adjusted[el] || 7);
+          const pct = Math.round(adjusted[el] ?? 0);
           const color = ELEM_COLORS[el];
           const diff = pct - 20;
           let dominant: "weak" | "strong" | "balanced";
@@ -1860,7 +1860,7 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
           stroke={ELEM_COLORS[topEl]} strokeWidth="2.5" strokeLinejoin="round" />
         {ELEM_ORDER.map((el, i) => {
           const [lx, ly] = pt(i, LO);
-          const pct = Math.round(adjusted[el] || 7);
+          const pct = Math.round(adjusted[el] ?? 0);
           const isTop = el === topEl;
           const anchor = lx < cx - 10 ? "end" : lx > cx + 10 ? "start" : "middle";
           const dx = anchor === "end" ? -4 : anchor === "start" ? 4 : 0;
