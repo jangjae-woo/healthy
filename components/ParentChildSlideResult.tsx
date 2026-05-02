@@ -1652,30 +1652,14 @@ function SixFactorBars({ factors }: { factors: ChildSixFactors }) {
 }
 
 // ── 오행 % 표시용 보정 (7% floor + 강한 결 비례 감산) ──
-// 매우 약한 결도 시각적으로 7%를 채워 보여주고, 그 차이는 강한 결에서 비례 감산.
-// AI 프롬프트에 들어가는 raw 데이터는 건드리지 않고 화면 표시용만.
+// 차트 표시값 = raw 데이터 그대로 (floor 제거).
+// 이전에는 7% floor 적용 (시각화 보정) 했으나, 본문 (raw 0%) 과 정반대로 보이는 모순 발생.
+// 사용자 신뢰도 직격 → floor 제거하여 차트와 본문 정합 (옵션 D 잔존 영역 C-19 해소).
 function adjustElementsForDisplay(raw: Record<string, number>): Record<string, number> {
   const ORDER = ["목", "화", "토", "금", "수"];
   const total = ORDER.reduce((s, k) => s + (raw[k] || 0), 0) || 1;
   const pct: Record<string, number> = {};
   for (const k of ORDER) pct[k] = ((raw[k] || 0) / total) * 100;
-  const FLOOR = 7;
-  let excess = 0;
-  for (const k of ORDER) {
-    if (pct[k] < FLOOR) {
-      excess += FLOOR - pct[k];
-      pct[k] = FLOOR;
-    }
-  }
-  const aboveFloorRoom = ORDER.reduce((s, k) => s + (pct[k] > FLOOR ? pct[k] - FLOOR : 0), 0);
-  if (aboveFloorRoom > 0 && excess > 0) {
-    for (const k of ORDER) {
-      if (pct[k] > FLOOR) {
-        const share = (pct[k] - FLOOR) / aboveFloorRoom;
-        pct[k] -= excess * share;
-      }
-    }
-  }
   return pct;
 }
 
@@ -1831,7 +1815,7 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
   const adjusted = adjustElementsForDisplay(elements);
   const topEl = (Object.entries(adjusted).sort((a, b) => b[1] - a[1])[0]?.[0]) ?? "목";
   const cx = 170, cy = 175, R = 75;
-  const MIN_SCALE = 0.05;
+  const MIN_SCALE = 0; // 0% 결은 차트 중심 — 본문 raw 데이터와 완전 일치
   const maxVal = Math.max(...ELEM_ORDER.map((el) => adjusted[el] || 0), 1);
   const angs = ELEM_ORDER.map((_, i) => ((i * 72 - 90) * Math.PI) / 180);
   const pt = (i: number, s: number): [number, number] => [
