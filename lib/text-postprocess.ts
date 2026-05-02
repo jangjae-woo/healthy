@@ -122,6 +122,18 @@ const SIPSEONG_HANJA_NAMES = [
 const STEMS_HANJA = "[甲乙丙丁戊己庚辛壬癸]";
 const BRANCHES_HANJA = "[子丑寅卯辰巳午未申酉戌亥]";
 
+// ─── Phase 4 확장: ★ 권고 수준 ban 어휘 자동 변환 ──────────────────
+// 프롬프트에 ★ 수준 ban 으로 명시되었지만 AI 가 무시하는 어휘를 후처리에서 강제 변환.
+// 안전한 단어 치환만 (의미 왜곡 위험 0).
+
+const SOFT_BAN_REPLACEMENTS: Array<[RegExp, string]> = [
+  // ─── 재성 수동 표현 → 능동 표현 (route.ts:1399 ban 강화) ───
+  // "끌리는 기운" → "손에 잡으려는 기운"
+  [/끌리는\s+기운/g, "손에 잡으려는 기운"],
+  // "끌리는 결" → "손에 잡으려는 결"
+  [/끌리는\s+결/g, "손에 잡으려는 결"],
+];
+
 const HANJA_BAN_PATTERNS: Array<[RegExp, string]> = [
   // ─── 십성 한자: "기운(인성)이" → "기운이", "결(재성)이" → "결이" ───
   // 한국어 단어 + 괄호( 십성한자 ) 형태
@@ -141,7 +153,7 @@ const HANJA_BAN_PATTERNS: Array<[RegExp, string]> = [
 ];
 
 /**
- * 십성·합충 한자 자동 제거.
+ * 십성·합충 한자 자동 제거 + ★ 수준 ban 어휘 자동 변환.
  * 마크다운 헤더 라인은 보호.
  */
 export function enforceHanjaBan(text: string): string {
@@ -151,6 +163,10 @@ export function enforceHanjaBan(text: string): string {
     if (/^#{1,4}\s/.test(line)) return line;
     let result = line;
     for (const [pattern, replacement] of HANJA_BAN_PATTERNS) {
+      result = result.replace(pattern, replacement);
+    }
+    // ★ 수준 ban 어휘 자동 변환 (재성 수동 표현 등)
+    for (const [pattern, replacement] of SOFT_BAN_REPLACEMENTS) {
       result = result.replace(pattern, replacement);
     }
     return result;
