@@ -185,9 +185,10 @@ export const CORE_RULES: Record<string, Rule> = {
     type: "require",
     scope: "global",
     priority: "★★★",
-    source: "route.ts:1232 + 1277",
-    description: "모든 본문 마지막 한 문장은 자녀 영향 마무리. '${childLabel}은 ~한 자녀로 자라간다' 형태.",
-    resolution: "프롬프트 명시 + 매트릭스의 lineOutro 가 자녀 영향 마무리 사전 결정.",
+    source: "route.ts:1239 + 1283",
+    description: "모든 본문 마지막 한 문장은 자녀 영향 마무리 (의도 강제 — 부모 영향 X, 자녀 부담 X). 형식 자유 — 페이지별 주제와 정합하게 다양화 (자기 결·자기 호흡·자기 박자·차분한 흐름·타고난 빛 등).",
+    conflictsWith: ["C-29"],
+    resolution: "C-29 (마무리 패턴 중복) 해소 위해 형식 강제 완화. 의도 (자녀 영향 + 부모 부담 X) 만 유지하면서 페이지별 차별화 허용.",
   },
 
   // ─── G. 부정 어휘 ban (1) ───
@@ -247,6 +248,13 @@ export const KNOWN_CONFLICTS: ConflictPair[] = [
     b: "AI 자유 작문",
     description: "차트 데이터 그대로 vs AI 가 명리 합·충 풀이로 점프 — 차트와 본문 정반대 묘사",
     resolution: "Phase 3 SSOT 시드 블록이 본문에 명시 % 수치 제공. Phase 4 enforceChartConsistency 가 자동 교정.",
+    status: "resolved",
+  },
+  {
+    a: "R092",
+    b: "C-29 마무리 패턴 중복",
+    description: "R092 형식 강제 ('~한 자녀로 자라간다') + 자원 프레임 안전 어휘 (좁은 풀) → 모든 페이지 마무리가 비슷한 형태 ('자기 페이스로 자라난다') 반복. 사용자 인지 단조로움.",
+    resolution: "R092 의도 (자녀 부담 X, 부모 영향 X) 만 유지하고 형식 자유. 페이지별 어휘 풀 다양화 (자기 결·자기 호흡·자기 박자·차분한 흐름 등). A+B 결합 처방으로 어휘 + 마무리 패턴 둘 다 차별화.",
     status: "resolved",
   },
 ];
