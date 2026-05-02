@@ -40,6 +40,52 @@ const ELEM_KOR: Record<string, string> = {
 // ── 6요인 라벨 (route.ts sixFactor 와 동일 — sync) ──
 type SixFactorKey = "활동성" | "표현력" | "감수성" | "끈기" | "창의성" | "자기조절";
 
+// ── 오행 명리 관계 (자녀 일간 ↔ 환경 강 오행) ──
+// 자원 프레임 ban 의 부작용 (수극화 → "수가 화 도움" 정반대 윤색) 차단용
+type ElementRelationType = "비화" | "자녀생환경" | "환경생자녀" | "자녀극환경" | "환경극자녀";
+
+interface ElementRelation {
+  type: ElementRelationType;
+  description: string;     // 시드 블록 표시용
+  bodyHint: string;         // 본문 톤 가이드
+}
+
+function inferElementRelation(childElem: string, topElem: string): ElementRelation {
+  const generates: Record<string, string> = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
+  const controls: Record<string, string> = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+
+  if (childElem === topElem) return {
+    type: "비화",
+    description: `${childElem} ↔ ${topElem} = 비화 (같은 결로 흐름)`,
+    bodyHint: "자녀 본질과 환경이 같은 결 — 본질이 환경에서 자연스럽게 강화됨",
+  };
+  if (generates[childElem] === topElem) return {
+    type: "자녀생환경",
+    description: `${childElem} → ${topElem} = 상생 (자녀가 환경 살림)`,
+    bodyHint: "자녀 본질이 환경을 자연스럽게 키워주는 결",
+  };
+  if (generates[topElem] === childElem) return {
+    type: "환경생자녀",
+    description: `${topElem} → ${childElem} = 상생 (환경이 자녀 살림)`,
+    bodyHint: "환경이 자녀 본질을 든든히 키워주는 결",
+  };
+  if (controls[childElem] === topElem) return {
+    type: "자녀극환경",
+    description: `${childElem} → ${topElem} = 상극 (자녀가 환경 단정히 다스림)`,
+    bodyHint: "자녀 본질이 환경을 단정하게 다스리는 결",
+  };
+  if (controls[topElem] === childElem) return {
+    type: "환경극자녀",
+    description: `${topElem} → ${childElem} = 상극 (환경이 자녀 본질에 도전 자극)`,
+    bodyHint: "환경이 자녀 본질을 차분히 가다듬어 단단하게 만드는 결",
+  };
+  return {
+    type: "비화",
+    description: `${childElem} ↔ ${topElem} (관계 모호)`,
+    bodyHint: "자녀 본질과 환경이 자연스럽게 흐름",
+  };
+}
+
 /**
  * 자녀 캐릭터 시드 — 모든 페이지가 이 인터페이스만 참조.
  * 새 페이지 추가 시 이 시드에서 필요한 필드를 가져다 쓰고, 직접 계산 X.
@@ -75,6 +121,9 @@ export interface ChildSeed {
 
   // ── 자녀 캐릭터 한 줄 요약 (모든 페이지 인용) ──
   characterSummary: string;
+
+  // ── 오행 명리 관계 (옵션 A — 명리 정확성 회복) ──
+  elementRelation: ElementRelation;
 
   // ── 메타 ──
   childName: string;
@@ -145,6 +194,9 @@ export function buildChildSeed(
   const childLabel = `${childName}${childGender === "남" ? "군" : "양"}`;
   const characterSummary = `${ilganMetaphor} 같은 ${childLabel} (${ELEM_KOR[ilganElement] ?? ilganElement} 본질, ${introExtroDirection}적 결, ${sixFactorTop1}이 가장 두드러짐)`;
 
+  // ── 오행 명리 관계 (옵션 A) ──
+  const elementRelation = inferElementRelation(ilganElement, topElement);
+
   return {
     ilgan, ilganElement, ilganPolarity, ilganMetaphor,
     elements, elementPercents, topElement, weakElement,
@@ -152,6 +204,7 @@ export function buildChildSeed(
     yangPct, yinPct, introExtroDirection,
     sixFactor, sixFactorTop1, sixFactorTop3, sixFactorWeakest,
     characterSummary,
+    elementRelation,
     childName, childGender, childLabel, childAgeStage,
   };
 }
@@ -185,6 +238,13 @@ export function buildChildSeedPromptBlock(seed: ChildSeed): string {
     `[6요인 행동 결]`,
     `- TOP3: ${seed.sixFactorTop3.join("·")}`,
     `- 가장 약한 결: ${seed.sixFactorWeakest}`,
+    "",
+    `[자녀 본질 vs 환경 — 명리 관계] (옵션 A — 명리 정확성 회복)`,
+    `- 자녀 일간 오행: ${seed.ilganElement} (${seed.ilganMetaphor})`,
+    `- 강한 환경 오행: ${seed.topElement} (${seed.elementPercents[seed.topElement]}%)`,
+    `- 명리 관계: ${seed.elementRelation.description}`,
+    `- 본문 톤 가이드: ${seed.elementRelation.bodyHint}`,
+    `- 🔴 자원 프레임 + 명리 정확성 균형: 명리 관계를 정확히 반영하되 부모 부담 X. 명리적 부정 관계(상극)를 긍정으로 윤색하면 정반대 해석 발생 (예: 수극화 → "수가 화 도와줌" 잘못된 풀이).`,
     "",
     `🔴 위 시드는 차트·매트릭스·본문 모두의 단일 진실 원천. 본문이 시드와 모순되면 사용자 화면에서 차트와 본문이 정반대로 보이는 명백한 오류 → 신뢰도 직격.`,
     "",
