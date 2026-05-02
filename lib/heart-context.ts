@@ -199,12 +199,13 @@ export function buildSixFactorBodyContext(
 
   const lineDaily = SIX_FACTOR_TOP1_DAILY[top1]?.[stage] ?? "";
   const weakPhrase = SIX_FACTOR_WEAK_PHRASE[weakest]?.[stage] ?? "";
-  // 옵션 E: weakPhrase 가 이미 직설 단점 + 보완 방법 2단 구조라 그대로 사용 (이전 wrapper 제거)
+  // 옵션 E: weakPhrase 가 이미 직설 단점 + 보완 방법 2단 구조라 그대로 사용
   const lineWeak = weakPhrase ? `반면 ${weakPhrase}` : "";
-  const lineParent = SIX_FACTOR_PARENT_GUIDE[top1] ?? "";
+  // 옵션 1 (사용자 모델): TOP1 강점 부모 권고 제거 — 약점 보완 가이드 한 곳만 (중복 차단)
+  // SIX_FACTOR_PARENT_GUIDE 는 코드 보존 (미래 사용 가능, 현재 미사용)
   const lineOutro = `${childLabel}은 ${SIX_FACTOR_CHILD_OUTRO[top1] ?? "자기 결을 차분히 키우는 자녀로 자라날 결입니다"}.`;
 
-  const body = `${childLabel}의 가장 두드러진 행동 결은 **${top3Display}** 입니다. ${lineDaily} ${lineWeak} ${lineParent} ${lineOutro}`;
+  const body = `${childLabel}의 가장 두드러진 행동 결은 **${top3Display}** 입니다. ${lineDaily} ${lineWeak} ${lineOutro}`;
 
   // 영아 단계: milestone 어휘 자동 검증 (매트릭스 결정론이 ban 검열 우회 차단)
   validateSixFactorMilestoneBan(body, stage, `6요인 본문 (TOP1=${top1}, WEAK=${weakest})`);
