@@ -2,6 +2,7 @@
 // 평생사주 코드는 0줄 건드리지 않음.
 
 import type { SajuAnalysis, CompatibilityResult } from "./saju-calculator";
+import { josa } from "./text-postprocess";
 
 // ── 가족 인연의 결 (옵션 α 강화 — 한자 X, 메타포 동적) ──
 // 표지의 큰 키워드 + 한 줄 의미 + 일간 메타포 동적 부제
@@ -222,9 +223,10 @@ export function pickFamilyTrioSaja(
   const isDupChild = parents.includes(childMRaw);
   const childM = isDupChild ? "그 결을 닮은 자녀" : childMRaw;
   // ${parents}과 ${childM}이 패턴 안전 합성 — 중복 시 ", 그리고" 분리로 조사 결합 차단
+  // 조사는 josa() 로 받침 여부에 따라 동적 선택 (자녀=받침X→"가", 햇살=받침O→"이")
   const parentsAndChildSubject = isDupChild
-    ? `${parents}의 두 결, 그리고 ${childM}이`
-    : `${parents}과 ${childM}이`;
+    ? `${parents}의 두 결, 그리고 ${josa(childM, "이", "가")}`
+    : `${josa(parents, "과", "와")} ${josa(childM, "이", "가")}`;
 
   // 1. 셋 다 같은 오행
   if (allSame)
@@ -239,7 +241,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "두 햇살이 키우는 가족",
       meaning: "부모님 두 분이 함께 자녀를 키워가는 가족",
-      subtitle: `${parents}이 ${childM}을 함께 키워주는 자리입니다`,
+      subtitle: `${josa(parents, "이", "가")} ${josa(childM, "을", "를")} 함께 키워주는 자리입니다`,
     };
 
   // 3. 부모 둘 다 자녀를 다듬음 (剋)
@@ -247,7 +249,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "두 손길이 받쳐주는 가족",
       meaning: "부모님 두 분이 자녀에게 단단한 뿌리가 되어주는 가족",
-      subtitle: `${parents}이 ${childM}을 단단히 받쳐주는 자리입니다`,
+      subtitle: `${josa(parents, "이", "가")} ${josa(childM, "을", "를")} 단단히 받쳐주는 자리입니다`,
     };
 
   // 4. 엄마 살림 + 아빠 다듬음
@@ -255,7 +257,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "자애와 엄정의 만남",
       meaning: "어머니의 자애와 아버지의 엄정이 함께 닿는 가족",
-      subtitle: `${metaphorOf(sajuMom.ilgan)}이 ${childM}을 키우고, ${metaphorOf(sajuDad.ilgan)}이 받쳐주는 자리입니다`,
+      subtitle: `${metaphorOf(sajuMom.ilgan)}이 ${josa(childM, "을", "를")} 키우고, ${metaphorOf(sajuDad.ilgan)}이 받쳐주는 자리입니다`,
     };
 
   // 5. 엄마 다듬음 + 아빠 살림
@@ -263,7 +265,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "엄정과 자애의 만남",
       meaning: "어머니의 엄정과 아버지의 자애가 함께 닿는 가족",
-      subtitle: `${metaphorOf(sajuMom.ilgan)}이 ${childM}을 받쳐주고, ${metaphorOf(sajuDad.ilgan)}이 키우는 자리입니다`,
+      subtitle: `${metaphorOf(sajuMom.ilgan)}이 ${josa(childM, "을", "를")} 받쳐주고, ${metaphorOf(sajuDad.ilgan)}이 키우는 자리입니다`,
     };
 
   // 6. 한 분 살림 + 부모 같은 오행
@@ -271,7 +273,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "별과 달이 비추는 가족",
       meaning: "두 분이 같은 결로 자녀에게 빛을 비추는 가족",
-      subtitle: `${parents}이 ${childM}에게 같은 결의 빛을 비추는 자리입니다`,
+      subtitle: `${josa(parents, "이", "가")} ${childM}에게 같은 결의 빛을 비추는 자리입니다`,
     };
 
   // 7. 자녀가 부모 둘 다 살림 (자녀가 부모를 키움)
@@ -279,7 +281,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "자녀가 활력을 주는 가족",
       meaning: "자녀의 결이 부모님께 새 활력을 채워주는 가족",
-      subtitle: `${childM}이 ${parents}에게 새 활력을 채워주는 자리입니다`,
+      subtitle: `${josa(childM, "이", "가")} ${parents}에게 새 활력을 채워주는 자리입니다`,
     };
 
   // 8. 한 분만 살림 (다른 분은 비화·보완)
@@ -287,7 +289,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "셋이 어우러지는 가족",
       meaning: "세 분이 자연스럽게 어우러져 함께 이루는 가족",
-      subtitle: `${parents}이 ${childM}을 함께 어우러져 키우는 자리입니다`,
+      subtitle: `${josa(parents, "이", "가")} ${josa(childM, "을", "를")} 함께 어우러져 키우는 자리입니다`,
     };
 
   // 9. 부모 같은 오행 (자녀와 다름)
@@ -295,7 +297,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "두 결이 어울리는 가족",
       meaning: "부모님 두 분의 결이 같은 노래로 어울리는 가족",
-      subtitle: `${parents}이 ${childM}을 함께 둘러주는 자리입니다`,
+      subtitle: `${josa(parents, "이", "가")} ${josa(childM, "을", "를")} 함께 둘러주는 자리입니다`,
     };
 
   // 10. 자녀가 부모 한 분 살림
@@ -359,7 +361,7 @@ export function pickFamilySajaSeongeo(
     return {
       keyword: `하늘이 맺어준 ${parentChildPair} 인연`,
       meaning: "깊고 자연스러운 흐름으로 이어진 인연",
-      subtitle: `${parentM}과 ${childM}이 자연스럽게 흐르는 자리입니다`,
+      subtitle: `${josa(parentM, "과", "와")} ${josa(childM, "이", "가")} 자연스럽게 흐르는 자리입니다`,
     };
 
   // 2. 상생 + 육합
@@ -367,7 +369,7 @@ export function pickFamilySajaSeongeo(
     return {
       keyword: `서로를 살리는 ${parentChildPair} 결`,
       meaning: "두 결이 서로에게 빛이 되는 인연",
-      subtitle: `${parentM}과 ${childM}이 서로를 살려주는 자리입니다`,
+      subtitle: `${josa(parentM, "과", "와")} ${josa(childM, "이", "가")} 서로를 살려주는 자리입니다`,
     };
 
   // 3. 상생 + 부모가 채워줌
@@ -377,7 +379,7 @@ export function pickFamilySajaSeongeo(
       meaning: isMom
         ? "어머니의 따뜻한 사랑이 자녀에게 닿는 인연"
         : "아버지의 든든한 사랑이 자녀에게 닿는 인연",
-      subtitle: `${parentM}이 ${childM}을 따뜻하게 키우는 자리입니다`,
+      subtitle: `${josa(parentM, "이", "가")} ${josa(childM, "을", "를")} 따뜻하게 키우는 자리입니다`,
     };
 
   // 4. 자녀가 부모를 채워줌
@@ -393,7 +395,7 @@ export function pickFamilySajaSeongeo(
     return {
       keyword: "화목한 결의 가족",
       meaning: "두 결이 자연스럽게 어우러지는 화목한 인연",
-      subtitle: `${parentM}과 ${childM}이 자연스럽게 어우러지는 자리입니다`,
+      subtitle: `${josa(parentM, "과", "와")} ${josa(childM, "이", "가")} 자연스럽게 어우러지는 자리입니다`,
     };
 
   // 6. 상생 (그 외)
@@ -405,7 +407,7 @@ export function pickFamilySajaSeongeo(
       meaning: isMom
         ? `어머니의 자애와 ${childCall}의 마음이 만나는 인연`
         : `아버지의 든든함과 ${childCall}의 마음이 만나는 인연`,
-      subtitle: `${parentM}이 ${childM}을 키우고, ${childM}이 ${parentM}에게 닿는 자리입니다`,
+      subtitle: `${josa(parentM, "이", "가")} ${josa(childM, "을", "를")} 키우고, ${josa(childM, "이", "가")} ${parentM}에게 닿는 자리입니다`,
     };
 
   // 7. 비화
@@ -413,7 +415,7 @@ export function pickFamilySajaSeongeo(
     return {
       keyword: "닮은 듯 다른 결의 만남",
       meaning: "닮은 본질을 다른 길로 풀어내는 인연",
-      subtitle: `${parentM}과 ${childM}이 닮음 속의 다름으로 만나는 자리입니다`,
+      subtitle: `${josa(parentM, "과", "와")} ${josa(childM, "이", "가")} 닮음 속의 다름으로 만나는 자리입니다`,
     };
 
   // 8. 상극 + 합
@@ -425,7 +427,7 @@ export function pickFamilySajaSeongeo(
       meaning: isMom
         ? `어머니의 지혜로 다듬고 ${childCall}이 마음으로 따르는 인연`
         : `아버지의 엄정함으로 다듬고 ${childCall}이 마음으로 따르는 인연`,
-      subtitle: `${parentM}이 ${childM}을 단단히 받쳐주는 자리입니다`,
+      subtitle: `${josa(parentM, "이", "가")} ${josa(childM, "을", "를")} 단단히 받쳐주는 자리입니다`,
     };
 
   // 9. 상극 + 충
@@ -433,7 +435,7 @@ export function pickFamilySajaSeongeo(
     return {
       keyword: "다듬어 빛나는 결",
       meaning: "단련을 통해 빛나는 그릇이 되는 인연",
-      subtitle: `${parentM}이 ${childM}을 두드려 빛나게 하는 자리입니다`,
+      subtitle: `${josa(parentM, "이", "가")} ${josa(childM, "을", "를")} 두드려 빛나게 하는 자리입니다`,
     };
 
   // 10. 충
@@ -441,14 +443,14 @@ export function pickFamilySajaSeongeo(
     return {
       keyword: "쓴맛 끝에 단맛이 오는 결",
       meaning: "어려움 뒤에 깊은 결실이 오는 인연",
-      subtitle: `${parentM}과 ${childM}이 부딪히며 자라나는 자리입니다`,
+      subtitle: `${josa(parentM, "과", "와")} ${josa(childM, "이", "가")} 부딪히며 자라나는 자리입니다`,
     };
 
   // 11. 기본
   return {
     keyword: `끊을 수 없는 ${parentChildPair} 인연`,
     meaning: "어떤 결이든 깊이 이어지는 인연",
-    subtitle: `${parentM}과 ${childM}이 깊이 이어지는 자리입니다`,
+    subtitle: `${josa(parentM, "과", "와")} ${josa(childM, "이", "가")} 깊이 이어지는 자리입니다`,
   };
 }
 

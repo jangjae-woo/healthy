@@ -108,6 +108,33 @@ export function ensureChildHonorific(
   return result;
 }
 
+/**
+ * 한국어 조사 자동 선택 — 받침 여부에 따라 적절한 조사 반환.
+ *
+ * @param word 조사를 붙일 단어 (예: "환한 햇살", "큰 나무", "그 결을 닮은 자녀")
+ * @param withFinal 받침 있을 때 사용 (예: "이", "은", "을", "과", "으로")
+ * @param withoutFinal 받침 없을 때 사용 (예: "가", "는", "를", "와", "로")
+ * @returns word + 적절한 조사
+ *
+ * 사용 예:
+ *   josa("환한 햇살", "이", "가") → "환한 햇살이"   (받침 ㄹ)
+ *   josa("큰 나무", "이", "가")   → "큰 나무가"     (받침 X)
+ *   josa("그 결을 닮은 자녀", "이", "가") → "그 결을 닮은 자녀가"  (받침 X)
+ *   josa("강철", "은", "는")      → "강철은"        (받침 ㄹ)
+ */
+export function josa(word: string, withFinal: string, withoutFinal: string): string {
+  if (!word) return word;
+  const last = word.charCodeAt(word.length - 1);
+  // 한글 음절 범위 (가 = 0xAC00, 힣 = 0xD7A3)
+  if (last >= 0xAC00 && last <= 0xD7A3) {
+    const finalIdx = (last - 0xAC00) % 28;
+    // finalIdx === 0 이면 받침 없음
+    return word + (finalIdx === 0 ? withoutFinal : withFinal);
+  }
+  // 한글 아니면 안전하게 받침 있는 것으로 가정
+  return word + withFinal;
+}
+
 // ─── Phase 4: 십성·합충 한자 ban 자동 강제 ────────────────────────
 // 프롬프트 ban 이 새는 케이스 (14/39 "(인성)" 노출, 16/39 "(天干 丙辛合)" 노출 등) 100% 차단.
 
