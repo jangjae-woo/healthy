@@ -899,6 +899,17 @@ ${d.summaries}
 };
 
 // ─── 엄마-아이 궁합 프롬프트 ──────────────────────────────
+//
+// ★★★ 새 ban/require 규칙 추가 시 — 반드시 lib/rules-catalog.ts 워크플로우 따를 것 ★★★
+//
+//   Step 1. CORE_RULES 에 새 규칙 등록 (id, type, scope, source, description)
+//   Step 2. 충돌 가능성 분석 → KNOWN_CONFLICTS 에 페어 + resolution 명시
+//   Step 3. validateRulesAgainstSeed(sampleSeed) 실행 → 위반 0 확인
+//   Step 4. 이 함수의 prompt 또는 매트릭스 코드 변경
+//   Step 5. 배포 후 검증
+//
+// 회귀 사이클 종결의 핵심 — 새 규칙 추가 시 충돌 검증 자동화로 회귀 차단.
+//
 function buildParentChildPrompt(
   d: Record<string, string>,
   sajuChild: SajuAnalysis,
