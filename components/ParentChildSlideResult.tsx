@@ -70,7 +70,8 @@ import {
 import { softenIlganRelation, softenIljiRelation, softenChungList, withChildHonorific, parentChildOneLiner } from "@/lib/wording";
 import { ensureChildHonorific, softenNegatives, applyAllPostprocess } from "@/lib/text-postprocess";
 import { buildChildSeed, type ChildSeed } from "@/lib/child-seed";
-import { classifyAgeStage } from "@/lib/age-stage";
+import { classifyAgeStage, type AgeStage } from "@/lib/age-stage";
+import { M as ELEMENT_PRESCRIPTION_MATRIX, stageToTier, pickWeakestElement, type Element5 } from "@/lib/element-prescription";
 
 const ACCENT = "#f0a8b8";  // 따뜻한 로즈 핑크
 const GOLD = "#FFD700";
@@ -1088,6 +1089,104 @@ function SelfEsteemMentCards({ ments }: { ments: SelfEsteemMents }) {
 // ──────────────────────────────────────────────────────────────────
 // 부모-자녀 비교 시각화 (PART 4 / PART 5)
 // ──────────────────────────────────────────────────────────────────
+
+// ── 외부 보완 가이드 카드 (부모-자녀 둘 다 약한 결의 즉효·매일 행동) ──────
+const ELEM_HANJA_BOOST: Record<string, string> = { 목: "木", 화: "火", 토: "土", 금: "金", 수: "水" };
+const ELEM_COLORS_BOOST: Record<string, string> = {
+  목: "#7dd3c0", 화: "#f0a8b8", 토: "#d4a8e8", 금: "#e0e0e0", 수: "#7eb6ff",
+};
+
+function ParentExternalBoostCards({
+  bothLackElements,
+  childWeakestElement,
+  childAgeStage,
+  childAge,
+  parentLabel,
+  parentColor,
+}: {
+  bothLackElements: Array<{ elem: string; kor: string; emoji: string }>;
+  childWeakestElement: string;
+  childAgeStage: AgeStage;
+  childAge: number;
+  parentLabel: string;
+  parentColor: string;
+}) {
+  // 회복카드 element 와 중복 제외 (영아 케이스는 회복카드 hidden 이므로 모두 표시)
+  const isInfant = childAgeStage === "infant";
+  const elementsToShow = isInfant
+    ? bothLackElements
+    : bothLackElements.filter((e) => e.elem !== childWeakestElement);
+
+  const tier = stageToTier(childAgeStage, childAge);
+
+  // Fallback: 표시할 element 없음
+  if (elementsToShow.length === 0) {
+    return (
+      <div className="rounded-2xl p-5 text-center"
+        style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${parentColor}33` }}>
+        <p className="text-[12px] mb-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+          {parentLabel}와 자녀가 함께 약한 결이 도드라지지 않습니다
+        </p>
+        <p className="text-[11px]" style={{ color: parentColor }}>
+          외부 보완 없이도 자연스럽게 어우러지는 결입니다
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <h4 className="text-sm font-bold text-center mb-2" style={{ color: BRIGHT }}>
+        ─ 외부에서 채워주는 결 ─
+      </h4>
+      <p className="text-[11px] text-center mb-3" style={{ color: "rgba(255,255,255,0.6)" }}>
+        {parentLabel}-자녀 둘 다 약한 결을 일상 속에서 자연스럽게 보완
+      </p>
+      {elementsToShow.map((el) => {
+        const cells = ELEMENT_PRESCRIPTION_MATRIX[el.elem as Element5]?.[tier];
+        if (!cells) return null;
+        // 결정적 선택: 자녀 element 해시 기반 (같은 자녀는 같은 카드)
+        const idx = (el.elem.charCodeAt(0) + childAge) % 3;
+        const immediate = cells.immediate[idx];
+        const daily = cells.daily[(idx + 1) % cells.daily.length];
+        const elemColor = ELEM_COLORS_BOOST[el.elem] ?? parentColor;
+
+        return (
+          <div key={el.elem}
+            className="rounded-2xl p-4 space-y-2"
+            style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${elemColor}44` }}>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[18px] font-bold" style={{ color: elemColor }}>
+                {ELEM_HANJA_BOOST[el.elem] ?? el.emoji}
+              </span>
+              <span className="text-[13px] font-semibold" style={{ color: elemColor }}>
+                {el.kor}
+              </span>
+            </div>
+            <div className="flex items-start gap-2 text-[12px]">
+              <span className="text-[15px]" style={{ color: elemColor }}>{immediate.emoji}</span>
+              <div>
+                <div className="font-semibold mb-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+                  즉효 처방
+                </div>
+                <div style={{ color: "rgba(255,255,255,0.7)" }}>{immediate.text}</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-2 text-[12px]">
+              <span className="text-[15px]" style={{ color: elemColor }}>{daily.emoji}</span>
+              <div>
+                <div className="font-semibold mb-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+                  매일 루틴
+                </div>
+                <div style={{ color: "rgba(255,255,255,0.7)" }}>{daily.text}</div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // ── ① 오행 분포 비교 5각 레이더 ─────────────────────────────────
 function ElementCompareRadar({
@@ -3391,7 +3490,18 @@ export default function ParentChildSlideResult() {
                 {kind === "mom" && aiTextIdx === 2 && momFlow && (
                   <ElementFlowChart flow={momFlow} parentLabel="엄마" parentColor="#f0a8b8" />
                 )}
-                {/* idx 3 (시너지) · idx 4 (갈등) · idx 5 (선물) — formatText 인터셉트로 처리 */}
+                {/* idx 3 (NEW): 외부 보완 가이드 카드 */}
+                {kind === "mom" && aiTextIdx === 3 && momFlow && sajuChild && (
+                  <ParentExternalBoostCards
+                    bothLackElements={momFlow.bothLack}
+                    childWeakestElement={pickWeakestElement(sajuChild.elements as Record<string, number>)}
+                    childAgeStage={childAgeStageMemo ?? "elementary"}
+                    childAge={parseInt(params.get("childYear") ?? "0") ? new Date().getFullYear() - parseInt(params.get("childYear") ?? "0") : 7}
+                    parentLabel="엄마"
+                    parentColor="#f0a8b8"
+                  />
+                )}
+                {/* idx 4 (시너지) · idx 5 (갈등) · idx 6 (선물) — formatText 인터셉트로 처리 */}
 
                 {/* ── 아빠와 우리 아이 (PART 5) ──────────────────── */}
                 {kind === "dad" && aiTextIdx === 0 && dadCompare && (
@@ -3402,6 +3512,17 @@ export default function ParentChildSlideResult() {
                 )}
                 {kind === "dad" && aiTextIdx === 2 && dadFlow && (
                   <ElementFlowChart flow={dadFlow} parentLabel="아빠" parentColor="#7eb6ff" />
+                )}
+                {/* idx 3 (NEW): 외부 보완 가이드 카드 */}
+                {kind === "dad" && aiTextIdx === 3 && dadFlow && sajuChild && (
+                  <ParentExternalBoostCards
+                    bothLackElements={dadFlow.bothLack}
+                    childWeakestElement={pickWeakestElement(sajuChild.elements as Record<string, number>)}
+                    childAgeStage={childAgeStageMemo ?? "elementary"}
+                    childAge={parseInt(params.get("childYear") ?? "0") ? new Date().getFullYear() - parseInt(params.get("childYear") ?? "0") : 7}
+                    parentLabel="아빠"
+                    parentColor="#7eb6ff"
+                  />
                 )}
                 {kind === "talent" && aiTextIdx === 2 && childThinking && (
                   <ThinkingMatrix tt={childThinking} />

@@ -35,7 +35,7 @@ export function stageToTier(stage?: AgeStage, fallbackAge?: number): AgeTier {
 }
 
 // ── 매트릭스 (5 × 3 × 6 × 3 = 270) ─────────────
-const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
+export const M: Record<Element5, Record<AgeTier, Record<CardKind, Prescription[]>>> = {
   목: {
     infant: {
       immediate: [
