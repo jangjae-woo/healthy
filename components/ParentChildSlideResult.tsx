@@ -319,6 +319,25 @@ function formatText(text: string, hue: string = ACCENT) {
     if (!l) return <div key={i} className="h-3" />;
     // ### / ▶ 부제목은 페이지 안에서 표시 안 함 (슬라이드 상단 ## 헤더로 충분)
     if (l.startsWith("### ") || l.startsWith("▶ ") || l.startsWith("▶")) return null;
+
+    // ▸ 소제목 — 본문 내 시각 분리 (옵션 F-1)
+    if (l.startsWith("▸ ") || l.startsWith("▸")) {
+      const subtitle = l.replace(/^▸\s*/, "");
+      return (
+        <p key={i} className="font-bold text-[14px] mt-4 mb-2 flex items-center gap-1.5" style={{ color: hue }}>
+          <span style={{ color: hue }}>▸</span>
+          <span>{subtitle.replace(/\*\*/g, "")}</span>
+        </p>
+      );
+    }
+    // ─── 구분선 — 단락 분리 시각 강조 (옵션 F)
+    if (/^─+$/.test(l) || /^[—-]{3,}$/.test(l)) {
+      return (
+        <div key={i} className="my-3 flex justify-center">
+          <div className="w-12 h-px" style={{ background: `${hue}55` }} />
+        </div>
+      );
+    }
     // 단독 줄 **...** (한 줄 전체가 굵은 글씨)도 부제목 역할이라 숨김
     if (l.startsWith("**") && l.endsWith("**") && l.length < 40) return null;
     // "N단계 — 키워드:" 패턴 → 단계 카드 스타일

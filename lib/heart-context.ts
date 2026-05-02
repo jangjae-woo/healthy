@@ -207,7 +207,26 @@ export function buildSixFactorBodyContext(
 
   // 옵션 4: 약점 보완(lineWeak) 후 자녀 마무리(lineOutro) 사이 자연 연결 다리
   // 다리 픽스 — 모든 사주 케이스에 동일 적용 ("이런 흐름 속에서")
-  const body = `${childLabel}의 가장 두드러진 행동 결은 **${top3Display}** 입니다. ${lineDaily} ${lineWeak} 이런 흐름 속에서, ${lineOutro}`;
+  // 옵션 F-1: 본문 시각 구분 (소제목 + 단락 분리) — 페이지 길이 (~330자) 적합
+  const body = [
+    `▸ TOP3 결`,
+    `${childLabel}의 가장 두드러진 행동 결은 **${top3Display}** 입니다.`,
+    ``,
+    `─────`,
+    ``,
+    `▸ 가장 두드러진 결 — ${top1}`,
+    lineDaily,
+    ``,
+    `─────`,
+    ``,
+    `▸ 약한 결 — ${weakest} (외부 보완)`,
+    lineWeak.replace(/^반면\s+/, ""),
+    ``,
+    `─────`,
+    ``,
+    `▸ 자녀 마무리`,
+    `이런 흐름 속에서, ${lineOutro}`,
+  ].join("\n");
 
   // 영아 단계: milestone 어휘 자동 검증 (매트릭스 결정론이 ban 검열 우회 차단)
   validateSixFactorMilestoneBan(body, stage, `6요인 본문 (TOP1=${top1}, WEAK=${weakest})`);
