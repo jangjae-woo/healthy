@@ -28,6 +28,7 @@ import { buildOpenerSeed, describeChildSipseongStrength, classifyElementDistribu
 import { buildPrescriptionSet, pickWeakestElement } from "@/lib/element-prescription";
 import { classifyAgeStage, ageStageKor, ageToneGuide, dailyDigitalLimit } from "@/lib/age-stage";
 import { buildSipseongDeepContext, buildSinsalContext, buildMeetClashContext, buildYongsinContext, buildSixFactorBodyContext } from "@/lib/heart-context";
+import { buildChildSeed, buildChildSeedPromptBlock } from "@/lib/child-seed";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -926,14 +927,30 @@ function buildParentChildPrompt(
   const dadSynergy = sajuDad ? inferSynergyCards(sajuChild, "아빠") : null;
   const childLabel = d.childGender === "남" ? "아들" : "딸";
 
-  // ── 자녀 양/음 기운 사전 계산 (외향-내향 시각화와 AI 일관성) ──
-  const childElem = sajuChild.elements as Record<string, number>;
-  const yangScore = (childElem.목 ?? 0) + (childElem.화 ?? 0) + (childElem.토 ?? 0) * 0.5;
-  const yinScore = (childElem.금 ?? 0) + (childElem.수 ?? 0) + (childElem.토 ?? 0) * 0.5;
-  const yyTotal = yangScore + yinScore || 1;
-  const yangPctCalc = Math.round((yangScore / yyTotal) * 100);
-  const yinPctCalc = 100 - yangPctCalc;
-  const introExtroDirection = yangPctCalc >= yinPctCalc ? "외향" : "내향";
+  // ── 자녀 발달 단계 (시드 빌드에 필요 — 일찍 계산) ──
+  const childAgeStage = classifyAgeStage(
+    parseInt(d.childYear ?? "0") || 0,
+    parseInt(d.childMonth ?? "1") || 1,
+    parseInt(d.childDay ?? "1") || 1,
+  );
+
+  // ── ★★★ 자녀 캐릭터 시드 (Single Source of Truth) ──
+  // Phase 3: 분산 계산 12+ 곳을 단일 시드로 통합. 모든 매트릭스·차트·본문이 이 시드 참조.
+  const childSeed = buildChildSeed(
+    sajuChild,
+    d.childName ?? "자녀",
+    (d.childGender === "여" ? "여" : "남") as "남" | "여",
+    childAgeStage,
+  );
+
+  // ── 시드에서 derived 변수 (기존 코드 호환성 유지) ──
+  const childElem = childSeed.elements;
+  const yangPctCalc = childSeed.yangPct;
+  const yinPctCalc = childSeed.yinPct;
+  const introExtroDirection = childSeed.introExtroDirection;
+  const sipCounts = childSeed.sipCounts;
+  const sixFactor = childSeed.sixFactor;
+  const sixFactorTop3 = childSeed.sixFactorTop3.join(' · ');
 
   // ── 사전 계산: 시각화 차트와 AI 본문 일관성 강제 ──
   const intel8 = infer8Intelligences(sajuChild);
@@ -942,7 +959,6 @@ function buildParentChildPrompt(
   const friendS = inferFriendStyle(sajuChild);
   const discipline = inferDisciplineChannels(sajuChild);
   const dangerC = inferDangerCards(sajuChild);
-  const sipCounts = getSipseongCounts(sajuChild);
   const intel8Top3 = intel8.map(i => i.name).join(' · ');
   const intel8Names = intel8.map(i => i.name);
   const jobSorted = [...jobRadar].sort((a, b) => b.score - a.score);
@@ -953,19 +969,7 @@ function buildParentChildPrompt(
   const disciplineBest = [...discipline].sort((a, b) => b.score - a.score)[0];
   const disciplineWorst = [...discipline].sort((a, b) => a.score - b.score)[0];
   const dangerSorted = [...dangerC].sort((a, b) => b.level - a.level);
-  // 6요인 행동 — 인라인 계산 (활동성·표현력·감수성·끈기·창의성·자기조절)
-  const yangStems = ["갑", "병", "무", "경", "임"];
-  const isYang = yangStems.includes(sajuChild.ilgan);
-  const sixFactor: Record<string, number> = {
-    활동성: Math.min(100, Math.round((childElem.목 ?? 0) + (childElem.화 ?? 0) + (isYang ? 15 : 0) + sipCounts.비겁 * 5)),
-    표현력: Math.min(100, Math.round(sipCounts.식상 * 18 + (childElem.화 ?? 0) * 0.8)),
-    감수성: Math.min(100, Math.round(sipCounts.인성 * 18 + (childElem.수 ?? 0) * 0.8)),
-    끈기: Math.min(100, Math.round(sipCounts.비겁 * 12 + (childElem.토 ?? 0) * 0.8)),
-    창의성: Math.min(100, Math.round(sipCounts.식상 * 14 + (childElem.화 ?? 0) * 0.5 + (childElem.목 ?? 0) * 0.4 + (isYang ? 10 : 0))),
-    자기조절: Math.min(100, Math.round(sipCounts.관성 * 18 + (childElem.금 ?? 0) * 0.5)),
-  };
-  const sixFactorTop3 = (Object.entries(sixFactor) as Array<[string, number]>)
-    .sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k]) => k).join(' · ');
+  // (6요인 sixFactor·sixFactorTop3 은 위 childSeed 에서 derived — 중복 계산 제거됨)
 
   // 첫마디용 결정론 시드 — 사주 계산값(일간 비유 + 십성 톤 + 보충 오행)
   const momSeed = buildOpenerSeed(
@@ -984,12 +988,7 @@ function buildParentChildPrompt(
   const elementDist = classifyElementDistribution(sajuChild.elements as Record<string, number>);
   const sipseongDist = classifySipseongDistribution(sipCounts);
 
-  // 자녀 발달 단계 — 톤·처방·노출 분기 기준
-  const childAgeStage = classifyAgeStage(
-    parseInt(d.childYear ?? "0") || 0,
-    parseInt(d.childMonth ?? "1") || 1,
-    parseInt(d.childDay ?? "1") || 1,
-  );
+  // childAgeStage 는 위 시드 빌드 직전에 이미 계산됨 — 여기선 derived 만
   const childToneGuide = ageToneGuide(childAgeStage);
   const sixFactorBodyCtx = buildSixFactorBodyContext(
     sixFactor,
@@ -1115,6 +1114,8 @@ ${hasDad && dadCompat ? `• [아빠-아이] 일간 관계: ${dadCompat.ilganRel
 ${familyContext}
 ${ageStageContext}
 ${distributionContext}
+
+${buildChildSeedPromptBlock(childSeed)}
 
 ━━━ ★ 호칭 가이드 (반드시 준수) ━━━
 ${hasMom && hasDad
