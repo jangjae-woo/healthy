@@ -1,5 +1,8 @@
-// AI 출력 텍스트 후처리 — 자녀 호칭(양/군) 일관성 보정
+// AI 출력 텍스트 후처리 — 자녀 호칭(양/군) 일관성 보정 + ban 어휘 100% 강제
 // 프롬프트 강제(옵션 A)에서 새는 케이스를 100% 보장하기 위한 정규식 안전망(옵션 B).
+// Phase 4 (옵션 D) 확장: 십성·합충 한자 자동 제거 + 차트-본문 정합 검증.
+
+import type { ChildSeed } from "./child-seed";
 
 /**
  * 강 부정 한자/동사 자동 치환 — AI가 ban 단어를 출력해도 화면 노출 100% 차단
@@ -102,5 +105,117 @@ export function ensureChildHonorific(
     `${honored}이`,
   );
   result = result.replace(new RegExp(`${escaped}${honor}와`, "g"), `${honored}과`);
+  return result;
+}
+
+// ─── Phase 4: 십성·합충 한자 ban 자동 강제 ────────────────────────
+// 프롬프트 ban 이 새는 케이스 (14/39 "(인성)" 노출, 16/39 "(天干 丙辛合)" 노출 등) 100% 차단.
+
+const SIPSEONG_HANJA_NAMES = [
+  "비견", "겁재", "비겁",
+  "식신", "상관", "식상",
+  "정재", "편재", "재성",
+  "정관", "편관", "관성",
+  "정인", "편인", "인성",
+];
+
+const STEMS_HANJA = "[甲乙丙丁戊己庚辛壬癸]";
+const BRANCHES_HANJA = "[子丑寅卯辰巳午未申酉戌亥]";
+
+const HANJA_BAN_PATTERNS: Array<[RegExp, string]> = [
+  // ─── 십성 한자: "기운(인성)이" → "기운이", "결(재성)이" → "결이" ───
+  // 한국어 단어 + 괄호( 십성한자 ) 형태
+  [new RegExp(`\\s*\\(\\s*(?:${SIPSEONG_HANJA_NAMES.join("|")})\\s*\\)`, "g"), ""],
+
+  // ─── 합·충 한자: "병신합(天干 丙辛合)" → "병신합" ───
+  [new RegExp(`\\s*\\(\\s*天干\\s+${STEMS_HANJA}{2,}\\s*合\\s*\\)`, "g"), ""],
+  [new RegExp(`\\s*\\(\\s*地支\\s+${BRANCHES_HANJA}{2,}\\s*合\\s*\\)`, "g"), ""],
+  // 단순 천간 합/충: "(丙辛合)" "(子午沖)"
+  [new RegExp(`\\s*\\(\\s*${STEMS_HANJA}{2,}\\s*合\\s*\\)`, "g"), ""],
+  [new RegExp(`\\s*\\(\\s*${BRANCHES_HANJA}{2,}\\s*[合沖冲]\\s*\\)`, "g"), ""],
+
+  // ─── 본문에 직접 노출된 한자 라벨: "天干 丙辛合으로" → "병신합으로" (한국어 음만) ───
+  // 한자만 단독 노출은 한국어 음으로 변환. 일단 보수적: 제거만 (한국어 풀이는 이미 본문에 있음 가정).
+  [new RegExp(`天干\\s+${STEMS_HANJA}{2,}\\s*合`, "g"), "천간 합"],
+  [new RegExp(`地支\\s+${BRANCHES_HANJA}{2,}\\s*合`, "g"), "지지 합"],
+];
+
+/**
+ * 십성·합충 한자 자동 제거.
+ * 마크다운 헤더 라인은 보호.
+ */
+export function enforceHanjaBan(text: string): string {
+  if (!text) return text;
+  return text.split('\n').map(line => {
+    // 마크다운 헤더 라인 (## ### 등) 은 치환 스킵
+    if (/^#{1,4}\s/.test(line)) return line;
+    let result = line;
+    for (const [pattern, replacement] of HANJA_BAN_PATTERNS) {
+      result = result.replace(pattern, replacement);
+    }
+    return result;
+  }).join('\n');
+}
+
+// ─── Phase 4: 차트-본문 정합 검증 (모니터링 + 안전한 자동 교정) ─────
+// 시드의 약/강 결과 본문이 정반대로 묘사되면 자동 부드럽게.
+
+const ELEM_KOR_SIMPLE: Record<string, string> = {
+  목: "나무", 화: "불", 토: "흙", 금: "쇠", 수: "물",
+};
+
+/**
+ * 차트-본문 정합 검증.
+ * 시드의 약한 결을 본문에서 "강하게 솟구치는" 같이 묘사하면 자동 부드럽게.
+ * 잘못된 강 양상 묘사를 부드러운 톤으로 변환 — 의미 왜곡 위험은 낮은 안전 패턴만 처리.
+ */
+export function enforceChartConsistency(text: string, seed: ChildSeed | null): string {
+  if (!text || !seed) return text;
+
+  const weakElement = seed.weakElement;
+  const weakElemKor = ELEM_KOR_SIMPLE[weakElement];
+  if (!weakElemKor) return text;
+
+  // 약한 결 (예: 수 12%) 인데 "물의 결이 강하게 솟구치는" 묘사 → "부드럽게 흐르는"
+  const strongTriggers = [
+    `${weakElemKor}의 결이 강하게 솟구치`,
+    `${weakElemKor}의 결이 강하게 자리 잡`,
+    `${weakElemKor}의 결이 강하게 흐르`,
+    `${weakElemKor}의 결\\([木火土金水]\\)이 강하게 솟구치`,
+    `${weakElemKor}의 결\\([木火土金水]\\)이 강하게 자리 잡`,
+  ];
+
+  let result = text;
+  for (const trigger of strongTriggers) {
+    const re = new RegExp(trigger, "g");
+    result = result.replace(re, (match) => {
+      // 차트와 본문 정반대 → 부드러운 표현으로 교정
+      return match.replace(/강하게 솟구치/, "부드럽게 흐르")
+                  .replace(/강하게 자리 잡/, "섬세히 자리 잡")
+                  .replace(/강하게 흐르/, "부드럽게 흐르");
+    });
+  }
+
+  return result;
+}
+
+/**
+ * 모든 후처리 한 번에 적용 — 호출 순서:
+ * 1. ensureChildHonorific (자녀 호칭)
+ * 2. softenNegatives (부정 어휘)
+ * 3. enforceHanjaBan (십성·합충 한자)
+ * 4. enforceChartConsistency (차트-본문 정합) — seed 있을 때만
+ */
+export function applyAllPostprocess(
+  text: string,
+  childName: string,
+  childGender: string,
+  seed: ChildSeed | null,
+): string {
+  if (!text) return text;
+  let result = ensureChildHonorific(text, childName, childGender);
+  result = softenNegatives(result);
+  result = enforceHanjaBan(result);
+  if (seed) result = enforceChartConsistency(result, seed);
   return result;
 }

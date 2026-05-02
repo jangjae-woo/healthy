@@ -68,7 +68,9 @@ import {
   type ObservationGuide,
 } from "@/lib/parent-child-observation";
 import { softenIlganRelation, softenIljiRelation, softenChungList, withChildHonorific, parentChildOneLiner } from "@/lib/wording";
-import { ensureChildHonorific, softenNegatives } from "@/lib/text-postprocess";
+import { ensureChildHonorific, softenNegatives, applyAllPostprocess } from "@/lib/text-postprocess";
+import { buildChildSeed, type ChildSeed } from "@/lib/child-seed";
+import { classifyAgeStage } from "@/lib/age-stage";
 
 const ACCENT = "#f0a8b8";  // 따뜻한 로즈 핑크
 const GOLD = "#FFD700";
@@ -2678,6 +2680,7 @@ export default function ParentChildSlideResult() {
         const decoder = new TextDecoder();
         let buf = "";
         let full = "";
+        let currentSajuChild: SajuAnalysis | null = null;
         outer: while (true) {
           const { done, value } = await reader.read();
           if (done) break;
@@ -2688,8 +2691,16 @@ export default function ParentChildSlideResult() {
             if (!line.startsWith("data: ")) continue;
             const raw = line.slice(6);
             if (raw === "[DONE]") {
-              // 스트림 완료 — 자녀 호칭(양/군) 후처리 안전망 적용
-              setContent(softenNegatives(ensureChildHonorific(full, childName, params.get("childGender") || "")));
+              // Phase 4: 스트림 완료 — 모든 후처리 일괄 적용 (호칭 + 부정 어휘 + 한자 ban + 차트 정합)
+              const stageNow = classifyAgeStage(
+                parseInt(params.get("childYear") || "0") || 0,
+                parseInt(params.get("childMonth") || "1") || 1,
+                parseInt(params.get("childDay") || "1") || 1,
+              );
+              const seedNow: ChildSeed | null = currentSajuChild
+                ? buildChildSeed(currentSajuChild, childName, (params.get("childGender") === "여" ? "여" : "남"), stageNow)
+                : null;
+              setContent(applyAllPostprocess(full, childName, params.get("childGender") || "", seedNow));
               break outer;
             }
             try {
@@ -2698,6 +2709,7 @@ export default function ParentChildSlideResult() {
                 setSajuMom(msg.d.sajuMom);
                 setSajuDad(msg.d.sajuDad);
                 setSajuChild(msg.d.sajuChild);
+                currentSajuChild = msg.d.sajuChild; // 스트림 완료 시 시드 빌드용
                 setMomCompat(msg.d.momCompat);
                 setDadCompat(msg.d.dadCompat);
                 setLoading(false);
