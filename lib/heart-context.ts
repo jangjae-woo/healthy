@@ -125,9 +125,9 @@ const SIX_FACTOR_WEAK_PHRASE: Record<string, Record<AgeStage, string>> = {
     secondary: "감성보다 실리·실용에 더 끌리는 결",
   },
   끈기: {
-    infant: "다양한 자극에 골고루 반응하는 결",
+    infant: "한 가지에 깊이 매이지 않고 여러 자극을 자유롭게 받아들이는 결",
     preschool: "한 가지에 오래 머물기보다 새 자극을 자주 찾는 결",
-    elementary: "한 영역을 길게 파기보다 다양한 영역을 골고루 즐기는 결",
+    elementary: "한 영역에 묶이지 않고 다양한 영역을 자유롭게 즐기는 결",
     secondary: "한 가지에 길게 묶이기보다 폭넓은 시야를 가꾸는 결",
   },
   창의성: {

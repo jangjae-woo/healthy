@@ -1380,8 +1380,13 @@ ${d.childName}의 **기질 다섯 색깔**(자기를 세움·표현함·끌림·
 ${d.childName}이 양 기운(목·화) 과 음 기운(금·수) 중 어느 쪽으로 기우는지를 일상 모습으로 풀어주세요.
 
 ★★★ **반드시 다음 계산 결과를 따를 것**:
-- 사주 계산: **${introExtroDirection}적 성향이 ${Math.max(yangPctCalc, yinPctCalc)}%로 두드러짐** (양 ${yangPctCalc}% / 음 ${yinPctCalc}%)
-- 따라서 본문은 반드시 **${introExtroDirection}적인 자녀**로 묘사할 것 (반대 방향 절대 금지)
+- 사주 계산: **${introExtroDirection}적 성향이 ${Math.max(yangPctCalc, yinPctCalc)}%로 ${(() => {
+  const dom = Math.max(yangPctCalc, yinPctCalc);
+  if (dom >= 65) return "두드러짐";
+  if (dom >= 55) return "우세";
+  return "약간 우세";
+})()}** (양 ${yangPctCalc}% / 음 ${yinPctCalc}%)
+- 따라서 본문은 반드시 **${introExtroDirection}적인 자녀**로 묘사할 것 (반대 방향 절대 금지). 단, ${Math.max(yangPctCalc, yinPctCalc) < 55 ? "**약간 우세** 케이스이므로 '두드러진다·강하게' 같은 단정 표현 금지. '살짝 기우는·조금 더 편한·은은히 우세한' 같은 부드러운 톤으로." : Math.max(yangPctCalc, yinPctCalc) < 65 ? "'우세한' 톤으로 (강한 단정 X)." : "'두드러진다·강하게' 톤으로."}
 ${introExtroDirection === "외향"
   ? `- 외향 묘사: "사람·활동 속에서 에너지를 얻는다", "왁자지껄한 곳에서 더 빛난다", "처음 만난 사람과도 빨리 친해진다"`
   : `- 내향 묘사: "혼자 사색하며 에너지를 충전한다", "조용한 곳을 선호한다", "소수의 친한 친구와 깊이 교류한다"`}

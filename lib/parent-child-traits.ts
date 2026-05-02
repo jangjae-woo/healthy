@@ -216,7 +216,10 @@ export function pickFamilyTrioSaja(
   const dadChildSame = elemDad === elemChild;
 
   const parents = joinParentMetaphors(sajuMom.ilgan, sajuDad.ilgan);
-  const childM = metaphorOf(sajuChild.ilgan);
+  const childMRaw = metaphorOf(sajuChild.ilgan);
+  // 자녀 메타포가 부모 메타포 문자열에 이미 포함되면 중복 차단 — "같은 결" 로 변환
+  // (예: 어머니=토, 아버지=화, 자녀=화 → "기름진 들판과 환한 햇살과 환한 햇살" 회피)
+  const childM = parents.includes(childMRaw) ? "같은 결의 자녀" : childMRaw;
 
   // 1. 셋 다 같은 오행
   if (allSame)
