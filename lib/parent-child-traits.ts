@@ -217,16 +217,21 @@ export function pickFamilyTrioSaja(
 
   const parents = joinParentMetaphors(sajuMom.ilgan, sajuDad.ilgan);
   const childMRaw = metaphorOf(sajuChild.ilgan);
-  // 자녀 메타포가 부모 메타포 문자열에 이미 포함되면 중복 차단 — "같은 결" 로 변환
-  // (예: 어머니=토, 아버지=화, 자녀=화 → "기름진 들판과 환한 햇살과 환한 햇살" 회피)
-  const childM = parents.includes(childMRaw) ? "같은 결의 자녀" : childMRaw;
+  // 자녀 메타포가 부모 메타포 문자열에 이미 포함되면 중복 차단 (옵션 4)
+  // (예: 어머니=토, 아버지=화, 자녀=화 → "환한 햇살과 환한 햇살" 회피 + "환한 햇살과 같은 결의 자녀" 명사구 결합 방지)
+  const isDupChild = parents.includes(childMRaw);
+  const childM = isDupChild ? "그 결을 닮은 자녀" : childMRaw;
+  // ${parents}과 ${childM}이 패턴 안전 합성 — 중복 시 ", 그리고" 분리로 조사 결합 차단
+  const parentsAndChildSubject = isDupChild
+    ? `${parents}의 두 결, 그리고 ${childM}이`
+    : `${parents}과 ${childM}이`;
 
   // 1. 셋 다 같은 오행
   if (allSame)
     return {
       keyword: "한 결로 흐르는 가족",
       meaning: "세 분이 같은 본질을 지닌, 깊은 동행의 가족",
-      subtitle: `${parents}과 ${childM}이 같은 결로 흐르는 자리입니다`,
+      subtitle: `${parentsAndChildSubject} 같은 결로 흐르는 자리입니다`,
     };
 
   // 2. 부모 둘 다 자녀를 살림 (生)
@@ -298,7 +303,7 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "서로 채워주는 가족",
       meaning: "부모와 자녀가 서로 활력을 주고받는 가족",
-      subtitle: `${parents}과 ${childM}이 서로의 결을 채워주는 자리입니다`,
+      subtitle: `${parentsAndChildSubject} 서로의 결을 채워주는 자리입니다`,
     };
 
   // 11. 한쪽 부모만 자녀와 비화
@@ -306,14 +311,14 @@ export function pickFamilyTrioSaja(
     return {
       keyword: "닮은 결과 다른 결의 만남",
       meaning: "한 분과는 닮은 결, 한 분과는 다른 결로 만나는 가족",
-      subtitle: `${parents}과 ${childM}이 닮음과 다름으로 만나는 자리입니다`,
+      subtitle: `${parentsAndChildSubject} 닮음과 다름으로 만나는 자리입니다`,
     };
 
   // 12. 그 외 — 다섯 결이 흐름
   return {
     keyword: "다섯 결이 흐르는 가족",
     meaning: "다섯 가지 결이 자연스럽게 흐르며 어우러지는 가족",
-    subtitle: `${parents}과 ${childM}이 다섯 결로 함께 흐르는 자리입니다`,
+    subtitle: `${parentsAndChildSubject} 다섯 결로 함께 흐르는 자리입니다`,
   };
 }
 
