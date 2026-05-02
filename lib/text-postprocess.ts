@@ -254,11 +254,31 @@ export function enforceChartConsistency(text: string, seed: ChildSeed | null): s
 }
 
 /**
+ * 6요인 TOP3 본문 자동 교정 (옵션 C — 사실 데이터 변형 차단).
+ * AI 가 시드의 sixFactorTop3 와 다른 TOP3 출력 시 자동 교체.
+ * 패턴: "가장 두드러진 행동 결은 **A·B·C** 입니다" 형태만 매칭 (안전).
+ */
+export function enforceSixFactorTop3(text: string, seed: ChildSeed | null): string {
+  if (!text || !seed) return text;
+  const correctTop3 = seed.sixFactorTop3.join("·");
+  // "가장 두드러진 행동 결은 **A·B·C** 입니다" 패턴 매칭
+  const pattern = /(가장 두드러진 행동 결은\s*\*\*)([^*]+)(\*\*)/;
+  return text.replace(pattern, (_match, prefix, current, suffix) => {
+    if (current.trim() !== correctTop3) {
+      // AI 가 swap 했다면 시드 TOP3 로 자동 교체
+      return `${prefix}${correctTop3}${suffix}`;
+    }
+    return _match;
+  });
+}
+
+/**
  * 모든 후처리 한 번에 적용 — 호출 순서:
  * 1. ensureChildHonorific (자녀 호칭)
  * 2. softenNegatives (부정 어휘)
  * 3. enforceHanjaBan (십성·합충 한자)
  * 4. enforceChartConsistency (차트-본문 정합) — seed 있을 때만
+ * 5. enforceSixFactorTop3 (6요인 TOP3 swap 차단) — seed 있을 때만 (옵션 C)
  */
 export function applyAllPostprocess(
   text: string,
@@ -270,6 +290,9 @@ export function applyAllPostprocess(
   let result = ensureChildHonorific(text, childName, childGender);
   result = softenNegatives(result);
   result = enforceHanjaBan(result);
-  if (seed) result = enforceChartConsistency(result, seed);
+  if (seed) {
+    result = enforceChartConsistency(result, seed);
+    result = enforceSixFactorTop3(result, seed);
+  }
   return result;
 }
