@@ -547,6 +547,46 @@ export interface PrescriptionSet {
   sense: Prescription;
   rhythm: Prescription;
   source: string; // "사주 보충 처방 매트릭스 (오행 보충 원칙 기반)"
+  // Phase 3-4 보강: 카드별 "💡 왜?" + 공통 원리 한 줄
+  whyImmediate: string;
+  whyDaily: string;
+  whyAvoid: string;
+  whySpace: string;
+  whySense: string;
+  whyRhythm: string;
+  commonRationale: string;
+}
+
+// 오행별 의미 — "왜?" 텍스트 생성용
+const ELEM_MEANING: Record<Element5, string> = {
+  목: "성장·움직임",
+  화: "활기·표현",
+  토: "안정·자리잡음",
+  금: "단정·정리",
+  수: "사색·고요",
+};
+
+function buildRecoveryWhy(cardKind: CardKind, weakElement: Element5): string {
+  const meaning = ELEM_MEANING[weakElement];
+  switch (cardKind) {
+    case "immediate":
+      return `약한 ${weakElement}의 결(${meaning})을 즉시 채워주는 활동`;
+    case "daily":
+      return `약한 ${weakElement}의 결을 매일 자연스럽게 채워주는 루틴`;
+    case "avoid":
+      return `이 자극은 약한 ${weakElement}의 결을 더 약화시킬 수 있어 피하는 것이 좋습니다`;
+    case "space":
+      return `약한 ${weakElement}의 결을 환경에서 부드럽게 보충해주는 자리`;
+    case "sense":
+      return `약한 ${weakElement}의 결을 감각으로 자극해 자연스럽게 채워주는 자리`;
+    case "rhythm":
+      return `약한 ${weakElement}의 결을 일관된 시간·반복으로 채워주는 흐름`;
+  }
+}
+
+function buildRecoveryRationale(weakElement: Element5): string {
+  const meaning = ELEM_MEANING[weakElement];
+  return `위 6가지 처방의 공통점은 모두 ${weakElement}의 결(${meaning})을 채우는 활동이라는 점입니다. 약한 결이 채워질 때 자녀의 마음이 자연스럽게 회복되고 자기 호흡을 되찾습니다.`;
 }
 
 // 약한 오행 + 발달 단계 + 사주 해시로 6카드 처방 결정
@@ -569,6 +609,13 @@ export function buildPrescriptionSet(
     sense: cells.sense[(idx + 1) % cells.sense.length],
     rhythm: cells.rhythm[(idx + 2) % cells.rhythm.length],
     source: "사주 보충 처방 매트릭스 (오행 보충 원칙 기반)",
+    whyImmediate: buildRecoveryWhy("immediate", weakElement),
+    whyDaily: buildRecoveryWhy("daily", weakElement),
+    whyAvoid: buildRecoveryWhy("avoid", weakElement),
+    whySpace: buildRecoveryWhy("space", weakElement),
+    whySense: buildRecoveryWhy("sense", weakElement),
+    whyRhythm: buildRecoveryWhy("rhythm", weakElement),
+    commonRationale: buildRecoveryRationale(weakElement),
   };
 }
 
@@ -585,4 +632,188 @@ export function pickWeakestElement(elements: Record<string, number>): Element5 {
     }
   }
   return weakest;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Phase 3 신규 — 과한 오행 "살펴주면 좋은 결" 매트릭스
+// 5 오행 × 3 단계 × 3 카테고리 = 45 처방
+// 설기(洩氣) 원리: 과한 오행을 그것이 생하는 오행으로 부드럽게 풀어주기
+//   목 과다 → 화로 설기 (창의적 표현)
+//   화 과다 → 토로 설기 (안정적 결과물·차분)
+//   토 과다 → 금으로 설기 (정리·체계화)
+//   금 과다 → 수로 설기 (사색·유연)
+//   수 과다 → 목으로 설기 (행동·새로움)
+// ─────────────────────────────────────────────────────────────
+
+export type SoftenCardKind =
+  | "balance"   // 즉시 균형 — 자녀가 스스로 결을 풀어주는 짧은 행동
+  | "rhythm"    // 매일·매주 균형 리듬
+  | "space";    // 부모가 만들어주는 균형 환경
+
+export const SOFTEN_M: Record<Element5, Record<AgeTier, Record<SoftenCardKind, Prescription>>> = {
+  목: {
+    infant: {
+      balance: { emoji: "🎵", text: "엄마와 짧은 노래 한 곡 함께 부르며 표현 풀기" },
+      rhythm:  { emoji: "🎶", text: "매일 정해진 시간 짧은 표현 놀이 (그림·노래)" },
+      space:   { emoji: "🟧", text: "따뜻한 색 표현 도구·부드러운 조명 곁에" },
+    },
+    child: {
+      balance: { emoji: "🎨", text: "종이에 떠오르는 것을 자유롭게 그리며 흐름 풀기" },
+      rhythm:  { emoji: "🎭", text: "매주 한 번 표현 활동 (악기·춤·연극)" },
+      space:   { emoji: "🖌️", text: "다양한 표현 도구가 있는 자기만의 자리" },
+    },
+    teen: {
+      balance: { emoji: "📔", text: "오늘 도전한 한 가지를 한 줄 글로 풀어내기" },
+      rhythm:  { emoji: "🎼", text: "매일 짧은 창작 시간 (글·그림·음악)" },
+      space:   { emoji: "✏️", text: "자신만의 작은 창작 공간 한 칸 두기" },
+    },
+  },
+  화: {
+    infant: {
+      balance: { emoji: "🤱", text: "엄마 무릎에서 차분히 머무는 시간 1분" },
+      rhythm:  { emoji: "📚", text: "매일 같은 시간 차분한 의식 (그림책·자장가)" },
+      space:   { emoji: "🟫", text: "차분한 톤 침구·익숙한 자기 자리" },
+    },
+    child: {
+      balance: { emoji: "🧩", text: "좋아하는 일 한 가지를 끝까지 마무리해보기" },
+      rhythm:  { emoji: "📋", text: "주간 루틴 표를 함께 만들어 따라가기" },
+      space:   { emoji: "🏠", text: "정돈된 자기 코너·따뜻하지만 차분한 톤" },
+    },
+    teen: {
+      balance: { emoji: "☕", text: "들뜬 마음을 따뜻한 차 한 잔으로 가라앉히기" },
+      rhythm:  { emoji: "🕰️", text: "매일 같은 시간 정리·하루 회고 의식" },
+      space:   { emoji: "🪵", text: "안정된 자기 자리·차분한 인테리어" },
+    },
+  },
+  토: {
+    infant: {
+      balance: { emoji: "🧺", text: "같은 자리에서 한 가지 작은 정리 함께 해보기" },
+      rhythm:  { emoji: "🔔", text: "매일 짧은 정리·끝맺음 의식 (장난감 한 칸)" },
+      space:   { emoji: "🗂️", text: "정리 박스·라벨 있는 자리 한 구석" },
+    },
+    child: {
+      balance: { emoji: "✏️", text: "책상 한 칸 정리하고 끝맺음 짓기" },
+      rhythm:  { emoji: "🌱", text: "매주 새 분야 한 가지를 짧게 시도해보기" },
+      space:   { emoji: "🤍", text: "라벨 붙은 깔끔한 책상·미니멀 한 자리" },
+    },
+    teen: {
+      balance: { emoji: "🧹", text: "쌓인 것 한 가지 정리하고 자리 비우기" },
+      rhythm:  { emoji: "🎯", text: "매주 작은 새 시도 한 가지 (변화 적응 연습)" },
+      space:   { emoji: "💡", text: "미니멀 책상·새 자극 한두 가지 곁에" },
+    },
+  },
+  금: {
+    infant: {
+      balance: { emoji: "🛁", text: "따뜻한 물에 손 담그며 가만히 머무는 시간" },
+      rhythm:  { emoji: "📖", text: "매일 차분한 그림책 읽기 시간" },
+      space:   { emoji: "🌙", text: "은은한 무드등·푸른 톤 일부 포인트" },
+    },
+    child: {
+      balance: { emoji: "📚", text: "조용한 자리에서 그림책·책 한 페이지 천천히" },
+      rhythm:  { emoji: "🧘", text: "매일 자기 전 차분한 사색 시간 10분" },
+      space:   { emoji: "🟦", text: "푸른 톤 침구·차분한 조명 곁에" },
+    },
+    teen: {
+      balance: { emoji: "🌊", text: "5분 멍 때리며 마음을 부드럽게 풀어주기" },
+      rhythm:  { emoji: "📔", text: "매일 명상 또는 자유 글쓰기 10분" },
+      space:   { emoji: "🌙", text: "차분한 자기 사색 공간 한 자리" },
+    },
+  },
+  수: {
+    infant: {
+      balance: { emoji: "🚶", text: "엄마와 짧은 산책 한 바퀴 함께 걷기" },
+      rhythm:  { emoji: "☀️", text: "매일 햇살 받는 짧은 야외 활동 10분" },
+      space:   { emoji: "🪴", text: "햇살 드는 창가에 작은 화분 곁에" },
+    },
+    child: {
+      balance: { emoji: "🌱", text: "새로운 것 한 가지를 짧게 시도해보기" },
+      rhythm:  { emoji: "🌳", text: "매주 새 분야 한 가지 탐색 활동" },
+      space:   { emoji: "🪟", text: "식물 곁·밝은 자연광 드는 자리" },
+    },
+    teen: {
+      balance: { emoji: "🚴", text: "짧은 산책·새 길 걷기로 흐름 트기" },
+      rhythm:  { emoji: "🌅", text: "매일 30분 야외 활동·새 도전 한 가지" },
+      space:   { emoji: "🌿", text: "식물·자연 풍경 사진 곁에 두기" },
+    },
+  },
+};
+
+export interface SoftenSet {
+  harmfulElement: Element5;
+  ageTier: AgeTier;
+  balance: Prescription;
+  rhythm: Prescription;
+  space: Prescription;
+  source: string;
+  whyBalance: string;
+  whyRhythm: string;
+  whySpace: string;
+  commonRationale: string;
+}
+
+// 설기(洩氣) 매트릭스 — 과한 오행 → 그 오행이 생하는 오행으로 풀어줌
+const RELEASE_MAP: Record<Element5, { to: Element5; meaning: string }> = {
+  목: { to: "화", meaning: "창의·표현" },
+  화: { to: "토", meaning: "안정·차분" },
+  토: { to: "금", meaning: "정리·체계" },
+  금: { to: "수", meaning: "사색·유연" },
+  수: { to: "목", meaning: "행동·새로움" },
+};
+
+function buildSoftenWhy(cardKind: SoftenCardKind, harmfulElement: Element5): string {
+  const meaning = ELEM_MEANING[harmfulElement];
+  const release = RELEASE_MAP[harmfulElement];
+  switch (cardKind) {
+    case "balance":
+      return `두드러진 ${harmfulElement}의 결(${meaning})을 ${release.meaning}의 흐름으로 부드럽게 풀어주는 즉시 행동`;
+    case "rhythm":
+      return `두드러진 ${harmfulElement}의 결의 균형을 매일·매주 잡아주는 ${release.meaning}의 리듬`;
+    case "space":
+      return `두드러진 ${harmfulElement}의 결과 어울리는 ${release.meaning}의 균형 환경`;
+  }
+}
+
+function buildSoftenRationale(harmfulElement: Element5): string {
+  const meaning = ELEM_MEANING[harmfulElement];
+  const release = RELEASE_MAP[harmfulElement];
+  return `위 균형 행동들의 공통점은 모두 두드러진 ${harmfulElement}의 결(${meaning})을 ${release.meaning}의 흐름으로 부드럽게 풀어주는 활동이라는 점입니다. 강한 결을 누르는 게 아니라 자연스럽게 풀어줄 때 자녀의 결이 더 단단하게 균형을 잡아갑니다.`;
+}
+
+export function buildSoftenSet(
+  harmfulElement: Element5,
+  ageInYears: number,
+  ageStage?: AgeStage,
+): SoftenSet {
+  const tier = stageToTier(ageStage, ageInYears);
+  const cells = SOFTEN_M[harmfulElement][tier];
+  return {
+    harmfulElement,
+    ageTier: tier,
+    balance: cells.balance,
+    rhythm: cells.rhythm,
+    space: cells.space,
+    source: "사주 균형 매트릭스 (설기 원리 기반)",
+    whyBalance: buildSoftenWhy("balance", harmfulElement),
+    whyRhythm: buildSoftenWhy("rhythm", harmfulElement),
+    whySpace: buildSoftenWhy("space", harmfulElement),
+    commonRationale: buildSoftenRationale(harmfulElement),
+  };
+}
+
+/**
+ * 과한 오행 결정 — B2 권장안 이중 조건
+ *   ① 최대 오행 ≥ 35%
+ *   ② 차순위와 ≥ 8%p 차이
+ * 둘 중 하나라도 미충족 → null (페이지 미생성)
+ */
+export function pickStrongestElement(percents: Record<string, number>): Element5 | null {
+  const order: Element5[] = ["목", "화", "토", "금", "수"];
+  const sorted = order
+    .map(el => ({ el, pct: percents[el] ?? 0 }))
+    .sort((a, b) => b.pct - a.pct);
+  if (sorted.length < 2) return null;
+  const [top, second] = sorted;
+  if (top.pct < 35) return null;
+  if (top.pct - second.pct < 8) return null;
+  return top.el;
 }

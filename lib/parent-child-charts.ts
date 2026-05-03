@@ -693,15 +693,14 @@ export function inferLifestyle(saju: SajuAnalysis): LifestyleChannel[] {
   // 수면 — 인성·수 많으면 깊은 잠 필요
   const sleepNeed = (insong * 1.5 + (elem.수 ?? 0) * 0.8) / 6;
   const sleepScore = Math.min(100, Math.round(60 + sleepNeed * 25));
-  // 식사 — 토 많으면 안정 / 적으면 변화 필요
+  // 식사 — 토 강함=자녀가 같은 패턴 좋아함 / 토 약함=안정 부족, 부모가 안정 채움
   const earth = elem.토 ?? 0;
   const mealScore = earth >= 2 ? Math.min(100, 50 + earth * 10) : Math.min(100, 75 + (3 - earth) * 5);
   // 움직임 — 화·목·비겁 많으면 활동량 多
   const moveNeed = ((elem.화 ?? 0) * 0.7 + (elem.목 ?? 0) * 0.5 + bigyeop * 0.6) / 6;
   const moveScore = Math.min(100, Math.round(50 + moveNeed * 35));
-  // 디지털 — 식상·화 많으면 유의 (자극에 빨림)
-  const digitalRisk = (siksang * 1.0 + (elem.화 ?? 0) * 0.6) / 5;
-  const digitalScore = Math.min(100, Math.round(40 + digitalRisk * 40));
+  // 디지털은 별도 페이지(### 디지털·미디어 균형) 에서 inferDigitalGauge 로 풀이 — 사용자 정책에 따라 4채널 → 3채널 (수면·식사·움직임)
+  void siksang; // ban unused
 
   const lvl = (s: number): "low" | "mid" | "high" => (s >= 70 ? "high" : s >= 45 ? "mid" : "low");
 
@@ -712,8 +711,8 @@ export function inferLifestyle(saju: SajuAnalysis): LifestyleChannel[] {
       score: sleepScore,
       level: lvl(sleepScore),
       desc: insong >= 2
-        ? "사색이 깊은 결 — 충분한 잠(9시간↑)이 회복의 핵심"
-        : "보통 권장 — 8~9시간 규칙적 잠이 안정을 줍니다",
+        ? "사색이 깊은 결 (인성·수가 강함) — 충분한 잠(9시간↑)이 회복의 핵심"
+        : "보통 권장 (인성·수가 강하지 않음) — 8~9시간 규칙적 잠이 안정을 줍니다",
     },
     {
       name: "식사",
@@ -721,8 +720,8 @@ export function inferLifestyle(saju: SajuAnalysis): LifestyleChannel[] {
       score: mealScore,
       level: lvl(mealScore),
       desc: earth >= 2
-        ? "안정형 — 같은 시간·같은 자리에서 먹을 때 마음도 안정"
-        : "변화형 — 새로운 메뉴·다양한 색깔이 식욕을 자극",
+        ? "안정 살림형 (토의 결이 강함) — 자녀가 같은 패턴을 좋아하므로 같은 시간·자리·반복 메뉴를 그대로 존중"
+        : "안정 채움형 (토의 결이 약함) — 안정이 부족한 결, 같은 시간·같은 자리·꾸준한 식사 의식이 자녀의 안정을 채워줌",
     },
     {
       name: "움직임",
@@ -730,17 +729,8 @@ export function inferLifestyle(saju: SajuAnalysis): LifestyleChannel[] {
       score: moveScore,
       level: lvl(moveScore),
       desc: moveScore >= 70
-        ? "에너지 큰 결 — 매일 30분 이상 몸 쓰는 활동 필요"
-        : "차분한 결 — 무리한 활동보다 가벼운 산책·스트레칭이 맞음",
-    },
-    {
-      name: "디지털",
-      emoji: "📱",
-      score: digitalScore,
-      level: lvl(digitalScore),
-      desc: digitalScore >= 70
-        ? "자극에 빠지기 쉬운 결 — 하루 1시간 이내, 잠 1시간 전 차단"
-        : "비교적 안전한 결 — 1.5~2시간 이내 자기 조절 연습",
+        ? "에너지 큰 결 (화·목·비겁이 강함) — 매일 30분 이상 몸 쓰는 활동 필요"
+        : "차분한 결 (화·목·비겁이 약함) — 무리한 활동보다 가벼운 산책·스트레칭이 맞음",
     },
   ];
 }

@@ -9,8 +9,13 @@ import Link from "next/link";
 import {
   STEM_HANJA,
   BRANCH_HANJA,
+  getDayMasterStrength,
+  inferCrisisTiming,
+  SINSAL_INFO,
   type SajuAnalysis,
   type CompatibilityResult,
+  type DayMasterStrength,
+  type CrisisTiming,
 } from "@/lib/saju-calculator";
 import {
   infer8Intelligences,
@@ -69,7 +74,8 @@ import {
 } from "@/lib/parent-child-observation";
 import { softenIlganRelation, softenIljiRelation, softenChungList, withChildHonorific, parentChildOneLiner } from "@/lib/wording";
 import { ensureChildHonorific, softenNegatives, applyAllPostprocess } from "@/lib/text-postprocess";
-import { buildChildSeed, type ChildSeed } from "@/lib/child-seed";
+import { buildChildSeed, ILGAN_METAPHOR, type ChildSeed } from "@/lib/child-seed";
+import { calcGyeokguk, calcGongmang, calcGisin, calcGaeun, calcChildTiming, calcIljiRelation, calcParentSipseong, calcSharedSinsal, calcUnseong, calcCheonganHap, calcShipiShinsal, calcChildBranchHarmony, calcFamilyTrio, type GyeokgukResult, type GongmangResult, type GisinResult, type GaeunResult, type ChildTimingResult, type UnseongResult, type CheonganHapResult, type ShipiShinsalResult, type ChildBranchHarmonyResult, type FamilyTrioResult } from "@/lib/saju-traditional";
 import { classifyAgeStage, type AgeStage } from "@/lib/age-stage";
 import { M as ELEMENT_PRESCRIPTION_MATRIX, stageToTier, pickWeakestElement, type Element5 } from "@/lib/element-prescription";
 
@@ -145,7 +151,7 @@ function pickShareCardBg(score: number): string {
 // ── 슬라이드 구성 (13개) ── 친근 톤 + STS 스타일 시각화
 // 슬라이드 종류 식별
 type SlideKind =
-  | "cover" | "pillars" | "first-word"
+  | "cover" | "intro" | "pillars" | "first-word"
   | "overview" | "heart" | "guide"
   | "mom" | "dad"
   | "talent" | "last-word" | "share";
@@ -160,14 +166,87 @@ interface SlideDef {
 }
 
 // 섹션 표지 데이터 — 이모지 심볼 + 한글 강조 (kind별)
+// ── 단계 1: 사주 근거 헤더 라벨 — 페이지마다 어떤 사주 차원인지 명시 (다양성 인지 ↑) ──
+function sajuBasisLabel(
+  kind: SlideKind | undefined,
+  shiftedPage: number,
+  isChartPage: boolean,
+  aiText: string,
+): string {
+  if (!kind) return "";
+  switch (kind) {
+    case "first-word": return "🎴 일간 메타포";
+    case "pillars": return "📜 사주 4기둥";
+    case "last-word": return "📋 종합";
+    case "overview":
+      if (isChartPage && shiftedPage === 0) return "🌿 오행 (5원소 균형)";
+      if (isChartPage && shiftedPage === 1) return "💠 십성 (10성 분포)";
+      if (/###\s*기운\s*총량/.test(aiText)) return "⚖️ 신강·신약 (기운 총량)";
+      if (/###\s*기질\s*5각도/.test(aiText)) return "🌿 오행 (분포 풀이)";
+      if (/###\s*강점.{0,3}주의점/.test(aiText)) return "📋 종합 (오행+십성)";
+      if (/###\s*격국/.test(aiText)) return "📍 격국 (인생 큰 그림)";
+      if (/###\s*일주\s*캐릭터/.test(aiText)) return "🎴 일주 60갑자";
+      return "";
+    case "heart":
+      // (폐기) 외향-내향 페이지 영구 폐기 — 음양 단독 풀이 X (전통 명리·시장 표준)
+      // (폐기) 6요인 페이지 영구 폐기 — 5요인 모델 풍 비전통 + SSOT 위반 버그
+      if (/###\s*다섯\s*색깔/.test(aiText)) return "💠 십성 (5분류)";
+      if (/###\s*타고난\s*귀인/.test(aiText)) return "✨ 신살 (귀인·길성)";
+      // (폐기) 타고난 신살 페이지 영구 폐기 — 귀인 페이지와 신살 중복 발견
+      if (/###\s*회복과\s*환경/.test(aiText)) return "🌿 오행 (약 처방)";
+      // (폐기) 살펴주면 좋은 결 페이지 영구 폐기 — 용신·기신·회복 페이지와 구조 중복
+      if (/###\s*평생\s*빛나는/.test(aiText)) return "🎯❌ 용신·기신 (채움·살핌)";
+      // (폐기) 보조로 빛나는 결 (희신) 페이지 영구 폐기 — 산출 룰 의문 + 본질 동어반복
+      // (폐기) 공망 페이지 영구 폐기 — 마음 챕터 부적합 + 부모-자녀 양육 가치 낮음
+      // (통합) 기신 페이지 폐기 — 용신 페이지에 흡수됨
+      return "";
+    case "guide":
+      if (/###\s*친구\s*사귀는/.test(aiText)) return "💠 십성+오행 (친구 결)";
+      if (/###\s*친구\s*갈등/.test(aiText)) return "🌿 오행+십성 (개입 거리)";
+      if (/###\s*잠자리.{0,3}식습관/.test(aiText)) return "🌿 오행+십성 (생활 채널)";
+      // (폐기) 디지털·미디어 페이지 영구 폐기 — 사주 근거와 디지털 위험도 상관관계 추정 수준
+      if (/###\s*개운법|###\s*자녀의\s*개운/.test(aiText)) return "🌈 용신 (개운 비보)";
+      if (/###\s*자녀에게\s*좋은\s*시간|###\s*일주\s*기반\s*일상/.test(aiText)) return "🕰️ 일간·일지 (시간 호흡)";
+      if (/###\s*절대\s*하면\s*안/.test(aiText)) return "💠 십성 (약점 위험)";
+      if (/###\s*사춘기에\s*결이\s*변하는/.test(aiText)) return "🔮 대운 (사춘기 시기)";
+      if (/###\s*자녀\s*인생\s*흐름/.test(aiText)) return "🔮 대운 (인생 흐름)";
+      return "";
+    case "mom":
+    case "dad":
+      if (/###\s*(엄마|아빠)\s*vs\s*아이/.test(aiText)) return "🌿 오행 비교";
+      if (/###\s*일간\s*관계/.test(aiText)) return "👁️ 일간 관계";
+      if (/###\s*(엄마|아빠)와\s*자녀의\s*일지/.test(aiText)) return "🔗 일지 합·충 (일상 결)";
+      if (/###\s*(엄마|아빠)가\s*자녀에게\s*주는\s*결/.test(aiText)) return "💠 부모 십성 (가족 명리)";
+      if (/###\s*(엄마|아빠)와\s*자녀가\s*공유하는\s*결/.test(aiText)) return "✨ 공통 신살 (가족 별)";
+      if (/###\s*(엄마|아빠)가\s*채워주는/.test(aiText)) return "🌿 오행 흐름";
+      if (/###\s*(엄마|아빠)와\s*함께\s*채울/.test(aiText)) return "🌿 오행 공통";
+      if (/###\s*잘\s*통하는\s*영역/.test(aiText)) return "🪄 결정론 매트릭스 (시너지)";
+      if (/###\s*갈등이\s*반복/.test(aiText)) return "💠 십성 비교 (갈등)";
+      if (/###\s*(엄마|아빠)가\s*의식적/.test(aiText)) return "🪄 결정론 매트릭스 (선물)";
+      return "";
+    case "talent":
+      if (isChartPage) return "🪄 8지능 매트릭스";
+      if (/###\s*타고난\s*재능/.test(aiText)) return "🪄 8지능 (오행+십성)";
+      if (/###\s*호기심.{0,3}끌림/.test(aiText)) return "💠 식상+인성";
+      if (/###\s*사고\s*유형/.test(aiText)) return "💠 십성 매트릭스";
+      if (/###\s*학습\s*스타일/.test(aiText)) return "🌿 오행 (학습)";
+      if (/###\s*효과적\s*학습/.test(aiText)) return "🌿 오행 (환경)";
+      if (/###\s*진로\s*적합/.test(aiText)) return "🌿 오행 (진로 6각)";
+      if (/###\s*격국.*직업|###\s*격국\s*기반/.test(aiText)) return "📍 격국 (직업 적성)";
+      if (/###\s*진로\s*결정\s*시기/.test(aiText)) return "🔮 대운 (진로 시기)";
+      return "";
+    default: return "";
+  }
+}
+
 const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: string; en: string; subtitle: string }>> = {
-  overview: { partLabel: "Part 02", symbol: "🌱", en: "Our Child at a Glance", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
-  heart: { partLabel: "Part 03", symbol: "💗", en: "Child's Heart", subtitle: "감정과 기질이 흐르는 결의 자리" },
-  guide: { partLabel: "Part 04", symbol: "🤝", en: "Parenting Guide", subtitle: "일상에서 함께 빚어가는 양육의 결" },
-  mom: { partLabel: "Part 05", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
-  dad: { partLabel: "Part 06", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
-  talent: { partLabel: "Part 07", symbol: "⭐", en: "Strength · Talent · Path", subtitle: "타고난 결이 빛나는 자리" },
-  "last-word": { partLabel: "Part 08", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
+  overview: { partLabel: "Part 01", symbol: "🌱", en: "Our Child at a Glance", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
+  heart: { partLabel: "Part 02", symbol: "💗", en: "Child's Heart", subtitle: "감정과 기질이 흐르는 결의 자리" },
+  guide: { partLabel: "Part 03", symbol: "🤝", en: "Parenting Guide", subtitle: "일상에서 함께 빚어가는 양육의 결" },
+  mom: { partLabel: "Part 04", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
+  dad: { partLabel: "Part 05", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
+  talent: { partLabel: "Part 06", symbol: "⭐", en: "Strength · Talent · Path", subtitle: "타고난 결이 빛나는 자리" },
+  "last-word": { partLabel: "Part 07", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
 // 엄마/아빠 입력 여부 + 자녀 발달 단계에 따라 슬라이드 배치 생성
@@ -179,7 +258,8 @@ function buildSlideLayout(
 ): SlideDef[] {
   const layout: SlideDef[] = [
     { kind: "cover", title: "" },
-    { kind: "pillars", title: "사주팔자" },
+    { kind: "intro", title: "들어가며 — 사주 입문", hue: "#a8b8d4" },
+    { kind: "pillars", title: "사주팔자", hue: "#f5b942" },
     { kind: "first-word", title: "자도인의 첫마디", aiSectionIdx: 0, hue: "#f5b942" },
     { kind: "overview", title: "한눈에 보는 우리 아이", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
     { kind: "heart", title: "우리 아이의 마음", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
@@ -521,27 +601,44 @@ function TraitCard({ item, variant, idx }: { item: TraitItem; variant: "strength
 }
 
 // ── 회복과 환경 카드 — AI 출력 파서 + 그리드 ─────────────────────────
-type RecoveryCardItem = { emoji: string; keyword: string; body: string };
-type RecoveryCards = { basis: string; child: RecoveryCardItem[]; parent: RecoveryCardItem[] };
+type RecoveryCardItem = { emoji: string; keyword: string; body: string; why?: string };
+type RecoveryCards = { basis: string; child: RecoveryCardItem[]; parent: RecoveryCardItem[]; commonRationale?: string };
 
 function parseRecoveryCards(text: string): RecoveryCards | null {
   const lines = text.split("\n").map((l) => l.trim());
   let basis = "";
+  let commonRationale = "";
   const child: RecoveryCardItem[] = [];
   const parent: RecoveryCardItem[] = [];
-  let mode: "none" | "basis" | "child" | "parent" = "none";
+  let mode: "none" | "basis" | "child" | "parent" | "common" = "none";
 
-  for (const l of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
     if (!l) continue;
     if (/^\(근거\)\s*$/.test(l)) { mode = "basis"; continue; }
     if (/^\[?\s*자녀\s*\]?$/.test(l) || l.startsWith("[자녀]")) { mode = "child"; continue; }
     if (/^\[?\s*부모\s*\]?$/.test(l) || l.startsWith("[부모]")) { mode = "parent"; continue; }
+    if (l.startsWith("[공통 원리]")) { mode = "common"; continue; }
     if (mode === "none") continue;
 
     if (mode === "basis") {
       if (l.startsWith("###") || l.startsWith("[")) continue;
       if (basis) basis += " ";
       basis += l;
+      continue;
+    }
+    if (mode === "common") {
+      if (l.startsWith("###") || l.startsWith("[")) continue;
+      if (commonRationale) commonRationale += " ";
+      commonRationale += l;
+      continue;
+    }
+
+    // 💡 왜? 라인 — 직전 카드의 why 로 흡수
+    if (l.startsWith("💡")) {
+      const why = l.replace(/^💡\s*/, "").trim();
+      const list = mode === "child" ? child : parent;
+      if (list.length > 0) list[list.length - 1].why = why;
       continue;
     }
 
@@ -561,7 +658,7 @@ function parseRecoveryCards(text: string): RecoveryCards | null {
     else if (mode === "parent") parent.push(item);
   }
   if (child.length === 0 && parent.length === 0) return null;
-  return { basis: basis.trim(), child, parent };
+  return { basis: basis.trim(), child, parent, commonRationale: commonRationale.trim() || undefined };
 }
 
 const CHILD_COLOR = "#7dd3c0";    // 청록 — 자녀
@@ -597,6 +694,18 @@ function RecoveryItemCard({ item, color }: { item: RecoveryCardItem; color: stri
         <p className="leading-[1.6]" style={{ color: "rgba(255,255,255,0.86)", fontSize: 12.5 }}>
           {item.body}
         </p>
+        {item.why && (
+          <p
+            className="mt-1.5 pt-1.5 leading-[1.5] italic"
+            style={{
+              color: "rgba(255,255,255,0.62)",
+              fontSize: 10.5,
+              borderTop: "1px dashed rgba(255,255,255,0.1)",
+            }}
+          >
+            💡 {item.why}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -653,6 +762,130 @@ function RecoveryGrid({ cards }: { cards: RecoveryCards }) {
           </div>
         </div>
       </div>
+
+      {cards.commonRationale && (
+        <div
+          className="rounded-xl p-3 mt-3"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: `1px solid ${ACCENT}30`,
+          }}
+        >
+          <p className="text-[10.5px] tracking-[0.2em] mb-1.5" style={{ color: ACCENT }}>— 공통 원리 —</p>
+          <p className="text-[12.5px] leading-[1.65]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            {cards.commonRationale}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Phase 3: 살펴주면 좋은 결 — 균형 카드 (3장) ────────────────────
+type SoftenCardItem = { emoji: string; keyword: string; body: string; why?: string };
+type SoftenCards = { basis: string; items: SoftenCardItem[]; commonRationale?: string };
+
+function parseSoftenCards(text: string): SoftenCards | null {
+  const lines = text.split("\n").map((l) => l.trim());
+  let basis = "";
+  let commonRationale = "";
+  const items: SoftenCardItem[] = [];
+  let mode: "none" | "basis" | "balance" | "common" = "none";
+
+  for (const l of lines) {
+    if (!l) continue;
+    if (/^\(근거\)\s*$/.test(l)) { mode = "basis"; continue; }
+    if (/^\[?\s*균형\s*\]?$/.test(l) || l.startsWith("[균형]")) { mode = "balance"; continue; }
+    if (l.startsWith("[공통 원리]")) { mode = "common"; continue; }
+    if (mode === "none") continue;
+
+    if (mode === "basis") {
+      if (l.startsWith("###") || l.startsWith("[")) continue;
+      if (basis) basis += " ";
+      basis += l;
+      continue;
+    }
+    if (mode === "common") {
+      if (l.startsWith("###") || l.startsWith("[")) continue;
+      if (commonRationale) commonRationale += " ";
+      commonRationale += l;
+      continue;
+    }
+
+    // 💡 왜? 라인 — 직전 카드의 why 로 흡수
+    if (l.startsWith("💡")) {
+      const why = l.replace(/^💡\s*/, "").trim();
+      if (items.length > 0) items[items.length - 1].why = why;
+      continue;
+    }
+
+    const stripped = l.replace(/^[•\-]\s*/, "");
+    const emojiMatch = stripped.match(EMOJI_RE);
+    let emoji = "";
+    let rest = stripped;
+    if (emojiMatch) {
+      emoji = emojiMatch[1].trim();
+      rest = stripped.slice(emojiMatch[0].length).trim();
+    }
+    const m = rest.match(/^\*\*(.+?)\*\*\s*[—–-]\s*(.+)$/);
+    if (!m) continue;
+    if (!emoji) emoji = "🌿";
+    items.push({ emoji, keyword: m[1].trim(), body: m[2].trim() });
+  }
+  if (items.length === 0) return null;
+  return { basis: basis.trim(), items, commonRationale: commonRationale.trim() || undefined };
+}
+
+const SOFTEN_COLOR = "#c4b5e8"; // 옅은 보라 — 균형/설기 톤 (회복 카드와 시각 구분)
+
+function SoftenGrid({ cards }: { cards: SoftenCards }) {
+  return (
+    <div className="space-y-4">
+      {cards.basis && (
+        <div
+          className="rounded-xl p-3 text-center"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: `1px solid ${ACCENT}30`,
+          }}
+        >
+          <p className="text-[11px] tracking-[0.2em] mb-1.5" style={{ color: ACCENT }}>— 근거 —</p>
+          <p className="text-[13px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.9)" }}>
+            {cards.basis}
+          </p>
+        </div>
+      )}
+      <div>
+        <div className="flex items-center gap-2 mb-2.5 px-1">
+          <span style={{ fontSize: 16 }}>🌿</span>
+          <p className="font-bold tracking-wide" style={{ color: SOFTEN_COLOR, fontSize: 12.5 }}>
+            살펴주면 좋은 결 — 부드러운 균형
+          </p>
+          <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, ${SOFTEN_COLOR}40, transparent)` }} />
+        </div>
+        <div className="space-y-2">
+          {cards.items.map((c, i) => (
+            <RecoveryItemCard key={`s-${i}`} item={c} color={SOFTEN_COLOR} />
+          ))}
+        </div>
+      </div>
+      {cards.commonRationale && (
+        <div
+          className="rounded-xl p-3"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: `1px solid ${ACCENT}30`,
+          }}
+        >
+          <p className="text-[10.5px] tracking-[0.2em] mb-1.5" style={{ color: ACCENT }}>— 공통 원리 —</p>
+          <p className="text-[12.5px] leading-[1.65]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            {cards.commonRationale}
+          </p>
+        </div>
+      )}
+      <p className="text-[10px] text-center italic" style={{ color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}>
+        부드럽게 균형 잡으면 자녀의 결이 더 단단해집니다
+      </p>
     </div>
   );
 }
@@ -1511,8 +1744,498 @@ function SynergyGrid({ cards, color }: { cards: SynergyCards; color: string }) {
   );
 }
 
+// ── ⓞ 기운 총량 게이지 (Phase 2 신규 — 신강·신약 7단계) ─────────
+// 양면 묘사: 강점 + 살펴볼 자리 (자원 톤 유지하되 객관적 도전 측면 정직 표기)
+// ── Part 00 — 입문 챕터 (스크롤 형식) ────────────────────────────
+// 7 섹션을 한 화면 세로 스크롤로 배치 + "보고서 시작 →" CTA
+function IntroScrollChapter({
+  sajuChild,
+  childName,
+  childGender,
+  ilganMetaphor,
+  onStart,
+}: {
+  sajuChild: SajuAnalysis;
+  childName: string;
+  childGender: "남" | "여";
+  ilganMetaphor: string;
+  onStart: () => void;
+}) {
+  const childLabel = `${childName}${childGender === "남" ? "군" : "양"}`;
+  const ilgan = sajuChild.ilgan;
+  const ilji = sajuChild.pillars.day.branch;
+  const ilganHanja = STEM_HANJA[ilgan as keyof typeof STEM_HANJA] ?? ilgan;
+  const iljiHanja = BRANCH_HANJA[ilji as keyof typeof BRANCH_HANJA] ?? ilji;
+  const sectionDivider = (
+    <div className="my-6 flex items-center gap-3 px-2">
+      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)" }} />
+      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>✦</span>
+      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)" }} />
+    </div>
+  );
+  return (
+    <div className="flex-1 flex flex-col" style={{ overflowY: "auto", paddingBottom: 100 }}>
+      <div className="px-4 py-6 space-y-1">
+        {/* 챕터 헤더 */}
+        <div className="text-center mb-3">
+          <p className="text-xs font-semibold tracking-[0.25em]" style={{ color: "#a8b8d4" }}>
+            Part 00 — 들어가며
+          </p>
+          <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
+            아래로 스크롤해서 읽어주세요
+          </p>
+        </div>
+
+        {/* 1. 자도인 인사 */}
+        <section className="space-y-3 py-4">
+          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: ACCENT }}>─ 자도인(慈道人)의 인사 ─</p>
+          <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}30` }}>
+            <p className="text-[14px] font-bold mb-3 text-center" style={{ color: BRIGHT }}>안녕하세요, 어머님 / 아버님.</p>
+            <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+              저는 <strong style={{ color: ACCENT }}>자도인(慈道人)</strong>입니다. 부모님과 자녀의 사주를 함께 들여다보며, 자녀 안에 있는 결을 풀어드리는 일을 합니다.
+            </p>
+            <p className="text-[12.5px] leading-[1.75] mt-3" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <strong style={{ color: BRIGHT }}>{childLabel}</strong>의 사주 안에는 어떤 자녀로 자라갈지에 대한 결이 담겨 있어요. 제가 그 결을 차근차근 풀어드릴 테니, 편안한 마음으로 따라와주세요.
+            </p>
+          </div>
+        </section>
+
+        {sectionDivider}
+
+        {/* 2. 사주란? */}
+        <section className="space-y-3 py-4">
+          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#7dd3c0" }}>─ 사주(四柱)란 무엇인가요? ─</p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <strong style={{ color: "#7dd3c0" }}>사주(四柱)</strong>는 한자 그대로 “네 개의 기둥”이라는 뜻이에요.
+          </p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            태어난 ① 연(年) ② 월(月) ③ 일(日) ④ 시(時) 네 가지 시간의 기둥을 말합니다.
+          </p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            각 기둥은 위아래 두 글자로 이루어집니다. 윗글자 = <strong>천간(天干)</strong> — 하늘의 기운, 아랫글자 = <strong>지지(地支)</strong> — 땅의 기운. 4 기둥 × 2 글자 = 8 글자, 그래서 <strong style={{ color: BRIGHT }}>사주팔자(四柱八字)</strong> 라고 부릅니다.
+          </p>
+          {/* 자녀 4기둥 미리보기 */}
+          <div className="rounded-xl p-4 mt-2" style={{ background: "rgba(125,211,192,0.06)", border: "1px solid rgba(125,211,192,0.25)" }}>
+            <p className="text-[10px] text-center mb-2" style={{ color: "rgba(255,255,255,0.55)" }}>{childLabel}의 사주 미리보기</p>
+            <div className="grid grid-cols-4 gap-2 text-center">
+              {[
+                { label: "시주", stem: sajuChild.pillars.hour?.stem ?? "—", branch: sajuChild.pillars.hour?.branch ?? "—" },
+                { label: "일주", stem: sajuChild.pillars.day.stem, branch: sajuChild.pillars.day.branch, mark: "★" },
+                { label: "월주", stem: sajuChild.pillars.month.stem, branch: sajuChild.pillars.month.branch },
+                { label: "년주", stem: sajuChild.pillars.year.stem, branch: sajuChild.pillars.year.branch },
+              ].map((p, i) => (
+                <div key={i} className={`rounded-lg p-2 ${p.mark ? "ring-1" : ""}`} style={{ background: p.mark ? "rgba(245,185,66,0.08)" : "rgba(255,255,255,0.03)", border: p.mark ? `1px solid ${ACCENT}` : "1px solid rgba(255,255,255,0.1)" }}>
+                  <p className="text-[9px]" style={{ color: p.mark ? ACCENT : "rgba(255,255,255,0.4)" }}>{p.mark ?? ""} {p.label}</p>
+                  <p className="text-[16px] font-bold mt-1" style={{ color: BRIGHT }}>{STEM_HANJA[p.stem as keyof typeof STEM_HANJA] ?? p.stem}</p>
+                  <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.5)" }}>{p.stem}</p>
+                  <p className="text-[16px] font-bold mt-2" style={{ color: BRIGHT }}>{BRANCH_HANJA[p.branch as keyof typeof BRANCH_HANJA] ?? p.branch}</p>
+                  <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.5)" }}>{p.branch}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-[11.5px] leading-[1.7] italic mt-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+            사주는 미래를 점치는 게 아니라, 자녀 안에 타고난 결을 읽는 <strong style={{ color: BRIGHT }}>지도(地圖)</strong>입니다.
+          </p>
+        </section>
+
+        {sectionDivider}
+
+        {/* 3. 사주의 기본 요소 — 천간·지지·오행 */}
+        <section className="space-y-3 py-4">
+          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#7dd3c0" }}>─ 사주의 기본 요소 ─</p>
+
+          {/* 천간 표 */}
+          <div className="space-y-1.5">
+            <p className="text-[12.5px] font-bold" style={{ color: BRIGHT }}>① 천간(天干) — 하늘의 기운 10가지</p>
+            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <div className="grid grid-cols-5 gap-1 text-center text-[10.5px]">
+                {[
+                  { e: "목(木)", c: "#7dd3c0", k: "갑·을 (甲乙)", m: "큰 나무·봄풀" },
+                  { e: "화(火)", c: "#ff8a8a", k: "병·정 (丙丁)", m: "햇살·등불" },
+                  { e: "토(土)", c: "#e8c9a5", k: "무·기 (戊己)", m: "들판·흙" },
+                  { e: "금(金)", c: "#cdd9e4", k: "경·신 (庚辛)", m: "강철·보석" },
+                  { e: "수(水)", c: "#a8c4e8", k: "임·계 (壬癸)", m: "큰 강물·샘물" },
+                ].map((c, i) => (
+                  <div key={i} className="space-y-1 py-1">
+                    <p className="font-bold" style={{ color: c.c }}>{c.e}</p>
+                    <p className="text-[9.5px]" style={{ color: "rgba(255,255,255,0.78)" }}>{c.k}</p>
+                    <p className="text-[8.5px] italic" style={{ color: "rgba(255,255,255,0.5)" }}>{c.m}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 지지 표 — 5 오행 그룹핑 + 자녀 4지지 매핑 (Phase 5+ 직관 재구성) */}
+          <div className="space-y-1.5">
+            <p className="text-[12.5px] font-bold" style={{ color: BRIGHT }}>② 지지(地支) — 땅의 기운 12가지</p>
+            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <p className="text-[10.5px] leading-[1.6] mb-3" style={{ color: "rgba(255,255,255,0.78)" }}>
+                자녀의 결을 만드는 12지지는 <strong>다섯 오행</strong>으로 묶여요.
+              </p>
+
+              {/* 5 오행 그룹 카드 */}
+              <div className="grid grid-cols-5 gap-1.5">
+                {[
+                  { e: "🌿 목", c: "#7dd3c0", h: "(木)", branches: ["인(寅)", "묘(卯)"] },
+                  { e: "🔥 화", c: "#ff8a8a", h: "(火)", branches: ["사(巳)", "오(午)"] },
+                  { e: "🟫 토", c: "#e8c9a5", h: "(土)", branches: ["진(辰)", "술(戌)", "축(丑)", "미(未)"] },
+                  { e: "🤍 금", c: "#cdd9e4", h: "(金)", branches: ["신(申)", "유(酉)"] },
+                  { e: "🔵 수", c: "#a8c4e8", h: "(水)", branches: ["해(亥)", "자(子)"] },
+                ].map((g, i) => (
+                  <div key={i} className="rounded-lg p-2" style={{ background: `${g.c}15`, border: `1px solid ${g.c}40` }}>
+                    <p className="text-[10px] font-bold text-center mb-0.5" style={{ color: g.c }}>{g.e}</p>
+                    <p className="text-[8px] text-center mb-1.5" style={{ color: "rgba(255,255,255,0.5)" }}>{g.h}</p>
+                    <div className="space-y-0.5">
+                      {g.branches.map((b, j) => (
+                        <p key={j} className="text-[10px] text-center" style={{ color: BRIGHT }}>{b}</p>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* 자녀의 4지지 매핑 */}
+              <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                <p className="text-[10.5px] mb-2 text-center" style={{ color: ACCENT }}>
+                  ─ {childLabel}의 사주에 자리한 4지지 ─
+                </p>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {[
+                    { label: "시지", branch: sajuChild.pillars.hour?.branch, isStar: false },
+                    { label: "★ 일지", branch: sajuChild.pillars.day.branch, isStar: true },
+                    { label: "월지", branch: sajuChild.pillars.month.branch, isStar: false },
+                    { label: "년지", branch: sajuChild.pillars.year.branch, isStar: false },
+                  ].map((p, i) => {
+                    const elemMap: Record<string, { e: string; c: string }> = {
+                      인: { e: "🌿 목", c: "#7dd3c0" }, 묘: { e: "🌿 목", c: "#7dd3c0" },
+                      사: { e: "🔥 화", c: "#ff8a8a" }, 오: { e: "🔥 화", c: "#ff8a8a" },
+                      진: { e: "🟫 토", c: "#e8c9a5" }, 술: { e: "🟫 토", c: "#e8c9a5" },
+                      축: { e: "🟫 토", c: "#e8c9a5" }, 미: { e: "🟫 토", c: "#e8c9a5" },
+                      신: { e: "🤍 금", c: "#cdd9e4" }, 유: { e: "🤍 금", c: "#cdd9e4" },
+                      해: { e: "🔵 수", c: "#a8c4e8" }, 자: { e: "🔵 수", c: "#a8c4e8" },
+                    };
+                    const m = p.branch ? elemMap[p.branch] : null;
+                    return (
+                      <div key={i} className="rounded-lg p-2 text-center" style={{
+                        background: p.isStar ? `${ACCENT}15` : "rgba(255,255,255,0.03)",
+                        border: p.isStar ? `1px solid ${ACCENT}` : "1px solid rgba(255,255,255,0.1)",
+                      }}>
+                        <p className="text-[8.5px]" style={{ color: p.isStar ? ACCENT : "rgba(255,255,255,0.5)" }}>{p.label}</p>
+                        <p className="text-[14px] font-bold mt-0.5" style={{ color: BRIGHT }}>
+                          {p.branch ? `${BRANCH_HANJA[p.branch as keyof typeof BRANCH_HANJA] ?? p.branch}(${p.branch})` : "—"}
+                        </p>
+                        {m && <p className="text-[8.5px] mt-0.5" style={{ color: m.c }}>{m.e}</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <p className="text-[9.5px] italic mt-2 leading-[1.55] text-center" style={{ color: "rgba(255,255,255,0.5)" }}>
+                *자녀의 사주 4기둥 아랫글자가 12지지 중 4개로 자리하며, 이 결의 묶음(오행)이 자녀의 일상 호흡을 만듭니다.
+              </p>
+            </div>
+          </div>
+
+          {/* 오행 5각 */}
+          <div className="space-y-1.5">
+            <p className="text-[12.5px] font-bold" style={{ color: BRIGHT }}>③ 오행(五行) — 다섯 가지 기운</p>
+            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <div className="grid grid-cols-5 gap-1 text-center text-[10px]">
+                {[
+                  { e: "🌿 목(木)", c: "#7dd3c0", m: "성장·움직임" },
+                  { e: "🔥 화(火)", c: "#ff8a8a", m: "활기·표현" },
+                  { e: "🟫 토(土)", c: "#e8c9a5", m: "안정·자리잡음" },
+                  { e: "🤍 금(金)", c: "#cdd9e4", m: "단단함·결단" },
+                  { e: "🔵 수(水)", c: "#a8c4e8", m: "사색·고요" },
+                ].map((c, i) => (
+                  <div key={i} className="space-y-0.5 py-1">
+                    <p className="font-bold" style={{ color: c.c }}>{c.e}</p>
+                    <p className="text-[8.5px]" style={{ color: "rgba(255,255,255,0.65)" }}>{c.m}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3 text-[10px] space-y-1" style={{ color: "rgba(255,255,255,0.7)" }}>
+                <p><strong style={{ color: "#7dd3c0" }}>생(生)</strong>: 수→목→화→토→금→수 (서로 살림)</p>
+                <p><strong style={{ color: "#ff8a8a" }}>극(剋)</strong>: 수→화 / 화→금 / 금→목 / 목→토 / 토→수 (다듬음)</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {sectionDivider}
+
+        {/* 4. 일주 = 자녀 본질의 핵 */}
+        <section className="space-y-3 py-4">
+          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#c89cff" }}>─ 자녀 본질의 핵, 일주(日柱) ─</p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            사주 4 기둥 중 가장 중요한 기둥은 <strong style={{ color: "#c89cff" }}>일주(日柱)</strong>입니다.
+          </p>
+          <ul className="text-[12.5px] leading-[1.75] space-y-1 ml-3" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <li>· 일주의 윗글자 = <strong>일간(日干)</strong> → 자녀 본질의 핵 (성격·기질·자아)</li>
+            <li>· 일주의 아랫글자 = <strong>일지(日支)</strong> → 자녀 일상의 결</li>
+          </ul>
+          <div className="rounded-xl p-4 mt-2 text-center" style={{ background: "rgba(200,156,255,0.08)", border: "1px solid rgba(200,156,255,0.3)" }}>
+            <p className="text-[10px] mb-2" style={{ color: "rgba(255,255,255,0.55)" }}>{childLabel}의 일주</p>
+            <p className="text-[24px] font-bold mb-1" style={{ color: BRIGHT }}>{ilganHanja}{iljiHanja}</p>
+            <p className="text-[12px] mb-3" style={{ color: "rgba(255,255,255,0.7)" }}>{ilgan}{ilji}</p>
+            {ilganMetaphor && (
+              <p className="text-[12.5px] italic" style={{ color: "#c89cff" }}>
+                → <strong>{ilganHanja}({ilgan})</strong> — {ilganMetaphor} 같은 자녀
+              </p>
+            )}
+          </div>
+        </section>
+
+        {sectionDivider}
+
+        {/* 5. 십성 */}
+        <section className="space-y-3 py-4">
+          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#a78bfa" }}>─ 자녀의 10가지 성향, 십성(十星) ─</p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <strong style={{ color: "#a78bfa" }}>십성(十星)</strong>은 자녀의 <strong>일간</strong>을 기준으로, 다른 사주 글자가 어떤 관계인지 10가지로 나눈 분류입니다.
+          </p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            비슷한 성격끼리 묶어 <strong>5분류</strong>로 보면:
+          </p>
+          <div className="rounded-xl p-3" style={{ background: "rgba(167,139,250,0.06)", border: "1px solid rgba(167,139,250,0.25)" }}>
+            <ul className="text-[12px] leading-[1.8] space-y-1.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <li><strong style={{ color: "#a78bfa" }}>비겁(比劫)</strong> — 자기를 세움 <span style={{ color: "rgba(255,255,255,0.55)" }}>(비견·겁재)</span></li>
+              <li><strong style={{ color: "#34d399" }}>식상(食傷)</strong> — 표현·창의 <span style={{ color: "rgba(255,255,255,0.55)" }}>(식신·상관)</span></li>
+              <li><strong style={{ color: "#fbbf24" }}>재성(財星)</strong> — 손에 잡으려는 <span style={{ color: "rgba(255,255,255,0.55)" }}>(정재·편재)</span></li>
+              <li><strong style={{ color: "#60a5fa" }}>관성(官星)</strong> — 절제·규율 <span style={{ color: "rgba(255,255,255,0.55)" }}>(정관·편관)</span></li>
+              <li><strong style={{ color: "#c084fc" }}>인성(印星)</strong> — 받아들임·사색 <span style={{ color: "rgba(255,255,255,0.55)" }}>(정인·편인)</span></li>
+            </ul>
+          </div>
+          <p className="text-[11.5px] leading-[1.7] italic" style={{ color: "rgba(255,255,255,0.65)" }}>
+            {childLabel}의 5분류 분포는 본문 「우리 아이의 마음」 챕터에서 자세히 풀어드립니다.
+          </p>
+        </section>
+
+        {sectionDivider}
+
+        {/* (폐기) 자도인의 약속 섹션 — 시장 표준(양반사주·청월당)과 톤 정렬, 부정형 안심 문구 제거 */}
+
+        {/* 7. 보고서 안내 */}
+        <section className="space-y-3 py-4">
+          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: BRIGHT }}>─ 보고서 안내 ─</p>
+          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>이 보고서는 다음으로 구성되어 있어요:</p>
+          <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <ul className="text-[12px] leading-[1.85] space-y-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <li className="italic" style={{ color: "rgba(255,255,255,0.6)" }}>· 사주팔자 (4기둥)</li>
+              <li className="italic" style={{ color: "rgba(255,255,255,0.6)" }}>· 자도인 첫마디</li>
+              <li>1장. 한눈에 보는 우리 아이</li>
+              <li>2장. 우리 아이의 마음</li>
+              <li>3장. 실전 양육 가이드</li>
+              <li>4장. 엄마와 우리 아이</li>
+              <li>5장. 아빠와 우리 아이</li>
+              <li>6장. 강점·재능·진로</li>
+              <li className="pt-1 italic" style={{ color: "rgba(255,255,255,0.6)" }}>+ 자도인의 마지막 당부</li>
+            </ul>
+          </div>
+          {/* (폐기) 사주 근거 라벨 8 카드 — Part 01 사주 도구 카드 페이지와 중복으로 제거 */}
+          <p className="text-[12.5px] leading-[1.7] text-center mt-3 italic" style={{ color: "rgba(255,255,255,0.85)" }}>
+            그럼 이제, 자도인과 함께 <strong style={{ color: BRIGHT }}>{childLabel}</strong>의 사주를 펼쳐볼까요?
+          </p>
+        </section>
+
+        {/* CTA — 보고서 시작 */}
+        <div className="pt-4 pb-2">
+          <button
+            onClick={onStart}
+            className="w-full rounded-2xl py-4 font-bold text-[14px] transition-all"
+            style={{
+              background: `linear-gradient(135deg, ${ACCENT}, #f5b942cc)`,
+              color: "#1a1a1a",
+              boxShadow: `0 4px 24px ${ACCENT}55`,
+            }}
+          >
+            보고서 시작 →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DayMasterGauge({ strength }: { strength: DayMasterStrength }) {
+  const STAGES = [
+    { label: "주변과 함께",   stageName: "극약", desc: "주변의 도움 속에서 가장 잘 해내는 결",   color: "#a5c4e8" },     // 극약
+    { label: "함께가 편함",   stageName: "태약", desc: "혼자보다 함께할 때 마음이 편한 결",       color: "#b8d0e8" },     // 태약
+    { label: "유연한 결",     stageName: "신약", desc: "주변 분위기를 잘 받아들이는 부드러운 결", color: "#cdd9e4" },     // 신약
+    { label: "균형 잡힘",     stageName: "중화", desc: "혼자서도 함께서도 두루 잘 어울리는 결",   color: "#d8d3c8" },     // 중화 — 따뜻한 베이지
+    { label: "주관 분명",     stageName: "신강", desc: "자기 주관이 분명한 결",                   color: "#e8c9a5" },     // 신강
+    { label: "이끄는 결",     stageName: "태강", desc: "스스로 결정하고 끌어가는 결",             color: "#e8b890" },     // 태강
+    { label: "스스로 끌어감", stageName: "극왕", desc: "혼자서 끝까지 밀고 나가는 결",            color: "#e8a87c" },     // 극왕
+  ];
+  const idx = Math.max(0, Math.min(6, strength.positionIdx));
+  // 좌·우 비교용 대표 단계 (0=극약 / 6=극왕) — 가운데 제거 (사용자 요청)
+  const leftRep = STAGES[0];
+  const rightRep = STAGES[6];
+  return (
+    <div className="space-y-3 mb-4">
+      <div className="text-center">
+        <p className="text-[11px] tracking-[0.25em]" style={{ color: ACCENT }}>─ 기운 총량 ─</p>
+      </div>
+      {/* 7단계 게이지 막대 */}
+      <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+        <div className="grid grid-cols-7 gap-1 mb-1">
+          {STAGES.map((s, i) => {
+            const active = i === idx;
+            return (
+              <div
+                key={i}
+                className="rounded-md text-center transition-all"
+                style={{
+                  background: active ? s.color : `${s.color}30`,
+                  border: active ? `1.5px solid ${s.color}` : `1px solid ${s.color}40`,
+                  height: active ? 28 : 22,
+                  marginTop: active ? 0 : 3,
+                  boxShadow: active ? `0 2px 12px ${s.color}80` : "none",
+                }}
+                aria-label={s.desc}
+              />
+            );
+          })}
+        </div>
+        {/* 각 칸 아래 명리 7단계 라벨 (사용자 요청 — 사주 표준어 시각 노출) */}
+        <div className="grid grid-cols-7 gap-1">
+          {STAGES.map((s, i) => {
+            const active = i === idx;
+            return (
+              <p
+                key={`name-${i}`}
+                className="text-center"
+                style={{
+                  fontSize: 9.5,
+                  fontWeight: active ? 700 : 400,
+                  color: active ? s.color : "rgba(255,255,255,0.45)",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {s.stageName}
+              </p>
+            );
+          })}
+        </div>
+      </div>
+      {/* 3단 비교 미니 섹션 — 좌·우만 (가운데 제거) */}
+      <div className="rounded-xl p-3 space-y-2.5" style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.08)" }}>
+        <div>
+          <p className="text-[10.5px] font-bold mb-0.5" style={{ color: leftRep.color }}>◀ 왼쪽일수록 (주변과 함께)</p>
+          <p className="text-[10px] leading-[1.55]" style={{ color: "rgba(255,255,255,0.72)" }}>
+            주변 사람·환경의 도움 속에서 자기 결을 펼치는 자녀 — 부드럽고 협조적이지만 혼자 결정해야 할 때 부담을 느낄 수 있음
+          </p>
+        </div>
+        <div>
+          <p className="text-[10.5px] font-bold mb-0.5" style={{ color: rightRep.color }}>▶ 오른쪽일수록 (스스로 끌어감)</p>
+          <p className="text-[10px] leading-[1.55]" style={{ color: "rgba(255,255,255,0.72)" }}>
+            스스로 결정하고 이끌어가는 자녀 — 추진력이 분명하지만 남의 의견을 받아들이기 어려울 수 있음
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// (Phase 5 폐기) QuadrantMatrix 4분면 매트릭스 — 비전통 프레임으로 롤백 후 dead code 제거됨
+
+// ── Phase 4: 사춘기에 결이 변하는 시기 — 3 단계 박스 시각 카드 (사용자 정책: U곡선 → 3단계로 직관화) ────
+function CrisisTimingCard({ timing, parentLabel: _parentLabel }: { timing: CrisisTiming; parentLabel: string }) {
+  void _parentLabel;
+  const stageColor = timing.pubertyStage === "peak" ? "#e8a87c" : "#c4b5e8"; // 절정=주황 / 입구=보라
+  const stageLabel = timing.pubertyStage === "peak" ? "사춘기 절정" : "사춘기 입구";
+  const peakAgeShort = timing.ageRange.replace("만 ", "").replace(" 무렵", "");
+  return (
+    <div className="space-y-3 mb-4">
+      <div className="text-center">
+        <p className="text-[11px] tracking-[0.25em]" style={{ color: ACCENT }}>─ 결이 변하는 시기 ─</p>
+      </div>
+      <div
+        className="rounded-2xl p-4"
+        style={{
+          background: `linear-gradient(135deg, ${stageColor}18, ${stageColor}06 70%, transparent)`,
+          border: `1px solid ${stageColor}40`,
+        }}
+      >
+        {/* 시기·단계 표시 */}
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] mb-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>다가오는 시기</p>
+            <p className="font-bold leading-tight" style={{ color: stageColor, fontSize: 14 }}>
+              {timing.ageRange}
+            </p>
+          </div>
+          <div
+            className="rounded-full px-3 py-1.5 text-[10.5px] font-bold whitespace-nowrap"
+            style={{
+              background: `${stageColor}20`,
+              color: stageColor,
+              border: `1px solid ${stageColor}55`,
+            }}
+          >
+            {stageLabel}
+          </div>
+        </div>
+
+        {/* 대운 데이터 명시 (사용자 정책 — 두 페이지 연결성 강화) */}
+        {timing.daeunCycle && (
+          <div className="mb-3 px-3 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.04)", border: `1px dashed ${stageColor}55` }}>
+            <p className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+              🔮 자녀의 대운 변환점 — <strong style={{ color: stageColor }}>{timing.daeunCycle.stem}{timing.daeunCycle.branch}</strong> 진입 시점
+            </p>
+            <p className="text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
+              평생 대운 흐름은 다음 페이지(자녀 인생 흐름)에서 자세히 풀어드립니다
+            </p>
+          </div>
+        )}
+
+        {/* 3 단계 박스 — 현재 → 변화 시기 → 이후 */}
+        <div className="grid grid-cols-3 gap-1.5 mt-3 items-stretch">
+          {/* 단계 1: 현재 */}
+          <div className="rounded-xl p-2.5 text-center flex flex-col" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)" }}>
+            <p className="text-[9px] mb-1" style={{ color: "rgba(255,255,255,0.55)" }}>현재</p>
+            <p className="text-[11px] font-bold leading-tight flex-1 flex items-center justify-center" style={{ color: BRIGHT }}>
+              부모 곁에서<br/>자라는 자녀
+            </p>
+          </div>
+          {/* 화살표 + 변화 시기 (강조) */}
+          <div className="rounded-xl p-2.5 text-center flex flex-col" style={{ background: `${stageColor}25`, border: `1.5px solid ${stageColor}` }}>
+            <p className="text-[9px] mb-1" style={{ color: stageColor, fontWeight: 700 }}>★ {peakAgeShort}</p>
+            <p className="text-[11px] font-bold leading-tight flex-1 flex items-center justify-center" style={{ color: BRIGHT }}>
+              자기 세계를<br/>깊이 파고드는<br/>시기
+            </p>
+          </div>
+          {/* 단계 3: 이후 */}
+          <div className="rounded-xl p-2.5 text-center flex flex-col" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)" }}>
+            <p className="text-[9px] mb-1" style={{ color: "rgba(255,255,255,0.55)" }}>이후</p>
+            <p className="text-[11px] font-bold leading-tight flex-1 flex items-center justify-center" style={{ color: BRIGHT }}>
+              자기 결로<br/>단단해진<br/>자녀
+            </p>
+          </div>
+        </div>
+
+        {/* 화살표 (시간 흐름) */}
+        <div className="flex items-center justify-between mt-2 px-2 text-[10px]" style={{ color: stageColor }}>
+          <span>→</span>
+          <span style={{ opacity: 0.5 }}>시간 흐름</span>
+          <span>→</span>
+        </div>
+      </div>
+      <p className="text-[10px] text-center italic" style={{ color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}>
+        결이 변하는 시기는 멀어짐이 아니라 자녀가 자기 결을 단단히 세우는 자리입니다
+      </p>
+    </div>
+  );
+}
+
 // ── ⑤ 갈등 카드 (좌·중·우 충돌 카드) ─────────────────────────────
-type ConflictItem = { parentSide: string; childSide: string; scene: string; emoji: string; basis?: string; guide?: string };
+// Phase 1: 화살표 방향성 추가 — 부모/아이 결 강도 차에 따른 자연 흐름 표시
+// → (강 → 약), ← (약 ← 강), ⇄ (비슷), ↔/· (legacy fallback → ⇄ 동치 처리)
+type ArrowDirection = "→" | "←" | "⇄";
+type ConflictItem = { parentSide: string; childSide: string; scene: string; emoji: string; basis?: string; guide?: string; arrow: ArrowDirection };
 type ConflictCards = { items: ConflictItem[] };
 function parseConflictCards(text: string): ConflictCards | null {
   const lines = text.split("\n").map((l) => l.trim());
@@ -1527,9 +2250,12 @@ function parseConflictCards(text: string): ConflictCards | null {
     const emojiMatch = stripped.match(EMOJI_RE);
     let emoji = "⚡"; let rest = stripped;
     if (emojiMatch) { emoji = emojiMatch[1].trim(); rest = stripped.slice(emojiMatch[0].length).trim(); }
-    // 형식: **부모결 ↔ 아이결** — 일상 장면
-    const m = rest.match(/^\*\*(.+?)\s*[↔⇄·]\s*(.+?)\*\*\s*[—–-]\s*(.+)$/);
+    // 형식: **부모결 [화살표] 아이결** — 일상 장면
+    // 화살표: → ← ⇄ (Phase 1) + ↔ · (legacy fallback)
+    const m = rest.match(/^\*\*(.+?)\s*([→←⇄↔·])\s*(.+?)\*\*\s*[—–-]\s*(.+)$/);
     if (!m) continue;
+    const rawArrow = m[2];
+    const arrow: ArrowDirection = rawArrow === "→" ? "→" : rawArrow === "←" ? "←" : "⇄";
     // 다음 줄(들)에서 📌 사주 근거 / 💡 가이드 캡처
     let basis: string | undefined;
     let guide: string | undefined;
@@ -1548,7 +2274,7 @@ function parseConflictCards(text: string): ConflictCards | null {
         break;
       }
     }
-    items.push({ parentSide: m[1].trim(), childSide: m[2].trim(), scene: m[3].trim(), emoji, basis, guide });
+    items.push({ parentSide: m[1].trim(), childSide: m[3].trim(), scene: m[4].trim(), emoji, basis, guide, arrow });
   }
   if (items.length === 0) return null;
   return { items };
@@ -1579,8 +2305,23 @@ function ConflictCardsGrid({ cards, parentColor, parentLabel }: { cards: Conflic
                 <p className="text-[10px] mb-0.5" style={{ color: parentColor }}>{parentLabel}</p>
                 <p className="font-bold" style={{ color: "rgba(255,255,255,0.92)", fontSize: 13 }}>{it.parentSide}</p>
               </div>
-              <div className="text-center" style={{ fontSize: 18 }}>
-                {it.emoji}
+              <div className="text-center flex flex-col items-center gap-0.5">
+                <span style={{ fontSize: 18 }}>{it.emoji}</span>
+                <span
+                  className="font-bold leading-none"
+                  style={{
+                    fontSize: 14,
+                    color: "rgba(248,113,113,0.85)",
+                    letterSpacing: "0.05em",
+                  }}
+                  aria-label={
+                    it.arrow === "→" ? `${parentLabel} 결이 아이 결을 살피는 자연 흐름`
+                    : it.arrow === "←" ? "아이 결이 먼저 흐름을 잡는 자리"
+                    : "두 결이 서로 맞물리는 자리"
+                  }
+                >
+                  {it.arrow}
+                </span>
               </div>
               <div>
                 <p className="text-[10px] mb-0.5" style={{ color: childColor }}>아이</p>
@@ -1619,6 +2360,12 @@ function ConflictCardsGrid({ cards, parentColor, parentLabel }: { cards: Conflic
           </div>
         ))}
       </div>
+      <p
+        className="text-[10px] text-center pt-1 italic"
+        style={{ color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}
+      >
+        ↑ 화살표는 사주가 가리키는 자연 흐름입니다
+      </p>
     </div>
   );
 }
@@ -1957,18 +2704,7 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
             stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
-        {/* 그리드 % 라벨 — 절대 스케일(/50) 가독성 (ElementsRadar 한정) */}
-        {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
-          <text
-            key={`gl-${gi}`}
-            x={cx + 4}
-            y={cy - R * s + 3}
-            fontSize="9"
-            fill="rgba(255,255,255,0.35)"
-          >
-            {Math.round(s * 50)}%
-          </text>
-        ))}
+        {/* 그리드 내부 % 라벨 제거 — 외곽 오행별 % 가 이미 정확값 표시 (가독성 강화) */}
         {ELEM_ORDER.map((_, i) => {
           const [x, y] = pt(i, 1);
           return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
@@ -2140,18 +2876,7 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
             stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
-        {/* 그리드 라벨 — 십성 카운트 기준 (1/2/3/4/5) */}
-        {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
-          <text
-            key={`sgl-${gi}`}
-            x={cx + 4}
-            y={cy - R * s + 3}
-            fontSize="9"
-            fill="rgba(255,255,255,0.35)"
-          >
-            {Math.round(s * 5)}
-          </text>
-        ))}
+        {/* 그리드 내부 카운트 라벨 제거 — 외곽 십성별 카운트 가 이미 정확값 표시 (가독성 강화) */}
         {ORDER.map((_, i) => {
           const [x, y] = pt(i, 1);
           return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />;
@@ -2876,24 +3601,50 @@ export default function ParentChildSlideResult() {
     if (/\[멘트\]/.test(p) && /부모의 한 마디|부모의 말/.test(p)) return true;
     return false;
   };
+  // Phase 3: 살펴주면 좋은 결 — 영아 미생성 (회복 페이지와 대칭)
+  const isSoftenPage = (p: string): boolean => {
+    if (/###\s*살펴주면 좋은 결/.test(p)) return true;
+    if (/\[균형\]/.test(p) && /즉시 균형|균형 리듬|균형 환경/.test(p)) return true;
+    return false;
+  };
+  // Phase 4: 사춘기에 결이 변하는 시기 — 영·유아 미생성 (사용자 명시 결정)
+  const isCrisisPage = (p: string): boolean => {
+    if (/###\s*사춘기에\s*결이\s*변하는/.test(p)) return true;
+    return false;
+  };
+  // 사용자 정책: "결이 만나고 부딪히는 자리" 페이지 전 연령 영구 폐기 (추상성·중복)
+  const isMeetClashPage = (p: string): boolean => {
+    if (/###\s*결이\s*만나고\s*부딪히는/.test(p)) return true;
+    if (/잘 어울리는 만남/.test(p) && /부딪히는 자극/.test(p)) return true;
+    return false;
+  };
+  // 단계 3 통폐합: "기질 5각도" 페이지 폐기 (오행 차트 + 강점·주의점 카드와 중복)
+  const isFiveangPage = (p: string): boolean => {
+    if (/###\s*기질\s*5각도/.test(p)) return true;
+    return false;
+  };
   const filterPagesForKind = (pages: string[], kind?: string): string[] => {
-    if (kind === "heart" && childAgeStageMemo === "infant") {
-      return pages.filter((p) => !isRecoveryPage(p));
+    if (kind === "heart") {
+      // 사용자 정책: "결이 만나고 부딪히는 자리" 전 연령 폐기 (추상성·중복)
+      return pages.filter((p) => !isMeetClashPage(p));
+    }
+    if (kind === "overview") {
+      // 단계 3 통폐합: "기질 5각도" 페이지 폐기 (오행 차트와 중복)
+      return pages.filter((p) => !isFiveangPage(p));
     }
     if (kind === "guide") {
-      const isYoungStage = childAgeStageMemo === "infant" || childAgeStageMemo === "preschool";
       return pages.filter((p) => {
-        if (isDisciplinePage(p)) return false; // 전 연령 — 훈육 4채널 페이지 숨김
-        if (isYoungStage) {
-          if (isTantrumPage(p)) return false;     // 떼·고집 두 페이지
-          if (isPraisePage(p)) return false;      // 칭찬 카드
-          if (isLifestylePage(p)) return false;   // 잠자리·식습관 4채널
-          if (isDigitalPage(p)) return false;     // 디지털 게이지
-          if (isSelfEsteemPage(p)) return false;  // 자존감 멘트
-        }
+        // 사용자 정책: 떼·고집은 전 연령 영구 폐기 (사주 변별력 부족)
+        if (isTantrumPage(p)) return false;
+        // 전 연령 — 훈육 4채널 페이지 숨김 (보편 양육서와 변별 약함)
+        if (isDisciplinePage(p)) return false;
+        // 사용자 정책: 통하는 칭찬·자존감 멘트 전 연령 폐기 (사주 변별력 0, 보편 양육서 콘텐츠)
+        if (isPraisePage(p)) return false;
+        if (isSelfEsteemPage(p)) return false;
         return true;
       });
     }
+    // 사용자 정책: 회복·살펴주면·칭찬·잠자리·디지털·자존감·사춘기 페이지는 영·유아도 미래 시제로 출력 (자녀가 자랄 것)
     return pages;
   };
   const curPages = curAiText ? filterPagesForKind(splitIntoPages(curAiText), curLayout?.kind) : [];
@@ -3107,7 +3858,49 @@ export default function ParentChildSlideResult() {
   const dadIlganRel: IlganRelation | null = sajuChild && sajuDad ? inferIlganRelation(sajuDad, sajuChild, "아빠") : null;
   const dadFlow: FlowGiven | null = sajuChild && sajuDad ? inferFlowGiven(sajuDad, sajuChild, sajuMom) : null;
   const childSipseongCounts = sajuChild ? getSipseongCounts(sajuChild) : null;
+  // Phase 4 신규 — 사춘기에 결이 변하는 시기 (영·유아 미생성)
+  const childCrisisTiming: CrisisTiming | null = sajuChild ? (() => {
+    const yearStr = params.get("childYear") || "";
+    const y = parseInt(yearStr) || 0;
+    const age = y ? Math.max(0, new Date().getFullYear() - y) : 7;
+    return inferCrisisTiming(age, sajuChild.daeun, childAgeStageMemo);
+  })() : null;
+  // Phase 2 신규 — 기운 총량 (신강·신약 7단계)
+  const childDayMasterStrength: DayMasterStrength | null = sajuChild ? getDayMasterStrength(
+    sajuChild.ilgan,
+    sajuChild.pillars.month.branch,
+    [
+      sajuChild.pillars.year.branch,
+      sajuChild.pillars.month.branch,
+      sajuChild.pillars.day.branch,
+      ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.branch] : []),
+    ],
+    [
+      sajuChild.pillars.year.stem,
+      sajuChild.pillars.month.stem,
+      ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.stem] : []),
+    ],
+  ) : null;
   const childDaeun = sajuChild ? evaluateDaeunTimeline(sajuChild) : null;
+  // Phase 2 신규 — 격국·공망·기신 (전통 명리)
+  const childGyeokguk: GyeokgukResult | null = sajuChild ? calcGyeokguk(sajuChild) : null;
+  const childGongmang: GongmangResult | null = sajuChild ? calcGongmang(sajuChild) : null;
+  const childGisin: GisinResult | null = sajuChild ? calcGisin(sajuChild) : null;
+  const childGaeun: GaeunResult | null = sajuChild ? calcGaeun(sajuChild) : null;
+  const childTiming: ChildTimingResult | null = sajuChild ? calcChildTiming(sajuChild) : null;
+  const childUnseong: UnseongResult | null = sajuChild ? calcUnseong(sajuChild) : null;
+  const childShipiShinsal: ShipiShinsalResult | null = sajuChild ? calcShipiShinsal(sajuChild) : null;
+  const childBranchHarmony: ChildBranchHarmonyResult | null = sajuChild ? calcChildBranchHarmony(sajuChild) : null;
+  const momCheonganHap: CheonganHapResult | null = (sajuMom && sajuChild) ? calcCheonganHap(sajuMom.ilgan, sajuChild.ilgan, "엄마") : null;
+  const dadCheonganHap: CheonganHapResult | null = (sajuDad && sajuChild) ? calcCheonganHap(sajuDad.ilgan, sajuChild.ilgan, "아빠") : null;
+  const familyTrio: FamilyTrioResult | null = (sajuMom && sajuDad && sajuChild) ? calcFamilyTrio(sajuMom, sajuDad, sajuChild) : null;
+  // Phase 4 — 가족 명리
+  const momIljiRel = (sajuMom && sajuChild) ? calcIljiRelation(sajuMom.pillars.day.branch, sajuChild.pillars.day.branch, "엄마") : null;
+  const dadIljiRel = (sajuDad && sajuChild) ? calcIljiRelation(sajuDad.pillars.day.branch, sajuChild.pillars.day.branch, "아빠") : null;
+  const momParentSipseong = (sajuMom && sajuChild) ? calcParentSipseong(sajuMom.ilgan, sajuChild.ilgan, "엄마") : null;
+  const dadParentSipseong = (sajuDad && sajuChild) ? calcParentSipseong(sajuDad.ilgan, sajuChild.ilgan, "아빠") : null;
+  const momSharedSinsal = (sajuMom && sajuChild) ? calcSharedSinsal(sajuMom.sinsal ?? [], sajuChild.sinsal ?? [], "엄마") : null;
+  const dadSharedSinsal = (sajuDad && sajuChild) ? calcSharedSinsal(sajuDad.sinsal ?? [], sajuChild.sinsal ?? [], "아빠") : null;
   const childIlju: IljuInfo | null = sajuChild ? getIljuInfo(sajuChild) : null;
   const childYongsin: YongsinMeaning | null = sajuChild ? inferYongsinMeaning(sajuChild) : null;
   const childDominant: DominantMeaning | null = sajuChild ? inferDominantMeaning(sajuChild) : null;
@@ -3216,6 +4009,31 @@ export default function ParentChildSlideResult() {
       );
     }
 
+    // ── Part 00: 입문 챕터 (스크롤 형식) ──
+    if (curLayout?.kind === "intro") {
+      if (!sajuChild) {
+        return (
+          <div className="flex-1 flex justify-center items-center py-8">
+            <div className="flex gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="w-2 h-2 rounded-full animate-bounce"
+                  style={{ backgroundColor: ACCENT, animationDelay: `${i * 150}ms` }} />
+              ))}
+            </div>
+          </div>
+        );
+      }
+      return (
+        <IntroScrollChapter
+          sajuChild={sajuChild}
+          childName={childName}
+          childGender={childGenderParam === "여" ? "여" : "남"}
+          ilganMetaphor={ILGAN_METAPHOR[sajuChild.ilgan] ?? ""}
+          onStart={() => setSlide(slide + 1)}
+        />
+      );
+    }
+
     // ── Slide 1: 사주팔자 ──
     if (curLayout?.kind === "pillars") {
       const familyCount = (hasMom ? 1 : 0) + (hasDad ? 1 : 0) + 1;
@@ -3276,6 +4094,25 @@ export default function ParentChildSlideResult() {
             </div>
           )}
 
+          {/* 가족 3인 트리오 카드 — 양친 모두 입력 시만 */}
+          {familyTrio && (
+            <div className="rounded-xl p-4 mt-2" style={{ backgroundColor: "rgba(245,185,66,0.07)", border: `1px solid ${ACCENT}55` }}>
+              <p className="text-xs font-bold mb-2" style={{ color: ACCENT }}>👨‍👩‍👧 세 분 가족이 공유하는 결</p>
+              <div className="space-y-1.5 text-[11px]" style={{ color: "rgba(255,255,255,0.78)" }}>
+                {familyTrio.sharedSinsal.length > 0 && (
+                  <p>· <strong style={{ color: BRIGHT }}>공통 신살</strong>: {familyTrio.sharedSinsal.join(" · ")}</p>
+                )}
+                {familyTrio.sharedElement && (
+                  <p>· <strong style={{ color: BRIGHT }}>가족 강 오행</strong>: {familyTrio.sharedElement}의 결 (세 분 모두 25%↑)</p>
+                )}
+                {familyTrio.cheonganHapChain && (
+                  <p>· {familyTrio.cheonganHapChain}</p>
+                )}
+                <p className="mt-2 italic" style={{ color: "rgba(255,255,255,0.65)" }}>{familyTrio.oneLiner}</p>
+              </div>
+            </div>
+          )}
+
           <div className="rounded-xl p-4 space-y-2 mt-2"
             style={{ backgroundColor: `${ACCENT}10`, border: `1px solid ${ACCENT}33` }}>
             <p className="text-xs font-bold" style={{ color: ACCENT }}>가족 인연의 결</p>
@@ -3305,6 +4142,7 @@ export default function ParentChildSlideResult() {
         </div>
       );
     }
+
 
     // ── AI 본문 슬라이드 (+ 차트 페이지 일부) — 2~8 ──
     // (slide 9 = 공유 — 별도 render)
@@ -3384,6 +4222,21 @@ export default function ParentChildSlideResult() {
                 {aiPage + 1} / {totalPages}
               </p>
             )}
+            {(() => {
+              const badge = sajuBasisLabel(curLayout?.kind, shiftedPage, isChartPage, aiText);
+              return badge ? (
+                <p
+                  className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-[9px] tracking-[0.1em]"
+                  style={{
+                    color: `${partHue}cc`,
+                    background: `${partHue}10`,
+                    border: `1px solid ${partHue}30`,
+                  }}
+                >
+                  {badge}
+                </p>
+              ) : null;
+            })()}
           </div>
           <div className="flex-1 px-1">
             {/* Slide 3 차트 1: 오행 5각 + 양 끝 스펙트럼 표 */}
@@ -3432,38 +4285,25 @@ export default function ParentChildSlideResult() {
             {/* AI 본문 텍스트 */}
             {!isChartPage && (
               <>
-                {/* 슬라이드 4 (마음) 첫 AI 페이지(외향-내향) — 양음 시각화 막대 */}
-                {kind === "heart" && aiTextIdx === 0 && sajuChild && (
-                  <YinYangBar saju={sajuChild} />
-                )}
-                {/* 슬라이드 4 (마음) 2번째 AI 페이지(6가지 행동 결의 강도) — 6요인 막대 */}
-                {/* (이전 idx 2 였으나 ### 9가지 기질 차원 페이지 제거 후 idx 1 로 시프트됨) */}
-                {kind === "heart" && aiTextIdx === 1 && sajuChild && childSipseongCounts && (
-                  <div className="mb-4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-                    <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
-                      ─ 6가지 행동 결의 강도 ─
-                    </p>
-                    <SixFactorBars factors={getChildSixFactors(sajuChild, childSipseongCounts)} />
-                  </div>
-                )}
+                {/* (폐기) 외향-내향 페이지 + 6요인 페이지 영구 폐기 — 마음 챕터는 다섯 색깔의 결(십성 5분류)부터 시작 */}
                 {/* 실전 양육 가이드 — AI 페이지별 시각화 */}
                 {/* 페이지 제거 → 차트 idx 시프트 매핑 */}
                 {/* 영아·유아 제거: 0,1 (떼) + 4 (훈육) + 5,6,7,8 (칭찬·잠자리·디지털·자존감) → 남은 원래 idx: 2,3,9 */}
                 {/* 초등·중고등 제거: 4 (훈육) → 남은 원래 idx: 0,1,2,3,5,6,7,8,9 */}
                 {(() => {
-                  const isYoungStage = childAgeStageMemo === "infant" || childAgeStageMemo === "preschool";
+                  // 사용자 정책: 떼·고집(0,1) + 훈육(4) + 칭찬(5) + 자존감(8) 전 연령 폐기.
+                  // 잔존 페이지 순서 (필터 후): 친구스타일(0)·친구거리(1)·잠자리(2)·디지털(3)·위험카드(4)
                   const guideIdx = (originalIdx: number): number => {
-                    if (isYoungStage) {
-                      // 영아·유아: 친구 스타일(2)→0, 친구 거리(3)→1, 위험카드(9)→2 / 나머지 모두 비활성
-                      if (originalIdx === 2) return 0;
-                      if (originalIdx === 3) return 1;
-                      if (originalIdx === 9) return 2;
-                      return -1;
-                    }
-                    // 초등·중고등: 훈육(4) 만 제거 → idx 5+ 는 -1
-                    if (originalIdx === 4) return -1;
-                    if (originalIdx >= 5) return originalIdx - 1;
-                    return originalIdx;
+                    if (originalIdx === 0 || originalIdx === 1) return -1; // 떼·고집 폐기
+                    if (originalIdx === 4) return -1;                       // 훈육 폐기
+                    if (originalIdx === 5) return -1;                       // 칭찬 폐기
+                    if (originalIdx === 8) return -1;                       // 자존감 폐기
+                    if (originalIdx === 2) return 0;                        // 친구 사귀는 스타일
+                    if (originalIdx === 3) return 1;                        // 친구 갈등 거리
+                    if (originalIdx === 6) return 2;                        // 잠자리·식습관
+                    if (originalIdx === 7) return 3;                        // 디지털·미디어
+                    if (originalIdx === 9) return 4;                        // 절대 하면 안 되는 5가지
+                    return -1;
                   };
                   return (
                     <>
@@ -3487,12 +4327,10 @@ export default function ParentChildSlideResult() {
                       {kind === "guide" && aiTextIdx === guideIdx(6) && childLifestyle && (
                         <LifestyleGauges channels={childLifestyle} />
                       )}
-                      {/* idx 7: 디지털·미디어 → 안전·위험 게이지 */}
-                      {kind === "guide" && aiTextIdx === guideIdx(7) && childDigital && (
-                        <DigitalGaugeCard gauge={childDigital} />
-                      )}
+                      {/* (폐기) 디지털·미디어 페이지 영구 폐기 — DigitalGaugeCard 미사용 */}
                       {/* idx 9: 절대 하면 안 되는 5가지 → DangerCards */}
-                      {kind === "guide" && aiTextIdx === guideIdx(9) && childDanger && (
+                      {/* (Phase 3) 텍스트 매칭으로 변경 — 개운법·시간 가이드 페이지 추가로 idx 시프트 */}
+                      {kind === "guide" && /###\s*절대\s*하면\s*안/.test(aiText) && childDanger && (
                         <DangerCards list={childDanger} />
                       )}
                     </>
@@ -3504,44 +4342,51 @@ export default function ParentChildSlideResult() {
                   <ElementCompareRadar cmp={momCompare} parentLabel="엄마" parentColor="#f0a8b8" childLabel="아이" />
                 )}
                 {kind === "mom" && aiTextIdx === 1 && momIlganRel && (
-                  <IlganRelationCard rel={momIlganRel} parentLabel="엄마" parentColor="#f0a8b8" />
+                  <>
+                    <IlganRelationCard rel={momIlganRel} parentLabel="엄마" parentColor="#f0a8b8" />
+                    {/* 천간합 보너스 카드 — 합 관계인 경우만 강조 */}
+                    {momCheonganHap?.hasHap && (
+                      <div className="rounded-2xl p-4 mb-4 mt-3" style={{ background: "rgba(240,168,184,0.10)", border: "1px solid rgba(240,168,184,0.4)" }}>
+                        <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#f0a8b8" }}>✨ 천간합(天干合) — 명운이 묶이는 인연 ✨</p>
+                        <p className="text-[14px] font-bold text-center" style={{ color: BRIGHT }}>
+                          {momCheonganHap.parentIlgan}+{momCheonganHap.childIlgan} = {momCheonganHap.hapName}({momCheonganHap.hapHanja})
+                        </p>
+                        <p className="text-[10.5px] text-center mt-1.5" style={{ color: "rgba(255,255,255,0.7)" }}>
+                          → 합화 오행: <strong style={{ color: BRIGHT }}>{momCheonganHap.hapElement}</strong> · 두 분의 결이 깊이 묶입니다
+                        </p>
+                      </div>
+                    )}
+                  </>
                 )}
-                {kind === "mom" && aiTextIdx === 2 && momFlow && (
+                {/* (사용자 정책) 외부 보완 카드 폐기 — 마음 챕터 회복 페이지와 3중 중복. 엄마 채워주는 결만 표시. */}
+                {kind === "mom" && /###\s*엄마가\s*채워주는/.test(aiText) && momFlow && (
                   <ElementFlowChart flow={momFlow} parentLabel="엄마" parentColor="#f0a8b8" />
                 )}
-                {/* idx 3 (NEW): 외부 보완 가이드 카드 */}
-                {kind === "mom" && aiTextIdx === 3 && momFlow && sajuChild && (
-                  <ParentExternalBoostCards
-                    bothLackElements={momFlow.bothLack}
-                    childWeakestElement={pickWeakestElement(sajuChild.elements as Record<string, number>)}
-                    childAgeStage={childAgeStageMemo ?? "elementary"}
-                    childAge={parseInt(params.get("childYear") ?? "0") ? new Date().getFullYear() - parseInt(params.get("childYear") ?? "0") : 7}
-                    parentLabel="엄마"
-                    parentColor="#f0a8b8"
-                  />
-                )}
-                {/* idx 4 (시너지) · idx 5 (갈등) · idx 6 (선물) — formatText 인터셉트로 처리 */}
+                {/* idx 3 시프트: 시너지·갈등·선물 — formatText 인터셉트 */}
 
                 {/* ── 아빠와 우리 아이 (PART 5) ──────────────────── */}
                 {kind === "dad" && aiTextIdx === 0 && dadCompare && (
                   <ElementCompareRadar cmp={dadCompare} parentLabel="아빠" parentColor="#7eb6ff" childLabel="아이" />
                 )}
                 {kind === "dad" && aiTextIdx === 1 && dadIlganRel && (
-                  <IlganRelationCard rel={dadIlganRel} parentLabel="아빠" parentColor="#7eb6ff" />
+                  <>
+                    <IlganRelationCard rel={dadIlganRel} parentLabel="아빠" parentColor="#7eb6ff" />
+                    {dadCheonganHap?.hasHap && (
+                      <div className="rounded-2xl p-4 mb-4 mt-3" style={{ background: "rgba(126,182,255,0.10)", border: "1px solid rgba(126,182,255,0.4)" }}>
+                        <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#7eb6ff" }}>✨ 천간합(天干合) — 명운이 묶이는 인연 ✨</p>
+                        <p className="text-[14px] font-bold text-center" style={{ color: BRIGHT }}>
+                          {dadCheonganHap.parentIlgan}+{dadCheonganHap.childIlgan} = {dadCheonganHap.hapName}({dadCheonganHap.hapHanja})
+                        </p>
+                        <p className="text-[10.5px] text-center mt-1.5" style={{ color: "rgba(255,255,255,0.7)" }}>
+                          → 합화 오행: <strong style={{ color: BRIGHT }}>{dadCheonganHap.hapElement}</strong> · 두 분의 결이 깊이 묶입니다
+                        </p>
+                      </div>
+                    )}
+                  </>
                 )}
-                {kind === "dad" && aiTextIdx === 2 && dadFlow && (
+                {/* (사용자 정책) 외부 보완 카드 폐기 — 마음 챕터 회복 페이지와 3중 중복. 아빠 채워주는 결만 표시. */}
+                {kind === "dad" && /###\s*아빠가\s*채워주는/.test(aiText) && dadFlow && (
                   <ElementFlowChart flow={dadFlow} parentLabel="아빠" parentColor="#7eb6ff" />
-                )}
-                {/* idx 3 (NEW): 외부 보완 가이드 카드 */}
-                {kind === "dad" && aiTextIdx === 3 && dadFlow && sajuChild && (
-                  <ParentExternalBoostCards
-                    bothLackElements={dadFlow.bothLack}
-                    childWeakestElement={pickWeakestElement(sajuChild.elements as Record<string, number>)}
-                    childAgeStage={childAgeStageMemo ?? "elementary"}
-                    childAge={parseInt(params.get("childYear") ?? "0") ? new Date().getFullYear() - parseInt(params.get("childYear") ?? "0") : 7}
-                    parentLabel="아빠"
-                    parentColor="#7eb6ff"
-                  />
                 )}
                 {kind === "talent" && aiTextIdx === 2 && childThinking && (
                   <ThinkingMatrix tt={childThinking} />
@@ -3549,12 +4394,351 @@ export default function ParentChildSlideResult() {
                 {kind === "talent" && aiTextIdx === 5 && childJobRadar && (
                   <JobRadar items={childJobRadar} />
                 )}
+                {/* (Phase 후속) 자도인의 첫마디 — 자녀 일주 중심 + 부모 양옆 가족 트리오 카드 */}
+                {kind === "first-word" && sajuChild && (() => {
+                  const ilgan = sajuChild.ilgan;
+                  const ilji = sajuChild.pillars.day.branch;
+                  const ilganHanja = STEM_HANJA[ilgan as keyof typeof STEM_HANJA] ?? ilgan;
+                  const iljiHanja = BRANCH_HANJA[ilji as keyof typeof BRANCH_HANJA] ?? ilji;
+                  const ilganElem = STEM_TO_ELEM[ilgan] ?? "";
+                  const childMetaphor = ILGAN_METAPHOR[ilgan] ?? "";
+                  const elemColorMap: Record<string, string> = { 목: "#7dd3c0", 화: "#ff8a8a", 토: "#e8c9a5", 금: "#cdd9e4", 수: "#a8c4e8" };
+                  const elemEmojiMap: Record<string, string> = { 목: "🌿", 화: "🔥", 토: "🟫", 금: "🤍", 수: "🔵" };
+                  const childColor = elemColorMap[ilganElem] ?? ACCENT;
+                  const childEmoji = elemEmojiMap[ilganElem] ?? "✦";
+
+                  const parentCard = (label: string, saju: SajuAnalysis | null, color: string) => {
+                    if (!saju) return null;
+                    const pIlgan = saju.ilgan;
+                    const pHanja = STEM_HANJA[pIlgan as keyof typeof STEM_HANJA] ?? pIlgan;
+                    const pElem = STEM_TO_ELEM[pIlgan] ?? "";
+                    const pMetaphor = ILGAN_METAPHOR[pIlgan] ?? "";
+                    const pEmoji = elemEmojiMap[pElem] ?? "✦";
+                    const pElemColor = elemColorMap[pElem] ?? color;
+                    return (
+                      <div className="rounded-xl p-2.5 text-center flex-1" style={{ background: `${color}10`, border: `1px solid ${color}40` }}>
+                        <p className="text-[9px] mb-1" style={{ color: color }}>{label}</p>
+                        <p className="text-[20px] font-bold" style={{ color: BRIGHT, lineHeight: 1 }}>{pHanja}</p>
+                        <p className="text-[9px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>{pIlgan}</p>
+                        <p className="text-[10px] mt-1.5" style={{ color: pElemColor, fontWeight: 600 }}>{pEmoji} {pMetaphor.split(" ").slice(-2).join(" ")}</p>
+                      </div>
+                    );
+                  };
+
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: `linear-gradient(135deg, ${ACCENT}10, rgba(255,255,255,0.02))`, border: `1px solid ${ACCENT}40` }}>
+                      <p className="text-[10.5px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>─ 가족 세 분의 결이 만난 자리 ─</p>
+
+                      {/* 부모-자녀-부모 가로 배치 */}
+                      <div className="flex items-stretch gap-2">
+                        {/* 엄마 카드 (좌) */}
+                        {hasMom && parentCard("엄마", sajuMom, "#f0a8b8")}
+
+                        {/* 자녀 일주 중심 카드 (가운데, 가장 큼) */}
+                        <div className="rounded-xl p-3 text-center" style={{
+                          background: `linear-gradient(135deg, ${childColor}25, ${childColor}10)`,
+                          border: `2px solid ${childColor}`,
+                          flex: hasMom && hasDad ? 1.4 : (hasMom || hasDad ? 1.6 : 2),
+                          boxShadow: `0 4px 20px ${childColor}30`,
+                        }}>
+                          <p className="text-[9px] mb-1" style={{ color: BRIGHT }}>★ 자녀 일주(日柱)</p>
+                          <p className="text-[26px] font-bold tracking-wider" style={{ color: BRIGHT, lineHeight: 1 }}>{ilganHanja}{iljiHanja}</p>
+                          <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>{ilgan}{ilji}</p>
+                          {childMetaphor && (
+                            <p className="text-[10.5px] mt-2 italic leading-[1.45]" style={{ color: childColor, fontWeight: 600 }}>
+                              {childEmoji} {childMetaphor}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* 아빠 카드 (우) */}
+                        {hasDad && parentCard("아빠", sajuDad, "#7eb6ff")}
+                      </div>
+
+                      {/* 화살표 안내 */}
+                      <p className="text-[10px] text-center mt-3" style={{ color: "rgba(255,255,255,0.55)" }}>
+                        {hasMom && hasDad ? "↘  ↙  세 분의 결이 한자리에 만난 이야기를 풀어드립니다  ↘  ↙" :
+                         (hasMom || hasDad) ? "↘  ↙  두 분의 결이 만난 이야기를 풀어드립니다  ↘  ↙" :
+                         "✦ 자녀의 결을 풀어드립니다 ✦"}
+                      </p>
+                    </div>
+                  );
+                })()}
+
+                {/* Phase 2: 기운 총량 게이지 — 본문 위 시각 (section regex 매칭) */}
+                {kind === "overview" && /###\s*기운\s*총량/.test(aiText) && childDayMasterStrength && (
+                  <DayMasterGauge strength={childDayMasterStrength} />
+                )}
+                {/* Phase 2: 격국 카드 — 본문 위 시각 + 양육 팁 (Phase 후속 강화) */}
+                {kind === "overview" && /###\s*격국/.test(aiText) && childGyeokguk && (
+                  <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(168,139,250,0.08)", border: "1px solid rgba(168,139,250,0.35)" }}>
+                    <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#a78bfa" }}>─ 자녀의 격국(格局) — 인생의 큰 그림 ─</p>
+                    <p className="text-[20px] font-bold text-center" style={{ color: BRIGHT }}>{childGyeokguk.name}</p>
+                    <p className="text-[12px] text-center mt-0.5" style={{ color: "rgba(255,255,255,0.65)" }}>{childGyeokguk.hanja}</p>
+                    <p className="text-[11px] text-center mt-2 italic" style={{ color: "rgba(255,255,255,0.7)" }}>{childGyeokguk.meaning}</p>
+                    {/* 양육 팁 3개 */}
+                    {childGyeokguk.parentingTips && childGyeokguk.parentingTips.length > 0 && (
+                      <div className="mt-3 pt-3 border-t" style={{ borderColor: "rgba(168,139,250,0.2)" }}>
+                        <p className="text-[10px] mb-2" style={{ color: "#a78bfa", fontWeight: 600 }}>📌 이 격국 자녀를 위한 양육 팁</p>
+                        <ul className="space-y-1.5">
+                          {childGyeokguk.parentingTips.map((tip, i) => (
+                            <li key={i} className="text-[10.5px] leading-[1.55]" style={{ color: "rgba(255,255,255,0.78)" }}>
+                              <span style={{ color: "#a78bfa" }}>·</span> {tip}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {/* Phase 2: 공망 카드 — 본문 위 시각 */}
+                {/* (Phase 후속) 다섯 색깔의 결 — 5 색상 카드 그리드 (십성 5분류 강도 시각화) */}
+                {kind === "heart" && /###\s*다섯\s*색깔/.test(aiText) && childSipseongCounts && (() => {
+                  const total = (childSipseongCounts.비겁 ?? 0) + (childSipseongCounts.식상 ?? 0) +
+                                (childSipseongCounts.재성 ?? 0) + (childSipseongCounts.관성 ?? 0) +
+                                (childSipseongCounts.인성 ?? 0);
+                  const items = [
+                    { key: "비겁", label: "비겁(比劫)", emoji: "🟣", color: "#a78bfa", desc: "자기 세움·추진", count: childSipseongCounts.비겁 ?? 0 },
+                    { key: "식상", label: "식상(食傷)", emoji: "💚", color: "#34d399", desc: "표현·창의", count: childSipseongCounts.식상 ?? 0 },
+                    { key: "재성", label: "재성(財星)", emoji: "🟡", color: "#fbbf24", desc: "손에 잡음·실리", count: childSipseongCounts.재성 ?? 0 },
+                    { key: "관성", label: "관성(官星)", emoji: "🔵", color: "#60a5fa", desc: "절제·규율", count: childSipseongCounts.관성 ?? 0 },
+                    { key: "인성", label: "인성(印星)", emoji: "🟪", color: "#c084fc", desc: "받아들임·사색", count: childSipseongCounts.인성 ?? 0 },
+                  ];
+                  const maxCnt = Math.max(...items.map(i => i.count), 1);
+                  const minCnt = Math.min(...items.map(i => i.count));
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+                      <p className="text-[11px] tracking-[0.2em] text-center mb-3" style={{ color: ACCENT }}>─ 다섯 색깔의 결 — 강·약 ─</p>
+                      <div className="grid grid-cols-5 gap-1.5">
+                        {items.map((item, i) => {
+                          const isStrong = item.count === maxCnt && item.count > 0;
+                          const isWeak = item.count === minCnt && item.count !== maxCnt;
+                          const pct = total > 0 ? (item.count / total) * 100 : 0;
+                          return (
+                            <div key={i} className="rounded-lg p-2 text-center" style={{
+                              background: `${item.color}${isStrong ? "20" : "08"}`,
+                              border: `1px solid ${item.color}${isStrong ? "70" : "30"}`,
+                            }}>
+                              <p className="text-[14px] mb-0.5">{item.emoji}</p>
+                              <p className="text-[10px] font-bold" style={{ color: item.color }}>{item.label.split('(')[0]}</p>
+                              <p className="text-[8px] mt-0.5" style={{ color: "rgba(255,255,255,0.5)" }}>{item.desc}</p>
+                              {/* 강도 막대 */}
+                              <div className="h-1 rounded mt-2 mx-auto" style={{ width: '100%', background: 'rgba(255,255,255,0.08)' }}>
+                                <div className="h-1 rounded" style={{ width: `${Math.min(pct * 2, 100)}%`, background: item.color }} />
+                              </div>
+                              <p className="text-[10px] mt-1" style={{ color: BRIGHT, fontWeight: isStrong ? 700 : 400 }}>
+                                {isStrong && '★ '}{isWeak && '△ '}{item.count}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <p className="text-[9.5px] text-center mt-2.5 italic" style={{ color: "rgba(255,255,255,0.55)" }}>
+                        ★ 가장 강한 결 · △ 가장 약한 결
+                      </p>
+                    </div>
+                  );
+                })()}
+
+                {/* (Phase 후속) 타고난 귀인 — N 귀인 카드 그리드 */}
+                {kind === "heart" && /###\s*타고난\s*귀인/.test(aiText) && sajuChild && (() => {
+                  const guin = (sajuChild.sinsal ?? []).filter(n => SINSAL_INFO[n]?.category === '귀인');
+                  if (guin.length === 0) return null;
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(245,185,66,0.06)", border: `1px solid ${ACCENT}55` }}>
+                      <p className="text-[11px] tracking-[0.2em] text-center mb-3" style={{ color: ACCENT }}>─ 타고난 귀인(吉星) {guin.length}자리 ─</p>
+                      <div className={`grid gap-2 ${guin.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                        {guin.map((name, i) => {
+                          const info = SINSAL_INFO[name];
+                          if (!info) return null;
+                          return (
+                            <div key={i} className="rounded-xl p-3" style={{ background: "rgba(245,185,66,0.08)", border: `1px solid ${ACCENT}40` }}>
+                              <div className="flex items-start gap-2">
+                                <span className="text-[18px] leading-none mt-0.5">{info.icon}</span>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-[12px] font-bold leading-tight" style={{ color: BRIGHT }}>{name}</p>
+                                  <p className="text-[9px] leading-tight" style={{ color: "rgba(255,255,255,0.55)" }}>{info.hanja}</p>
+                                </div>
+                              </div>
+                              <p className="text-[10.5px] mt-2 leading-[1.45]" style={{ color: ACCENT, fontWeight: 600 }}>
+                                {info.subtitle}
+                              </p>
+                              <p className="text-[10px] mt-1.5 leading-[1.55]" style={{ color: "rgba(255,255,255,0.7)" }}>
+                                {info.desc}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* (폐기) 공망 카드 영구 폐기 — 마음 챕터 부적합 + 부모-자녀 양육 가치 낮음 */}
+                {/* Phase 3: 개운법 카드 — 본문 위 시각 (guide 챕터) */}
+                {kind === "guide" && /###\s*개운법|###\s*자녀의\s*개운/.test(aiText) && childGaeun && (
+                  <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,200,120,0.06)", border: "1px solid rgba(255,200,120,0.3)" }}>
+                    <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#ffc878" }}>─ 개운법(改運法) — 용신 {childGaeun.yongsinElement} 비보 ─</p>
+                    <div className="grid grid-cols-2 gap-2 text-[10.5px]">
+                      <div className="rounded-lg p-2.5" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <p className="text-[9px] mb-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>🎨 행운 색</p>
+                        <p style={{ color: BRIGHT, fontWeight: 600 }}>{childGaeun.colors.join(" · ")}</p>
+                      </div>
+                      <div className="rounded-lg p-2.5" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <p className="text-[9px] mb-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>🧭 방위</p>
+                        <p style={{ color: BRIGHT, fontWeight: 600 }}>{childGaeun.direction}</p>
+                      </div>
+                      <div className="rounded-lg p-2.5" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <p className="text-[9px] mb-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>🍚 음식</p>
+                        <p style={{ color: BRIGHT, fontWeight: 600 }}>{childGaeun.foods.slice(0, 3).join(" · ")}</p>
+                      </div>
+                      <div className="rounded-lg p-2.5" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <p className="text-[9px] mb-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>🔢 숫자</p>
+                        <p style={{ color: BRIGHT, fontWeight: 600 }}>{childGaeun.numbers.join(" · ")}</p>
+                      </div>
+                      {/* (사용자 정책) 시간 카드 제거 — "시간 호흡" 페이지(7/10)에 일원화. 시간 정보 중복·충돌 방지. */}
+                      <div className="rounded-lg p-2.5 col-span-2" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <p className="text-[9px] mb-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>🌿 환경</p>
+                        <p style={{ color: BRIGHT, fontWeight: 600 }}>{childGaeun.environment.slice(0, 2).join(" · ")}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {/* Phase 5: 격국 직업 카드 (talent) */}
+                {kind === "talent" && /###\s*격국.*직업|###\s*격국\s*기반/.test(aiText) && childGyeokguk && (
+                  <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(168,139,250,0.07)", border: "1px solid rgba(168,139,250,0.35)" }}>
+                    <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#a78bfa" }}>─ 격국(格局) 기반 직업 적성 ─</p>
+                    <p className="text-[16px] font-bold text-center" style={{ color: BRIGHT }}>{childGyeokguk.name} ({childGyeokguk.hanja})</p>
+                    <p className="text-[10.5px] text-center mt-1.5 italic" style={{ color: "rgba(255,255,255,0.65)" }}>{childGyeokguk.meaning}</p>
+                    <div className="mt-3 grid grid-cols-2 gap-1.5">
+                      {childGyeokguk.career.map((c, i) => (
+                        <div key={i} className="rounded-lg p-2 text-center text-[10.5px]" style={{ background: "rgba(168,139,250,0.10)", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(168,139,250,0.25)" }}>
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {/* Phase 4: 일지 관계 카드 (mom/dad) */}
+                {(kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)와\s*자녀의\s*일지/.test(aiText) && (kind === "mom" ? momIljiRel : dadIljiRel) && (() => {
+                  const r = kind === "mom" ? momIljiRel! : dadIljiRel!;
+                  const colorMap: Record<string, string> = { "육합": "#7dd3c0", "비화": "#a78bfa", "육충": "#ff8a8a", "형": "#e8a87c", "해": "#ffc878", "파": "#ff9d6b", "기타": "#cdd9e4" };
+                  const c = colorMap[r.kind] ?? "#cdd9e4";
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: `${c}10`, border: `1px solid ${c}55` }}>
+                      <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: c }}>─ 일지(日支) 관계 — {kind === "mom" ? "엄마" : "아빠"} & 자녀 ─</p>
+                      <div className="flex items-center justify-center gap-3 text-[18px] font-bold" style={{ color: BRIGHT }}>
+                        <span>{r.parentBranch}</span>
+                        <span className="text-[14px]" style={{ color: c }}>{r.kind}({r.hanja})</span>
+                        <span>{r.childBranch}</span>
+                      </div>
+                      <p className="text-[10.5px] text-center mt-2 italic" style={{ color: "rgba(255,255,255,0.7)" }}>{r.meaning}</p>
+                    </div>
+                  );
+                })()}
+                {/* Phase 4: 부모 십성 카드 */}
+                {(kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)가\s*자녀에게\s*주는\s*결/.test(aiText) && (kind === "mom" ? momParentSipseong : dadParentSipseong) && (() => {
+                  const r = kind === "mom" ? momParentSipseong! : dadParentSipseong!;
+                  const catColor: Record<string, string> = { "비겁": "#a78bfa", "식상": "#34d399", "재성": "#fbbf24", "관성": "#60a5fa", "인성": "#c084fc" };
+                  const c = catColor[r.category] ?? "#cdd9e4";
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: `${c}10`, border: `1px solid ${c}55` }}>
+                      <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: c }}>─ 부모 십성(十星) — 자녀 일간 기준 ─</p>
+                      <p className="text-[18px] font-bold text-center" style={{ color: BRIGHT }}>{r.sipseong}({r.hanja})</p>
+                      <p className="text-[11px] text-center mt-1" style={{ color: c }}>{r.category} 카테고리</p>
+                      <p className="text-[10.5px] text-center mt-2 italic leading-[1.55]" style={{ color: "rgba(255,255,255,0.72)" }}>{r.meaning}</p>
+                    </div>
+                  );
+                })()}
+                {/* Phase 4: 공통 신살 카드 */}
+                {(kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)와\s*자녀가\s*공유하는\s*결/.test(aiText) && (kind === "mom" ? momSharedSinsal : dadSharedSinsal) && (() => {
+                  const r = kind === "mom" ? momSharedSinsal! : dadSharedSinsal!;
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(245,185,66,0.07)", border: `1px solid ${ACCENT}55` }}>
+                      <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: ACCENT }}>─ 공통 신살(神煞) — {kind === "mom" ? "엄마" : "아빠"} & 자녀 ─</p>
+                      {r.shared.length > 0 ? (
+                        <div className="flex flex-wrap gap-1.5 justify-center mt-2">
+                          {r.shared.map((s, i) => (
+                            <span key={i} className="text-[11px] px-2.5 py-1 rounded-full"
+                              style={{ background: "rgba(245,185,66,0.15)", color: BRIGHT, border: `1px solid ${ACCENT}55` }}>
+                              ✨ {s}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-[10.5px] text-center mt-2 italic" style={{ color: "rgba(255,255,255,0.6)" }}>
+                          공유 신살이 없되 — 각자의 결로 서로를 *보완*하는 가족
+                        </p>
+                      )}
+                    </div>
+                  );
+                })()}
+                {/* Phase 3: 시간 가이드 카드 */}
+                {kind === "guide" && /###\s*자녀에게\s*좋은\s*시간|###\s*일주\s*기반\s*일상/.test(aiText) && childTiming && (
+                  <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(180,150,255,0.05)", border: "1px solid rgba(180,150,255,0.25)" }}>
+                    <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#b496ff" }}>─ 자녀의 시간 호흡 — 일간 {childTiming.ilganElement}·일지 {childTiming.ilji} ─</p>
+                    <div className="space-y-1.5 text-[10.5px]">
+                      <div className="rounded-lg px-3 py-2 flex items-start gap-2" style={{ background: "rgba(255,200,120,0.08)" }}>
+                        <span>☀️</span>
+                        <div>
+                          <span style={{ color: "rgba(255,255,255,0.55)" }}>활기 시간: </span>
+                          <span style={{ color: BRIGHT, fontWeight: 600 }}>{childTiming.bestHours}</span>
+                        </div>
+                      </div>
+                      <div className="rounded-lg px-3 py-2 flex items-start gap-2" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <span>🌙</span>
+                        <div>
+                          <span style={{ color: "rgba(255,255,255,0.55)" }}>잠: </span>
+                          <span style={{ color: "rgba(255,255,255,0.85)" }}>{childTiming.sleepBest}</span>
+                        </div>
+                      </div>
+                      <div className="rounded-lg px-3 py-2 flex items-start gap-2" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <span>📚</span>
+                        <div>
+                          <span style={{ color: "rgba(255,255,255,0.55)" }}>학습: </span>
+                          <span style={{ color: "rgba(255,255,255,0.85)" }}>{childTiming.studyBest}</span>
+                        </div>
+                      </div>
+                      <div className="rounded-lg px-3 py-2 flex items-start gap-2" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <span>🏃</span>
+                        <div>
+                          <span style={{ color: "rgba(255,255,255,0.55)" }}>야외: </span>
+                          <span style={{ color: "rgba(255,255,255,0.85)" }}>{childTiming.outdoorBest}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {/* (통합) 용신·기신 듀얼 카드 — "평생 빛나는 결" 페이지에서 양면 표시 */}
+                {kind === "heart" && /###\s*평생\s*빛나는/.test(aiText) && childGisin && (
+                  <div className="rounded-2xl p-4 mb-4" style={{ background: `linear-gradient(135deg, rgba(200,156,255,0.07), rgba(232,168,124,0.07))`, border: "1px solid rgba(200,156,255,0.3)" }}>
+                    <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#c89cff" }}>─ 평생 빛나는 결 — 채움(用神) · 살핌(忌神) ─</p>
+                    <div className="grid grid-cols-2 gap-2 mt-1">
+                      <div className="rounded-lg p-2.5 text-center" style={{ background: "rgba(200,156,255,0.10)", border: "1px solid rgba(200,156,255,0.35)" }}>
+                        <p className="text-[9px]" style={{ color: "#c89cff", fontWeight: 600 }}>🎯 용신 (가까이 둘 결)</p>
+                        <p className="text-[16px] font-bold mt-0.5" style={{ color: BRIGHT }}>{childGisin.yongsin}</p>
+                        <p className="text-[8.5px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>채울수록 빛나는</p>
+                      </div>
+                      <div className="rounded-lg p-2.5 text-center" style={{ background: "rgba(232,168,124,0.10)", border: "1px solid rgba(232,168,124,0.35)" }}>
+                        <p className="text-[9px]" style={{ color: "#e8a87c", fontWeight: 600 }}>❌ 기신 (살펴줄 결)</p>
+                        <p className="text-[16px] font-bold mt-0.5" style={{ color: BRIGHT }}>{childGisin.element}({childGisin.hanja})</p>
+                        <p className="text-[8.5px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>과하지 않게</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {/* Phase 4: 사춘기에 결이 변하는 시기 — 본문 위 시각 (사용자 정책: 실전 양육 가이드 통합) */}
+                {kind === "guide" && /###\s*사춘기에\s*결이\s*변하는/.test(aiText) && childCrisisTiming && (
+                  <CrisisTimingCard timing={childCrisisTiming} parentLabel="부모님" />
+                )}
                 {aiText ? (
                   // 강점·주의점 카드 섹션은 TraitGrid로 렌더 (overview 마지막 페이지)
                   kind === "overview" && /###\s*강점.{0,3}주의점/.test(aiText) && parseTraitCards(aiText) ? (
                     <TraitGrid cards={parseTraitCards(aiText)!} />
                   ) : kind === "heart" && /###\s*회복과 환경/.test(aiText) && parseRecoveryCards(aiText) ? (
                     <RecoveryGrid cards={parseRecoveryCards(aiText)!} />
+                  ) : kind === "heart" && /###\s*살펴주면 좋은 결/.test(aiText) && parseSoftenCards(aiText) ? (
+                    <SoftenGrid cards={parseSoftenCards(aiText)!} />
                   ) : kind === "guide" && /###\s*떼.{0,3}고집 대처/.test(aiText) && parseTantrumSteps(aiText) ? (
                     <>
                       {(() => {
@@ -3592,6 +4776,14 @@ export default function ParentChildSlideResult() {
                     />
                   ) : (kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)가 의식적으로/.test(aiText) && parseGiftCard(aiText) ? (
                     <GiftBoxCard gift={parseGiftCard(aiText)!} color={kind === "mom" ? "#f0a8b8" : "#7eb6ff"} />
+                  ) : kind === "first-word" ? (
+                    /* (Phase 후속) 자도인의 첫마디 본문 — 골드 톤 카드로 감싸 가족 트리오 헤더와 톤 통일 */
+                    <div className="rounded-2xl p-4" style={{
+                      background: `linear-gradient(135deg, ${ACCENT}10, rgba(255,255,255,0.02))`,
+                      border: `1px solid ${ACCENT}40`,
+                    }}>
+                      {formatText(aiText, partHue)}
+                    </div>
                   ) : (
                     formatText(aiText, partHue)
                   )

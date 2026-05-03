@@ -489,6 +489,111 @@ export function calcElements(stems: string[], branches: string[]): Elements {
   return e;
 }
 
+// ─── 일간 강약 (신강·신약) — Phase 2 신규 ─────────────
+// 고전 명리 표준 가중치: 월령(±3~4) + 통근(±1.5~2) + 천간(±1~1.5)
+// 7단계 라벨: 극약 / 태약 / 신약 / 중화 / 신강 / 태강 / 극왕
+export type DayMasterStrengthLevel = '극약'|'태약'|'신약'|'중화'|'신강'|'태강'|'극왕';
+export interface DayMasterStrength {
+  level: DayMasterStrengthLevel;
+  score: number;          // 원시 점수 (대략 -12 ~ +12)
+  positionIdx: number;    // 0~6 (게이지 7단계 인덱스)
+}
+
+export function getDayMasterStrength(
+  ilgan: string,
+  monthBranch: string,
+  allBranches: string[],   // 연·월·일·시 지지 모두 포함
+  otherStems: string[]     // 일간 본인 제외한 천간 (연·월·시)
+): DayMasterStrength {
+  const ie = STEM_ELEM[ilgan as Stem];
+  if (!ie) return { level: '중화', score: 0, positionIdx: 3 };
+
+  let score = 0;
+
+  // ── 월령 (가장 큰 가중치) ────────────────────
+  const monthElem = BRANCH_ELEM[monthBranch as Branch];
+  if (monthElem === ie)                  score += 4;   // 비겁월령
+  else if (GENERATES[monthElem] === ie)  score += 3;   // 인성월령
+  else if (GENERATES[ie] === monthElem)  score -= 2;   // 식상월령
+  else if (CONTROLS[ie] === monthElem)   score -= 2;   // 재성월령
+  else if (CONTROLS[monthElem] === ie)   score -= 3;   // 관성월령
+
+  // ── 통근 (월지 외 다른 지지) ──────────────────
+  for (const b of allBranches) {
+    if (b === monthBranch) continue;
+    const be = BRANCH_ELEM[b as Branch];
+    if (!be) continue;
+    if (be === ie)                       score += 2;
+    else if (GENERATES[be] === ie)       score += 1.5;
+    else if (GENERATES[ie] === be)       score -= 1;
+    else if (CONTROLS[ie] === be)        score -= 1;
+    else if (CONTROLS[be] === ie)        score -= 1.5;
+  }
+
+  // ── 천간 (일간 본인 제외) ─────────────────────
+  for (const s of otherStems) {
+    const se = STEM_ELEM[s as Stem];
+    if (!se) continue;
+    if (se === ie)                       score += 1.5;
+    else if (GENERATES[se] === ie)       score += 1.5;
+    else if (GENERATES[ie] === se)       score -= 1;
+    else if (CONTROLS[ie] === se)        score -= 1;
+    else if (CONTROLS[se] === ie)        score -= 1.5;
+  }
+
+  // ── 7단계 임계값 ─────────────────────────────
+  let level: DayMasterStrengthLevel;
+  let positionIdx: number;
+  if      (score <= -8) { level = '극약'; positionIdx = 0; }
+  else if (score <= -4) { level = '태약'; positionIdx = 1; }
+  else if (score <= -1) { level = '신약'; positionIdx = 2; }
+  else if (score <=  2) { level = '중화'; positionIdx = 3; }
+  else if (score <=  5) { level = '신강'; positionIdx = 4; }
+  else if (score <=  9) { level = '태강'; positionIdx = 5; }
+  else                  { level = '극왕'; positionIdx = 6; }
+
+  return { level, score: Math.round(score * 10) / 10, positionIdx };
+}
+
+// ─── 사춘기 결의 변화 시기 (Phase 4 신규) ─────────────
+// 3단계 fallback:
+//   1순위: 자녀 현 나이 이후 첫 대운 변환점 (0~25세 안)
+//   2순위: 사춘기 무렵 (만 12~15세) — 초등 케이스
+export interface CrisisTiming {
+  ageRange: string;                     // "만 14세 무렵" 또는 "사춘기 무렵 (만 12~15세)"
+  daeunCycle?: DaeunCycle;              // 1순위 매칭된 대운 (있으면)
+  source: "daeun" | "puberty";
+  pubertyStage: "approaching" | "peak"; // 초등=approaching, 중등=peak
+}
+
+export function inferCrisisTiming(
+  childAge: number,
+  daeun: DaeunResult,
+  ageStage: "infant" | "preschool" | "elementary" | "secondary",
+): CrisisTiming | null {
+  // 사용자 정책 변경: 영·유아 케이스도 미래 시제로 출력 (자녀가 자랄 것)
+  // 단계 결정: secondary=peak / 그 외(infant·preschool·elementary)=approaching (앞으로 사춘기 입구)
+  const pubertyStage = ageStage === "secondary" ? "peak" : "approaching";
+
+  // 1순위: 0~25세 안에 자녀 현 나이 이후 첫 대운 변환점
+  const upcoming = (daeun.cycles ?? []).find(c => c.age > childAge && c.age <= 25);
+  if (upcoming) {
+    return {
+      ageRange: `만 ${upcoming.age}세 무렵`,
+      daeunCycle: upcoming,
+      source: "daeun",
+      pubertyStage,
+    };
+  }
+
+  // fallback: 사춘기 무렵
+  return {
+    ageRange: pubertyStage === "peak" ? "사춘기 절정 시기 (만 13~15세)" : "사춘기 입구 시기 (만 11~13세)",
+    source: "puberty",
+    pubertyStage,
+  };
+}
+
 // 용신 추천 (오행 부족한 것 중 일간을 돕는 오행)
 export function getYongsin(ilgan: string, elements: Elements): string {
   const ie = STEM_ELEM[ilgan as Stem];

@@ -4,12 +4,13 @@
 //
 // Phase 3 (옵션 D) 의 핵심 — 분산 데이터 source 12+ 곳을 단일 시드로 통합.
 
-import type { SajuAnalysis } from "./saju-calculator";
+import type { SajuAnalysis, DayMasterStrength } from "./saju-calculator";
+import { getDayMasterStrength } from "./saju-calculator";
 import { getSipseongCounts } from "./parent-child-charts";
 import type { AgeStage } from "./age-stage";
 
 // ── 일간(10간) → 자연 메타포 (opener-seed.ts 와 동일 — sync 유지) ──
-const ILGAN_METAPHOR: Record<string, string> = {
+export const ILGAN_METAPHOR: Record<string, string> = {
   갑: "곧게 뻗는 큰 나무",
   을: "부드럽게 뻗는 봄풀",
   병: "환하게 비추는 햇살",
@@ -113,6 +114,9 @@ export interface ChildSeed {
   yinPct: number;
   introExtroDirection: "외향" | "내향";
 
+  // ── 일간 강약 (Phase 2 신규 — 신강·신약 게이지) ──
+  dayMasterStrength: DayMasterStrength;
+
   // ── 6요인 행동 결 ──
   sixFactor: Record<SixFactorKey, number>;
   sixFactorTop1: SixFactorKey;
@@ -197,11 +201,27 @@ export function buildChildSeed(
   // ── 오행 명리 관계 (옵션 A) ──
   const elementRelation = inferElementRelation(ilganElement, topElement);
 
+  // ── 일간 강약 (Phase 2 신규) ──
+  const monthBranch = sajuChild.pillars.month.branch;
+  const allBranches = [
+    sajuChild.pillars.year.branch,
+    sajuChild.pillars.month.branch,
+    sajuChild.pillars.day.branch,
+    ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.branch] : []),
+  ];
+  const otherStems = [
+    sajuChild.pillars.year.stem,
+    sajuChild.pillars.month.stem,
+    ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.stem] : []),
+  ];
+  const dayMasterStrength = getDayMasterStrength(ilgan, monthBranch, allBranches, otherStems);
+
   return {
     ilgan, ilganElement, ilganPolarity, ilganMetaphor,
     elements, elementPercents, topElement, weakElement,
     sipCounts, topSipseong, weakSipseong,
     yangPct, yinPct, introExtroDirection,
+    dayMasterStrength,
     sixFactor, sixFactorTop1, sixFactorTop3, sixFactorWeakest,
     characterSummary,
     elementRelation,
@@ -234,6 +254,11 @@ export function buildChildSeedPromptBlock(seed: ChildSeed): string {
     "",
     `[외향/내향 — 음양 분포]`,
     `- ${seed.introExtroDirection}적 결 (양 ${seed.yangPct}% / 음 ${seed.yinPct}%)`,
+    "",
+    `[기운 총량 — Phase 2 신규]`,
+    `- 단계: ${seed.dayMasterStrength.level} (게이지 7단계 중 ${seed.dayMasterStrength.positionIdx + 1}번째)`,
+    `- 점수: ${seed.dayMasterStrength.score}`,
+    `- 🔴 본문 어휘: 첫 등장 1회만 "기운 총량 (전통 명리에서 신강身强·신약身弱이라 부르는 결)" 한자병기 허용. 이후 본문은 모두 "기운 총량" 또는 "결의 양" 한글만. "신강·신약" 본문 단독 노출 금지.`,
     "",
     `[6요인 행동 결]`,
     `- TOP3: ${seed.sixFactorTop3.join("·")}`,
