@@ -4609,8 +4609,8 @@ export default function ParentChildSlideResult() {
                   );
                 })()}
 
-                {/* (Phase 후속) 타고난 귀인 — N 귀인 카드 그리드 */}
-                {kind === "heart" && /###\s*타고난\s*귀인/.test(aiText) && sajuChild && (() => {
+                {/* (Phase 후속) 타고난 귀인 — N 귀인 카드 그리드 — D-3c: Ch 2(heart) → Ch 1(overview) 이동 */}
+                {(kind === "heart" || kind === "overview") && /###\s*타고난\s*귀인/.test(aiText) && sajuChild && (() => {
                   const guin = (sajuChild.sinsal ?? []).filter(n => SINSAL_INFO[n]?.category === '귀인');
                   if (guin.length === 0) return null;
                   return (
@@ -4853,8 +4853,8 @@ export default function ParentChildSlideResult() {
                     </div>
                   </div>
                 )}
-                {/* (통합) 용신·기신 듀얼 카드 — "평생 빛나는 결" 페이지에서 양면 표시 */}
-                {kind === "heart" && /###\s*평생\s*빛나는/.test(aiText) && childGisin && (
+                {/* (통합) 용신·기신 듀얼 카드 — "평생 빛나는 결" 페이지에서 양면 표시 — D-3c: Ch 2(heart) → Ch 1(overview) 이동 */}
+                {(kind === "heart" || kind === "overview") && /###\s*평생\s*빛나는/.test(aiText) && childGisin && (
                   <div className="rounded-2xl p-4 mb-4" style={{ background: `linear-gradient(135deg, rgba(200,156,255,0.07), rgba(232,168,124,0.07))`, border: "1px solid rgba(200,156,255,0.3)" }}>
                     <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#c89cff" }}>─ 평생 빛나는 결 — 채움(用神) · 살핌(忌神) ─</p>
                     <div className="grid grid-cols-2 gap-2 mt-1">
