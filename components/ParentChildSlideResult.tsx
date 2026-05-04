@@ -5056,7 +5056,7 @@ export default function ParentChildSlideResult() {
           </Link>
           <Link href="/" className="block text-center py-3 rounded-xl text-sm"
             style={{ backgroundColor: `${ACCENT}18`, color: ACCENT, border: `1px solid ${ACCENT}44` }}>
-            처음으로
+            🏠 처음으로
           </Link>
         </div>
       );
