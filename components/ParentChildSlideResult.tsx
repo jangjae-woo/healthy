@@ -4456,10 +4456,11 @@ export default function ParentChildSlideResult() {
                     {dadFlow && <ElementFlowChart flow={dadFlow} parentLabel="아빠" parentColor="#7eb6ff" />}
                   </div>
                 )}
-                {kind === "talent" && aiTextIdx === 2 && childThinking && (
+                {/* D-3b: Ch 7 압축 후 페이지 idx 재매핑 — 0=재능 / 1=사고유형 / 2=격국직업 / 3=진로시기 */}
+                {kind === "talent" && aiTextIdx === 1 && childThinking && (
                   <ThinkingMatrix tt={childThinking} />
                 )}
-                {kind === "talent" && aiTextIdx === 5 && childJobRadar && (
+                {kind === "talent" && aiTextIdx === 2 && childJobRadar && (
                   <JobRadar items={childJobRadar} />
                 )}
                 {/* (Phase 후속) 자도인의 첫마디 — 자녀 일주 중심 + 부모 양옆 가족 트리오 카드 */}
