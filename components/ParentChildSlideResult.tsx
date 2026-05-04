@@ -5023,7 +5023,7 @@ export default function ParentChildSlideResult() {
                 border: `1px solid ${ACCENT}55`,
               }}
             >
-              {exportState === "loading" ? "저장 중..." : "📷 이미지로 저장"}
+              {exportState === "loading" ? "저장 중..." : "📷 이미지로 저장 ⭐"}
             </button>
             <button
               onClick={sharePNG}
