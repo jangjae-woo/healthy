@@ -5034,7 +5034,7 @@ export default function ParentChildSlideResult() {
                 color: BG,
               }}
             >
-              {exportState === "loading" ? "준비 중..." : "📲 공유하기"}
+              {exportState === "loading" ? "준비 중..." : "📲 공유하기 🔗"}
             </button>
           </div>
           {exportState === "success" && (
