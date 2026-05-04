@@ -155,7 +155,8 @@ type SlideKind =
   | "overview" | "heart" | "guide"
   | "learning"                            // D안 단계 2-C — Ch 3 학습 신설
   | "relations" | "lifestyle" | "growth"  // D안 단계 3 — 실전 양육 가이드 분할
-  | "mom" | "dad"
+  | "mom" | "dad"                         // (legacy — D-2 후 미사용, D-3 cleanup 대상)
+  | "parents"                             // D-2 신설 — Ch 8 통합 (mom/dad 합본)
   | "talent" | "last-word" | "share";
 
 interface SlideDef {
@@ -216,6 +217,13 @@ function sajuBasisLabel(
       if (/###\s*사춘기에\s*결이\s*변하는/.test(aiText)) return "🔮 대운 (사춘기 시기)";
       if (/###\s*자녀\s*인생\s*흐름/.test(aiText)) return "🔮 대운 (인생 흐름)";
       return "";
+    case "parents":
+      if (/###\s*세\s*사람의\s*결/.test(aiText)) return "🌿 오행 비교 (가족 3-way)";
+      if (/###\s*두\s*분이\s*비춰주시는/.test(aiText)) return "💠 부모 십성 + 일간";
+      if (/###\s*두\s*분과\s*자녀의\s*일상/.test(aiText)) return "🔗 일지 합·충 (가족)";
+      if (/###\s*잘\s*통하는\s*영역과\s*부딪히는/.test(aiText)) return "🪄 시너지·갈등 (가족)";
+      if (/###\s*부모님께/.test(aiText)) return "🎁 선물 + 부모 가이드";
+      return "";
     case "mom":
     case "dad":
       if (/###\s*(엄마|아빠)\s*vs\s*아이/.test(aiText)) return "🌿 오행 비교";
@@ -252,9 +260,10 @@ const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: stri
   relations: { partLabel: "Part 04", symbol: "🤝", en: "Friends & People", subtitle: "친구·관계의 결을 어떻게 만들어가는가" },
   lifestyle: { partLabel: "Part 05", symbol: "🌙", en: "Body & Daily Life", subtitle: "잠·식사·시간·일상의 호흡" },
   growth: { partLabel: "Part 06", symbol: "🌱", en: "Times of Change", subtitle: "사춘기·평생 흐름 — 결이 변하는 시기" },
-  mom: { partLabel: "Part 07", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
-  dad: { partLabel: "Part 08", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
-  talent: { partLabel: "Part 09", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
+  mom: { partLabel: "Part 07", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" }, // (legacy — D-2 후 미출력)
+  dad: { partLabel: "Part 08", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" }, // (legacy — D-2 후 미출력)
+  talent: { partLabel: "Part 07", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
+  parents: { partLabel: "Part 08", symbol: "👨‍👩‍👧", en: "Parents & Child Together", subtitle: "엄마·아빠가 함께 빚어주시는 결" },
   "last-word": { partLabel: "Part 07", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
@@ -279,11 +288,14 @@ function buildSlideLayout(
     { kind: "lifestyle", title: "우리 아이의 몸과 일상은", aiSectionIdx: 9, hue: "#ffb39d", coverPage: true },
     { kind: "growth", title: "우리 아이는 어느 시기에 어떻게 변하나요", aiSectionIdx: 10, hue: "#d4a8e8", coverPage: true },
   ];
-  if (hasMom) layout.push({ kind: "mom", title: "엄마와 우리 아이", aiSectionIdx: 4, hue: "#f0a8b8", coverPage: true });
-  if (hasDad) layout.push({ kind: "dad", title: "아빠와 우리 아이", aiSectionIdx: 5, hue: "#7eb6ff", coverPage: true });
+  // D안 D-2: mom/dad 챕터 폐기 → parents (Ch 8 통합) 신설.
+  // route.ts D-1 에서 mom/dad ## 헤더 폐기 + 새 헤더 "엄마·아빠는 어떻게 함께 자라나요" (idx 12) 신설됨.
   // 영아는 재능·진로 슬라이드 숨김 (또래·학습·진로 어휘가 발달 단계와 안 맞음)
   if (ageStage !== "infant") {
     layout.push({ kind: "talent", title: "우리 아이의 미래·진로는", aiSectionIdx: 6, chartPages: 1, hue: "#ffd166", coverPage: true });
+  }
+  if (hasMom || hasDad) {
+    layout.push({ kind: "parents", title: "엄마·아빠는 어떻게 함께 자라나요", aiSectionIdx: 12, hue: "#f0a8b8", coverPage: true });
   }
   layout.push({ kind: "last-word", title: "자도인의 마지막 당부", aiSectionIdx: 7, hue: "#d4a8e8", coverPage: true });
   layout.push({ kind: "share", title: "공유하기" });
@@ -2064,9 +2076,8 @@ function IntroScrollChapter({
               <li>4장. 우리 아이는 사람과 어떻게 만나나요</li>
               <li>5장. 우리 아이의 몸과 일상은</li>
               <li>6장. 우리 아이는 어느 시기에 어떻게 변하나요</li>
-              <li>7장. 엄마와 우리 아이</li>
-              <li>8장. 아빠와 우리 아이</li>
-              <li>9장. 우리 아이의 미래·진로는</li>
+              <li>7장. 우리 아이의 미래·진로는</li>
+              <li>8장. 엄마·아빠는 어떻게 함께 자라나요</li>
               <li className="pt-1 italic" style={{ color: "rgba(255,255,255,0.6)" }}>+ 자도인의 마지막 당부</li>
             </ul>
           </div>
@@ -4390,6 +4401,61 @@ export default function ParentChildSlideResult() {
                 {kind === "dad" && /###\s*아빠가\s*채워주는/.test(aiText) && dadFlow && (
                   <ElementFlowChart flow={dadFlow} parentLabel="아빠" parentColor="#7eb6ff" />
                 )}
+                {/* ── D안 D-2: parents 통합 챕터 (Ch 8) — page 1: 오행 비교 (가족 3-way) ── */}
+                {kind === "parents" && aiTextIdx === 0 && (momCompare || dadCompare) && (
+                  <div className="space-y-3">
+                    {momCompare && (
+                      <ElementCompareRadar cmp={momCompare} parentLabel="엄마" parentColor="#f0a8b8" childLabel="아이" />
+                    )}
+                    {dadCompare && (
+                      <ElementCompareRadar cmp={dadCompare} parentLabel="아빠" parentColor="#7eb6ff" childLabel="아이" />
+                    )}
+                  </div>
+                )}
+                {/* parents page 2: 일간 관계 (mom + dad 동시) */}
+                {kind === "parents" && aiTextIdx === 1 && (momIlganRel || dadIlganRel) && (
+                  <div className="space-y-4">
+                    {momIlganRel && (
+                      <>
+                        <IlganRelationCard rel={momIlganRel} parentLabel="엄마" parentColor="#f0a8b8" />
+                        {momCheonganHap?.hasHap && (
+                          <div className="rounded-2xl p-4 mb-4 mt-3" style={{ background: "rgba(240,168,184,0.10)", border: "1px solid rgba(240,168,184,0.4)" }}>
+                            <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#f0a8b8" }}>✨ 천간합(天干合) — 엄마 & 자녀 ✨</p>
+                            <p className="text-[14px] font-bold text-center" style={{ color: BRIGHT }}>
+                              {momCheonganHap.parentIlgan}+{momCheonganHap.childIlgan} = {momCheonganHap.hapName}({momCheonganHap.hapHanja})
+                            </p>
+                            <p className="text-[10.5px] text-center mt-1.5" style={{ color: "rgba(255,255,255,0.7)" }}>
+                              → 합화 오행: <strong style={{ color: BRIGHT }}>{momCheonganHap.hapElement}</strong>
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {dadIlganRel && (
+                      <>
+                        <IlganRelationCard rel={dadIlganRel} parentLabel="아빠" parentColor="#7eb6ff" />
+                        {dadCheonganHap?.hasHap && (
+                          <div className="rounded-2xl p-4 mb-4 mt-3" style={{ background: "rgba(126,182,255,0.10)", border: "1px solid rgba(126,182,255,0.4)" }}>
+                            <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#7eb6ff" }}>✨ 천간합(天干合) — 아빠 & 자녀 ✨</p>
+                            <p className="text-[14px] font-bold text-center" style={{ color: BRIGHT }}>
+                              {dadCheonganHap.parentIlgan}+{dadCheonganHap.childIlgan} = {dadCheonganHap.hapName}({dadCheonganHap.hapHanja})
+                            </p>
+                            <p className="text-[10.5px] text-center mt-1.5" style={{ color: "rgba(255,255,255,0.7)" }}>
+                              → 합화 오행: <strong style={{ color: BRIGHT }}>{dadCheonganHap.hapElement}</strong>
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+                {/* parents — 채워주는 결 (오행 흐름) — mom + dad 동시 */}
+                {kind === "parents" && /###\s*(엄마|아빠).*채워주는|###\s*두\s*분이.*채워주는/.test(aiText) && (momFlow || dadFlow) && (
+                  <div className="space-y-3">
+                    {momFlow && <ElementFlowChart flow={momFlow} parentLabel="엄마" parentColor="#f0a8b8" />}
+                    {dadFlow && <ElementFlowChart flow={dadFlow} parentLabel="아빠" parentColor="#7eb6ff" />}
+                  </div>
+                )}
                 {kind === "talent" && aiTextIdx === 2 && childThinking && (
                   <ThinkingMatrix tt={childThinking} />
                 )}
@@ -4621,6 +4687,81 @@ export default function ParentChildSlideResult() {
                     </div>
                   </div>
                 )}
+                {/* D-2: parents 통합 — 일지 관계 (mom + dad 동시) */}
+                {kind === "parents" && /###\s*두\s*분과\s*자녀의\s*일상|###\s*(엄마|아빠)와\s*자녀의\s*일지/.test(aiText) && (momIljiRel || dadIljiRel) && (
+                  <div className="space-y-2">
+                    {[
+                      { rel: momIljiRel, label: "엄마", color: "#f0a8b8" },
+                      { rel: dadIljiRel, label: "아빠", color: "#7eb6ff" },
+                    ].map((it, i) => {
+                      if (!it.rel) return null;
+                      const colorMap: Record<string, string> = { "육합": "#7dd3c0", "비화": "#a78bfa", "육충": "#ff8a8a", "형": "#e8a87c", "해": "#ffc878", "파": "#ff9d6b", "기타": "#cdd9e4" };
+                      const c = colorMap[it.rel.kind] ?? "#cdd9e4";
+                      return (
+                        <div key={i} className="rounded-2xl p-4 mb-2" style={{ background: `${c}10`, border: `1px solid ${c}55` }}>
+                          <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: c }}>─ 일지(日支) 관계 — {it.label} & 자녀 ─</p>
+                          <div className="flex items-center justify-center gap-3 text-[18px] font-bold" style={{ color: BRIGHT }}>
+                            <span>{it.rel.parentBranch}</span>
+                            <span className="text-[14px]" style={{ color: c }}>{it.rel.kind}({it.rel.hanja})</span>
+                            <span>{it.rel.childBranch}</span>
+                          </div>
+                          <p className="text-[10.5px] text-center mt-2 italic" style={{ color: "rgba(255,255,255,0.7)" }}>{it.rel.meaning}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {/* D-2: parents 통합 — 부모 십성 (mom + dad 동시) */}
+                {kind === "parents" && /###\s*두\s*분이\s*비춰주시는|###\s*(엄마|아빠)가\s*자녀에게\s*주는\s*결/.test(aiText) && (momParentSipseong || dadParentSipseong) && (
+                  <div className="space-y-2">
+                    {[
+                      { r: momParentSipseong, label: "엄마", lc: "#f0a8b8" },
+                      { r: dadParentSipseong, label: "아빠", lc: "#7eb6ff" },
+                    ].map((it, i) => {
+                      if (!it.r) return null;
+                      const catColor: Record<string, string> = { "비겁": "#a78bfa", "식상": "#34d399", "재성": "#fbbf24", "관성": "#60a5fa", "인성": "#c084fc" };
+                      const c = catColor[it.r.category] ?? "#cdd9e4";
+                      return (
+                        <div key={i} className="rounded-2xl p-4 mb-2" style={{ background: `${c}10`, border: `1px solid ${c}55` }}>
+                          <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: it.lc }}>─ {it.label}의 부모 십성(十星) — 자녀 일간 기준 ─</p>
+                          <p className="text-[18px] font-bold text-center" style={{ color: BRIGHT }}>{it.r.sipseong}({it.r.hanja})</p>
+                          <p className="text-[11px] text-center mt-1" style={{ color: c }}>{it.r.category} 카테고리</p>
+                          <p className="text-[10.5px] text-center mt-2 italic leading-[1.55]" style={{ color: "rgba(255,255,255,0.72)" }}>{it.r.meaning}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {/* D-2: parents 통합 — 공통 신살 (mom + dad 동시) */}
+                {kind === "parents" && /###\s*(엄마|아빠)와\s*자녀가\s*공유하는|###\s*가족이\s*공유하는/.test(aiText) && (momSharedSinsal || dadSharedSinsal) && (
+                  <div className="space-y-2">
+                    {[
+                      { r: momSharedSinsal, label: "엄마", lc: "#f0a8b8" },
+                      { r: dadSharedSinsal, label: "아빠", lc: "#7eb6ff" },
+                    ].map((it, i) => {
+                      if (!it.r) return null;
+                      return (
+                        <div key={i} className="rounded-2xl p-4 mb-2" style={{ background: "rgba(245,185,66,0.07)", border: `1px solid ${ACCENT}55` }}>
+                          <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: it.lc }}>─ 공통 신살(神煞) — {it.label} & 자녀 ─</p>
+                          {it.r.shared.length > 0 ? (
+                            <div className="flex flex-wrap gap-1.5 justify-center mt-2">
+                              {it.r.shared.map((s, j) => (
+                                <span key={j} className="text-[11px] px-2.5 py-1 rounded-full"
+                                  style={{ background: "rgba(245,185,66,0.15)", color: BRIGHT, border: `1px solid ${ACCENT}55` }}>
+                                  ✨ {s}
+                                </span>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-[10.5px] text-center mt-2 italic" style={{ color: "rgba(255,255,255,0.6)" }}>
+                              공유 신살이 없되 — 각자의 결로 서로를 *보완*하는 가족
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
                 {/* Phase 4: 일지 관계 카드 (mom/dad) */}
                 {(kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)와\s*자녀의\s*일지/.test(aiText) && (kind === "mom" ? momIljiRel : dadIljiRel) && (() => {
                   const r = kind === "mom" ? momIljiRel! : dadIljiRel!;
@@ -4770,16 +4911,16 @@ export default function ParentChildSlideResult() {
                     <PraiseCompareCards cards={parsePraiseCards(aiText)!} />
                   ) : kind === "guide" && /###\s*자존감 보호/.test(aiText) && parseSelfEsteemMents(aiText) ? (
                     <SelfEsteemMentCards ments={parseSelfEsteemMents(aiText)!} />
-                  ) : (kind === "mom" || kind === "dad") && /###\s*잘 통하는 영역/.test(aiText) && parseSynergyCards(aiText) ? (
-                    <SynergyGrid cards={parseSynergyCards(aiText)!} color={kind === "mom" ? "#f0a8b8" : "#7eb6ff"} />
-                  ) : (kind === "mom" || kind === "dad") && /###\s*갈등이 반복/.test(aiText) && parseConflictCards(aiText) ? (
+                  ) : (kind === "mom" || kind === "dad" || kind === "parents") && /###\s*잘 통하는 영역|###\s*잘\s*통하는\s*영역과\s*부딪히는/.test(aiText) && parseSynergyCards(aiText) ? (
+                    <SynergyGrid cards={parseSynergyCards(aiText)!} color={kind === "dad" ? "#7eb6ff" : "#f0a8b8"} />
+                  ) : (kind === "mom" || kind === "dad" || kind === "parents") && /###\s*갈등이 반복/.test(aiText) && parseConflictCards(aiText) ? (
                     <ConflictCardsGrid
                       cards={parseConflictCards(aiText)!}
-                      parentColor={kind === "mom" ? "#f0a8b8" : "#7eb6ff"}
-                      parentLabel={kind === "mom" ? "엄마" : "아빠"}
+                      parentColor={kind === "dad" ? "#7eb6ff" : "#f0a8b8"}
+                      parentLabel={kind === "dad" ? "아빠" : kind === "mom" ? "엄마" : "부모님"}
                     />
-                  ) : (kind === "mom" || kind === "dad") && /###\s*(엄마|아빠)가 의식적으로/.test(aiText) && parseGiftCard(aiText) ? (
-                    <GiftBoxCard gift={parseGiftCard(aiText)!} color={kind === "mom" ? "#f0a8b8" : "#7eb6ff"} />
+                  ) : (kind === "mom" || kind === "dad" || kind === "parents") && /###\s*(엄마|아빠|부모님)가 의식적으로|###\s*부모님께/.test(aiText) && parseGiftCard(aiText) ? (
+                    <GiftBoxCard gift={parseGiftCard(aiText)!} color={kind === "dad" ? "#7eb6ff" : "#f0a8b8"} />
                   ) : kind === "first-word" ? (
                     /* (Phase 후속) 자도인의 첫마디 본문 — 골드 톤 카드로 감싸 가족 트리오 헤더와 톤 통일 */
                     <div className="rounded-2xl p-4" style={{
