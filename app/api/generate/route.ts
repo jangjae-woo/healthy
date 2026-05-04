@@ -3121,7 +3121,7 @@ export async function POST(req: NextRequest) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { maxOutputTokens: 40000, thinkingConfig: { thinkingBudget: 0 } },
+            generationConfig: { maxOutputTokens: 65536, thinkingConfig: { thinkingBudget: 0 } },
           }),
         }
       );
@@ -3197,7 +3197,7 @@ export async function POST(req: NextRequest) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { maxOutputTokens: 40000, thinkingConfig: { thinkingBudget: 0 } },
+            generationConfig: { maxOutputTokens: 65536, thinkingConfig: { thinkingBudget: 0 } },
           }),
         }
       );
