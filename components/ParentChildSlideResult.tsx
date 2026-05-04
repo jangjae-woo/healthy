@@ -5023,7 +5023,7 @@ export default function ParentChildSlideResult() {
                 border: `1px solid ${ACCENT}55`,
               }}
             >
-              {exportState === "loading" ? "저장 중..." : "📷 이미지로 저장 ⭐"}
+              {exportState === "loading" ? "저장 중..." : "📷 이미지로 저장"}
             </button>
             <button
               onClick={sharePNG}
@@ -5034,7 +5034,7 @@ export default function ParentChildSlideResult() {
                 color: BG,
               }}
             >
-              {exportState === "loading" ? "준비 중..." : "📲 공유하기 🔗"}
+              {exportState === "loading" ? "준비 중..." : "📲 공유하기"}
             </button>
           </div>
           {exportState === "success" && (
@@ -5052,11 +5052,11 @@ export default function ParentChildSlideResult() {
           </p>
           <Link href="/parent-child" className="block text-center py-3 rounded-xl text-sm font-bold"
             style={{ backgroundColor: ACCENT, color: BG }}>
-            ✨ 다른 아이의 궁합도 보러 가기
+            다른 아이의 궁합도 보러 가기
           </Link>
           <Link href="/" className="block text-center py-3 rounded-xl text-sm"
             style={{ backgroundColor: `${ACCENT}18`, color: ACCENT, border: `1px solid ${ACCENT}44` }}>
-            🏠 처음으로
+            처음으로
           </Link>
         </div>
       );
