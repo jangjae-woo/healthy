@@ -289,6 +289,7 @@ const SECTION_HEADERS = [
   "아버님과 우리 아이",        // idx 5 — 동의어
   "강점·재능·진로",            // idx 6
   "자도인의 마지막 당부",      // idx 7
+  "자도인의 마지막 한마디",    // idx 7 — 호환성 (AI가 구 헤더 출력 시)
 ];
 
 // 헤더 동의어 매핑 — parseSections 에서 동의어를 표준 idx 로 매핑
@@ -303,6 +304,7 @@ const HEADER_SYNONYMS: Record<string, number> = {
   "아버님과 우리 아이": 5,
   "강점·재능·진로": 6,
   "자도인의 마지막 당부": 7,
+  "자도인의 마지막 한마디": 7,  // (호환성) AI가 구 헤더 출력 시 동일 idx로 매핑
 };
 
 // (구 SLIDE_TO_AI_SECTION / SLIDE_TITLES → 동적 SlideDef.layout으로 대체됨)
@@ -4716,7 +4718,9 @@ export default function ParentChildSlideResult() {
                     <div className="grid grid-cols-2 gap-2 mt-1">
                       <div className="rounded-lg p-2.5 text-center" style={{ background: "rgba(200,156,255,0.10)", border: "1px solid rgba(200,156,255,0.35)" }}>
                         <p className="text-[9px]" style={{ color: "#c89cff", fontWeight: 600 }}>🎯 용신 (가까이 둘 결)</p>
-                        <p className="text-[16px] font-bold mt-0.5" style={{ color: BRIGHT }}>{childGisin.yongsin}</p>
+                        <p className="text-[16px] font-bold mt-0.5" style={{ color: BRIGHT }}>
+                          {childGisin.yongsin}({({목:"木",화:"火",토:"土",금:"金",수:"水"} as Record<string,string>)[childGisin.yongsin] ?? ""})
+                        </p>
                         <p className="text-[8.5px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>채울수록 빛나는</p>
                       </div>
                       <div className="rounded-lg p-2.5 text-center" style={{ background: "rgba(232,168,124,0.10)", border: "1px solid rgba(232,168,124,0.35)" }}>
@@ -4787,6 +4791,20 @@ export default function ParentChildSlideResult() {
                   ) : (
                     formatText(aiText, partHue)
                   )
+                ) : kind === "last-word" && !loading ? (
+                  /* (Fallback) AI 응답이 마지막 섹션을 출력 못 한 경우 정적 메시지 표시 */
+                  <div className="rounded-2xl p-5" style={{ background: `linear-gradient(135deg, ${ACCENT}10, rgba(255,255,255,0.02))`, border: `1px solid ${ACCENT}40` }}>
+                    <p className="text-[12.5px] leading-[1.85] text-center" style={{ color: "rgba(255,255,255,0.85)" }}>
+                      자녀의 결을 잘 들여다보시기 바랍니다.<br/><br/>
+                      사주는 자녀를 *평가*하는 도구가 아니라 자녀의 *결을 읽는 지도*입니다.
+                      자녀의 본연의 결을 인정하고, 그 결이 자연스럽게 자라가도록
+                      곁에서 응원해 주실 때 자녀가 가장 환히 빛납니다.<br/><br/>
+                      이 보고서가 자녀와 두 분의 인연을 깊이 이해하는 자리가 되시기를 바랍니다.
+                    </p>
+                    <p className="text-[10px] text-center mt-4 italic" style={{ color: "rgba(255,255,255,0.5)" }}>
+                      — 자도인 ✦
+                    </p>
+                  </div>
                 ) : (
                   <div className="flex gap-1.5 justify-center items-center py-8">
                     {[0, 1, 2].map((i) => (
