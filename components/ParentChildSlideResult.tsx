@@ -202,10 +202,13 @@ function sajuBasisLabel(
       // (통합) 기신 페이지 폐기 — 용신 페이지에 흡수됨
       return "";
     case "guide":
+    case "relations":
+    case "lifestyle":
+    case "growth":
+      // D안 단계 4: guide → 3개 챕터 분할 후에도 동일한 사주 근거 라벨 적용
       if (/###\s*친구\s*사귀는/.test(aiText)) return "💠 십성+오행 (친구 결)";
       if (/###\s*친구\s*갈등/.test(aiText)) return "🌿 오행+십성 (개입 거리)";
       if (/###\s*잠자리.{0,3}식습관/.test(aiText)) return "🌿 오행+십성 (생활 채널)";
-      // (폐기) 디지털·미디어 페이지 영구 폐기 — 사주 근거와 디지털 위험도 상관관계 추정 수준
       if (/###\s*개운법|###\s*자녀의\s*개운/.test(aiText)) return "🌈 용신 (개운 비보)";
       if (/###\s*자녀에게\s*좋은\s*시간|###\s*일주\s*기반\s*일상/.test(aiText)) return "🕰️ 일간·일지 (시간 호흡)";
       if (/###\s*절대\s*하면\s*안/.test(aiText)) return "💠 십성 (약점 위험)";
@@ -3659,13 +3662,11 @@ export default function ParentChildSlideResult() {
       // 단계 3 통폐합: "기질 5각도" 페이지 폐기 (오행 차트와 중복)
       return pages.filter((p) => !isFiveangPage(p));
     }
-    if (kind === "guide") {
+    if (kind === "guide" || kind === "relations" || kind === "lifestyle" || kind === "growth") {
+      // D안 단계 4: guide → 3개 챕터 분할 후에도 동일한 폐기 페이지 필터 적용
       return pages.filter((p) => {
-        // 사용자 정책: 떼·고집은 전 연령 영구 폐기 (사주 변별력 부족)
         if (isTantrumPage(p)) return false;
-        // 전 연령 — 훈육 4채널 페이지 숨김 (보편 양육서와 변별 약함)
         if (isDisciplinePage(p)) return false;
-        // 사용자 정책: 통하는 칭찬·자존감 멘트 전 연령 폐기 (사주 변별력 0, 보편 양육서 콘텐츠)
         if (isPraisePage(p)) return false;
         if (isSelfEsteemPage(p)) return false;
         return true;
@@ -4292,10 +4293,10 @@ export default function ParentChildSlideResult() {
                 <SipseongSpectrumTable counts={childSipseongCounts} />
               </div>
             )}
-            {/* 실전 양육 가이드 차트 페이지: 사주에서 본 핵심 3가지 */}
-            {isChartPage && kind === "guide" && childGuideHighlights && (
+            {/* (D안 단계 4) 실전 양육 가이드 차트 페이지 — 폐기 (kind === guide 더 이상 사용 X) */}
+            {/* {isChartPage && kind === "guide" && childGuideHighlights && (
               <GuideHighlightCards items={childGuideHighlights} />
-            )}
+            )} */}
             {/* Slide 8 차트: 8지능 카드 (재능의 결) */}
             {isChartPage && kind === "talent" && childIntel && (
               <div className="space-y-3">
@@ -4317,52 +4318,21 @@ export default function ParentChildSlideResult() {
                 {/* 페이지 제거 → 차트 idx 시프트 매핑 */}
                 {/* 영아·유아 제거: 0,1 (떼) + 4 (훈육) + 5,6,7,8 (칭찬·잠자리·디지털·자존감) → 남은 원래 idx: 2,3,9 */}
                 {/* 초등·중고등 제거: 4 (훈육) → 남은 원래 idx: 0,1,2,3,5,6,7,8,9 */}
-                {(() => {
-                  // 사용자 정책: 떼·고집(0,1) + 훈육(4) + 칭찬(5) + 자존감(8) 전 연령 폐기.
-                  // 잔존 페이지 순서 (필터 후): 친구스타일(0)·친구거리(1)·잠자리(2)·디지털(3)·위험카드(4)
-                  const guideIdx = (originalIdx: number): number => {
-                    if (originalIdx === 0 || originalIdx === 1) return -1; // 떼·고집 폐기
-                    if (originalIdx === 4) return -1;                       // 훈육 폐기
-                    if (originalIdx === 5) return -1;                       // 칭찬 폐기
-                    if (originalIdx === 8) return -1;                       // 자존감 폐기
-                    if (originalIdx === 2) return 0;                        // 친구 사귀는 스타일
-                    if (originalIdx === 3) return 1;                        // 친구 갈등 거리
-                    if (originalIdx === 6) return 2;                        // 잠자리·식습관
-                    if (originalIdx === 7) return 3;                        // 디지털·미디어
-                    if (originalIdx === 9) return 4;                        // 절대 하면 안 되는 5가지
-                    return -1;
-                  };
-                  return (
-                    <>
-                      {/* idx 0: 떼·고집 진짜 이유 → 4가지 트리거 막대 (영아·유아엔 -2 → 매칭 안 됨, 자연 숨김) */}
-                      {kind === "guide" && aiTextIdx === guideIdx(0) && childTantrum && (
-                        <TantrumTriggerBars triggers={childTantrum} />
-                      )}
-                      {/* idx 2: 친구 사귀는 스타일 — 2x2 매트릭스 */}
-                      {kind === "guide" && aiTextIdx === guideIdx(2) && childFriendStyle && (
-                        <FriendStyleMatrix fs={childFriendStyle} />
-                      )}
-                      {/* idx 3: 친구 갈등 시 부모 개입 거리 → 슬라이더 */}
-                      {kind === "guide" && aiTextIdx === guideIdx(3) && childFriendDist && (
-                        <FriendDistanceSlider fd={childFriendDist} />
-                      )}
-                      {/* idx 4: 통하는 훈육 → 4채널 막대 */}
-                      {kind === "guide" && aiTextIdx === guideIdx(4) && childDiscipline && (
-                        <DisciplineBars list={childDiscipline} basis={childDisciplineBasis} />
-                      )}
-                      {/* idx 6: 잠자리·식습관 → 4채널 게이지 */}
-                      {kind === "guide" && aiTextIdx === guideIdx(6) && childLifestyle && (
-                        <LifestyleGauges channels={childLifestyle} />
-                      )}
-                      {/* (폐기) 디지털·미디어 페이지 영구 폐기 — DigitalGaugeCard 미사용 */}
-                      {/* idx 9: 절대 하면 안 되는 5가지 → DangerCards */}
-                      {/* (Phase 3) 텍스트 매칭으로 변경 — 개운법·시간 가이드 페이지 추가로 idx 시프트 */}
-                      {kind === "guide" && /###\s*절대\s*하면\s*안/.test(aiText) && childDanger && (
-                        <DangerCards list={childDanger} />
-                      )}
-                    </>
-                  );
-                })()}
+                {/* D안 단계 4: kind === "guide" 차트 바인딩을 새 챕터(relations/lifestyle/growth) 로 마이그레이션 */}
+                {/* relations Ch (Part 03): page 0 = 친구 사귀는 스타일, page 1 = 친구 갈등 거리 */}
+                {kind === "relations" && aiTextIdx === 0 && childFriendStyle && (
+                  <FriendStyleMatrix fs={childFriendStyle} />
+                )}
+                {kind === "relations" && aiTextIdx === 1 && childFriendDist && (
+                  <FriendDistanceSlider fd={childFriendDist} />
+                )}
+                {/* lifestyle Ch (Part 04): page 0 = 잠자리·식습관 (게이지), 그 외는 텍스트 매칭 */}
+                {kind === "lifestyle" && aiTextIdx === 0 && childLifestyle && (
+                  <LifestyleGauges channels={childLifestyle} />
+                )}
+                {kind === "lifestyle" && /###\s*절대\s*하면\s*안/.test(aiText) && childDanger && (
+                  <DangerCards list={childDanger} />
+                )}
 
                 {/* ── 엄마와 우리 아이 (PART 4) ──────────────────── */}
                 {kind === "mom" && aiTextIdx === 0 && momCompare && (
@@ -4603,7 +4573,7 @@ export default function ParentChildSlideResult() {
 
                 {/* (폐기) 공망 카드 영구 폐기 — 마음 챕터 부적합 + 부모-자녀 양육 가치 낮음 */}
                 {/* Phase 3: 개운법 카드 — 본문 위 시각 (guide 챕터) */}
-                {kind === "guide" && /###\s*개운법|###\s*자녀의\s*개운/.test(aiText) && childGaeun && (
+                {kind === "lifestyle" && /###\s*개운법|###\s*자녀의\s*개운/.test(aiText) && childGaeun && (
                   <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,200,120,0.06)", border: "1px solid rgba(255,200,120,0.3)" }}>
                     <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#ffc878" }}>─ 개운법(改運法) — 용신 {childGaeun.yongsinElement} 비보 ─</p>
                     <div className="grid grid-cols-2 gap-2 text-[10.5px]">
@@ -4701,7 +4671,7 @@ export default function ParentChildSlideResult() {
                   );
                 })()}
                 {/* Phase 3: 시간 가이드 카드 */}
-                {kind === "guide" && /###\s*자녀에게\s*좋은\s*시간|###\s*일주\s*기반\s*일상/.test(aiText) && childTiming && (
+                {kind === "lifestyle" && /###\s*자녀에게\s*좋은\s*시간|###\s*일주\s*기반\s*일상/.test(aiText) && childTiming && (
                   <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(180,150,255,0.05)", border: "1px solid rgba(180,150,255,0.25)" }}>
                     <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#b496ff" }}>─ 자녀의 시간 호흡 — 일간 {childTiming.ilganElement}·일지 {childTiming.ilji} ─</p>
                     <div className="space-y-1.5 text-[10.5px]">
@@ -4757,7 +4727,7 @@ export default function ParentChildSlideResult() {
                   </div>
                 )}
                 {/* Phase 4: 사춘기에 결이 변하는 시기 — 본문 위 시각 (사용자 정책: 실전 양육 가이드 통합) */}
-                {kind === "guide" && /###\s*사춘기에\s*결이\s*변하는/.test(aiText) && childCrisisTiming && (
+                {kind === "growth" && /###\s*사춘기에\s*결이\s*변하는/.test(aiText) && childCrisisTiming && (
                   <CrisisTimingCard timing={childCrisisTiming} parentLabel="부모님" />
                 )}
                 {aiText ? (
