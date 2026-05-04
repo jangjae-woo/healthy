@@ -240,12 +240,12 @@ function sajuBasisLabel(
 }
 
 const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: string; en: string; subtitle: string }>> = {
-  overview: { partLabel: "Part 01", symbol: "🌱", en: "Our Child at a Glance", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
-  heart: { partLabel: "Part 02", symbol: "💗", en: "Child's Heart", subtitle: "감정과 기질이 흐르는 결의 자리" },
-  guide: { partLabel: "Part 03", symbol: "🤝", en: "Parenting Guide", subtitle: "일상에서 함께 빚어가는 양육의 결" },
+  overview: { partLabel: "Part 01", symbol: "🌱", en: "Our Child's Essence", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
+  heart: { partLabel: "Part 02", symbol: "💗", en: "How the Heart Flows", subtitle: "감정과 기질이 흐르는 결의 자리" },
+  guide: { partLabel: "Part 03", symbol: "🤝", en: "Daily Life · Relations · Growth", subtitle: "친구·일상·성장 시기 — 자녀의 흐름" },
   mom: { partLabel: "Part 04", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
   dad: { partLabel: "Part 05", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
-  talent: { partLabel: "Part 06", symbol: "⭐", en: "Strength · Talent · Path", subtitle: "타고난 결이 빛나는 자리" },
+  talent: { partLabel: "Part 06", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
   "last-word": { partLabel: "Part 07", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
@@ -261,15 +261,15 @@ function buildSlideLayout(
     { kind: "intro", title: "들어가며 — 사주 입문", hue: "#a8b8d4" },
     { kind: "pillars", title: "사주팔자", hue: "#f5b942" },
     { kind: "first-word", title: "자도인의 첫마디", aiSectionIdx: 0, hue: "#f5b942" },
-    { kind: "overview", title: "한눈에 보는 우리 아이", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
-    { kind: "heart", title: "우리 아이의 마음", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
-    { kind: "guide", title: "실전 양육 가이드", aiSectionIdx: 3, hue: "#ff9d6b", coverPage: true },
+    { kind: "overview", title: "우리 아이는 어떤 결을 타고났나요", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
+    { kind: "heart", title: "우리 아이는 마음을 어떻게 다루나요", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
+    { kind: "guide", title: "우리 아이의 일상·관계·성장", aiSectionIdx: 3, hue: "#ff9d6b", coverPage: true },
   ];
   if (hasMom) layout.push({ kind: "mom", title: "엄마와 우리 아이", aiSectionIdx: 4, hue: "#f0a8b8", coverPage: true });
   if (hasDad) layout.push({ kind: "dad", title: "아빠와 우리 아이", aiSectionIdx: 5, hue: "#7eb6ff", coverPage: true });
   // 영아는 재능·진로 슬라이드 숨김 (또래·학습·진로 어휘가 발달 단계와 안 맞음)
   if (ageStage !== "infant") {
-    layout.push({ kind: "talent", title: "강점·재능·진로", aiSectionIdx: 6, chartPages: 1, hue: "#ffd166", coverPage: true });
+    layout.push({ kind: "talent", title: "우리 아이의 미래·진로는", aiSectionIdx: 6, chartPages: 1, hue: "#ffd166", coverPage: true });
   }
   layout.push({ kind: "last-word", title: "자도인의 마지막 당부", aiSectionIdx: 7, hue: "#d4a8e8", coverPage: true });
   layout.push({ kind: "share", title: "공유하기" });
@@ -2043,12 +2043,12 @@ function IntroScrollChapter({
             <ul className="text-[12px] leading-[1.85] space-y-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
               <li className="italic" style={{ color: "rgba(255,255,255,0.6)" }}>· 사주팔자 (4기둥)</li>
               <li className="italic" style={{ color: "rgba(255,255,255,0.6)" }}>· 자도인 첫마디</li>
-              <li>1장. 한눈에 보는 우리 아이</li>
-              <li>2장. 우리 아이의 마음</li>
-              <li>3장. 실전 양육 가이드</li>
+              <li>1장. 우리 아이는 어떤 결을 타고났나요</li>
+              <li>2장. 우리 아이는 마음을 어떻게 다루나요</li>
+              <li>3장. 우리 아이의 일상·관계·성장</li>
               <li>4장. 엄마와 우리 아이</li>
               <li>5장. 아빠와 우리 아이</li>
-              <li>6장. 강점·재능·진로</li>
+              <li>6장. 우리 아이의 미래·진로는</li>
               <li className="pt-1 italic" style={{ color: "rgba(255,255,255,0.6)" }}>+ 자도인의 마지막 당부</li>
             </ul>
           </div>
