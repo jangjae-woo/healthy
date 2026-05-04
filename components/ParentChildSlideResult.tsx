@@ -153,6 +153,7 @@ function pickShareCardBg(score: number): string {
 type SlideKind =
   | "cover" | "intro" | "pillars" | "first-word"
   | "overview" | "heart" | "guide"
+  | "learning"                            // D안 단계 2-C — Ch 3 학습 신설
   | "relations" | "lifestyle" | "growth"  // D안 단계 3 — 실전 양육 가이드 분할
   | "mom" | "dad"
   | "talent" | "last-word" | "share";
@@ -247,12 +248,13 @@ const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: stri
   overview: { partLabel: "Part 01", symbol: "🌱", en: "Our Child's Essence", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
   heart: { partLabel: "Part 02", symbol: "💗", en: "How the Heart Flows", subtitle: "감정과 기질이 흐르는 결의 자리" },
   guide: { partLabel: "Part 03", symbol: "🤝", en: "Daily Life · Relations · Growth", subtitle: "친구·일상·성장 시기 — 자녀의 흐름" },
-  relations: { partLabel: "Part 03", symbol: "🤝", en: "Friends & People", subtitle: "친구·관계의 결을 어떻게 만들어가는가" },
-  lifestyle: { partLabel: "Part 04", symbol: "🌙", en: "Body & Daily Life", subtitle: "잠·식사·시간·일상의 호흡" },
-  growth: { partLabel: "Part 05", symbol: "🌱", en: "Times of Change", subtitle: "사춘기·평생 흐름 — 결이 변하는 시기" },
-  mom: { partLabel: "Part 06", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
-  dad: { partLabel: "Part 07", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
-  talent: { partLabel: "Part 08", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
+  learning: { partLabel: "Part 03", symbol: "📖", en: "How the Child Learns", subtitle: "학습의 결 — 어떻게 받아들이고 자라는가" },
+  relations: { partLabel: "Part 04", symbol: "🤝", en: "Friends & People", subtitle: "친구·관계의 결을 어떻게 만들어가는가" },
+  lifestyle: { partLabel: "Part 05", symbol: "🌙", en: "Body & Daily Life", subtitle: "잠·식사·시간·일상의 호흡" },
+  growth: { partLabel: "Part 06", symbol: "🌱", en: "Times of Change", subtitle: "사춘기·평생 흐름 — 결이 변하는 시기" },
+  mom: { partLabel: "Part 07", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
+  dad: { partLabel: "Part 08", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
+  talent: { partLabel: "Part 09", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
   "last-word": { partLabel: "Part 07", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
@@ -270,6 +272,8 @@ function buildSlideLayout(
     { kind: "first-word", title: "자도인의 첫마디", aiSectionIdx: 0, hue: "#f5b942" },
     { kind: "overview", title: "우리 아이는 어떤 결을 타고났나요", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
     { kind: "heart", title: "우리 아이는 마음을 어떻게 다루나요", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
+    // D안 단계 2-C: Ch 3 학습 신설
+    { kind: "learning", title: "우리 아이는 어떻게 배우나요", aiSectionIdx: 11, hue: "#a8d8ff", coverPage: true },
     // D안 단계 3: 실전 양육 가이드 → 3개 챕터로 분할 (relations/lifestyle/growth)
     { kind: "relations", title: "우리 아이는 사람과 어떻게 만나나요", aiSectionIdx: 8, hue: "#ff9d6b", coverPage: true },
     { kind: "lifestyle", title: "우리 아이의 몸과 일상은", aiSectionIdx: 9, hue: "#ffb39d", coverPage: true },
@@ -2056,12 +2060,13 @@ function IntroScrollChapter({
               <li className="italic" style={{ color: "rgba(255,255,255,0.6)" }}>· 자도인 첫마디</li>
               <li>1장. 우리 아이는 어떤 결을 타고났나요</li>
               <li>2장. 우리 아이는 마음을 어떻게 다루나요</li>
-              <li>3장. 우리 아이는 사람과 어떻게 만나나요</li>
-              <li>4장. 우리 아이의 몸과 일상은</li>
-              <li>5장. 우리 아이는 어느 시기에 어떻게 변하나요</li>
-              <li>6장. 엄마와 우리 아이</li>
-              <li>7장. 아빠와 우리 아이</li>
-              <li>8장. 우리 아이의 미래·진로는</li>
+              <li>3장. 우리 아이는 어떻게 배우나요</li>
+              <li>4장. 우리 아이는 사람과 어떻게 만나나요</li>
+              <li>5장. 우리 아이의 몸과 일상은</li>
+              <li>6장. 우리 아이는 어느 시기에 어떻게 변하나요</li>
+              <li>7장. 엄마와 우리 아이</li>
+              <li>8장. 아빠와 우리 아이</li>
+              <li>9장. 우리 아이의 미래·진로는</li>
               <li className="pt-1 italic" style={{ color: "rgba(255,255,255,0.6)" }}>+ 자도인의 마지막 당부</li>
             </ul>
           </div>
