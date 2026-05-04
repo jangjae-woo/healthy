@@ -153,6 +153,7 @@ function pickShareCardBg(score: number): string {
 type SlideKind =
   | "cover" | "intro" | "pillars" | "first-word"
   | "overview" | "heart" | "guide"
+  | "relations" | "lifestyle" | "growth"  // D안 단계 3 — 실전 양육 가이드 분할
   | "mom" | "dad"
   | "talent" | "last-word" | "share";
 
@@ -243,9 +244,12 @@ const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: stri
   overview: { partLabel: "Part 01", symbol: "🌱", en: "Our Child's Essence", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
   heart: { partLabel: "Part 02", symbol: "💗", en: "How the Heart Flows", subtitle: "감정과 기질이 흐르는 결의 자리" },
   guide: { partLabel: "Part 03", symbol: "🤝", en: "Daily Life · Relations · Growth", subtitle: "친구·일상·성장 시기 — 자녀의 흐름" },
-  mom: { partLabel: "Part 04", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
-  dad: { partLabel: "Part 05", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
-  talent: { partLabel: "Part 06", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
+  relations: { partLabel: "Part 03", symbol: "🤝", en: "Friends & People", subtitle: "친구·관계의 결을 어떻게 만들어가는가" },
+  lifestyle: { partLabel: "Part 04", symbol: "🌙", en: "Body & Daily Life", subtitle: "잠·식사·시간·일상의 호흡" },
+  growth: { partLabel: "Part 05", symbol: "🌱", en: "Times of Change", subtitle: "사춘기·평생 흐름 — 결이 변하는 시기" },
+  mom: { partLabel: "Part 06", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" },
+  dad: { partLabel: "Part 07", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" },
+  talent: { partLabel: "Part 08", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
   "last-word": { partLabel: "Part 07", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
@@ -263,7 +267,10 @@ function buildSlideLayout(
     { kind: "first-word", title: "자도인의 첫마디", aiSectionIdx: 0, hue: "#f5b942" },
     { kind: "overview", title: "우리 아이는 어떤 결을 타고났나요", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
     { kind: "heart", title: "우리 아이는 마음을 어떻게 다루나요", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
-    { kind: "guide", title: "우리 아이의 일상·관계·성장", aiSectionIdx: 3, hue: "#ff9d6b", coverPage: true },
+    // D안 단계 3: 실전 양육 가이드 → 3개 챕터로 분할 (relations/lifestyle/growth)
+    { kind: "relations", title: "우리 아이는 사람과 어떻게 만나나요", aiSectionIdx: 8, hue: "#ff9d6b", coverPage: true },
+    { kind: "lifestyle", title: "우리 아이의 몸과 일상은", aiSectionIdx: 9, hue: "#ffb39d", coverPage: true },
+    { kind: "growth", title: "우리 아이는 어느 시기에 어떻게 변하나요", aiSectionIdx: 10, hue: "#d4a8e8", coverPage: true },
   ];
   if (hasMom) layout.push({ kind: "mom", title: "엄마와 우리 아이", aiSectionIdx: 4, hue: "#f0a8b8", coverPage: true });
   if (hasDad) layout.push({ kind: "dad", title: "아빠와 우리 아이", aiSectionIdx: 5, hue: "#7eb6ff", coverPage: true });
@@ -309,15 +316,16 @@ const HEADER_SYNONYMS: Record<string, number> = {
   "아빠와 우리 아이": 5,
   "아버님과 우리 아이": 5,
   "강점·재능·진로": 6,
-  // ── 새 D안 헤더 (단계 2 이후 활성화) ── forward compatibility
-  "우리 아이는 어떤 결을 타고났나요": 1,    // Ch 1 본질·기질 → 구 idx 1 자리
-  "우리 아이는 마음을 어떻게 다루나요": 2,  // Ch 2 감정·내면 → 구 idx 2 자리
-  "우리 아이는 어떻게 배우나요": 3,         // Ch 3 학습 → 구 idx 3 자리
-  "우리 아이는 사람과 어떻게 만나나요": 4,  // Ch 4 관계 → 구 idx 4 자리 (구 mom 자리 흡수)
-  "우리 아이의 몸과 일상은": 5,             // Ch 5 생활 → 구 idx 5 자리 (구 dad 자리 흡수)
-  "우리 아이는 어느 시기에 어떻게 변하나요": 6, // Ch 6 시기 → 구 idx 6 자리
-  "우리 아이의 미래·진로는": 7,              // Ch 7 진로 → 구 idx 7 자리 (재배치 예정)
-  "엄마·아빠는 어떻게 함께 자라나요": 8,     // Ch 8 부모 (신설 idx 8 슬롯 — 단계 3에서 처리)
+  // ── 새 D안 헤더 (단계 3 — 별도 idx 분리 강제) ──
+  // 🚨 단계 1에서 잘못 매핑(4/5/6=mom/dad/talent)되어 새 챕터 콘텐츠가 덮어써져 손실됨. 단계 3에서 새 idx 8/9/10 으로 분리.
+  "우리 아이는 어떤 결을 타고났나요": 1,    // Ch 1 본질·기질 → idx 1 (구 한눈 자리)
+  "우리 아이는 마음을 어떻게 다루나요": 2,  // Ch 2 감정·내면 → idx 2 (구 마음 자리)
+  "우리 아이는 어떻게 배우나요": 11,        // Ch 3 학습 (route.ts 미존재 — 단계 2-C 신설 시 활성화)
+  "우리 아이는 사람과 어떻게 만나나요": 8,  // Ch 4 관계 → 신규 idx 8 (relations)
+  "우리 아이의 몸과 일상은": 9,             // Ch 5 생활 → 신규 idx 9 (lifestyle)
+  "우리 아이는 어느 시기에 어떻게 변하나요": 10, // Ch 6 시기 → 신규 idx 10 (growth)
+  "우리 아이의 미래·진로는": 6,              // Ch 7 진로 → idx 6 (구 talent 자리)
+  "엄마·아빠는 어떻게 함께 자라나요": 12,    // Ch 8 부모 통합 (단계 4에서 활성화)
   "자도인의 마지막 당부": 7,
   "자도인의 마지막 한마디": 7,  // (호환성) AI가 구 헤더 출력 시 동일 idx로 매핑
 };
@@ -2045,10 +2053,12 @@ function IntroScrollChapter({
               <li className="italic" style={{ color: "rgba(255,255,255,0.6)" }}>· 자도인 첫마디</li>
               <li>1장. 우리 아이는 어떤 결을 타고났나요</li>
               <li>2장. 우리 아이는 마음을 어떻게 다루나요</li>
-              <li>3장. 우리 아이의 일상·관계·성장</li>
-              <li>4장. 엄마와 우리 아이</li>
-              <li>5장. 아빠와 우리 아이</li>
-              <li>6장. 우리 아이의 미래·진로는</li>
+              <li>3장. 우리 아이는 사람과 어떻게 만나나요</li>
+              <li>4장. 우리 아이의 몸과 일상은</li>
+              <li>5장. 우리 아이는 어느 시기에 어떻게 변하나요</li>
+              <li>6장. 엄마와 우리 아이</li>
+              <li>7장. 아빠와 우리 아이</li>
+              <li>8장. 우리 아이의 미래·진로는</li>
               <li className="pt-1 italic" style={{ color: "rgba(255,255,255,0.6)" }}>+ 자도인의 마지막 당부</li>
             </ul>
           </div>
