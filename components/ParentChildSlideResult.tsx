@@ -5459,7 +5459,7 @@ export default function ParentChildSlideResult() {
           </div>
 
           {/* Phase 3-A2: 하단 챕터 nav 버튼 — prev / next (cover·share 제외) */}
-          {curLayout?.kind !== "share" && curLayout?.kind !== "cover" && (
+          {curLayout?.kind !== "share" && curLayout?.kind !== "cover" && curLayout?.kind !== "intro" && (
             <div className="mt-8 mb-4 flex items-center gap-3 px-2">
               <button
                 onClick={goPrev}
