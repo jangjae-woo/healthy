@@ -2130,7 +2130,7 @@ function IntroScrollChapter({
               </svg>
               <div className="flex justify-center gap-5 pb-3" style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
                 <span>──→ 생(生) 서로 살림</span>
-                <span>╌╌╌ 극(剋) 서로 다듬음</span>
+                <span>╌╌╌ 극(剋) 서로 견제</span>
               </div>
             </div>
           </div>
