@@ -5368,30 +5368,41 @@ export default function ParentChildSlideResult() {
           </div>
         )}
 
-        {/* 본문 — 좌우 탭 */}
-        <div
-          className="flex-1 px-4 flex flex-col relative"
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-          onClick={onClickArea}
-        >
+        {/* 본문 — Phase 3-A2: 챕터 스크롤 모드 (화면 클릭·스와이프 nav 제거) */}
+        <div className="flex-1 px-4 flex flex-col">
           {renderSlide()}
 
-          {/* 좌우 탭존 화살표 — 시각 안내만 */}
-          {(slide > 0 || aiPage > 0) && (
-            <div
-              className="absolute left-1 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center w-8 h-16 rounded-full"
-              style={{ backgroundColor: `${ACCENT}12` }}
-            >
-              <span className="text-xl font-light select-none" style={{ color: `${ACCENT}66` }}>‹</span>
-            </div>
-          )}
-          {(slide < TOTAL_SLIDES - 1 || hasMorePages) && (
-            <div
-              className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center w-8 h-16 rounded-full"
-              style={{ backgroundColor: `${ACCENT}12` }}
-            >
-              <span className="text-xl font-light select-none" style={{ color: `${ACCENT}66` }}>›</span>
+          {/* Phase 3-A2: 하단 챕터 nav 버튼 — prev / next */}
+          {curLayout?.kind !== "share" && (
+            <div className="mt-8 mb-4 flex items-center gap-3 px-2">
+              <button
+                onClick={goPrev}
+                disabled={slide <= 0}
+                className="flex-1 py-3 rounded-xl text-sm font-medium transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: slide <= 0 ? "rgba(255,255,255,0.04)" : `${ACCENT}18`,
+                  border: `1px solid ${slide <= 0 ? "rgba(255,255,255,0.08)" : `${ACCENT}55`}`,
+                  color: slide <= 0 ? "rgba(255,255,255,0.3)" : ACCENT,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                ‹  이전 챕터
+              </button>
+              <button
+                onClick={goNext}
+                disabled={!hasMorePages}
+                className="flex-1 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+                style={{
+                  background: !hasMorePages
+                    ? "rgba(255,255,255,0.04)"
+                    : `linear-gradient(135deg, ${ACCENT}, ${ACCENT}cc)`,
+                  border: `1px solid ${!hasMorePages ? "rgba(255,255,255,0.08)" : ACCENT}`,
+                  color: !hasMorePages ? "rgba(255,255,255,0.3)" : BG,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                다음 챕터  ›
+              </button>
             </div>
           )}
         </div>
