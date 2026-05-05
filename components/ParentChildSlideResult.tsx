@@ -973,6 +973,79 @@ function TraitGrid({ cards }: { cards: TraitCards }) {
   );
 }
 
+// ── Ch 2 일주(日柱) 기반 풀이 sub-section 배너 ─────────────────────
+// 자존감·내면 안정(6/7) + 마음이 닫히는 신호(7/7) 페이지에서
+// "여기부터는 십성 5분류가 아닌 일주 PRIMARY 풀이"임을 시각으로 분리.
+function IljuSubsectionBanner({ childIlju, variant }: { childIlju: IljuInfo | null; variant: "full" | "continuation" }) {
+  const HUE = "#c89cff"; // heart 챕터 hue
+  if (variant === "continuation") {
+    return (
+      <div className="flex items-center gap-2 mb-3 px-1">
+        <span style={{ color: HUE, fontSize: 12 }}>◆</span>
+        <p className="tracking-wide" style={{ color: HUE, fontSize: 11, letterSpacing: "0.15em" }}>
+          일주(日柱) 풀이 — 이어서
+        </p>
+        <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, ${HUE}40, transparent)` }} />
+      </div>
+    );
+  }
+  return (
+    <div className="mb-4">
+      {/* 띠 헤더 */}
+      <div className="flex items-center gap-2 mb-3">
+        <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, transparent, ${HUE}55)` }} />
+        <p className="tracking-[0.2em] font-bold" style={{ color: HUE, fontSize: 11.5 }}>
+          일주(日柱) 기반 풀이
+        </p>
+        <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${HUE}55)` }} />
+      </div>
+      <p className="text-center text-[10.5px] mb-3 italic" style={{ color: "rgba(255,255,255,0.55)" }}>
+        자녀의 자기 결 — 십성 5분류와는 다른 본질 인자
+      </p>
+      {/* 일주 카드 (Ch 1 일주 카드 컴포넌트와 동일 디자인 — 컴팩트 버전) */}
+      {childIlju && (
+        <div className="rounded-2xl p-3"
+          style={{
+            background: `linear-gradient(135deg, ${HUE}1a, rgba(255,255,255,0.03))`,
+            border: `1px solid ${HUE}40`,
+          }}>
+          <div className="flex items-center justify-center gap-3">
+            <div className="text-center">
+              <div className="text-[28px] font-bold tracking-widest leading-none" style={{ color: HUE }}>
+                {childIlju.hanja}
+              </div>
+              <p className="text-[10px] mt-1.5" style={{ color: `${HUE}cc` }}>
+                {childIlju.fusion}
+              </p>
+            </div>
+            <div className="w-px h-12" style={{ background: `${HUE}30` }} />
+            <div className="grid grid-cols-2 gap-2">
+              <div className="rounded-lg px-2.5 py-1.5 text-center min-w-[64px]"
+                style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+                <div className="text-[18px] font-bold leading-none" style={{ color: HUE }}>
+                  {childIlju.stemHanja}
+                </div>
+                <p className="text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  {childIlju.stemMeaning}
+                </p>
+              </div>
+              <div className="rounded-lg px-2.5 py-1.5 text-center min-w-[64px]"
+                style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+                <div className="text-[18px] font-bold leading-none" style={{ color: HUE }}>
+                  {childIlju.branchHanja}
+                </div>
+                <p className="text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  {childIlju.branchMeaning}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── 가이드 섹션 핵심 3가지 카드 ────────────────────────────────────
 function GuideHighlightCards({ items }: { items: GuideHighlight[] }) {
   return (
@@ -4902,6 +4975,16 @@ export default function ParentChildSlideResult() {
                     <RecoveryGrid cards={parseRecoveryCards(aiText)!} />
                   ) : kind === "heart" && /###\s*살펴주면 좋은 결/.test(aiText) && parseSoftenCards(aiText) ? (
                     <SoftenGrid cards={parseSoftenCards(aiText)!} />
+                  ) : kind === "heart" && /###\s*자존감과 내면 안정/.test(aiText) ? (
+                    <>
+                      <IljuSubsectionBanner childIlju={childIlju} variant="full" />
+                      {formatText(aiText, partHue)}
+                    </>
+                  ) : kind === "heart" && /###\s*마음이 닫히는 신호/.test(aiText) ? (
+                    <>
+                      <IljuSubsectionBanner childIlju={childIlju} variant="continuation" />
+                      {formatText(aiText, partHue)}
+                    </>
                   ) : kind === "guide" && /###\s*떼.{0,3}고집 대처/.test(aiText) && parseTantrumSteps(aiText) ? (
                     <>
                       {(() => {
