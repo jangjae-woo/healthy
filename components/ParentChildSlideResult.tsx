@@ -3807,9 +3807,11 @@ export default function ParentChildSlideResult() {
   const coverPagesOf = (s: number): number => slideLayout[s]?.coverPage ? 1 : 0;
   const hasChartPage = chartPagesOf(slide) > 0;
   const totalPagesForSlide = coverPagesOf(slide) + chartPagesOf(slide) + Math.max(curPages.length, 1);
-  const hasMorePages = totalPagesForSlide > 1 && aiPage < totalPagesForSlide - 1;
+  // Phase 3-A2: hasMorePages 의미 변경 — 챕터(slide) 단위로만 다음/이전 nav 가능 여부 표시.
+  const hasMorePages = slide < TOTAL_SLIDES - 1;
 
-  // ── 전체 페이지 카운트 (모든 슬라이드의 페이지 합) ─────────
+  // ── Phase 3-A2: 페이지 카운터 = 챕터(slide) 단위 (Ch 1/12 형태) ─────────
+  // 기존 pagesOfSlide() 헬퍼는 보존 (향후 anchor 점프·페이지 내 진행 막대 등에 활용).
   function pagesOfSlide(s: number): number {
     const sIdx = slideLayout[s]?.aiSectionIdx;
     if (sIdx === undefined) return 1; // AI 매핑 없는 슬라이드 = 1페이지
@@ -3818,11 +3820,9 @@ export default function ParentChildSlideResult() {
     const aiPgs = filterPagesForKind(rawPages, slideLayout[s]?.kind).length || 1;
     return coverPagesOf(s) + chartPagesOf(s) + Math.max(aiPgs, 1);
   }
-  let cumPagesBefore = 0;
-  for (let s = 0; s < slide; s++) cumPagesBefore += pagesOfSlide(s);
-  const currentGlobalPage = cumPagesBefore + aiPage + 1;
-  let totalGlobalPages = 0;
-  for (let s = 0; s < TOTAL_SLIDES; s++) totalGlobalPages += pagesOfSlide(s);
+  // 챕터 단위 카운터: 1부터 시작해 TOTAL_SLIDES까지
+  const currentGlobalPage = slide + 1;
+  const totalGlobalPages = TOTAL_SLIDES;
 
   // ── PNG 추출 + 공유 ──
   async function captureCanvas(): Promise<HTMLCanvasElement | null> {
@@ -3900,42 +3900,23 @@ export default function ParentChildSlideResult() {
     lastNavRef.current = now;
     return true;
   }
-  // ── 글로벌 페이지 평탄화 — 모든 슬라이드의 페이지를 일직선으로 ──
-  // 현재 위치를 글로벌 인덱스로 잡고 정확히 ±1만 이동.
-  // hasMorePages·setSlide+1 같은 분기 로직 거치지 않아 점프 원천 차단.
-  function buildFlatPages(): Array<{ s: number; p: number }> {
-    const flat: Array<{ s: number; p: number }> = [];
-    for (let s = 0; s < TOTAL_SLIDES; s++) {
-      const total = pagesOfSlide(s);
-      for (let p = 0; p < total; p++) flat.push({ s, p });
-    }
-    return flat;
-  }
+  // ── Phase 3-A2: 챕터(slide) 단위 nav ──
+  // 챕터 내부 sub-page는 모두 세로 스크롤로 표시(Phase 3-A 완료).
+  // 좌우 화살표는 챕터 단위로만 ±1 이동, aiPage state는 0으로 reset.
+  // 챕터 전환 시 scrollTo(0) 으로 새 챕터 상단부터 보이게.
   function goNext() {
     if (!navGate()) return;
-    const flat = buildFlatPages();
-    const cur = flat.findIndex((x) => x.s === slide && x.p === aiPage);
-    if (cur < 0 || cur >= flat.length - 1) return;
-    const next = flat[cur + 1];
-    if (next.s !== slide) {
-      setSlide(next.s);
-      setAiPage(next.p);
-    } else {
-      setAiPage(next.p);
-    }
+    if (slide >= TOTAL_SLIDES - 1) return;
+    setSlide(slide + 1);
+    setAiPage(0);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function goPrev() {
     if (!navGate()) return;
-    const flat = buildFlatPages();
-    const cur = flat.findIndex((x) => x.s === slide && x.p === aiPage);
-    if (cur <= 0) return;
-    const prev = flat[cur - 1];
-    if (prev.s !== slide) {
-      setSlide(prev.s);
-      setAiPage(prev.p);
-    } else {
-      setAiPage(prev.p);
-    }
+    if (slide <= 0) return;
+    setSlide(slide - 1);
+    setAiPage(0);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   // 좌우 탭 / 스와이프 (남녀궁합과 동일 패턴)
