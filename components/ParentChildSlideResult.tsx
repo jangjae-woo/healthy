@@ -4453,24 +4453,18 @@ export default function ParentChildSlideResult() {
               <span style={{ color: `${partHue}cc`, fontSize: 10, letterSpacing: "0.3em" }}>───</span>
               <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${partHue}66)` }} />
             </div>
-            {/* 한국어 챕터 제목 — 자간 넓게 */}
+            {/* 한국어 챕터 제목 — 자간 넓게, 어절 단위 줄바꿈 */}
             <h2
               className="text-[24px] font-bold text-center mb-5"
               style={{
                 color: "rgba(255,255,255,0.95)",
                 letterSpacing: "0.22em",
                 lineHeight: 1.45,
+                wordBreak: "keep-all",
               }}
             >
               {title}
             </h2>
-            {/* 한 줄 부제 */}
-            <p className="text-[12.5px] text-center leading-relaxed px-6 italic" style={{ color: "rgba(255,255,255,0.65)", letterSpacing: "0.04em" }}>
-              {cover.subtitle}
-            </p>
-            <p className="text-[10px] mt-12" style={{ color: `${partHue}66`, letterSpacing: "0.2em" }}>
-              1 / {totalPages}
-            </p>
           </div>
               );
             }
@@ -4479,14 +4473,6 @@ export default function ParentChildSlideResult() {
             return (
               <div key={_aiPage} className="flex-1 flex flex-col py-2">
           <div className="text-center mb-3">
-            <p className="text-xs font-semibold tracking-[0.25em]" style={{ color: partHue }}>
-              {title}
-            </p>
-            {totalPages > 1 && (
-              <p className="text-[10px] mt-1" style={{ color: `${partHue}99` }}>
-                {_aiPage + 1} / {totalPages}
-              </p>
-            )}
             {(() => {
               const badge = sajuBasisLabel(curLayout?.kind, shiftedPage, isChartPage, aiText);
               return badge ? (
