@@ -3557,7 +3557,11 @@ function ScoreGauge({ score, label }: { score: number; label: string }) {
 // ── 메인 컴포넌트 ─────────────────────────
 export default function ParentChildSlideResult() {
   const params = useSearchParams();
-  const [slide, setSlide] = useState(0);
+  const [slide, setSlide] = useState(() => {
+    const ch = params.get("ch");
+    const n = ch !== null ? parseInt(ch) : NaN;
+    return !isNaN(n) && n >= 0 ? n : 0;
+  });
   const [aiPage, setAiPage] = useState(0);
   const [content, setContent] = useState("");
   const [showToc, setShowToc] = useState(false);
@@ -3694,6 +3698,15 @@ export default function ParentChildSlideResult() {
         setLoading(false);
       });
   }, [params, momName, dadName, childName, hasMom, hasDad]);
+
+  // ?ch=N URL sync — 챕터 이동 시 URL 갱신 (북마크·공유)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("ch") === String(slide)) return;
+    url.searchParams.set("ch", String(slide));
+    window.history.replaceState(null, "", url.toString());
+  }, [slide]);
 
   // ── 파생값 ──
   const sections = parseSections(content);
