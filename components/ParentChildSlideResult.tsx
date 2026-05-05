@@ -10,6 +10,7 @@ import Link from "next/link";
 import PrecisionPillarTable from "@/components/saju-visuals/PrecisionPillarTable";
 import KeywordChips, { deriveChildKeywords } from "@/components/saju-visuals/KeywordChips";
 import ChapterTransition, { CHAPTER_TRANSITION_MESSAGES } from "@/components/saju-visuals/ChapterTransition";
+import SajuKnowledgeBox, { CHAPTER_KNOWLEDGE } from "@/components/saju-visuals/SajuKnowledgeBox";
 import type { ElementKey } from "@/lib/saju-symbols";
 // (보류) HanjiCard / OhaengDiagram — 양반사주 모방으로 만들었으나 paljawon 도메인 정합성 X 로 제거
 //   - HanjiCard: 검정 배경과 톤 충돌
@@ -5183,6 +5184,10 @@ export default function ParentChildSlideResult() {
                         style={{ backgroundColor: ACCENT, animationDelay: `${i * 150}ms` }} />
                     ))}
                   </div>
+                )}
+                {/* Phase 4-C: 챕터 마지막 페이지 — 사주 상식 박스 (정의 정리) */}
+                {aiText && curPages.length > 0 && aiTextIdx === curPages.length - 1 && CHAPTER_KNOWLEDGE[kind] && (
+                  <SajuKnowledgeBox items={CHAPTER_KNOWLEDGE[kind]} />
                 )}
                 {/* Phase 4-A: 챕터 마지막 페이지 — 다음 챕터 연결 문구 박스 */}
                 {aiText && curPages.length > 0 && aiTextIdx === curPages.length - 1 && CHAPTER_TRANSITION_MESSAGES[kind] && (
