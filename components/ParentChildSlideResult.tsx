@@ -4339,22 +4339,27 @@ export default function ParentChildSlideResult() {
     if (curLayout && curLayout.aiSectionIdx !== undefined) {
       const title = curLayout.title;
       const kind = curLayout.kind;
-
       const hasCover = !!curLayout.coverPage;
-      const isCoverPage = hasCover && aiPage === 0;
-      const shiftedPage = hasCover ? aiPage - 1 : aiPage;
       const chartPageCount = chartPagesOf(slide);
       const totalPages = (hasCover ? 1 : 0) + chartPageCount + Math.max(curPages.length, 1);
-      const isChartPage = !isCoverPage && chartPageCount > 0 && shiftedPage < chartPageCount;
-      const aiTextIdx = shiftedPage - chartPageCount;
-      const aiText = !isCoverPage ? (curPages[aiTextIdx] || "") : "";
       const partHue = curLayout.hue ?? ACCENT;
       const cover = SECTION_COVER[kind];
 
-      // 섹션 표지 페이지 — Phase 4-B 진지 타이포그래피 (한자 + 운형 장식 + 자간 넓게)
-      if (isCoverPage && cover) {
-        return (
-          <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      // Phase 3-A: 챕터 스크롤 모드 — 모든 페이지(표지·차트·본문)를 세로 스택으로 한 번에 렌더.
+      // 좌우 화살표는 챕터(slide) 단위로만 이동, aiPage state는 사용 X (보존만 — 향후 anchor 점프 등 활용 가능).
+      return (
+        <div className="flex-1 flex flex-col gap-12 py-2">
+          {Array.from({ length: totalPages }, (_, _aiPage) => {
+            const isCoverPage = hasCover && _aiPage === 0;
+            const shiftedPage = hasCover ? _aiPage - 1 : _aiPage;
+            const isChartPage = !isCoverPage && chartPageCount > 0 && shiftedPage < chartPageCount;
+            const aiTextIdx = shiftedPage - chartPageCount;
+            const aiText = !isCoverPage ? (curPages[aiTextIdx] || "") : "";
+
+            // 섹션 표지 페이지 — Phase 4-B 진지 타이포그래피 (한자 + 운형 장식 + 자간 넓게)
+            if (isCoverPage && cover) {
+              return (
+                <div key={_aiPage} className="flex-1 flex flex-col items-center justify-center px-6 py-12">
             {/* Part 라벨 */}
             <p className="text-[11px] tracking-[0.4em] mb-2" style={{ color: `${partHue}99` }}>
               {cover.partLabel}
@@ -4415,18 +4420,19 @@ export default function ParentChildSlideResult() {
               1 / {totalPages}
             </p>
           </div>
-        );
-      }
+              );
+            }
 
-      return (
-        <div className="flex-1 flex flex-col py-2">
+            // 본문/차트 페이지
+            return (
+              <div key={_aiPage} className="flex-1 flex flex-col py-2">
           <div className="text-center mb-3">
             <p className="text-xs font-semibold tracking-[0.25em]" style={{ color: partHue }}>
               {title}
             </p>
             {totalPages > 1 && (
               <p className="text-[10px] mt-1" style={{ color: `${partHue}99` }}>
-                {aiPage + 1} / {totalPages}
+                {_aiPage + 1} / {totalPages}
               </p>
             )}
             {(() => {
@@ -5199,6 +5205,9 @@ export default function ParentChildSlideResult() {
               </>
             )}
           </div>
+        </div>
+              );
+          })}
         </div>
       );
     }
