@@ -3676,7 +3676,24 @@ export default function ParentChildSlideResult() {
     }
     if (kind === "overview") {
       // 단계 3 통폐합: "기질 5각도" 페이지 폐기 (오행 차트와 중복)
-      return pages.filter((p) => !isFiveangPage(p));
+      const filtered = pages.filter((p) => !isFiveangPage(p));
+      // AI가 [강점]·[주의점]을 하나의 ### 헤더 아래 출력해야 하지만,
+      // 종종 `### 강점`/`### 주의점`을 별도 헤더로 분리 출력함 → 한 페이지로 병합 (TraitGrid 일관 렌더)
+      const merged: string[] = [];
+      for (let i = 0; i < filtered.length; i++) {
+        const cur = filtered[i];
+        const next = filtered[i + 1];
+        const curHasStrength = /###\s*강점/.test(cur) || /\[강점\]/.test(cur);
+        const curHasCaution = /###\s*주의점/.test(cur) || /\[주의점\]/.test(cur);
+        const nextHasCaution = next && (/###\s*주의점/.test(next) || /\[주의점\]/.test(next));
+        if (curHasStrength && !curHasCaution && nextHasCaution) {
+          merged.push(cur + "\n\n" + next);
+          i++; // skip next
+        } else {
+          merged.push(cur);
+        }
+      }
+      return merged;
     }
     if (kind === "guide" || kind === "relations" || kind === "lifestyle" || kind === "growth") {
       // D안 단계 4: guide → 3개 챕터 분할 후에도 동일한 폐기 페이지 필터 적용
@@ -4879,7 +4896,7 @@ export default function ParentChildSlideResult() {
                 )}
                 {aiText ? (
                   // 강점·주의점 카드 섹션은 TraitGrid로 렌더 (overview 마지막 페이지)
-                  kind === "overview" && /###\s*강점.{0,3}주의점/.test(aiText) && parseTraitCards(aiText) ? (
+                  kind === "overview" && (/###\s*강점/.test(aiText) || /###\s*주의점/.test(aiText) || /\[강점\]/.test(aiText) || /\[주의점\]/.test(aiText)) && parseTraitCards(aiText) ? (
                     <TraitGrid cards={parseTraitCards(aiText)!} />
                   ) : kind === "heart" && /###\s*회복과 환경/.test(aiText) && parseRecoveryCards(aiText) ? (
                     <RecoveryGrid cards={parseRecoveryCards(aiText)!} />
