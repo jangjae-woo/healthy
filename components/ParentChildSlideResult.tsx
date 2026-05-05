@@ -280,29 +280,36 @@ function buildSlideLayout(
   hasDad: boolean,
   ageStage?: "infant" | "preschool" | "elementary" | "secondary",
 ): SlideDef[] {
+  // Phase 2-A 구조 통합: 13챕터 → 8챕터 (lifestyle + growth 합쳐 "어떻게 자라나요" 단일 챕터)
+  // 본문 프롬프트는 Phase 2-B 이후 챕터별 시각 자료에 맞춰 재작성.
   const layout: SlideDef[] = [
     { kind: "cover", title: "" },
     { kind: "intro", title: "들어가며 — 사주 입문", hue: "#a8b8d4" },
     { kind: "pillars", title: "사주팔자", hue: "#f5b942" },
+    // Ch 0 — 자도인의 첫마디
     { kind: "first-word", title: "자도인의 첫마디", aiSectionIdx: 0, hue: "#f5b942" },
+    // Ch 1 — 본질 (격국·일주·용신/기신·귀인·강점/주의점)
     { kind: "overview", title: "우리 아이는 어떤 결을 타고났나요", aiSectionIdx: 1, chartPages: 2, hue: "#7dd3c0", coverPage: true },
+    // Ch 2 — 마음·감정·내면
     { kind: "heart", title: "우리 아이는 마음을 어떻게 다루나요", aiSectionIdx: 2, hue: "#c89cff", coverPage: true },
-    // D안 단계 2-C: Ch 3 학습 신설
+    // Ch 3 — 배움
     { kind: "learning", title: "우리 아이는 어떻게 배우나요", aiSectionIdx: 11, hue: "#a8d8ff", coverPage: true },
-    // D안 단계 3: 실전 양육 가이드 → 3개 챕터로 분할 (relations/lifestyle/growth)
+    // Ch 4 — 관계
     { kind: "relations", title: "우리 아이는 사람과 어떻게 만나나요", aiSectionIdx: 8, hue: "#ff9d6b", coverPage: true },
-    { kind: "lifestyle", title: "우리 아이의 몸과 일상은", aiSectionIdx: 9, hue: "#ffb39d", coverPage: true },
-    { kind: "growth", title: "우리 아이는 어느 시기에 어떻게 변하나요", aiSectionIdx: 10, hue: "#d4a8e8", coverPage: true },
+    // Ch 5 — 몸·일상·시기 흐름 (Phase 2-A 통합: lifestyle + growth)
+    //   페이지 흐름: 잠자리·식습관 → 좋은 시간 → 개운법 → 현재 대운 → 사춘기 → 평생 흐름
+    //   현재 → 미래 자연 진행 / 일상 호흡 + 시기 흐름 어휘 분리는 프롬프트에서 강제
+    { kind: "lifestyle", title: "우리 아이는 어떻게 자라나요", aiSectionIdx: 9, hue: "#ffb39d", coverPage: true },
   ];
-  // D안 D-2: mom/dad 챕터 폐기 → parents (Ch 8 통합) 신설.
-  // route.ts D-1 에서 mom/dad ## 헤더 폐기 + 새 헤더 "엄마·아빠는 어떻게 함께 자라나요" (idx 12) 신설됨.
-  // 영아는 재능·진로 슬라이드 숨김 (또래·학습·진로 어휘가 발달 단계와 안 맞음)
+  // Ch 6 — 진로 (영아 제외)
   if (ageStage !== "infant") {
     layout.push({ kind: "talent", title: "우리 아이의 미래·진로는", aiSectionIdx: 6, chartPages: 1, hue: "#ffd166", coverPage: true });
   }
+  // Ch 7 — 부모와 함께
   if (hasMom || hasDad) {
     layout.push({ kind: "parents", title: "엄마·아빠는 어떻게 함께 자라나요", aiSectionIdx: 12, hue: "#f0a8b8", coverPage: true });
   }
+  // Ch 8 — 자도인의 마지막 당부
   layout.push({ kind: "last-word", title: "자도인의 마지막 당부", aiSectionIdx: 7, hue: "#d4a8e8", coverPage: true });
   layout.push({ kind: "share", title: "공유하기" });
   return layout;
@@ -343,14 +350,17 @@ const HEADER_SYNONYMS: Record<string, number> = {
   "강점·재능·진로": 6,
   // ── 새 D안 헤더 (단계 3 — 별도 idx 분리 강제) ──
   // 🚨 단계 1에서 잘못 매핑(4/5/6=mom/dad/talent)되어 새 챕터 콘텐츠가 덮어써져 손실됨. 단계 3에서 새 idx 8/9/10 으로 분리.
-  "우리 아이는 어떤 결을 타고났나요": 1,    // Ch 1 본질·기질 → idx 1 (구 한눈 자리)
-  "우리 아이는 마음을 어떻게 다루나요": 2,  // Ch 2 감정·내면 → idx 2 (구 마음 자리)
-  "우리 아이는 어떻게 배우나요": 11,        // Ch 3 학습 (route.ts 미존재 — 단계 2-C 신설 시 활성화)
-  "우리 아이는 사람과 어떻게 만나나요": 8,  // Ch 4 관계 → 신규 idx 8 (relations)
-  "우리 아이의 몸과 일상은": 9,             // Ch 5 생활 → 신규 idx 9 (lifestyle)
-  "우리 아이는 어느 시기에 어떻게 변하나요": 10, // Ch 6 시기 → 신규 idx 10 (growth)
-  "우리 아이의 미래·진로는": 6,              // Ch 7 진로 → idx 6 (구 talent 자리)
-  "엄마·아빠는 어떻게 함께 자라나요": 12,    // Ch 8 부모 통합 (단계 4에서 활성화)
+  "우리 아이는 어떤 결을 타고났나요": 1,    // Ch 1 본질·기질 → idx 1
+  "우리 아이는 마음을 어떻게 다루나요": 2,  // Ch 2 감정·내면 → idx 2
+  "우리 아이는 어떻게 배우나요": 11,        // Ch 3 학습 → idx 11
+  "우리 아이는 사람과 어떻게 만나나요": 8,  // Ch 4 관계 → idx 8 (relations)
+  // ── Phase 2-A 통합: 몸·일상·시기 흐름 ──
+  // 신규 통합 헤더 + 구 두 헤더 모두 idx 9 (lifestyle)에 매핑 (forward + backward 호환)
+  "우리 아이는 어떻게 자라나요": 9,         // Ch 5 (Phase 2-A 신규 — lifestyle + growth 통합)
+  "우리 아이의 몸과 일상은": 9,             // Ch 5 구 lifestyle 헤더 호환
+  "우리 아이는 어느 시기에 어떻게 변하나요": 9, // Ch 5 구 growth 헤더 호환 (10 → 9 통합)
+  "우리 아이의 미래·진로는": 6,              // Ch 6 진로 → idx 6 (구 talent 자리)
+  "엄마·아빠는 어떻게 함께 자라나요": 12,    // Ch 7 부모 통합
   "자도인의 마지막 당부": 7,
   "자도인의 마지막 한마디": 7,  // (호환성) AI가 구 헤더 출력 시 동일 idx로 매핑
 };
@@ -5029,8 +5039,8 @@ export default function ParentChildSlideResult() {
                     </div>
                   </div>
                 )}
-                {/* Phase 4: 사춘기에 결이 변하는 시기 — 본문 위 시각 (사용자 정책: 실전 양육 가이드 통합) */}
-                {kind === "growth" && /###\s*사춘기에\s*결이\s*변하는/.test(aiText) && childCrisisTiming && (
+                {/* Phase 4: 사춘기에 결이 변하는 시기 — 본문 위 시각 (Phase 2-A: lifestyle+growth 통합 → kind lifestyle) */}
+                {kind === "lifestyle" && /###\s*사춘기에\s*결이\s*변하는/.test(aiText) && childCrisisTiming && (
                   <CrisisTimingCard timing={childCrisisTiming} parentLabel="부모님" />
                 )}
                 {aiText ? (
