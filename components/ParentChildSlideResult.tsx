@@ -213,7 +213,6 @@ function sajuBasisLabel(
       if (/###\s*잠자리.{0,3}식습관/.test(aiText)) return "🌿 오행+십성 (생활 채널)";
       if (/###\s*개운법|###\s*자녀의\s*개운/.test(aiText)) return "🌈 용신 (개운 비보)";
       if (/###\s*자녀에게\s*좋은\s*시간|###\s*일주\s*기반\s*일상/.test(aiText)) return "🕰️ 일간·일지 (시간 호흡)";
-      if (/###\s*절대\s*하면\s*안/.test(aiText)) return "💠 십성 (약점 위험)";
       if (/###\s*사춘기에\s*결이\s*변하는/.test(aiText)) return "🔮 대운 (사춘기 시기)";
       if (/###\s*자녀\s*인생\s*흐름/.test(aiText)) return "🔮 대운 (인생 흐름)";
       return "";
@@ -223,6 +222,7 @@ function sajuBasisLabel(
       if (/###\s*두\s*분과\s*자녀의\s*일상/.test(aiText)) return "🔗 일지 합·충 (가족)";
       if (/###\s*잘\s*통하는\s*영역과\s*부딪히는/.test(aiText)) return "🪄 시너지·갈등 (가족)";
       if (/###\s*부모님께/.test(aiText)) return "🎁 선물 + 부모 가이드";
+      if (/###\s*두\s*분이\s*의식적으로/.test(aiText)) return "🤲 함께 비켜드릴 결";
       return "";
     case "mom":
     case "dad":
@@ -3351,7 +3351,7 @@ function DangerCards({ list }: { list: DangerCard[] }) {
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
       {/* 섹션 A — 상위 2개 풀 카드 */}
       <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
-        ─ 이 자녀에게 가장 치명적인 2가지 ─
+        ─ 이 자녀에게 가장 깊이 닿는 살핌 2가지 ─
       </p>
       <div className="space-y-2.5">
         {topTwo.map((c, i) => (
@@ -3374,7 +3374,7 @@ function DangerCards({ list }: { list: DangerCard[] }) {
             <div className="mt-2.5 rounded-lg p-2.5"
               style={{ backgroundColor: "rgba(239,68,68,0.06)", borderLeft: `3px solid #ef4444` }}>
               <p className="text-[10px] tracking-wider mb-1" style={{ color: "#ff8a8a", fontWeight: "bold" }}>
-                ─ 왜 {i === 0 ? "가장" : "특히"} 치명적인가 (사주 근거) ─
+                ─ 왜 {i === 0 ? "가장" : "특히"} 깊이 닿는가 (사주 근거) ─
               </p>
               <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>
                 {c.sajuBasis}
@@ -4436,7 +4436,7 @@ export default function ParentChildSlideResult() {
                 {kind === "lifestyle" && aiTextIdx === 0 && childLifestyle && (
                   <LifestyleGauges channels={childLifestyle} />
                 )}
-                {kind === "lifestyle" && /###\s*절대\s*하면\s*안/.test(aiText) && childDanger && (
+                {kind === "parents" && /###\s*두\s*분이\s*의식적으로/.test(aiText) && childDanger && (
                   <DangerCards list={childDanger} />
                 )}
 
