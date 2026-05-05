@@ -8,6 +8,7 @@ interface Props {
   distribution: Record<ElementKey, number>;
   showLegend?: boolean;
   size?: number;  // 전체 가로 px
+  variant?: "dark" | "light";  // paljawon 검정 배경 vs 한지 카드용
 }
 
 const HANJA: Record<ElementKey, string> = {
@@ -37,10 +38,31 @@ function positions(size: number) {
   return out;
 }
 
-export default function OhaengDiagram({ distribution, showLegend = true, size = 280 }: Props) {
+export default function OhaengDiagram({ distribution, showLegend = true, size = 280, variant = "dark" }: Props) {
   const pos = positions(size);
-  const total = Object.values(distribution).reduce((a, b) => a + b, 0) || 1;
   const max = Math.max(...Object.values(distribution));
+  const isDark = variant === "dark";
+
+  // paljawon 다크 테마: 골드/적 톤, 라이트 한지: 갈색/네이비 톤
+  const palette = isDark
+    ? {
+      saengStroke: "#7eb6ff",     // 생 — 부드러운 파랑
+      geukStroke: "#ff9a9a",      // 극 — 옅은 적
+      circleBg: "rgba(255,255,255,0.06)",
+      hanjaShadow: "rgba(0,0,0,0.5)",
+      legendText: "rgba(255,255,255,0.6)",
+      captionText: "rgba(255,255,255,0.7)",
+      cellLabel: "rgba(255,255,255,0.55)",
+    }
+    : {
+      saengStroke: "#3c4a6e",
+      geukStroke: "#8b3a3a",
+      circleBg: "transparent",
+      hanjaShadow: "none",
+      legendText: "#5a5246",
+      captionText: "#7a6f5a",
+      cellLabel: "rgba(0,0,0,0.55)",
+    };
 
   // 동그라미 크기 — 분포 비율에 따라 ±25%
   const radiusOf = (count: number) => {
@@ -63,24 +85,24 @@ export default function OhaengDiagram({ distribution, showLegend = true, size = 
   return (
     <div className="flex flex-col items-center">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        {/* 극(剋) — 별 모양, 점선 회색 (보조 정보) */}
-        <g opacity={0.35}>
+        {/* 극(剋) — 별 모양, 점선 (보조 정보) */}
+        <g opacity={isDark ? 0.4 : 0.35}>
           {geukEdges.map(([a, b]) => (
             <line
               key={`g-${a}-${b}`}
               x1={pos[a].x} y1={pos[a].y}
               x2={pos[b].x} y2={pos[b].y}
-              stroke="#8b3a3a"
+              stroke={palette.geukStroke}
               strokeWidth={1}
               strokeDasharray="3 3"
             />
           ))}
         </g>
-        {/* 생(生) — 시계방향 곡선, 실선 푸른빛 (주 정보) */}
+        {/* 생(生) — 시계방향, 실선 (주 정보) */}
         <g>
           <defs>
-            <marker id="saengArrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0 0 L 8 4 L 0 8 z" fill="#3c4a6e" />
+            <marker id={`saengArrow-${isDark ? "d" : "l"}`} viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 8 4 L 0 8 z" fill={palette.saengStroke} />
             </marker>
           </defs>
           {saengEdges.map(([a, b]) => {
@@ -99,10 +121,10 @@ export default function OhaengDiagram({ distribution, showLegend = true, size = 
               <line
                 key={`s-${a}-${b}`}
                 x1={x1} y1={y1} x2={x2} y2={y2}
-                stroke="#3c4a6e"
+                stroke={palette.saengStroke}
                 strokeWidth={1.5}
-                markerEnd="url(#saengArrow)"
-                opacity={0.7}
+                markerEnd={`url(#saengArrow-${isDark ? "d" : "l"})`}
+                opacity={0.75}
               />
             );
           })}
@@ -112,52 +134,57 @@ export default function OhaengDiagram({ distribution, showLegend = true, size = 
           const r = radiusOf(distribution[k]);
           const isStrong = distribution[k] === max && max > 0;
           const isAbsent = distribution[k] === 0;
-          return (
-            <g key={k}>
-              <circle
-                cx={pos[k].x} cy={pos[k].y} r={r}
-                fill={ELEMENT_BG[k]}
-                stroke={ELEMENT_COLOR[k]}
-                strokeWidth={isStrong ? 2.5 : 1.5}
-                opacity={isAbsent ? 0.35 : 1}
-              />
-              <text
-                x={pos[k].x} y={pos[k].y - 3}
-                textAnchor="middle"
-                fontSize={r * 0.85}
-                fontWeight="bold"
-                fill={ELEMENT_COLOR[k]}
-                style={{ fontFamily: "serif" }}
-              >
-                {HANJA[k]}
-              </text>
-              <text
-                x={pos[k].x} y={pos[k].y + r * 0.55}
-                textAnchor="middle"
-                fontSize={9}
-                fill={ELEMENT_COLOR[k]}
-                opacity={0.85}
-              >
-                {distribution[k]}개
-              </text>
-            </g>
-          );
-        })}
+          // 다크: 어두운 반투명 배경 + 컬러 테두리, 라이트: 옅은 컬러 배경
+          const fillColor = isDark ? palette.circleBg : ELEMENT_BG[k];
+            const textColor = isDark
+              ? (isAbsent ? "#888" : ELEMENT_COLOR[k] === "#7a7a7a" ? "#cdcdcd" : ELEMENT_COLOR[k])
+              : ELEMENT_COLOR[k];
+            return (
+              <g key={k}>
+                <circle
+                  cx={pos[k].x} cy={pos[k].y} r={r}
+                  fill={fillColor}
+                  stroke={ELEMENT_COLOR[k]}
+                  strokeWidth={isStrong ? 2.5 : 1.5}
+                  opacity={isAbsent ? 0.4 : 1}
+                />
+                <text
+                  x={pos[k].x} y={pos[k].y - 3}
+                  textAnchor="middle"
+                  fontSize={r * 0.85}
+                  fontWeight="bold"
+                  fill={textColor}
+                  style={{ fontFamily: "serif" }}
+                >
+                  {HANJA[k]}
+                </text>
+                <text
+                  x={pos[k].x} y={pos[k].y + r * 0.55}
+                  textAnchor="middle"
+                  fontSize={9}
+                  fill={textColor}
+                  opacity={0.9}
+                >
+                  {distribution[k]}개
+                </text>
+              </g>
+            );
+          })}
       </svg>
       {showLegend && (
-        <div className="flex items-center gap-3 mt-2 text-[10.5px]" style={{ color: "#5a5246" }}>
+        <div className="flex items-center gap-3 mt-2 text-[10.5px]" style={{ color: palette.legendText }}>
           <span className="flex items-center gap-1">
-            <span style={{ display: "inline-block", width: 14, height: 1.5, background: "#3c4a6e" }} />
+            <span style={{ display: "inline-block", width: 14, height: 1.5, background: palette.saengStroke }} />
             생(生) — 길러줌
           </span>
           <span className="flex items-center gap-1">
-            <span style={{ display: "inline-block", width: 14, height: 1, borderTop: "1.5px dashed #8b3a3a" }} />
+            <span style={{ display: "inline-block", width: 14, height: 1, borderTop: `1.5px dashed ${palette.geukStroke}` }} />
             극(剋) — 다스림
           </span>
         </div>
       )}
       {showLegend && (
-        <p className="mt-1.5 text-[10px] text-center" style={{ color: "#7a6f5a" }}>
+        <p className="mt-1.5 text-[10px] text-center" style={{ color: palette.captionText }}>
           {(() => {
             const top = Object.entries(distribution)
               .sort(([, a], [, b]) => b - a)[0];

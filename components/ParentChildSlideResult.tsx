@@ -4425,9 +4425,13 @@ export default function ParentChildSlideResult() {
                 </p>
                 <ElementsRadar elements={sajuChild.elements as Record<string, number>} />
                 <SpectrumTable elements={sajuChild.elements as Record<string, number>} />
-                {/* Phase 1: 오행 5원소 생·극 도식 (양반사주 채택+변형) — 한지 도화지 카드 */}
-                <div className="mt-4">
-                  <HanjiCard title="오행 분포 — 생(生)·극(剋)의 흐름">
+                {/* Phase 1: 오행 5원소 생·극 도식 (paljawon 다크 톤) */}
+                <div className="mt-4 rounded-2xl p-4"
+                  style={{ backgroundColor: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)" }}>
+                  <p className="text-[11px] tracking-[0.25em] text-center mb-2" style={{ color: ACCENT }}>
+                    ─ 오행 분포 — 생(生)·극(剋)의 흐름 ─
+                  </p>
+                  <div className="flex justify-center">
                     <OhaengDiagram
                       distribution={
                         ((): Record<ElementKey, number> => {
@@ -4441,9 +4445,10 @@ export default function ParentChildSlideResult() {
                           };
                         })()
                       }
-                      size={280}
+                      size={260}
+                      variant="dark"
                     />
-                  </HanjiCard>
+                  </div>
                 </div>
               </div>
             )}
