@@ -4719,7 +4719,7 @@ export default function ParentChildSlideResult() {
 
                   return (
                     <div className="rounded-2xl p-4 mb-4" style={{ background: `linear-gradient(135deg, ${ACCENT}10, rgba(255,255,255,0.02))`, border: `1px solid ${ACCENT}40` }}>
-                      <p className="text-[10.5px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>─ 가족 세 분의 결이 만난 자리 ─</p>
+                      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 가족 세 분의 결이 만난 자리 ─</p>
 
                       {/* 부모-자녀-부모 가로 배치 */}
                       <div className="flex items-stretch gap-2">
