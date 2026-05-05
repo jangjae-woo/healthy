@@ -1076,15 +1076,9 @@ function IljuSubsectionBanner({ childIlju, variant }: { childIlju: IljuInfo | nu
   }
   return (
     <div className="mb-4">
-      {/* 띠 헤더 */}
-      <div className="flex items-center gap-2 mb-3">
-        <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, transparent, ${HUE}55)` }} />
-        <p className="tracking-[0.2em] font-bold" style={{ color: HUE, fontSize: 11.5 }}>
-          일주(日柱) 기반 풀이
-        </p>
-        <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${HUE}55)` }} />
-      </div>
-      <p className="text-center text-[10.5px] mb-3 italic" style={{ color: "rgba(255,255,255,0.55)" }}>
+      {/* 섹션 헤더 — 오행/십성 차트와 동일 형식 */}
+      <h4 className="text-sm font-bold text-center mb-1" style={{ color: BRIGHT }}>일주(日柱) 기반 풀이</h4>
+      <p className="text-center text-[10.5px] mb-3 italic" style={{ color: "rgba(255,255,255,0.7)" }}>
         자녀의 자기 결 — 십성 5분류와는 다른 본질 인자
       </p>
       {/* 일주 카드 (Ch 1 일주 카드 컴포넌트와 동일 디자인 — 컴팩트 버전) */}
@@ -4830,7 +4824,8 @@ export default function ParentChildSlideResult() {
                 {/* Phase 2-B: 격국 카드 — 자녀 본질 한 줄(신규) 또는 구 "격국" 헤더 매칭 */}
                 {kind === "overview" && /###\s*격국|###\s*자녀\s*본질/.test(aiText) && childGyeokguk && (
                   <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(168,139,250,0.08)", border: "1px solid rgba(168,139,250,0.35)" }}>
-                    <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#a78bfa" }}>─ 자녀의 격국(格局) — 인생의 큰 그림 ─</p>
+                    <h4 className="text-sm font-bold text-center mb-1" style={{ color: BRIGHT }}>자녀의 격국(格局)</h4>
+                    <p className="text-[11px] text-center mb-3" style={{ color: "rgba(255,255,255,0.7)" }}>인생의 큰 그림을 그려주는 타고난 성향</p>
                     <p className="text-[20px] font-bold text-center" style={{ color: BRIGHT }}>{childGyeokguk.name}</p>
                     <p className="text-[12px] text-center mt-0.5" style={{ color: "rgba(255,255,255,0.65)" }}>{childGyeokguk.hanja}</p>
                     <p className="text-[11px] text-center mt-2 italic" style={{ color: "rgba(255,255,255,0.7)" }}>{childGyeokguk.meaning}</p>
@@ -4856,7 +4851,8 @@ export default function ParentChildSlideResult() {
                 {/* Phase 2-B Ch 1: 채워줄 결 / 살펴줄 결 — 용신·기신 듀오 카드 */}
                 {kind === "overview" && /###\s*채워줄\s*결/.test(aiText) && childGisin && (
                   <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-                    <p className="text-[11px] tracking-[0.2em] text-center mb-3" style={{ color: ACCENT }}>─ 채워줄 결 / 살펴줄 결 ─</p>
+                    <h4 className="text-sm font-bold text-center mb-1" style={{ color: BRIGHT }}>채워줄 결 · 살펴줄 결</h4>
+                    <p className="text-[11px] text-center mb-3" style={{ color: "rgba(255,255,255,0.7)" }}>용신으로 채우고 기신을 살펴주는 결</p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="rounded-xl p-3 text-center" style={{ background: "rgba(125,211,192,0.10)", border: "1px solid rgba(125,211,192,0.4)" }}>
                         <p className="text-[10px] tracking-[0.15em] mb-1.5" style={{ color: "#7dd3c0" }}>용신(用神)</p>
