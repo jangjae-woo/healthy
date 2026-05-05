@@ -6,12 +6,13 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-// Phase 1 — 양반사주 시각 SSOT 채택+변형 컴포넌트
-import HanjiCard from "@/components/saju-visuals/HanjiCard";
-import OhaengDiagram from "@/components/saju-visuals/OhaengDiagram";
+// Phase 1 — 시각 SSOT 컴포넌트 (paljawon 도메인 정합 검증 후 채택)
 import PrecisionPillarTable from "@/components/saju-visuals/PrecisionPillarTable";
 import KeywordChips, { deriveChildKeywords } from "@/components/saju-visuals/KeywordChips";
 import type { ElementKey } from "@/lib/saju-symbols";
+// (보류) HanjiCard / OhaengDiagram — 양반사주 모방으로 만들었으나 paljawon 도메인 정합성 X 로 제거
+//   - HanjiCard: 검정 배경과 톤 충돌
+//   - OhaengDiagram: 기존 ElementsRadar + SpectrumTable과 정보 중복 (생·극 화살표는 자녀 사주 무관 교과서 정보)
 import {
   STEM_HANJA,
   BRANCH_HANJA,
@@ -4435,31 +4436,8 @@ export default function ParentChildSlideResult() {
                 </p>
                 <ElementsRadar elements={sajuChild.elements as Record<string, number>} />
                 <SpectrumTable elements={sajuChild.elements as Record<string, number>} />
-                {/* Phase 1: 오행 5원소 생·극 도식 (paljawon 다크 톤) */}
-                <div className="mt-4 rounded-2xl p-4"
-                  style={{ backgroundColor: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)" }}>
-                  <p className="text-[11px] tracking-[0.25em] text-center mb-2" style={{ color: ACCENT }}>
-                    ─ 오행 분포 — 생(生)·극(剋)의 흐름 ─
-                  </p>
-                  <div className="flex justify-center">
-                    <OhaengDiagram
-                      distribution={
-                        ((): Record<ElementKey, number> => {
-                          const e = sajuChild.elements as Record<string, number>;
-                          return {
-                            목: e["목"] ?? 0,
-                            화: e["화"] ?? 0,
-                            토: e["토"] ?? 0,
-                            금: e["금"] ?? 0,
-                            수: e["수"] ?? 0,
-                          };
-                        })()
-                      }
-                      size={260}
-                      variant="dark"
-                    />
-                  </div>
-                </div>
+                {/* (제거) OhaengDiagram — 레이더 + SpectrumTable 과 정보 중복.
+                    생·극 화살표는 사주 무관 교과서 정보라 자녀 시각화 가치 없음. */}
               </div>
             )}
             {/* Slide 3 차트 2: 십성 5각 (10가지 성향의 지도) */}
