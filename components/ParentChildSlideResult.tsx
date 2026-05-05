@@ -4682,8 +4682,8 @@ export default function ParentChildSlideResult() {
                 {kind === "overview" && /###\s*기운\s*총량/.test(aiText) && childDayMasterStrength && (
                   <DayMasterGauge strength={childDayMasterStrength} />
                 )}
-                {/* Phase 2: 격국 카드 — 본문 위 시각 + 양육 팁 (Phase 후속 강화) */}
-                {kind === "overview" && /###\s*격국/.test(aiText) && childGyeokguk && (
+                {/* Phase 2-B: 격국 카드 — 자녀 본질 한 줄(신규) 또는 구 "격국" 헤더 매칭 */}
+                {kind === "overview" && /###\s*격국|###\s*자녀\s*본질/.test(aiText) && childGyeokguk && (
                   <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(168,139,250,0.08)", border: "1px solid rgba(168,139,250,0.35)" }}>
                     <p className="text-[11px] tracking-[0.2em] text-center mb-2" style={{ color: "#a78bfa" }}>─ 자녀의 격국(格局) — 인생의 큰 그림 ─</p>
                     <p className="text-[20px] font-bold text-center" style={{ color: BRIGHT }}>{childGyeokguk.name}</p>
@@ -4704,7 +4704,62 @@ export default function ParentChildSlideResult() {
                     )}
                   </div>
                 )}
-                {/* Phase 2: 공망 카드 — 본문 위 시각 */}
+                {/* Phase 2-B Ch 1: 일주(日柱) 페이지 — 일주 캐릭터 카드 (full variant 재사용) */}
+                {kind === "overview" && /###\s*일주/.test(aiText) && childIlju && (
+                  <IljuSubsectionBanner childIlju={childIlju} variant="full" />
+                )}
+                {/* Phase 2-B Ch 1: 채워줄 결 / 살펴줄 결 — 용신·기신 듀오 카드 */}
+                {kind === "overview" && /###\s*채워줄\s*결/.test(aiText) && childGisin && (
+                  <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+                    <p className="text-[11px] tracking-[0.2em] text-center mb-3" style={{ color: ACCENT }}>─ 채워줄 결 / 살펴줄 결 ─</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="rounded-xl p-3 text-center" style={{ background: "rgba(125,211,192,0.10)", border: "1px solid rgba(125,211,192,0.4)" }}>
+                        <p className="text-[10px] tracking-[0.15em] mb-1.5" style={{ color: "#7dd3c0" }}>용신(用神)</p>
+                        <p className="text-[28px] font-bold leading-none" style={{ color: "#7dd3c0", fontFamily: "serif" }}>
+                          {({목:"木",화:"火",토:"土",금:"金",수:"水"} as Record<string,string>)[childGisin.yongsin] ?? childGisin.yongsin}
+                        </p>
+                        <p className="text-[12px] mt-1" style={{ color: "rgba(255,255,255,0.75)" }}>{childGisin.yongsin}</p>
+                        <p className="text-[10px] mt-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>채워줄 결</p>
+                      </div>
+                      <div className="rounded-xl p-3 text-center" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.35)" }}>
+                        <p className="text-[10px] tracking-[0.15em] mb-1.5" style={{ color: "#ff8a8a" }}>기신(忌神)</p>
+                        <p className="text-[28px] font-bold leading-none" style={{ color: "#ff8a8a", fontFamily: "serif" }}>
+                          {childGisin.hanja}
+                        </p>
+                        <p className="text-[12px] mt-1" style={{ color: "rgba(255,255,255,0.75)" }}>{childGisin.element}</p>
+                        <p className="text-[10px] mt-1.5" style={{ color: "rgba(255,255,255,0.55)" }}>살펴줄 결</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {/* Phase 2-B Ch 1: 자녀에게 빛나는 별 — 귀인 카드 (보유 시만) */}
+                {kind === "overview" && /###\s*빛나는\s*별|###\s*타고난\s*귀인/.test(aiText) && (() => {
+                  const guiinList = (sajuChild?.sinsal ?? []).filter(s =>
+                    ["천을귀인","천덕귀인","월덕귀인","태극귀인","문창귀인","학당귀인","복성귀인","금여"].includes(s)
+                  );
+                  if (guiinList.length === 0) return null;
+                  return (
+                    <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,215,0,0.06)", border: `1px solid ${BRIGHT}40` }}>
+                      <p className="text-[11px] tracking-[0.2em] text-center mb-3" style={{ color: BRIGHT }}>─ 자녀에게 빛나는 별 ─</p>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {guiinList.map((g) => (
+                          <span
+                            key={g}
+                            className="text-[12px] px-3 py-1.5 rounded-full font-bold"
+                            style={{
+                              background: "rgba(255,215,0,0.12)",
+                              color: BRIGHT,
+                              border: `1px solid ${BRIGHT}55`,
+                              letterSpacing: "0.05em",
+                            }}
+                          >
+                            ✦ {g}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
                 {/* (Phase 후속) 다섯 색깔의 결 — 5 색상 카드 그리드 (십성 5분류 강도 시각화) */}
                 {kind === "heart" && /###\s*다섯\s*색깔/.test(aiText) && childSipseongCounts && (() => {
                   const total = (childSipseongCounts.비겁 ?? 0) + (childSipseongCounts.식상 ?? 0) +
