@@ -3435,7 +3435,7 @@ function DangerCards({ list }: { list: DangerCard[] }) {
       {/* 섹션 B — 하위 3개 콤팩트 미니 카드 */}
       {restThree.length > 0 && (
         <>
-          <p className="text-[10px] tracking-[0.25em] text-center mt-4 mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold mt-4 mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
             ─ 그 외 살펴볼 결 ─
           </p>
           <div className="space-y-1.5">
@@ -4259,7 +4259,7 @@ export default function ParentChildSlideResult() {
 
           {/* Phase 1: 자녀 4기둥 정밀표 (양반사주 채택+변형) — 12운성·신살·귀인 */}
           <div className="mt-2">
-            <p className="text-[10px] tracking-[0.25em] text-center mb-1.5" style={{ color: ACCENT }}>
+            <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-1.5" style={{ color: ACCENT }}>
               ─ {childName}의 사주 정밀표 ─
             </p>
             <PrecisionPillarTable saju={sajuChild} variant="dark" />
@@ -4282,7 +4282,7 @@ export default function ParentChildSlideResult() {
             });
             return keywords.length > 0 ? (
               <div className="mt-2.5">
-                <p className="text-[10px] tracking-[0.25em] text-center mb-1.5" style={{ color: ACCENT }}>
+                <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-1.5" style={{ color: ACCENT }}>
                   ─ {childName}의 본질 키워드 ─
                 </p>
                 <div className="flex justify-center">
