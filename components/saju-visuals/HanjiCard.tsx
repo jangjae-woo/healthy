@@ -9,18 +9,20 @@ interface Props {
   className?: string;
 }
 
+// Phase 1a — 검정 배경 위 한지 톤 (어두운 옅은 노랑 베이스, 빛바랜 종이 느낌)
+// Phase 1b 전체 라이트 모드 전환 시 PALETTE.light를 밝은 한지로 swap 예정
 const PALETTE = {
   light: {
-    bg: "linear-gradient(180deg, #f5efdf 0%, #ede4cd 100%)",  // 한지 베이지 톤
-    border: "#3c4a6e",   // 청월당 풍 네이비
-    text: "#2a2622",     // 먹 톤
-    accent: "#8b6f3a",   // 황토 (운형 장식)
+    bg: "linear-gradient(180deg, #b5a88a 0%, #a09474 100%)",  // 빛바랜 한지 — 어두운 황토 톤
+    border: "#5a4a2e",   // 깊은 갈색 테두리
+    text: "#1f1a14",     // 진한 먹 톤
+    accent: "#3a2c14",   // 짙은 황토 (운형 장식)
   },
   soft: {
-    bg: "linear-gradient(180deg, #ece6d8 0%, #ddd5c2 100%)",  // 살짝 회색 도는 한지
-    border: "#4a4a4a",
-    text: "#2a2622",
-    accent: "#5a5a5a",
+    bg: "linear-gradient(180deg, #9e927a 0%, #87795f 100%)",  // 회색 도는 빛바랜 한지
+    border: "#3a342a",
+    text: "#1f1a14",
+    accent: "#2c2620",
   },
 } as const;
 

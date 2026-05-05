@@ -9,6 +9,8 @@ import Link from "next/link";
 // Phase 1 — 양반사주 시각 SSOT 채택+변형 컴포넌트
 import HanjiCard from "@/components/saju-visuals/HanjiCard";
 import OhaengDiagram from "@/components/saju-visuals/OhaengDiagram";
+import PrecisionPillarTable from "@/components/saju-visuals/PrecisionPillarTable";
+import KeywordChips, { deriveChildKeywords } from "@/components/saju-visuals/KeywordChips";
 import type { ElementKey } from "@/lib/saju-symbols";
 import {
   STEM_HANJA,
@@ -4187,6 +4189,41 @@ export default function ParentChildSlideResult() {
           {hasMom && sajuMom && <PillarCard name={momName} saju={sajuMom} label="엄마" />}
           {hasDad && sajuDad && <PillarCard name={dadName} saju={sajuDad} label="아빠" />}
           <PillarCard name={childName} saju={sajuChild} label="아이" />
+
+          {/* Phase 1: 자녀 4기둥 정밀표 (양반사주 채택+변형) — 12운성·신살·귀인 */}
+          <div className="mt-2">
+            <p className="text-[10px] tracking-[0.25em] text-center mb-1.5" style={{ color: ACCENT }}>
+              ─ {childName}의 사주 정밀표 ─
+            </p>
+            <PrecisionPillarTable saju={sajuChild} variant="dark" />
+          </div>
+
+          {/* Phase 1: 자녀 본질 키워드 칩 (paljawon 자원 톤) */}
+          {(() => {
+            const ilganElem = STEM_TO_ELEM[sajuChild.ilgan] as ElementKey | undefined;
+            // 가장 강한 십성 — sipseong stem 기준 단순 first non-empty
+            const topSip = sajuChild.sipseong.day?.stem || sajuChild.sipseong.month?.stem;
+            const guiin = (sajuChild.sinsal ?? []).some(s =>
+              ["천을귀인","천덕귀인","월덕귀인","태극귀인","문창귀인","학당귀인","복성귀인","금여"].includes(s)
+            );
+            const keywords = deriveChildKeywords({
+              ilganElement: ilganElem,
+              gyeokgukName: childGyeokguk?.name,
+              dayMasterLevel: childDayMasterStrength?.level,
+              topSipseong: topSip,
+              hasGuiin: guiin,
+            });
+            return keywords.length > 0 ? (
+              <div className="mt-2.5">
+                <p className="text-[10px] tracking-[0.25em] text-center mb-1.5" style={{ color: ACCENT }}>
+                  ─ {childName}의 본질 키워드 ─
+                </p>
+                <div className="flex justify-center">
+                  <KeywordChips keywords={keywords} variant="dark" size="md" />
+                </div>
+              </div>
+            ) : null;
+          })()}
 
           {/* 아이의 일주 카드 */}
           {childIlju && (
