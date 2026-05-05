@@ -3576,6 +3576,7 @@ export default function ParentChildSlideResult() {
   const tapStartRef = useRef<{ x: number; y: number } | null>(null);
   const lastNavRef = useRef<number>(0); // 페이지 점프 디바운스 — 터치+클릭 이벤트 중복 방지
   const shareCardRef = useRef<HTMLDivElement>(null);
+  const chapterContentRef = useRef<HTMLDivElement>(null);
   const [exportState, setExportState] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const hasMom = !!params.get("momYear");
@@ -3900,6 +3901,36 @@ export default function ParentChildSlideResult() {
       }
       setTimeout(() => setExportState("idle"), 2000);
     } catch {
+      setExportState("error");
+      setTimeout(() => setExportState("idle"), 3000);
+    }
+  }
+
+  // Phase 3-C: 현재 챕터 PNG 캡처 (세로 긴 이미지)
+  async function downloadChapterPNG() {
+    if (!chapterContentRef.current) return;
+    setExportState("loading");
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(chapterContentRef.current, {
+        backgroundColor: BG,
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      const chapterTitle = curLayout?.title || `챕터${slide + 1}`;
+      const safeTitle = chapterTitle.replace(/[\\/:*?"<>|]/g, "");
+      link.download = `자도인_${safeTitle}_${childName}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setExportState("success");
+      setTimeout(() => setExportState("idle"), 2000);
+    } catch (err) {
+      console.error("챕터 캡처 실패", err);
       setExportState("error");
       setTimeout(() => setExportState("idle"), 3000);
     }
@@ -5333,6 +5364,18 @@ export default function ParentChildSlideResult() {
           <span className="text-[11px] tabular-nums" style={{ color: `${ACCENT}77` }}>
             {currentGlobalPage} / {totalGlobalPages}
           </span>
+          {/* Phase 3-C: 현재 챕터 PNG 저장 (share 슬라이드 제외 — 자체 버튼 있음) */}
+          {curLayout?.kind !== "share" && (
+            <button
+              onClick={downloadChapterPNG}
+              disabled={exportState === "loading"}
+              className="text-xs px-2 py-1.5 rounded-xl transition-all disabled:opacity-50"
+              style={{ backgroundColor: `${ACCENT}18`, color: ACCENT }}
+              title="이 챕터를 이미지로 저장"
+            >
+              {exportState === "loading" ? "..." : "📷"}
+            </button>
+          )}
           {/* TOC 버튼 */}
           <button
             onClick={() => setShowToc((v) => !v)}
@@ -5384,7 +5427,9 @@ export default function ParentChildSlideResult() {
 
         {/* 본문 — Phase 3-A2: 챕터 스크롤 모드 (화면 클릭·스와이프 nav 제거) */}
         <div className="flex-1 px-4 flex flex-col">
-          {renderSlide()}
+          <div ref={chapterContentRef}>
+            {renderSlide()}
+          </div>
 
           {/* Phase 3-A2: 하단 챕터 nav 버튼 — prev / next */}
           {curLayout?.kind !== "share" && (
