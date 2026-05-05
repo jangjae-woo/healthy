@@ -5319,6 +5319,7 @@ export default function ParentChildSlideResult() {
     setSlide(s);
     setAiPage(0);
     setShowToc(false);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
