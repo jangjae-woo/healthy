@@ -1982,6 +1982,9 @@ function IntroScrollChapter({
         {/* 3. 사주의 기본 요소 — 천간·지지·오행 */}
         <section className="space-y-3 py-4">
           <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#7dd3c0" }}>─ 사주의 기본 요소 ─</p>
+          <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.82)" }}>
+            사주에서 쓰이는 재료는 딱 세 가지예요. 하늘의 기운인 <strong style={{ color: "#7dd3c0" }}>천간</strong>, 땅의 기운인 <strong style={{ color: "#7dd3c0" }}>지지</strong>, 그리고 두 기운이 만나 이루는 다섯 계절인 <strong style={{ color: "#7dd3c0" }}>오행</strong>이에요. 아래를 한 번만 훑어보시면 금방 눈에 익으실 거예요.
+          </p>
 
           {/* 천간 표 */}
           <div className="space-y-1.5">
@@ -2077,27 +2080,57 @@ function IntroScrollChapter({
             </div>
           </div>
 
-          {/* 오행 5각 */}
+          {/* 오행 생극 오각도 */}
           <div className="space-y-1.5">
             <p className="text-[12.5px] font-bold" style={{ color: BRIGHT }}>③ 오행(五行) — 다섯 가지 기운</p>
-            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <div className="grid grid-cols-5 gap-1 text-center text-[10px]">
-                {[
-                  { e: "🌿 목(木)", c: "#7dd3c0", m: "성장·움직임" },
-                  { e: "🔥 화(火)", c: "#ff8a8a", m: "활기·표현" },
-                  { e: "🟫 토(土)", c: "#e8c9a5", m: "안정·자리잡음" },
-                  { e: "🤍 금(金)", c: "#cdd9e4", m: "단단함·결단" },
-                  { e: "🔵 수(水)", c: "#a8c4e8", m: "사색·고요" },
-                ].map((c, i) => (
-                  <div key={i} className="space-y-0.5 py-1">
-                    <p className="font-bold" style={{ color: c.c }}>{c.e}</p>
-                    <p className="text-[8.5px]" style={{ color: "rgba(255,255,255,0.65)" }}>{c.m}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-3 text-[10px] space-y-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-                <p><strong style={{ color: "#7dd3c0" }}>생(生)</strong>: 수→목→화→토→금→수 (서로 살림)</p>
-                <p><strong style={{ color: "#ff8a8a" }}>극(剋)</strong>: 수→화 / 화→금 / 금→목 / 목→토 / 토→수 (다듬음)</p>
+            <div className="rounded-xl overflow-hidden" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <svg viewBox="0 0 320 285" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="ohArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M0,0 L6,3 L0,6 z" fill="rgba(255,255,255,0.5)" />
+                  </marker>
+                </defs>
+                {/* 극(剋) — 내부 오망성 점선 */}
+                <line x1="65" y1="117" x2="255" y2="117" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" strokeDasharray="4,3" />
+                <line x1="160" y1="48" x2="219" y2="229" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" strokeDasharray="4,3" />
+                <line x1="255" y1="117" x2="101" y2="229" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" strokeDasharray="4,3" />
+                <line x1="219" y1="229" x2="65" y2="117" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" strokeDasharray="4,3" />
+                <line x1="101" y1="229" x2="160" y2="48" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" strokeDasharray="4,3" />
+                {/* 생(生) — 외부 오각형 화살표 */}
+                {/* 木→火 */}
+                <line x1="84" y1="103" x2="141" y2="62" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" markerEnd="url(#ohArrow)" />
+                {/* 火→土 */}
+                <line x1="179" y1="62" x2="236" y2="103" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" markerEnd="url(#ohArrow)" />
+                {/* 土→金 */}
+                <line x1="248" y1="138" x2="227" y2="207" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" markerEnd="url(#ohArrow)" />
+                {/* 金→水 */}
+                <line x1="196" y1="229" x2="124" y2="229" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" markerEnd="url(#ohArrow)" />
+                {/* 水→木 */}
+                <line x1="92" y1="207" x2="71" y2="138" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" markerEnd="url(#ohArrow)" />
+                {/* 火 (top) */}
+                <circle cx="160" cy="48" r="25" fill="rgba(255,138,138,0.15)" stroke="#ff8a8a" strokeWidth="1.5" />
+                <text x="160" y="44" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#ff8a8a">火</text>
+                <text x="160" y="58" textAnchor="middle" fontSize="8" fill="#ff8a8a">활기·표현</text>
+                {/* 土 (upper-right) */}
+                <circle cx="255" cy="117" r="25" fill="rgba(232,201,165,0.15)" stroke="#e8c9a5" strokeWidth="1.5" />
+                <text x="255" y="113" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#e8c9a5">土</text>
+                <text x="255" y="127" textAnchor="middle" fontSize="8" fill="#e8c9a5">안정·자리</text>
+                {/* 金 (lower-right) */}
+                <circle cx="219" cy="229" r="25" fill="rgba(205,217,228,0.15)" stroke="#cdd9e4" strokeWidth="1.5" />
+                <text x="219" y="225" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#cdd9e4">金</text>
+                <text x="219" y="239" textAnchor="middle" fontSize="8" fill="#cdd9e4">단단·결단</text>
+                {/* 水 (lower-left) */}
+                <circle cx="101" cy="229" r="25" fill="rgba(168,196,232,0.15)" stroke="#a8c4e8" strokeWidth="1.5" />
+                <text x="101" y="225" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#a8c4e8">水</text>
+                <text x="101" y="239" textAnchor="middle" fontSize="8" fill="#a8c4e8">사색·고요</text>
+                {/* 木 (upper-left) */}
+                <circle cx="65" cy="117" r="25" fill="rgba(125,211,192,0.15)" stroke="#7dd3c0" strokeWidth="1.5" />
+                <text x="65" y="113" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#7dd3c0">木</text>
+                <text x="65" y="127" textAnchor="middle" fontSize="8" fill="#7dd3c0">성장·움직임</text>
+              </svg>
+              <div className="flex justify-center gap-5 pb-3" style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
+                <span>──→ 생(生) 서로 살림</span>
+                <span>╌╌╌ 극(剋) 서로 다듬음</span>
               </div>
             </div>
           </div>
@@ -2108,12 +2141,12 @@ function IntroScrollChapter({
         {/* 4. 일주 = 자녀 본질의 핵 */}
         <section className="space-y-3 py-4">
           <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#c89cff" }}>─ 자녀 본질의 핵, 일주(日柱) ─</p>
-          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
-            사주 4 기둥 중 가장 중요한 기둥은 <strong style={{ color: "#c89cff" }}>일주(日柱)</strong>입니다.
+          <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            4기둥 중 딱 하나만 기억하신다면, 바로 <strong style={{ color: "#c89cff" }}>일주(日柱)</strong>예요. 아이가 태어난 날의 기둥인데, 이 안에 자녀 본질의 핵이 담겨 있어요.
           </p>
           <ul className="text-[12.5px] leading-[1.75] space-y-1 ml-3" style={{ color: "rgba(255,255,255,0.85)" }}>
-            <li>· 일주의 윗글자 = <strong>일간(日干)</strong> → 자녀 본질의 핵 (성격·기질·자아)</li>
-            <li>· 일주의 아랫글자 = <strong>일지(日支)</strong> → 자녀 일상의 결</li>
+            <li>· 윗글자 = <strong>일간(日干)</strong> → 본질의 핵 (성격·기질·자아)</li>
+            <li>· 아랫글자 = <strong>일지(日支)</strong> → 일상 속 자녀의 결</li>
           </ul>
           <div className="rounded-xl p-4 mt-2 text-center" style={{ background: "rgba(200,156,255,0.08)", border: "1px solid rgba(200,156,255,0.3)" }}>
             <p className="text-[10px] mb-2" style={{ color: "rgba(255,255,255,0.55)" }}>{childLabel}의 일주</p>
@@ -2132,11 +2165,8 @@ function IntroScrollChapter({
         {/* 5. 십성 */}
         <section className="space-y-3 py-4">
           <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#a78bfa" }}>─ 자녀의 10가지 성향, 십성(十星) ─</p>
-          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
-            <strong style={{ color: "#a78bfa" }}>십성(十星)</strong>은 자녀의 <strong>일간</strong>을 기준으로, 다른 사주 글자가 어떤 관계인지 10가지로 나눈 분류입니다.
-          </p>
-          <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
-            비슷한 성격끼리 묶어 <strong>5분류</strong>로 보면:
+          <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <strong style={{ color: "#a78bfa" }}>십성(十星)</strong>은 쉽게 말하면 <strong>"이 아이는 어떤 방식으로 세상과 만나는 아이인가"</strong>를 10가지 패턴으로 나눈 거예요. 비슷한 결끼리 5개로 묶으면 이렇게 돼요:
           </p>
           <div className="rounded-xl p-3" style={{ background: "rgba(167,139,250,0.06)", border: "1px solid rgba(167,139,250,0.25)" }}>
             <ul className="text-[12px] leading-[1.8] space-y-1.5" style={{ color: "rgba(255,255,255,0.85)" }}>
@@ -2147,9 +2177,6 @@ function IntroScrollChapter({
               <li><strong style={{ color: "#c084fc" }}>인성(印星)</strong> — 받아들임·사색 <span style={{ color: "rgba(255,255,255,0.55)" }}>(정인·편인)</span></li>
             </ul>
           </div>
-          <p className="text-[11.5px] leading-[1.7] italic" style={{ color: "rgba(255,255,255,0.65)" }}>
-            {childLabel}의 5분류 분포는 본문 「우리 아이의 마음」 챕터에서 자세히 풀어드립니다.
-          </p>
         </section>
 
         {sectionDivider}
@@ -2192,7 +2219,7 @@ function IntroScrollChapter({
               boxShadow: `0 4px 24px ${ACCENT}55`,
             }}
           >
-            보고서 시작 →
+            사주풀이 시작 →
           </button>
         </div>
       </div>
@@ -5431,8 +5458,8 @@ export default function ParentChildSlideResult() {
             {renderSlide()}
           </div>
 
-          {/* Phase 3-A2: 하단 챕터 nav 버튼 — prev / next */}
-          {curLayout?.kind !== "share" && (
+          {/* Phase 3-A2: 하단 챕터 nav 버튼 — prev / next (cover·share 제외) */}
+          {curLayout?.kind !== "share" && curLayout?.kind !== "cover" && (
             <div className="mt-8 mb-4 flex items-center gap-3 px-2">
               <button
                 onClick={goPrev}
