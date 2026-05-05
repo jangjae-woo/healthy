@@ -278,6 +278,70 @@ const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; hanja: strin
   "last-word": { partLabel: "Part 08", hanja: "結",    en: "Final Words",               subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
+// Phase: 한자 → 골드 단색 SVG 라인 아이콘 (chapter cover)
+const SECTION_ICON: Partial<Record<SlideKind, React.ReactNode>> = {
+  // Part 01 본질 — 새싹
+  overview: (
+    <g>
+      <path d="M50 88 V 50" />
+      <path d="M50 60 C 30 55 22 35 22 28 C 36 30 48 48 50 58" />
+      <path d="M50 60 C 70 55 78 35 78 28 C 64 30 52 48 50 58" />
+    </g>
+  ),
+  // Part 02 정서 — 하트
+  heart: (
+    <path d="M50 84 L 22 54 C 12 42 14 28 28 22 C 38 18 46 22 50 32 C 54 22 62 18 72 22 C 86 28 88 42 78 54 Z" />
+  ),
+  // Part 03 학습 — 펼친 책
+  learning: (
+    <g>
+      <path d="M14 28 L 50 38 L 86 28 L 86 78 L 50 88 L 14 78 Z" />
+      <path d="M50 38 V 88" />
+    </g>
+  ),
+  // Part 04 인연 — 두 고리
+  relations: (
+    <g>
+      <circle cx="36" cy="50" r="22" />
+      <circle cx="64" cy="50" r="22" />
+    </g>
+  ),
+  // Part 05 흐름 — 물결 3줄
+  lifestyle: (
+    <g>
+      <path d="M14 34 C 26 24 38 44 50 34 S 74 24 86 34" />
+      <path d="M14 54 C 26 44 38 64 50 54 S 74 44 86 54" />
+      <path d="M14 74 C 26 64 38 84 50 74 S 74 64 86 74" />
+    </g>
+  ),
+  // Part 06 진로 — 나침반
+  talent: (
+    <g>
+      <circle cx="50" cy="50" r="34" />
+      <path d="M50 22 L 58 50 L 50 78 L 42 50 Z" fill="currentColor" stroke="none" />
+      <circle cx="50" cy="50" r="3" fill="currentColor" stroke="none" />
+    </g>
+  ),
+  // Part 07 부모·자녀 — 가족 3명
+  parents: (
+    <g>
+      <circle cx="22" cy="34" r="8" />
+      <path d="M10 80 V 58 C 10 50 15 46 22 46 C 29 46 34 50 34 58 V 80" />
+      <circle cx="78" cy="34" r="8" />
+      <path d="M66 80 V 58 C 66 50 71 46 78 46 C 85 46 90 50 90 58 V 80" />
+      <circle cx="50" cy="48" r="6" />
+      <path d="M40 80 V 66 C 40 60 44 58 50 58 C 56 58 60 60 60 66 V 80" />
+    </g>
+  ),
+  // Part 08 마지막 — 한국 전통 매듭
+  "last-word": (
+    <g>
+      <path d="M50 20 C 28 36 28 64 50 80 C 72 64 72 36 50 20 Z" />
+      <path d="M20 50 C 36 28 64 28 80 50 C 64 72 36 72 20 50 Z" />
+    </g>
+  ),
+};
+
 // 엄마/아빠 입력 여부 + 자녀 발달 단계에 따라 슬라이드 배치 생성
 // 영아(infant): 진로·재능 슬라이드 숨김 (talent 슬라이드 제거)
 function buildSlideLayout(
@@ -4426,26 +4490,42 @@ export default function ParentChildSlideResult() {
               <span style={{ color: `${partHue}cc`, fontSize: 12, letterSpacing: "0.3em" }}>✦</span>
               <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${partHue}66)` }} />
             </div>
-            {/* 한자 큰 글씨 — 진지 타이포그래피 핵심 */}
+            {/* 챕터 아이콘 — 골드 단색 SVG 라인 아이콘 */}
             <div
               className="flex items-center justify-center mb-6"
               style={{
-                filter: `drop-shadow(0 0 32px ${partHue}66)`,
+                filter: `drop-shadow(0 0 32px ${GOLD}55)`,
               }}
             >
-              <h1
-                className="font-bold text-center"
-                style={{
-                  color: "rgba(255,255,255,0.95)",
-                  fontSize: cover.hanja.length === 1 ? 132 : 96,
-                  letterSpacing: cover.hanja.length === 1 ? "0" : "0.12em",
-                  lineHeight: 1,
-                  fontFamily: "'Noto Serif KR', 'Nanum Myeongjo', serif",
-                  textShadow: `0 0 40px ${partHue}55`,
-                }}
-              >
-                {cover.hanja}
-              </h1>
+              {SECTION_ICON[kind] ? (
+                <svg
+                  width="132"
+                  height="132"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  stroke={GOLD}
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ color: GOLD }}
+                >
+                  {SECTION_ICON[kind]}
+                </svg>
+              ) : (
+                <h1
+                  className="font-bold text-center"
+                  style={{
+                    color: "rgba(255,255,255,0.95)",
+                    fontSize: cover.hanja.length === 1 ? 132 : 96,
+                    letterSpacing: cover.hanja.length === 1 ? "0" : "0.12em",
+                    lineHeight: 1,
+                    fontFamily: "'Noto Serif KR', 'Nanum Myeongjo', serif",
+                    textShadow: `0 0 40px ${partHue}55`,
+                  }}
+                >
+                  {cover.hanja}
+                </h1>
+              )}
             </div>
             {/* 운형 ─── 장식 — 한자 아래 */}
             <div className="flex items-center gap-3 mb-8 w-48">
