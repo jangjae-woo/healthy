@@ -27,6 +27,16 @@ const services = [
     href: "/matching",
   },
   {
+    id: "inyeon",
+    hanja: "蓮",
+    en: "Hong-Yeon",
+    title: "인연궁합 — 紅蓮의 풀이",
+    desc: "청월당 인연지기 홍연이 펼치는 3장 구성의 깊은 궁합 풀이",
+    price: null,
+    bonus: false,
+    href: "/inyeon",
+  },
+  {
     id: "parent-child",
     hanja: "慈",
     en: "Mother & Child",
@@ -84,6 +94,20 @@ export default function Home() {
           zIndex: 0,
         }}
       />
+
+      {/* 언어 스위처 — 우측 상단 */}
+      <Link
+        href="/zh-TW/parent-child"
+        className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-full text-[11px] tracking-wider transition-all hover:scale-105"
+        style={{
+          color: GOLD,
+          border: `1px solid ${GOLD}66`,
+          background: `rgba(13, 26, 15, 0.7)`,
+          backdropFilter: "blur(8px)",
+        }}
+      >
+        🇹🇼 繁體中文
+      </Link>
 
       {/* ─── 히어로 ─── */}
       <section className="relative z-10 w-full max-w-md mx-auto pt-8 pb-12 text-center">
