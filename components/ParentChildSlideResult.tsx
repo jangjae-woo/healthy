@@ -260,19 +260,21 @@ function sajuBasisLabel(
   }
 }
 
-const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; symbol: string; en: string; subtitle: string }>> = {
-  overview: { partLabel: "Part 01", symbol: "🌱", en: "Our Child's Essence", subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
-  heart: { partLabel: "Part 02", symbol: "💗", en: "How the Heart Flows", subtitle: "감정과 기질이 흐르는 결의 자리" },
-  guide: { partLabel: "Part 03", symbol: "🤝", en: "Daily Life · Relations · Growth", subtitle: "친구·일상·성장 시기 — 자녀의 흐름" },
-  learning: { partLabel: "Part 03", symbol: "📖", en: "How the Child Learns", subtitle: "학습의 결 — 어떻게 받아들이고 자라는가" },
-  relations: { partLabel: "Part 04", symbol: "🤝", en: "Friends & People", subtitle: "친구·관계의 결을 어떻게 만들어가는가" },
-  lifestyle: { partLabel: "Part 05", symbol: "🌙", en: "Body & Daily Life", subtitle: "잠·식사·시간·일상의 호흡" },
-  growth: { partLabel: "Part 06", symbol: "🌱", en: "Times of Change", subtitle: "사춘기·평생 흐름 — 결이 변하는 시기" },
-  mom: { partLabel: "Part 07", symbol: "🌷", en: "Mom & Child", subtitle: "엄마가 아이에게 흘려주는 결" }, // (legacy — D-2 후 미출력)
-  dad: { partLabel: "Part 08", symbol: "🌳", en: "Dad & Child", subtitle: "아빠가 아이에게 세워주는 결" }, // (legacy — D-2 후 미출력)
-  talent: { partLabel: "Part 07", symbol: "⭐", en: "Future · Path", subtitle: "타고난 결이 빛나는 자리" },
-  parents: { partLabel: "Part 08", symbol: "👨‍👩‍👧", en: "Parents & Child Together", subtitle: "엄마·아빠가 함께 빚어주시는 결" },
-  "last-word": { partLabel: "Part 07", symbol: "🕯️", en: "Final Words", subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
+// Phase 4-B: 진지 타이포그래피 — 이모지 폐기, 한자 큰 글씨 + 운형 장식
+// 캐릭터 사용 X (사용자 정책). 정통성·신뢰성을 한자·자간·운형 장식으로.
+const SECTION_COVER: Partial<Record<SlideKind, { partLabel: string; hanja: string; en: string; subtitle: string }>> = {
+  overview:    { partLabel: "Part 01", hanja: "本質", en: "Our Child's Essence",       subtitle: "다섯 자연의 결과 마음의 색깔로 그려본 본질" },
+  heart:       { partLabel: "Part 02", hanja: "心",    en: "How the Heart Flows",       subtitle: "감정과 기질이 흐르는 결의 자리" },
+  guide:       { partLabel: "Part 03", hanja: "養",    en: "Daily Life · Relations · Growth", subtitle: "친구·일상·성장 시기 — 자녀의 흐름" },
+  learning:    { partLabel: "Part 03", hanja: "學",    en: "How the Child Learns",      subtitle: "학습의 결 — 어떻게 받아들이고 자라는가" },
+  relations:   { partLabel: "Part 04", hanja: "緣",    en: "Friends & People",          subtitle: "친구·관계의 결을 어떻게 만들어가는가" },
+  lifestyle:   { partLabel: "Part 05", hanja: "流",    en: "Body, Daily & Time",        subtitle: "몸·일상·시기 — 자녀가 흘러가는 결" },
+  growth:      { partLabel: "Part 06", hanja: "變",    en: "Times of Change",           subtitle: "사춘기·평생 흐름 — 결이 변하는 시기" }, // (legacy — Ch 5 통합 후 미출력)
+  mom:         { partLabel: "Part 07", hanja: "母",    en: "Mom & Child",               subtitle: "엄마가 아이에게 흘려주는 결" }, // (legacy — D-2 후 미출력)
+  dad:         { partLabel: "Part 08", hanja: "父",    en: "Dad & Child",               subtitle: "아빠가 아이에게 세워주는 결" }, // (legacy — D-2 후 미출력)
+  talent:      { partLabel: "Part 06", hanja: "路",    en: "Future · Path",             subtitle: "타고난 결이 빛나는 자리" },
+  parents:     { partLabel: "Part 07", hanja: "親",    en: "Parents & Child Together",  subtitle: "엄마·아빠가 함께 빚어주시는 결" },
+  "last-word": { partLabel: "Part 08", hanja: "結",    en: "Final Words",               subtitle: "자도인이 두 분께 드리는 마지막 한 마디" },
 };
 
 // 엄마/아빠 입력 여부 + 자녀 발달 단계에 따라 슬라이드 배치 생성
@@ -4348,50 +4350,67 @@ export default function ParentChildSlideResult() {
       const partHue = curLayout.hue ?? ACCENT;
       const cover = SECTION_COVER[kind];
 
-      // 섹션 표지 페이지 전용 렌더링 — 이모지 심볼 + 한글 강조
+      // 섹션 표지 페이지 — Phase 4-B 진지 타이포그래피 (한자 + 운형 장식 + 자간 넓게)
       if (isCoverPage && cover) {
         return (
           <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+            {/* Part 라벨 */}
             <p className="text-[11px] tracking-[0.4em] mb-2" style={{ color: `${partHue}99` }}>
               {cover.partLabel}
             </p>
-            <p className="text-[10px] italic mb-10" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Cormorant Garamond', serif" }}>
+            {/* 영어 부제 */}
+            <p className="text-[10px] italic mb-12" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.08em" }}>
               {cover.en}
             </p>
-            {/* 큼직한 이모지 — slide hue 글로우로 부드럽게 감싸기 */}
+            {/* 운형 ✦ 장식 — 한자 위 */}
+            <div className="flex items-center gap-3 mb-6 w-48">
+              <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, transparent, ${partHue}66)` }} />
+              <span style={{ color: `${partHue}cc`, fontSize: 12, letterSpacing: "0.3em" }}>✦</span>
+              <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${partHue}66)` }} />
+            </div>
+            {/* 한자 큰 글씨 — 진지 타이포그래피 핵심 */}
             <div
-              className="text-[88px] leading-none mb-10 flex items-center justify-center rounded-full"
+              className="flex items-center justify-center mb-6"
               style={{
-                width: 160,
-                height: 160,
-                background: `radial-gradient(circle, ${partHue}33 0%, ${partHue}10 60%, transparent 100%)`,
-                filter: `drop-shadow(0 0 24px ${partHue}55)`,
+                filter: `drop-shadow(0 0 32px ${partHue}66)`,
               }}
             >
-              {cover.symbol}
+              <h1
+                className="font-bold text-center"
+                style={{
+                  color: "rgba(255,255,255,0.95)",
+                  fontSize: cover.hanja.length === 1 ? 132 : 96,
+                  letterSpacing: cover.hanja.length === 1 ? "0" : "0.12em",
+                  lineHeight: 1,
+                  fontFamily: "'Noto Serif KR', 'Nanum Myeongjo', serif",
+                  textShadow: `0 0 40px ${partHue}55`,
+                }}
+              >
+                {cover.hanja}
+              </h1>
             </div>
-            {/* 한글 큰 글자 — 자간 넓게, 메인 디자인 요소 */}
+            {/* 운형 ─── 장식 — 한자 아래 */}
+            <div className="flex items-center gap-3 mb-8 w-48">
+              <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, transparent, ${partHue}66)` }} />
+              <span style={{ color: `${partHue}cc`, fontSize: 10, letterSpacing: "0.3em" }}>───</span>
+              <div className="flex-1 h-px" style={{ background: `linear-gradient(to left, transparent, ${partHue}66)` }} />
+            </div>
+            {/* 한국어 챕터 제목 — 자간 넓게 */}
             <h2
-              className="text-[26px] font-bold text-center mb-6"
+              className="text-[24px] font-bold text-center mb-5"
               style={{
                 color: "rgba(255,255,255,0.95)",
                 letterSpacing: "0.22em",
-                lineHeight: 1.4,
+                lineHeight: 1.45,
               }}
             >
               {title}
             </h2>
-            {/* 그라디언트 라인 액센트 */}
-            <div
-              className="w-16 h-px mb-6"
-              style={{
-                background: `linear-gradient(to right, transparent, ${partHue}, transparent)`,
-              }}
-            />
-            <p className="text-[12.5px] text-center leading-relaxed px-4" style={{ color: "rgba(255,255,255,0.7)" }}>
+            {/* 한 줄 부제 */}
+            <p className="text-[12.5px] text-center leading-relaxed px-6 italic" style={{ color: "rgba(255,255,255,0.65)", letterSpacing: "0.04em" }}>
               {cover.subtitle}
             </p>
-            <p className="text-[10px] mt-10" style={{ color: `${partHue}66` }}>
+            <p className="text-[10px] mt-12" style={{ color: `${partHue}66`, letterSpacing: "0.2em" }}>
               1 / {totalPages}
             </p>
           </div>
