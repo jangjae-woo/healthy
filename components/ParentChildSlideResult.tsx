@@ -1926,7 +1926,7 @@ function IntroScrollChapter({
 
         {/* 1. 자도인 인사 */}
         <section className="space-y-3 py-4">
-          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: ACCENT }}>─ 자도인(慈道人)의 인사 ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: ACCENT }}>─ 자도인(慈道人)의 인사 ─</p>
           <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}30` }}>
             <p className="text-[14px] font-bold mb-3 text-center" style={{ color: BRIGHT }}>안녕하세요, 어머님 / 아버님.</p>
             <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
@@ -1942,7 +1942,7 @@ function IntroScrollChapter({
 
         {/* 2. 사주란? */}
         <section className="space-y-3 py-4">
-          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#7dd3c0" }}>─ 사주(四柱)란 무엇인가요? ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: "#7dd3c0" }}>─ 사주(四柱)란 무엇인가요? ─</p>
           <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
             <strong style={{ color: "#7dd3c0" }}>사주(四柱)</strong>는 한자 그대로 “네 개의 기둥”이라는 뜻이에요.
           </p>
@@ -1981,7 +1981,7 @@ function IntroScrollChapter({
 
         {/* 3. 사주의 기본 요소 — 천간·지지·오행 */}
         <section className="space-y-3 py-4">
-          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#7dd3c0" }}>─ 사주의 기본 요소 ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: "#7dd3c0" }}>─ 사주의 기본 요소 ─</p>
           <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.82)" }}>
             사주에서 쓰이는 재료는 딱 세 가지예요. 하늘의 기운인 <strong style={{ color: "#7dd3c0" }}>천간</strong>, 땅의 기운인 <strong style={{ color: "#7dd3c0" }}>지지</strong>, 그리고 두 기운이 만나 이루는 다섯 계절인 <strong style={{ color: "#7dd3c0" }}>오행</strong>이에요. 아래를 한 번만 훑어보시면 금방 눈에 익으실 거예요.
           </p>
@@ -2140,7 +2140,7 @@ function IntroScrollChapter({
 
         {/* 4. 일주 = 자녀 본질의 핵 */}
         <section className="space-y-3 py-4">
-          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#c89cff" }}>─ 자녀 본질의 핵, 일주(日柱) ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: "#c89cff" }}>─ 자녀 본질의 핵, 일주(日柱) ─</p>
           <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
             4기둥 중 딱 하나만 기억하신다면, 바로 <strong style={{ color: "#c89cff" }}>일주(日柱)</strong>예요. 아이가 태어난 날의 기둥인데, 이 안에 자녀 본질의 핵이 담겨 있어요.
           </p>
@@ -2164,7 +2164,7 @@ function IntroScrollChapter({
 
         {/* 5. 십성 */}
         <section className="space-y-3 py-4">
-          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: "#a78bfa" }}>─ 자녀의 10가지 성향, 십성(十星) ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: "#a78bfa" }}>─ 자녀의 10가지 성향, 십성(十星) ─</p>
           <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
             <strong style={{ color: "#a78bfa" }}>십성(十星)</strong>은 쉽게 말하면 <strong>"이 아이는 어떤 방식으로 세상과 만나는 아이인가"</strong>를 10가지 패턴으로 나눈 거예요. 비슷한 결끼리 5개로 묶으면 이렇게 돼요:
           </p>
@@ -2185,7 +2185,7 @@ function IntroScrollChapter({
 
         {/* 7. 보고서 안내 */}
         <section className="space-y-3 py-4">
-          <p className="text-[11px] tracking-[0.25em] text-center" style={{ color: BRIGHT }}>─ 보고서 안내 ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: BRIGHT }}>─ 보고서 안내 ─</p>
           <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>이 보고서는 다음으로 구성되어 있어요:</p>
           <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
             <ul className="text-[12px] leading-[1.85] space-y-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>
@@ -2721,7 +2721,7 @@ function YinYangBar({ saju }: { saju: SajuAnalysis }) {
   const dominant = yangPct >= yinPct ? "외향" : "내향";
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>
         ─ 외향 vs 내향 ─
       </p>
       <div className="flex items-baseline justify-between mb-2 px-1">
@@ -3174,7 +3174,7 @@ function ThinkingMatrix({ tt }: { tt: ThinkingType }) {
   const cy = PAD + (1 - tt.y) / 2 * inner; // y 양수=논리=위쪽
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>
         ─ 사고 유형 ─
       </p>
       <div className="flex justify-center">
@@ -3230,7 +3230,7 @@ function JobRadar({ items }: { items: JobRadarItem[] }) {
   const LO = 1.32;
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[11px] tracking-[0.25em] text-center mb-2" style={{ color: ACCENT }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-2" style={{ color: ACCENT }}>
         ─ 6가지 진로의 결 ─
       </p>
       <div className="flex justify-center">
@@ -3307,7 +3307,7 @@ function FriendStyleMatrix({ fs }: { fs: FriendStyle }) {
   const cy = PAD + (1 - fs.y) / 2 * inner;
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>
         ─ 친구 사귀는 스타일 ─
       </p>
       <div className="flex justify-center">
@@ -3356,7 +3356,7 @@ function DisciplineBars({ list, basis }: { list: DisciplineChannel[]; basis?: st
   const bottom = [...list].sort((a, b) => a.score - b.score)[0];
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>
         ─ 통하는 훈육 채널 ─
       </p>
       <div className="space-y-2.5">
@@ -3398,7 +3398,7 @@ function DangerCards({ list }: { list: DangerCard[] }) {
   return (
     <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
       {/* 섹션 A — 상위 2개 풀 카드 */}
-      <p className="text-[11px] tracking-[0.25em] text-center mb-3" style={{ color: ACCENT }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>
         ─ 이 자녀에게 가장 깊이 닿는 살핌 2가지 ─
       </p>
       <div className="space-y-2.5">
