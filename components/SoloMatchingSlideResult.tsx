@@ -2,28 +2,33 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import type { SajuAnalysis } from "@/lib/saju-calculator";
+// 기존 시각화 (유지)
 import PillarTable from "@/components/inyeon-visuals/PillarTable";
 import EssenceKeywords from "@/components/inyeon-visuals/EssenceKeywords";
-import DaewoonGrid from "@/components/inyeon-visuals/DaewoonGrid";
-import CharmSinsalCards from "@/components/inyeon-visuals/CharmSinsalCards";
-import InyeonSajaCard from "@/components/inyeon-visuals/InyeonSajaCard";
-import IlganAttractionMatrix from "@/components/inyeon-visuals/IlganAttractionMatrix";
 import IdealTypeCards from "@/components/inyeon-visuals/IdealTypeCards";
 import SeunGrid from "@/components/inyeon-visuals/SeunGrid";
-import InyeonKeywords from "@/components/inyeon-visuals/InyeonKeywords";
 import SipseongAxes from "@/components/inyeon-visuals/SipseongAxes";
-import YongsinEnvCard from "@/components/inyeon-visuals/YongsinEnvCard";
 import JagukTable from "@/components/inyeon-visuals/JagukTable";
 import ByeongoCard from "@/components/inyeon-visuals/ByeongoCard";
+import InyeonSajaCard from "@/components/inyeon-visuals/InyeonSajaCard";
+// 시그니처 격상 — 각자 고유 모티프 (시계·인장·두루마리·방사별·나침반·봉인)
+import InyeonClock from "@/components/inyeon-visuals/InyeonClock";
+import HeavenSinsal from "@/components/inyeon-visuals/HeavenSinsal";
+import PrevLifeIlju from "@/components/inyeon-visuals/PrevLifeIlju";
+import InyeonCoordinate from "@/components/inyeon-visuals/InyeonCoordinate";
+import InyeonCompass from "@/components/inyeon-visuals/InyeonCompass";
+import FateKeyword from "@/components/inyeon-visuals/FateKeyword";
 
 type VisualKey =
-  | "pillar" | "essence" | "daewoon" | "charm" | "saja"
-  | "attraction" | "idealType" | "seun" | "inyeonKeywords"
-  | "sipseongAxes" | "yongsinEnv" | "jaguk" | "byeongo";
+  | "pillar" | "essence" | "saja"
+  | "idealType" | "seun"
+  | "sipseongAxes" | "jaguk" | "byeongo"
+  // 시그니처 격상
+  | "clock" | "heavenSinsal" | "prevIlju" | "coord" | "compass" | "fateKeyword";
 
 // page.sub + 챕터/페이지 위치 → 시각화 컴포넌트 매핑
 function pickVisual(sub: string, chapterIdx: number, pageIdx: number): VisualKey | null {
-  // 序章: 두 번째 단락(한 줄 인연)에 사자성어
+  // 序章: 두 번째 단락(한 줄 인연)에 사자성어 카드
   if (chapterIdx === 0) {
     if (pageIdx === 1) return "saja";
     return null;
@@ -31,22 +36,23 @@ function pickVisual(sub: string, chapterIdx: number, pageIdx: number): VisualKey
   if (!sub) return null;
   // 第一章 本
   if (sub.includes("일간이 말하는 본질")) return "pillar";
+  if (sub.includes("일지의 결")) return "prevIlju";          // 시그니처: 두루마리
   if (sub.includes("캐치프레이즈")) return "essence";
   // 第二章 戀
   if (sub.includes("어떻게 사랑을 시작하는가")) return "sipseongAxes";
   if (sub.includes("갈등이 일어나는 자리")) return "jaguk";
   // 第三章 引
-  if (sub.includes("일간이 끌리는 자리")) return "attraction";
+  if (sub.includes("일간이 끌리는 자리")) return "coord";    // 시그니처: 방사별
   if (sub.includes("십성으로 본 이상형")) return "idealType";
-  if (sub.includes("매력의 결")) return "charm";
+  if (sub.includes("매력의 결")) return "heavenSinsal";       // 시그니처: 빨간 사각 인장
   // 第四章 遇
-  if (sub.includes("어떤 환경에서 만나는가")) return "yongsinEnv";
+  if (sub.includes("어떤 환경에서 만나는가")) return "compass"; // 시그니처: 나침반
   // 第五章 時
-  if (sub.includes("대운에서 보는 흐름")) return "daewoon";
+  if (sub.includes("대운에서 보는 흐름")) return "clock";      // 시그니처: 원형 시계
   if (sub.includes("병오년") || sub.includes("올해(2026)")) return "byeongo";
   if (sub.includes("내년") && sub.includes("후년")) return "seun";
   // 終章
-  if (sub.includes("인연 키워드")) return "inyeonKeywords";
+  if (sub.includes("인연 키워드")) return "fateKeyword";       // 시그니처: 원형 봉인
   if (sub.includes("마지막 한마디")) return "saja";
   return null;
 }
@@ -137,6 +143,8 @@ export default function SoloMatchingSlideResult() {
   const fetchedRef = useRef(false);
 
   const myName = params.get("myName") || "당신";
+  const myYear = parseInt(params.get("myYear") || "0", 10);
+  const currentAge = myYear > 0 ? Math.max(1, 2026 - myYear + 1) : 30;
 
   useEffect(() => {
     if (fetchedRef.current) return;
@@ -260,20 +268,21 @@ export default function SoloMatchingSlideResult() {
                       {p.sub}
                     </div>
                   )}
-                  {/* 시각화 — 결정론 사주 데이터 기반 */}
+                  {/* 시각화 — 각자 시그니처 모티프 */}
                   {saju && visual === "pillar" && <PillarTable saju={saju} />}
+                  {saju && visual === "prevIlju" && <PrevLifeIlju saju={saju} />}
                   {saju && visual === "essence" && <EssenceKeywords saju={saju} />}
-                  {saju && visual === "daewoon" && <DaewoonGrid saju={saju} />}
-                  {saju && visual === "charm" && <CharmSinsalCards saju={saju} />}
-                  {saju && visual === "saja" && <InyeonSajaCard saju={saju} />}
-                  {saju && visual === "attraction" && <IlganAttractionMatrix saju={saju} />}
-                  {saju && visual === "idealType" && <IdealTypeCards saju={saju} />}
-                  {visual === "seun" && <SeunGrid />}
-                  {saju && visual === "inyeonKeywords" && <InyeonKeywords saju={saju} />}
                   {saju && visual === "sipseongAxes" && <SipseongAxes saju={saju} />}
-                  {saju && visual === "yongsinEnv" && <YongsinEnvCard saju={saju} />}
                   {saju && visual === "jaguk" && <JagukTable saju={saju} />}
+                  {saju && visual === "coord" && <InyeonCoordinate saju={saju} />}
+                  {saju && visual === "idealType" && <IdealTypeCards saju={saju} />}
+                  {saju && visual === "heavenSinsal" && <HeavenSinsal saju={saju} />}
+                  {saju && visual === "compass" && <InyeonCompass saju={saju} />}
+                  {saju && visual === "clock" && <InyeonClock saju={saju} currentAge={currentAge} />}
                   {saju && visual === "byeongo" && <ByeongoCard saju={saju} />}
+                  {visual === "seun" && <SeunGrid />}
+                  {saju && visual === "fateKeyword" && <FateKeyword saju={saju} />}
+                  {saju && visual === "saja" && <InyeonSajaCard saju={saju} />}
                   <div className="text-[14px] leading-[1.85]" style={{ color: "#e8dfc6" }}>
                     {p.body.split("\n\n").map((para, j) => (
                       <p key={j} className="mb-3 last:mb-0 whitespace-pre-wrap">{renderInline(para)}</p>

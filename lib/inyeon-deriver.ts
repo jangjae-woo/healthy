@@ -283,3 +283,193 @@ export function deriveByeongo(saju: SajuAnalysis): { selfElem: string; yearElem:
   }
   return { selfElem, yearElem, rel, meaning };
 }
+
+// ─── 시그니처 시각화용 derive 함수들 (2차 격상) ─────────────────────────
+// 각 시각화는 자기만의 시그니처 모티프를 가지므로, derive도 시각화 단위로 분리.
+
+// ① 인연 시계 — 다가오는 대운 1픽 (五-1)
+const INYEON_DAEUN_TONES: Record<string, string> = {
+  목: "성장과 새로 시작되는 인연의 결",
+  화: "마음이 빛나며 펼쳐지는 인연의 결",
+  토: "안정 속에 깊어지는 인연의 결",
+  금: "단단해지고 정리되는 인연의 결",
+  수: "흘러들어 깊이 스미는 인연의 결",
+};
+
+const STEM_TO_ELEM: Record<string, string> = {
+  갑: "목", 을: "목", 병: "화", 정: "화",
+  무: "토", 기: "토", 경: "금", 신: "금",
+  임: "수", 계: "수",
+};
+
+export function deriveInyeonClock(saju: SajuAnalysis, currentAge: number): {
+  age: number; ganji: string; hanja: string; yearsFromNow: number; tone: string;
+} | null {
+  const cycles = saju.daeun?.cycles ?? [];
+  if (cycles.length === 0) return null;
+  const next = cycles.find((c) => c.age > currentAge) ?? cycles[cycles.length - 1];
+  const stemElem = STEM_TO_ELEM[next.stem] ?? "토";
+  const tone = INYEON_DAEUN_TONES[stemElem] ?? "흐름이 변하는 인연의 결";
+  return {
+    age: next.age,
+    ganji: next.ganji,
+    hanja: next.ganji,
+    yearsFromNow: Math.max(0, next.age - currentAge),
+    tone,
+  };
+}
+
+// ② 천생 신살 단독 — 보유 1개 메인 (三-3)
+export function deriveHeavenSinsal(saju: SajuAnalysis): {
+  hanja: string; name: string; tone: string; has: boolean;
+} {
+  const ss = saju.sinsal;
+  if (ss.some((s) => s.includes("천을"))) return { hanja: "天乙貴人", name: "천을귀인", tone: "하늘이 정해주신 귀인이 인연을 도와오는 자리", has: true };
+  if (ss.some((s) => s.includes("도화"))) return { hanja: "桃花", name: "도화살", tone: "사랑받고 빛나는 결이 사람을 모이게 하는 자리", has: true };
+  if (ss.some((s) => s.includes("홍염"))) return { hanja: "紅艶", name: "홍염살", tone: "은은한 매력이 인연을 끌어당기는 자리", has: true };
+  if (ss.some((s) => s.includes("문창"))) return { hanja: "文昌", name: "문창귀인", tone: "지혜로 사람을 끌어당기는 결", has: true };
+  // fallback: 일간 본질
+  const elem = STEM_TO_ELEM[saju.ilgan] ?? "토";
+  const fb: Record<string, { hanja: string; name: string; tone: string }> = {
+    목: { hanja: "甲木向陽", name: "갑목향양", tone: "곧게 자라며 인연을 부르는 본질의 결" },
+    화: { hanja: "丙火照人", name: "병화조인", tone: "빛으로 사람을 모이게 하는 본질의 결" },
+    토: { hanja: "戊土厚德", name: "무토후덕", tone: "품 넓어 사람을 받아내는 본질의 결" },
+    금: { hanja: "庚金鋒銳", name: "경금봉예", tone: "단단함으로 사람을 끌어당기는 본질의 결" },
+    수: { hanja: "壬水深淵", name: "임수심연", tone: "깊이로 사람을 머물게 하는 본질의 결" },
+  };
+  const f = fb[elem];
+  return { hanja: f.hanja, name: f.name, tone: f.tone, has: false };
+}
+
+// ③ 전생 일주 — 60갑자 → 전생 톤 (一-2)
+const ILJU_PREVLIFE: Record<string, string> = {
+  // 핵심 60갑자 매핑 (모두 안 만들고 일간 오행 + 일지 분류로)
+  // 단순화: 일간 오행으로 큰 톤 분류
+  목: "전생에 새벽 산을 오르며 길을 닦은 결",
+  화: "전생에 등불 들고 어둠을 비추던 결",
+  토: "전생에 사람을 품어 안식처를 짓던 결",
+  금: "전생에 검을 갈고 약속을 지킨 무인의 결",
+  수: "전생에 강을 건너며 이야기를 옮긴 결",
+};
+
+const BRANCH_PREVLIFE_DETAIL: Record<string, string> = {
+  자: "한밤의 깊이",
+  축: "새벽 인내",
+  인: "이른 봄의 기운",
+  묘: "봄 한가운데",
+  진: "봄을 갈무리하는",
+  사: "여름의 시작",
+  오: "한낮의 정점",
+  미: "여름을 갈무리하는",
+  신: "가을의 시작",
+  유: "가을 한가운데",
+  술: "가을을 갈무리하는",
+  해: "겨울의 시작",
+};
+
+const STEM_HANJA_MAP: Record<string, string> = {
+  갑: "甲", 을: "乙", 병: "丙", 정: "丁",
+  무: "戊", 기: "己", 경: "庚", 신: "辛",
+  임: "壬", 계: "癸",
+};
+
+const BRANCH_HANJA_MAP: Record<string, string> = {
+  자: "子", 축: "丑", 인: "寅", 묘: "卯",
+  진: "辰", 사: "巳", 오: "午", 미: "未",
+  신: "申", 유: "酉", 술: "戌", 해: "亥",
+};
+
+export function derivePrevLifeIlju(saju: SajuAnalysis): {
+  iljuHanja: string; iljuHangul: string; tone: string; detail: string;
+} {
+  const day = saju.pillars.day;
+  const stemHanja = STEM_HANJA_MAP[day.stem] ?? day.stem;
+  const branchHanja = BRANCH_HANJA_MAP[day.branch] ?? day.branch;
+  const elem = STEM_TO_ELEM[day.stem] ?? "토";
+  const tone = ILJU_PREVLIFE[elem] ?? "오랜 시간 결을 다듬어 온 영혼";
+  const detail = BRANCH_PREVLIFE_DETAIL[day.branch] ?? "긴 시간의";
+  return {
+    iljuHanja: stemHanja + branchHanja,
+    iljuHangul: day.stem + day.branch,
+    tone,
+    detail,
+  };
+}
+
+// ④ 인연 좌표 — 가장 강한 끌림 1 결 (三-1)
+export function deriveInyeonCoord(saju: SajuAnalysis): {
+  main: { elem: string; hanja: string; rel: string; tone: string } | null;
+  others: { elem: string; hanja: string; rel: string }[];
+} {
+  const all = deriveAttraction(saju);
+  if (all.length === 0) return { main: null, others: [] };
+
+  // 도화/홍염 보유 → 재성 강조
+  // 천을 보유 → 인성 강조
+  // 강한 식상·재성 → 그 결 강조
+  const hasDohwa = saju.sinsal.some((s) => /도화|홍염/.test(s));
+  const hasCheonul = saju.sinsal.some((s) => s.includes("천을"));
+
+  let mainIdx = 2; // default: 재성 (대부분 끌림 결)
+  if (hasDohwa) mainIdx = 2; // 재성 (끌림)
+  else if (hasCheonul) mainIdx = 4; // 인성 (받음)
+  else {
+    // 강한 십성 보유로 픽
+    const counts = deriveSipseongAxes(saju);
+    if (counts.재성 >= 2) mainIdx = 2;
+    else if (counts.관성 >= 2) mainIdx = 3;
+    else if (counts.식상 >= 2) mainIdx = 1;
+    else if (counts.인성 >= 2) mainIdx = 4;
+    else mainIdx = 2;
+  }
+
+  const main = all[mainIdx] ? {
+    elem: all[mainIdx].elem,
+    hanja: all[mainIdx].hanja,
+    rel: all[mainIdx].rel,
+    tone: `${all[mainIdx].elem}의 결을 가진 사람을 보면, 마음이 가장 깊이 흔들립니다`,
+  } : null;
+
+  const others = all
+    .filter((_, i) => i !== mainIdx)
+    .map((a) => ({ elem: a.elem, hanja: a.hanja, rel: a.rel }));
+
+  return { main, others };
+}
+
+// ⑤ 인연 방위도 — 용신 → 방위 (四-1)
+const ELEM_DIR: Record<string, { dir: string; dirHanja: string; angle: number; season: string; time: string }> = {
+  목: { dir: "동방", dirHanja: "東", angle: 90, season: "봄", time: "이른 아침" },
+  화: { dir: "남방", dirHanja: "南", angle: 180, season: "여름", time: "한낮" },
+  토: { dir: "중앙", dirHanja: "中", angle: 0, season: "환절기", time: "오후" },
+  금: { dir: "서방", dirHanja: "西", angle: 270, season: "가을", time: "저녁" },
+  수: { dir: "북방", dirHanja: "北", angle: 0, season: "겨울", time: "한밤" },
+};
+
+export function deriveInyeonCompass(saju: SajuAnalysis): {
+  dir: string; dirHanja: string; angle: number; season: string; time: string; tone: string;
+} | null {
+  const y = saju.yongsin;
+  if (!y) return null;
+  for (const key of Object.keys(ELEM_DIR)) {
+    if (y.includes(key)) {
+      const d = ELEM_DIR[key];
+      return { ...d, tone: `${d.dirHanja}方에서 ${d.season} ${d.time} 무렵, 인연이 다가옵니다` };
+    }
+  }
+  return null;
+}
+
+// ⑥ 운명 키워드 단독 — 가장 강한 키워드 1 + 보조 (終-1)
+export function deriveFateKeyword(saju: SajuAnalysis): {
+  main: string; mainHanja: string; others: string[];
+} {
+  const kws = deriveInyeonKeywords(saju);
+  // 사자성어 derive 재활용 — 메인 임팩트
+  const saja = deriveSaja(saju);
+  return {
+    main: saja.hangul,
+    mainHanja: saja.saja,
+    others: kws.slice(0, 4),
+  };
+}
