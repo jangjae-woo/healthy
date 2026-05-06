@@ -6,14 +6,48 @@ import PillarTable from "@/components/inyeon-visuals/PillarTable";
 import EssenceKeywords from "@/components/inyeon-visuals/EssenceKeywords";
 import DaewoonGrid from "@/components/inyeon-visuals/DaewoonGrid";
 import CharmSinsalCards from "@/components/inyeon-visuals/CharmSinsalCards";
+import InyeonSajaCard from "@/components/inyeon-visuals/InyeonSajaCard";
+import IlganAttractionMatrix from "@/components/inyeon-visuals/IlganAttractionMatrix";
+import IdealTypeCards from "@/components/inyeon-visuals/IdealTypeCards";
+import SeunGrid from "@/components/inyeon-visuals/SeunGrid";
+import InyeonKeywords from "@/components/inyeon-visuals/InyeonKeywords";
+import SipseongAxes from "@/components/inyeon-visuals/SipseongAxes";
+import YongsinEnvCard from "@/components/inyeon-visuals/YongsinEnvCard";
+import JagukTable from "@/components/inyeon-visuals/JagukTable";
+import ByeongoCard from "@/components/inyeon-visuals/ByeongoCard";
 
-// page.sub → 시각화 컴포넌트 매핑 (부분 매칭)
-function pickVisual(sub: string): "pillar" | "essence" | "daewoon" | "charm" | null {
+type VisualKey =
+  | "pillar" | "essence" | "daewoon" | "charm" | "saja"
+  | "attraction" | "idealType" | "seun" | "inyeonKeywords"
+  | "sipseongAxes" | "yongsinEnv" | "jaguk" | "byeongo";
+
+// page.sub + 챕터/페이지 위치 → 시각화 컴포넌트 매핑
+function pickVisual(sub: string, chapterIdx: number, pageIdx: number): VisualKey | null {
+  // 序章: 두 번째 단락(한 줄 인연)에 사자성어
+  if (chapterIdx === 0) {
+    if (pageIdx === 1) return "saja";
+    return null;
+  }
   if (!sub) return null;
+  // 第一章 本
   if (sub.includes("일간이 말하는 본질")) return "pillar";
   if (sub.includes("캐치프레이즈")) return "essence";
+  // 第二章 戀
+  if (sub.includes("어떻게 사랑을 시작하는가")) return "sipseongAxes";
+  if (sub.includes("갈등이 일어나는 자리")) return "jaguk";
+  // 第三章 引
+  if (sub.includes("일간이 끌리는 자리")) return "attraction";
+  if (sub.includes("십성으로 본 이상형")) return "idealType";
   if (sub.includes("매력의 결")) return "charm";
+  // 第四章 遇
+  if (sub.includes("어떤 환경에서 만나는가")) return "yongsinEnv";
+  // 第五章 時
   if (sub.includes("대운에서 보는 흐름")) return "daewoon";
+  if (sub.includes("병오년") || sub.includes("올해(2026)")) return "byeongo";
+  if (sub.includes("내년") && sub.includes("후년")) return "seun";
+  // 終章
+  if (sub.includes("인연 키워드")) return "inyeonKeywords";
+  if (sub.includes("마지막 한마디")) return "saja";
   return null;
 }
 
@@ -218,7 +252,7 @@ export default function SoloMatchingSlideResult() {
         {cur ? (
           <div className="flex flex-col gap-7 mb-10">
             {cur.pages.map((p, i) => {
-              const visual = pickVisual(p.sub);
+              const visual = pickVisual(p.sub, chapterIdx, i);
               return (
                 <div key={i} className="rounded-2xl p-5" style={{ background: `${ACCENT}0d`, border: `1px solid ${ACCENT}1f` }}>
                   {p.sub && (
@@ -231,6 +265,15 @@ export default function SoloMatchingSlideResult() {
                   {saju && visual === "essence" && <EssenceKeywords saju={saju} />}
                   {saju && visual === "daewoon" && <DaewoonGrid saju={saju} />}
                   {saju && visual === "charm" && <CharmSinsalCards saju={saju} />}
+                  {saju && visual === "saja" && <InyeonSajaCard saju={saju} />}
+                  {saju && visual === "attraction" && <IlganAttractionMatrix saju={saju} />}
+                  {saju && visual === "idealType" && <IdealTypeCards saju={saju} />}
+                  {visual === "seun" && <SeunGrid />}
+                  {saju && visual === "inyeonKeywords" && <InyeonKeywords saju={saju} />}
+                  {saju && visual === "sipseongAxes" && <SipseongAxes saju={saju} />}
+                  {saju && visual === "yongsinEnv" && <YongsinEnvCard saju={saju} />}
+                  {saju && visual === "jaguk" && <JagukTable saju={saju} />}
+                  {saju && visual === "byeongo" && <ByeongoCard saju={saju} />}
                   <div className="text-[14px] leading-[1.85]" style={{ color: "#e8dfc6" }}>
                     {p.body.split("\n\n").map((para, j) => (
                       <p key={j} className="mb-3 last:mb-0 whitespace-pre-wrap">{renderInline(para)}</p>
