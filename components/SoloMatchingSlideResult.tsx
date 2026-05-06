@@ -2,6 +2,20 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import type { SajuAnalysis } from "@/lib/saju-calculator";
+import PillarTable from "@/components/inyeon-visuals/PillarTable";
+import EssenceKeywords from "@/components/inyeon-visuals/EssenceKeywords";
+import DaewoonGrid from "@/components/inyeon-visuals/DaewoonGrid";
+import CharmSinsalCards from "@/components/inyeon-visuals/CharmSinsalCards";
+
+// page.sub → 시각화 컴포넌트 매핑 (부분 매칭)
+function pickVisual(sub: string): "pillar" | "essence" | "daewoon" | "charm" | null {
+  if (!sub) return null;
+  if (sub.includes("일간이 말하는 본질")) return "pillar";
+  if (sub.includes("캐치프레이즈")) return "essence";
+  if (sub.includes("매력의 결")) return "charm";
+  if (sub.includes("대운에서 보는 흐름")) return "daewoon";
+  return null;
+}
 
 const ACCENT = "#d4a8e8";
 const GOLD = "#e4b840";
@@ -82,7 +96,7 @@ function renderInline(text: string): ReactNode[] {
 export default function SoloMatchingSlideResult() {
   const params = useSearchParams();
   const [content, setContent] = useState("");
-  const [, setSaju] = useState<SajuAnalysis | null>(null);
+  const [saju, setSaju] = useState<SajuAnalysis | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [chapterIdx, setChapterIdx] = useState(0);
@@ -203,20 +217,28 @@ export default function SoloMatchingSlideResult() {
         {/* 본문 */}
         {cur ? (
           <div className="flex flex-col gap-7 mb-10">
-            {cur.pages.map((p, i) => (
-              <div key={i} className="rounded-2xl p-5" style={{ background: `${ACCENT}0d`, border: `1px solid ${ACCENT}1f` }}>
-                {p.sub && (
-                  <div className="text-[14px] font-semibold mb-3" style={{ color: GOLD, fontFamily: "'Noto Serif KR', serif" }}>
-                    {p.sub}
+            {cur.pages.map((p, i) => {
+              const visual = pickVisual(p.sub);
+              return (
+                <div key={i} className="rounded-2xl p-5" style={{ background: `${ACCENT}0d`, border: `1px solid ${ACCENT}1f` }}>
+                  {p.sub && (
+                    <div className="text-[14px] font-semibold mb-3" style={{ color: GOLD, fontFamily: "'Noto Serif KR', serif" }}>
+                      {p.sub}
+                    </div>
+                  )}
+                  {/* 시각화 — 결정론 사주 데이터 기반 */}
+                  {saju && visual === "pillar" && <PillarTable saju={saju} />}
+                  {saju && visual === "essence" && <EssenceKeywords saju={saju} />}
+                  {saju && visual === "daewoon" && <DaewoonGrid saju={saju} />}
+                  {saju && visual === "charm" && <CharmSinsalCards saju={saju} />}
+                  <div className="text-[14px] leading-[1.85]" style={{ color: "#e8dfc6" }}>
+                    {p.body.split("\n\n").map((para, j) => (
+                      <p key={j} className="mb-3 last:mb-0 whitespace-pre-wrap">{renderInline(para)}</p>
+                    ))}
                   </div>
-                )}
-                <div className="text-[14px] leading-[1.85]" style={{ color: "#e8dfc6" }}>
-                  {p.body.split("\n\n").map((para, j) => (
-                    <p key={j} className="mb-3 last:mb-0 whitespace-pre-wrap">{renderInline(para)}</p>
-                  ))}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="text-center text-sm py-12" style={{ color: `${ACCENT}88` }}>
