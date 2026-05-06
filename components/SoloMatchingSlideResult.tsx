@@ -9,18 +9,27 @@ const BG = "#1a0f20";
 
 const CHAPTER_TITLES = [
   "홍도인의 첫마디",
-  "한 줄 인연",
-  "본질 — 당신의 결",
-  "연애 스타일",
+  "당신은 어떤 결의 사람인가",
+  "사랑할 때 당신의 결",
   "끌리는 사람의 결",
   "다가오는 인연의 자리",
-  "인연이 오는 시기",
-  "결혼·인연의 기운이 흐르는 시기",
-  "주의할 연애 패턴",
+  "인연이 흐르는 시기",
+  "사랑에서 살펴볼 결",
   "홍도인의 마지막 당부",
 ];
 
-const CHAPTER_HANJA = ["序", "緣", "本", "戀", "引", "遇", "時", "婚", "愼", "終"];
+const CHAPTER_HANJA = ["序", "本", "戀", "引", "遇", "時", "愼", "終"];
+
+const CHAPTER_LABELS = [
+  "序章",
+  "第一章",
+  "第二章",
+  "第三章",
+  "第四章",
+  "第五章",
+  "第六章",
+  "終章",
+];
 
 interface Page { sub: string; body: string; }
 interface Section { title: string; pages: Page[]; }
@@ -172,18 +181,21 @@ export default function SoloMatchingSlideResult() {
       <main className="w-full max-w-[480px] mx-auto px-5 py-8">
         {/* 상단 진행 */}
         <div className="flex items-center justify-between mb-6">
-          <div className="text-[11px] tracking-[0.3em] uppercase" style={{ color: `${ACCENT}99`, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
-            Chapter {chapterIdx + 1} / {totalChapters}
+          <div className="text-[11px] tracking-[0.18em]" style={{ color: `${ACCENT}aa`, fontFamily: "'Noto Serif KR', serif" }}>
+            {chapterIdx + 1} / {totalChapters}
           </div>
           <div className="text-[10px]" style={{ color: `${ACCENT}66` }}>{myName}님의 인연</div>
         </div>
 
         {/* 챕터 cover */}
         <div className="text-center mb-8">
+          <div className="text-[11px] tracking-[0.4em] mb-3" style={{ color: `${GOLD}cc`, fontFamily: "'Noto Serif KR', serif" }}>
+            {CHAPTER_LABELS[chapterIdx]}
+          </div>
           <div style={{ fontFamily: "'Ma Shan Zheng', serif", fontSize: 80, color: GOLD, lineHeight: 1, textShadow: `0 0 24px ${GOLD}55` }}>
             {CHAPTER_HANJA[chapterIdx]}
           </div>
-          <h2 className="mt-3 text-lg font-bold" style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif", letterSpacing: "0.04em" }}>
+          <h2 className="mt-4 text-lg font-bold" style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif", letterSpacing: "0.04em" }}>
             {CHAPTER_TITLES[chapterIdx]}
           </h2>
         </div>
