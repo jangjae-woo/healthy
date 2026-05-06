@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import {
-  RelationshipKind, MeetDuration, Depth,
-  RELATIONSHIP_LABEL, DURATION_LABEL, DEPTH_LABEL,
+  RelationshipKind, MeetDuration,
+  RELATIONSHIP_LABEL, DURATION_LABEL,
   InyeonEntryChoice,
 } from "@/lib/inyeon/types";
 
@@ -19,27 +19,23 @@ interface Props {
 
 const REL_OPTIONS: RelationshipKind[] = [
   "crush", "talking", "dating_short", "dating_long",
-  "engaged", "married", "exboyfriend",
+  "married", "exboyfriend",
 ];
 const DUR_OPTIONS: MeetDuration[] = ["lt_1m", "1to3m", "3to6m", "6mto1y", "1to3y", "gt_3y"];
-const DEPTH_OPTIONS: Depth[] = ["basic", "detail", "deep"];
 
 export default function EntryModal({ open, onClose, onSubmit }: Props) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2>(1);
   const [rel, setRel] = useState<RelationshipKind | null>(null);
   const [dur, setDur] = useState<MeetDuration | null>(null);
-  const [depth, setDepth] = useState<Depth | null>(null);
 
   if (!open) return null;
 
-  const canNext =
-    (step === 1 && rel) || (step === 2 && dur) || (step === 3 && depth);
+  const canNext = (step === 1 && rel) || (step === 2 && dur);
 
   const handleNext = () => {
     if (step === 1 && rel) setStep(2);
-    else if (step === 2 && dur) setStep(3);
-    else if (step === 3 && rel && dur && depth) {
-      onSubmit({ relationship: rel, duration: dur, depth });
+    else if (step === 2 && rel && dur) {
+      onSubmit({ relationship: rel, duration: dur });
     }
   };
 
@@ -57,7 +53,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
         {/* Header */}
         <div className="px-5 pt-5 pb-3 flex items-center justify-between">
           <div className="flex gap-1.5">
-            {[1, 2, 3].map((n) => (
+            {[1, 2].map((n) => (
               <div
                 key={n}
                 className="h-1 rounded-full transition-all"
@@ -139,42 +135,13 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
             </>
           )}
 
-          {step === 3 && (
-            <>
-              <h3
-                className="text-base font-bold mb-1"
-                style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
-              >
-                얼마나 자세히 알려드릴까요?
-              </h3>
-              <p className="text-xs mb-4" style={{ color: `${ACCENT}aa` }}>
-                풀이의 깊이를 골라주세요
-              </p>
-              <div className="flex flex-col gap-2">
-                {DEPTH_OPTIONS.map((dp) => (
-                  <button
-                    key={dp}
-                    onClick={() => setDepth(dp)}
-                    className="w-full text-left px-4 py-3 rounded-xl text-sm transition-all"
-                    style={{
-                      background: depth === dp ? `${ACCENT}22` : BG_INNER,
-                      border: `1px solid ${depth === dp ? ACCENT : `${ACCENT}22`}`,
-                      color: depth === dp ? "#fef3c7" : "#d6cdb8",
-                    }}
-                  >
-                    {DEPTH_LABEL[dp]}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
         </div>
 
         {/* Footer */}
         <div className="px-5 pb-5 flex gap-2">
           {step > 1 && (
             <button
-              onClick={() => setStep((step - 1) as 1 | 2 | 3)}
+              onClick={() => setStep((step - 1) as 1 | 2)}
               className="flex-1 py-3 rounded-xl text-sm"
               style={{
                 background: BG_INNER,
@@ -195,7 +162,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
               opacity: canNext ? 1 : 0.6,
             }}
           >
-            {step === 3 ? "다음으로" : "다음"}
+            {step === 2 ? "다음으로" : "다음"}
           </button>
         </div>
       </div>

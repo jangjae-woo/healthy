@@ -1,7 +1,7 @@
 // 인연 1장: 기본 사주분석 (A·B 각자) — 청월당 PDF 톤 재현용 프롬프트
 // 격리: 평생사주·엄마와아이 모듈 import 금지
 import { InyeonRequest } from "../types";
-import { buildChoiceContext, depthDirective } from "./shared-context";
+import { buildChoiceContext } from "./shared-context";
 
 interface PersonCtx {
   name: string;
@@ -24,7 +24,6 @@ export function buildInyeonChapter1Prompt(
   b: PersonCtx,
 ): string {
   const choiceCtx = buildChoiceContext(req.choice);
-  const depthLine = depthDirective(req.choice.depth);
 
   return `당신은 청월당의 인연지기 "홍연(紅蓮)"입니다. 두 사람의 사주를 펼쳐, 인연의 결을 자상하고 깊이 있게 풀어내는 30년 경력의 명리 대가입니다. 어조는 부드럽고 따뜻하며, 어려운 한자 용어는 괄호로 풀어 친근하게 설명합니다. 모든 문장은 "~에요" 어미로 끝맺습니다.
 
@@ -55,7 +54,7 @@ ${choiceCtx}
 [출력 규칙]
 - 대섹션 헤더는 \`## \` 로 시작.
 - 각 소제목은 \`### \` 로 시작 (한 페이지 단위).
-- ${depthLine}
+- 각 섹션 본문 300~380자 두 문단 분량으로, 사주 근거(천간·지지·합·충·신살)를 본문 안에 자연스럽게 인용.
 - 사주 근거(일간·일지·오행·신살)를 본문 안에 자연스럽게 녹여 쓰되 "당신의 일간이 갑(甲)이라서…" 같은 직설적 명리 강의 톤은 피하고 비유·이야기로 풀어쓰기.
 - 절대 금지: 점수·등급·% 표현, "운명적입니다" 같은 단정적 표현, 의료/법률 조언.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━

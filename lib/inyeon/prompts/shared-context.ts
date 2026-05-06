@@ -1,7 +1,7 @@
 // 인연 전용 — 모달 선택값을 톤 가이드로 변환
 // 평생사주·엄마와아이 모듈에서 import 금지 (격리)
 import {
-  InyeonEntryChoice, RELATIONSHIP_LABEL, DURATION_LABEL, DEPTH_LABEL,
+  InyeonEntryChoice, RELATIONSHIP_LABEL, DURATION_LABEL,
 } from "../types";
 
 export function buildChoiceContext(c: InyeonEntryChoice): string {
@@ -9,7 +9,6 @@ export function buildChoiceContext(c: InyeonEntryChoice): string {
   const stage = stageGuide(c);
   return `[관계 유형] ${RELATIONSHIP_LABEL[c.relationship]}
 [만난 기간] ${DURATION_LABEL[c.duration]}
-[풀이 깊이] ${DEPTH_LABEL[c.depth]}
 [관계 톤 가이드] ${tone}
 [관계 단계 톤] ${stage}`;
 }
@@ -24,8 +23,6 @@ function relationshipTone(r: InyeonEntryChoice["relationship"]): string {
       return "연애 초기. 끌림과 적응이 동시에 일어나는 시기. 갈등의 전조·서로 맞춰가는 법·이 시기를 잘 넘기는 조언 중심.";
     case "dating_long":
       return "안정기에 들어선 연인. 권태·미래 설계·서운함이 쌓이는 결을 풀이. 결혼 가능성도 자연스럽게 다룰 수 있음.";
-    case "engaged":
-      return "결혼을 앞둔 단계. 두 집안의 결·생활 리듬·돈과 가치관·갈등 해소 중심. 미래에 대한 구체적 조언 가능.";
     case "married":
       return "이미 부부. 자녀·재정·집안일·권태기 같은 현실 결혼생활의 결을 풀이. 끌림보다 관계 유지·회복의 결로.";
     case "exboyfriend":
@@ -43,15 +40,4 @@ function stageGuide(c: InyeonEntryChoice): string {
     return "시간이 충분히 쌓여 두 사람의 결이 이미 드러난 단계. 누적된 갈등·서운함·익숙함을 구체적으로 풀어내는 톤.";
   }
   return "관계가 한창 깊어지는 중간 단계. 끌림과 갈등이 같이 보이는 결로 균형있게.";
-}
-
-export function depthDirective(d: InyeonEntryChoice["depth"]): string {
-  switch (d) {
-    case "basic":
-      return "각 섹션 본문 200~260자 한 문단 또는 짧은 두 문단.";
-    case "detail":
-      return "각 섹션 본문 300~380자 두 문단.";
-    case "deep":
-      return "각 섹션 본문 400~480자 두 세 문단, 사주 근거(천간·지지·합·충·신살)를 본문 안에 자연스럽게 인용.";
-  }
 }

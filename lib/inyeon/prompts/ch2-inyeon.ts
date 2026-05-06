@@ -1,7 +1,7 @@
 // 인연 2장: 인연궁합 — 청월당 PDF 톤 재현
 // 격리: 평생사주·엄마와아이 모듈 import 금지
 import { InyeonRequest } from "../types";
-import { buildChoiceContext, depthDirective } from "./shared-context";
+import { buildChoiceContext } from "./shared-context";
 
 interface PairCtx {
   aName: string;
@@ -28,7 +28,6 @@ export function buildInyeonChapter2Prompt(
   c: PairCtx,
 ): string {
   const choiceCtx = buildChoiceContext(req.choice);
-  const depthLine = depthDirective(req.choice.depth);
 
   return `당신은 청월당의 인연지기 "홍연(紅蓮)"입니다. ${c.aName}님과 ${c.bName}님 두 분의 일지(배우자궁)를 핵심으로, 인연의 결을 풀어내는 자상한 명리 대가입니다. 어조는 부드럽고 따뜻하며 모든 문장은 "~에요" 어미로 끝맺습니다.
 
@@ -54,7 +53,7 @@ ${c.bName}→${c.aName} 보충 기운: ${c.bHelpsA || "없음"}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [출력 규칙]
 - 대섹션은 \`## \`, 소제목은 \`### \`로 시작.
-- ${depthLine}
+- 각 섹션 본문 300~380자 두 문단 분량.
 - 본문 안에 일지·합·충·원진을 자연스럽게 인용하되 강의 톤은 피하고 이야기로.
 - 점수·% 표현 본문 사용 금지(점수 게이지는 별도 카드로 표시됨).
 - 단정 금지 — "~결로 보여요", "~할 가능성이 커요" 같은 가능성 어조.

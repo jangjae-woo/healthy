@@ -1,0 +1,86 @@
+"use client";
+
+const ACCENT = "#f0a8b8";
+const BG_INNER = "#1a0d10";
+
+interface Pillar {
+  stem: string;
+  branch: string;
+  stemSipseong: string;
+  branchSipseong: string;
+}
+
+interface Props {
+  name: string;
+  hour: Pillar;
+  day: Pillar;
+  month: Pillar;
+  year: Pillar;
+  jijanggan: string[];
+}
+
+export default function SipseongRow({ name, hour, day, month, year, jijanggan }: Props) {
+  const cols = [
+    { label: "時", p: hour },
+    { label: "日", p: day, mark: true },
+    { label: "月", p: month },
+    { label: "年", p: year },
+  ];
+
+  return (
+    <div
+      className="rounded-2xl p-4"
+      style={{ background: BG_INNER, border: `1px solid ${ACCENT}22` }}
+    >
+      <div
+        className="text-sm font-bold mb-3"
+        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+      >
+        {name}님의 십성과 지장간
+      </div>
+
+      <div className="grid grid-cols-4 gap-2">
+        {cols.map((c) => (
+          <div key={c.label} className="flex flex-col items-center gap-1.5">
+            <div className="text-[10px]" style={{ color: `${ACCENT}88` }}>{c.label}</div>
+            <div
+              className="w-full text-center text-[10px] py-0.5 rounded"
+              style={{
+                background: c.mark ? `${ACCENT}33` : "transparent",
+                color: c.mark ? "#fef3c7" : `${ACCENT}cc`,
+              }}
+            >
+              {c.mark ? "일간" : c.p.stemSipseong}
+            </div>
+            <div
+              className="w-full aspect-square rounded-md flex items-center justify-center text-base font-bold"
+              style={{
+                background: c.mark ? ACCENT : "rgba(255,255,255,0.04)",
+                color: c.mark ? "#1a0d10" : "#fef3c7",
+                fontFamily: "'Noto Serif KR', serif",
+                border: `1px solid ${ACCENT}33`,
+              }}
+            >
+              {c.p.stem}
+            </div>
+            <div className="text-[10px]" style={{ color: `${ACCENT}aa` }}>
+              {c.p.branchSipseong}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {jijanggan.length > 0 && (
+        <div
+          className="mt-3 pt-3 text-[11px]"
+          style={{
+            borderTop: `1px dashed ${ACCENT}33`,
+            color: "#d6cdb8",
+          }}
+        >
+          <span style={{ color: ACCENT }}>지장간</span> · {jijanggan.join(" · ")}
+        </div>
+      )}
+    </div>
+  );
+}

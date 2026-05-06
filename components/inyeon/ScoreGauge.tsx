@@ -19,7 +19,7 @@ export default function ScoreGauge({ score, label, caption }: Props) {
   const angle = startAngle - (clamped / 100) * Math.PI;
   const x = cx + radius * Math.cos(angle);
   const y = cy - radius * Math.sin(angle);
-  const largeArc = clamped > 50 ? 1 : 0;
+  const largeArc = 0;
   const arcStartX = cx - radius;
   const arcStartY = cy;
 

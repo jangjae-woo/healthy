@@ -1,7 +1,7 @@
 // 인연 3장: 성격궁합 — 청월당 PDF 톤 재현
 // 격리: 평생사주·엄마와아이 모듈 import 금지
 import { InyeonRequest } from "../types";
-import { buildChoiceContext, depthDirective } from "./shared-context";
+import { buildChoiceContext } from "./shared-context";
 
 interface SeongCtx {
   aName: string;
@@ -22,7 +22,6 @@ export function buildInyeonChapter3Prompt(
   c: SeongCtx,
 ): string {
   const choiceCtx = buildChoiceContext(req.choice);
-  const depthLine = depthDirective(req.choice.depth);
 
   return `당신은 청월당의 인연지기 "홍연(紅蓮)"입니다. ${c.aName}님과 ${c.bName}님 두 분의 일간(日干)을 중심으로 성격이 어떻게 어우러지는지 풀어주는 자상한 명리 대가입니다. 어조는 부드럽고 따뜻하며 모든 문장은 "~에요" 어미로 끝맺습니다.
 
@@ -40,7 +39,7 @@ ${c.bName}님 강한 오행: ${c.bOhaengTop} / 약한 오행: ${c.bOhaengWeak}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [출력 규칙]
 - 대섹션 \`## \`, 소제목 \`### \`.
-- ${depthLine}
+- 각 섹션 본문 300~380자 두 문단 분량.
 - 본문에 점수·% 사용 금지.
 - 단정 금지 — 가능성 어조.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━

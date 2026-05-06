@@ -143,7 +143,6 @@ export default function InyeonForm() {
       bHour: b.hour, bCalendar: b.calendar, bGender: b.gender,
       relationship: choice.relationship,
       duration: choice.duration,
-      depth: choice.depth,
     });
     router.push(`/inyeon/result?${params.toString()}`);
   };

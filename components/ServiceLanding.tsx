@@ -20,6 +20,11 @@ interface Props {
 export default function ServiceLanding({
   character, title, tagline, features, emoji, bg, bgEnd = "#1a0d00", accent, formHref, image, refKey,
 }: Props) {
+  const homeUrl = "/";
+  const labelHome = "← 홈으로";
+  const labelStart = "시작하기";
+  const labelFee = "결과 확인 시 소정의 이용료가 발생합니다";
+
   useEffect(() => {
     if (!refKey) return;
     try {
@@ -34,8 +39,8 @@ export default function ServiceLanding({
     >
       {/* 뒤로가기 */}
       <div className="w-full max-w-sm mb-6">
-        <Link href="/" className="flex items-center gap-1 text-sm" style={{ color: `${accent}88` }}>
-          ← 홈으로
+        <Link href={homeUrl} className="flex items-center gap-1 text-sm" style={{ color: `${accent}88` }}>
+          {labelHome}
         </Link>
       </div>
 
@@ -65,11 +70,11 @@ export default function ServiceLanding({
               boxShadow: "0 0 24px #FFD70099, 0 0 8px #FFD70066, 0 4px 16px #FFA80044",
             }}
           >
-            시작하기
+            {labelStart}
           </button>
         </Link>
         <p className="text-center text-xs mt-3" style={{ color: `${accent}55` }}>
-          결과 확인 시 소정의 이용료가 발생합니다
+          {labelFee}
         </p>
       </div>
     </main>
