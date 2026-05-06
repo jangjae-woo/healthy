@@ -37,30 +37,14 @@ export default function IntroScrollChapter({
         {/* 챕터 헤더 */}
         <div className="text-center mb-3">
           <p className="text-xs font-semibold tracking-[0.25em]" style={{ color: "#a8b8d4" }}>
-            Part 00 — 들어가며
+            Part 00 — 사주 첫걸음
           </p>
           <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
             아래로 스크롤해서 읽어주세요
           </p>
         </div>
 
-        {/* 1. 자도인 인사 */}
-        <section className="space-y-3 py-4">
-          <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: ACCENT }}>─ 자도인(慈道人)의 인사 ─</p>
-          <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}30` }}>
-            <p className="text-[14px] font-bold mb-3 text-center" style={{ color: BRIGHT }}>안녕하세요, 어머님 / 아버님.</p>
-            <p className="text-[12.5px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
-              저는 <strong style={{ color: ACCENT }}>자도인(慈道人)</strong>입니다. 부모님과 자녀의 사주를 함께 들여다보며, 자녀 안에 있는 결을 풀어드리는 일을 합니다.
-            </p>
-            <p className="text-[12.5px] leading-[1.75] mt-3" style={{ color: "rgba(255,255,255,0.85)" }}>
-              <strong style={{ color: BRIGHT }}>{childLabel}</strong>의 사주 안에는 어떤 자녀로 자라갈지에 대한 결이 담겨 있어요. 제가 그 결을 차근차근 풀어드릴 테니, 편안한 마음으로 따라와주세요.
-            </p>
-          </div>
-        </section>
-
-        {sectionDivider}
-
-        {/* 2. 사주란? */}
+        {/* 1. 사주란? */}
         <section className="space-y-3 py-4">
           <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: "#7dd3c0" }}>─ 사주(四柱)란 무엇인가요? ─</p>
           <p className="text-[12.5px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>
@@ -287,7 +271,27 @@ export default function IntroScrollChapter({
         {/* 보고서 안내 */}
         <section className="space-y-3 py-4">
           <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: BRIGHT }}>─ 보고서 안내 ─</p>
-          <p className="text-[12.5px] leading-[1.7] text-center italic" style={{ color: "rgba(255,255,255,0.85)" }}>
+          <p className="text-[12.5px] leading-[1.7] text-center" style={{ color: "rgba(255,255,255,0.85)" }}>
+            이 보고서는 총 <strong style={{ color: BRIGHT }}>8장</strong>으로 구성되어 있어요.
+          </p>
+          <div className="rounded-xl p-4 mt-2 space-y-2" style={{ background: "rgba(255,215,0,0.04)", border: `1px solid ${BRIGHT}33` }}>
+            {[
+              { num: "1장", title: "우리 아이의 첫 페이지" },
+              { num: "2장", title: "우리 아이는 어떤 아이일까" },
+              { num: "3장", title: "우리 아이는 어떻게 공부할까" },
+              { num: "4장", title: "우리 아이 칭찬하고 혼내는 법" },
+              { num: "5장", title: "친구 사이 우리 아이" },
+              { num: "6장", title: "우리 아이는 무엇으로 빛날까" },
+              { num: "7장", title: "엄마·아빠와 우리 셋의 결" },
+              { num: "마지막", title: "자도인의 마지막 당부" },
+            ].map((c, i) => (
+              <div key={i} className="flex items-center gap-3 py-1.5 px-1">
+                <span className="text-[11px] font-bold w-12 text-center rounded px-1.5 py-0.5" style={{ color: BRIGHT, background: `${BRIGHT}15`, border: `1px solid ${BRIGHT}40` }}>{c.num}</span>
+                <span className="text-[12.5px]" style={{ color: "rgba(255,255,255,0.85)" }}>{c.title}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-[12.5px] leading-[1.7] text-center italic mt-3" style={{ color: "rgba(255,255,255,0.85)" }}>
             그럼 이제, 자도인과 함께 <strong style={{ color: BRIGHT }}>{childLabel}</strong>의 사주를 펼쳐볼까요?
           </p>
         </section>

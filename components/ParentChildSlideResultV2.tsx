@@ -1,12 +1,13 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { SajuAnalysis } from "@/lib/saju-calculator";
+import { STEM_HANJA, BRANCH_HANJA, SINSAL_INFO } from "@/lib/saju-calculator";
 import { getSipseongCounts, SIPSEONG_DESC, inferDangerCards, type SipseongCount, type DangerCard } from "@/lib/parent-child-charts-v2";
 import { getIljuInfo, inferYongsinMeaning, type IljuInfo } from "@/lib/parent-child-traits-v2";
 import PrecisionPillarTable from "@/components/saju-visuals/PrecisionPillarTable";
-import IntroScrollChapter from "@/components/parent-child-shared/IntroScrollChapter";
+import OpeningGreeting from "@/components/parent-child-shared/OpeningGreeting";
 import { ILGAN_METAPHOR } from "@/lib/child-seed";
 import { calcGisin, type GisinResult } from "@/lib/saju-traditional";
 import { deriveChildKeywords } from "@/components/saju-visuals/KeywordChips";
@@ -22,74 +23,81 @@ const BG_END = "#150810";
 
 // ─── 7장 슬라이드 명세 (브라덜 요청건 100% 반영) ──────────────────────────────
 type SlideKind =
+  | "opening"
   | "intro"
-  | "saju-table"
-  | "elements"
-  | "sipseong"
-  | "ilju"
-  | "yongsin"
+  | "scroll-chapter"
   | "card-strength"
   | "card-caution"
   | "text"
   | "parent-compare"
   | "outro";
 
+interface SubSection {
+  subtitle: string;      // 소제목
+  indicator?: string;    // [인자: ...] 표시
+  visualKey: string;     // 시각 컴포넌트 분기
+}
+
 interface SlideSpec {
-  chapter: string;       // "1장" / "2장" / 들어가며·마지막은 라벨
+  chapter: string;       // "1장" / "2장" / 오프닝·마지막은 라벨
   chapterTitle: string;  // 챕터 제목 (목차용)
   subtitle?: string;     // 소제목 (없으면 챕터 본문 통째)
   indicator?: string;    // [인자: ...] 표시
   kind: SlideKind;
-  visualKey?: string;    // 시각 컴포넌트 분기
+  visualKey?: string;    // 단일 시각 컴포넌트 분기 (scroll-chapter 미사용)
+  subs?: SubSection[];   // scroll-chapter일 때 sub 배열
 }
 
 const SLIDES: SlideSpec[] = [
-  // 들어가며
-  { chapter: "들어가며", chapterTitle: "들어가며 — 사주 입문", kind: "intro" },
-  // 1장
-  { chapter: "1장", chapterTitle: "세 사람의 사주팔자", kind: "saju-table", visualKey: "saju-table" },
-  // 2장 (6 sub)
-  { chapter: "2장", chapterTitle: "우리 아이는 어떤 아이일까", subtitle: "다섯 가지 자연의 결", indicator: "오행 분포", kind: "elements", visualKey: "elements" },
-  { chapter: "2장", chapterTitle: "우리 아이는 어떤 아이일까", subtitle: "10가지 성향의 지도", indicator: "십성 5분류", kind: "sipseong", visualKey: "sipseong" },
-  { chapter: "2장", chapterTitle: "우리 아이는 어떤 아이일까", subtitle: "일주 기반 풀이", indicator: "일주(日柱)", kind: "ilju", visualKey: "ilju" },
-  { chapter: "2장", chapterTitle: "우리 아이는 어떤 아이일까", subtitle: "채워줄 결, 살펴줄 결", indicator: "용신 / 기신", kind: "yongsin", visualKey: "yongsin" },
-  { chapter: "2장", chapterTitle: "우리 아이는 어떤 아이일까", subtitle: "강점 — 이런 면이 빛납니다", indicator: "강한 오행·일주 강점", kind: "card-strength" },
-  { chapter: "2장", chapterTitle: "우리 아이는 어떤 아이일까", subtitle: "주의점 — 이런 결은 살펴주세요", indicator: "약한 오행·기신", kind: "card-caution" },
-  // 3장 — 공부 (5 sub)
-  { chapter: "3장", chapterTitle: "우리 아이는 어떻게 공부할까", subtitle: "혼자 vs 같이", indicator: "비겁", kind: "text", visualKey: "ch3-bigeop" },
-  { chapter: "3장", chapterTitle: "우리 아이는 어떻게 공부할까", subtitle: "우리 아이만의 공부법", indicator: "인성", kind: "text", visualKey: "ch3-insong" },
-  { chapter: "3장", chapterTitle: "우리 아이는 어떻게 공부할까", subtitle: "글로 정리할까, 말로 표현할까", indicator: "식상", kind: "text", visualKey: "ch3-siksang" },
-  { chapter: "3장", chapterTitle: "우리 아이는 어떻게 공부할까", subtitle: "아침·낮·밤 어느 때 가장 또렷할까", indicator: "오행 + 신강/신약", kind: "text", visualKey: "ch3-timeslot" },
-  { chapter: "3장", chapterTitle: "우리 아이는 어떻게 공부할까", subtitle: "책상 앞 머릿속", indicator: "관성", kind: "text", visualKey: "ch3-thinking" },
-  // 4장 — 칭찬·혼 (5 sub)
-  { chapter: "4장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", subtitle: "화났을 때 입을 닫을까, 폭발할까", indicator: "식상 + 신강/신약", kind: "text", visualKey: "ch4-tantrum" },
-  { chapter: "4장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", subtitle: "아이 감정이 가라앉는 환경", indicator: "오행", kind: "text", visualKey: "ch4-calm-env" },
-  { chapter: "4장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", subtitle: "마음 열리는 칭찬", indicator: "인성 + 용신", kind: "text", visualKey: "ch4-praise" },
-  { chapter: "4장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", subtitle: "거짓말 했을 때", indicator: "일주 + 관성", kind: "text", visualKey: "ch4-lie" },
-  { chapter: "4장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", subtitle: "이 아이가 무너지는 자극", indicator: "기신", kind: "text", visualKey: "ch4-breakdown" },
-  // 5장 — 친구 (5 sub)
-  { chapter: "5장", chapterTitle: "친구 사이 우리 아이", subtitle: "마음 문 여는 데 걸리는 시간", indicator: "일주 + 인성", kind: "text", visualKey: "ch5-heart-door" },
-  { chapter: "5장", chapterTitle: "친구 사이 우리 아이", subtitle: "리더 vs 짝꿍 vs 분위기 메이커", indicator: "비겁 + 식상 + 관성", kind: "text", visualKey: "ch5-style" },
-  { chapter: "5장", chapterTitle: "친구 사이 우리 아이", subtitle: "인생을 바꿀 친구는 따로 있다", indicator: "귀인 신살", kind: "text", visualKey: "ch5-life-friend" },
-  { chapter: "5장", chapterTitle: "친구 사이 우리 아이", subtitle: "친구의 결이 바뀌는 시기", indicator: "대운", kind: "text", visualKey: "ch5-friend-shift" },
-  { chapter: "5장", chapterTitle: "친구 사이 우리 아이", subtitle: "친구들 속에서 지치는 패턴", indicator: "신강/신약", kind: "text", visualKey: "ch5-fatigue" },
-  // 6장 — 빛날 (5 sub)
-  { chapter: "6장", chapterTitle: "우리 아이는 무엇으로 빛날까", subtitle: "진짜 빛날 분야", indicator: "식상 + 재성", kind: "text", visualKey: "ch6-job-radar" },
-  { chapter: "6장", chapterTitle: "우리 아이는 무엇으로 빛날까", subtitle: "아이만의 무기", indicator: "일주", kind: "text", visualKey: "ch6-weapon" },
-  { chapter: "6장", chapterTitle: "우리 아이는 무엇으로 빛날까", subtitle: "환하게 빛나게 해주는 결 한 가지", indicator: "용신", kind: "text", visualKey: "ch6-shine-key" },
-  { chapter: "6장", chapterTitle: "우리 아이는 무엇으로 빛날까", subtitle: "10대·20대·30대 어느 때 가장 빛날까", indicator: "대운", kind: "text", visualKey: "ch6-shine-age" },
-  { chapter: "6장", chapterTitle: "우리 아이는 무엇으로 빛날까", subtitle: "리더로 클까, 깊이 있는 전문가로 클까", indicator: "관성 + 인성", kind: "text", visualKey: "ch6-leader-expert" },
-  // 7장 — 셋의 결 (5 sub) — 어머님/아버님 양육 톤은 첫 소제목으로 흡수
-  { chapter: "7장", chapterTitle: "엄마·아빠와 우리 셋의 결", subtitle: "엄마와 통하는 결, 아빠와 통하는 결", indicator: "인성 + 관성 + 일주 (양 부모 양육 톤 흡수)", kind: "parent-compare", visualKey: "ch7-ilgan-rel" },
-  { chapter: "7장", chapterTitle: "엄마·아빠와 우리 셋의 결", subtitle: "셋이 함께 가장 편안한 순간", indicator: "오행", kind: "text", visualKey: "ch7-trio-radar" },
-  { chapter: "7장", chapterTitle: "엄마·아빠와 우리 셋의 결", subtitle: "부모가 채워줄 결 / 살펴줄 결", indicator: "용신 + 기신", kind: "text", visualKey: "ch7-flow" },
-  { chapter: "7장", chapterTitle: "엄마·아빠와 우리 셋의 결", subtitle: "부모 외에 인생에 큰 힘이 되어줄 어른", indicator: "귀인 신살", kind: "text", visualKey: "ch7-external-boost" },
-  { chapter: "7장", chapterTitle: "엄마·아빠와 우리 셋의 결", subtitle: "부모와 마음이 가장 통하는 나이", indicator: "대운", kind: "text", visualKey: "ch7-bond-age" },
+  // 오프닝 — 자도인 인사
+  { chapter: "오프닝", chapterTitle: "자도인의 인사", kind: "opening" },
+  // 1장 — 우리 아이는 어떤 아이일까 (단일 스크롤 IntroSummaryV2)
+  { chapter: "1장", chapterTitle: "우리 아이는 어떤 아이일까", kind: "intro" },
+  // 2장 — 공부 (5 sub → 1 슬라이드)
+  { chapter: "2장", chapterTitle: "우리 아이는 어떻게 공부할까", kind: "scroll-chapter", subs: [
+    { subtitle: "혼자 vs 같이", indicator: "비겁", visualKey: "ch3-bigeop" },
+    { subtitle: "우리 아이만의 공부법", indicator: "인성", visualKey: "ch3-insong" },
+    { subtitle: "글로 정리할까, 말로 표현할까", indicator: "식상", visualKey: "ch3-siksang" },
+    { subtitle: "아침·낮·밤 어느 때 가장 또렷할까", indicator: "오행 + 신강/신약", visualKey: "ch3-timeslot" },
+    { subtitle: "책상 앞 머릿속", indicator: "관성", visualKey: "ch3-thinking" },
+  ]},
+  // 3장 — 칭찬·혼 (5 sub → 1 슬라이드)
+  { chapter: "3장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", kind: "scroll-chapter", subs: [
+    { subtitle: "화났을 때 입을 닫을까, 폭발할까", indicator: "식상 + 신강/신약", visualKey: "ch4-tantrum" },
+    { subtitle: "아이 감정이 가라앉는 환경", indicator: "오행", visualKey: "ch4-calm-env" },
+    { subtitle: "마음 열리는 칭찬", indicator: "인성 + 용신", visualKey: "ch4-praise" },
+    { subtitle: "거짓말 했을 때", indicator: "일주 + 관성", visualKey: "ch4-lie" },
+    { subtitle: "이 아이가 무너지는 자극", indicator: "기신", visualKey: "ch4-breakdown" },
+  ]},
+  // 4장 — 친구 (5 sub → 1 슬라이드)
+  { chapter: "4장", chapterTitle: "친구 사이 우리 아이", kind: "scroll-chapter", subs: [
+    { subtitle: "마음 문 여는 데 걸리는 시간", indicator: "일주 + 인성", visualKey: "ch5-heart-door" },
+    { subtitle: "리더 vs 짝꿍 vs 분위기 메이커", indicator: "비겁 + 식상 + 관성", visualKey: "ch5-style" },
+    { subtitle: "인생을 바꿀 친구는 따로 있다", indicator: "귀인 신살", visualKey: "ch5-life-friend" },
+    { subtitle: "친구의 결이 바뀌는 시기", indicator: "대운", visualKey: "ch5-friend-shift" },
+    { subtitle: "친구들 속에서 지치는 패턴", indicator: "신강/신약", visualKey: "ch5-fatigue" },
+  ]},
+  // 5장 — 빛날 (5 sub → 1 슬라이드)
+  { chapter: "5장", chapterTitle: "우리 아이는 무엇으로 빛날까", kind: "scroll-chapter", subs: [
+    { subtitle: "진짜 빛날 분야", indicator: "식상 + 재성", visualKey: "ch6-job-radar" },
+    { subtitle: "아이만의 무기", indicator: "일주", visualKey: "ch6-weapon" },
+    { subtitle: "환하게 빛나게 해주는 결 한 가지", indicator: "용신", visualKey: "ch6-shine-key" },
+    { subtitle: "10대·20대·30대 어느 때 가장 빛날까", indicator: "대운", visualKey: "ch6-shine-age" },
+    { subtitle: "리더로 클까, 깊이 있는 전문가로 클까", indicator: "관성 + 인성", visualKey: "ch6-leader-expert" },
+  ]},
+  // 6장 — 셋의 결 (5 sub → 1 슬라이드)
+  { chapter: "6장", chapterTitle: "엄마·아빠와 우리 셋의 결", kind: "scroll-chapter", subs: [
+    { subtitle: "엄마와 통하는 결, 아빠와 통하는 결", indicator: "인성 + 관성 + 일주", visualKey: "ch7-ilgan-rel" },
+    { subtitle: "셋이 함께 가장 편안한 순간", indicator: "오행", visualKey: "ch7-trio-radar" },
+    { subtitle: "부모가 채워줄 결 / 살펴줄 결", indicator: "용신 + 기신", visualKey: "ch7-flow" },
+    { subtitle: "부모 외에 인생에 큰 힘이 되어줄 어른", indicator: "귀인 신살", visualKey: "ch7-external-boost" },
+    { subtitle: "부모와 마음이 가장 통하는 나이", indicator: "대운", visualKey: "ch7-bond-age" },
+  ]},
   // 마지막 당부
   { chapter: "마지막", chapterTitle: "자도인의 마지막 당부", kind: "outro" },
 ];
 
-// 챕터별 그룹 (목차 표시용)
+// 챕터별 그룹 (목차 표시용) — scroll-chapter는 1 항목으로만 표시 (sub은 스크롤로 보기)
 function groupByChapter(slides: SlideSpec[]) {
   const map = new Map<string, { title: string; items: { idx: number; subtitle: string }[] }>();
   slides.forEach((s, idx) => {
@@ -108,39 +116,39 @@ interface MetaEvent {
   hasDad: boolean;
 }
 
-// ─── AI 본문 헤더 → 슬라이드 idx 매핑 ──────────────────────────────────────
-function buildSlideTextMap(full: string): Record<number, string> {
-  const result: Record<number, string> = {};
+// ─── AI 본문 헤더 → 슬라이드 idx + sub subtitle 매핑 ───────────────────────
+// 결과 구조:
+//   result[slideIdx]["__chapter__"] = 챕터 본문 (sub 없는 슬라이드: intro/outro 등)
+//   result[slideIdx][subSubtitle] = sub 본문 (scroll-chapter의 각 sub)
+type SlideTextMap = Record<number, Record<string, string>>;
+const CHAPTER_KEY = "__chapter__";
+
+function buildSlideTextMap(full: string): SlideTextMap {
+  const result: SlideTextMap = {};
   if (!full) return result;
-  // ## 챕터 — 제목   /   ### 소제목 단위로 파싱
   const lines = full.split("\n");
-  let currentChapter = ""; // ex: "들어가며", "1장", "2장", ...
-  let currentSubtitle = ""; // 소제목 (없으면 빈 문자열)
+  let currentChapter = "";
+  let currentSubtitle = "";
   let buf: string[] = [];
   const flush = () => {
     if (!currentChapter) return;
-    const slideIdx = SLIDES.findIndex((s) => {
-      if (s.chapter !== currentChapter) return false;
-      if (!currentSubtitle) return !s.subtitle; // 챕터 본문 매핑 (들어가며·1장·마지막)
-      return s.subtitle === currentSubtitle;
-    });
-    if (slideIdx >= 0) {
-      const text = buf.join("\n").trim();
-      if (text) result[slideIdx] = (result[slideIdx] ?? "") + (result[slideIdx] ? "\n\n" : "") + text;
+    const slideIdx = SLIDES.findIndex((s) => s.chapter === currentChapter);
+    if (slideIdx < 0) { buf = []; return; }
+    const text = buf.join("\n").trim();
+    if (text) {
+      const key = currentSubtitle || CHAPTER_KEY;
+      if (!result[slideIdx]) result[slideIdx] = {};
+      result[slideIdx][key] = (result[slideIdx][key] ?? "") + (result[slideIdx][key] ? "\n\n" : "") + text;
     }
     buf = [];
   };
   for (const raw of lines) {
     const line = raw.trimEnd();
-    // ## 헤더 (챕터 시작)
     const h2 = line.match(/^##\s+(.+)$/);
     if (h2) {
       flush();
       const title = h2[1].trim();
-      // "들어가며 — 사주 입문" → 챕터 키 "들어가며"
-      // "1장 — 세 사람의 사주팔자" → 챕터 키 "1장"
-      // "자도인의 마지막 당부" → 챕터 키 "마지막"
-      if (title.startsWith("들어가며")) currentChapter = "들어가며";
+      if (title.startsWith("들어가며")) currentChapter = "1장";
       else if (title.startsWith("자도인의 마지막")) currentChapter = "마지막";
       else {
         const m = title.match(/^(\d+)장/);
@@ -149,20 +157,26 @@ function buildSlideTextMap(full: string): Record<number, string> {
       currentSubtitle = "";
       continue;
     }
-    // ### 헤더 (소제목)
     const h3 = line.match(/^###\s+(.+)$/);
     if (h3) {
       flush();
       currentSubtitle = h3[1].trim();
       continue;
     }
-    // [인자: …] 행 — 본문 아님
     if (/^\[인자[::]/.test(line)) continue;
-    // 본문
     buf.push(line);
   }
   flush();
   return result;
+}
+
+// 단일 sub용 헬퍼 — chapter-level 본문만 꺼내기 (intro/outro 등)
+function getChapterText(map: SlideTextMap, slideIdx: number): string {
+  return map[slideIdx]?.[CHAPTER_KEY] ?? "";
+}
+// scroll-chapter sub 본문 꺼내기
+function getSubText(map: SlideTextMap, slideIdx: number, subtitle: string): string {
+  return map[slideIdx]?.[subtitle] ?? "";
 }
 
 // ─── 컴포넌트 본체 ──────────────────────────────────────────────────────────
@@ -212,54 +226,75 @@ export default function ParentChildSlideResultV2() {
       body.dadCalendar = params.get("dadCalendar") || "양력";
     }
 
-    fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
-      .then(async (res) => {
-        if (!res.ok || !res.body) {
-          const t = await res.text().catch(() => "");
-          setErrMsg(`HTTP ${res.status} ${t.slice(0, 200)}`);
+    // ─── 다단계 fetch — Stage 0 사주 계산(JSON) → Stage 1~7 챕터 streaming ───
+    (async () => {
+      try {
+        // Stage 0 — 사주 계산 (LLM 호출 X, 즉시 응답)
+        const computeRes = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...body, phase: "compute" }),
+        });
+        if (!computeRes.ok) {
+          const t = await computeRes.text().catch(() => "");
+          setErrMsg(`HTTP ${computeRes.status} ${t.slice(0, 200)}`);
           setLoading(false);
           return;
         }
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buf = "";
+        const computeJson = await computeRes.json();
+        setMeta(computeJson as MetaEvent);
+
+        // Stage 1~7 — 챕터별 streaming 순차 호출
+        const phases: Array<"ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "outro"> =
+          ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "outro"];
         let full = "";
-        outer: while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += decoder.decode(value, { stream: true });
-          const lines = buf.split("\n");
-          buf = lines.pop() ?? "";
-          for (const line of lines) {
-            if (!line.startsWith("data: ")) continue;
-            const raw = line.slice(6);
-            if (raw === "[DONE]") {
-              setStreamText(full);
-              setLoading(false);
-              break outer;
-            }
-            try {
-              const msg = JSON.parse(raw);
-              if (msg.t === "m" && msg.d) {
-                setMeta(msg.d as MetaEvent);
-              } else if (msg.t === "x" && typeof msg.v === "string") {
-                full += msg.v;
-                setStreamText(full);
+        for (const phase of phases) {
+          const chRes = await fetch("/api/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...body, phase }),
+          });
+          if (!chRes.ok || !chRes.body) {
+            const t = await chRes.text().catch(() => "");
+            setErrMsg(prev => prev ?? `${phase} HTTP ${chRes.status} ${t.slice(0, 200)}`);
+            continue;
+          }
+          const reader = chRes.body.getReader();
+          const decoder = new TextDecoder();
+          let buf = "";
+          let chDone = false;
+          while (!chDone) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value, { stream: true });
+            const lines = buf.split("\n");
+            buf = lines.pop() ?? "";
+            for (const line of lines) {
+              if (!line.startsWith("data: ")) continue;
+              const raw = line.slice(6);
+              if (raw === "[DONE]") {
+                chDone = true;
+                break;
               }
-            } catch {
-              // ignore
+              try {
+                const msg = JSON.parse(raw);
+                if (msg.t === "x" && typeof msg.v === "string") {
+                  full += msg.v;
+                  setStreamText(full);
+                }
+              } catch {}
             }
           }
+          // 챕터 사이 줄바꿈 보정
+          full += "\n\n";
+          setStreamText(full);
         }
-      })
-      .catch((e) => {
+        setLoading(false);
+      } catch (e) {
         setErrMsg(String(e));
         setLoading(false);
-      });
+      }
+    })();
   }, [childName, childGender, params]);
 
   const slideText = useMemo(() => buildSlideTextMap(streamText), [streamText]);
@@ -332,17 +367,24 @@ export default function ParentChildSlideResultV2() {
             </div>
           )}
 
-          {!errMsg && slide.kind === "intro" && meta && (
-            <IntroScrollChapter
-              sajuChild={meta.sajuChild}
+          {!errMsg && slide.kind === "opening" && (
+            <OpeningGreeting
               childName={childName}
               childGender={(childGender === "여" ? "여" : "남") as "남" | "여"}
-              ilganMetaphor={ILGAN_METAPHOR[meta.sajuChild.ilgan] ?? ""}
               onStart={() => go(1)}
             />
           )}
 
-          {!errMsg && slide.kind === "intro" && !meta && (
+          {!errMsg && slide.kind === "intro" && meta && (
+            <IntroSummaryV2
+              sajuChild={meta.sajuChild}
+              childName={childName}
+              honorific={honorific}
+              onStart={() => go(1)}
+            />
+          )}
+
+          {!errMsg && (slide.kind === "intro" || slide.kind === "scroll-chapter") && !meta && (
             <div className="flex items-center gap-3 py-3">
               <div className="w-4 h-4 rounded-full border-2 border-t-transparent animate-spin"
                 style={{ borderColor: `${ACCENT}44`, borderTopColor: ACCENT }} />
@@ -350,19 +392,32 @@ export default function ParentChildSlideResultV2() {
             </div>
           )}
 
-          {!errMsg && slide.kind !== "intro" && (
+          {!errMsg && slide.kind === "scroll-chapter" && meta && (
+            <ScrollChapterPage
+              spec={slide}
+              meta={meta}
+              slideTextMap={slideText}
+              slideIdx={slideIdx}
+              loading={loading}
+              childName={childName}
+              honorific={honorific}
+            />
+          )}
+
+          {!errMsg && slide.kind !== "opening" && slide.kind !== "intro" && slide.kind !== "scroll-chapter" && (
             <SlideView
               spec={slide}
               meta={meta}
-              text={slideText[slideIdx] ?? ""}
-              loading={loading && !slideText[slideIdx]}
+              text={getChapterText(slideText, slideIdx)}
+              loading={loading && !getChapterText(slideText, slideIdx)}
               childName={childName}
               honorific={honorific}
             />
           )}
         </div>
 
-        {/* 하단 nav */}
+        {/* 하단 nav — opening 페이지에선 숨김 (CTA 버튼만으로 진행) */}
+        {slide.kind !== "opening" && (
         <div className="flex-shrink-0 px-4 py-3 sticky bottom-0 z-10"
           style={{ borderTop: `1px solid ${ACCENT}22`, background: `${BG}ee`, backdropFilter: "blur(10px)" }}>
           <div className="flex gap-2">
@@ -386,6 +441,7 @@ export default function ParentChildSlideResultV2() {
             </div>
           )}
         </div>
+        )}
       </main>
     </div>
   );
@@ -418,35 +474,7 @@ function SlideView({
         {spec.subtitle ?? spec.chapterTitle}
       </h2>
 
-      {/* 인자 매핑 (디버그 톤) */}
-      {spec.indicator && (
-        <div className="text-[10px] inline-block px-2 py-0.5 rounded"
-          style={{ backgroundColor: `${ACCENT}15`, color: `${ACCENT}cc` }}>
-          [인자: {spec.indicator}]
-        </div>
-      )}
-
       {/* 시각 컴포넌트 */}
-      {meta && spec.visualKey === "saju-table" && (
-        <div className="space-y-4">
-          <div>
-            <div className="text-[11px] font-bold mb-2" style={{ color: ACCENT }}>자녀 — {childName}{honorific}</div>
-            <PrecisionPillarTable saju={meta.sajuChild} />
-          </div>
-          {meta.hasMom && meta.sajuMom && (
-            <div>
-              <div className="text-[11px] font-bold mb-2" style={{ color: ACCENT }}>어머님</div>
-              <PrecisionPillarTable saju={meta.sajuMom} />
-            </div>
-          )}
-          {meta.hasDad && meta.sajuDad && (
-            <div>
-              <div className="text-[11px] font-bold mb-2" style={{ color: "#7eb6ff" }}>아버님</div>
-              <PrecisionPillarTable saju={meta.sajuDad} />
-            </div>
-          )}
-        </div>
-      )}
       {meta && spec.visualKey === "elements" && (
         <div className="space-y-2">
           <ElementsRadar elements={meta.sajuChild.elements as Record<string, number>} />
@@ -518,9 +546,37 @@ function SlideView({
   );
 }
 
+// 본문 강조 마커: [[텍스트]] → 골드 bold (핵심 단어만)
+// 안전망: LLM이 가끔 출력하는 **bold** / *italic* / `code` 마크다운 마커는 마커만 제거하고 평문으로.
+function renderInlineEmphasis(text: string): React.ReactNode[] {
+  // ❶ 안전망: 마크다운 강조 마커 sanitize (마커만 제거)
+  const sanitized = text
+    .replace(/\*\*\*([^\n*]+?)\*\*\*/g, "$1")  // ***bold-italic***
+    .replace(/\*\*([^\n*]+?)\*\*/g, "$1")       // **bold**
+    .replace(/(?<!\*)\*([^\n*]+?)\*(?!\*)/g, "$1") // *italic*
+    .replace(/`([^`\n]+?)`/g, "$1")               // `code`
+    .replace(/~~([^~\n]+?)~~/g, "$1");            // ~~strike~~
+
+  // ❷ 우리 마커 [[...]] → 골드
+  const parts: React.ReactNode[] = [];
+  const regex = /\[\[([^\]]+)\]\]/g;
+  let lastIdx = 0;
+  let m: RegExpExecArray | null;
+  let key = 0;
+  while ((m = regex.exec(sanitized)) !== null) {
+    if (m.index > lastIdx) parts.push(sanitized.slice(lastIdx, m.index));
+    parts.push(
+      <span key={key++} style={{ color: GOLD, fontWeight: 700 }}>{m[1]}</span>
+    );
+    lastIdx = regex.lastIndex;
+  }
+  if (lastIdx < sanitized.length) parts.push(sanitized.slice(lastIdx));
+  return parts.length > 0 ? parts : [sanitized];
+}
+
 function renderParagraphs(text: string) {
   return text.split(/\n\n+/).map((p, i) => (
-    <p key={i} className="my-2 whitespace-pre-wrap">{p}</p>
+    <p key={i} className="my-2 whitespace-pre-wrap">{renderInlineEmphasis(p)}</p>
   ));
 }
 
@@ -2080,3 +2136,490 @@ function OutroCard({ childName, honorific }: { childName: string; honorific: str
 }
 
 // (제거됨) ParentCompareCard — 7장 visualKey가 ch7-ilgan-rel(IlganRelationCard 풀카드)로 교체되어 미사용
+
+// ─── IntroSummaryV2 — Part 00 들어가며 단일 스크롤 (설계도 7가지 요약) ────────
+// 자도인 도입 텍스트 + ①~⑦ 7섹션 시각 + 8장 목차 카드.
+// 자세한 풀이는 2장 이후 챕터에서. 들어가며는 미리보기·요약만.
+function IntroSummaryV2({
+  sajuChild,
+  childName,
+  honorific,
+  onStart,
+}: {
+  sajuChild: SajuAnalysis;
+  childName: string;
+  honorific: string;
+  onStart: () => void;
+}) {
+  const childLabel = `${childName}${honorific}`;
+  const ilgan = sajuChild.ilgan;
+  const ilji = sajuChild.pillars.day.branch;
+  const ilganHanja = STEM_HANJA[ilgan as keyof typeof STEM_HANJA] ?? ilgan;
+  const iljiHanja = BRANCH_HANJA[ilji as keyof typeof BRANCH_HANJA] ?? ilji;
+  const childIlju = (() => { try { return getIljuInfo(sajuChild); } catch { return null; } })();
+  const sipCounts = (() => { try { return getSipseongCounts(sajuChild); } catch { return null; } })();
+  const dms = (() => {
+    try {
+      return getDayMasterStrength(
+        sajuChild.ilgan,
+        sajuChild.pillars.month.branch,
+        [
+          sajuChild.pillars.year.branch,
+          sajuChild.pillars.month.branch,
+          sajuChild.pillars.day.branch,
+          ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.branch] : []),
+        ],
+        [
+          sajuChild.pillars.year.stem,
+          sajuChild.pillars.month.stem,
+          ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.stem] : []),
+        ],
+      );
+    } catch { return null; }
+  })();
+  const guardianSinsals = (sajuChild.sinsal || []).filter(
+    (n) => SINSAL_INFO[n]?.category === "귀인",
+  );
+  const daeunList = sajuChild.daeun?.cycles ?? [];
+
+  const sectionDivider = (
+    <div className="my-6 flex items-center gap-3 px-2">
+      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)" }} />
+      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>✦</span>
+      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)" }} />
+    </div>
+  );
+
+  const STRENGTH_LABELS = ['극약', '태약', '신약', '중화', '신강', '태강', '극왕'] as const;
+
+  // 7가지 인자 도입 멘트 (요약용)
+  const FACTORS = [
+    { num: "①", name: "오행", subtitle: "어떤 기운으로 채워진 아이인가" },
+    { num: "②", name: "십성", subtitle: "세상을 어떻게 받아들이는 아이인가" },
+    { num: "③", name: "신강·신약", subtitle: "에너지의 방향과 균형" },
+    { num: "④", name: "용신·기신", subtitle: "이 아이에게 맞는 것과 맞지 않는 것" },
+    { num: "⑤", name: "대운", subtitle: "앞으로 어떤 흐름이 펼쳐지는가" },
+    { num: "⑥", name: "귀인", subtitle: "어떤 인연이 이 아이를 돕는가" },
+    { num: "⑦", name: "일주", subtitle: "이 아이의 가장 근본적인 결" },
+  ];
+
+  return (
+    <div className="space-y-1 py-4">
+      {/* 챕터 헤더 */}
+      <div className="text-center mb-3">
+        <p className="text-xs font-semibold tracking-[0.25em]" style={{ color: "#a8b8d4" }}>
+          1장 — 우리 아이는 어떤 아이일까
+        </p>
+        <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
+          아래로 스크롤해서 읽어주세요
+        </p>
+      </div>
+
+      {/* 자도인 도입 — 설계도 7가지 */}
+      <section className="space-y-4 py-4">
+        <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
+          아이를 제대로 이해하려면, 먼저 <strong style={{ color: GOLD }}>원국</strong>부터 봐야 해요.
+        </p>
+        <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
+          원국은 <strong style={{ color: GOLD }}>{childLabel}</strong>이 태어날 때부터 가지고 온 <strong style={{ color: ACCENT }}>설계도</strong>예요.
+        </p>
+        <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
+          저는 이 설계도를 <strong style={{ color: GOLD }}>7가지</strong>로 나눠 읽어요.
+        </p>
+        <div className="rounded-xl p-4 space-y-2.5" style={{ background: "rgba(255,215,0,0.04)", border: `1px solid ${GOLD}33` }}>
+          {FACTORS.map((f, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <span className="text-[14px] font-bold" style={{ color: GOLD, minWidth: 20 }}>{f.num}</span>
+              <div className="flex-1">
+                <span className="text-[13.5px] font-bold" style={{ color: GOLD }}>{f.name}</span>
+                <span className="text-[12.5px]" style={{ color: "rgba(255,255,255,0.7)" }}> — {f.subtitle}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-[13.5px] leading-[1.95] italic" style={{ color: "rgba(255,255,255,0.78)" }}>
+          이 일곱 가지를 먼저 이해하면, 이후 모든 챕터가 하나의 이야기로 연결돼요.
+        </p>
+      </section>
+
+      {sectionDivider}
+
+      {/* ① 오행 */}
+      <section className="space-y-3 py-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-[16px] font-bold" style={{ color: GOLD }}>①</span>
+          <p className="text-[15px] font-bold" style={{ color: GOLD }}>오행 — 다섯 가지 자연의 결</p>
+        </div>
+        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>어떤 기운으로 채워진 아이인가</p>
+        <ElementsRadar elements={sajuChild.elements as Record<string, number>} />
+        <SpectrumTable elements={sajuChild.elements as Record<string, number>} />
+        <div className="rounded-xl p-3" style={{ background: "rgba(125,211,192,0.05)", border: "1px solid rgba(125,211,192,0.3)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <span className="text-[10px] mr-1" style={{ color: "#7dd3c0" }}>요약</span>
+            가장 강한 기운은 <strong>{childLabel}</strong>의 일상에서 가장 두드러지는 결이고, 약한 기운은 부모가 채워주면 좋은 결이에요.
+          </p>
+        </div>
+      </section>
+
+      {sectionDivider}
+
+      {/* ② 십성 */}
+      {sipCounts && (
+        <>
+          <section className="space-y-3 py-4">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[16px] font-bold" style={{ color: GOLD }}>②</span>
+              <p className="text-[15px] font-bold" style={{ color: GOLD }}>십성 — 10가지 성향의 지도</p>
+            </div>
+            <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>세상을 어떻게 받아들이는 아이인가</p>
+            <SipseongRadar counts={sipCounts} />
+            <SipseongSpectrumTable counts={sipCounts} />
+            <div className="rounded-xl p-3" style={{ background: "rgba(167,139,250,0.05)", border: "1px solid rgba(167,139,250,0.3)" }}>
+              <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+                <span className="text-[10px] mr-1" style={{ color: "#a78bfa" }}>요약</span>
+                강한 결은 자녀가 자연스럽게 드러내는 성향이고, 약한 결은 부모가 살짝 보태주면 좋은 자리예요.
+              </p>
+            </div>
+          </section>
+
+          {sectionDivider}
+        </>
+      )}
+
+      {/* ③ 신강·신약 */}
+      {dms && (
+        <>
+          <section className="space-y-3 py-4">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[16px] font-bold" style={{ color: GOLD }}>③</span>
+              <p className="text-[15px] font-bold" style={{ color: GOLD }}>신강·신약 — 에너지의 균형</p>
+            </div>
+            <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>에너지의 방향과 균형</p>
+            <div className="rounded-xl p-4" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
+              <p className="text-[11px] mb-2 text-center" style={{ color: "rgba(255,255,255,0.6)" }}>일간 기운 총량</p>
+              <div className="relative h-8 rounded-full overflow-hidden" style={{
+                background: "linear-gradient(to right, #ef4444, #fbbf24, #34d399, #34d399, #fbbf24, #ef4444)",
+              }}>
+                <div className="absolute top-0 bottom-0 flex items-center" style={{ left: `${(dms.positionIdx / 6) * 100}%`, transform: "translateX(-50%)" }}>
+                  <div className="w-3 h-10 rounded-sm border-2" style={{ background: "white", borderColor: GOLD, boxShadow: `0 0 12px ${GOLD}` }} />
+                </div>
+              </div>
+              <div className="flex justify-between text-[9px] mt-2" style={{ color: "rgba(255,255,255,0.5)" }}>
+                {STRENGTH_LABELS.map((label, i) => (
+                  <span key={i} style={{ color: i === dms.positionIdx ? GOLD : "rgba(255,255,255,0.4)", fontWeight: i === dms.positionIdx ? "bold" : "normal" }}>
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <p className="text-[12.5px] mt-3 text-center" style={{ color: "rgba(255,255,255,0.85)" }}>
+                <strong style={{ color: GOLD }}>{childLabel}</strong>은(는) <strong style={{ color: GOLD }}>{dms.level}</strong> 사주예요.
+              </p>
+            </div>
+            <div className="rounded-xl p-3" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
+              <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+                <span className="text-[10px] mr-1" style={{ color: "#fbbf24" }}>요약</span>
+                기운이 강한 아이는 자기 의지로 끌고 가는 결, 약한 아이는 받아들이고 적응하는 결이에요.
+              </p>
+            </div>
+          </section>
+
+          {sectionDivider}
+        </>
+      )}
+
+      {/* ④ 용신·기신 */}
+      <section className="space-y-3 py-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-[16px] font-bold" style={{ color: GOLD }}>④</span>
+          <p className="text-[15px] font-bold" style={{ color: GOLD }}>용신·기신 — 채워줄 결, 살펴줄 결</p>
+        </div>
+        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>이 아이에게 맞는 것과 맞지 않는 것</p>
+        <YongsinCard saju={sajuChild} />
+        <GisinCard saju={sajuChild} />
+        <div className="rounded-xl p-3" style={{ background: "rgba(126,218,126,0.05)", border: "1px solid rgba(126,218,126,0.3)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <span className="text-[10px] mr-1" style={{ color: "#7eda7e" }}>요약</span>
+            <strong style={{ color: "#7eda7e" }}>채워줄 결</strong>은 부모가 양육에서 보태주면 자녀가 가장 빛나는 결, <strong style={{ color: "#ff8a8a" }}>살펴줄 결</strong>은 너무 많아지지 않게 살펴주면 좋은 결이에요.
+          </p>
+        </div>
+      </section>
+
+      {sectionDivider}
+
+      {/* ⑤ 대운 */}
+      {daeunList.length > 0 && (
+        <>
+          <section className="space-y-3 py-4">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[16px] font-bold" style={{ color: GOLD }}>⑤</span>
+              <p className="text-[15px] font-bold" style={{ color: GOLD }}>대운 — 시간의 흐름</p>
+            </div>
+            <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>앞으로 어떤 흐름이 펼쳐지는가</p>
+            <div className="rounded-xl p-3" style={{ background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.3)" }}>
+              <div className="grid grid-cols-4 gap-2">
+                {daeunList.slice(0, 8).map((c, i) => {
+                  const stemH = STEM_HANJA[c.stem as keyof typeof STEM_HANJA] ?? c.stem;
+                  const branchH = BRANCH_HANJA[c.branch as keyof typeof BRANCH_HANJA] ?? c.branch;
+                  return (
+                    <div key={i} className="rounded-lg p-2 text-center" style={{
+                      background: "rgba(96,165,250,0.08)",
+                      border: "1px solid rgba(96,165,250,0.2)",
+                    }}>
+                      <p className="text-[9px]" style={{ color: "#60a5fa" }}>{c.age}세~</p>
+                      <p className="text-[16px] font-bold mt-1" style={{ color: GOLD, fontFamily: "serif" }}>{stemH}</p>
+                      <p className="text-[16px] font-bold" style={{ color: GOLD, fontFamily: "serif" }}>{branchH}</p>
+                      <p className="text-[8.5px] mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>{c.stem}{c.branch}</p>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="text-[10.5px] italic mt-3 text-center" style={{ color: "rgba(255,255,255,0.55)" }}>
+                대운 시작 나이: 만 {sajuChild.daeun?.number ?? "—"}세 / 방향: {sajuChild.daeun?.direction ?? "—"}
+              </p>
+            </div>
+            <div className="rounded-xl p-3" style={{ background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.3)" }}>
+              <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+                <span className="text-[10px] mr-1" style={{ color: "#60a5fa" }}>요약</span>
+                10년마다 자녀의 결이 어떻게 바뀌는지 미리 알면, 양육의 호흡을 맞춰가기 좋아요.
+              </p>
+            </div>
+          </section>
+
+          {sectionDivider}
+        </>
+      )}
+
+      {/* ⑥ 귀인 */}
+      <section className="space-y-3 py-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-[16px] font-bold" style={{ color: GOLD }}>⑥</span>
+          <p className="text-[15px] font-bold" style={{ color: GOLD }}>귀인 — 인생을 도와주는 별</p>
+        </div>
+        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>어떤 인연이 이 아이를 돕는가</p>
+        {guardianSinsals.length > 0 ? (
+          <div className="space-y-2">
+            {guardianSinsals.map((name, i) => {
+              const info = SINSAL_INFO[name];
+              if (!info) return null;
+              return (
+                <div key={i} className="rounded-xl p-3" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
+                  <div className="flex items-baseline gap-2 mb-1">
+                    <span className="text-[16px]">{info.icon}</span>
+                    <p className="text-[14px] font-bold" style={{ color: "#fbbf24" }}>{name}</p>
+                    <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>({info.hanja})</p>
+                  </div>
+                  <p className="text-[11.5px] mb-1" style={{ color: "rgba(255,255,255,0.65)", fontStyle: "italic" }}>{info.subtitle}</p>
+                  <p className="text-[12px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>{info.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.78)" }}>
+              <strong>{childLabel}</strong>의 사주에는 특별한 귀인 신살은 없어요. 대신 <strong>스스로 일으키는 자수성가형</strong>의 결이 강합니다.
+            </p>
+          </div>
+        )}
+        <div className="rounded-xl p-3" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <span className="text-[10px] mr-1" style={{ color: "#fbbf24" }}>요약</span>
+            귀인은 살아가면서 자녀에게 손을 내밀어주는 인연들이에요.
+          </p>
+        </div>
+      </section>
+
+      {sectionDivider}
+
+      {/* ⑦ 일주 */}
+      <section className="space-y-3 py-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-[16px] font-bold" style={{ color: GOLD }}>⑦</span>
+          <p className="text-[15px] font-bold" style={{ color: GOLD }}>일주 — 가장 근본적인 결</p>
+        </div>
+        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>이 아이의 가장 근본적인 결</p>
+        <div className="text-center py-2">
+          <div className="text-[48px] font-bold leading-none" style={{ color: GOLD, fontFamily: "serif", textShadow: `0 0 16px ${GOLD}40` }}>
+            {ilganHanja}{iljiHanja}
+          </div>
+          <p className="text-[12px] mt-2" style={{ color: `${ACCENT}cc` }}>{ilgan}{ilji}</p>
+        </div>
+        <IljuSubsectionBanner childIlju={childIlju} />
+        <IljuCard saju={sajuChild} />
+        <div className="rounded-xl p-3" style={{ background: "rgba(200,156,255,0.05)", border: "1px solid rgba(200,156,255,0.3)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+            <span className="text-[10px] mr-1" style={{ color: "#c89cff" }}>요약</span>
+            일주는 <strong>{childLabel}</strong>의 성격·기질의 핵이에요. 일간 = 본질, 일지 = 일상 호흡.
+          </p>
+        </div>
+      </section>
+
+      {sectionDivider}
+
+      {/* 보고서 안내 — 7장 목차 */}
+      <section className="space-y-3 py-4">
+        <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: GOLD }}>─ 보고서 안내 ─</p>
+        <p className="text-[12.5px] leading-[1.7] text-center" style={{ color: "rgba(255,255,255,0.85)" }}>
+          이 보고서는 총 <strong style={{ color: GOLD }}>7장</strong>으로 구성되어 있어요.
+        </p>
+        <div className="rounded-xl p-4 mt-2 space-y-2" style={{ background: "rgba(255,215,0,0.04)", border: `1px solid ${GOLD}33` }}>
+          {[
+            { num: "1장", title: "우리 아이는 어떤 아이일까" },
+            { num: "2장", title: "우리 아이는 어떻게 공부할까" },
+            { num: "3장", title: "우리 아이 칭찬하고 혼내는 법" },
+            { num: "4장", title: "친구 사이 우리 아이" },
+            { num: "5장", title: "우리 아이는 무엇으로 빛날까" },
+            { num: "6장", title: "엄마·아빠와 우리 셋의 결" },
+            { num: "마지막", title: "자도인의 마지막 당부" },
+          ].map((c, i) => (
+            <div key={i} className="flex items-center gap-3 py-1.5 px-1">
+              <span className="text-[11px] font-bold w-12 text-center rounded px-1.5 py-0.5" style={{ color: GOLD, background: `${GOLD}15`, border: `1px solid ${GOLD}40` }}>{c.num}</span>
+              <span className="text-[12.5px]" style={{ color: "rgba(255,255,255,0.85)" }}>{c.title}</span>
+            </div>
+          ))}
+        </div>
+        <p className="text-[12.5px] leading-[1.7] text-center italic mt-3" style={{ color: "rgba(255,255,255,0.85)" }}>
+          그럼 이제, 자도인과 함께 <strong style={{ color: GOLD }}>{childLabel}</strong>의 사주를 펼쳐볼까요?
+        </p>
+      </section>
+    </div>
+  );
+}
+
+// ─── renderVisualByKey — visualKey → 시각 컴포넌트 매핑 (단일 라우터) ─────────
+function renderVisualByKey(visualKey: string | undefined, meta: MetaEvent | null) {
+  if (!meta || !visualKey) return null;
+  switch (visualKey) {
+    case "elements":
+      return (
+        <div className="space-y-2">
+          <ElementsRadar elements={meta.sajuChild.elements as Record<string, number>} />
+          <SpectrumTable elements={meta.sajuChild.elements as Record<string, number>} />
+        </div>
+      );
+    case "sipseong":
+      return (
+        <div className="space-y-2">
+          <SipseongRadar counts={getSipseongCounts(meta.sajuChild)} />
+          <SipseongSpectrumTable counts={getSipseongCounts(meta.sajuChild)} />
+        </div>
+      );
+    case "ilju":
+      return (
+        <div className="space-y-3">
+          <IljuSubsectionBanner childIlju={(() => { try { return getIljuInfo(meta.sajuChild); } catch { return null; } })()} />
+          <IljuCard saju={meta.sajuChild} />
+        </div>
+      );
+    case "yongsin":
+      return (
+        <div className="space-y-3">
+          <YongsinCard saju={meta.sajuChild} />
+          <GisinCard saju={meta.sajuChild} />
+        </div>
+      );
+    case "ch3-bigeop": return <BigeopFocusCard saju={meta.sajuChild} />;
+    case "ch3-insong": return <InsongLearnCard saju={meta.sajuChild} />;
+    case "ch3-siksang": return <SiksangExpressionCard saju={meta.sajuChild} />;
+    case "ch3-timeslot": return <TimeSlotGauge saju={meta.sajuChild} />;
+    case "ch3-thinking": return <ThinkingMatrix tt={inferThinkingType(meta.sajuChild)} />;
+    case "ch4-tantrum": return <TantrumBars triggers={inferTantrumTriggers(meta.sajuChild)} />;
+    case "ch4-calm-env": return <EmotionCalmEnvCard saju={meta.sajuChild} />;
+    case "ch4-praise": return <PraiseCompareCard saju={meta.sajuChild} />;
+    case "ch4-lie": return <LieResponseCard saju={meta.sajuChild} />;
+    case "ch4-breakdown": return <BreakdownTriggerCard saju={meta.sajuChild} />;
+    case "ch5-heart-door": return <HeartDoorCard saju={meta.sajuChild} />;
+    case "ch5-style": return <FriendStyleQuadrant fs={inferFriendStyle(meta.sajuChild)} />;
+    case "ch5-life-friend": return <LifeFriendSinsalCard reading={inferPositiveSinsal(meta.sajuChild)} />;
+    case "ch5-friend-shift": return <FriendShiftTimeline list={evaluateDaeunTimeline(meta.sajuChild)} />;
+    case "ch5-fatigue": return <FatiguePatternCard saju={meta.sajuChild} />;
+    case "ch6-job-radar": return <JobRadarCard items={inferJobRadar(meta.sajuChild)} />;
+    case "ch6-weapon": return <WeaponCard saju={meta.sajuChild} dom={inferDominantMeaning(meta.sajuChild)} />;
+    case "ch6-shine-key": return <ShineKeyCard saju={meta.sajuChild} />;
+    case "ch6-shine-age": return <ShineAgeTimeline list={evaluateDaeunTimeline(meta.sajuChild)} />;
+    case "ch6-leader-expert": return <LeaderExpertCard saju={meta.sajuChild} />;
+    case "ch7-ilgan-rel": return <FamilyIlganRelations meta={meta} />;
+    case "ch7-trio-radar": return <TrioRadarCard meta={meta} />;
+    case "ch7-flow": return <FlowFillCard meta={meta} />;
+    case "ch7-external-boost": return <ExternalBoostCard saju={meta.sajuChild} />;
+    case "ch7-bond-age": return <BondAgeTimeline list={evaluateDaeunTimeline(meta.sajuChild)} />;
+    default: return null;
+  }
+}
+
+// ─── ScrollChapterPage — 한 챕터의 sub들을 단일 스크롤로 렌더 ──────────────────
+function ScrollChapterPage({
+  spec,
+  meta,
+  slideTextMap,
+  slideIdx,
+  loading,
+  childName,
+  honorific,
+}: {
+  spec: SlideSpec;
+  meta: MetaEvent;
+  slideTextMap: SlideTextMap;
+  slideIdx: number;
+  loading: boolean;
+  childName: string;
+  honorific: string;
+}) {
+  const subs = spec.subs ?? [];
+  return (
+    <article className="space-y-4 py-2">
+      {/* 챕터 라벨 */}
+      <div className="flex items-baseline gap-2">
+        <span className="text-[11px] px-2 py-0.5 rounded-full font-bold"
+          style={{ backgroundColor: `${GOLD}22`, color: GOLD }}>
+          {spec.chapter}
+        </span>
+        <span className="text-[12px]" style={{ color: `${ACCENT}99` }}>{spec.chapterTitle}</span>
+      </div>
+
+      {/* 챕터 큰 제목 */}
+      <h2 className="text-[22px] font-bold leading-tight" style={{ color: "white" }}>
+        {spec.chapterTitle}
+      </h2>
+
+      <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)" }}>
+        아래로 스크롤해서 {subs.length}개 소제목을 차례대로 읽어주세요
+      </p>
+
+      {/* sub 섹션 반복 */}
+      {subs.map((sub, i) => {
+        const subText = getSubText(slideTextMap, slideIdx, sub.subtitle);
+        return (
+          <section key={i} className="space-y-3 pt-6 pb-2" style={{ borderTop: i === 0 ? "none" : `1px solid ${ACCENT}22` }}>
+            {/* 소제목 */}
+            <div className="flex items-baseline gap-2">
+              <span className="text-[12px] font-bold" style={{ color: GOLD }}>{i + 1}.</span>
+              <h3 className="text-[17px] font-bold leading-tight" style={{ color: "white" }}>
+                {sub.subtitle}
+              </h3>
+            </div>
+
+            {/* 시각 */}
+            {renderVisualByKey(sub.visualKey, meta)}
+
+            {/* LLM 본문 */}
+            <div className="text-[14px] leading-7" style={{ color: "rgba(255,255,255,0.92)" }}>
+              {subText ? (
+                renderParagraphs(subText)
+              ) : loading ? (
+                <div className="flex items-center gap-3 py-3">
+                  <div className="w-4 h-4 rounded-full border-2 border-t-transparent animate-spin"
+                    style={{ borderColor: `${ACCENT}44`, borderTopColor: ACCENT }} />
+                  <span className="text-[12px]" style={{ color: `${ACCENT}aa` }}>풀이 생성 중…</span>
+                </div>
+              ) : (
+                <p className="text-[12px]" style={{ color: `${ACCENT}88` }}>(이 소제목 본문이 아직 없어요)</p>
+              )}
+            </div>
+          </section>
+        );
+      })}
+    </article>
+  );
+}
+
