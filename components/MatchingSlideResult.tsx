@@ -537,6 +537,8 @@ export default function MatchingSlideResult() {
       partnerDay: params.get("partnerDay") || "",
       partnerHour: params.get("partnerHour") || "시간 모름",
       partnerCalendar: params.get("partnerCalendar") || "양력",
+      meetCount: params.get("meetCount") || "",
+      soloReason: params.get("soloReason") || "",
     };
 
     fetch("/api/generate", {

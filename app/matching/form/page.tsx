@@ -10,6 +10,17 @@ const HOURS = [
   "유시 (17:30~19:29)", "술시 (19:30~21:29)", "해시 (21:30~23:29)",
 ];
 
+// 자기보고 컨텍스트 — 로맨틱 그룹에서만 묻는 추가 단계 (청월당 폼 패턴 도입)
+const MEET_COUNT_OPTIONS = ["없음", "1~3회", "4회 이상"];
+const SOLO_REASON_OPTIONS = [
+  "이성을 만날 기회가 부족해서",
+  "애써 만나고 싶지 않아서",
+  "일이나 학업이 우선이어서",
+  "이별의 정리가 안 돼서",
+  "스스로에게 자신이 없어서",
+  "마음에 여유가 없어서",
+];
+
 // 관계 유형 12가지 + 직접 입력
 // 4개 그룹: 로맨틱 / 사회 / 가족·기타 / 팬덤
 // 펫은 정통 사주명리학 영역 밖이라 제외 (출생일 정확성·시주 부재·고전 근거 부족)
@@ -46,6 +57,7 @@ export default function MatchingChatForm() {
     myHour: "시간 모름", myCalendar: "양력",
     partnerName: "", partnerGender: "", partnerYear: "", partnerMonth: "", partnerDay: "",
     partnerHour: "시간 모름", partnerCalendar: "양력",
+    meetCount: "", soloReason: "",
   });
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -160,7 +172,27 @@ export default function MatchingChatForm() {
   // Q7 — 상대 시간
   function submitPartnerHour(h: string) {
     setForm(f => ({ ...f, partnerHour: h }));
-    userMsg(h, "a7", () =>
+    const opt = RELATIONSHIP_OPTIONS.find((o) => o.value === form.relationshipType);
+    const isRomantic = opt?.group === "romantic";
+    userMsg(h, "a7", () => {
+      if (isRomantic) {
+        aiMsg("두 분의 결을 더 깊이 헤아리기 위해\n한 가지만 더 여쭙겠습니다.\n\n지금까지의 만남 경험은 어찌 되십니까?", "q8a", () => setStep(81));
+      } else {
+        aiMsg(`${form.myName}님과 ${form.partnerName}님의\n인연을 풀이할 준비가 되었습니다.`, "q9", () => setStep(9));
+      }
+    });
+  }
+  // Q8a — 만남 경험 횟수 (romantic만)
+  function submitMeetCount(c: string) {
+    setForm(f => ({ ...f, meetCount: c }));
+    userMsg(c, "a8a", () =>
+      aiMsg("현재 홀로이시라면, 그 결은 어디에서 비롯되었을지요?\n\n해당이 적으시다면 가장 가까운 답을 골라주셔도 좋습니다.", "q8b", () => setStep(82))
+    );
+  }
+  // Q8b — 솔로 사유 (romantic만)
+  function submitSoloReason(r: string) {
+    setForm(f => ({ ...f, soloReason: r }));
+    userMsg(r, "a8b", () =>
       aiMsg(`${form.myName}님과 ${form.partnerName}님의\n인연을 풀이할 준비가 되었습니다.`, "q9", () => setStep(9))
     );
   }
@@ -355,6 +387,38 @@ export default function MatchingChatForm() {
 
         {/* Q7 — 상대 시간 */}
         {step === 7 && <HourGrid hours={HOURS} onSelect={submitPartnerHour} accent={ACCENT} />}
+
+        {/* Q8a — 만남 경험 (romantic 그룹만) */}
+        {step === 81 && (
+          <div className="flex justify-end gap-2">
+            {MEET_COUNT_OPTIONS.map(c => (
+              <button key={c} onClick={() => submitMeetCount(c)}
+                className="px-5 py-2 rounded-lg text-sm font-medium transition-all active:scale-95"
+                style={{ backgroundColor: `${ACCENT}22`, color: "white", border: `1px solid ${ACCENT}44` }}>
+                {c}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Q8b — 솔로 사유 (romantic 그룹만, 청월당 6옵션 그대로) */}
+        {step === 82 && (
+          <div className="flex justify-end">
+            <div className="w-full max-w-[320px] grid grid-cols-1 gap-2">
+              {SOLO_REASON_OPTIONS.map(r => (
+                <button key={r} onClick={() => submitSoloReason(r)}
+                  className="px-4 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95 text-left"
+                  style={{
+                    backgroundColor: `${ACCENT}1a`,
+                    color: "white",
+                    border: `1px solid ${ACCENT}44`,
+                  }}>
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Q9 — 인연 풀이 시작 */}
         {step === 9 && (
