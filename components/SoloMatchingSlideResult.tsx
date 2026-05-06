@@ -27,6 +27,7 @@ type VisualKey =
   | "clock" | "heavenSinsal" | "prevIlju" | "coord" | "compass" | "fateKeyword";
 
 // page.sub + 챕터/페이지 위치 → 시각화 컴포넌트 매핑
+// 새 소제목명에 맞춘 부분 매칭 (사용자 이름 변동 대응)
 function pickVisual(sub: string, chapterIdx: number, pageIdx: number): VisualKey | null {
   // 序章: 두 번째 단락(한 줄 인연)에 사자성어 카드
   if (chapterIdx === 0) {
@@ -34,26 +35,26 @@ function pickVisual(sub: string, chapterIdx: number, pageIdx: number): VisualKey
     return null;
   }
   if (!sub) return null;
-  // 第一章 本
-  if (sub.includes("일간이 말하는 본질")) return "pillar";
-  if (sub.includes("일지의 결")) return "prevIlju";          // 시그니처: 두루마리
-  if (sub.includes("캐치프레이즈")) return "essence";
-  // 第二章 戀
-  if (sub.includes("어떻게 사랑을 시작하는가")) return "sipseongAxes";
-  if (sub.includes("갈등이 일어나는 자리")) return "jaguk";
-  // 第三章 引
-  if (sub.includes("일간이 끌리는 자리")) return "coord";    // 시그니처: 방사별
-  if (sub.includes("십성으로 본 이상형")) return "idealType";
-  if (sub.includes("매력의 결")) return "heavenSinsal";       // 시그니처: 빨간 사각 인장
-  // 第四章 遇
-  if (sub.includes("어떤 환경에서 만나는가")) return "compass"; // 시그니처: 나침반
-  // 第五章 時
-  if (sub.includes("대운에서 보는 흐름")) return "clock";      // 시그니처: 원형 시계
-  if (sub.includes("병오년") || sub.includes("올해(2026)")) return "byeongo";
-  if (sub.includes("내년") && sub.includes("후년")) return "seun";
-  // 終章
-  if (sub.includes("인연 키워드")) return "fateKeyword";       // 시그니처: 원형 봉인
-  if (sub.includes("마지막 한마디")) return "saja";
+  // 第一章 本 — 당신은 왜 아직 혼자인가
+  if (sub.includes("한 줄로 말하면")) return "pillar";          // 4기둥 정밀표
+  if (sub.includes("모르는") && sub.includes("한 면")) return "prevIlju"; // 두루마리
+  if (sub.includes("사랑의 패")) return "essence";              // 키워드 칩
+  // 第二章 戀 — 당신이 사랑에 빠지는 그 순간
+  if (sub.includes("사랑에 빠지는 순간")) return "sipseongAxes"; // 5축 막대
+  if (sub.includes("둘 사이가 어긋날 때")) return "jaguk";       // 충 검출
+  // 第三章 引 — 당신을 흔드는 그 사람의 정체
+  if (sub.includes("무너지는 그 결")) return "coord";            // 방사별
+  if (sub.includes("운명에 새겨진 이상형")) return "idealType";   // 4 이상형 카드
+  if (sub.includes("가장 빛나는 순간")) return "heavenSinsal";    // 빨간 사각 인장
+  // 第四章 遇 — 그를 만나게 될 자리
+  if (sub.includes("만나게 될 자리")) return "compass";          // 나침반
+  // 第五章 時 — 그가 다가오는 시간이 보입니다
+  if (sub.includes("가장 가까이 오는 때")) return "clock";        // 원형 시계
+  if (sub.startsWith("올해") || sub.includes("병오년")) return "byeongo";
+  if (sub.includes("내년") && sub.includes("그 너머")) return "seun";
+  // 終章 — 홍도인이 마지막으로 남기는 글
+  if (sub.includes("한 단어로")) return "fateKeyword";           // 원형 봉인
+  if (sub.includes("마지막으로 남기는 글")) return "saja";
   return null;
 }
 
@@ -63,13 +64,13 @@ const BG = "#1a0f20";
 
 const CHAPTER_TITLES = [
   "홍도인의 첫마디",
-  "당신은 어떤 결의 사람인가",
-  "사랑할 때 당신의 결",
-  "끌리는 사람의 결",
-  "다가오는 인연의 자리",
-  "인연이 흐르는 시기",
-  "사랑에서 살펴볼 결",
-  "홍도인의 마지막 당부",
+  "당신은 왜 아직 혼자인가",
+  "당신이 사랑에 빠지는 그 순간",
+  "당신을 흔드는 그 사람의 정체",
+  "그를 만나게 될 자리, 보입니다",
+  "그가 다가오는 시간이 보입니다",
+  "당신만 모르는 당신의 사랑",
+  "홍도인이 마지막으로 남기는 글",
 ];
 
 const CHAPTER_HANJA = ["序", "本", "戀", "引", "遇", "時", "愼", "終"];
