@@ -1,6 +1,6 @@
 "use client";
 import { Suspense } from "react";
-import MatchingSlideResult from "@/components/MatchingSlideResult";
+import MatchingSlideResult from "@/components/SoloMatchingSlideResult";
 
 const ACCENT = "#d4a8e8";
 const BG = "#1a0f20";

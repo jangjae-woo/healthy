@@ -10,7 +10,12 @@ const HOURS = [
   "유시 (17:30~19:29)", "술시 (19:30~21:29)", "해시 (21:30~23:29)",
 ];
 
-// 자기보고 컨텍스트 — 로맨틱 그룹에서만 묻는 추가 단계 (청월당 폼 패턴 도입)
+// 자기보고 컨텍스트 — 청월당 폼 패턴 (000/111/222/555/666/777.png)
+const CONTACT_FREQ_OPTIONS = [
+  "이성과 어울릴 기회가 자주 있다",
+  "직장·학교에서 어울리고 있다",
+  "이성을 만날 기회가 거의 없다",
+];
 const MEET_COUNT_OPTIONS = ["없음", "1~3회", "4회 이상"];
 const SOLO_REASON_OPTIONS = [
   "이성을 만날 기회가 부족해서",
@@ -21,43 +26,19 @@ const SOLO_REASON_OPTIONS = [
   "마음에 여유가 없어서",
 ];
 
-// 관계 유형 12가지 + 직접 입력
-// 4개 그룹: 로맨틱 / 사회 / 가족·기타 / 팬덤
-// 펫은 정통 사주명리학 영역 밖이라 제외 (출생일 정확성·시주 부재·고전 근거 부족)
-const RELATIONSHIP_OPTIONS: Array<{ value: string; label: string; group: "romantic" | "social" | "family" | "fan"; aLabel?: string; bLabel?: string }> = [
-  { value: "친구",           label: "친구",          group: "social", aLabel: "나", bLabel: "친구" },
-  { value: "썸남썸녀",       label: "썸남 / 썸녀",   group: "romantic", aLabel: "나", bLabel: "상대" },
-  { value: "연인",           label: "연인",          group: "romantic", aLabel: "나", bLabel: "연인" },
-  { value: "배우자",         label: "배우자",        group: "romantic", aLabel: "나", bLabel: "배우자" },
-  { value: "전연인",         label: "전 연인",       group: "romantic", aLabel: "나", bLabel: "전 연인" },
-  { value: "전배우자",       label: "전 배우자",     group: "romantic", aLabel: "나", bLabel: "전 배우자" },
-  { value: "부모와자녀",     label: "부모와 자녀",   group: "family", aLabel: "부모", bLabel: "자녀" },
-  { value: "형제자매",       label: "형제 / 자매",   group: "family", aLabel: "본인", bLabel: "형제·자매" },
-  { value: "직장동료",       label: "직장 동료",     group: "social", aLabel: "나", bLabel: "동료" },
-  { value: "사업파트너",     label: "사업 파트너",   group: "social", aLabel: "나", bLabel: "파트너" },
-  { value: "아이돌과팬",     label: "아이돌과 팬",   group: "fan", aLabel: "팬", bLabel: "아이돌" },
-  { value: "아이돌과아이돌", label: "아이돌과 아이돌", group: "fan", aLabel: "멤버 A", bLabel: "멤버 B" },
-];
-
 const ACCENT = "#d4a8e8";
 const GOLD = "#FFD700";
 const BG = "#1a0f20";
-const PRICE = 45900;
 
 interface Msg { id: string; from: "ai" | "user"; text: string; }
 
 export default function MatchingChatForm() {
   const [step, setStep] = useState(-1);
   const [paying, setPaying] = useState(false);
-  const [modal, setModal] = useState<null | "parent-child" | "custom">(null);
-  const [customRelInput, setCustomRelInput] = useState("");
   const [form, setForm] = useState({
-    relationshipType: "", relationshipLabel: "",
     myName: "", myGender: "", myYear: "", myMonth: "", myDay: "",
     myHour: "시간 모름", myCalendar: "양력",
-    partnerName: "", partnerGender: "", partnerYear: "", partnerMonth: "", partnerDay: "",
-    partnerHour: "시간 모름", partnerCalendar: "양력",
-    meetCount: "", soloReason: "",
+    contactFreq: "", meetCount: "", soloReason: "",
   });
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -67,9 +48,9 @@ export default function MatchingChatForm() {
   useEffect(() => {
     const t = setTimeout(() => {
       aiMsg(
-        "안녕하세요.\n저는 홍도인입니다.\n\n붉은 실(紅絲)에 묶인 모든 인연을 풀어드립니다.\n\n먼저 두 분은 어떤 관계이신가요?",
-        "qRel",
-        () => setStep(100)
+        "안녕하세요.\n저는 홍도인(紅道人)입니다.\n\n붉은 실(紅絲)에 묶인 인연의 결을\n사주만으로 풀어드립니다.\n\n먼저 성함과 생년월일을 알려주시겠어요?",
+        "q0",
+        () => setStep(0)
       );
     }, 500);
     return () => clearTimeout(t);
@@ -94,106 +75,52 @@ export default function MatchingChatForm() {
     setTimeout(() => onDone?.(), 400);
   }
 
-  // ── 관계 유형 선택 (step 100) ──
-  function submitRelationship(opt: typeof RELATIONSHIP_OPTIONS[number]) {
-    // 부모와 자녀 → 자도인으로 안내 (자도인이 더 깊이 풀이)
-    if (opt.value === "부모와자녀") {
-      setModal("parent-child");
-      return;
-    }
-    setForm((f) => ({ ...f, relationshipType: opt.value, relationshipLabel: opt.label }));
-    const aL = opt.aLabel ?? "나";
-    userMsg(opt.label, "aRel", () =>
-      aiMsg(`${opt.label} 관계로군요.\n\n${aL}의 성함부터 알려주시겠습니까?`, "q0", () => setStep(0))
-    );
-  }
-  function submitCustomRelationship() {
-    const v = customRelInput.trim();
-    if (!v) return;
-    setForm((f) => ({ ...f, relationshipType: "직접입력", relationshipLabel: v }));
-    setModal(null);
-    setCustomRelInput("");
-    userMsg(v, "aRel", () =>
-      aiMsg(`'${v}' 관계로군요.\n\n첫 번째 분의 성함부터 알려주시겠습니까?`, "q0", () => setStep(0))
-    );
-  }
-
-  // Q0 — 내 이름
-  function submitMyName() {
+  // Q0 — 이름
+  function submitName() {
     const v = inputValue.trim();
     if (!v) return;
     setForm(f => ({ ...f, myName: v }));
     setInputValue("");
     userMsg(v, "a0", () => aiMsg("성별을 알려주세요.", "q1", () => setStep(1)));
   }
-  // Q1 — 내 성별
-  function submitMyGender(g: string) {
+  // Q1 — 성별
+  function submitGender(g: string) {
     setForm(f => ({ ...f, myGender: g }));
     userMsg(g === "남" ? "남성" : "여성", "a1", () => aiMsg("생년월일을 알려주세요.", "q2", () => setStep(2)));
   }
-  // Q2 — 내 생년월일
-  function submitMyDate() {
+  // Q2 — 생년월일
+  function submitDate() {
     if (!form.myYear || !form.myMonth || !form.myDay) return;
     userMsg(`${form.myCalendar} ${form.myYear}년 ${form.myMonth}월 ${form.myDay}일`, "a2", () =>
       aiMsg("태어난 시간을 알려주세요.\n모르시면 '시간 모름'을 선택하셔도 됩니다.", "q3", () => setStep(3))
     );
   }
-  // Q3 — 내 시간
-  function submitMyHour(h: string) {
+  // Q3 — 시간
+  function submitHour(h: string) {
     setForm(f => ({ ...f, myHour: h }));
-    const opt = RELATIONSHIP_OPTIONS.find((o) => o.value === form.relationshipType);
-    const partnerLabel = opt?.bLabel ?? "상대";
     userMsg(h, "a3", () =>
-      aiMsg(`이제 ${partnerLabel}분에 대해 여쭙겠습니다.\n\n${partnerLabel}분의 성함(또는 별명)을 알려주세요.`, "q4", () => setStep(4))
+      aiMsg(`${form.myName}님의 결을 더 깊이 헤아리기 위해\n몇 가지만 더 여쭙겠습니다.\n\n이성을 얼마나 많이 접하시나요?`, "q4", () => setStep(4))
     );
   }
-  // Q4 — 상대 이름
-  function submitPartnerName() {
-    const v = inputValue.trim();
-    if (!v) return;
-    setForm(f => ({ ...f, partnerName: v }));
-    setInputValue("");
-    userMsg(v, "a4", () => aiMsg(`${v}님의 성별을 알려주세요.`, "q5", () => setStep(5)));
-  }
-  // Q5 — 상대 성별
-  function submitPartnerGender(g: string) {
-    setForm(f => ({ ...f, partnerGender: g }));
-    userMsg(g === "남" ? "남성" : "여성", "a5", () =>
-      aiMsg(`${form.partnerName}님의 생년월일을 알려주세요.`, "q6", () => setStep(6))
+  // Q4 — 이성 접하는 빈도
+  function submitContactFreq(c: string) {
+    setForm(f => ({ ...f, contactFreq: c }));
+    userMsg(c, "a4", () =>
+      aiMsg("지금까지의 만남 경험은 어찌 되십니까?", "q5", () => setStep(5))
     );
   }
-  // Q6 — 상대 생년월일
-  function submitPartnerDate() {
-    if (!form.partnerYear || !form.partnerMonth || !form.partnerDay) return;
-    userMsg(`${form.partnerCalendar} ${form.partnerYear}년 ${form.partnerMonth}월 ${form.partnerDay}일`, "a6", () =>
-      aiMsg(`${form.partnerName}님의 태어난 시간은요?\n모르시면 '시간 모름'을 선택하셔도 됩니다.`, "q7", () => setStep(7))
-    );
-  }
-  // Q7 — 상대 시간
-  function submitPartnerHour(h: string) {
-    setForm(f => ({ ...f, partnerHour: h }));
-    const opt = RELATIONSHIP_OPTIONS.find((o) => o.value === form.relationshipType);
-    const isRomantic = opt?.group === "romantic";
-    userMsg(h, "a7", () => {
-      if (isRomantic) {
-        aiMsg("두 분의 결을 더 깊이 헤아리기 위해\n한 가지만 더 여쭙겠습니다.\n\n지금까지의 만남 경험은 어찌 되십니까?", "q8a", () => setStep(81));
-      } else {
-        aiMsg(`${form.myName}님과 ${form.partnerName}님의\n인연을 풀이할 준비가 되었습니다.`, "q9", () => setStep(9));
-      }
-    });
-  }
-  // Q8a — 만남 경험 횟수 (romantic만)
+  // Q5 — 만남 횟수
   function submitMeetCount(c: string) {
     setForm(f => ({ ...f, meetCount: c }));
-    userMsg(c, "a8a", () =>
-      aiMsg("현재 홀로이시라면, 그 결은 어디에서 비롯되었을지요?\n\n해당이 적으시다면 가장 가까운 답을 골라주셔도 좋습니다.", "q8b", () => setStep(82))
+    userMsg(c, "a5", () =>
+      aiMsg("현재 홀로이시라면, 그 결은 어디에서 비롯되었을지요?\n\n해당이 적으시다면 가장 가까운 답을 골라주셔도 좋습니다.", "q6", () => setStep(6))
     );
   }
-  // Q8b — 솔로 사유 (romantic만)
+  // Q6 — 솔로 사유
   function submitSoloReason(r: string) {
     setForm(f => ({ ...f, soloReason: r }));
-    userMsg(r, "a8b", () =>
-      aiMsg(`${form.myName}님과 ${form.partnerName}님의\n인연을 풀이할 준비가 되었습니다.`, "q9", () => setStep(9))
+    userMsg(r, "a6", () =>
+      aiMsg(`${form.myName}님의 인연을 풀이할 준비가 되었습니다.`, "q9", () => setStep(9))
     );
   }
 
@@ -204,14 +131,6 @@ export default function MatchingChatForm() {
     const params = new URLSearchParams({ ...form, type: 'matching' });
     window.location.href = `/matching/result?${params.toString()}`;
   }
-
-  // 관계 유형 그룹별 색조
-  const GROUP_HUE: Record<string, string> = {
-    romantic: "#ff6b9d",
-    social: "#7dd3c0",
-    family: "#f5b942",
-    fan: "#c89cff",
-  };
 
   return (
     <div className="min-h-screen" style={{ background: `linear-gradient(180deg, ${BG} 0%, #0a0510 100%)` }}>
@@ -264,62 +183,28 @@ export default function MatchingChatForm() {
           </div>
         )}
 
-        {/* Q-Rel — 관계 유형 선택 (step 100) */}
-        {step === 100 && (
-          <div className="flex justify-end">
-            <div className="w-full max-w-[340px] grid grid-cols-2 gap-2">
-              {RELATIONSHIP_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  onClick={() => submitRelationship(opt)}
-                  className="px-3 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95 text-left flex items-center gap-2"
-                  style={{
-                    backgroundColor: `${ACCENT}1a`,
-                    color: "white",
-                    border: `1px solid ${ACCENT}44`,
-                  }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: GROUP_HUE[opt.group] ?? ACCENT }} />
-                  <span className="flex-1">{opt.label}</span>
-                </button>
-              ))}
-              <button
-                onClick={() => setModal("custom")}
-                className="col-span-2 px-3 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95"
-                style={{
-                  backgroundColor: `${GOLD}11`,
-                  color: GOLD,
-                  border: `1px dashed ${GOLD}66`,
-                }}
-              >
-                ✎ 직접 입력
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Q0 — 내 이름 */}
+        {/* Q0 — 이름 */}
         {step === 0 && (
           <div className="flex justify-end gap-2">
             <input
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && submitMyName()}
+              onKeyDown={e => e.key === "Enter" && submitName()}
               placeholder="이름 입력"
               autoFocus
               className="rounded-lg px-3 py-2 text-white text-sm outline-none w-36"
               style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
             />
-            <button onClick={submitMyName} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
+            <button onClick={submitName} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
               style={{ backgroundColor: inputValue.trim() ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>→</button>
           </div>
         )}
 
-        {/* Q1 — 내 성별 */}
+        {/* Q1 — 성별 */}
         {step === 1 && (
           <div className="flex justify-end gap-2">
             {[["남", "남성"], ["여", "여성"]].map(([val, label]) => (
-              <button key={val} onClick={() => submitMyGender(val)}
+              <button key={val} onClick={() => submitGender(val)}
                 className="px-5 py-2 rounded-lg text-sm font-medium"
                 style={{ backgroundColor: `${ACCENT}22`, color: "white", border: `1px solid ${ACCENT}44` }}>
                 {label}
@@ -328,68 +213,38 @@ export default function MatchingChatForm() {
           </div>
         )}
 
-        {/* Q2 — 내 생년월일 */}
+        {/* Q2 — 생년월일 */}
         {step === 2 && (
           <DateBlock
             calendar={form.myCalendar}
             year={form.myYear} month={form.myMonth} day={form.myDay}
             onCalendarChange={c => setForm(f => ({ ...f, myCalendar: c }))}
             onChange={(k, v) => setForm(f => ({ ...f, [`my${k}`]: v }))}
-            onSubmit={submitMyDate}
+            onSubmit={submitDate}
             accent={ACCENT} gold={GOLD}
           />
         )}
 
-        {/* Q3 — 내 시간 */}
-        {step === 3 && <HourGrid hours={HOURS} onSelect={submitMyHour} accent={ACCENT} />}
+        {/* Q3 — 시간 */}
+        {step === 3 && <HourGrid hours={HOURS} onSelect={submitHour} accent={ACCENT} />}
 
-        {/* Q4 — 상대 이름 */}
+        {/* Q4 — 이성 접하는 빈도 (청월당 555.png) */}
         {step === 4 && (
-          <div className="flex justify-end gap-2">
-            <input
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && submitPartnerName()}
-              placeholder="이름 또는 별명"
-              autoFocus
-              className="rounded-lg px-3 py-2 text-white text-sm outline-none w-36"
-              style={{ background: "transparent", borderBottom: `1.5px solid ${ACCENT}88` }}
-            />
-            <button onClick={submitPartnerName} disabled={!inputValue.trim()} className="px-4 py-2 rounded-lg text-sm font-bold"
-              style={{ backgroundColor: inputValue.trim() ? GOLD : `${ACCENT}33`, color: "#1a0d00" }}>→</button>
+          <div className="flex justify-end">
+            <div className="w-full max-w-[320px] grid grid-cols-1 gap-2">
+              {CONTACT_FREQ_OPTIONS.map(c => (
+                <button key={c} onClick={() => submitContactFreq(c)}
+                  className="px-4 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95 text-left"
+                  style={{ backgroundColor: `${ACCENT}1a`, color: "white", border: `1px solid ${ACCENT}44` }}>
+                  {c}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Q5 — 상대 성별 */}
+        {/* Q5 — 만남 횟수 (청월당 666.png 하단) */}
         {step === 5 && (
-          <div className="flex justify-end gap-2">
-            {[["남", "남성"], ["여", "여성"]].map(([val, label]) => (
-              <button key={val} onClick={() => submitPartnerGender(val)}
-                className="px-5 py-2 rounded-lg text-sm font-medium"
-                style={{ backgroundColor: `${ACCENT}22`, color: "white", border: `1px solid ${ACCENT}44` }}>
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Q6 — 상대 생년월일 */}
-        {step === 6 && (
-          <DateBlock
-            calendar={form.partnerCalendar}
-            year={form.partnerYear} month={form.partnerMonth} day={form.partnerDay}
-            onCalendarChange={c => setForm(f => ({ ...f, partnerCalendar: c }))}
-            onChange={(k, v) => setForm(f => ({ ...f, [`partner${k}`]: v }))}
-            onSubmit={submitPartnerDate}
-            accent={ACCENT} gold={GOLD}
-          />
-        )}
-
-        {/* Q7 — 상대 시간 */}
-        {step === 7 && <HourGrid hours={HOURS} onSelect={submitPartnerHour} accent={ACCENT} />}
-
-        {/* Q8a — 만남 경험 (romantic 그룹만) */}
-        {step === 81 && (
           <div className="flex justify-end gap-2">
             {MEET_COUNT_OPTIONS.map(c => (
               <button key={c} onClick={() => submitMeetCount(c)}
@@ -401,18 +256,14 @@ export default function MatchingChatForm() {
           </div>
         )}
 
-        {/* Q8b — 솔로 사유 (romantic 그룹만, 청월당 6옵션 그대로) */}
-        {step === 82 && (
+        {/* Q6 — 솔로 사유 (청월당 777.png 6옵션) */}
+        {step === 6 && (
           <div className="flex justify-end">
             <div className="w-full max-w-[320px] grid grid-cols-1 gap-2">
               {SOLO_REASON_OPTIONS.map(r => (
                 <button key={r} onClick={() => submitSoloReason(r)}
                   className="px-4 py-3 rounded-xl text-[13px] font-medium transition-all active:scale-95 text-left"
-                  style={{
-                    backgroundColor: `${ACCENT}1a`,
-                    color: "white",
-                    border: `1px solid ${ACCENT}44`,
-                  }}>
+                  style={{ backgroundColor: `${ACCENT}1a`, color: "white", border: `1px solid ${ACCENT}44` }}>
                   {r}
                 </button>
               ))}
@@ -430,7 +281,7 @@ export default function MatchingChatForm() {
                 color: "#1a0d00",
                 boxShadow: paying ? "none" : `0 0 24px ${GOLD}99, 0 0 8px ${GOLD}66`,
               }}>
-              🌹 {"\u00A0"}인연 풀이 시작
+              인연 풀이 시작
             </button>
           </div>
         )}
@@ -438,60 +289,6 @@ export default function MatchingChatForm() {
         <div ref={bottomRef} />
       </div>
     </main>
-
-    {/* ── 모달: 부모와 자녀 → 자도인 안내 ── */}
-    {modal === "parent-child" && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: "rgba(0,0,0,0.7)" }}>
-        <div className="w-full max-w-[360px] rounded-2xl p-6" style={{ backgroundColor: BG, border: `1px solid ${ACCENT}33` }}>
-          <div className="text-center mb-4">
-            <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center text-lg font-bold" style={{ backgroundColor: "#f5b94222", color: "#f5b942" }}>慈</div>
-            <h3 className="text-base font-bold text-white mb-2">부모와 자녀의 인연은</h3>
-            <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
-              <strong style={{ color: "#f5b942" }}>자도인(慈道人)</strong>이 더 깊이 풀이합니다.<br />
-              어머니와 아이의 결을 정통 명리로 짚어드리는 별도 도원으로 안내드릴까요?
-            </p>
-          </div>
-          <div className="flex gap-2 mt-5">
-            <button onClick={() => setModal(null)} className="flex-1 py-3 rounded-xl text-sm" style={{ backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.65)" }}>
-              돌아가기
-            </button>
-            <Link href="/parent-child" className="flex-1 py-3 rounded-xl text-sm font-bold text-center" style={{ background: "linear-gradient(135deg, #f5b942 0%, #d4951f 100%)", color: "#1a0d00" }}>
-              자도인으로 →
-            </Link>
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* ── 모달: 직접 입력 ── */}
-    {modal === "custom" && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center px-6" style={{ backgroundColor: "rgba(0,0,0,0.7)" }}>
-        <div className="w-full max-w-[360px] rounded-2xl p-6" style={{ backgroundColor: BG, border: `1px solid ${GOLD}55` }}>
-          <h3 className="text-base font-bold text-white mb-2 text-center">관계를 직접 입력해주세요</h3>
-          <p className="text-xs text-center mb-4" style={{ color: "rgba(255,255,255,0.55)" }}>
-            예: 외할머니와 손녀, 멘토와 멘티, 스승과 제자
-          </p>
-          <input
-            value={customRelInput}
-            onChange={(e) => setCustomRelInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && submitCustomRelationship()}
-            placeholder="관계 입력"
-            autoFocus
-            maxLength={20}
-            className="w-full px-3 py-3 text-white text-sm outline-none rounded-lg text-center"
-            style={{ background: "rgba(255,255,255,0.05)", border: `1.5px solid ${GOLD}66` }}
-          />
-          <div className="flex gap-2 mt-4">
-            <button onClick={() => { setModal(null); setCustomRelInput(""); }} className="flex-1 py-3 rounded-xl text-sm" style={{ backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.65)" }}>
-              취소
-            </button>
-            <button onClick={submitCustomRelationship} disabled={!customRelInput.trim()} className="flex-1 py-3 rounded-xl text-sm font-bold" style={{ backgroundColor: customRelInput.trim() ? GOLD : `${GOLD}33`, color: "#1a0d00" }}>
-              확인
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
     </div>
   );
 }
