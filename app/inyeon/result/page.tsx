@@ -344,39 +344,48 @@ function InyeonResultInner() {
       {chapter === 1 && (
         <>
           <NoticeBubble>
-            궁합을 보기 전에, 두 분의 사주를 한 분씩 펼쳐볼게요. 본질·매력·이상형까지 차례로 살펴봐요.
+            궁합을 보기 전에, 두 분의 사주를 한 분씩 펼쳐볼게요. 타고난 성격·연애할 때의 결·이상형, 그리고 우리의 첫인상까지 차례로 살펴봐요.
           </NoticeBubble>
 
-          <Section title={`${aName}님의 사주`}>
+          <Section title={`${aName}님의 사주 — "나"`}>
             <SajuTable name={aName} birthLine={aBirth}
               hour={pA.hour} day={pA.day} month={pA.month} year={pA.year} />
-            <SubSection title="기본 사주분석"
-              body={`${aName}님의 일간 ${data.a.ilgan}(${data.a.shinkang}) — ${data.a.ohaengTop} 기운이 강하고 ${data.a.ohaengWeak} 기운이 약한 결이에요.`} />
-          </Section>
-
-          <Section title={`${aName}님의 오행과 용신`}>
             <OhaengChart name={aName} counts={data.a.elements} ratios={ratioOf(data.a.elements)} />
             <YongsinCards yongsin={data.a.yongsin} huisin="" gisin="" />
             <SinKangBar ilgan={data.a.ilgan} stage={data.a.shinkang} />
             {data.a.sinsal.length > 0 && (
               <SubSection title="신살" body={data.a.sinsal.join(" · ")} />
             )}
+            <ChSub ch={1} title="나의 타고난 성격"
+              fallback={`${aName}님의 일간 ${data.a.ilgan}(${data.a.shinkang}) — ${data.a.ohaengTop} 기운이 강한 결을 풀어드려요.`} />
+            <ChSub ch={1} title="연애할 때 드러나는 나의 매력"
+              fallback={`${aName}님이 연애 자리에서 자연스럽게 드러내는 매력의 결을 풀어드려요.`} />
+            <ChSub ch={1} title="내가 끌리는 이상형"
+              fallback={`${aName}님이 마음을 흔드는 결을 풀어드려요.`} />
           </Section>
 
-          <Section title={`${bName}님의 사주`}>
+          <Section title={`${bName}님의 사주 — "그 사람"`}>
             <SajuTable name={bName} birthLine={bBirth}
               hour={pB.hour} day={pB.day} month={pB.month} year={pB.year} />
-            <SubSection title="기본 사주분석"
-              body={`${bName}님의 일간 ${data.b.ilgan}(${data.b.shinkang}) — ${data.b.ohaengTop} 기운이 강하고 ${data.b.ohaengWeak} 기운이 약한 결이에요.`} />
-          </Section>
-
-          <Section title={`${bName}님의 오행과 용신`}>
             <OhaengChart name={bName} counts={data.b.elements} ratios={ratioOf(data.b.elements)} />
             <YongsinCards yongsin={data.b.yongsin} huisin="" gisin="" />
             <SinKangBar ilgan={data.b.ilgan} stage={data.b.shinkang} />
             {data.b.sinsal.length > 0 && (
               <SubSection title="신살" body={data.b.sinsal.join(" · ")} />
             )}
+            <ChSub ch={1} title="그 사람의 타고난 성격"
+              fallback={`${bName}님의 일간 ${data.b.ilgan}(${data.b.shinkang}) — ${data.b.ohaengTop} 기운이 강한 결을 풀어드려요.`} />
+            <ChSub ch={1} title="그 사람이 연애할 때 보이는 모습"
+              fallback={`${bName}님이 연애 자리에서 어떻게 다가가는지 풀어드려요.`} />
+            <ChSub ch={1} title="그 사람이 끌리는 이상형"
+              fallback={`${bName}님이 어떤 결의 사람에게 끌리는지 풀어드려요.`} />
+          </Section>
+
+          <Section title="우리의 첫인상">
+            <ChSub ch={1} title="그 사람이 나에게 받은 첫인상"
+              fallback={`${bName}님이 ${aName}님을 처음 마주했을 때의 결을 풀어드려요.`} />
+            <ChSub ch={1} title="내가 그 사람에게 받은 첫인상"
+              fallback={`${aName}님이 ${bName}님을 처음 만났을 때 마음에 남은 결을 풀어드려요.`} />
           </Section>
         </>
       )}
@@ -384,35 +393,25 @@ function InyeonResultInner() {
       {chapter === 2 && (
         <>
           <NoticeBubble>
-            인연궁합은 두 분의 일지(배우자궁)를 핵심으로 풀어요. 점수는 일간·일지·합·충·신살을 종합해 산출돼요.
+            두 분이 어떤 인연으로 만났는지, 무엇이 두 분을 끌어당겼는지 사주의 결로 풀어드려요.
           </NoticeBubble>
 
           <Section title="인연 궁합 점수">
             <ScoreGauge score={data.scores.inyeon} label={data.scores.labels.inyeon} caption="In-yeon Score" />
           </Section>
 
-          <Section title="인연의 붉은 실">
-            <ChSub ch={2} title="우리는 인연일까, 악연일까?"
-              fallback={`${aName}님과 ${bName}님의 인연 풀이를 불러오고 있어요…`} />
-            <ChSub ch={2} title="전생에서 우리는 어떤 관계였을까?"
-              fallback="합과 충의 흔적으로 본 전생의 인연을 부드럽게 풀어드려요." />
+          <Section title="우리 인연의 결">
+            <ChSub ch={2} title="우리 인연을 한 줄로 정의하면"
+              fallback={`${aName}님과 ${bName}님 인연의 본질을 한 줄로 정리해 드려요.`} />
+            <ChSub ch={2} title="우리는 어떤 결로 만난 인연일까"
+              fallback="두 분이 만나서 자라가는 결을 풀어드려요." />
           </Section>
 
-          <Section title="인연과 관계의 열쇠">
-            <ChSub ch={2} title="서로가 느꼈던 첫인상은 어땠을까?" fallback="첫 만남의 결을 풀어드려요." />
-            <ChSub ch={2} title="고백은 누가 먼저 하는 게 좋을까?" fallback={`${relLabel} 단계에 맞춰 조언을 드려요.`} />
-            <SeasonGrid items={[
-              { season: "봄", hanja: "春", place: "갈대밭과 함께 걷는 너른 정원" },
-              { season: "여름", hanja: "夏", place: "바닷바람이 시원한 해변 산책로" },
-              { season: "가을", hanja: "秋", place: "고즈넉한 단풍길 사찰" },
-              { season: "겨울", hanja: "冬", place: "따뜻한 실내 미술관·전시" },
-            ]} />
-            <ChSub ch={2} title="기념일은 어떻게 챙기는 게 좋을까?"
-              fallback={`${aName}님은 실용적 가치, ${bName}님은 정성 어린 분위기에 감동해요.`} />
-            <ChSub ch={2} title="서로 어떤 점에서 서운함을 느낄까?" fallback="현실적 태도와 감정 표현의 차이가 핵심이에요." />
-            <ChSub ch={2} title="화해는 어떻게 하면 좋을까?" fallback="논리보다 따뜻한 체온을 나누는 스킨십이 빨라요." />
-            <ChSub ch={2} title="장기적인 관계 유지를 위한 조언"
-              fallback={`${durLabel} 시점에 어울리는 결로 조언을 드려요.`} />
+          <Section title="끌림의 정체">
+            <ChSub ch={2} title="우리가 끌린 진짜 이유"
+              fallback={`${aName}님과 ${bName}님이 서로에게 끌린 사주의 깊은 결을 풀어드려요.`} />
+            <ChSub ch={2} title="이 인연이 우리에게 주는 의미"
+              fallback="이 인연이 두 분에게 어떤 결을 더해주는지 풀어드려요." />
           </Section>
         </>
       )}
@@ -427,29 +426,32 @@ function InyeonResultInner() {
             <ScoreGauge score={data.scores.seonggyeok} label={data.scores.labels.seonggyeok} caption="Personality Score" />
           </Section>
 
-          <Section title="우리의 성격, 잘 맞을까?">
-            <ChSub ch={3} title="일간을 통해 보는 성격의 조화"
-              fallback={`${aName}님과 ${bName}님 일간이 만나는 결을 풀어드려요.`} />
-            <ChSub ch={3} title="서로가 연애를 할 때 달라지는 모습은?" fallback="평소와 연애 시의 결이 어떻게 달라지는지 풀어드려요." />
-            <ChSub ch={3} title="둘이 함께 있을 때, 자연스럽게 역할이 나눠지는 부분은?" fallback="누가 결정하고 누가 분위기를 맡는지 살펴봐요." />
+          <Section title="우리의 성격 케미">
+            <ChSub ch={3} title="우리 성격이 만났을 때의 큰 그림"
+              fallback={`${aName}님과 ${bName}님 일간이 만나는 큰 그림을 풀어드려요.`} />
+            <ChSub ch={3} title="함께 있을 때 자연스럽게 나뉘는 역할"
+              fallback="두 분이 함께 있을 때 자연스럽게 자리잡는 역할 분담을 풀어드려요." />
           </Section>
 
-          <Section title="우리의 끌림 포인트는?">
-            <ChSub ch={3} title="서로에게 느끼는 매력 포인트는?" fallback={`${aName}님과 ${bName}님 각자의 매력을 짧게 두 단락으로.`} />
+          <Section title="우리의 끌림 포인트">
+            <ChSub ch={3} title="그 사람이 나에게 느끼는 매력"
+              fallback={`${bName}님이 ${aName}님에게서 느끼는 매력의 결을 풀어드려요.`} />
+            <ChSub ch={3} title="내가 그 사람에게 느끼는 매력"
+              fallback={`${aName}님이 ${bName}님에게서 느끼는 매력의 결을 풀어드려요.`} />
           </Section>
 
-          <Section title="이 커플, 오래 갈 수 있을까?">
-            <ChSub ch={3} title="오래 만날 수 있는 성격일까?" fallback="합과 충, 원진과 해의 흔적을 종합해 풀어드려요." />
-            <ChSub ch={3} title="더 많이 양보해야 될 사람은?" fallback="신강신약과 일간 강약을 토대로." />
-            <ChSub ch={3} title="연애 주도권, 누구에게 있을까?" fallback="일간의 추진력으로 살펴봐요." />
-            <ChSub ch={3} title="미래를 그릴 때 두 사람이 상상하는 그림은 비슷할까?" fallback="재성·식상·관성 분포로 본 미래 가치관." />
+          <Section title="함께 오래갈 수 있을까">
+            <ChSub ch={3} title="시간이 지나도 단단할 수 있을까"
+              fallback="합과 충, 원진과 해의 흔적을 종합해 풀어드려요." />
+            <ChSub ch={3} title="누가 주도하고 누가 양보하는가"
+              fallback="신강신약과 일간 강약을 토대로 풀어드려요." />
           </Section>
 
-          <Section title="성격 궁합을 보완하는 방법">
-            <ChSub ch={3} title="서로를 더 좋아하게 만들려면?" fallback="구체적 행동 두세 가지를 제안해드려요." />
-            <ChSub ch={3} title="어떤 커플 아이템이 좋을까요?" fallback="용신을 보강하는 색·재료·소품 한 가지." />
-            <ChSub ch={3} title="같이 즐기면 좋은 취미가 있을까요?" fallback="에너지를 건설적으로 배출할 정적인 취미." />
-            <ChSub ch={3} title="상대방을 더 이해하기 위한 대화 질문은?" fallback="서로에게 던질 수 있는 질문 4가지를 드려요." />
+          <Section title="성격 궁합을 보완하는 법">
+            <ChSub ch={3} title="그 사람이 나를 더 좋아하게 만드는 법"
+              fallback={`${aName}님이 ${bName}님 사주를 어떻게 채워줄 수 있는지 풀어드려요.`} />
+            <ChSub ch={3} title="우리가 함께할 때 가장 잘 맞는 활동"
+              fallback="두 분의 결이 가장 잘 살아나는 활동을 풀어드려요." />
           </Section>
         </>
       )}
@@ -486,24 +488,20 @@ function InyeonResultInner() {
             />
           </Section>
 
-          <Section title="우리의 감정궁합, 얼마나 잘 맞을까?">
-            <ChSub ch={4} title="감정 표현 방식"
-              fallback={`${aName}님과 ${bName}님이 감정을 드러내는 결이 얼마나 다른지 풀어드려요.`} />
-            <ChSub ch={4} title="대화 스타일" fallback="결론을 빨리 내려는 결과 분위기를 읽는 결의 충돌." />
-            <ChSub ch={4} title="공감 방식" fallback="행동으로 보여주는 공감과 함께 느껴주는 공감의 차이." />
-            <ChSub ch={4} title="의존 경향" fallback="겉으로 보이는 의존과 실제 정서적 의존의 구조." />
-            <ChSub ch={4} title="본능적으로 서로에게 느낀 '이것'" fallback="첫 만남의 끌림과 직감." />
-            <ChSub ch={4} title="연애에서 안정감을 주는 포인트" fallback="각자가 안정을 느끼는 구체적 행동·말." />
-            <ChSub ch={4} title="감정적인 순간, 어떻게 행동해야 할까?" fallback="물리적 거리두기 등 충돌 시 행동 지침." />
+          <Section title="우리의 감정 표현">
+            <ChSub ch={4} title="우리가 마음을 주고받는 방식"
+              fallback={`${aName}님과 ${bName}님이 감정을 어떻게 표현하고 받아들이는지 풀어드려요.`} />
+            <ChSub ch={4} title="서로에게 안정감을 주는 포인트"
+              fallback="두 분이 서로에게서 어떤 결로 안정감을 받는지 풀어드려요." />
           </Section>
 
-          <Section title="감정 문제의 해결">
-            <ChSub ch={4} title="연락 패턴이나, 빈도는 어떻게 하는게 좋을까?"
-              fallback={`${durLabel} 단계에 어울리는 연락 빈도와 예측 가능성에 대한 조언이 들어와요.`} />
-            <ChSub ch={4} title="권태기를 슬기롭게 넘기는 방법은?" fallback="이 두 분만의 권태기 처방전." />
-            <ChSub ch={4} title="서로 상처받지 않고 대화하는 방법" fallback="쿠션어, 주어 바꾸기 등 구체적 대화 기법." />
-            <ChSub ch={4} title="헤어질 위기엔 누가 더 매달릴까?" fallback="관계의 무게중심을 솔직하게 짚어드려요." />
-            <ChSub ch={4} title="재회를 위해서는 어떤 노력이 필요할까?" fallback="재회 가능성과 전제 조건." />
+          <Section title="갈등과 화해의 결">
+            <ChSub ch={4} title="우리가 자주 부딪히는 갈등 패턴"
+              fallback={`${aName}님과 ${bName}님 사이에 반복될 결의 갈등을 풀어드려요.`} />
+            <ChSub ch={4} title="화해의 길을 여는 한 마디"
+              fallback="두 분이 다툰 후 마음을 푸는 한 마디의 결을 풀어드려요." />
+            <ChSub ch={4} title="권태기를 슬기롭게 넘기는 법"
+              fallback="두 분만의 권태기 처방을 풀어드려요." />
           </Section>
         </>
       )}
@@ -511,25 +509,88 @@ function InyeonResultInner() {
       {chapter === 5 && (
         <>
           <NoticeBubble>
-            체질궁합은 두 분의 오행과 신강신약을 토대로 봐요. 건강·운동·활동성을 중심으로 풀어드려요.
+            두 분의 깊은 결을 오행 체질·시기 흐름·본능으로 살펴드려요. 본능궁합은 {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
           </NoticeBubble>
 
           <Section title="체질 궁합 점수">
             <ScoreGauge score={data.scores.physical} label={data.scores.labels.physical} caption="Physical Score" />
           </Section>
 
-          <Section title="우리는 잘 맞는 체질일까?">
-            <ChSub ch={5} title="두 사람의 체질적 성향과 주의사항"
-              fallback={`${aName}님과 ${bName}님의 체질 결을 풀어드려요.`} />
-            <ChSub ch={5} title="상대방이 보완해줄 수 있는 건강 요소"
-              fallback="서로의 부족한 오행을 어떻게 채워주는지 살펴봐요." />
+          <Section title="우리의 체질궁합">
+            <ChSub ch={5} title="두 사람의 오행 체질"
+              fallback={`${aName}님과 ${bName}님 각자의 오행 체질을 풀어드려요.`} />
+            <ChSub ch={5} title="함께할 때 건강의 보완과 주의점"
+              fallback="두 분이 함께할 때 서로의 결을 어떻게 보완하는지 풀어드려요." />
           </Section>
 
-          <Section title="함께 움직이면 좋은 활동">
-            <ChSub ch={5} title="함께하면 좋은 운동"
-              fallback="두 분의 오행에 맞는 구체적 운동 한두 가지와 그 이유." />
-            <ChSub ch={5} title="주의해야 할 운동"
-              fallback="체질상 피하는 게 좋은 활동을 짚어드려요." />
+          <Section title="우리의 시기궁합">
+            <ChSub ch={5} title="가장 가까워질 시기"
+              fallback="두 분 결이 가장 가까워질 시기를 대운 흐름으로 풀어드려요." />
+            <ChSub ch={5} title="흔들릴 수 있는 시기"
+              fallback="결이 흔들릴 수 있는 시기와 함께 통과할 결을 풀어드려요." />
+            <ChSub ch={5} title="향후 1년의 흐름"
+              fallback="이번 한 해 두 분 인연의 흐름을 짚어드려요." />
+          </Section>
+
+          <Section title="우리의 본능궁합">
+            {rel === "crush" && (
+              <>
+                <ChSub ch={5} title="그 사람의 숨겨진 이성적 매력"
+                  fallback={`${bName}님 사주 깊은 곳에 숨겨진 이성적 매력의 결을 풀어드려요.`} />
+                <ChSub ch={5} title="가까워진다면 어떤 스킨십이 잘 맞을까"
+                  fallback="두 분이 가까워졌을 때 자연스럽게 흐를 결을 풀어드려요." />
+              </>
+            )}
+            {rel === "talking" && (
+              <>
+                <ChSub ch={5} title="우리 사이에 흐르는 이성적 끌림"
+                  fallback="아직 표면화되지 않았지만 흐르는 결의 끌림을 풀어드려요." />
+                <ChSub ch={5} title="스킨십이 시작될 때 잘 맞는 결"
+                  fallback="첫 스킨십이 시작될 때 자연스럽게 흐를 결을 풀어드려요." />
+              </>
+            )}
+            {rel === "dating_short" && (
+              <>
+                <ChSub ch={5} title="우리 둘의 잠자리 케미"
+                  fallback="처음 함께하는 자리에서 만들어지는 결의 케미를 풀어드려요." />
+                <ChSub ch={5} title="우리에게 잘 맞는 스킨십의 결"
+                  fallback="두 분 사주에 잘 맞는 스킨십의 결을 풀어드려요." />
+                <ChSub ch={5} title="잠자리에서 주도하는 쪽은 누구일까"
+                  fallback="자연스러운 주도·받음의 결을 풀어드려요." />
+              </>
+            )}
+            {rel === "dating_long" && (
+              <>
+                <ChSub ch={5} title="안정된 관계에서 깊어지는 잠자리 케미"
+                  fallback="안정기 두 분의 깊어지는 결을 풀어드려요." />
+                <ChSub ch={5} title="우리에게 잘 맞는 스킨십의 결"
+                  fallback="안정기 두 분에게 잘 맞는 스킨십의 결을 풀어드려요." />
+                <ChSub ch={5} title="잠자리에서 주도하는 쪽은 누구일까"
+                  fallback="자연스러운 주도·받음의 결을 풀어드려요." />
+                <ChSub ch={5} title="잠자리에서 부딪힐 수 있는 지점"
+                  fallback="친밀의 자리에서 부딪힐 수 있는 결과 풀어가는 한 가지를 풀어드려요." />
+              </>
+            )}
+            {rel === "married" && (
+              <>
+                <ChSub ch={5} title="오랜 부부의 잠자리 케미"
+                  fallback="오래 함께한 두 분의 친밀의 결을 풀어드려요." />
+                <ChSub ch={5} title="노년까지 이어지는 부부의 친밀"
+                  fallback="노년기로 가면서 변하는 친밀의 결을 풀어드려요." />
+                <ChSub ch={5} title="잠자리 주도권의 변화"
+                  fallback="시간이 흐르며 변하는 주도·받음의 결을 풀어드려요." />
+              </>
+            )}
+            {rel === "exboyfriend" && (
+              <>
+                <ChSub ch={5} title="다시 만났을 때의 이성적 끌림"
+                  fallback="재회 후 다시 마주했을 때 흐르는 결의 끌림을 풀어드려요." />
+                <ChSub ch={5} title="재회 후 깊어질 잠자리 케미"
+                  fallback="다시 만난 두 분이 친밀해질 때의 결을 풀어드려요." />
+                <ChSub ch={5} title="잠자리에서 다시 부딪힐 수 있는 지점"
+                  fallback="다시 만난 두 분이 친밀의 자리에서 다시 부딪힐 수 있는 결을 풀어드려요." />
+              </>
+            )}
           </Section>
         </>
       )}
@@ -537,108 +598,137 @@ function InyeonResultInner() {
       {chapter === 6 && (
         <>
           <NoticeBubble>
-            재물궁합은 재성·식신·상관을 중심으로 봐요. 시기별 재산 흐름과 함께 두 분의 재물 결을 풀어드려요.
+            지금 두 분에게 가장 필요한 결을 풀어드려요. {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
           </NoticeBubble>
 
-          <Section title="재물 궁합 점수">
-            <ScoreGauge score={data.scores.finance} label={data.scores.labels.finance} caption="Wealth Score" />
-          </Section>
-
-          <Section title="시기별 재산 흐름">
-            <AssetCurve title={`${aName}님 혼자일 때`} points={data.curves.a} />
-            <AssetCurve title={`${bName}님 혼자일 때`} points={data.curves.b} />
-            <AssetCurve title="함께할 때" points={data.curves.together} color="#d8a8e8" />
-          </Section>
-
-          <Section title="두 사람의 재물운, 어떻게 바뀔까?">
-            <ChSub ch={6} title={`${aName}님 재물운`} fallback="혼자일 때의 재물 흐름과 약점을 풀어드려요." />
-            <ChSub ch={6} title={`${bName}님 재물운`} fallback="혼자일 때의 재물 흐름과 약점을 풀어드려요." />
-            <ChSub ch={6} title="두 분이 함께했을 때의 재물운" fallback="시너지·보완 구조." />
-            <ChSub ch={6} title="우리는 재물 걱정 없이 살 수 있을까?" fallback="함께할 때의 결론과 경고." />
-          </Section>
-
-          <Section title="재물궁합 상세풀이">
-            <ChSub ch={6} title="데이트 비용은 어떻게 분담하면 좋을까?" fallback="구체적 비율과 이유." />
-            <ChSub ch={6} title="데이트 비용으로 인한 갈등을 줄이려면?" fallback="공용 통장·규칙 등 실용 팁." />
-            <ChSub ch={6} title="결혼하면 맞벌이? 외벌이?" fallback="사주 구조에 맞는 결론." />
-            <ChSub ch={6} title="사업을 같이 해도 괜찮을까?" fallback="동업 가능성을 솔직하게." />
-            <ChSub ch={6} title="돈 관리는 누가 하는 게 좋을까?" fallback="역할 분담을 명확히 짚어드려요." />
-          </Section>
-
-          <Section title="돈에 대한 생각">
-            <ChSub ch={6} title={`${aName}님의 가치관`} fallback="돈을 어떻게 바라보는지." />
-            <ChSub ch={6} title={`${bName}님의 가치관`} fallback="돈을 어떻게 바라보는지." />
-          </Section>
-
-          <Section title="우리에게 딱 맞는 재테크 방법">
-            <ChSub ch={6} title="장기 자산 운용 방향" fallback="부동산·우량주 같은 큰 방향 한두 가지를 제안해드려요." />
-            <ChSub ch={6} title="돈 문제가 생겼을 때, 원활하게 대화하려면?" fallback="데이터 제시·치켜세우기 등 구체적 대화 기법." />
-          </Section>
+          {(() => {
+            const ch6Map: Record<RelationshipKind, { sectionTitle: string; subs: string[] }> = {
+              crush: {
+                sectionTitle: "그 마음을 풀어가는 길",
+                subs: ["그 사람의 마음을 여는 열쇠", "다가갈 때 피해야 할 행동", "고백의 타이밍과 방법", "이 마음, 정리해야 할 신호"],
+              },
+              talking: {
+                sectionTitle: "관계가 깊어지는 길",
+                subs: ["호감을 키우는 우리만의 방법", "관계가 진전될 결정적 순간", "잘 안 될 신호와 조기 판단법"],
+              },
+              dating_short: {
+                sectionTitle: "초반을 단단히 다지는 길",
+                subs: ["초반에 단단해질 우리만의 방법", "콩깍지 너머의 진짜 모습", "지금 가장 조심해야 할 갈등"],
+              },
+              dating_long: {
+                sectionTitle: "더 깊어지는 길",
+                subs: ["권태기를 넘고 더 깊어지는 법", "다음 단계로 가야 할 신호"],
+              },
+              married: {
+                sectionTitle: "평생 함께 가는 길",
+                subs: ["평생 함께 깊어지는 우리만의 결", "가장 흔들릴 수 있는 시기"],
+              },
+              exboyfriend: {
+                sectionTitle: "어긋난 인연을 다시 보다",
+                subs: ["우리가 어긋난 진짜 이유", "다시 이어질 가능성과 조건", "결정의 골든타임", "반복되지 않을 방법"],
+              },
+            };
+            const plan = ch6Map[rel];
+            return (
+              <Section title={plan.sectionTitle}>
+                {plan.subs.map(title => (
+                  <ChSub key={title} ch={6} title={title}
+                    fallback={`${relLabel} 단계에 맞춰 두 분에게 지금 필요한 결을 풀어드리고 있어요.`} />
+                ))}
+              </Section>
+            );
+          })()}
         </>
       )}
 
       {chapter === 7 && (
         <>
           <NoticeBubble>
-            혼인궁합은 결혼 시기·자녀·양가 가족까지 폭넓게 봐요. 인연이 결실을 맺는 결을 살펴봐요.
+            결혼·미래의 결을 풀어드려요. {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
           </NoticeBubble>
 
-          <Section title="혼인 궁합 점수">
-            <ScoreGauge score={data.scores.marriage} label={data.scores.labels.marriage} caption="Marriage Score" />
-          </Section>
-
-          <Section title="우리, 결혼할 사주인가요?">
-            <ChSub ch={7} title="사주에서 보이는 결혼 시기"
-              fallback="가장 강한 결혼운이 들어오는 시기를 풀어드려요." />
-            <ChSub ch={7} title="결혼의 장애물" fallback="두 분 사이의 보이지 않는 갈등 결." />
-            <ChSub ch={7} title="신혼생활은 어디서 시작하는 게 좋을까?"
-              fallback="오행에 맞춘 신혼집 방향과 환경." />
-            <ChSub ch={7} title="가사분담은 어떻게 하면 좋을까?"
-              fallback={`${aName}님과 ${bName}님 사주 결에 맞는 역할 분담.`} />
-          </Section>
-
-          <Section title="이혼 위기 극복 방법">
-            <ChSub ch={7} title="우리에게 이혼 위기가 있을까?" fallback="솔직하게 짚어드려요." />
-            <ChSub ch={7} title="이혼 위기가 찾아올 시점" fallback="구체적 연도·결혼 후 몇 년차." />
-            <ChSub ch={7} title="이혼 위기가 찾아오는 이유" fallback="원진·충 등 사주 결을 비유로." />
-            <ChSub ch={7} title="이혼 위기를 슬기롭게 극복하려면?" fallback="실용적 행동 지침." />
-          </Section>
-
-          <Section title="자녀운">
-            <ChSub ch={7} title="우리 둘의 자녀운" fallback="자녀를 향한 기운과 부부 사이 영향." />
-            <ChSub ch={7} title="자녀 계획" fallback="운이 가장 조화로운 시기." />
-            <ChSub ch={7} title="자녀운이 부족할 때 보완할 방법" fallback="인테리어·시간대 등 구체 팁." />
-            <ChSub ch={7} title="우리에게 잘 맞는 자녀 교육 방법" fallback="훈육·정서적 유대 역할 분담." />
-          </Section>
-
-          <Section title="부모궁 및 형제궁 vs 상대방">
-            <ChSub ch={7} title="우리의 기존 가족 관계" fallback="각자 자라온 가족 결." />
-            <ChSub ch={7} title="결혼 후 서로의 가족과의 궁합" fallback="시댁·처가 적응 결." />
-            <ChSub ch={7} title="명절·가족 행사에서 갈등 줄이는 법" fallback="시간 제한·금기 화제." />
-            <ChSub ch={7} title="배우자와 내 가족 사이 중재 팁" fallback="서로 방어막 역할." />
-            <ChSub ch={7} title="가족 모임에서 신경 써야 할 점" fallback="표정 관리·말의 무게." />
-          </Section>
+          {(() => {
+            const ch7Map: Record<RelationshipKind, { sectionTitle: string; subs: string[] }> = {
+              crush: {
+                sectionTitle: "만약 함께한다면",
+                subs: ["이 사람과 결혼까지 갈 가능성", "함께한다면 펼쳐질 미래의 모습"],
+              },
+              talking: {
+                sectionTitle: "이 인연이 닿을 수 있는 곳",
+                subs: ["이 사람과 미래까지 갈 가능성", "멀리 봤을 때 우리 인연이 닿을 수 있는 곳"],
+              },
+              dating_short: {
+                sectionTitle: "멀리 봤을 때 우리의 미래",
+                subs: ["이 사람과 결혼까지 갈 가능성", "함께한다면 펼쳐질 미래의 모습", "길게 가기 위해 지금 챙겨야 할 것"],
+              },
+              dating_long: {
+                sectionTitle: "결혼·미래궁합",
+                subs: [
+                  "결혼까지 이어질 결인지",
+                  "결혼의 장애물",
+                  "좋은 결혼 시기",
+                  "신혼생활을 시작하기 좋은 자리",
+                  "우리 둘의 자녀운",
+                ],
+              },
+              married: {
+                sectionTitle: "가정과 함께 가는 길",
+                subs: [
+                  "우리 둘의 자녀운 — 사주에 담긴 자녀 인연",
+                  "자녀운이 부족할 때 보완하는 길",
+                  "우리의 노년기 결 — 60대 이후 우리는 어떤 모습일까",
+                  "평생 흔들리지 않는 우리만의 결",
+                  "가정의 재물·생활의 큰 흐름",
+                ],
+              },
+              exboyfriend: {
+                sectionTitle: "다시 함께한다면",
+                subs: [
+                  "다시 만나서 결혼까지 갈 결인지",
+                  "다시 함께한다면 펼쳐질 미래의 모습",
+                  "재회 후 길게 함께 가기 위한 한 가지",
+                ],
+              },
+            };
+            const plan = ch7Map[rel];
+            return (
+              <Section title={plan.sectionTitle}>
+                {plan.subs.map(title => (
+                  <ChSub key={title} ch={7} title={title}
+                    fallback={`${relLabel} 단계에 맞춰 결혼·미래의 결을 풀어드리고 있어요.`} />
+                ))}
+              </Section>
+            );
+          })()}
         </>
       )}
 
       {chapter === 8 && (
         <>
           <NoticeBubble>
-            지금까지의 모든 풀이를 한 통의 편지로 묶어드려요. 두 분의 결을 마지막으로 차분히 정리해요.
+            홍도인이 두 분께 드리는 마지막 편지예요. {relLabel} 단계에 맞춰 톤을 조정했어요.
           </NoticeBubble>
 
-          <Section title="풀이를 마치며 — 홍연의 마지막 편지">
-            <ChSub ch={8} title="두 분의 궁합을 한마디로"
-              fallback={`${aName}님과 ${bName}님께 드리는 편지를 정리하고 있어요…`} />
-            <ChSub ch={8} title="두 분이 놓치지 말아야 할 강점"
-              fallback="인연·성격·체질·재물·감정 중 가장 빛나는 결을 따뜻하게 짚어드려요." />
-            <ChSub ch={8} title="꼭 기억해두면 좋을 위기 시점"
-              fallback="결혼 3~5년차 무렵에 찾아올 수 있는 위기를 미리 준비하는 결로." />
-            <ChSub ch={8} title="자녀와 가족에 대한 마무리 조언"
-              fallback="혼인·자녀·가족 결을 종합한 한 단락." />
-            <ChSub ch={8} title="마지막으로 두 분께"
-              fallback="진짜 인연은, 서로를 이해하려는 마음에서 피어나는 거니까요. 두 분의 결, 끝까지 응원할게요." />
-          </Section>
+          {(() => {
+            const ch8SectionTitleMap: Record<RelationshipKind, string> = {
+              crush: "다가갈 용기 또는 정리의 지혜를 전하는 편지",
+              talking: "이 시작이 가는 길을 비춰주는 편지",
+              dating_short: "초반의 단단함을 만들어가는 편지",
+              dating_long: "더 깊은 사랑으로 가는 편지",
+              married: "평생 함께 가는 동반자에게 보내는 편지",
+              exboyfriend: "어긋난 인연 앞에서 길을 찾는 편지",
+            };
+            return (
+              <Section title={ch8SectionTitleMap[rel]}>
+                <ChSub ch={8} title="이렇게 만나주신 두 분께"
+                  fallback={`${aName}님과 ${bName}님께 드리는 편지를 정리하고 있어요…`} />
+                <ChSub ch={8} title="두 분의 결, 잊지 마세요"
+                  fallback="1~7장의 결을 한 흐름으로 묶어드려요." />
+                <ChSub ch={8} title="마지막으로 드리는 한 마디"
+                  fallback="두 분께 보내는 진심 어린 짧은 응원의 한 마디." />
+              </Section>
+            );
+          })()}
 
           <NoticeBubble>
             <strong style={{ color: ACCENT }}>마지막까지 함께해 주세요</strong> 🙏<br />

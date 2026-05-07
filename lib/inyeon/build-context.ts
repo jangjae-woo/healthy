@@ -270,28 +270,54 @@ export function buildAllInyeonPrompts(
   };
   const ch4 = buildInyeonChapter4Prompt(req, emotionCtx);
 
+  const _aBirthYearForCh5 = parseInt(req.a.year, 10);
+  const _bBirthYearForCh5 = parseInt(req.b.year, 10);
+  const _curYearForCh5 = new Date().getFullYear();
+  const daeunLineFor = (s: SajuAnalysis, birthYear: number) =>
+    s.daeun.cycles.slice(0, 6)
+      .map(d => `${d.age}세 ${d.ganji}운(${birthYear + d.age}년~)`)
+      .join(" → ");
   const physicalCtx = {
     aName, bName,
     aOhaengTop: topElement(a), bOhaengTop: topElement(b),
     aOhaengWeak: weakElement(a), bOhaengWeak: weakElement(b),
     aShinKang: shinkangLevel(a),
     bShinKang: shinkangLevel(b),
+    aSinsalLine: a.sinsal.join(" · ") || "특별한 신살 없음",
+    bSinsalLine: b.sinsal.join(" · ") || "특별한 신살 없음",
+    aDaeunLine: daeunLineFor(a, _aBirthYearForCh5),
+    bDaeunLine: daeunLineFor(b, _bBirthYearForCh5),
+    aBirthYear: _aBirthYearForCh5,
+    bBirthYear: _bBirthYearForCh5,
+    currentYear: _curYearForCh5,
     physicalScore: scores.physical,
     scoreLabel: scoreLabelFor(scores.physical),
   };
   const ch5 = buildInyeonChapter5Prompt(req, physicalCtx);
 
-  const financeCtx = {
+  const ch6Ctx = {
     aName, bName,
-    aJaeseong: jaeseongStrength(a), bJaeseong: jaeseongStrength(b),
-    aSiksin: siksinStrength(a), bSiksin: siksinStrength(b),
-    aAssetCurve: curveLine(curves.a),
-    bAssetCurve: curveLine(curves.b),
-    togetherCurve: curveLine(curves.together),
-    financeScore: scores.finance,
-    scoreLabel: scoreLabelFor(scores.finance),
+    aIlgan: `${a.ilgan}(${aIlganHanja})`,
+    bIlgan: `${b.ilgan}(${bIlganHanja})`,
+    ilganRelation: `${compat.ilganRelation} — ${compat.ilganDetail}`,
+    iljiRelation: compat.branchRelations.ilji,
+    samhap: compat.branchRelations.samhap.join(", "),
+    yukhap: compat.branchRelations.yukhap.join(", "),
+    chung: compat.branchRelations.chung.join(", "),
+    wonjin: "",
+    aOhaengTop: topElement(a), bOhaengTop: topElement(b),
+    aOhaengWeak: weakElement(a), bOhaengWeak: weakElement(b),
+    aShinKang: shinkangLevel(a),
+    bShinKang: shinkangLevel(b),
+    aSinsalLine: a.sinsal.join(" · ") || "특별한 신살 없음",
+    bSinsalLine: b.sinsal.join(" · ") || "특별한 신살 없음",
+    aDaeunLine: daeunLineFor(a, _aBirthYearForCh5),
+    bDaeunLine: daeunLineFor(b, _bBirthYearForCh5),
+    aBirthYear: _aBirthYearForCh5,
+    bBirthYear: _bBirthYearForCh5,
+    currentYear: _curYearForCh5,
   };
-  const ch6 = buildInyeonChapter6Prompt(req, financeCtx);
+  const ch6 = buildInyeonChapter6Prompt(req, ch6Ctx);
 
   const currentYear = new Date().getFullYear();
   const aBirthYear = parseInt(req.a.year, 10);
@@ -301,15 +327,32 @@ export function buildAllInyeonPrompts(
   const crisisYearRange = estimateCrisisRange(a, currentYear, aBirthYear);
   const childPlanYearRange = estimateChildPlanRange(b, currentYear, bBirthYear);
 
-  const marriageCtx = {
+  const ch7Ctx = {
     aName, bName,
+    aIlgan: `${a.ilgan}(${aIlganHanja})`,
+    bIlgan: `${b.ilgan}(${bIlganHanja})`,
+    ilganRelation: `${compat.ilganRelation} — ${compat.ilganDetail}`,
+    iljiRelation: compat.branchRelations.ilji,
+    samhap: compat.branchRelations.samhap.join(", "),
+    yukhap: compat.branchRelations.yukhap.join(", "),
+    chung: compat.branchRelations.chung.join(", "),
+    wonjin: "",
+    aOhaengTop: topElement(a), bOhaengTop: topElement(b),
+    aOhaengWeak: weakElement(a), bOhaengWeak: weakElement(b),
+    aShinKang: shinkangLevel(a),
+    bShinKang: shinkangLevel(b),
+    aSinsalLine: a.sinsal.join(" · ") || "특별한 신살 없음",
+    bSinsalLine: b.sinsal.join(" · ") || "특별한 신살 없음",
+    aDaeunLine: daeunLineFor(a, _aBirthYearForCh5),
+    bDaeunLine: daeunLineFor(b, _bBirthYearForCh5),
+    aBirthYear: _aBirthYearForCh5,
+    bBirthYear: _bBirthYearForCh5,
+    currentYear: _curYearForCh5,
     marriageYear, crisisYearRange, childPlanYearRange,
     aParentPalace: parentPalace(a),
     bParentPalace: parentPalace(b),
-    marriageScore: scores.marriage,
-    scoreLabel: scoreLabelFor(scores.marriage),
   };
-  const ch7 = buildInyeonChapter7Prompt(req, marriageCtx);
+  const ch7 = buildInyeonChapter7Prompt(req, ch7Ctx);
 
   const finalCtx = {
     aName, bName,
