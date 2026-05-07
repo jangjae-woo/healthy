@@ -281,6 +281,8 @@ export default function ParentChildSlideResultV2() {
                 if (msg.t === "x" && typeof msg.v === "string") {
                   full += msg.v;
                   setStreamText(full);
+                } else if (msg.t === "err") {
+                  setErrMsg(prev => prev ?? `${phase} empty finish=${msg.finishReason ?? "-"} block=${msg.blockReason ?? "-"} chunks=${msg.chunks ?? 0}`);
                 }
               } catch {}
             }
