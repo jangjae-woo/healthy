@@ -949,9 +949,12 @@ function GisinCard({ saju }: { saju: SajuAnalysis }) {
         {g.caution}
       </div>
       {g.avoid.length > 0 && (
-        <ul className="text-[11.5px] leading-6 pt-1 mt-1" style={{ color: "rgba(255,255,255,0.7)", borderTop: "1px solid rgba(239,68,68,0.2)" }}>
-          {g.avoid.map((a, i) => <li key={i}>· {a}</li>)}
-        </ul>
+        <div className="pt-1.5 mt-1.5" style={{ borderTop: "1px solid rgba(239,68,68,0.2)" }}>
+          <p className="text-[10.5px] mb-1 tracking-[0.05em]" style={{ color: "#ff8a8a" }}>이런 양육이 누적되면</p>
+          <ul className="text-[11.5px] leading-6 pl-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+            {g.avoid.map((a, i) => <li key={i}>· {a}</li>)}
+          </ul>
+        </div>
       )}
     </div>
   );
