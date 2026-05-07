@@ -339,22 +339,21 @@ export default function ParentChildSlideResultV2() {
         {tocOpen && (
           <div className="absolute top-[58px] right-2 left-2 z-20 rounded-xl p-3 max-h-[70vh] overflow-y-auto"
             style={{ background: "#1a0d10", border: `1px solid ${ACCENT}44` }}>
-            {grouped.map(([ch, group]) => (
-              <div key={ch} className="mb-2">
-                <div className="text-[12px] font-bold mb-1" style={{ color: GOLD }}>{ch} — {group.title}</div>
-                <ul className="ml-2">
-                  {group.items.map((it) => (
-                    <li key={it.idx}>
-                      <button onClick={() => jumpTo(it.idx)}
-                        className="w-full text-left text-[11px] py-1 px-2 rounded hover:bg-white/5"
-                        style={{ color: it.idx === slideIdx ? ACCENT : "rgba(255,255,255,0.7)" }}>
-                        {it.subtitle}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {grouped.map(([ch, group]) => {
+              const firstIdx = group.items[0]?.idx;
+              const active = firstIdx === slideIdx;
+              return (
+                <div key={ch} className="mb-1">
+                  <button
+                    onClick={() => firstIdx !== undefined && jumpTo(firstIdx)}
+                    className="w-full text-left text-[12px] font-bold py-1.5 px-2 rounded hover:bg-white/5"
+                    style={{ color: active ? ACCENT : GOLD }}
+                  >
+                    {ch} — {group.title}
+                  </button>
+                </div>
+              );
+            })}
           </div>
         )}
 
