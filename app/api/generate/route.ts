@@ -8,6 +8,7 @@ import {
   getSipseong, calcDaeun, calcSinsal, calcElements, getYongsin, calcMonthPillar, calcYearPillar,
   calcCompatibility,
   inferCrisisTiming,
+  getDayMasterStrength,
   STEM_HANJA, BRANCH_HANJA, SINSAL_INFO,
   type SajuAnalysis, type CompatibilityResult,
 } from "@/lib/saju-calculator";
@@ -34,7 +35,11 @@ import { buildPrescriptionSet, pickWeakestElement, pickStrongestElement, buildSo
 import { classifyAgeStage, ageStageKor, ageToneGuide, dailyDigitalLimit } from "@/lib/age-stage";
 import { buildSipseongDeepContext, buildSinsalContext, buildMeetClashContext, buildYongsinContext, buildSixFactorBodyContext } from "@/lib/heart-context";
 import { buildChildSeed, buildChildSeedPromptBlock } from "@/lib/child-seed";
-import { calcGyeokguk, calcGongmang, calcGisin, calcGaeun, calcChildTiming, calcIljiRelation, calcParentSipseong, calcSharedSinsal } from "@/lib/saju-traditional";
+import { calcGyeokguk, calcGongmang, calcGisin, calcGaeun, calcChildTiming, calcIljiRelation, calcParentSipseong, calcSharedSinsal, calcUnseong } from "@/lib/saju-traditional";
+
+import { SAJU_SYSTEM_INSTRUCTION } from "@/lib/saju-system-instruction";
+import { validateSajuOutput } from "@/lib/saju-validator";
+import { deriveChildTraitsV2, childTraitsToPromptBlockV2 } from "@/lib/parent-child-traits-block-v2";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -178,6 +183,20 @@ function buildCtx(s: SajuAnalysis, name: string): string {
   const allBranches2 = [s.pillars.year.branch, s.pillars.month.branch, s.pillars.day.branch, ...(s.pillars.hour?[s.pillars.hour.branch]:[])];
   const interactions = buildInteractions(allStems2, allBranches2);
 
+  // 정설 명리 산출 4종 — LLM 환각 차단용 deterministic 박음
+  const otherStemsForDms = [s.pillars.year.stem, s.pillars.month.stem, ...(s.pillars.hour?[s.pillars.hour.stem]:[])];
+  const dms = (() => { try { return getDayMasterStrength(s.ilgan, s.pillars.month.branch, allBranches2, otherStemsForDms); } catch { return null; } })();
+  const unseong = (() => { try { return calcUnseong(s); } catch { return null; } })();
+  const gyeokguk = (() => { try { return calcGyeokguk(s); } catch { return null; } })();
+  const gongmang = (() => { try { return calcGongmang(s); } catch { return null; } })();
+
+  const gyeokgukLine = gyeokguk ? `${gyeokguk.name}(${gyeokguk.hanja}) — ${gyeokguk.sipseong}` : '—';
+  const unseongLine = unseong ? `${unseong.stage}(${unseong.hanja}) — ${unseong.meaning}` : '—';
+  const gongmangLine = gongmang
+    ? `${gongmang.branches[0]}·${gongmang.branches[1]}(${gongmang.hanja[0]}·${gongmang.hanja[1]})${gongmang.positions.length ? ` 자리: ${gongmang.positions.join('·')}` : ' (자녀 4지지에는 직접 자리 없음)'}`
+    : '—';
+  const dmsLine = dms ? `${dms.level} (점수 ${dms.score})` : '—';
+
   return `
 【사주원국】연주:${pp(s.pillars.year)} 월주:${pp(s.pillars.month)} 일주:${pp(s.pillars.day)} 시주:${pp(s.pillars.hour)}
 【일간(${name}님 본인)】${s.ilgan}(${h(s.ilgan)}) = ${
@@ -186,6 +205,7 @@ function buildCtx(s: SajuAnalysis, name: string): string {
   s.ilgan==='무'?'양토·산·포용력':s.ilgan==='기'?'음토·논밭·꼼꼼함':
   s.ilgan==='경'?'양금·강철·강직함':s.ilgan==='신'?'음금·보석·예리함':
   s.ilgan==='임'?'양수·바다·지혜':  '음수·샘물·감수성'}
+【일간 강약(자평명리 정통 산출)】${dmsLine}
 【십성 구조】
 ${ssRow('연주',s.sipseong.year)}
 ${ssRow('월주',s.sipseong.month)}
@@ -193,9 +213,14 @@ ${ssRow('월주',s.sipseong.month)}
 ${s.sipseong.hour?ssRow('시주',s.sipseong.hour):'시주: 미상'}
 【오행 분포】${elemSummary}
 강한 오행: ${strong} / 부족한 오행: ${weak} / 용신: ${s.yongsin}(${ELEM_DESC[s.yongsin]})
+【격국(月支 + 투간 보정)】${gyeokgukLine}
+【12운성(일주 — 일간이 일지에 앉은 결)】${unseongLine}
+【공망】${gongmangLine}
 【대운(${s.daeun.direction}·${s.daeun.number}세 시작)】${daeunStr}
 【신살】${s.sinsal.join(', ') || '없음'}
-${interactions}`.trim();
+${interactions}
+
+[★ 위 〖일간 강약〗·〖격국〗·〖12운성〗·〖공망〗 4종은 자평명리 정설 룩업 결과로 산출됨. 본문 작성 시 위 값 그대로 인용. 다른 단계·다른 격국명 임의 추론 절대 금지.]`.trim();
 }
 
 // ─── 섹션별 프롬프트 ──────────────────────────
@@ -2854,8 +2879,173 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
    - 과다 사용 절대 금지 — 한 단락에 [[ ]] 1개만. 강조가 많아지면 강조 효과 사라짐.
    - 마커 자체는 화면에 보이지 않음 — 골드 색만 적용됨.`;
 
-  // 6장 5소제목 첫 헤더 — 양 부모 입력 여부에 따른 라벨
-  const ch6FirstSubtitle = "엄마와 통하는 결, 아빠와 통하는 결";
+  // 6장 — 부모 입력 여부에 따른 동적 제목
+  const ch6Title = hasMom && hasDad
+    ? "엄마·아빠와 우리 셋의 결"
+    : hasMom
+      ? "엄마와 아이 둘의 결"
+      : hasDad
+        ? "아빠와 아이 둘의 결"
+        : "엄마·아빠와 우리 셋의 결";
+  const ch6FirstSubtitle = hasMom && hasDad
+    ? "엄마와 통하는 결, 아빠와 통하는 결"
+    : hasMom
+      ? "엄마와 통하는 결"
+      : hasDad
+        ? "아빠와 통하는 결"
+        : "엄마와 통하는 결, 아빠와 통하는 결";
+  const ch6TrioMoment = hasMom && hasDad ? "셋이 함께 가장 편안한 순간" : "둘이 함께 가장 편안한 순간";
+
+  // ─── 차트 사전 계산값 (텍스트-차트 일치성 강제) ─────────────────────────
+  // 컴포넌트(ParentChildSlideResultV2.tsx)와 동일한 공식·동일한 clamp.
+  // 공식 변경 시 컴포넌트와 함께 수정 필요.
+  const cf_sip = getSipseongCounts(sajuChild);
+  const cf_elem = (sajuChild.elements ?? {}) as Record<string, number>;
+  const cf_elemTotal = (["목","화","토","금","수"]).reduce((s, k) => s + (cf_elem[k] ?? 0), 0) || 1;
+  const cf_elemPct = {
+    목: Math.round(((cf_elem.목 ?? 0) / cf_elemTotal) * 100),
+    화: Math.round(((cf_elem.화 ?? 0) / cf_elemTotal) * 100),
+    토: Math.round(((cf_elem.토 ?? 0) / cf_elemTotal) * 100),
+    금: Math.round(((cf_elem.금 ?? 0) / cf_elemTotal) * 100),
+    수: Math.round(((cf_elem.수 ?? 0) / cf_elemTotal) * 100),
+  };
+  const cf_thinking = inferThinkingType(sajuChild);
+  const cf_danger = (() => { try { return inferDangerCards(sajuChild); } catch { return []; } })();
+  const cf_dangerSorted = [...cf_danger].sort((a, b) => b.level - a.level);
+  const cf_jobRadar = inferJobRadar(sajuChild);
+  const cf_jobSorted = [...cf_jobRadar].sort((a, b) => b.score - a.score);
+  const cf_jobTop3 = cf_jobSorted.slice(0, 3).map(j => j.name).join(' · ');
+  const cf_jobTop1 = cf_jobSorted[0]?.name ?? "";
+  const cf_jobAvoid = cf_jobSorted[cf_jobSorted.length - 1]?.name ?? "";
+  const cf_intel8 = infer8Intelligences(sajuChild);
+  const cf_intel8Top3 = cf_intel8.slice(0, 3).map(i => i.name).join(' · ');
+  const cf_friend = (() => { try { return inferFriendStyle(sajuChild); } catch { return null; } })();
+  const cf_friendDom = (cf_friend as any)?.dominant ?? "—";
+
+  // 2장-① 혼자 vs 같이 (alonePct) — 비겁 vs 재성
+  const _bigeop = cf_sip.비겁; const _jaesong = cf_sip.재성;
+  const _aloneTotal = _bigeop + _jaesong + 0.5;
+  const cf_alonePct = Math.round(Math.max(15, Math.min(85, ((_bigeop + 0.3) / _aloneTotal) * 100)));
+  const cf_aloneDom = cf_alonePct >= 55 ? "혼자형" : cf_alonePct <= 45 ? "같이형" : "둘 다";
+
+  // 2장-② 공부법 (depthPct) — 인성+수 vs 식상+화
+  const _insong = cf_sip.인성; const _siksang = cf_sip.식상;
+  const _depth = _insong * 1.5 + (cf_elem.수 ?? 0) * 0.5;
+  const _action = _siksang * 1.5 + (cf_elem.화 ?? 0) * 0.5;
+  const _depthTotal = _depth + _action + 0.5;
+  const cf_depthPct = Math.round(Math.max(15, Math.min(85, ((_depth + 0.3) / _depthTotal) * 100)));
+  const cf_depthDom = cf_depthPct >= 60 ? "깊이 사색형" : cf_depthPct <= 40 ? "즉각 행동형" : "균형형";
+
+  // 2장-③ 글로/말로 (writePct) — 인성+금 vs 식상+화
+  const _writing = _insong * 1.0 + (cf_elem.금 ?? 0) * 0.6;
+  const _talking = _siksang * 1.5 + (cf_elem.화 ?? 0) * 0.5;
+  const _writeTotal = _writing + _talking + 0.5;
+  const cf_writePct = Math.round(Math.max(15, Math.min(85, ((_writing + 0.3) / _writeTotal) * 100)));
+  const cf_writeDom = cf_writePct >= 60 ? "글형" : cf_writePct <= 40 ? "말형" : "둘 다";
+
+  // 2장-④ 시간대 (오행 raw %, clamp 없음) — 아침=목, 낮=화, 저녁=금, 밤=수
+  const _slots = [
+    { label: "아침(목)", pct: cf_elemPct.목 },
+    { label: "낮(화)", pct: cf_elemPct.화 },
+    { label: "저녁(금)", pct: cf_elemPct.금 },
+    { label: "밤(수)", pct: cf_elemPct.수 },
+  ];
+  const cf_topSlot = [..._slots].sort((a, b) => b.pct - a.pct)[0].label;
+
+  // 4장-① 마음 문 여는 시간 (slowPct) — 인성+수 vs 식상+화+비겁
+  const _slow = _insong * 1.2 + (cf_elem.수 ?? 0) * 0.5;
+  const _fast = _siksang * 1.2 + (cf_elem.화 ?? 0) * 0.5 + _bigeop * 0.5;
+  const _slowTotal = _slow + _fast + 0.5;
+  const cf_slowPct = Math.round(Math.max(15, Math.min(85, ((_slow + 0.3) / _slowTotal) * 100)));
+  const cf_slowDom = cf_slowPct >= 60 ? "천천히형" : cf_slowPct <= 40 ? "빠르게형" : "중간 속도";
+
+  // 5장-끝 리더 vs 전문가 (leaderPct) — 관성+비겁+양일간+화 vs 인성+수+금
+  const _gwansong = cf_sip.관성;
+  const _isYang = ["갑","병","무","경","임"].includes(sajuChild.ilgan);
+  const _leader = _gwansong * 1.2 + _bigeop * 1.0 + (_isYang ? 1.5 : 0) + (cf_elem.화 ?? 0) * 0.3;
+  const _expert = _insong * 1.5 + (cf_elem.수 ?? 0) * 0.5 + (cf_elem.금 ?? 0) * 0.3;
+  const _leaderTotal = _leader + _expert + 0.5;
+  const cf_leaderPct = Math.round(Math.max(15, Math.min(85, ((_leader + 0.3) / _leaderTotal) * 100)));
+  const cf_leaderDom = cf_leaderPct >= 60 ? "리더형" : cf_leaderPct <= 40 ? "전문가형" : "균형형";
+
+  // 약한/강한 오행
+  const cf_elemSorted = (["목","화","토","금","수"] as const).map(k => ({ k, p: cf_elemPct[k] })).sort((a,b) => a.p - b.p);
+  const cf_weakestElem = cf_elemSorted[0]?.k ?? "—";
+  const cf_strongestElem = cf_elemSorted[cf_elemSorted.length - 1]?.k ?? "—";
+
+  // ─── M1~M7 결정론 매핑 키워드 풀 — 챕터별 부분 주입 ─────────────────
+  // 자녀 사주 인자 룩업 → 키워드 풀 텍스트 블록 조립.
+  // chXBody 시작에 박아 LLM이 이 풀에서만 인용하게 함. 임의 통설 차단.
+  const _childTraitsV2 = (() => {
+    try { return deriveChildTraitsV2(sajuChild); } catch { return null; }
+  })();
+  const _ch2TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch2") : "";
+  const _ch3TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch3") : "";
+  const _ch4TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch4") : "";
+  const _ch5TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch5") : "";
+  const _ch6TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch6") : "";
+
+  // 부모-자녀 오행 비교 (6장)
+  const cf_momCompare = sajuMom ? inferElementCompare(sajuMom, sajuChild) : null;
+  const cf_dadCompare = sajuDad ? inferElementCompare(sajuDad, sajuChild) : null;
+
+  // 용신·기신 (3장·6장 사용)
+  const cf_gisin = (() => { try { return calcGisin(sajuChild); } catch { return null; } })();
+  const cf_gaeun = (() => { try { return calcGaeun(sajuChild); } catch { return null; } })();
+
+  // 챕터별 차트 사실 블록 — ch?Body 맨 앞에 prepend
+  const cf_sipLine = `[십성 카운트] 비겁 ${cf_sip.비겁} · 식상 ${cf_sip.식상} · 재성 ${cf_sip.재성} · 관성 ${cf_sip.관성} · 인성 ${cf_sip.인성}`;
+  const cf_elemLine = `[오행 %] 목 ${cf_elemPct.목}% · 화 ${cf_elemPct.화}% · 토 ${cf_elemPct.토}% · 금 ${cf_elemPct.금}% · 수 ${cf_elemPct.수}%`;
+
+  const ch2ChartFacts = `
+[★★★ 2장 차트값 — 본문에 반드시 이 숫자·결만 사용. LLM이 다른 % 또는 다른 도미넌트 만들 절대 금지.]
+- [혼자 vs 같이 공부] 혼자 ${cf_alonePct}% / 같이 ${100 - cf_alonePct}% — 도미넌트: ${cf_aloneDom}
+- [우리 아이만의 공부법] 깊이 사색 ${cf_depthPct}% / 즉각 행동 ${100 - cf_depthPct}% — 도미넌트: ${cf_depthDom}
+- [글로/말로 표현] 글 ${cf_writePct}% / 말 ${100 - cf_writePct}% — 도미넌트: ${cf_writeDom}
+- [또렷해지는 시간대] 아침(목) ${cf_elemPct.목}% · 낮(화) ${cf_elemPct.화}% · 저녁(금) ${cf_elemPct.금}% · 밤(수) ${cf_elemPct.수}% — TOP: ${cf_topSlot}
+- [책상 앞 머릿속] 사고 유형 도미넌트: ${cf_thinking.dominant}
+- ${cf_sipLine}
+- ${cf_elemLine}
+본문에서 % 숫자를 언급할 때는 **반드시 위 숫자 그대로 인용**. 다른 % 만들지 말 것. "혼자형/같이형/깊이 사색형/즉각 행동형/글형/말형/사고 유형" 단정도 위 도미넌트만 따를 것.
+★ 중요: 도미넌트가 **'둘 다' 또는 '균형형'** 이면 반드시 양면 풀이로 작성. 한쪽으로 단정 절대 금지. "양쪽 결을 다 가진 아이예요" / "결을 보며 자기 페이스로" 톤 사용.`;
+
+  const ch3ChartFacts = `
+[★★★ 3장 차트값 — 본문에 반드시 이 결과만 사용. 다른 도미넌트·다른 순위 만들 절대 금지.]
+- [고집의 뿌리 TOP 트리거] 1순위: ${cf_dangerSorted[0]?.name ?? "—"} / 2순위: ${cf_dangerSorted[1]?.name ?? "—"} / 3순위: ${cf_dangerSorted[2]?.name ?? "—"} / 4순위: ${cf_dangerSorted[3]?.name ?? "—"}
+- [가장 약한 오행 = 채워줄 환경] ${cf_weakestElem}
+- [가장 강한 오행] ${cf_strongestElem}
+- [기신] ${cf_gisin?.element ?? "—"}(${cf_gisin?.hanja ?? "—"})
+- ${cf_sipLine}
+- ${cf_elemLine}
+"이 아이가 무너지는 자극" sub는 1순위 트리거(${cf_dangerSorted[0]?.name ?? "—"}) 본문에 단정 인용. "감정이 가라앉는 환경" sub는 약한 오행(${cf_weakestElem}) 환경 처방의 근거로 인용.`;
+
+  const ch4ChartFacts = `
+[★★★ 4장 차트값 — 본문에 반드시 이 숫자·결만 사용. 다른 % 만들 금지.]
+- [마음 문 여는 시간] 천천히 ${cf_slowPct}% / 빠르게 ${100 - cf_slowPct}% — 도미넌트: ${cf_slowDom}
+- [친구 스타일] 도미넌트 유형: ${cf_friendDom}
+- ${cf_sipLine}
+"마음 문 여는 데 걸리는 시간" sub는 ${cf_slowPct}%·${cf_slowDom} 본문에 단정 인용. "리더 vs 짝꿍 vs 메이커" sub는 ${cf_friendDom} 도미넌트 단정.
+★ 중요: 도미넌트가 **'중간 속도'** 이면 반드시 양면형으로 작성. "천천히형" 또는 "빠르게형" 한쪽 단정 절대 금지. "결을 보며 자기 페이스로 다가가는 양면형" 톤 사용.`;
+
+  const ch5ChartFacts = `
+[★★★ 5장 차트값 — 본문에 반드시 이 결과만 사용. 다른 분야명·다른 순위 만들 절대 금지.]
+- [진로 6각 TOP3] ${cf_jobTop3} (1위: ${cf_jobTop1})
+- [진로 약한 결] ${cf_jobAvoid}
+- [8지능 TOP3] ${cf_intel8Top3}
+- [리더 vs 전문가] 리더형 ${cf_leaderPct}% / 전문가형 ${100 - cf_leaderPct}% — 도미넌트: ${cf_leaderDom}
+- ${cf_sipLine}
+"진짜 빛날 분야" sub는 진로 TOP3 (${cf_jobTop3}) 만 본문에 인용 — 다른 직업명 만들지 말 것. "리더로 클까, 전문가로 클까" sub는 ${cf_leaderDom} 단정.
+★ 중요: 도미넌트가 **'균형형'** 이면 반드시 양면형으로 작성. "리더형" 또는 "전문가형" 한쪽 단정 절대 금지. "두 결을 모두 갖춘 양면형" 톤 사용.`;
+
+  const ch6ChartFacts = `
+[★★★ 6장 차트값 — 본문에 반드시 이 결과만 사용.]
+- [자녀 오행] ${cf_elemLine}
+- [자녀 가장 약한 오행 = 채워줄 결] ${cf_weakestElem}
+- [자녀 가장 강한 오행] ${cf_strongestElem}
+- [용신/기신] 용신 = ${cf_gaeun?.yongsinElement ?? "—"} / 기신 = ${cf_gisin?.element ?? "—"}(${cf_gisin?.hanja ?? "—"})
+${cf_momCompare ? `- [엄마-자녀 오행 비교] 엄마 강한 결: ${(cf_momCompare as any)?.parentStronger ?? "—"} / 자녀 강한 결: ${(cf_momCompare as any)?.childStronger ?? "—"}` : ""}
+${cf_dadCompare ? `- [아빠-자녀 오행 비교] 아빠 강한 결: ${(cf_dadCompare as any)?.parentStronger ?? "—"} / 자녀 강한 결: ${(cf_dadCompare as any)?.childStronger ?? "—"}` : ""}
+"부모가 채워줄 결 / 살펴줄 결" sub는 용신·기신 한자/오행을 본문에 그대로 인용. "${ch6TrioMoment}" sub는 자녀 강한 오행(${cf_strongestElem})과 부모 결 비교 인용.`;
 
   // ─── phase별 본문 (호출마다 그 챕터만) ─────────────────────────────────────
   const ch1Body = `
@@ -2866,6 +3056,8 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
   const ch2Body = `
 출력 순서·헤더는 정확히 다음과 같이. 헤더 글자 한 자도 변경 금지.
 **원칙 A~L (위 [V2 절대 원칙])은 모든 소제목에 강제 적용.** 5인자 결합·메인 0 양면 풀이 + 절제된 [[ ]] 강조 1~2회.
+${_ch2TraitsBlock}
+${ch2ChartFacts}
 
 ## 2장 — 우리 아이는 어떻게 공부할까
 
@@ -2882,7 +3074,7 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
 ### 글로 정리할까, 말로 표현할까
 [메인: 식상 / 서브: 일간 음양·인성·신강신약·수·토 오행]
 [시그너처: 단정 + 짧은 일화] — 첫 줄에 단정 + 짧은 일화 1~2개 + 마무리. 5단락 구조 일부러 깨고 짧고 단호. 분량 380~450자.
-구성: ① 단정 한 줄 ("${cnh}은 [말로/글로] 풀어내는 결의 아이예요.") → ② 식상(食傷) 메커니즘 + 식신(食神)·상관(傷官) + 일간 음양 + 수·토 오행 결합 (150~180자) → ③ 짧은 일화 1개 ("이런 거 보신 적 있으실 거예요 — 책상 앞에서 조용히 푸는 것보다 큰 소리로 읽을 때..." 같은 70~100자 장면) → ④ 한 줄 권고 ("○○하게 해보세요." 짧고 단호). 일화는 자녀 사주 인자에서 도출된 구체 장면. 식상 0이면 "안으로 정리하는 신중한 결" 단정 + 일화 시그너처 유지.
+구성: ① 단정 한 줄 ("${cnh}은 [말로/글로/말과 글 둘 다] 풀어내는 결의 아이예요.") — 차트 도미넌트가 '말형'이면 말로, '글형'이면 글로, '둘 다'면 반드시 세 번째 옵션 사용. 한쪽 단정 금지. → ② 식상(食傷) 메커니즘 + 식신(食神)·상관(傷官) + 일간 음양 + 수·토 오행 결합 (150~180자) → ③ 짧은 일화 1개 ("이런 거 보신 적 있으실 거예요 — 책상 앞에서 조용히 푸는 것보다 큰 소리로 읽을 때..." 같은 70~100자 장면) → ④ 한 줄 권고 ("○○하게 해보세요." 짧고 단호). 일화는 자녀 사주 인자에서 도출된 구체 장면. 식상 0이면 "안으로 정리하는 신중한 결" 단정 + 일화 시그너처 유지.
 
 ### 아침·낮·밤 어느 때 가장 또렷할까
 [메인: 일간 오행 / 서브: 신강신약·월지·시주·12운성]
@@ -2897,17 +3089,17 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
   const ch3Body = `
 출력 순서·헤더는 정확히 다음과 같이. 헤더 글자 한 자도 변경 금지.
 **원칙 A~L 모든 소제목에 강제 적용.** 5인자 결합·메인 0 양면 풀이 + 절제된 [[ ]] 강조 1~2회.
+${_ch3TraitsBlock}
+${ch3ChartFacts}
 
-[★ 3장 공용 출력 룰 — 모든 sub 강제]
-- **출력 형식: 산문체 4단 구조**. 박스·번호·이모지 분리·가상 대화 박스·표 사용 절대 금지. 단락 사이 빈 줄 1개로만 구분.
+[★ 3장 공용 출력 룰 — system 룰과 함께 적용]
+- **출력 형식: 산문체 4단 구조**. 박스·번호·이모지 분리·가상 대화·표 절대 금지. 단락 사이 빈 줄 1개로만 구분.
   ① 도입 단정 한 줄 (60~100자) — 자녀 사주 인자에서 도출된 결을 단호히 선언.
-  ② 사주 메커니즘 단락 (140~200자) — 메인 인자명을 본문에 직접 인용. "식상이 약하게 자리한 ${cnh}은…" "비겁이 강한 결의 ${cnh}은…" "인성이 발달한 ${cnh}은…" 형태. 서브 인자(신강신약·일주·오행·신살·합충 등) 자연 결합. ${cnh}의 실제 사주 컨텍스트 블록을 보고 강/중/약/0 분기에 맞는 풀이 작성.
-  ③ 일상 행동·장면 + 부모 처방 단락 (150~220자) — 추상 X. ${cnh}의 사주 인자에서 도출되는 구체 일상 장면 1개 이상. 환경·대화·접근법 권고는 산문 안에 자연 녹임.
-  ④ "부모님이 기억해야 할 한 가지" 마무리 단락 (90~130자) — 정확히 "부모님이 기억해야 할 한 가지는, ${cnh}은 [구체 단정]라는 거예요." 어조로. 다독임 X — 결의 단정.
-- **사주 인자 직접 인용 의무**: 본문에 식상·재성·관성·비겁·인성 + 강/약 + 일주(60갑자명 또는 일간·일지) + 강한 오행/약한 오행 + 용신 또는 기신 중 **최소 3개 명사를 그대로 본문에 노출**. "○○이 ○○하게 자리한", "○○이 강한 결을 가진" 형태. 사주 용어 숨기기 금지.
-- **일반론·바넘 표현 절대 금지**: "특별한 아이입니다", "감수성이 풍부해요", "사랑받을 만한 아이예요", "누구나" 류. 다른 자녀에게 옮겨도 통하는 문장 한 줄도 X. 모든 단정은 ${cnh}의 사주 데이터가 근거.
-- **분량 sub당 450~600자**. 짧으면 깊이 부족, 길면 늘어짐.
-- 강조 마커 \`[[ ]]\`는 sub당 1~2회. ${cnh}의 결을 단정하는 키 어절(10자 이내) 또는 구체 칭찬·금지 멘트에만.
+  ② 사주 메커니즘 단락 (140~200자) — 메인 인자명 직접 인용 ("식상이 약하게 자리한 ${cnh}은…" 형태). 서브 인자(신강신약·일주·오행·신살·합충) 자연 결합. 매핑 키워드 풀에서만 인용.
+  ③ 일상 행동·장면 + 부모 처방 (150~220자) — 추상 X. 구체 일상 장면 1개 이상.
+  ④ "부모님이 기억해야 할 한 가지" 마무리 (90~130자) — "부모님이 기억해야 할 한 가지는, ${cnh}은 [구체 단정]라는 거예요." 어조로. 다독임 X.
+- 사주 인자 명사 본문 최소 3개 노출 (system 룰 #5).
+- 분량 sub당 450~600자. \`[[ ]]\` sub당 1~2회 키 어절(10자 이내)에만.
 
 ## 3장 — 우리 아이 칭찬하고 혼내는 법
 
@@ -2938,24 +3130,24 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
 
   const ch4Body = `
 출력 순서·헤더는 정확히. **원칙 A~L 강제 적용.** 5인자 결합·메인 0 양면 + 절제된 [[ ]] 1~2회.
+${_ch4TraitsBlock}
+${ch4ChartFacts}
 
-[★ 4장 공용 출력 룰 — 모든 sub 강제]
-- **출력 형식: 산문체 4단 구조**. 박스·번호·이모지 분리·표·% 비중·단계 번호(1단계/2단계)·타임라인 박스·에너지 그래프 박스 절대 금지. 단락 사이 빈 줄 1개로만 구분.
+[★ 4장 공용 출력 룰 — system 룰과 함께 적용]
+- **출력 형식: 산문체 4단 구조**. 박스·번호·이모지 분리·표·% 비중·단계 번호·타임라인·그래프 박스 절대 금지. 단락 사이 빈 줄 1개로만 구분.
   ① 도입 단정 한 줄 (60~100자) — 자녀 사주 인자에서 도출된 결을 단호히 선언.
-  ② 사주 메커니즘 단락 (140~200자) — 메인 인자명을 본문에 직접 인용. "일주는 신중하고 진중한 성향을 담고 있어요", "비겁이 강한 결의 ${cnh}은…", "신강한 에너지 구조의 ${cnh}은…" 형태. 서브 인자(인성·식상·관성·12운성·신살·합충 등) 자연 결합. ${cnh}의 실제 사주 컨텍스트를 보고 강/중/약/0 분기에 맞는 풀이.
-  ③ 일상 행동·장면 + 부모 처방 단락 (160~220자) — 추상 X. 학교/조별 활동/캠프/방에 들어가 혼자 있는 모습 같은 ${cnh} 사주 인자에서 도출되는 구체 일상 장면 1개 이상. 친구 평판 인용·부모 관찰 기준·개입 X 권고는 산문 안에 자연 녹임.
-  ④ "부모님이 기억해야 할 한 가지" 마무리 단락 (90~130자) — 정확히 "부모님이 기억해야 할 한 가지는, ${cnh}은 [구체 단정]라는 거예요." 어조로. 다독임 X — 결의 단정.
-- **사주 인자 직접 인용 의무**: 본문에 일주(신중·진중·정직·자유 등 결 형용) + 비겁/식상/관성/인성 강·약 + 신강신약 + 귀인 신살명 또는 대운 중 **최소 3개 명사를 그대로 본문에 노출**. 사주 용어 숨기기 금지.
-- **일반론·바넘 표현 절대 금지**: "사교성이 좋아요", "친구를 잘 사귀어요", "리더십 있어요", "활발해요" 류 다른 자녀에게 옮겨도 통하는 문장 한 줄도 X. 모든 단정은 ${cnh}의 사주 데이터가 근거.
-- **분량 sub당 450~600자**. 짧으면 깊이 부족, 길면 늘어짐.
-- 강조 마커 \`[[ ]]\`는 sub당 1~2회. ${cnh}의 결을 단정하는 키 어절(10자 이내) 또는 친구 평판 인용·부모 관찰 기준에만.
+  ② 사주 메커니즘 (140~200자) — 메인 인자명 직접 인용 ("일주는 신중·진중한 성향" / "비겁이 강한 ${cnh}은…" 형태). 서브 인자(인성·식상·관성·12운성·신살·합충) 자연 결합. 매핑 키워드 풀에서만 인용.
+  ③ 일상 행동·장면 + 부모 처방 (160~220자) — 학교/조별 활동/캠프/혼자 있는 모습 같은 구체 장면 1개 이상. 친구 평판·부모 관찰 기준은 산문에 녹임.
+  ④ "부모님이 기억해야 할 한 가지" 마무리 (90~130자).
+- 사주 인자 명사 본문 최소 3개 노출 (일주·비겁·식상·관성·인성·신강·귀인 신살·대운 중).
+- 분량 sub당 450~600자. \`[[ ]]\` sub당 1~2회 (키 어절 또는 평판 인용에만).
 
 ## 4장 — 친구 사이 우리 아이
 
 ### 마음 문 여는 데 걸리는 시간
 [메인: 일주 / 서브: 인성·비겁·신강신약·일지 합충]
 [시그너처: 신중함 단정형] — "빠르게 친해지기보다, 천천히 깊게" 단정 + "1년쯤 지켜본 후에야 진짜 친구" 패턴 묘사 + "양보다 질". 단계 번호(1단계/2단계/3단계) 절대 X.
-구성: ① 단정 — "${cnh}은 [빠르게 친해지기보다 천천히 깊게 다가가는 / 새 환경에서 빠르게 마음을 여는] 결을 가진 아이예요." (자녀 일주·인성·비겁 결합) → ② "${cnh}의 일주는 [신중하고 진중한 / 정직하고 책임감 있는 / 자유롭고 즉흥적인] 성향을 담고 있어요" 톤. 일주(60갑자 또는 일간 음양) + 인성 + 비겁 + 신강신약 + 일지 합·충 결합. 신중형이면 "관찰 → 결 살핌 → 마음 조금씩" 흐름을 산문으로(단계 번호 X). 빠른 개방형이면 "한두 번 만남에 통하는 결" 풀이. ③ "겉으론 무뚝뚝/거리감 있어 보이지만 차가운 게 아니라 신중함" 같은 표면 vs 본심 짧게 + 같은 반에서 1년쯤 지켜본 후 진짜 친구 / 또는 빠르게 가까워졌다가 자연스럽게 멀어지는 패턴 일상 묘사. 부모가 답답할 때 "친구 좀 사귀어봐" 재촉이 역효과인 이유 산문으로. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}의 친구 관계는 [양보다 질로 봐야 한다는 / 폭넓게 자라는 결이라는] 거예요. [친구가 한두 명뿐이어도 그 한두 명과 깊이 통하고 있다면 / 다양한 결의 친구를 만나면서 자기 결을 다듬어가는 중이라면] 사회성은 충분히 잘 자라고 있는 거예요." 비겁 0 = "남의 결을 받아들이는 협력형" 양면 풀이.
+구성: ① 단정 — "${cnh}은 [빠르게 친해지기보다 천천히 깊게 다가가는 / 새 환경에서 빠르게 마음을 여는 / 결을 보며 자기 페이스로 다가가는 양면형의] 결을 가진 아이예요." (자녀 일주·인성·비겁 결합 — 차트 도미넌트가 '천천히형'이면 첫째, '빠르게형'이면 둘째, '중간 속도'면 반드시 셋째 옵션 사용. 한쪽으로 단정 금지.) → ② "${cnh}의 일주는 [신중하고 진중한 / 정직하고 책임감 있는 / 자유롭고 즉흥적인] 성향을 담고 있어요" 톤. 일주(60갑자 또는 일간 음양) + 인성 + 비겁 + 신강신약 + 일지 합·충 결합. 신중형이면 "관찰 → 결 살핌 → 마음 조금씩" 흐름을 산문으로(단계 번호 X). 빠른 개방형이면 "한두 번 만남에 통하는 결" 풀이. ③ "겉으론 무뚝뚝/거리감 있어 보이지만 차가운 게 아니라 신중함" 같은 표면 vs 본심 짧게 + 같은 반에서 1년쯤 지켜본 후 진짜 친구 / 또는 빠르게 가까워졌다가 자연스럽게 멀어지는 패턴 일상 묘사. 부모가 답답할 때 "친구 좀 사귀어봐" 재촉이 역효과인 이유 산문으로. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}의 친구 관계는 [양보다 질로 봐야 한다는 / 폭넓게 자라는 결이라는] 거예요. [친구가 한두 명뿐이어도 그 한두 명과 깊이 통하고 있다면 / 다양한 결의 친구를 만나면서 자기 결을 다듬어가는 중이라면] 사회성은 충분히 잘 자라고 있는 거예요." 비겁 0 = "남의 결을 받아들이는 협력형" 양면 풀이.
 
 ### 리더 vs 짝꿍 vs 분위기 메이커
 [메인: 비겁·식상·관성 / 서브: 일주·신살(괴강·양인)]
@@ -2967,11 +3159,6 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
 [시그너처: 귀인 결 단서 산문형] — 띠/계절/성향 박스 절대 X. "${cnh}에게 좋은 친구의 결"을 산문으로 풀고 부모 관찰 기준 [[ ]] 강조로 1회.
 구성: ① 단정 — "${cnh}에게 인생의 결을 바꿔줄 귀인은 [차분하고 깊이 있는 / 활기차고 따뜻한 / 단단하고 묵묵한 / 부드럽고 받아주는] 친구예요." (자녀 일간 오행 + 귀인 신살 결합으로 친구 결 결정 — 자녀에게 부족한 오행이 강한 친구 / 또는 자녀 결을 단단히 받쳐줄 결의 친구) → ② "귀인은 사주에서 ${cnh}에게 이로운 기운을 가진 사람을 뜻해요" 톤으로 시작. 천을(天乙)·복성·문창·학당귀인 등 ${cnh} 보유 신살 + 자녀 일간 오행 상생 + 부족한 오행 결합 풀이. 자녀에게 좋은 친구의 결(예: 수 기운 깊은 = 차분·사려 깊은 / 화 기운 강한 = 활기·따뜻한 / 토 기운 두터운 = 신뢰·안정 결의 친구) 명시. ③ 반대로 길게 보면 결 흩뜨리는 친구 결 + "처음엔 신선하지만 시간이 지날수록 자기 색을 잃어가는 패턴" 산문. 부모 관찰 기준을 [[ ]] 강조 1회 (예: [[옆에 있을 때 더 차분해지고 단단해지는가]] / [[옆에 있을 때 더 환하게 웃는가]] 자녀 결에 맞는 한 줄). ④ 마무리 — "부모님이 기억해야 할 한 가지는, 친구는 많을 필요가 없다는 거예요. ${cnh}의 인생에 진짜로 의미 있는 [한두 명/소중한 결의 친구들]만 있어도 충분해요." 귀인 0 = "스스로 어른의 결을 만나러 가는 자수성가형" 양면 풀이.
 
-### 친구의 결이 바뀌는 시기
-[메인: 대운 / 서브: 일간 오행·신강신약·세운]
-[시그너처: 시기 짚기 + 부모 역할형] — 대운 8개 타임라인 박스·"○세 무렵" 박스 형태 절대 X. 친구 결 변동 시기를 산문으로 짚고 부모 개입 X 권고.
-구성: ① 단정 — "${cnh}은 약 10년 주기로 친구 관계의 결이 [크게 바뀌는 / 부드럽게 변주되는] 흐름을 가지고 있어요." → ② "대운은 사주에서 인생의 큰 흐름이 10년 단위로 바뀌는 주기를 말해요" 톤. ${cnh}의 대운 흐름에서 친구 환경이 크게 바뀌는 1~2 구간을 "초등 고학년에서 중학교로 넘어갈 무렵 / 고등학교 진학 시기 / 진로를 정하는 시기" 같은 학령기 단어로 자연 표현(나이 박스 X). 일간 오행과 합·충 시기 결합 풀이. ③ 부모가 자주 보게 될 모습 묘사 — "전엔 단짝이었는데 요즘 잘 안 어울려요", "갑자기 친한 친구가 바뀌었어요" 같은 일상 멘트 인용 + 변덕 X, 결의 진입이라는 통찰. 부모 개입 X 권고 — "예전에 친했던 ○○이는 요즘 안 만나?" 묻거나 옛 친구 관계 억지 유지가 혼란 만드는 메커니즘. 옛 관계 흐려지고 새 관계 아직 깊지 않은 어중간한 시기에 외로움 느끼는 패턴 + 부모가 든든한 자리 지키는 역할. ④ 마무리 — "부모님이 기억해야 할 한 가지는, 친구가 바뀌는 건 ${cnh}이 자라고 있다는 신호라는 거예요. 그 신호를 자연스럽게 받아들여 주세요." 사춘기 단어 X — "결이 변하는 시기".
-
 ### 친구들 속에서 지치는 패턴
 [메인: 신강신약 / 서브: 비겁·식상·일주·12운성]
 [시그너처: 충전 패턴형] — 모임 전·중·후·24h 후 4시점 그래프 박스 절대 X. 학교 후·캠프·갈등 곱씹음 같은 일상 장면을 산문으로.
@@ -2979,17 +3166,17 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
 
   const ch5Body = `
 출력 순서·헤더는 정확히. **원칙 A~L 강제 적용.** 5인자 결합·메인 0 양면 + 절제된 [[ ]] 1~2회.
+${_ch5TraitsBlock}
+${ch5ChartFacts}
 
-[★ 5장 공용 출력 룰 — 모든 sub 강제]
-- **출력 형식: 산문체**. 박스·키워드 묶음 박스·5축 처방 박스·타임라인 박스·★ 표시·이모지(🌟📚) 분리·표 절대 금지. 단락 사이 빈 줄 1개로만 구분.
+[★ 5장 공용 출력 룰 — system 룰과 함께 적용]
+- **출력 형식: 산문체**. 박스·키워드 묶음·5축 처방·타임라인·★ 표시·이모지·표 절대 금지. 단락 사이 빈 줄 1개로만 구분.
   ① 도입 단정 한 줄 (60~100자) — 자녀 사주 인자에서 도출된 결을 단호히 선언.
-  ② 사주 메커니즘 단락 (140~200자) — 메인 인자명을 본문에 직접 인용. "식상은 자기 안의 것을 밖으로 표현하는 별이에요. 재성은 그 결과물이 세상과 만나 가치로 전환되는 별이에요" / "일주는 ${cnh}의 가장 근본적인 본질이에요" / "용신은 ${cnh}에게 약처럼 작용하는 기운이에요" / "대운은 인생의 큰 흐름을 10년 단위로 보는 별이에요" / "관성은 책임감과 체계의 별이고, 인성은 배움과 깊이의 별이에요" 같은 어조. 서브 인자(일간 오행·신강신약·신살·12운성·합·충 등) 자연 결합. ${cnh}의 실제 사주 컨텍스트를 보고 강/중/약/0 분기에 맞는 풀이.
-  ③ 일상 행동·장면 + 부모 처방 단락 (160~280자) — 추상 X. 직업 예시(디자인/기획/마케팅/교육/콘텐츠 제작/요리/의료/상담 / 연구자·교수·전문 기술자·CTO 등)·평판 인용·구체 환경 묘사·연령대 단락 같은 산문 장면 의무.
-  ④ "부모님이 기억해야 할 한 가지" 마무리 단락 (90~130자) — 정확히 "부모님이 기억해야 할 한 가지는, ${cnh}은 [구체 단정]라는 거예요." 어조로. 다독임 X — 결의 단정.
-- **사주 인자 직접 인용 의무**: 본문에 식상·재성·관성·인성·일주·용신·대운 등 메인 인자명 + 강·약 + 일간 오행/용신 오행 중 **최소 3개 명사를 그대로 본문에 노출**. 사주 용어 숨기기 금지.
-- **일반론·바넘 표현 절대 금지**: "재능이 많아요", "리더십이 있어요", "성공할 거예요" 류 다른 자녀에게 옮겨도 통하는 문장 한 줄도 X. 모든 단정은 ${cnh}의 사주 데이터가 근거.
-- **분량 sub당 500~700자** (sub ②는 무기 3개 나열로 길어짐 — 600~750자 허용). 짧으면 깊이 부족.
-- 강조 마커 \`[[ ]]\`는 sub당 1~3회 (sub ② 무기 3개 나열에선 무기당 1회 = 최대 3회). ${cnh}의 결을 단정하는 키 어절·평판 인용·핵심 멘트에만.
+  ② 사주 메커니즘 (140~200자) — 메인 인자명 직접 인용 ("식상은 자기 안의 것을 밖으로 표현하는 별" / "용신은 ${cnh}에게 약처럼 작용하는 기운" / "대운은 10년 단위 흐름" 같은 어조). 서브 인자(일간 오행·신강신약·신살·12운성·합충) 자연 결합. 매핑 키워드 풀에서만 인용.
+  ③ 일상 행동·장면 + 부모 처방 (160~280자) — 직업 예시(디자인·기획·마케팅·교육·콘텐츠·요리·의료·상담·연구자·교수·CTO 등)·평판 인용·구체 환경 묘사·연령대 단락 같은 산문 장면 의무.
+  ④ "부모님이 기억해야 할 한 가지" 마무리 (90~130자).
+- 사주 인자 명사 본문 최소 3개 노출 (식상·재성·관성·인성·일주·용신·대운 등).
+- 분량 sub당 500~700자 (sub ②는 600~750자 허용). \`[[ ]]\` sub당 1~3회 (sub ② 무기 3개 나열에선 무기당 1회 = 최대 3회).
 
 ## 5장 — 우리 아이는 무엇으로 빛날까
 
@@ -3020,33 +3207,27 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
 
   const ch6Body = `
 출력 순서·헤더는 정확히. **원칙 A~L 강제 적용.** 5인자 결합·메인 0 양면 + 절제된 [[ ]] 1~2회.
+${_ch6TraitsBlock}
+${ch6ChartFacts}
 
-## 6장 — 엄마·아빠와 우리 셋의 결
+## 6장 — ${ch6Title}
 
 ### ${ch6FirstSubtitle}
 [메인: 인성·관성·일주 / 서브: 일간 합·충·신살]
 [시그너처: 두 부모 결 분리 묘사 — 두 단락 시각 분리] — 어머님 결과 아버님 결을 각각 한 단락씩 분리해 묘사하고, 어휘를 명확히 다르게 사용. 분량 500~600자.
 ${hasMom && hasDad ? `구성: ① 도입 — "두 분이 ${cnh}과 통하는 결은 서로 다른 빛이에요" → ② **어머님 단락**: 인성 결합·일간 합·어머님 어휘(식탁·정돈·실내·따뜻한 손길·하루 호흡·앉아서·책상) — 어머님이 ${cnh}과 자연스럽게 통하는 일상 장면 1개 + 사주 근거 (200~250자) → ③ **아버님 단락**: 관성 결합·일간 합·아버님 어휘(야외·운동·만들기·현장·단단한 어깨·결단·움직이며) — 아버님이 ${cnh}과 자연스럽게 통하는 일상 장면 1개 + 사주 근거 (200~250자) → ④ 두 결이 만나는 순간 한 줄. 두 단락은 줄바꿈으로 시각 분리. 두 부모 모두 긍정적으로.` : hasMom ? `구성: ① 도입 → ② 어머님 결 묘사 — 인성 결합 + 어머님 어휘(식탁·정돈·실내·따뜻한 손길·하루 호흡·앉아서·책상). 일상 장면 1개 + 사주 근거 결합. (전체 500~600자)` : `구성: ① 도입 → ② 아버님 결 묘사 — 관성 결합 + 아버님 어휘(야외·운동·만들기·현장·단단한 어깨·결단·움직이며). 일상 장면 1개 + 사주 근거 결합. (전체 500~600자)`}
 
-### 셋이 함께 가장 편안한 순간
+### ${ch6TrioMoment}
 [메인: 오행 / 서브: 일간·용신·삼합·신강신약]
-[시그너처: 한 장면 묘사 — 가족 사진 같은 묘사] — 가족 셋이 가장 편안한 순간 한 장면을 자도인이 그림 그리듯 묘사 + 그 장면이 왜 사주적으로 자연스러운지 풀이. 분량 450~550자.
-구성: ① 도입 한 줄 → ② **장면 묘사**: ${parentsLabel}과 ${cnh} 셋이 함께 있을 때 가장 편안한 한 장면 — 활동·시간·장소·계절을 구체로 (가족 사진의 한 컷처럼, 100~140자) → ③ 그 장면이 사주적으로 왜 맞는지 풀이 — 셋의 오행 상생 + 삼합(三合) 글자 결합 + 용신 오행 결합 (200~250자) → ④ 그 순간을 더 자주 만들 수 있는 부모 권고 한 줄.
+[시그너처: 한 장면 묘사 — 가족 사진 같은 묘사] — ${hasMom && hasDad ? "가족 셋" : "${parentsLabel}과 자녀 둘"}이 가장 편안한 순간 한 장면을 자도인이 그림 그리듯 묘사 + 그 장면이 왜 사주적으로 자연스러운지 풀이. 분량 450~550자.
+구성: ① 도입 한 줄 → ② **장면 묘사**: ${parentsLabel}과 ${cnh} ${hasMom && hasDad ? "셋이" : "둘이"} 함께 있을 때 가장 편안한 한 장면 — 활동·시간·장소·계절을 구체로 (가족 사진의 한 컷처럼, 100~140자) → ③ 그 장면이 사주적으로 왜 맞는지 풀이 — ${hasMom && hasDad ? "셋의" : "둘의"} 오행 상생 + 삼합(三合) 글자 결합 + 용신 오행 결합 (200~250자) → ④ 그 순간을 더 자주 만들 수 있는 부모 권고 한 줄.
 
 ### 부모가 채워줄 결 / 살펴줄 결
 [메인: 용신·기신 / 서브: 일간 오행·약한 오행·12운성]
 [시그너처: 두 갈래 처방 — 채울 결 / 살필 결] — 부모가 함께 채워줄 한 가지 결 + 함께 살펴줄 한 가지 결을 각각 처방 형태로. 분량 450~550자.
 구성: ① 도입 — "두 분이 함께 들여다볼 두 결이 있어요" → ② **🌱 채워줄 결** (용신 오행 활동 — 일상 행동 가이드 1~2개. 자녀 일간·신강·12운성 결합 풀이. 150~200자) → ③ **🌑 살펴줄 결** (기신 오행 자극 — 너무 많아지지 않게 살피는 환경. 자녀 약한 오행 결합 풀이. 150~200자) → ④ 한 줄 정리. 두 결은 이모지로 시각 분리. 부정형 표현 금지 — "살피면 더 단단해져요" 톤.
 
-### 부모 외에 인생에 큰 힘이 되어줄 어른
-[메인: 귀인 신살 / 서브: 일간·일지 합·대운·12운성]
-[시그너처: 어른의 단서 — 띠·계절·관계 명시] — 자녀 사주 귀인 신살이 만나줄 어른의 구체 단서를 띠·계절·관계 카테고리로 짚어줌. 분량 500~600자.
-구성: ① 도입 — "${cnh} 곁에는 부모님 외에도 큰 결이 되어줄 어른이 있어요" → ② 귀인 메커니즘 — 천을·태극·문창·학당·복성·월덕귀인 등 ${cnh}의 사주 귀인 결 풀이 (180~220자) → ③ **어른의 단서 박스**: 띠 (자녀 일지 합 글자에 해당하는 띠 1~2개) / 계절 (자녀 일간 상생 계절) / 관계 (친척·선생님·이웃 어른 카테고리). 각 한 줄씩 (총 150~200자) → ④ 부모가 그 어른을 알아볼 단서 한 줄. 귀인 0이면 "스스로 어른의 결을 만나러 가는 자수성가형 사주" 시그너처 유지.
-
-### 부모와 마음이 가장 통하는 나이
-[메인: 대운 / 서브: 일간·용신·12운성·세운]
-[시그너처: 연령대 짚기 + 그 시기 부모 역할] — 자녀 대운 흐름에서 부모와 결이 가장 잘 통하는 연령대 1~2구간을 콕 짚어주고, 그 시기 부모가 어떤 결로 곁에 있어야 할지 구체 가이드. 분량 500~600자.
-구성: ① 도입 — "부모와 자녀의 결이 가장 잘 통하는 시기는 따로 있어요" → ② 대운 메커니즘 — 자녀 대운에서 일간 강세 + 용신 진입 + 12운성 강세 결합 풀이 (180~220자) → ③ **연령대 짚기**: ${cnh}의 대운 8개 중 부모와 통하는 1~2구간을 "○세 무렵" + 그 시기 자녀의 결 변화 (150~200자) → ④ 그 시기 부모 역할 한 단락 — "이 시기엔 ○○하게 곁에 있어주세요" 구체 가이드 (80~120자). 단정 금지 — "큰 흐름은 ~한 시기에" 톤.`;
+`;
 
   const outroBody = `
 출력은 정확히 다음 헤더 + 마지막 단락:
@@ -3073,9 +3254,25 @@ ${hasMom && hasDad ? `구성: ① 도입 — "두 분이 ${cnh}과 통하는 결
 
   return `당신은 자도인입니다. ${cnh}의 사주를 부모님 눈높이에서 풀이합니다. 한국어 경어체, 날카롭되 따뜻하게.
 
+[★★★ 핵심 룰 — 시작 강제 (시스템 인스트럭션과 함께 적용)]
+1. 정통 자평명리 결합 풀이 — 분포 수치만 나열 절대 X.
+2. 사주 인자 명사(식상·재성·관성·비겁·인성·일간·일주·용신 등) 본문에 직접 노출.
+3. 일반론·바넘 표현 절대 금지 — 다른 자녀에게 옮겨도 통하는 문장 한 줄도 X.
+4. 자녀 사주 컨텍스트 블록의 정설 룩업값(〖일간 강약〗·〖12운성〗·〖공망〗) 그대로 인용. 다른 단계 임의 추론 절대 금지.
+5. 인자 강도 0이면 양면 풀이 강제 (비겁 0 = 협력형, 식상 0 = 안으로 정리, 재성 0 = 의미 집중, 관성 0 = 자유, 인성 0 = 직관·실전).
+
 ${dataBlock}
 ${principles}
-${body}`;
+${body}
+
+[★★★ 다시 한 번 — 끝 강제 재확인 (출력 직전 마지막 체크)]
+- 본문에 사주 인자 명사 최소 3개 노출했는가?
+- 정설 룩업값(일간 강약 단계·12운성 단계·공망 위치) 그대로 인용했는가? 다른 단계 추론 안 했는가?
+- 분포 수치만 나열한 단편 풀이 없는가? 인자 사이 결합으로 풀었는가?
+- 일반론·바넘 표현 0개인가?
+- 자녀 호칭 ${cnh} 사용했는가? 단독 ${d.childName} 사용 X?
+- 인자 강도 0인 경우 양면 풀이로 작성했는가?
+- 마크다운 헤더(## 챕터, ### 소제목) 정확한가? [[ ]] 강조 sub당 1~2회 절제 사용했는가?`;
 }
 
 
@@ -3676,6 +3873,7 @@ export async function POST(req: NextRequest) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+              systemInstruction: { parts: [{ text: SAJU_SYSTEM_INSTRUCTION }] },
               contents: [{ parts: [{ text: chPrompt }] }],
               generationConfig: { maxOutputTokens: 16384, thinkingConfig: { thinkingBudget: 0 } },
             }),
@@ -3707,6 +3905,8 @@ export async function POST(req: NextRequest) {
             let finishReason: string | undefined;
             let blockReason: string | undefined;
             let safetyRatings: unknown;
+            // STEP 5 — telemetry 검증용 본문 누적 (스트림 UX는 그대로 보존)
+            let accumulatedText = "";
             while (true) {
               const { done, value } = await reader.read();
               if (done) break;
@@ -3720,6 +3920,7 @@ export async function POST(req: NextRequest) {
                   const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
                   if (text) {
                     enqueue({ t: 'x', v: text });
+                    accumulatedText += text;
                     chunkCount++;
                     textBytes += text.length;
                   }
@@ -3740,6 +3941,32 @@ export async function POST(req: NextRequest) {
               console.error(`[v2/${phase}] empty or filtered finish=${finishReason} block=${blockReason} safety=${JSON.stringify(safetyRatings).slice(0, 400)}`);
               enqueue({ t: 'err', phase, finishReason, blockReason, chunks: chunkCount });
             }
+            // STEP 5 — 출력 검증 telemetry (사주 인자 누락·바넘·12운성 환각 등 룰 위반 로깅)
+            // 출시 후 retry 통합 시 이 violations 배열로 1회 재요청 트리거.
+            if (accumulatedText.length > 100) {
+              try {
+                const otherStemsForDms = [sajuChild.pillars.year.stem, sajuChild.pillars.month.stem, ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.stem] : [])];
+                const allBranchesForDms = [sajuChild.pillars.year.branch, sajuChild.pillars.month.branch, sajuChild.pillars.day.branch, ...(sajuChild.pillars.hour ? [sajuChild.pillars.hour.branch] : [])];
+                const dmsOut = getDayMasterStrength(sajuChild.ilgan, sajuChild.pillars.month.branch, allBranchesForDms, otherStemsForDms);
+                const unseongOut = calcUnseong(sajuChild);
+                const gyeokgukOut = calcGyeokguk(sajuChild);
+                const violations = validateSajuOutput(accumulatedText, {
+                  minSajuTerms: 3,
+                  deterministicValues: {
+                    unseongStage: unseongOut?.stage,
+                    gyeokgukName: gyeokgukOut?.name,
+                    shinkangLevel: dmsOut?.level,
+                  },
+                });
+                if (violations.length > 0) {
+                  console.warn(`[v2/${phase}] validation VIOLATIONS (${violations.length}):\n${violations.map(v => "  - " + v).join("\n")}`);
+                } else {
+                  console.log(`[v2/${phase}] validation OK`);
+                }
+              } catch (e) {
+                console.warn(`[v2/${phase}] validation skipped err=${(e as Error).message}`);
+              }
+            }
             enqueue({ t: 'd' });
             controller.enqueue(encoder.encode("data: [DONE]\n\n"));
             controller.close();
@@ -3758,6 +3985,7 @@ export async function POST(req: NextRequest) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            systemInstruction: { parts: [{ text: SAJU_SYSTEM_INSTRUCTION }] },
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: { maxOutputTokens: 65536, thinkingConfig: { thinkingBudget: 0 } },
           }),
@@ -3826,6 +4054,7 @@ export async function POST(req: NextRequest) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            systemInstruction: { parts: [{ text: SAJU_SYSTEM_INSTRUCTION }] },
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: { maxOutputTokens: 65536, thinkingConfig: { thinkingBudget: 0 } },
           }),
@@ -3922,6 +4151,7 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          systemInstruction: { parts: [{ text: SAJU_SYSTEM_INSTRUCTION }] },
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: { maxOutputTokens: maxTokens, thinkingConfig: { thinkingBudget: 0 } },
         }),

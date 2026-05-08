@@ -1,7 +1,8 @@
 // 인연 — inyeon-compute 결과를 ch1~ch8 프롬프트 ctx로 변환
 // 격리: 평생사주·엄마와아이 모듈 import 금지
 import {
-  STEM_HANJA, BRANCH_HANJA, type SajuAnalysis, type CompatibilityResult,
+  STEM_HANJA, BRANCH_HANJA, getDayMasterStrength,
+  type SajuAnalysis, type CompatibilityResult,
 } from "../saju-calculator";
 import type { InyeonScores } from "./scoring";
 import { scoreLabelFor } from "./scoring";
@@ -71,18 +72,22 @@ function weakElement(s: SajuAnalysis): string {
     .sort((a, b) => a[1] - b[1])[0][0];
 }
 
+// 자도인·인연 두 사이트 일관성 확보 — saju-calculator.getDayMasterStrength 통일 사용
+// 월령(±3~4) + 통근(±1.5~2) + 천간(±1~1.5) 자평명리 정통 가중치
 function shinkangLevel(s: SajuAnalysis): string {
-  const ie = STEM_ELEM[s.ilgan] as keyof typeof s.elements;
-  const same = s.elements[ie];
-  const total = s.elements.목 + s.elements.화 + s.elements.토 + s.elements.금 + s.elements.수;
-  const ratio = total > 0 ? same / total : 0;
-  if (ratio < 0.1) return "극약";
-  if (ratio < 0.18) return "태약";
-  if (ratio < 0.25) return "신약";
-  if (ratio < 0.32) return "중화";
-  if (ratio < 0.4) return "신강";
-  if (ratio < 0.5) return "태강";
-  return "극왕";
+  const allBranches = [
+    s.pillars.year.branch, s.pillars.month.branch, s.pillars.day.branch,
+    ...(s.pillars.hour ? [s.pillars.hour.branch] : []),
+  ];
+  const otherStems = [
+    s.pillars.year.stem, s.pillars.month.stem,
+    ...(s.pillars.hour ? [s.pillars.hour.stem] : []),
+  ];
+  try {
+    return getDayMasterStrength(s.ilgan, s.pillars.month.branch, allBranches, otherStems).level;
+  } catch {
+    return "중화";
+  }
 }
 
 // 희신·기신 — 용신을 생하는 오행 / 용신을 극하는 오행

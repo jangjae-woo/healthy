@@ -10,6 +10,7 @@ import {
 import { computeInyeonScores, estimateAssetCurve, estimateTogetherCurve } from "@/lib/inyeon/scoring";
 import { buildAllInyeonPrompts } from "@/lib/inyeon/build-context";
 import type { InyeonRequest, InyeonPersonInput } from "@/lib/inyeon/types";
+import { SAJU_SYSTEM_INSTRUCTION } from "@/lib/saju-system-instruction";
 
 export const maxDuration = 300;
 
@@ -181,6 +182,7 @@ export async function POST(req: NextRequest) {
             enqueue({ t: "cs", ch }); // chapter start
             try {
               const res = await fetchGeminiWithRetry(url, {
+                systemInstruction: { parts: [{ text: SAJU_SYSTEM_INSTRUCTION }] },
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: { maxOutputTokens: 8192, thinkingConfig: { thinkingBudget: 0 } },
               });

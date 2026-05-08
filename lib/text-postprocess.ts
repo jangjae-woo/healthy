@@ -308,24 +308,159 @@ export function enforceSixFactorTop3(text: string, seed: ChildSeed | null): stri
   });
 }
 
+// ─── 매 sub 끝 "기억해야 할 한 가지" 마무리 문장 제거 ─────────────────
+// V2 자도인 prompt가 ch3·ch4·ch5의 모든 sub 마지막 단락에 동일 표준 고정구를 박음:
+// "{P}이 기억해야 할 한 가지는, [child]은 [단정]라는 거예요."
+// → 결과 끝까지 읽으면 같은 어구 15회+ 반복 노출 → AI 템플릿 느낌 직격.
+// 후처리에서 그 문장 통째 제거. ageStage·부모 입력 케이스 무관. 모든 출력에 적용.
+//
+// 헤더 라인 보호. 본문 문장만 제거 (정규식: 트리거 포함 문장을 sentence boundary 까지).
+const TAKEAWAY_PATTERNS: RegExp[] = [
+  // "{P}이 기억해야 할 한 가지는, …" — 표준 prompt 템플릿
+  /[^.!?\n]*?기억해야\s*할\s*한\s*가지[^.!?\n]*?(?:[.!?]|다\.|요\.|니다\.)\s*/g,
+  // 회전 변주 케이스 — LLM이 자연스럽게 변형 출력
+  /[^.!?\n]*?잊지\s*말아야\s*할\s*한\s*가지[^.!?\n]*?(?:[.!?]|다\.|요\.|니다\.)\s*/g,
+  /[^.!?\n]*?마음에\s*새기[실시]?\s*한\s*가지[^.!?\n]*?(?:[.!?]|다\.|요\.|니다\.)\s*/g,
+];
+
+export function stripParentTakeaway(text: string): string {
+  if (!text) return text;
+  return text.split('\n').map(line => {
+    if (/^#{1,4}\s/.test(line)) return line; // 헤더 보호
+    let r = line;
+    for (const re of TAKEAWAY_PATTERNS) {
+      r = r.replace(re, "");
+    }
+    return r;
+  }).join('\n');
+}
+
+// ─── 영유아 자녀 부적합 문장 제거 ─────────────────────────────────
+// 1세 자녀에게 "밤 시간대에 깊이 있는 학습 배치" 같은 학령기 권고가 등장 시
+// 그 문장만 통째 제거. 프롬프트에 "쓰지 마" 룰 추가 X — 후처리로만 처리.
+// AgeStage가 infant·preschool일 때만 적용. 학령기 이상은 유지.
+
+// 영유아·preschool에 부적합한 트리거 단어. 문장에 포함되면 그 문장 통째 제거.
+// 패턴: [구두점·줄바꿈 아닌 문자]* + 트리거 + [구두점·줄바꿈 아닌 문자]* + 종결.
+// 헤더 라인은 별도 보호.
+const INFANT_INAPPROPRIATE_TRIGGERS = [
+  // ── ch2 공부법·학습 시간대 권고 (학령기 권고)
+  "학습\\s*스케[줄쥴]",
+  "학습\\s*시간(대|에|이|은|을)",
+  "공부\\s*시간(대|에|이|은|을)",
+  "공부할\\s*시간",
+  "집중력이?\\s*가장\\s*[좋잘]",
+  "집중력이?\\s*[좋잘]아지",
+  "공부\\s*환경",
+  "학습\\s*환경",
+  // ── ch3 칭찬·혼냄 (영유아 무관)
+  "거짓말(을|이|은|의|에)",
+  "친구와?\\s*비교",
+  // ── ch4 친구 (영유아 친구 개념 X)
+  "친구\\s*평판",
+  "또래\\s*(사이|관계|평판)",
+  "친구\\s*[관사][계이][에를을의]",
+  "마음\\s*문[을이]\\s*여(는|시)",
+  // ── ch5 진로·시기 추정 (영유아 무관)
+  "(10|십|20|이십|30|삼십|40|사십)대[에후중]",
+  "(10|20|30)대\\s*(후반|중반|초반)",
+  "(중학|고등|대학|취업|결혼)\\s*(시기|무렵|때)",
+  "직업\\s*추천",
+  "직업\\s*분야",
+  // ── ch3·5 사춘기 톤 (프롬프트 rule로 변환했지만 새는 케이스)
+  "사춘기(가|에|의|를|는)",
+];
+
+const INFANT_INAPPROPRIATE_PATTERNS: RegExp[] = INFANT_INAPPROPRIATE_TRIGGERS.map(
+  trigger => new RegExp(`[^.!?\\n]*?${trigger}[^.!?\\n]*?(?:[.!?]|다\\.|요\\.|니다\\.)\\s*`, "g"),
+);
+
+export function stripAgeInappropriate(
+  text: string,
+  ageStage: "infant" | "preschool" | "elementary" | "secondary",
+): string {
+  if (!text) return text;
+  if (ageStage !== "infant" && ageStage !== "preschool") return text;
+  return text.split('\n').map(line => {
+    if (/^#{1,4}\s/.test(line)) return line; // 헤더 보호
+    let r = line;
+    for (const re of INFANT_INAPPROPRIATE_PATTERNS) {
+      r = r.replace(re, "");
+    }
+    return r;
+  }).join('\n');
+}
+
+// ─── 단일 부모 입력 시 부모 호칭 후처리 ─────────────────────────────
+// 사용자가 엄마만 (또는 아빠만) 입력했는데 본문에 "어머님, 아버님" / "두 분이" /
+// "부모님이 기억해야 할 한 가지" 같은 양친 호명이 등장하면 단일 부모 호칭으로 자동 치환.
+// 프롬프트로 잡으면 룰 폭증·LLM 룰 위반 → 후처리에서 정규식으로 안전하게 처리.
+// "부모님"·"어머님"·"아버님" 모두 받침 ㅁ 동일 → 조사 그대로 보존 가능. 비문 위험 0.
+//
+// "학부모님"·"조부모님" 같은 합성어는 lookbehind `(?<![가-힣])` 로 보호.
+/**
+ * @param hasMom 어머님 사주 입력 여부
+ * @param hasDad 아버님 사주 입력 여부
+ */
+export function enforceParentVoice(text: string, hasMom: boolean, hasDad: boolean): string {
+  if (!text) return text;
+  // 양친 모두 입력 / 양친 모두 미입력 — 처리 X
+  if (hasMom === hasDad) return text;
+  const present = hasMom ? "어머님" : "아버님";  // 셋 다 받침 ㅁ → 조사 동일
+
+  return text.split('\n').map(line => {
+    // 마크다운 헤더 라인 보호
+    if (/^#{1,4}\s/.test(line)) return line;
+    let r = line;
+    // ── "어머님, 아버님" / "아버님, 어머님" — 쉼표·중점·공백 변형 ──
+    r = r.replace(/어머님\s*[,·]\s*아버님/g, present);
+    r = r.replace(/아버님\s*[,·]\s*어머님/g, present);
+    // ── "어머님과 아버님" / "아버님과 어머님" ──
+    r = r.replace(/어머님과\s+아버님/g, present);
+    r = r.replace(/아버님과\s+어머님/g, present);
+    // ── "어머님 아버님" (공백만) — 같은 조사 뒤따를 때만 안전 ──
+    r = r.replace(/어머님\s+아버님(께서는|께서|께|이|은|의|을|를|과|와|도)/g, present + "$1");
+    r = r.replace(/아버님\s+어머님(께서는|께서|께|이|은|의|을|를|과|와|도)/g, present + "$1");
+    // ── "두 분이" / "두 분께서" / "두 분의" 등 ──
+    // 받침 있는 호칭으로 치환되므로 가→이, 는→은, 와→과 보정
+    r = r.replace(/두\s*분(께서는|께서|께|이|은|의|을|를|과|와|도|에게|에서|만)/g, present + "$1");
+    r = r.replace(/두\s*분\s*가/g, present + "이");
+    r = r.replace(/두\s*분\s*는/g, present + "은");
+    r = r.replace(/두\s*분\s*와/g, present + "과");
+    // ── "두 분" 단독 (어절 경계) ──
+    r = r.replace(/(?<![가-힣])두\s*분(?![가-힣께이은의을를과와도])/g, present);
+    // ── "부모님" → 단일 부모 호칭 (받침 ㅁ 동일 → 조사 그대로 보존) ──
+    // V2 자도인 prompt가 매 sub 마무리에 "부모님이 기억해야 할 한 가지는, …" 표준 고정구로 박혀 있음.
+    // 양친 다 입력 시 보존(가드 if hasMom===hasDad 위에서 return). 단일 부모 시 그 부모 호칭으로 치환.
+    // "학부모님"·"조부모님" 같은 합성어는 lookbehind 로 보호.
+    r = r.replace(/(?<![가-힣])부모님/g, present);
+    return r;
+  }).join('\n');
+}
+
 /**
  * 모든 후처리 한 번에 적용 — 호출 순서:
  * 1. ensureChildHonorific (자녀 호칭)
  * 2. softenNegatives (부정 어휘)
  * 3. enforceHanjaBan (십성·합충 한자)
- * 4. enforceChartConsistency (차트-본문 정합) — seed 있을 때만
- * 5. enforceSixFactorTop3 (6요인 TOP3 swap 차단) — seed 있을 때만 (옵션 C)
+ * 4. enforceParentVoice (단일 부모 호칭) — hasMom·hasDad 제공 시
+ * 5. enforceChartConsistency (차트-본문 정합) — seed 있을 때만
+ * 6. enforceSixFactorTop3 (6요인 TOP3 swap 차단) — seed 있을 때만 (옵션 C)
  */
 export function applyAllPostprocess(
   text: string,
   childName: string,
   childGender: string,
   seed: ChildSeed | null,
+  parentFlags?: { hasMom: boolean; hasDad: boolean },
 ): string {
   if (!text) return text;
   let result = ensureChildHonorific(text, childName, childGender);
   result = softenNegatives(result);
   result = enforceHanjaBan(result);
+  if (parentFlags) {
+    result = enforceParentVoice(result, parentFlags.hasMom, parentFlags.hasDad);
+  }
   if (seed) {
     result = enforceChartConsistency(result, seed);
     result = enforceSixFactorTop3(result, seed);

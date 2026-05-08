@@ -15,6 +15,8 @@ import { getDayMasterStrength } from "@/lib/saju-calculator";
 import { inferThinkingType, type ThinkingType, inferTantrumTriggers, type TantrumTrigger, inferFriendStyle, type FriendStyle, evaluateDaeunTimeline, type DaeunHighlight } from "@/lib/parent-child-charts-v2";
 import { inferPositiveSinsal, type PositiveSinsalReading, inferDominantMeaning, type DominantMeaning } from "@/lib/parent-child-traits-v2";
 import { inferJobRadar, type JobRadarItem, inferElementCompare, type ElementCompare, inferIlganRelation, type IlganRelation, inferFlowGiven, type FlowGiven } from "@/lib/parent-child-charts-v2";
+import { enforceParentVoice, stripAgeInappropriate, stripParentTakeaway } from "@/lib/text-postprocess";
+import { classifyAgeStage } from "@/lib/age-stage";
 
 const ACCENT = "#f0a8b8";
 const GOLD = "#FFD700";
@@ -35,7 +37,7 @@ type SlideKind =
 interface SubSection {
   subtitle: string;      // 소제목
   indicator?: string;    // [인자: ...] 표시
-  visualKey: string;     // 시각 컴포넌트 분기
+  visualKey?: string;    // 시각 컴포넌트 분기 (없으면 본문만 노출)
 }
 
 interface SlideSpec {
@@ -59,43 +61,68 @@ const SLIDES: SlideSpec[] = [
     { subtitle: "우리 아이만의 공부법", indicator: "인성", visualKey: "ch3-insong" },
     { subtitle: "글로 정리할까, 말로 표현할까", indicator: "식상", visualKey: "ch3-siksang" },
     { subtitle: "아침·낮·밤 어느 때 가장 또렷할까", indicator: "오행 + 신강/신약", visualKey: "ch3-timeslot" },
-    { subtitle: "책상 앞 머릿속", indicator: "관성", visualKey: "ch3-thinking" },
+    { subtitle: "책상 앞 머릿속", indicator: "관성" },
   ]},
   // 3장 — 칭찬·혼 (5 sub → 1 슬라이드)
   { chapter: "3장", chapterTitle: "우리 아이 칭찬하고 혼내는 법", kind: "scroll-chapter", subs: [
     { subtitle: "화났을 때 입을 닫을까, 폭발할까", indicator: "식상 + 신강/신약", visualKey: "ch4-tantrum" },
     { subtitle: "아이 감정이 가라앉는 환경", indicator: "오행", visualKey: "ch4-calm-env" },
     { subtitle: "마음 열리는 칭찬", indicator: "인성 + 용신", visualKey: "ch4-praise" },
-    { subtitle: "거짓말 했을 때", indicator: "일주 + 관성", visualKey: "ch4-lie" },
+    { subtitle: "거짓말 했을 때", indicator: "일주 + 관성" },
     { subtitle: "이 아이가 무너지는 자극", indicator: "기신", visualKey: "ch4-breakdown" },
   ]},
-  // 4장 — 친구 (5 sub → 1 슬라이드)
+  // 4장 — 친구 (4 sub → 1 슬라이드, 시각화 모두 숨김)
   { chapter: "4장", chapterTitle: "친구 사이 우리 아이", kind: "scroll-chapter", subs: [
-    { subtitle: "마음 문 여는 데 걸리는 시간", indicator: "일주 + 인성", visualKey: "ch5-heart-door" },
-    { subtitle: "리더 vs 짝꿍 vs 분위기 메이커", indicator: "비겁 + 식상 + 관성", visualKey: "ch5-style" },
-    { subtitle: "인생을 바꿀 친구는 따로 있다", indicator: "귀인 신살", visualKey: "ch5-life-friend" },
-    { subtitle: "친구의 결이 바뀌는 시기", indicator: "대운", visualKey: "ch5-friend-shift" },
-    { subtitle: "친구들 속에서 지치는 패턴", indicator: "신강/신약", visualKey: "ch5-fatigue" },
+    { subtitle: "마음 문 여는 데 걸리는 시간", indicator: "일주 + 인성" },
+    { subtitle: "리더 vs 짝꿍 vs 분위기 메이커", indicator: "비겁 + 식상 + 관성" },
+    { subtitle: "인생을 바꿀 친구는 따로 있다", indicator: "귀인 신살" },
+    { subtitle: "친구들 속에서 지치는 패턴", indicator: "신강/신약" },
   ]},
   // 5장 — 빛날 (5 sub → 1 슬라이드)
   { chapter: "5장", chapterTitle: "우리 아이는 무엇으로 빛날까", kind: "scroll-chapter", subs: [
-    { subtitle: "진짜 빛날 분야", indicator: "식상 + 재성", visualKey: "ch6-job-radar" },
+    { subtitle: "진짜 빛날 분야", indicator: "식상 + 재성" },
     { subtitle: "아이만의 무기", indicator: "일주", visualKey: "ch6-weapon" },
     { subtitle: "환하게 빛나게 해주는 결 한 가지", indicator: "용신", visualKey: "ch6-shine-key" },
     { subtitle: "10대·20대·30대 어느 때 가장 빛날까", indicator: "대운", visualKey: "ch6-shine-age" },
     { subtitle: "리더로 클까, 깊이 있는 전문가로 클까", indicator: "관성 + 인성", visualKey: "ch6-leader-expert" },
   ]},
-  // 6장 — 셋의 결 (5 sub → 1 슬라이드)
+  // 6장 — 셋의 결 (3 sub → 1 슬라이드)
   { chapter: "6장", chapterTitle: "엄마·아빠와 우리 셋의 결", kind: "scroll-chapter", subs: [
     { subtitle: "엄마와 통하는 결, 아빠와 통하는 결", indicator: "인성 + 관성 + 일주", visualKey: "ch7-ilgan-rel" },
     { subtitle: "셋이 함께 가장 편안한 순간", indicator: "오행", visualKey: "ch7-trio-radar" },
     { subtitle: "부모가 채워줄 결 / 살펴줄 결", indicator: "용신 + 기신", visualKey: "ch7-flow" },
-    { subtitle: "부모 외에 인생에 큰 힘이 되어줄 어른", indicator: "귀인 신살", visualKey: "ch7-external-boost" },
-    { subtitle: "부모와 마음이 가장 통하는 나이", indicator: "대운", visualKey: "ch7-bond-age" },
   ]},
   // 마지막 당부
   { chapter: "마지막", chapterTitle: "자도인의 마지막 당부", kind: "outro" },
 ];
+
+// 부모 입력 여부에 따라 6장 제목·sub 동적 분기
+function slidesForMeta(hasMom: boolean, hasDad: boolean): SlideSpec[] {
+  const ch6Title = hasMom && hasDad
+    ? "엄마·아빠와 우리 셋의 결"
+    : hasMom
+      ? "엄마와 아이 둘의 결"
+      : hasDad
+        ? "아빠와 아이 둘의 결"
+        : "엄마·아빠와 우리 셋의 결";
+  const firstSubTitle = hasMom && hasDad
+    ? "엄마와 통하는 결, 아빠와 통하는 결"
+    : hasMom
+      ? "엄마와 통하는 결"
+      : hasDad
+        ? "아빠와 통하는 결"
+        : "엄마와 통하는 결, 아빠와 통하는 결";
+  const trioMomentTitle = hasMom && hasDad ? "셋이 함께 가장 편안한 순간" : "둘이 함께 가장 편안한 순간";
+  return SLIDES.map((s) => {
+    if (s.chapter !== "6장") return s;
+    const newSubs = (s.subs ?? []).map((sub, i) => {
+      if (i === 0) return { ...sub, subtitle: firstSubTitle };
+      if (i === 1) return { ...sub, subtitle: trioMomentTitle };
+      return sub;
+    });
+    return { ...s, chapterTitle: ch6Title, subs: newSubs };
+  });
+}
 
 // 챕터별 그룹 (목차 표시용) — scroll-chapter는 1 항목으로만 표시 (sub은 스크롤로 보기)
 function groupByChapter(slides: SlideSpec[]) {
@@ -299,10 +326,30 @@ export default function ParentChildSlideResultV2() {
     })();
   }, [childName, childGender, params]);
 
-  const slideText = useMemo(() => buildSlideTextMap(streamText), [streamText]);
-  const total = SLIDES.length;
-  const slide = SLIDES[slideIdx];
-  const grouped = useMemo(() => groupByChapter(SLIDES), []);
+  const ageStage = useMemo(() => {
+    const y = parseInt(params.get("childYear") || "", 10);
+    const m = parseInt(params.get("childMonth") || "", 10) || 1;
+    const d = parseInt(params.get("childDay") || "", 10) || 1;
+    if (!y) return "elementary" as const;
+    return classifyAgeStage(y, m, d);
+  }, [params]);
+
+  const slideText = useMemo(() => {
+    // 1) 단일 부모 입력 시 본문의 양친 호명("어머님, 아버님" / "두 분이" / "부모님" 등) → 단일 부모 호칭 자동 치환
+    let cleaned = enforceParentVoice(streamText, meta?.hasMom ?? true, meta?.hasDad ?? true);
+    // 2) 영유아 자녀 입력 시 "학습 스케줄 권고" 같은 학령기 부적합 문장 통째 제거
+    cleaned = stripAgeInappropriate(cleaned, ageStage);
+    // 3) 매 sub 끝 "기억해야 할 한 가지는, ..." 마무리 문장 제거 — 반복감 제거
+    cleaned = stripParentTakeaway(cleaned);
+    return buildSlideTextMap(cleaned);
+  }, [streamText, meta?.hasMom, meta?.hasDad, ageStage]);
+  const dynamicSlides = useMemo(
+    () => slidesForMeta(meta?.hasMom ?? true, meta?.hasDad ?? true),
+    [meta?.hasMom, meta?.hasDad],
+  );
+  const total = dynamicSlides.length;
+  const slide = dynamicSlides[slideIdx];
+  const grouped = useMemo(() => groupByChapter(dynamicSlides), [dynamicSlides]);
 
   function go(delta: number) {
     setSlideIdx((i) => Math.max(0, Math.min(total - 1, i + delta)));
@@ -324,8 +371,7 @@ export default function ParentChildSlideResultV2() {
           <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
             style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>慈</div>
           <div className="flex-1 min-w-0">
-            <div className="text-[13px] font-bold text-white truncate">자도인의 가족 인연 풀이</div>
-            <div className="text-[10px]" style={{ color: `${ACCENT}77` }}>V2 · {childName}{honorific}</div>
+            <div className="text-[15px] font-bold text-white truncate">자도인의 가족 인연 풀이</div>
           </div>
           <div className="text-[11px]" style={{ color: `${ACCENT}99` }}>{slideIdx + 1}/{total}</div>
           <button onClick={() => setTocOpen((v) => !v)}
@@ -335,9 +381,11 @@ export default function ParentChildSlideResultV2() {
           </button>
         </div>
 
-        {/* 목차 드롭다운 */}
+        {/* 목차 드롭다운 — fixed 로 뷰포트 기준 고정 (스크롤 위치 무관) */}
         {tocOpen && (
-          <div className="absolute top-[58px] right-2 left-2 z-20 rounded-xl p-3 max-h-[70vh] overflow-y-auto"
+          <>
+            <div className="fixed inset-0 z-20" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setTocOpen(false)} />
+          <div className="fixed top-[58px] left-1/2 -translate-x-1/2 w-[calc(100%-16px)] max-w-[414px] z-30 rounded-xl p-3 max-h-[70vh] overflow-y-auto"
             style={{ background: "#1a0d10", border: `1px solid ${ACCENT}44` }}>
             {grouped.map(([ch, group]) => {
               const firstIdx = group.items[0]?.idx;
@@ -355,6 +403,7 @@ export default function ParentChildSlideResultV2() {
               );
             })}
           </div>
+          </>
         )}
 
         {/* 본문 */}
@@ -372,6 +421,8 @@ export default function ParentChildSlideResultV2() {
             <OpeningGreeting
               childName={childName}
               childGender={(childGender === "여" ? "여" : "남") as "남" | "여"}
+              hasMom={meta?.hasMom ?? true}
+              hasDad={meta?.hasDad ?? true}
               onStart={() => go(1)}
             />
           )}
@@ -382,6 +433,8 @@ export default function ParentChildSlideResultV2() {
               childName={childName}
               honorific={honorific}
               onStart={() => go(1)}
+              hasMom={meta.hasMom}
+              hasDad={meta.hasDad}
             />
           )}
 
@@ -527,22 +580,24 @@ function SlideView({
       {meta && spec.visualKey === "ch7-flow" && <FlowFillCard meta={meta} />}
       {meta && spec.visualKey === "ch7-external-boost" && <ExternalBoostCard saju={meta.sajuChild} />}
       {meta && spec.visualKey === "ch7-bond-age" && <BondAgeTimeline list={evaluateDaeunTimeline(meta.sajuChild)} />}
-      {meta && spec.kind === "outro" && <OutroCard childName={childName} honorific={honorific} />}
+      {meta && spec.kind === "outro" && <OutroCard childName={childName} honorific={honorific} hasMom={meta.hasMom} hasDad={meta.hasDad} />}
 
-      {/* 본문 */}
-      <div className="text-[14px] leading-7" style={{ color: "rgba(255,255,255,0.92)" }}>
-        {text ? (
-          renderParagraphs(text)
-        ) : loading ? (
-          <div className="flex items-center gap-3 py-3">
-            <div className="w-4 h-4 rounded-full border-2 border-t-transparent animate-spin"
-              style={{ borderColor: `${ACCENT}44`, borderTopColor: ACCENT }} />
-            <span className="text-[12px]" style={{ color: `${ACCENT}aa` }}>풀이 생성 중…</span>
-          </div>
-        ) : (
-          <p className="text-[12px]" style={{ color: `${ACCENT}88` }}>(이 페이지의 본문을 찾지 못했어요. 다음 페이지로 넘어가시거나 다시 시도해주세요.)</p>
-        )}
-      </div>
+      {/* 본문 — outro는 OutroCard만 노출, LLM 본문 중복 숨김 */}
+      {spec.kind !== "outro" && (
+        <div className="text-[14px] leading-7" style={{ color: "rgba(255,255,255,0.92)" }}>
+          {text ? (
+            renderParagraphs(text)
+          ) : loading ? (
+            <div className="flex items-center gap-3 py-3">
+              <div className="w-4 h-4 rounded-full border-2 border-t-transparent animate-spin"
+                style={{ borderColor: `${ACCENT}44`, borderTopColor: ACCENT }} />
+              <span className="text-[12px]" style={{ color: `${ACCENT}aa` }}>풀이 생성 중…</span>
+            </div>
+          ) : (
+            <p className="text-[12px]" style={{ color: `${ACCENT}88` }}>(이 페이지의 본문을 찾지 못했어요. 다음 페이지로 넘어가시거나 다시 시도해주세요.)</p>
+          )}
+        </div>
+      )}
     </article>
   );
 }
@@ -951,6 +1006,7 @@ function GisinCard({ saju }: { saju: SajuAnalysis }) {
         <div className="pt-1.5 mt-1.5" style={{ borderTop: "1px solid rgba(239,68,68,0.2)" }}>
           <p className="text-[10.5px] mb-1 tracking-[0.05em]" style={{ color: "#ff8a8a" }}>이런 양육이 누적되면</p>
           <ul className="text-[11.5px] leading-6 pl-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+
             {g.avoid.map((a, i) => <li key={i}>· {a}</li>)}
           </ul>
         </div>
@@ -1262,7 +1318,7 @@ function TantrumBars({ triggers }: { triggers: TantrumTrigger[] }) {
   const top = [...triggers].sort((a, b) => b.score - a.score)[0];
   return (
     <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 떼·고집의 뿌리 4가지 ─</p>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 고집의 뿌리 4가지 ─</p>
       <div className="space-y-2.5">
         {triggers.map((t) => (
           <div key={t.name}>
@@ -2103,8 +2159,12 @@ function BondAgeTimeline({ list }: { list: DaeunHighlight[] }) {
   );
 }
 
-function OutroCard({ childName, honorific }: { childName: string; honorific: string }) {
+function OutroCard({ childName, honorific, hasMom = true, hasDad = true }: { childName: string; honorific: string; hasMom?: boolean; hasDad?: boolean }) {
   const childLabel = `${childName}${honorific}`;
+  // 단일 부모 입력 시 해당 부모 호칭만 노출
+  const parentSalutation = hasMom && hasDad ? "어머님, 아버님" : hasMom ? "어머님" : hasDad ? "아버님" : "보호자님";
+  const parentNominative = hasMom && hasDad ? "두 분이" : hasMom ? "어머님이" : hasDad ? "아버님이" : "보호자님이";
+  const parentGenitive = hasMom && hasDad ? "두 분의" : hasMom ? "어머님의" : hasDad ? "아버님의" : "보호자님의";
   return (
     <div className="space-y-3">
       <div className="rounded-2xl p-5 text-center" style={{ background: `linear-gradient(135deg, ${ACCENT}1a, rgba(255,215,0,0.08))`, border: `1px solid ${ACCENT}40` }}>
@@ -2112,26 +2172,18 @@ function OutroCard({ childName, honorific }: { childName: string; honorific: str
           style={{ background: `${ACCENT}22`, color: ACCENT, border: `1px solid ${ACCENT}66` }}>慈</div>
         <p className="text-[13px] font-bold mb-2" style={{ color: GOLD }}>자도인(慈道人)의 마지막 당부</p>
         <p className="text-[12.5px] leading-[1.85]" style={{ color: "rgba(255,255,255,0.88)" }}>
-          어머님, 아버님 — <strong style={{ color: GOLD }}>{childLabel}</strong>의 사주를 함께 들여다봐주셔서 감사합니다.
+          {parentSalutation} — <strong style={{ color: GOLD }}>{childLabel}</strong>의 사주를 함께 들여다봐주셔서 감사합니다.
         </p>
       </div>
       <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}22` }}>
         <p className="text-[12.5px] leading-[1.85]" style={{ color: "rgba(255,255,255,0.85)" }}>
           이 풀이는 자녀를 <strong style={{ color: GOLD }}>틀에 가두기 위한 지도</strong>가 아닙니다.<br />
-          오히려 자녀 안에 이미 있는 결을 두 분이 더 잘 알아봐주시고, 자녀의 호흡에 맞춰 다가가시기 위한 <strong style={{ color: GOLD }}>가이드</strong>입니다.
+          오히려 자녀 안에 이미 있는 결을 {parentNominative} 더 잘 알아봐주시고, 자녀의 호흡에 맞춰 다가가시기 위한 <strong style={{ color: GOLD }}>가이드</strong>입니다.
         </p>
-      </div>
-      <div className="rounded-2xl p-4" style={{ background: "rgba(125,211,192,0.08)", border: "1px solid rgba(125,211,192,0.3)" }}>
-        <p className="text-[11.5px] mb-2 font-bold" style={{ color: "#7dd3c0" }}>기억해주실 세 가지</p>
-        <ul className="text-[12px] leading-[1.85] space-y-1.5" style={{ color: "rgba(255,255,255,0.85)" }}>
-          <li>· 사주는 미래를 점치는 게 아니라, 자녀 안의 결을 읽는 <strong>지도(地圖)</strong>입니다.</li>
-          <li>· 강한 결은 본질 그대로, 약한 결은 외부 자원으로 채울 수 있습니다.</li>
-          <li>· 두 분이 자녀의 결을 한 박자 늦춰 다가가실 때, 자녀가 자기 호흡으로 자라납니다.</li>
-        </ul>
       </div>
       <div className="rounded-2xl p-4 text-center" style={{ background: `${GOLD}10`, border: `1px solid ${GOLD}40` }}>
         <p className="text-[12.5px] leading-[1.85] italic" style={{ color: GOLD }}>
-          <strong>{childLabel}</strong>의 결이 두 분의 따뜻한 시선 속에서 활짝 펼쳐지길 바랍니다.
+          <strong>{childLabel}</strong>의 결이 {parentGenitive} 따뜻한 시선 속에서 활짝 펼쳐지길 바랍니다.
         </p>
         <p className="text-[11px] mt-3" style={{ color: `${GOLD}aa` }}>— 자도인 慈道人 —</p>
       </div>
@@ -2149,12 +2201,21 @@ function IntroSummaryV2({
   childName,
   honorific,
   onStart,
+  hasMom,
+  hasDad,
 }: {
   sajuChild: SajuAnalysis;
   childName: string;
   honorific: string;
   onStart: () => void;
+  hasMom: boolean;
+  hasDad: boolean;
 }) {
+  const ch6Title = hasMom && hasDad
+    ? "엄마·아빠와 우리 셋의 결"
+    : hasMom
+      ? "엄마와 아이 둘의 결"
+      : "아빠와 아이 둘의 결";
   const childLabel = `${childName}${honorific}`;
   const ilgan = sajuChild.ilgan;
   const ilji = sajuChild.pillars.day.branch;
@@ -2340,8 +2401,14 @@ function IntroSummaryV2({
         <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>이 아이에게 맞는 것과 맞지 않는 것</p>
         <YongsinCard saju={sajuChild} />
         <GisinCard saju={sajuChild} />
-        <div className="rounded-xl p-3" style={{ background: "rgba(126,218,126,0.05)", border: "1px solid rgba(126,218,126,0.3)" }}>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+        <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(126,218,126,0.05)", border: "1px solid rgba(126,218,126,0.3)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+            <strong style={{ color: "#7eda7e" }}>용신(用神)</strong>은 자녀에게 <em>약처럼 작용하는 결</em>이에요. 부족한 자리를 채워주는 기운.
+          </p>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+            <strong style={{ color: "#ff8a8a" }}>기신(忌神)</strong>은 자녀를 <em>지치게 하는 결</em>이에요. 너무 많아지면 결이 흔들리는 기운.
+          </p>
+          <p className="text-[12px] leading-[1.75] pt-1" style={{ color: "rgba(255,255,255,0.85)", borderTop: "1px solid rgba(126,218,126,0.2)" }}>
             <span className="text-[10px] mr-1" style={{ color: "#7eda7e" }}>요약</span>
             <strong style={{ color: "#7eda7e" }}>채워줄 결</strong>은 부모가 양육에서 보태주면 자녀가 가장 빛나는 결, <strong style={{ color: "#ff8a8a" }}>살펴줄 결</strong>은 너무 많아지지 않게 살펴주면 좋은 결이에요.
           </p>
@@ -2377,9 +2444,6 @@ function IntroSummaryV2({
                   );
                 })}
               </div>
-              <p className="text-[10.5px] italic mt-3 text-center" style={{ color: "rgba(255,255,255,0.55)" }}>
-                대운 시작 나이: 만 {sajuChild.daeun?.number ?? "—"}세 / 방향: {sajuChild.daeun?.direction ?? "—"}
-              </p>
             </div>
             <div className="rounded-xl p-3" style={{ background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.3)" }}>
               <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
@@ -2450,10 +2514,19 @@ function IntroSummaryV2({
         </div>
         <IljuSubsectionBanner childIlju={childIlju} />
         <IljuCard saju={sajuChild} />
-        <div className="rounded-xl p-3" style={{ background: "rgba(200,156,255,0.05)", border: "1px solid rgba(200,156,255,0.3)" }}>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+        <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(200,156,255,0.05)", border: "1px solid rgba(200,156,255,0.3)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+            <strong style={{ color: "#c89cff" }}>일주(日柱)</strong>는 사주 네 기둥 중 자녀 본인을 나타내는 가장 핵심 기둥이에요. <strong>{childLabel}</strong>의 성격·기질이 가장 진하게 드러나는 자리.
+          </p>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+            <strong style={{ color: "#c89cff" }}>일간(日干)</strong>은 일주의 위 글자 — 자녀의 <em>타고난 본질·바탕 기운</em>이에요. 변하지 않는 결.
+          </p>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+            <strong style={{ color: "#c89cff" }}>일지(日支)</strong>는 일주의 아래 글자 — 자녀가 <em>일상에서 살아내는 호흡·마음 속 자리</em>예요. 매일의 결.
+          </p>
+          <p className="text-[12px] leading-[1.75] pt-1" style={{ color: "rgba(255,255,255,0.85)", borderTop: "1px solid rgba(200,156,255,0.2)" }}>
             <span className="text-[10px] mr-1" style={{ color: "#c89cff" }}>요약</span>
-            일주는 <strong>{childLabel}</strong>의 성격·기질의 핵이에요. 일간 = 본질, 일지 = 일상 호흡.
+            일간은 <strong>{childLabel}</strong>이 어떤 결로 태어났는가, 일지는 그 결이 매일 어떻게 펼쳐지는가를 말해줘요.
           </p>
         </div>
       </section>
@@ -2473,7 +2546,7 @@ function IntroSummaryV2({
             { num: "3장", title: "우리 아이 칭찬하고 혼내는 법" },
             { num: "4장", title: "친구 사이 우리 아이" },
             { num: "5장", title: "우리 아이는 무엇으로 빛날까" },
-            { num: "6장", title: "엄마·아빠와 우리 셋의 결" },
+            { num: "6장", title: ch6Title },
             { num: "마지막", title: "자도인의 마지막 당부" },
           ].map((c, i) => (
             <div key={i} className="flex items-center gap-3 py-1.5 px-1">
@@ -2573,22 +2646,14 @@ function ScrollChapterPage({
   return (
     <article className="space-y-4 py-2">
       {/* 챕터 라벨 */}
-      <div className="flex items-baseline gap-2">
-        <span className="text-[11px] px-2 py-0.5 rounded-full font-bold"
-          style={{ backgroundColor: `${GOLD}22`, color: GOLD }}>
+      {/* 챕터 큰 제목 + 배지 한 줄 */}
+      <h2 className="text-[22px] font-bold leading-tight flex items-baseline gap-2 flex-wrap" style={{ color: "white" }}>
+        <span className="px-2.5 py-0.5 rounded-full"
+          style={{ backgroundColor: `${GOLD}22`, color: GOLD, fontSize: "20px" }}>
           {spec.chapter}
         </span>
-        <span className="text-[12px]" style={{ color: `${ACCENT}99` }}>{spec.chapterTitle}</span>
-      </div>
-
-      {/* 챕터 큰 제목 */}
-      <h2 className="text-[22px] font-bold leading-tight" style={{ color: "white" }}>
-        {spec.chapterTitle}
+        <span>{spec.chapterTitle}</span>
       </h2>
-
-      <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)" }}>
-        아래로 스크롤해서 {subs.length}개 소제목을 차례대로 읽어주세요
-      </p>
 
       {/* sub 섹션 반복 */}
       {subs.map((sub, i) => {

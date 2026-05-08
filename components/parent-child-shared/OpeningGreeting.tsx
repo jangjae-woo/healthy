@@ -8,13 +8,20 @@ const GOLD = "#FFD700";
 export default function OpeningGreeting({
   childName,
   childGender,
+  hasMom = true,
+  hasDad = true,
   onStart,
 }: {
   childName: string;
   childGender: "남" | "여";
+  hasMom?: boolean;
+  hasDad?: boolean;
   onStart: () => void;
 }) {
   const childLabel = `${childName}${childGender === "남" ? "군" : "양"}`;
+  // 단일 부모 입력 시 해당 부모 호칭만 노출. 양친 없을 시(자녀만) 보호자님으로 fallback.
+  const parentSalutation = hasMom && hasDad ? "어머님 · 아버님" : hasMom ? "어머님" : hasDad ? "아버님" : "보호자님";
+  const parentLabel = hasMom && hasDad ? "부모님" : hasMom ? "어머님" : hasDad ? "아버님" : "보호자님";
 
   return (
     <div className="space-y-6 py-4">
@@ -29,7 +36,7 @@ export default function OpeningGreeting({
         {/* 본문 — 단순 텍스트 */}
         <div className="space-y-5">
           <p className="text-[16px] font-bold leading-[1.7]" style={{ color: GOLD }}>
-            안녕하세요, 어머님 · 아버님.
+            안녕하세요, {parentSalutation}.
           </p>
 
           <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
@@ -55,13 +62,13 @@ export default function OpeningGreeting({
           <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
             그리고 한 가지 더—
             <br />
-            부모님과 <strong style={{ color: GOLD }}>{childLabel}</strong> 사이엔 어떤 <strong style={{ color: ACCENT }}>궁합의 결</strong>이 흐르고 있는지, 그 연결의 지도도 함께 펼쳐드릴게요.
+            {parentLabel}과 <strong style={{ color: GOLD }}>{childLabel}</strong> 사이엔 어떤 <strong style={{ color: ACCENT }}>궁합의 결</strong>이 흐르고 있는지, 그 연결의 지도도 함께 펼쳐드릴게요.
           </p>
 
           <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
             사주는 미래를 점치는 게 아니에요.
             <br />
-            아이가 어떤 결로 빛나고, 부모님이 어떻게 곁에 있어주면 좋을지 보여주는 <strong style={{ color: GOLD }}>지도(地圖)</strong>입니다.
+            아이가 어떤 결로 빛나고, {parentLabel}이 어떻게 곁에 있어주면 좋을지 보여주는 <strong style={{ color: GOLD }}>지도(地圖)</strong>입니다.
           </p>
         </div>
 
