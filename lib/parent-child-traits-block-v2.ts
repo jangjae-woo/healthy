@@ -87,6 +87,42 @@ const ILJU_INNER_OUTER: Record<string, { outer: string; inner: string; combo: st
   "수-수": { outer: "흐르고 받아들이는 결, 유연함", inner: "안도 깊음", combo: "끝없이 깊은 사람, 다만 표현이 적음" },
 };
 
+// ════════════════════════════════════════════════════════════════════
+// COMBINATION_KEYWORDS — 결합 매핑 framework (옵션 A — 250 cell)
+// 일간 10 × 강한 오행 5 × 약한 오행 5 = 250 cell.
+// key 형식: `${ilgan}-${strongElem}-${weakElem}` (예: "갑-화-수")
+// 빈 cell = 사용자 메모 미작성. AI가 systemInstruction 결합 원칙 룰로 추론.
+// 채워진 cell = 사용자 명리 깊이로 풀이.
+//
+// 사용 — 사용자가 한 cell씩 추가:
+//   COMBINATION_KEYWORDS["갑-화-수"] = ["표현은 강한데 받침 부족", "발산하다 지치는 결", ...]
+//   COMBINATION_KEYWORDS["경-토-목"] = ["받침은 두텁고 도전 자리 부족", "안정 안에 갇힌 결", ...]
+// 채워지는 cell이 늘수록 풀이 깊이 ↑. 채워지지 않은 cell은 AI 룰 fallback.
+//
+// V1 결합 원칙 룰 fallback (systemInstruction에 박혀있음):
+//   - 일간 약 + 인성·비겁 강 = 본인 결 회복
+//   - 일간 강 + 인성·비겁 더 강 = 과잉 → 식상으로 풀어야
+//   - 일간 약 + 관성·재성 강 = 무너지기 쉬움
+//   - 강한 오행이 일간 극하는 오행을 생함 = 간접 극·우회 압박
+// ════════════════════════════════════════════════════════════════════
+const COMBINATION_KEYWORDS: Record<string, string[]> = {
+  // 한 cell씩 추가하면 됨. 빈 상태에서 시작.
+  // 예시:
+  // "갑-화-수": ["표현은 강한데 받침 부족한 결", "발산하다 결국 지치는 흐름", "책 한 권 끝까지 읽기 어려움", "부모가 받쳐주면 비로소 깊어지는 결"],
+  // "경-토-목": ["받침은 두텁고 도전 자리 부족한 결", "안정 안에 갇혀 자라남 막힌 흐름", "큰 변화는 조심스러우나 작은 시도는 안전"],
+};
+
+// 결합 cell 룩업 — 자녀 사주에서 일간·강한오행·약한오행 결합 키워드 풀 추출
+function lookupCombinationKeywords(
+  ilgan: string,
+  strongElem: string | null,
+  weakElem: string | null,
+): string[] | null {
+  if (!strongElem || !weakElem) return null;
+  const key = `${ilgan}-${strongElem}-${weakElem}`;
+  return COMBINATION_KEYWORDS[key] ?? null;
+}
+
 // ─── M4 — 신살 매력 (V1 3층 + 자도인 관점 추가) ─────────────────────
 const SINSAL_CHARM: Record<string, { hanja: string; name: string; charm: string }> = {
   도화: { hanja: "桃花", name: "도화살", charm: "사람 모이는 자리에 자연스럽게 시선을 받는 결" },
@@ -190,6 +226,9 @@ function weakElement(saju: SajuAnalysis): string | null {
   const [el, val] = sorted[0];
   return val / total < 0.10 ? el : null;
 }
+function strongElement(saju: SajuAnalysis): string {
+  return topElement(saju);
+}
 
 export interface ChildTraitsV2 {
   ilgan: { name: string; nature: string; keywords: string[] };
@@ -202,6 +241,9 @@ export interface ChildTraitsV2 {
   sipWeak: { sip: string; meaning: string; needs: string[] }[];
   weakElem: { label: string; lacking: string; attractKey: string[] } | null;
   ilganCharm: { label: string; charmKeys: string[] };
+  // 결합 매핑 — 일간 + 강한 오행 + 약한 오행 cell. 사용자 채워졌으면 keywords 배열, 미채움이면 null.
+  combinationKeywords: string[] | null;
+  combinationKey: string;  // "갑-화-수" 형태 — 메모 작성 참조용
 }
 
 export function deriveChildTraitsV2(saju: SajuAnalysis): ChildTraitsV2 {
@@ -261,11 +303,17 @@ export function deriveChildTraitsV2(saju: SajuAnalysis): ChildTraitsV2 {
   // 일간 오행 매력 결
   const ilganCharm = ILGAN_CHARM_BY_ELEM[ilganElem] ?? ILGAN_CHARM_BY_ELEM["토"];
 
+  // 결합 매핑 cell 룩업 (옵션 A — 일간 × 강한 오행 × 약한 오행)
+  const strongEl = strongElement(saju);
+  const combinationKey = `${saju.ilgan}-${strongEl}-${weakEl ?? "—"}`;
+  const combinationKeywords = lookupCombinationKeywords(saju.ilgan, strongEl, weakEl);
+
   return {
     ilgan, ilganElem, iljiElem,
     shinkang, iljuInnerOuter, charms,
     sipStrong, sipWeak,
     weakElem, ilganCharm,
+    combinationKeywords, combinationKey,
   };
 }
 
@@ -358,6 +406,14 @@ export function childTraitsToPromptBlockV2(
     lines.push("");
     lines.push(`[일간 오행 매력 결]`);
     lines.push(`- ${t.ilganCharm.label}: ${t.ilganCharm.charmKeys.join(" / ")}`);
+  }
+
+  // 결합 매핑 cell — 사용자 메모로 채워진 cell만 박힘. 빈 cell이면 출력 X (AI는 결합 원칙 룰 fallback).
+  // 모든 챕터에 등장 — 자녀 결합 의미가 모든 풀이의 토대.
+  if (t.combinationKeywords && t.combinationKeywords.length > 0) {
+    lines.push("");
+    lines.push(`[결합 매핑 — 일간 + 강한 오행 + 약한 오행]`);
+    lines.push(`- ${t.combinationKey}: ${t.combinationKeywords.join(" / ")}`);
   }
 
   return lines.join("\n");
