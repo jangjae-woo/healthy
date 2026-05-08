@@ -88,6 +88,71 @@ const ILJU_INNER_OUTER: Record<string, { outer: string; inner: string; combo: st
 };
 
 // ════════════════════════════════════════════════════════════════════
+// ILJU_60GAPJA_OVERRIDE — 일주 60갑자 정밀 매핑 framework
+// ────────────────────────────────────────────────────────────────────
+// V1 패턴(25 조합 — 오행 × 오행)이 default. 60갑자별 정밀 데이터는 cell 단위로 override.
+// 빈 cell = 25 조합 default 사용. 채워진 cell = 사용자 정밀 데이터.
+// 한 갑자씩 추가 가능.
+//
+// 60갑자 list (참조용):
+//   갑자·을축·병인·정묘·무진·기사·경오·신미·임신·계유 (10)
+//   갑술·을해·병자·정축·무인·기묘·경진·신사·임오·계미 (20)
+//   갑신·을유·병술·정해·무자·기축·경인·신묘·임진·계사 (30)
+//   갑오·을미·병신·정유·무술·기해·경자·신축·임인·계묘 (40)
+//   갑진·을사·병오·정미·무신·기유·경술·신해·임자·계축 (50)
+//   갑인·을묘·병진·정사·무오·기미·경신·신유·임술·계해 (60)
+//
+// 사용 — 사용자가 한 갑자씩 추가:
+//   ILJU_60GAPJA_OVERRIDE["경술"] = {
+//     outer: "묵직·차분·강직",
+//     inner: "외고집·자존심 강함·속에 화 품음",
+//     combo: "한 번 마음 주면 깊고 길게 — 변심 X·표현 어려움",
+//     keywords: ["굳건한 의지", "위기에 무너지지 않음", "겉은 차분 속은 단단"],
+//   };
+//
+// 채워지는 갑자가 늘수록 풀이 깊이 ↑.
+// ════════════════════════════════════════════════════════════════════
+const ILJU_60GAPJA_OVERRIDE: Record<string, {
+  outer?: string;
+  inner?: string;
+  combo?: string;
+  keywords?: string[];
+}> = {
+  // 한 갑자씩 추가하면 됨. 빈 상태에서 시작.
+  // 예시:
+  // "경술": {
+  //   outer: "묵직·차분·강직",
+  //   inner: "외고집·자존심 강함·속에 화 품음",
+  //   combo: "한 번 마음 주면 깊고 길게",
+  //   keywords: ["굳건한 의지", "위기에 무너지지 않음"],
+  // },
+};
+
+// 일주 룩업 — override > 25 조합 default
+function getIljuTraitsV2(stem: string, branch: string): {
+  outer: string;
+  inner: string;
+  combo: string;
+  keywords: string[];
+  isOverride: boolean;
+} {
+  const gapja = `${stem}${branch}`;
+  const override = ILJU_60GAPJA_OVERRIDE[gapja];
+  const stemElem = STEM_ELEM[stem] ?? "토";
+  const branchElem = BRANCH_ELEM[branch] ?? "토";
+  const default25 = ILJU_INNER_OUTER[`${stemElem}-${branchElem}`] ?? {
+    outer: "고유한 결", inner: "깊은 결", combo: "단단한 결을 가진 자녀",
+  };
+  return {
+    outer: override?.outer ?? default25.outer,
+    inner: override?.inner ?? default25.inner,
+    combo: override?.combo ?? default25.combo,
+    keywords: override?.keywords ?? [],
+    isOverride: !!override,
+  };
+}
+
+// ════════════════════════════════════════════════════════════════════
 // COMBINATION_KEYWORDS — 결합 매핑 framework (옵션 A — 250 cell)
 // 일간 10 × 강한 오행 5 × 약한 오행 5 = 250 cell.
 // key 형식: `${ilgan}-${strongElem}-${weakElem}` (예: "갑-화-수")
@@ -235,7 +300,7 @@ export interface ChildTraitsV2 {
   ilganElem: string;
   iljiElem: string;
   shinkang: { label: string; keywords: string[]; advice: string };
-  iljuInnerOuter: { outer: string; inner: string; combo: string };
+  iljuInnerOuter: { outer: string; inner: string; combo: string; keywords: string[]; isOverride: boolean; gapja: string };
   charms: { hanja: string; name: string; charm: string }[];
   sipStrong: { sip: string; count: number; keywords: string[] }[];
   sipWeak: { sip: string; meaning: string; needs: string[] }[];
@@ -267,9 +332,11 @@ export function deriveChildTraitsV2(saju: SajuAnalysis): ChildTraitsV2 {
   const shinkangKey = dms?.level ?? "중화";
   const shinkang = SHINKANG_TRAITS[shinkangKey] ?? SHINKANG_TRAITS["중화"];
 
-  // 일주 겉/속
-  const iljuInnerOuter = ILJU_INNER_OUTER[`${ilganElem}-${iljiElem}`] ?? {
-    outer: "고유한 결", inner: "깊은 결", combo: "단단한 결을 가진 자녀",
+  // 일주 겉/속 — 60갑자 override > 25 조합 default
+  const iljuRaw = getIljuTraitsV2(saju.ilgan, saju.pillars.day.branch);
+  const iljuInnerOuter = {
+    ...iljuRaw,
+    gapja: `${saju.ilgan}${saju.pillars.day.branch}`,
   };
 
   // 신살 매력 — 자녀 보유 신살 매핑
@@ -355,10 +422,13 @@ export function childTraitsToPromptBlockV2(
   // 일주 겉/속 (ch3·ch4 강조 — 거짓말·친구 사이)
   if (scope === "all" || scope === "ch3" || scope === "ch4") {
     lines.push("");
-    lines.push(`[일주 — 겉과 속의 차이]`);
+    lines.push(`[일주 ${t.iljuInnerOuter.gapja} — 겉과 속의 차이${t.iljuInnerOuter.isOverride ? " (60갑자 정밀)" : ""}]`);
     lines.push(`- 겉(보여지는 결): ${t.iljuInnerOuter.outer}`);
     lines.push(`- 속(진짜 결): ${t.iljuInnerOuter.inner}`);
     lines.push(`- 결합: "${t.iljuInnerOuter.combo}"`);
+    if (t.iljuInnerOuter.keywords.length > 0) {
+      lines.push(`- 키워드 풀: ${t.iljuInnerOuter.keywords.join(" / ")}`);
+    }
   }
 
   // 십성 강약 (ch2·ch3·ch4 강조)
