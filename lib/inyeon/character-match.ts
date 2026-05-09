@@ -89,27 +89,47 @@ export function matchFemaleCharacter(saju: SajuAnalysis): CharacterMatch {
   const dohwa = hasDohwa(saju);
   const yang = isYangIlgan(saju);
 
-  // 1순위 옥순 — 식상강 + 도화 + 양일간
+  // 1순위 옥순 (strict) — 식상강 + 도화 + 양일간
   if (c.식상 >= 3 && dohwa && yang) {
     return { name: "옥순", signal: "식상강 + 도화살 + 양일간 — 솔직 직진의 결", ...FEMALE_META.옥순 };
   }
-  // 2순위 현숙 — 편관+식상 결합 + 도화 일부 + 양일간
+  // 2순위 현숙 — 편관+식상 결합 + (도화 또는 양)
   if (c.편관 >= 1 && c.식상 >= 2 && (dohwa || yang)) {
-    return { name: "현숙", signal: "편관·식상 결합 + 도화 일부 — 시크 완벽주의의 결", ...FEMALE_META.현숙 };
+    return { name: "현숙", signal: "편관·식상 결합 + 도화/양 — 시크 완벽주의의 결", ...FEMALE_META.현숙 };
   }
-  // 3순위 정숙 — 정관+인성 안정 + 재성 결합
+  // 2.5순위 현숙 (편관강 fallback) — 편관 강한데 식상 부족해도 시크함은 같음
+  if (c.편관 >= 2 && yang) {
+    return { name: "현숙", signal: "편관강 + 양일간 — 카리스마·완벽주의의 결", ...FEMALE_META.현숙 };
+  }
+  // 3순위 정숙 (strict) — 정관+인성 안정 + 재성 결합
   if (c.정관 >= 1 && c.인성 >= 2 && c.재성 >= 1) {
     return { name: "정숙", signal: "정관·인성 안정 + 재성 결합 — 강단·성숙의 결", ...FEMALE_META.정숙 };
+  }
+  // 3.5순위 정숙 (재성 옵션) — 인성강 + 정관 → 차분한 강단
+  if (c.정관 >= 1 && c.인성 >= 3) {
+    return { name: "정숙", signal: "정관 + 인성강 — 차분하고 깊은 강단의 결", ...FEMALE_META.정숙 };
   }
   // 4순위 순자 — 식상강 + 음일간 + 비겁 활성
   if (c.식상 >= 3 && !yang && c.비겁 >= 2) {
     return { name: "순자", signal: "식상강 + 음일간 + 비겁 활성 — 활발·애교의 결", ...FEMALE_META.순자 };
   }
-  // 5순위 영숙 — 정관+식상 균형 + 인성 결합
-  if (c.정관 >= 1 && c.식상 >= 1 && c.인성 >= 1) {
+  // 4.5순위 순자 (음일간 식상강) — 비겁 약해도 음일간+식상강은 애교형
+  if (c.식상 >= 3 && !yang) {
+    return { name: "순자", signal: "식상강 + 음일간 — 발랄한 감수성의 결", ...FEMALE_META.순자 };
+  }
+  // 5순위 옥순 (fallback) — 식상강 + 양일간 (도화 X여도 직진형)
+  if (c.식상 >= 3 && yang) {
+    return { name: "옥순", signal: "식상강 + 양일간 — 직진·솔직한 결", ...FEMALE_META.옥순 };
+  }
+  // 6순위 영숙 (strict) — 정관+식상 균형 + 인성 결합
+  if (c.정관 >= 1 && c.식상 >= 2 && c.인성 >= 1) {
     return { name: "영숙", signal: "정관·식상 균형 + 인성 결합 — 참하고 다정한 결", ...FEMALE_META.영숙 };
   }
-  // 6순위 영자 (fallback) — 균형 사주 또는 그 외
+  // 6.5순위 영숙 (느슨) — 정관·인성 있고 식상 1 이상
+  if (c.정관 >= 1 && c.인성 >= 1 && c.식상 >= 1) {
+    return { name: "영숙", signal: "정관·인성·식상 균형 — 참한 다정의 결", ...FEMALE_META.영숙 };
+  }
+  // 7순위 영자 (fallback) — 균형 사주 또는 그 외
   return {
     name: "영자",
     signal: isBalanced(saju) ? "균형 사주 — 무난하고 일상적인 결" : "일반 사주 — 평범하고 따스한 결",
@@ -123,7 +143,7 @@ export function matchMaleCharacter(saju: SajuAnalysis): CharacterMatch {
   const dohwa = hasDohwa(saju);
   const yang = isYangIlgan(saju);
 
-  // 1순위 영철 — 식상강 + 도화 + 양일간
+  // 1순위 영철 (strict) — 식상강 + 도화 + 양일간
   if (c.식상 >= 3 && dohwa && yang) {
     return { name: "영철", signal: "식상강 + 도화살 + 양일간 — 자연스러운 자신감의 결", ...MALE_META.영철 };
   }
@@ -131,13 +151,29 @@ export function matchMaleCharacter(saju: SajuAnalysis): CharacterMatch {
   if (c.정관 >= 1 && c.식상 >= 2 && c.비겁 >= 2) {
     return { name: "영호", signal: "정관·식상·비겁 결합 — 포용력 있는 인싸의 결", ...MALE_META.영호 };
   }
-  // 3순위 광수 — 인성강 + 정관 + 깊이
+  // 3순위 광수 (strict) — 인성강 + 정관 + 깊이
   if (c.인성 >= 3 && c.정관 >= 1) {
     return { name: "광수", signal: "인성강 + 정관 — 이지적·진중·깊이의 결", ...MALE_META.광수 };
   }
-  // 4순위 영수 — 정관·인성 안정 + 중후
+  // 3.5순위 광수 (인성 매우 강) — 정관 없어도 인성≥4면 진중·깊이
+  if (c.인성 >= 4) {
+    return { name: "광수", signal: "인성 매우 강 — 깊이·신중함의 결", ...MALE_META.광수 };
+  }
+  // 4순위 영수 — 정관·인성 안정
   if (c.정관 >= 1 && c.인성 >= 2) {
     return { name: "영수", signal: "정관·인성 안정 — 중후하고 든든한 결", ...MALE_META.영수 };
+  }
+  // 4.5순위 영철 (fallback) — 식상강 양일간 (도화 X여도 자신감)
+  if (c.식상 >= 3 && yang) {
+    return { name: "영철", signal: "식상강 + 양일간 — 자신감 있는 결", ...MALE_META.영철 };
+  }
+  // 4.7순위 영호 (느슨) — 정관+식상 (비겁 약해도 사교형)
+  if (c.정관 >= 1 && c.식상 >= 2) {
+    return { name: "영호", signal: "정관·식상 결합 — 점잖은 외향형의 결", ...MALE_META.영호 };
+  }
+  // 4.8순위 영수 (인성 단독) — 정관 없어도 인성≥2면 차분·중후
+  if (c.인성 >= 2) {
+    return { name: "영수", signal: "인성 안정 — 차분하고 중후한 결", ...MALE_META.영수 };
   }
   // 5순위 상철 (fallback) — 균형 + 재성·식상 안정
   return {
