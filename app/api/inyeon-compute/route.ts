@@ -6,6 +6,8 @@ import {
   type SajuAnalysis,
 } from "@/lib/saju-calculator";
 import { computeInyeonScores, scoreLabelFor, estimateAssetCurve, estimateTogetherCurve } from "@/lib/inyeon/scoring";
+import { matchCharacter } from "@/lib/inyeon/character-match";
+import { getPairLabelFor } from "@/lib/inyeon/character-pair";
 
 export const maxDuration = 60;
 
@@ -111,6 +113,13 @@ export async function POST(req: NextRequest) {
     const bCurve = estimateAssetCurve(b);
     const togetherCurve = estimateTogetherCurve(aCurve, bCurve, scores.finance);
 
+    // ─── 결정론 캐릭터 매칭 — "나는 솔로" 컨셉 ───
+    const aGender: "남" | "여" = body.a.gender === "여" ? "여" : "남";
+    const bGender: "남" | "여" = body.b.gender === "여" ? "여" : "남";
+    const aMatch = matchCharacter(a, aGender);
+    const bMatch = matchCharacter(b, bGender);
+    const pairLabel = getPairLabelFor(aGender, aMatch.name, bGender, bMatch.name);
+
     return NextResponse.json({
       a: {
         pillars: a.pillars,
@@ -157,6 +166,11 @@ export async function POST(req: NextRequest) {
         },
       },
       curves: { a: aCurve, b: bCurve, together: togetherCurve },
+      character: {
+        a: aMatch,
+        b: bMatch,
+        pair: pairLabel,
+      },
     });
   } catch (e) {
     console.error("inyeon-compute error:", e);

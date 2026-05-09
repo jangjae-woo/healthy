@@ -16,6 +16,8 @@ import { buildInyeonChapter6Prompt } from "./prompts/ch6-finance";
 import { buildInyeonChapter7Prompt } from "./prompts/ch7-marriage";
 import { buildInyeonChapter8Prompt } from "./prompts/ch8-final-letter";
 import { deriveInyeonTraits, inyeonTraitsToPromptBlock } from "../inyeon-traits-block-v2";
+import { matchCharacter, type CharacterMatch } from "./character-match";
+import { getPairLabelFor, type PairLabel } from "./character-pair";
 
 const STEM_ELEM: Record<string, string> = {
   갑: "목", 을: "목", 병: "화", 정: "화", 무: "토", 기: "토",
@@ -181,6 +183,24 @@ function topWarning(compat: CompatibilityResult): string {
 export interface InyeonAllPrompts {
   ch1: string; ch2: string; ch3: string; ch4: string;
   ch5: string; ch6: string; ch7: string; ch8: string;
+}
+
+export interface InyeonCharacterMatch {
+  aMatch: CharacterMatch;
+  bMatch: CharacterMatch;
+  pairLabel: PairLabel | null;
+}
+
+// 캐릭터 결정론 분류 — 만세력 단계에서 호출. 인연 전용.
+export function buildCharacterMatch(
+  req: InyeonRequest,
+  a: SajuAnalysis,
+  b: SajuAnalysis,
+): InyeonCharacterMatch {
+  const aMatch = matchCharacter(a, req.a.gender);
+  const bMatch = matchCharacter(b, req.b.gender);
+  const pairLabel = getPairLabelFor(req.a.gender, aMatch.name, req.b.gender, bMatch.name);
+  return { aMatch, bMatch, pairLabel };
 }
 
 export function buildAllInyeonPrompts(
