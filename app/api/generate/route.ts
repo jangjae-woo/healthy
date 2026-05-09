@@ -40,6 +40,7 @@ import { calcGyeokguk, calcGongmang, calcGisin, calcGaeun, calcChildTiming, calc
 import { SAJU_SYSTEM_INSTRUCTION } from "@/lib/saju-system-instruction";
 import { validateSajuOutput } from "@/lib/saju-validator";
 import { deriveChildTraitsV2, childTraitsToPromptBlockV2 } from "@/lib/parent-child-traits-block-v2";
+import { derivePersonalTraits, personalTraitsToPromptBlock } from "@/lib/personal-traits-block-v2";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -4107,7 +4108,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const ctx = sajuAnalysis != null ? buildCtx(sajuAnalysis, data.name) : '';
+    let ctx = sajuAnalysis != null ? buildCtx(sajuAnalysis, data.name) : '';
+    // ─── V2 1인 traits-block 주입 — 평생사주·연애사주 본인 풀이 ───
+    if (sajuAnalysis && (type === 'saju' || type === 'saju-love')) {
+      try {
+        const _personalTraits = derivePersonalTraits(sajuAnalysis);
+        ctx = ctx + "\n\n" + personalTraitsToPromptBlock(_personalTraits, data.name, type as "saju" | "saju-love");
+      } catch (e) {
+        // traits-block 실패해도 기존 ctx로 정상 fallback
+        console.warn("[personal-traits-block-v2] derive 실패:", e);
+      }
+    }
 
     let prompt: string;
     let maxTokens: number;
