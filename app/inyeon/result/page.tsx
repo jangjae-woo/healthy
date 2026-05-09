@@ -1064,6 +1064,295 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
+// AttractionStyleBar — 1·2장 연애 스타일 5 막대 (식상·재성·관성·인성·비겁)
+function AttractionStyleBar({ name, sipseong, color }: {
+  name: string;
+  sipseong: { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null };
+  color: string;
+}) {
+  const all = [
+    sipseong.year.stem, sipseong.year.branch,
+    sipseong.month.stem, sipseong.month.branch,
+    sipseong.day.branch,
+    sipseong.hour?.stem, sipseong.hour?.branch,
+  ].filter(Boolean) as string[];
+  const counts = {
+    "식상 (표현)": all.filter(s => s.includes("식신") || s.includes("상관")).length,
+    "재성 (현실)": all.filter(s => s.includes("정재") || s.includes("편재")).length,
+    "관성 (책임)": all.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length,
+    "인성 (받침)": all.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length,
+    "비겁 (자존)": all.filter(s => s.includes("비견") || s.includes("겁재")).length,
+  };
+  const max = Math.max(1, ...Object.values(counts));
+  const COLORS = ["#e88a8a", "#d4a96b", "#7a9bbf", "#7fbf7f", "#bfbfbf"];
+  return (
+    <div
+      className="rounded-md p-4"
+      style={{
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: `1px solid ${color}55`,
+      }}
+    >
+      <div
+        className="text-[12px] mb-3 text-center"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}
+      >
+        {name}님의 연애 스타일 분포
+      </div>
+      <div className="space-y-2">
+        {Object.entries(counts).map(([label, c], i) => {
+          const pct = (c / max) * 100;
+          const bar = COLORS[i];
+          return (
+            <div key={label} className="flex items-center gap-2">
+              <div className="w-24 text-[11px] text-right" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+                {label}
+              </div>
+              <div className="flex-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(212,169,107,0.12)" }}>
+                <div style={{ width: `${pct}%`, height: "100%", background: bar, transition: "width 0.6s ease" }} />
+              </div>
+              <div className="w-6 text-[11px] font-bold text-right" style={{ color: bar, fontFamily: "'Cormorant Garamond', serif" }}>
+                {c}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ChemistryDiagram — 3장 일간·일지 결합 시각화 (정합·충·생·극)
+function ChemistryDiagram({
+  aIlgan, bIlgan, aDayBranch, bDayBranch, aColor, bColor,
+}: {
+  aIlgan: string;
+  bIlgan: string;
+  aDayBranch: string;
+  bDayBranch: string;
+  aColor: string;
+  bColor: string;
+}) {
+  const STEM_HANJA: Record<string, string> = {
+    갑: "甲", 을: "乙", 병: "丙", 정: "丁", 무: "戊",
+    기: "己", 경: "庚", 신: "辛", 임: "壬", 계: "癸",
+  };
+  const BRANCH_HANJA: Record<string, string> = {
+    자: "子", 축: "丑", 인: "寅", 묘: "卯", 진: "辰", 사: "巳",
+    오: "午", 미: "未", 신: "申", 유: "酉", 술: "戌", 해: "亥",
+  };
+  // 천간 정합 5쌍
+  const GANHAP: Record<string, string> = { 갑: "기", 기: "갑", 을: "경", 경: "을", 병: "신", 신: "병", 정: "임", 임: "정", 무: "계", 계: "무" };
+  // 천간 충
+  const STEM_CHUNG: Record<string, string> = { 갑: "경", 경: "갑", 을: "신", 신: "을", 병: "임", 임: "병", 정: "계", 계: "정" };
+  // 지지 육합
+  const YUKHAP: Record<string, string> = { 자: "축", 축: "자", 인: "해", 해: "인", 묘: "술", 술: "묘", 진: "유", 유: "진", 사: "신", 신: "사", 오: "미", 미: "오" };
+  // 지지 충
+  const BR_CHUNG: Record<string, string> = { 자: "오", 오: "자", 축: "미", 미: "축", 인: "신", 신: "인", 묘: "유", 유: "묘", 진: "술", 술: "진", 사: "해", 해: "사" };
+
+  const stemRel = GANHAP[aIlgan] === bIlgan ? { label: "정합(正合)", color: "#c8203a", glow: true }
+    : STEM_CHUNG[aIlgan] === bIlgan ? { label: "충(沖)", color: "#5a3c4a", glow: false }
+    : aIlgan === bIlgan ? { label: "비견(同)", color: "#b88646", glow: false }
+    : { label: "일반", color: "#8a6b4d", glow: false };
+
+  const branchRel = YUKHAP[aDayBranch] === bDayBranch ? { label: "육합(六合)", color: "#c8203a", glow: true }
+    : BR_CHUNG[aDayBranch] === bDayBranch ? { label: "충(沖)", color: "#5a3c4a", glow: false }
+    : aDayBranch === bDayBranch ? { label: "동지(同)", color: "#b88646", glow: false }
+    : { label: "일반", color: "#8a6b4d", glow: false };
+
+  return (
+    <div
+      className="rounded-md p-5"
+      style={{
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: "1px solid rgba(212,169,107,0.4)",
+      }}
+    >
+      <div
+        className="text-[12px] mb-4 text-center"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}
+      >
+        두 사주의 결합 — 천간(天干) · 지지(地支)
+      </div>
+
+      {/* 천간 */}
+      <div className="flex items-center justify-center gap-3 mb-3">
+        <div
+          className="w-14 h-14 rounded-full flex items-center justify-center text-[26px] font-black"
+          style={{
+            background: `${aColor}1a`, border: `2px solid ${aColor}`, color: aColor,
+            fontFamily: "'Nanum Myeongjo', serif",
+            boxShadow: stemRel.glow ? `0 0 20px ${stemRel.color}66` : "none",
+          }}
+        >
+          {STEM_HANJA[aIlgan] ?? aIlgan}
+        </div>
+        <div className="text-center">
+          <div className="text-[10px]" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+            stem
+          </div>
+          <div
+            className="text-[13px] font-bold px-3 py-0.5 rounded-full mt-1"
+            style={{
+              color: stemRel.color,
+              background: `${stemRel.color}15`,
+              border: `1px solid ${stemRel.color}66`,
+              fontFamily: "'Nanum Myeongjo', serif",
+            }}
+          >
+            {stemRel.label}
+          </div>
+        </div>
+        <div
+          className="w-14 h-14 rounded-full flex items-center justify-center text-[26px] font-black"
+          style={{
+            background: `${bColor}1a`, border: `2px solid ${bColor}`, color: bColor,
+            fontFamily: "'Nanum Myeongjo', serif",
+            boxShadow: stemRel.glow ? `0 0 20px ${stemRel.color}66` : "none",
+          }}
+        >
+          {STEM_HANJA[bIlgan] ?? bIlgan}
+        </div>
+      </div>
+
+      {/* 점선 연결 */}
+      <div className="flex justify-center my-2">
+        <div className="h-4 w-px" style={{ background: "linear-gradient(180deg, rgba(212,169,107,0.5), transparent)" }} />
+      </div>
+
+      {/* 지지 */}
+      <div className="flex items-center justify-center gap-3">
+        <div
+          className="w-12 h-12 rounded flex items-center justify-center text-[22px] font-black"
+          style={{
+            background: `${aColor}10`, border: `1.5px solid ${aColor}88`, color: aColor,
+            fontFamily: "'Nanum Myeongjo', serif",
+            boxShadow: branchRel.glow ? `0 0 16px ${branchRel.color}66` : "none",
+          }}
+        >
+          {BRANCH_HANJA[aDayBranch] ?? aDayBranch}
+        </div>
+        <div className="text-center">
+          <div className="text-[10px]" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+            branch
+          </div>
+          <div
+            className="text-[12px] font-bold px-2.5 py-0.5 rounded-full mt-1"
+            style={{
+              color: branchRel.color,
+              background: `${branchRel.color}15`,
+              border: `1px solid ${branchRel.color}66`,
+              fontFamily: "'Nanum Myeongjo', serif",
+            }}
+          >
+            {branchRel.label}
+          </div>
+        </div>
+        <div
+          className="w-12 h-12 rounded flex items-center justify-center text-[22px] font-black"
+          style={{
+            background: `${bColor}10`, border: `1.5px solid ${bColor}88`, color: bColor,
+            fontFamily: "'Nanum Myeongjo', serif",
+            boxShadow: branchRel.glow ? `0 0 16px ${branchRel.color}66` : "none",
+          }}
+        >
+          {BRANCH_HANJA[bDayBranch] ?? bDayBranch}
+        </div>
+      </div>
+
+      <div className="text-[10px] text-center mt-4" style={{ color: "#8a6b4d", fontFamily: "'Gowun Batang', serif" }}>
+        {stemRel.label === "정합(正合)" ? "✦ 천간 정합은 음양의 깊은 끌림이에요"
+          : branchRel.label === "육합(六合)" ? "✦ 지지 육합은 일상에서의 잘 맞음이에요"
+          : "두 사주의 결을 본문에서 풀어드려요"}
+      </div>
+    </div>
+  );
+}
+
+// BehaviorTranslator — 4·5장 그 사람 행동 통역 카드 (4 항목)
+function BehaviorTranslator({ targetName, ilgan, shinkang, sipseong, color }: {
+  targetName: string;
+  ilgan: string;
+  shinkang: string;
+  sipseong: { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null };
+  color: string;
+}) {
+  const all = [
+    sipseong.year.stem, sipseong.year.branch,
+    sipseong.month.stem, sipseong.month.branch,
+    sipseong.day.branch,
+    sipseong.hour?.stem, sipseong.hour?.branch,
+  ].filter(Boolean) as string[];
+  const sik = all.filter(s => s.includes("식신") || s.includes("상관")).length;
+  const inn = all.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length;
+  const gwan = all.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length;
+  const STRONG = ["신강", "태강", "극왕"];
+
+  const items = [
+    {
+      label: "표현 속도",
+      tone: sik >= 3 ? "감정을 빠르게 드러내요" : sik <= 1 ? "마음을 천천히 보여줘요" : "필요할 때만 표현해요",
+      hint: `식상 ${sik} 기반`,
+    },
+    {
+      label: "마음 여는 결",
+      tone: inn >= 3 ? "받아들이고 깊이 곱씹어요" : inn <= 1 ? "직진형, 즉시 반응해요" : "자기 호흡으로 다가와요",
+      hint: `인성 ${inn} 기반`,
+    },
+    {
+      label: "거리 두는 방식",
+      tone: gwan >= 2 ? "책임감으로 거리 유지해요" : "자유로운 결로 다가와요",
+      hint: `관성 ${gwan} 기반`,
+    },
+    {
+      label: "결정 속도",
+      tone: STRONG.includes(shinkang) ? "한 번 정한 결은 잘 안 흔들려요" : "신중하게 헤아리는 결",
+      hint: `${shinkang} 기반`,
+    },
+  ];
+  return (
+    <div
+      className="rounded-md p-4"
+      style={{
+        background: `linear-gradient(135deg, ${color}10, ${color}03)`,
+        border: `1px solid ${color}55`,
+      }}
+    >
+      <div
+        className="text-[11px] mb-1 text-center tracking-[0.3em]"
+        style={{ color, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+      >
+        BEHAVIOR · 그 사람 행동 통역
+      </div>
+      <div
+        className="text-[13px] mb-3 text-center"
+        style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+      >
+        {targetName}님의 일간 <span style={{ color, fontWeight: 700 }}>{ilgan}</span> 결로 풀어보면
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {items.map((it) => (
+          <div
+            key={it.label}
+            className="rounded p-3"
+            style={{ background: "rgba(255,251,247,0.7)", border: `1px solid ${color}33` }}
+          >
+            <div className="text-[10px] mb-1 tracking-wider" style={{ color, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}>
+              {it.label}
+            </div>
+            <div className="text-[12px] leading-[1.55]" style={{ color: "#2a1722", fontFamily: "'Gowun Batang', serif" }}>
+              {it.tone}
+            </div>
+            <div className="text-[9px] mt-1" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+              {it.hint}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // 매력 신살 카드 — 1·2장 보유 신살 색깔 카드
 const CHARM_SINSAL_INFO: Record<string, { name: string; charm: string; emoji: string }> = {
   도화: { name: "도화살(桃花)", charm: "사람 모이는 자리에 자연스럽게 시선을 받는 결", emoji: "✿" },
@@ -1851,6 +2140,7 @@ function InyeonResultInner() {
             {data.a.sinsal.length > 0 && data.character?.a.color && (
               <CharmSinsalCard name={aName} sinsalList={data.a.sinsal} color={data.character.a.color} />
             )}
+            <AttractionStyleBar name={aName} sipseong={data.a.sipseong as { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null }} color={data.character?.a.color ?? "#c8203a"} />
             <ChSub ch={1} title="나의 타고난 성격"
               fallback={`${aName}님의 일간 ${data.a.ilgan}(${data.a.shinkang}) — ${data.a.ohaengTop} 기운이 강한 결을 풀어드려요.`} />
             <ChSub ch={1} title="연애할 때 드러나는 나의 매력"
@@ -1875,6 +2165,7 @@ function InyeonResultInner() {
             {data.b.sinsal.length > 0 && data.character?.b.color && (
               <CharmSinsalCard name={bName} sinsalList={data.b.sinsal} color={data.character.b.color} />
             )}
+            <AttractionStyleBar name={bName} sipseong={data.b.sipseong as { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null }} color={data.character?.b.color ?? "#b88646"} />
             <ChSub ch={1} title="그 사람의 타고난 성격"
               fallback={`${bName}님의 일간 ${data.b.ilgan}(${data.b.shinkang}) — ${data.b.ohaengTop} 기운이 강한 결을 풀어드려요.`} />
             <ChSub ch={1} title="그 사람이 연애할 때 보이는 모습"
@@ -1899,6 +2190,17 @@ function InyeonResultInner() {
 
           <Section title="인연 궁합 점수">
             <ScoreGauge score={data.scores.inyeon} label={data.scores.labels.inyeon} caption="In-yeon Score" />
+          </Section>
+
+          <Section title="두 사주의 결합">
+            <ChemistryDiagram
+              aIlgan={data.a.ilgan}
+              bIlgan={data.b.ilgan}
+              aDayBranch={data.a.pillars.day.branch}
+              bDayBranch={data.b.pillars.day.branch}
+              aColor={data.character?.a.color ?? "#c8203a"}
+              bColor={data.character?.b.color ?? "#b88646"}
+            />
           </Section>
 
           <Section title="우리 인연의 결">
@@ -2056,6 +2358,23 @@ function InyeonResultInner() {
               fallback={`${aName}님과 ${bName}님이 감정을 어떻게 표현하고 받아들이는지 풀어드려요.`} />
             <ChSub ch={4} title="서로에게 안정감을 주는 포인트"
               fallback="두 분이 서로에게서 어떤 결로 안정감을 받는지 풀어드려요." />
+          </Section>
+
+          <Section title="그 사람 행동 통역">
+            <BehaviorTranslator
+              targetName={bName}
+              ilgan={data.b.ilgan}
+              shinkang={data.b.shinkang}
+              sipseong={data.b.sipseong as { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null }}
+              color={data.character?.b.color ?? "#b88646"}
+            />
+            <BehaviorTranslator
+              targetName={aName}
+              ilgan={data.a.ilgan}
+              shinkang={data.a.shinkang}
+              sipseong={data.a.sipseong as { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null }}
+              color={data.character?.a.color ?? "#c8203a"}
+            />
           </Section>
 
           <Section title="갈등과 화해의 결">
