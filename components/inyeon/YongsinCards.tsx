@@ -50,7 +50,7 @@ function Card({ kind, elem }: { kind: keyof typeof KIND_INFO; elem: string }) {
       <div className="text-[12px] font-bold mt-1" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
         {info.sub}
       </div>
-      <div className="text-[10px] mt-1 leading-snug" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+      <div className="text-[10px] mt-1 leading-snug" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
         {info.desc}
       </div>
     </div>

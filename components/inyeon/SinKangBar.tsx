@@ -4,7 +4,7 @@ const THREAD = "#c8203a";
 const PLUM = "#6b1e3a";
 const GOLD = "#b88646";
 const INK = "#1a0a14";
-const INK_SOFT = "#3a2530";
+const INK_SOFT = "#1a0a14";
 
 const STAGES = ["극약", "태약", "신약", "중화", "신강", "태강", "극왕"] as const;
 type Stage = typeof STAGES[number];
@@ -44,7 +44,7 @@ export default function SinKangBar({ ilgan, stage }: Props) {
       </div>
       <div
         className="text-[11px] mb-5 text-center"
-        style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
+        style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}
       >
         일간이 사주 안에서 얼마나 단단한가
       </div>

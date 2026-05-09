@@ -30,7 +30,7 @@ const ELEM_COLOR: Record<string, string> = {
 function Cell({ p }: { p: Pillar | null }) {
   if (!p) {
     return (
-      <div className="text-center py-3 px-1 text-xs" style={{ color: "#8a6b4d" }}>
+      <div className="text-center py-3 px-1 text-xs" style={{ color: "#5e4828" }}>
         모름
       </div>
     );
@@ -89,14 +89,14 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
       </div>
       <div
         className="text-[12px] text-center mb-4"
-        style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}
+        style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}
       >
         {birthLine}
       </div>
 
       <div className="grid grid-cols-5 gap-1 items-center">
         <div className="text-[11px] text-center font-bold leading-tight" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
-          十星<br /><span className="text-[10px]" style={{ color: "#3a2530", fontWeight: 400 }}>(십성)</span>
+          十星<br /><span className="text-[10px]" style={{ color: "#1a0a14", fontWeight: 400 }}>(십성)</span>
         </div>
         {cols.map((c, i) => (
           <div key={`top-${i}`} className="text-center text-[11px] font-bold" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
@@ -105,7 +105,7 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
         ))}
 
         <div className="text-[11px] text-center font-bold leading-tight" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
-          天干<br /><span className="text-[10px]" style={{ color: "#3a2530", fontWeight: 400 }}>(천간)</span>
+          天干<br /><span className="text-[10px]" style={{ color: "#1a0a14", fontWeight: 400 }}>(천간)</span>
         </div>
         {cols.map((c, i) => (
           <div key={`mid-${i}`} className="flex justify-center">
@@ -114,7 +114,7 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
         ))}
 
         <div className="text-[11px] text-center font-bold leading-tight" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
-          十星<br /><span className="text-[10px]" style={{ color: "#3a2530", fontWeight: 400 }}>(십성)</span>
+          十星<br /><span className="text-[10px]" style={{ color: "#1a0a14", fontWeight: 400 }}>(십성)</span>
         </div>
         {cols.map((c, i) => (
           <div key={`bot-${i}`} className="text-center text-[11px] font-bold" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
@@ -131,6 +131,31 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
             <span className="text-[11px] ml-0.5" style={{ color: "#6b1e3a", fontWeight: 600 }}>· {c.sub}</span>
           </div>
         ))}
+      </div>
+
+      {/* 사주 용어 사전 — 항상 노출 (자도인 V2식) */}
+      <div className="mt-5 pt-4" style={{ borderTop: "1px solid rgba(212,169,107,0.3)" }}>
+        <div
+          className="text-[12px] mb-2 text-center font-bold"
+          style={{ color: "#b88646", fontFamily: "'Nanum Myeongjo', serif" }}
+        >
+          십성(十星) — 사주에 나오는 단어 풀이
+        </div>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11.5px]" style={{ fontFamily: "'Gowun Batang', serif" }}>
+          {[
+            { name: "일간(日干)", desc: "내 자신·중심" },
+            { name: "비견·겁재", desc: "비겁 — 자기 결·동지" },
+            { name: "식신·상관", desc: "식상 — 표현·창작" },
+            { name: "정재·편재", desc: "재성 — 현실·결과" },
+            { name: "정관·편관", desc: "관성 — 책임·절제" },
+            { name: "정인·편인", desc: "인성 — 받침·사색" },
+          ].map((d) => (
+            <div key={d.name} className="flex gap-1.5 py-0.5">
+              <span className="font-bold flex-shrink-0" style={{ color: "#6b1e3a" }}>{d.name}</span>
+              <span style={{ color: "#1a0a14" }}>{d.desc}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

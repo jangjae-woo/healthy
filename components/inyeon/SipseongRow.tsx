@@ -75,7 +75,7 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
           className="mt-3 pt-3 text-[11px]"
           style={{
             borderTop: `1px dashed ${ACCENT}33`,
-            color: "#5a3c4a",
+            color: "#2a1a20",
           }}
         >
           <span style={{ color: ACCENT }}>지장간</span> · {jijanggan.join(" · ")}

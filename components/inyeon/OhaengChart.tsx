@@ -103,7 +103,7 @@ export default function OhaengChart({ name, counts }: Props) {
                 <text x={lx + dx} y={ly + 12} textAnchor={anchor} fontSize="16" fontWeight={isTop ? "bold" : "normal"} fill={ELEM_COLORS[el]}>
                   {pct}%
                 </text>
-                <text x={lx + dx} y={ly + 26} textAnchor={anchor} fontSize="11" fill="#5a3c4a" fontFamily="'Gowun Batang', serif">
+                <text x={lx + dx} y={ly + 26} textAnchor={anchor} fontSize="11" fill="#2a1a20" fontFamily="'Gowun Batang', serif">
                   {ELEM_DESC[el]}
                 </text>
               </g>
@@ -114,7 +114,7 @@ export default function OhaengChart({ name, counts }: Props) {
 
       {/* 강약 스펙트럼 표 */}
       <div className="mt-4">
-        <p className="text-[12px] leading-relaxed text-center mb-3 px-3" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+        <p className="text-[12px] leading-relaxed text-center mb-3 px-3" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
           ※ 다섯 기운 분포예요. <strong style={{ color: "#c8203a" }}>그 결이 강하면 본질 그대로</strong>, <strong style={{ color: "#c8203a" }}>약하면 반대 모습</strong>이 두드러져요.
         </p>
         <div className="rounded-md overflow-hidden" style={{ border: "1px solid rgba(212,169,107,0.4)" }}>
@@ -142,7 +142,7 @@ export default function OhaengChart({ name, counts }: Props) {
                   <span className="text-[20px] font-bold" style={{ color, fontFamily: "'Nanum Myeongjo', serif" }}>
                     {ELEM_HANJA[el]}
                   </span>
-                  <span className="text-[13px]" style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}>
+                  <span className="text-[13px]" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
                     {ELEM_LABEL[el].replace(/^.*— /, "")}
                   </span>
                   <span className="text-[14px] font-bold ml-auto" style={{ color }}>
@@ -152,13 +152,13 @@ export default function OhaengChart({ name, counts }: Props) {
                 <div className="flex items-baseline gap-2">
                   <span
                     className="text-[12px] font-bold flex-shrink-0"
-                    style={{ color: dominant === "balanced" ? "#8a6b4d" : color }}
+                    style={{ color: dominant === "balanced" ? "#5e4828" : color }}
                   >
                     {arrow} {arrowLabel}
                   </span>
                   <p
                     className="text-[13px] leading-snug flex-1"
-                    style={{ color: dominant === "balanced" ? "#5a3c4a" : "#1a0a14", fontFamily: "'Gowun Batang', serif" }}
+                    style={{ color: dominant === "balanced" ? "#2a1a20" : "#1a0a14", fontFamily: "'Gowun Batang', serif" }}
                   >
                     {phrase}
                   </p>

@@ -261,7 +261,7 @@ function CharacterLineup({ highlightName, gender }: { highlightName: string; gen
             <div
               className="text-[10px] mb-0.5"
               style={{
-                color: isMe ? m.color : "#8a6b4d",
+                color: isMe ? m.color : "#5e4828",
                 fontFamily: "'Nanum Myeongjo', serif",
                 fontWeight: isMe ? 800 : 400,
               }}
@@ -292,7 +292,7 @@ function ShareableCard({
   const thread = "#c8203a";
   const gold = "#b88646";
   const plumDeep = "#6b1e3a";
-  const inkSoft = "#5a3c4a";
+  const inkSoft = "#2a1a20";
   return (
     <div
       ref={captureRef}
@@ -308,7 +308,7 @@ function ShareableCard({
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ color: gold, fontSize: 11, letterSpacing: "0.4em", fontStyle: "italic", fontFamily: "'Cormorant Garamond', serif" }}>
+        <div style={{ color: gold, fontSize: 11, letterSpacing: "0.4em", fontFamily: "'Cormorant Garamond', serif" }}>
           紅 絲 · RED THREAD
         </div>
         <div style={{ color: thread, fontSize: 13, letterSpacing: "0.3em", marginTop: 6 }}>
@@ -348,7 +348,7 @@ function ShareableCard({
         <div style={{ fontSize: 13, color: thread, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700, letterSpacing: "0.1em" }}>
           paljawon.com / love
         </div>
-        <div style={{ fontSize: 10, color: gold, fontStyle: "italic", letterSpacing: "0.2em", marginTop: 4, fontFamily: "'Cormorant Garamond', serif" }}>
+        <div style={{ fontSize: 10, color: gold, letterSpacing: "0.2em", marginTop: 4, fontFamily: "'Cormorant Garamond', serif" }}>
           사주가 읽어주는 인연
         </div>
       </div>
@@ -472,7 +472,6 @@ function RevealCeremony({
           border: `1px solid rgba(212,169,107,0.5)`,
           color: plumDeep,
           fontFamily: "'Cormorant Garamond', serif",
-          fontStyle: "italic",
           letterSpacing: "0.15em",
         }}
       >
@@ -491,7 +490,7 @@ function RevealCeremony({
       >
         <div
           className="text-[12px] tracking-[0.5em] mb-6"
-          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif" }}
         >
           紅 絲
         </div>
@@ -527,7 +526,7 @@ function RevealCeremony({
       >
         <div
           className="text-[12px] tracking-[0.4em] mb-5"
-          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif" }}
         >
           THE READING
         </div>
@@ -540,14 +539,14 @@ function RevealCeremony({
             <span style={{ color: thread, fontWeight: 800, fontFamily: "'Nanum Myeongjo', serif", fontSize: 18 }}>
               {aIlganHanja}
             </span>
-            <div className="text-[11px] mt-0.5" style={{ color: "#5a3c4a" }}>{aIlganNature}</div>
+            <div className="text-[11px] mt-0.5" style={{ color: "#2a1a20" }}>{aIlganNature}</div>
           </div>
           <div className="text-[14px]" style={{ color: plumDeep, lineHeight: 1.8 }}>
             <span style={{ fontWeight: 700 }}>{bName}</span>님의 일간 ─{" "}
             <span style={{ color: thread, fontWeight: 800, fontFamily: "'Nanum Myeongjo', serif", fontSize: 18 }}>
               {bIlganHanja}
             </span>
-            <div className="text-[11px] mt-0.5" style={{ color: "#5a3c4a" }}>{bIlganNature}</div>
+            <div className="text-[11px] mt-0.5" style={{ color: "#2a1a20" }}>{bIlganNature}</div>
           </div>
         </div>
       </div>
@@ -564,12 +563,12 @@ function RevealCeremony({
       >
         <div
           className="text-[12px] tracking-[0.4em] mb-6"
-          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif" }}
         >
           {aGender === "여" ? "여자 6 캐릭터" : "남자 5 캐릭터"} · {bGender === "여" ? "여자 6 캐릭터" : "남자 5 캐릭터"} 중에서
         </div>
         <div className="space-y-4">
-          <div className="text-[12px]" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+          <div className="text-[12px]" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
             {aName}님은…
           </div>
           <div
@@ -583,7 +582,7 @@ function RevealCeremony({
           >
             {aLineup[aSlotIdx]}
           </div>
-          <div className="text-[12px] mt-4" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+          <div className="text-[12px] mt-4" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
             {bName}님은…
           </div>
           <div
@@ -612,7 +611,7 @@ function RevealCeremony({
       >
         <div
           className="text-[11px] tracking-[0.5em] mb-3"
-          style={{ color: thread, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          style={{ color: thread, fontFamily: "'Cormorant Garamond', serif" }}
         >
           REVEALED
         </div>
@@ -658,7 +657,6 @@ function RevealCeremony({
               border: `1px solid ${thread}55`,
               color: plumDeep,
               fontFamily: "'Gowun Batang', serif",
-              fontStyle: "italic",
             }}
           >
             "{character.pair.label}"
@@ -684,7 +682,7 @@ function RichCharCard({
   detailFallback: string;
 }) {
   const gold = "#b88646";
-  const inkSoft = "#5a3c4a";
+  const inkSoft = "#2a1a20";
   const ink = "#2a1722";
   return (
     <div
@@ -791,7 +789,7 @@ function RichCharCard({
               <li
                 key={i}
                 className="text-[13px] leading-[1.75] pl-4 relative"
-                style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}
+                style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}
               >
                 <span style={{ position: "absolute", left: 0, top: 0, color: gold, fontWeight: 800 }}>·</span>
                 {s}
@@ -899,7 +897,7 @@ function CharacterIntroCard({
   const thread = "#c8203a";
   const gold = "#b88646";
   const plumDeep = "#6b1e3a";
-  const inkSoft = "#5a3c4a";
+  const inkSoft = "#2a1a20";
   return (
     <>
       {/* 캡처용 숨김 카드 (SNS 공유 이미지) */}
@@ -926,7 +924,7 @@ function CharacterIntroCard({
           >
             <div
               className="text-[10px] tracking-[0.4em] mb-3"
-              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif" }}
             >
               紅 絲 · RED THREAD
             </div>
@@ -989,14 +987,14 @@ function CharacterIntroCard({
           <div className="pt-3" style={{ borderTop: `1px solid rgba(212,169,107,0.25)` }}>
             <div
               className="text-center text-[10px] tracking-[0.3em] mb-2"
-              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif" }}
             >
               {aGender === "여" ? "여자 6 캐릭터 중" : "남자 5 캐릭터 중"} {aName}님은
             </div>
             <CharacterLineup highlightName={a.name} gender={aGender} />
             <div
               className="text-center text-[10px] tracking-[0.3em] mt-3 mb-2"
-              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif" }}
             >
               {bGender === "여" ? "여자 6 캐릭터 중" : "남자 5 캐릭터 중"} {bName}님은
             </div>
@@ -1040,7 +1038,7 @@ function CharacterIntroCard({
           {/* 안내 */}
           <div
             className="text-center text-[10px]"
-            style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
+            style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}
           >
             ─ paljawon.com / love ─
           </div>
@@ -1113,7 +1111,7 @@ function AttractionStyleBar({ name, sipseong, color }: {
       </div>
       <div
         className="text-[11px] mb-5 text-center"
-        style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
+        style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}
       >
         연애·관계에서 어떤 결로 다가가는가
       </div>
@@ -1138,7 +1136,7 @@ function AttractionStyleBar({ name, sipseong, color }: {
                 </span>
                 <span
                   className="text-[12px]"
-                  style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif", fontWeight: isTop ? 700 : 400 }}
+                  style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: isTop ? 700 : 400 }}
                 >
                   {info.sub}
                 </span>
@@ -1160,7 +1158,7 @@ function AttractionStyleBar({ name, sipseong, color }: {
                   }}
                 />
               </div>
-              <div className="text-[12px] mt-1.5 leading-snug" style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}>
+              <div className="text-[12px] mt-1.5 leading-snug" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
                 {info.desc}
               </div>
             </div>
@@ -1200,14 +1198,14 @@ function ChemistryDiagram({
   const BR_CHUNG: Record<string, string> = { 자: "오", 오: "자", 축: "미", 미: "축", 인: "신", 신: "인", 묘: "유", 유: "묘", 진: "술", 술: "진", 사: "해", 해: "사" };
 
   const stemRel = GANHAP[aIlgan] === bIlgan ? { label: "정합(正合)", color: "#c8203a", glow: true }
-    : STEM_CHUNG[aIlgan] === bIlgan ? { label: "충(沖)", color: "#5a3c4a", glow: false }
+    : STEM_CHUNG[aIlgan] === bIlgan ? { label: "충(沖)", color: "#2a1a20", glow: false }
     : aIlgan === bIlgan ? { label: "비견(同)", color: "#b88646", glow: false }
-    : { label: "일반", color: "#8a6b4d", glow: false };
+    : { label: "일반", color: "#5e4828", glow: false };
 
   const branchRel = YUKHAP[aDayBranch] === bDayBranch ? { label: "육합(六合)", color: "#c8203a", glow: true }
-    : BR_CHUNG[aDayBranch] === bDayBranch ? { label: "충(沖)", color: "#5a3c4a", glow: false }
+    : BR_CHUNG[aDayBranch] === bDayBranch ? { label: "충(沖)", color: "#2a1a20", glow: false }
     : aDayBranch === bDayBranch ? { label: "동지(同)", color: "#b88646", glow: false }
-    : { label: "일반", color: "#8a6b4d", glow: false };
+    : { label: "일반", color: "#5e4828", glow: false };
 
   return (
     <div
@@ -1237,7 +1235,7 @@ function ChemistryDiagram({
           {STEM_HANJA[aIlgan] ?? aIlgan}
         </div>
         <div className="text-center">
-          <div className="text-[10px]" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+          <div className="text-[10px]" style={{ color: "#5e4828", fontFamily: "'Cormorant Garamond', serif" }}>
             stem
           </div>
           <div
@@ -1282,7 +1280,7 @@ function ChemistryDiagram({
           {BRANCH_HANJA[aDayBranch] ?? aDayBranch}
         </div>
         <div className="text-center">
-          <div className="text-[10px]" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+          <div className="text-[10px]" style={{ color: "#5e4828", fontFamily: "'Cormorant Garamond', serif" }}>
             branch
           </div>
           <div
@@ -1309,7 +1307,7 @@ function ChemistryDiagram({
         </div>
       </div>
 
-      <div className="text-[10px] text-center mt-4" style={{ color: "#8a6b4d", fontFamily: "'Gowun Batang', serif" }}>
+      <div className="text-[10px] text-center mt-4" style={{ color: "#5e4828", fontFamily: "'Gowun Batang', serif" }}>
         {stemRel.label === "정합(正合)" ? "✦ 천간 정합은 음양의 깊은 끌림이에요"
           : branchRel.label === "육합(六合)" ? "✦ 지지 육합은 일상에서의 잘 맞음이에요"
           : "두 사주의 결을 본문에서 풀어드려요"}
@@ -1375,7 +1373,7 @@ function BehaviorTranslator({ targetName, ilgan, shinkang, sipseong, color }: {
       </div>
       <div
         className="text-[13px] mb-3 text-center"
-        style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+        style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}
       >
         {targetName}님의 일간 <span style={{ color, fontWeight: 700 }}>{ilgan}</span> 결로 풀어보면
       </div>
@@ -1392,7 +1390,7 @@ function BehaviorTranslator({ targetName, ilgan, shinkang, sipseong, color }: {
             <div className="text-[13px] leading-[1.65]" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: 500 }}>
               {it.tone}
             </div>
-            <div className="text-[11px] mt-1.5" style={{ color: "#6b4d2e", fontFamily: "'Gowun Batang', serif" }}>
+            <div className="text-[11px] mt-1.5" style={{ color: "#4a2e0e", fontFamily: "'Gowun Batang', serif" }}>
               {it.hint}
             </div>
           </div>
@@ -1466,7 +1464,7 @@ function CharmSinsalCard({ name, sinsalList, color }: { name: string; sinsalList
               </div>
               <div
                 className="text-[12px] leading-[1.7]"
-                style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+                style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}
               >
                 {info.charm}
               </div>
@@ -1514,10 +1512,10 @@ function QuadrantChart({
           <line x1={P} y1={H / 2} x2={W - P} y2={H / 2} stroke="rgba(212,169,107,0.4)" strokeWidth="1" strokeDasharray="3 3" />
           <line x1={W / 2} y1={P} x2={W / 2} y2={H - P} stroke="rgba(212,169,107,0.4)" strokeWidth="1" strokeDasharray="3 3" />
           {/* 축 라벨 */}
-          <text x={W / 2} y={P - 10} textAnchor="middle" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">활동</text>
-          <text x={W / 2} y={H - P + 18} textAnchor="middle" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">안정</text>
-          <text x={P - 8} y={H / 2 + 4} textAnchor="end" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">내향</text>
-          <text x={W - P + 8} y={H / 2 + 4} textAnchor="start" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">외향</text>
+          <text x={W / 2} y={P - 10} textAnchor="middle" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">활동</text>
+          <text x={W / 2} y={H - P + 18} textAnchor="middle" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">안정</text>
+          <text x={P - 8} y={H / 2 + 4} textAnchor="end" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">내향</text>
+          <text x={W - P + 8} y={H / 2 + 4} textAnchor="start" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">외향</text>
           {/* 두 점 잇는 선 */}
           <line x1={cx(aPos.x)} y1={cy(aPos.y)} x2={cx(bPos.x)} y2={cy(bPos.y)} stroke="#c8203a" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
           {/* A 점 */}
@@ -1528,7 +1526,7 @@ function QuadrantChart({
           <text x={cx(bPos.x)} y={cy(bPos.y) - 14} textAnchor="middle" fontSize="11" fontWeight="700" fill={bColor} fontFamily="'Nanum Myeongjo',serif">{bName}</text>
         </svg>
       </div>
-      <div className="text-[10px] text-center mt-2" style={{ color: "#8a6b4d", fontFamily: "'Gowun Batang',serif" }}>
+      <div className="text-[10px] text-center mt-2" style={{ color: "#5e4828", fontFamily: "'Gowun Batang',serif" }}>
         가로 = 외향-내향 / 세로 = 활동-안정
       </div>
     </div>
@@ -1556,8 +1554,8 @@ function MonthGrid({ aBranch, bBranch }: { aBranch: string; bBranch: string }) {
     const bChung = CHUNG[bBranch] === monthBr;
     if (aHap && bHap) return { color: "#c8203a", tone: "가장 가까워질" };
     if (aHap || bHap) return { color: "#e88a8a", tone: "가까워질" };
-    if (aChung && bChung) return { color: "#5a3c4a", tone: "가장 흔들릴" };
-    if (aChung || bChung) return { color: "#8a6b4d", tone: "흔들릴 수도" };
+    if (aChung && bChung) return { color: "#2a1a20", tone: "가장 흔들릴" };
+    if (aChung || bChung) return { color: "#5e4828", tone: "흔들릴 수도" };
     return { color: "#d4a96b", tone: "평범한 흐름" };
   }
   const now = new Date();
@@ -1596,15 +1594,15 @@ function MonthGrid({ aBranch, bBranch }: { aBranch: string; bBranch: string }) {
             <div className="text-[12px] font-bold" style={{ color: m.color, fontFamily: "'Nanum Myeongjo', serif" }}>
               {m.label}
             </div>
-            <div className="text-[9px] mt-0.5" style={{ color: "#5a3c4a", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+            <div className="text-[9px] mt-0.5" style={{ color: "#2a1a20", fontFamily: "'Cormorant Garamond', serif" }}>
               {m.branch}
             </div>
           </div>
         ))}
       </div>
-      <div className="flex justify-center gap-3 mt-3 text-[9px]" style={{ color: "#8a6b4d", fontFamily: "'Gowun Batang', serif" }}>
+      <div className="flex justify-center gap-3 mt-3 text-[9px]" style={{ color: "#5e4828", fontFamily: "'Gowun Batang', serif" }}>
         <span style={{ color: "#c8203a" }}>● 가까워질</span>
-        <span style={{ color: "#5a3c4a" }}>● 흔들릴</span>
+        <span style={{ color: "#2a1a20" }}>● 흔들릴</span>
         <span style={{ color: "#d4a96b" }}>● 평범</span>
       </div>
     </div>
@@ -1643,7 +1641,7 @@ function BiBar({
   return (
     <div className="my-4">
       {topLabel && (
-        <div className="text-[12px] mb-2 text-center" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+        <div className="text-[12px] mb-2 text-center" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
           {topLabel}
         </div>
       )}
@@ -1658,7 +1656,7 @@ function BiBar({
         <div style={{ width: `${leftPct}%`, background: leftColor, transition: "width 0.6s ease" }} />
         <div style={{ width: `${rightPct}%`, background: rightColor, transition: "width 0.6s ease" }} />
       </div>
-      <div className="flex justify-between text-[10px] mt-1" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif" }}>
+      <div className="flex justify-between text-[10px] mt-1" style={{ color: "#5e4828", fontFamily: "'Cormorant Garamond', serif" }}>
         <span>{Math.round(leftPct)}%</span>
         <span>{Math.round(rightPct)}%</span>
       </div>
@@ -1794,7 +1792,7 @@ function QuoteCard({
       <div className="px-6 pt-7 text-center">
         <div
           className="text-[10px] tracking-[0.45em] mb-2"
-          style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif" }}
         >
           紅 絲 · RED THREAD
         </div>
@@ -1819,7 +1817,7 @@ function QuoteCard({
       {/* 두 캐릭터 이름 */}
       <div className="flex items-center justify-center gap-6 py-4">
         <div className="text-center">
-          <div className="text-[10px]" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+          <div className="text-[10px]" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
             {aName}님
           </div>
           <div
@@ -1836,7 +1834,7 @@ function QuoteCard({
           ✦
         </div>
         <div className="text-center">
-          <div className="text-[10px]" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+          <div className="text-[10px]" style={{ color: "#2a1a20", fontFamily: "'Gowun Batang', serif" }}>
             {bName}님
           </div>
           <div
@@ -1872,7 +1870,7 @@ function QuoteCard({
         </div>
         <div
           className="text-[9px] mt-1"
-          style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}
+          style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.2em" }}
         >
           사주가 읽어주는 인연
         </div>

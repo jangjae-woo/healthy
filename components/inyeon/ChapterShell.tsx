@@ -8,7 +8,7 @@ const PLUM = "#6b1e3a";
 const GOLD = "#b88646";
 const GOLD_LIGHT = "#d4a96b";
 const INK = "#2a1722";
-const INK_SOFT = "#5a3c4a";
+const INK_SOFT = "#2a1a20";
 const CREAM = "#fbf3e8";
 
 export interface ChapterEntry {
@@ -72,14 +72,14 @@ export default function ChapterShell({
           <Link
             href={backHref}
             className="text-[13px]"
-            style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif" }}
           >
             ← paljawon
           </Link>
           <div className="flex-1 text-center">
             <div
               className="text-[10px] tracking-[0.4em]"
-              style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+              style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
             >
               紅 絲
             </div>
@@ -158,7 +158,7 @@ export default function ChapterShell({
         <div className="px-4 pt-7 pb-3 text-center">
           <div
             className="text-[10px] tracking-[0.4em] uppercase mb-2"
-            style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
           >
             Chapter {String(chapterNo).padStart(2, "0")}
           </div>

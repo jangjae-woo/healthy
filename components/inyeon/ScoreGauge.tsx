@@ -4,7 +4,7 @@ const THREAD = "#c8203a";
 const PLUM = "#6b1e3a";
 const GOLD = "#b88646";
 const INK = "#2a1722";
-const INK_SOFT = "#5a3c4a";
+const INK_SOFT = "#2a1a20";
 
 interface Props {
   score: number;        // 0~100
@@ -40,7 +40,7 @@ export default function ScoreGauge({ score, label, caption }: Props) {
       {caption && (
         <div
           className="text-[11px] tracking-[0.4em] mb-3"
-          style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
         >
           {caption}
         </div>
