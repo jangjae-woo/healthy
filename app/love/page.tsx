@@ -1,169 +1,437 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // ════════════════════════════════════════════════════════════════════
-// /love — "나는 솔로" 톤 랜딩 (모바일 우선, max-w-md)
-// 두 서비스 진입: 인연사주(/saju-love) + 인연궁합(/inyeon)
+// /love — 홍실(紅絲) 테마 랜딩 (358.html 기반)
+// 운명의 두 사람을 잇는 붉은 실. 사주가 읽어주는 인연.
 // ════════════════════════════════════════════════════════════════════
+
+const CSS = `
+:root{
+  --sakura-50: #fff7f9; --sakura-100:#ffe8ee; --sakura-200:#ffd2dd; --sakura-300:#ffb6c8;
+  --sakura-400:#ff95b1; --sakura-500:#f06b8e;
+  --rose-deep:#c2406a; --plum-deep:#6b1e3a; --crimson:#b22847; --thread:#c8203a;
+  --cream:#fbf3e8; --cream-deep:#f3e3cb; --gold:#b88646; --gold-light:#d4a96b;
+  --ink:#2a1722; --ink-soft:#5a3c4a;
+}
+.hongsil-root *{box-sizing:border-box;margin:0;padding:0}
+.hongsil-root{
+  font-family:"Noto Serif KR","Gowun Batang",serif;
+  color:var(--ink);
+  background:
+    radial-gradient(ellipse at 20% 0%, #ffe1ea 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 30%, #ffd9e3 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, #fff0d6 0%, transparent 60%),
+    linear-gradient(180deg, #fff7f9 0%, #ffeef3 40%, #fce4d6 100%);
+  background-attachment:fixed;
+  overflow-x:hidden;
+  line-height:1.65;
+  min-height:100vh;
+  position:relative;
+}
+.hongsil-root::before{
+  content:"";
+  position:fixed;inset:0;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.3  0 0 0 0 0.4  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity:0.55;mix-blend-mode:multiply;z-index:1;
+}
+#hongsil-petals{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.petal{position:absolute;top:-40px;width:18px;height:16px;will-change:transform;opacity:0.92;filter:drop-shadow(0 2px 4px rgba(192,64,106,0.15))}
+.petal svg{width:100%;height:100%;display:block}
+@keyframes petal-fall{0%{transform:translate3d(0,-50px,0) rotate(0deg)}100%{transform:translate3d(var(--drift,80px),110vh,0) rotate(var(--spin,360deg))}}
+@keyframes petal-sway{0%,100%{margin-left:0}50%{margin-left:var(--sway,30px)}}
+.hongsil-main{position:relative;z-index:5}
+
+.hongsil-header{position:relative;z-index:10;padding:28px 0 0}
+.top-row{display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.back-link{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400;font-size:15px;color:var(--plum-deep);text-decoration:none;letter-spacing:0.02em;transition:color 0.3s,transform 0.3s}
+.back-link:hover{color:var(--rose-deep);transform:translateX(-3px)}
+.brand-mark{font-family:"Italiana",serif;font-size:13px;letter-spacing:0.5em;color:var(--gold);text-transform:uppercase}
+
+.hero{position:relative;min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 28px 100px}
+.hero-deco-tag{display:inline-block;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14px;letter-spacing:0.6em;color:var(--gold);margin-bottom:32px;position:relative;padding:0 50px}
+.hero-deco-tag::before,.hero-deco-tag::after{content:"";position:absolute;top:50%;width:36px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+.hero-deco-tag::before{left:0}
+.hero-deco-tag::after{right:0}
+.hero-pre{font-family:"Gowun Batang",serif;font-size:clamp(15px,1.6vw,19px);color:var(--ink-soft);margin-bottom:28px;letter-spacing:0.02em;line-height:1.9}
+.hero-pre em{font-style:normal;color:var(--thread);font-weight:700}
+.hero-title{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:clamp(72px,13vw,180px);line-height:1.0;letter-spacing:-0.02em;color:var(--ink);margin-bottom:8px;position:relative}
+.hero-title .ko{display:inline-block;background:linear-gradient(180deg,var(--plum-deep) 0%,var(--crimson) 50%,var(--thread) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 8px}
+.hero-title-en{font-family:"Italiana",serif;font-size:clamp(14px,1.5vw,18px);letter-spacing:0.55em;color:var(--gold);margin-top:14px;margin-bottom:6px}
+.hero-hanja{font-family:"Nanum Myeongjo",serif;font-size:clamp(20px,2.5vw,30px);color:var(--thread);letter-spacing:0.4em;margin-bottom:8px;font-weight:400}
+.hero-title-suffix{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(20px,2.4vw,30px);color:var(--rose-deep);margin-bottom:36px}
+.hero-title-suffix::before{content:"— "}
+.hero-title-suffix::after{content:" —"}
+.hero-sub{font-family:"Gowun Batang",serif;font-size:clamp(16px,1.8vw,20px);line-height:2.1;color:var(--ink-soft);max-width:580px;margin:0 auto 56px}
+.hero-sub .accent{color:var(--thread);font-weight:700}
+.cta-enter{display:inline-flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:"Cormorant Garamond",serif;font-style:italic;font-size:18px;letter-spacing:0.3em;padding:18px 0;cursor:pointer}
+.cta-arrow{width:1px;height:60px;background:linear-gradient(180deg,var(--thread) 0%,transparent 100%);position:relative;animation:arrowDrop 2s ease-in-out infinite}
+.cta-arrow::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;border-right:1px solid var(--thread);border-bottom:1px solid var(--thread)}
+@keyframes arrowDrop{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(8px);opacity:0.5}}
+.hero-ornament{position:absolute;pointer-events:none;opacity:0.4}
+.hero-ornament.left{left:5%;top:20%;width:140px;transform:rotate(-20deg)}
+.hero-ornament.right{right:5%;bottom:25%;width:160px;transform:rotate(15deg)}
+
+.divider{display:flex;align-items:center;justify-content:center;gap:24px;padding:40px 28px}
+.divider-line{flex:1;max-width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+.divider-mark{font-family:"Nanum Myeongjo",serif;color:var(--thread);font-size:22px;letter-spacing:0.4em}
+
+.legend{padding:60px 28px 80px;position:relative}
+.legend-inner{max-width:880px;margin:0 auto;position:relative;padding:80px 60px 90px;background:linear-gradient(180deg,rgba(255,251,247,0.92) 0%,rgba(253,243,232,0.88) 100%);border-radius:4px;box-shadow:0 30px 80px -30px rgba(178,40,71,0.18),0 0 0 1px rgba(212,169,107,0.25) inset;overflow:hidden}
+.legend-thread{position:absolute;pointer-events:none;z-index:0}
+.legend-thread.tl{top:-20px;left:-30px;width:230px;opacity:0.85;transform:rotate(-12deg)}
+.legend-thread.br{bottom:-30px;right:-40px;width:260px;opacity:0.85;transform:rotate(195deg)}
+.legend-content{position:relative;z-index:2}
+.legend-tag{text-align:center;font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--gold);font-size:14px;letter-spacing:0.55em;margin-bottom:24px}
+.legend-tag .hanja{font-family:"Nanum Myeongjo",serif;font-style:normal;color:var(--thread);margin-right:14px;letter-spacing:0.3em}
+.legend-headline{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:clamp(28px,4.4vw,48px);line-height:1.4;text-align:center;color:var(--ink);margin-bottom:48px;letter-spacing:-0.01em}
+.legend-headline .red{background:linear-gradient(180deg,var(--crimson) 0%,var(--thread) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.legend-body{font-family:"Gowun Batang",serif;font-size:clamp(16px,1.7vw,19px);line-height:2.2;color:var(--ink);text-align:center;max-width:620px;margin:0 auto 48px}
+.legend-body p{margin-bottom:20px}
+.legend-body p:last-child{margin-bottom:0}
+.legend-body .soft{color:var(--ink-soft)}
+.legend-body .red{color:var(--thread);font-weight:700}
+.legend-attribution{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:48px;padding-top:40px;border-top:1px solid rgba(212,169,107,0.3);flex-wrap:wrap}
+.legend-attribution-text{font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--ink-soft);font-size:14px;letter-spacing:0.15em}
+.legend-attribution-mark{font-family:"Nanum Myeongjo",serif;color:var(--thread);font-size:18px;letter-spacing:0.3em}
+
+.section-tag{text-align:center;font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--gold);font-size:14px;letter-spacing:0.55em;margin-bottom:18px}
+.section-title{text-align:center;font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:clamp(36px,5vw,60px);line-height:1.3;letter-spacing:-0.02em;color:var(--ink);margin-bottom:64px}
+.section-title .soft{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400;color:var(--rose-deep);margin:0 6px}
+
+.choices{padding:80px 28px 60px;position:relative}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px;max-width:1100px;margin:0 auto;position:relative}
+.cards-thread{position:absolute;top:50%;left:0;right:0;height:60px;transform:translateY(-50%);pointer-events:none;z-index:0;display:none}
+@media (min-width:720px){.cards-thread{display:block}}
+.card{position:relative;padding:48px 40px 44px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.85) 0%,rgba(255,247,249,0.7) 100%);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,182,200,0.5);box-shadow:0 20px 60px -20px rgba(194,64,106,0.2),0 0 0 1px rgba(255,255,255,0.6) inset;overflow:hidden;transition:transform 0.5s cubic-bezier(.2,.7,.2,1),box-shadow 0.5s;text-decoration:none;color:inherit;display:block;z-index:1}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(255,182,200,0.4),transparent 50%),radial-gradient(circle at bottom left,rgba(212,169,107,0.15),transparent 50%);pointer-events:none;transition:opacity 0.5s}
+.card::after{content:"";position:absolute;top:-30px;right:-30px;width:140px;height:140px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='%23ffb6c8' opacity='0.45'><path d='M50,15 C55,25 65,30 75,30 C70,40 70,50 75,60 C65,60 55,65 50,75 C45,65 35,60 25,60 C30,50 30,40 25,30 C35,30 45,25 50,15 Z'/><circle cx='50' cy='45' r='4' fill='%23f06b8e'/></g></svg>");background-size:contain;background-repeat:no-repeat;transform:rotate(15deg);pointer-events:none;transition:transform 0.6s ease}
+.card:hover{transform:translateY(-8px);box-shadow:0 30px 80px -20px rgba(194,64,106,0.35),0 0 0 1px rgba(255,255,255,0.8) inset}
+.card:hover::after{transform:rotate(45deg) scale(1.1)}
+.card-en{font-family:"Italiana",serif;font-size:13px;letter-spacing:0.55em;color:var(--gold);margin-bottom:14px}
+.card-title{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:32px;color:var(--plum-deep);margin-bottom:16px;letter-spacing:-0.02em}
+.card-quote{font-family:"Gowun Batang",serif;font-size:16px;color:var(--rose-deep);margin-bottom:28px;font-style:italic;padding:14px 18px;border-left:2px solid var(--thread);background:rgba(255,235,240,0.5);border-radius:0 4px 4px 0}
+.card ul{list-style:none;margin-bottom:36px}
+.card li{font-family:"Gowun Batang",serif;font-size:15px;line-height:2;color:var(--ink-soft);padding-left:20px;position:relative}
+.card li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%;background:var(--thread);box-shadow:0 0 0 3px rgba(200,32,58,0.18)}
+.card-cta{display:inline-flex;align-items:center;gap:10px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:17px;letter-spacing:0.2em;color:var(--thread);padding-top:20px;border-top:1px solid rgba(212,169,107,0.3);width:100%;transition:gap 0.3s}
+.card:hover .card-cta{gap:18px}
+.card-cta-arrow{font-size:20px;transition:transform 0.3s}
+
+.rules{padding:120px 28px 80px;position:relative}
+.rules-inner{max-width:840px;margin:0 auto}
+.rule-list{list-style:none;counter-reset:rule}
+.rule-list li{display:flex;align-items:flex-start;gap:32px;padding:28px 0;border-bottom:1px solid rgba(212,169,107,0.25);counter-increment:rule}
+.rule-list li:last-child{border-bottom:none}
+.rule-num{flex-shrink:0;font-family:"Italiana",serif;font-size:32px;color:var(--gold);width:60px;line-height:1.2}
+.rule-num::before{content:"0" counter(rule)}
+.rule-text{font-family:"Gowun Batang",serif;font-size:18px;color:var(--ink);line-height:1.8;padding-top:6px}
+.rule-text strong{color:var(--thread);font-weight:700}
+
+.hongsil-footer{padding:80px 28px 60px;text-align:center;position:relative;z-index:5}
+.footer-mark{font-family:"Nanum Myeongjo",serif;color:var(--thread);font-size:18px;letter-spacing:0.5em;margin-bottom:18px}
+.footer-line{font-family:"Gowun Batang",serif;font-size:14px;color:var(--ink-soft);line-height:2}
+.footer-fine{margin-top:32px;padding-top:24px;border-top:1px solid rgba(212,169,107,0.2);font-family:"Gowun Batang",serif;font-style:italic;font-size:13px;color:var(--ink-soft);opacity:0.85;line-height:2}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:0.15s}
+.reveal.d2{transition-delay:0.3s}
+.reveal.d3{transition-delay:0.45s}
+.reveal.d4{transition-delay:0.6s}
+
+@keyframes drawThread{to{stroke-dashoffset:0}}
+.thread-path{stroke-dasharray:1500;stroke-dashoffset:1500;animation:drawThread 3s ease-out forwards;animation-delay:0.3s}
+
+@media (max-width:720px){
+  .hero{padding:40px 20px 80px;min-height:auto}
+  .hero-deco-tag{padding:0 30px;letter-spacing:0.4em}
+  .hero-deco-tag::before,.hero-deco-tag::after{width:20px}
+  .hero-pre{font-size:14px;line-height:1.9}
+  .hero-title{font-size:26vw}
+  .hero-sub{font-size:15px;line-height:1.95}
+  .legend-inner{padding:56px 28px 60px}
+  .legend-thread.tl{width:140px;left:-20px;top:-10px}
+  .legend-thread.br{width:160px;right:-25px;bottom:-15px}
+  .card{padding:36px 28px}
+  .card-title{font-size:26px}
+  .rule-list li{gap:18px;padding:22px 0}
+  .rule-num{font-size:24px;width:42px}
+  .rule-text{font-size:15px}
+  .hero-ornament{display:none}
+  .top-row{padding:0 20px}
+}
+`;
+
+const PETAL_SVGS = [
+  `<svg viewBox="0 0 30 28" xmlns="http://www.w3.org/2000/svg"><path d="M15 2 C18 8, 24 10, 27 14 C24 18, 22 24, 15 26 C8 24, 6 18, 3 14 C6 10, 12 8, 15 2 Z" fill="#ffc8d4"/><path d="M15 5 C16 12, 18 16, 15 22 C12 16, 14 12, 15 5 Z" fill="#ff95b1" opacity="0.6"/></svg>`,
+  `<svg viewBox="0 0 30 28" xmlns="http://www.w3.org/2000/svg"><path d="M15 2 C18 8, 24 10, 27 14 C24 18, 22 24, 15 26 C8 24, 6 18, 3 14 C6 10, 12 8, 15 2 Z" fill="#ffb0c4"/><path d="M15 5 C16 12, 18 16, 15 22 C12 16, 14 12, 15 5 Z" fill="#f06b8e" opacity="0.55"/></svg>`,
+  `<svg viewBox="0 0 30 28" xmlns="http://www.w3.org/2000/svg"><path d="M15 2 C18 8, 24 10, 27 14 C24 18, 22 24, 15 26 C8 24, 6 18, 3 14 C6 10, 12 8, 15 2 Z" fill="#ffe1ea"/><path d="M15 5 C16 12, 18 16, 15 22 C12 16, 14 12, 15 5 Z" fill="#ffb6c8" opacity="0.7"/></svg>`,
+];
+
 export default function LoveLandingPage() {
-  const [season, setSeason] = useState(28);
-  const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
-    setMounted(true);
-    const start = new Date(2024, 0, 1).getTime();
-    const weeks = Math.floor((Date.now() - start) / (7 * 24 * 60 * 60 * 1000));
-    setSeason(28 + weeks);
+    // 폰트 로드
+    const fontLink = document.createElement("link");
+    fontLink.rel = "stylesheet";
+    fontLink.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Italiana&display=swap";
+    document.head.appendChild(fontLink);
+
+    // 꽃잎 — 페이지 로드 시 즉시 spawn
+    const root = document.getElementById("hongsil-petals");
+    if (root) {
+      const initialCount = window.innerWidth < 720 ? 18 : 32;
+      for (let i = 0; i < initialCount; i++) {
+        const petal = document.createElement("div");
+        petal.className = "petal";
+        petal.innerHTML = PETAL_SVGS[Math.floor(Math.random() * PETAL_SVGS.length)];
+        const startX = Math.random() * 100;
+        const drift = Math.random() * 200 - 100;
+        const sway = Math.random() * 60 - 30;
+        const spin = 180 + Math.random() * 540;
+        const size = 0.6 + Math.random() * 0.9;
+        const fallDur = 9 + Math.random() * 10;
+        const swayDur = 2.5 + Math.random() * 3;
+        const delay = -Math.random() * fallDur;
+        petal.style.left = startX + "vw";
+        petal.style.transform = `scale(${size})`;
+        petal.style.setProperty("--drift", drift + "px");
+        petal.style.setProperty("--spin", spin + "deg");
+        petal.style.setProperty("--sway", sway + "px");
+        petal.style.animation = `petal-fall ${fallDur}s linear ${delay}s infinite, petal-sway ${swayDur}s ease-in-out ${delay}s infinite`;
+        petal.style.opacity = (0.5 + Math.random() * 0.5).toFixed(2);
+        root.appendChild(petal);
+      }
+    }
+
+    // Reveal on scroll
+    const items = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+    items.forEach((el) => io.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll(".hero .reveal").forEach((el) => el.classList.add("in"));
+    }, 100);
+
+    return () => {
+      io.disconnect();
+      if (root) root.innerHTML = "";
+      try { document.head.removeChild(fontLink); } catch {}
+    };
   }, []);
 
   return (
-    <main className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* ─── 상단 시즌 바 ─── */}
-      <div className="border-b border-red-600/40 bg-black/95 backdrop-blur sticky top-0 z-50">
-        <div className="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between">
-          <Link href="/" className="text-[10px] text-white/60 tracking-widest hover:text-white transition">
-            ← paljawon
-          </Link>
-          <div className="text-[10px] text-red-500 tracking-[0.25em] font-bold">
-            SEASON {mounted ? season : "—"}
+    <div className="hongsil-root">
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <div id="hongsil-petals" aria-hidden="true" />
+      <main className="hongsil-main">
+        <header className="hongsil-header">
+          <div className="top-row">
+            <Link href="/" className="back-link">← paljawon</Link>
+            <div className="brand-mark">八字苑</div>
           </div>
+        </header>
+
+        {/* HERO */}
+        <section className="hero">
+          <svg className="hero-ornament left" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#ffb6c8" opacity="0.6">
+              <path d="M100,30 C108,55 130,65 155,65 C148,90 148,110 155,135 C130,135 108,145 100,170 C92,145 70,135 45,135 C52,110 52,90 45,65 C70,65 92,55 100,30 Z" />
+              <circle cx="100" cy="100" r="8" fill="#f06b8e" />
+            </g>
+          </svg>
+          <svg className="hero-ornament right" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#ffd2dd" opacity="0.7">
+              <path d="M100,30 C108,55 130,65 155,65 C148,90 148,110 155,135 C130,135 108,145 100,170 C92,145 70,135 45,135 C52,110 52,90 45,65 C70,65 92,55 100,30 Z" />
+              <circle cx="100" cy="100" r="8" fill="#f06b8e" />
+            </g>
+          </svg>
+
+          <div>
+            <div className="hero-deco-tag reveal">SEASON · 春</div>
+            <p className="hero-pre reveal d1">
+              운명의 두 사람을 잇는<br />
+              보이지 않는 <em>붉은 실</em>
+            </p>
+            <div className="hero-title-en reveal d2">R E D &nbsp; T H R E A D</div>
+            <h1 className="hero-title reveal d2">
+              <span className="ko">홍실</span>
+            </h1>
+            <div className="hero-hanja reveal d2">紅 絲</div>
+            <div className="hero-title-suffix reveal d3">사주가 읽어주는 인연</div>
+            <p className="hero-sub reveal d3">
+              세상에는 <span className="accent">정해진 인연</span>이 있다.<br />
+              그 매듭의 끝이 어디로 향하는지,<br />
+              <span className="accent">사주</span>가 말해줍니다.
+            </p>
+            <a href="#legend" className="cta-enter reveal d4">
+              <span>입장하기</span>
+              <span className="cta-arrow" />
+            </a>
+          </div>
+        </section>
+
+        <div className="divider">
+          <span className="divider-line" />
+          <span className="divider-mark">紅</span>
+          <span className="divider-line" />
         </div>
-      </div>
 
-      {/* ─── HERO ─── */}
-      <section className="relative max-w-md mx-auto px-5 pt-14 pb-16 text-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-red-950/30 via-black to-black pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(220,38,38,0.18),transparent_60%)] pointer-events-none" />
+        {/* LEGEND */}
+        <section className="legend" id="legend">
+          <div className="legend-inner">
+            <svg className="legend-thread tl" viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 10,20 C 60,40 100,10 130,50 C 160,90 90,110 130,140 C 170,170 220,140 230,180" fill="none" stroke="#c8203a" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+              <circle cx="10" cy="20" r="4" fill="#c8203a" />
+              <circle cx="230" cy="180" r="3" fill="#c8203a" opacity="0.6" />
+            </svg>
+            <svg className="legend-thread br" viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 10,20 C 60,40 100,10 130,50 C 160,90 90,110 130,140 C 170,170 220,140 230,180" fill="none" stroke="#c8203a" strokeWidth="2" strokeLinecap="round" opacity="0.85" />
+              <circle cx="10" cy="20" r="4" fill="#c8203a" />
+              <circle cx="230" cy="180" r="3" fill="#c8203a" opacity="0.6" />
+            </svg>
 
-        <div className="relative z-10 flex flex-col items-center">
-          {/* 작은 한글 라벨 */}
-          <div className="text-[10px] text-red-500 tracking-[0.3em] mb-6 font-light leading-relaxed">
-            진심으로 결혼하고 싶은<br />솔로들의 매칭
+            <div className="legend-content">
+              <div className="legend-tag reveal">
+                <span className="hanja">傳 說</span>THE LEGEND
+              </div>
+              <h2 className="legend-headline reveal d1">
+                운명의 두 사람은,<br />
+                <span className="red">붉은 실</span>로 묶여 있다.
+              </h2>
+              <div className="legend-body reveal d2">
+                <p>
+                  오래전부터 동아시아에 전해지는 이야기.<br />
+                  태어날 때부터 <span className="red">운명의 두 사람</span>은<br />
+                  새끼손가락이 보이지 않는 붉은 실로 이어져 있어,
+                </p>
+                <p>
+                  <span className="soft">시간이 흘러도, 거리가 멀어도,</span><br />
+                  <span className="soft">때로는 엉키고 늘어질지라도</span><br />
+                  그 매듭은 결코 끊어지지 않는다.
+                </p>
+                <p>
+                  <span className="red">사주(四柱)</span>는 그 실의 결을 읽는 일.<br />
+                  당신의 실이 어디서 시작해,<br />
+                  누구에게로 이어져 있는지를.
+                </p>
+              </div>
+              <div className="legend-attribution reveal d3">
+                <span className="legend-attribution-mark">月下老人</span>
+                <span className="legend-attribution-text">Yue Lao · The Old Man Under the Moon</span>
+              </div>
+            </div>
           </div>
+        </section>
 
-          {/* 메인 로고 */}
-          <h1 className="font-black tracking-tight leading-none">
-            <span className="block text-6xl">
-              나는 <span className="text-red-600">솔로</span>
-            </span>
-            <span className="block text-[11px] text-white/40 tracking-[0.35em] mt-5 font-light">
-              I &nbsp; A M &nbsp; S O L O · 사주
-            </span>
-          </h1>
-
-          {/* 서브 카피 */}
-          <p className="mt-10 text-white/70 text-[13px] leading-relaxed">
-            진짜 인연은 어디 있을까.<br />
-            나의 사주가 말해주는<br />솔로 탈출의 단서.
-          </p>
-
-          <div className="mt-10 text-white/40 text-[10px] tracking-widest animate-pulse">
-            ↓ &nbsp; 입장하기
-          </div>
+        <div className="divider">
+          <span className="divider-line" />
+          <span className="divider-mark">緣</span>
+          <span className="divider-line" />
         </div>
-      </section>
 
-      {/* ─── 출연자 박스 (= 두 서비스 카드) ─── */}
-      <section className="max-w-md mx-auto px-4 py-10">
-        <div className="text-center mb-8">
-          <div className="text-[10px] text-red-500 tracking-[0.3em] mb-2.5">CHOOSE YOUR PATH</div>
-          <h2 className="text-2xl font-black leading-tight">
-            지금 당신은<br /><span className="text-red-600">어느 쪽</span>인가요
+        {/* CHOICES */}
+        <section className="choices" id="choose">
+          <div className="section-tag reveal">CHOOSE YOUR PATH</div>
+          <h2 className="section-title reveal d1">
+            당신의 홍실은<br />
+            <span className="soft">어디로</span> 이어져 있나요
           </h2>
-        </div>
 
-        <div className="flex flex-col gap-4">
-          {/* 카드 1 — 인연사주 (혼자) */}
-          <Link
-            href="/saju-love"
-            className="group relative bg-zinc-950 border border-zinc-800 active:border-red-600 transition-all duration-200 active:scale-[0.99] p-6 overflow-hidden block"
-          >
-            <div className="absolute top-3 right-3 text-[9px] text-red-500 tracking-widest border border-red-600/50 px-1.5 py-0.5">
-              SOLO
-            </div>
-            <div className="text-[9px] text-white/40 tracking-widest mb-2">FOR ONE</div>
-            <h3 className="text-2xl font-black mb-1.5 leading-tight">
-              나의 <span className="text-red-600">인연사주</span>
-            </h3>
-            <div className="text-[12px] text-white/50 mb-5">
-              "내 사주가 보여주는 사랑의 패턴"
-            </div>
-            <ul className="space-y-1.5 text-[12px] text-white/70 mb-6">
-              <li>· 나의 연애 스타일</li>
-              <li>· 끌리는 이상형의 결</li>
-              <li>· 인연이 오는 시기</li>
-              <li>· 반복되는 연애 약점</li>
-            </ul>
-            <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
-              <span className="text-[10px] text-white/40 tracking-widest">REVEAL ME</span>
-              <span className="text-xl text-red-600 group-active:translate-x-1 transition-transform">→</span>
-            </div>
-          </Link>
+          <div className="cards">
+            <svg className="cards-thread" viewBox="0 0 1000 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <path className="thread-path" d="M 50,30 C 250,5 350,55 500,30 C 650,5 750,55 950,30" fill="none" stroke="#c8203a" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+            </svg>
 
-          {/* 카드 2 — 인연궁합 (둘이) */}
-          <Link
-            href="/inyeon"
-            className="group relative bg-zinc-950 border border-zinc-800 active:border-red-600 transition-all duration-200 active:scale-[0.99] p-6 overflow-hidden block"
-          >
-            <div className="absolute top-3 right-3 text-[9px] text-red-500 tracking-widest border border-red-600/50 px-1.5 py-0.5">
-              MATCH
-            </div>
-            <div className="text-[9px] text-white/40 tracking-widest mb-2">FOR TWO</div>
-            <h3 className="text-2xl font-black mb-1.5 leading-tight">
-              둘의 <span className="text-red-600">인연궁합</span>
-            </h3>
-            <div className="text-[12px] text-white/50 mb-5">
-              "이 사람, 정말 맞는 사람일까?"
-            </div>
-            <ul className="space-y-1.5 text-[12px] text-white/70 mb-6">
-              <li>· 짝사랑·썸·연인·부부·재회 분기</li>
-              <li>· 두 사주의 깊은 결</li>
-              <li>· 결혼·미래 궁합</li>
-              <li>· 홍도인의 마지막 편지</li>
-            </ul>
-            <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
-              <span className="text-[10px] text-white/40 tracking-widest">CHECK US</span>
-              <span className="text-xl text-red-600 group-active:translate-x-1 transition-transform">→</span>
-            </div>
-          </Link>
-        </div>
-      </section>
+            <Link href="/saju-love" className="card reveal d2">
+              <div className="card-en">F O R &nbsp; O N E</div>
+              <div className="card-title">나의 홍실</div>
+              <p className="card-quote">"내 사주가 보여주는 사랑의 패턴"</p>
+              <ul>
+                <li>나의 연애 스타일</li>
+                <li>끌리는 이상형의 결</li>
+                <li>인연이 오는 시기</li>
+                <li>반복되는 연애 약점</li>
+              </ul>
+              <div className="card-cta">
+                <span>REVEAL ME</span>
+                <span className="card-cta-arrow">→</span>
+              </div>
+            </Link>
 
-      {/* ─── 출연 규칙 ─── */}
-      <section className="border-t border-zinc-900 py-12">
-        <div className="max-w-md mx-auto px-5">
-          <div className="text-center mb-8">
-            <div className="text-[10px] text-red-500 tracking-[0.3em] mb-2">THE RULES</div>
-            <h2 className="text-xl font-black">출연 규칙</h2>
+            <Link href="/inyeon" className="card reveal d3">
+              <div className="card-en">F O R &nbsp; T W O</div>
+              <div className="card-title">둘의 홍실</div>
+              <p className="card-quote">"이 사람, 정말 맞는 사람일까?"</p>
+              <ul>
+                <li>짝사랑·썸·연인·부부·재회 분기</li>
+                <li>두 사주의 깊은 결</li>
+                <li>결혼·미래 궁합</li>
+                <li>홍도인의 마지막 편지</li>
+              </ul>
+              <div className="card-cta">
+                <span>CHECK US</span>
+                <span className="card-cta-arrow">→</span>
+              </div>
+            </Link>
           </div>
+        </section>
 
-          <ol className="space-y-4">
-            {[
-              ["01", "진짜 결혼하고 싶은 솔로만 출연합니다."],
-              ["02", "본명은 묻지 않습니다 — 자기 사주만 가져오세요."],
-              ["03", "결과는 만세력 + AI 명리학의 정통 풀이입니다."],
-              ["04", "인연은 정해진 결과 아닌 선택의 가능성입니다."],
-            ].map(([n, t]) => (
-              <li key={n} className="flex items-start gap-4">
-                <span className="text-2xl font-black text-red-600 leading-none w-9 shrink-0">{n}</span>
-                <span className="text-[13px] text-white/80 leading-relaxed pt-0.5">{t}</span>
+        <div className="divider">
+          <span className="divider-line" />
+          <span className="divider-mark">命</span>
+          <span className="divider-line" />
+        </div>
+
+        {/* RULES */}
+        <section className="rules">
+          <div className="rules-inner">
+            <div className="section-tag reveal">THE RULES</div>
+            <h2 className="section-title reveal d1">
+              홍실을 풀어드리는 <span className="soft">약속</span>
+            </h2>
+            <ol className="rule-list">
+              <li className="reveal d1">
+                <span className="rule-num" />
+                <span className="rule-text"><strong>진심으로 인연</strong>을 찾는 분을 위한 풀이입니다.</span>
               </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+              <li className="reveal d2">
+                <span className="rule-num" />
+                <span className="rule-text">본명은 묻지 않습니다 — <strong>자기 사주</strong>만 가져오세요.</span>
+              </li>
+              <li className="reveal d3">
+                <span className="rule-num" />
+                <span className="rule-text">결과는 <strong>만세력 + AI 명리학</strong>의 정통 풀이입니다.</span>
+              </li>
+              <li className="reveal d4">
+                <span className="rule-num" />
+                <span className="rule-text">인연은 정해진 결과가 아닌 <strong>선택의 가능성</strong>입니다.</span>
+              </li>
+            </ol>
+          </div>
+        </section>
 
-      {/* ─── Footer ─── */}
-      <footer className="border-t border-zinc-900 py-6 text-center px-5">
-        <div className="text-[9px] text-white/30 tracking-widest leading-relaxed">
-          © PALJAWON · 사주 기반 인연 매칭<br />만 18세 이상
-        </div>
-        <div className="mt-2 text-[9px] text-white/20 leading-relaxed">
-          ※ "나는 솔로"는 SBS Plus의 등록 상표입니다.<br />본 사이트는 별개의 사주 풀이 서비스입니다.
-        </div>
-      </footer>
-    </main>
+        <footer className="hongsil-footer">
+          <div className="footer-mark">홍 실 · 紅 絲</div>
+          <div className="footer-line">
+            © PALJAWON 八字苑 · 사주 기반 인연 풀이<br />
+            만 18세 이상
+          </div>
+          <div className="footer-fine">
+            "운명의 인연은 붉은 실로 묶여 있다.<br />
+            그 매듭을 풀어드립니다."
+          </div>
+        </footer>
+      </main>
+    </div>
   );
 }
