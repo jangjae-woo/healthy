@@ -334,13 +334,13 @@ function ShareableCard({
         <div style={{ padding: 16, borderRadius: 6, background: `linear-gradient(135deg, ${a.color}1a, ${a.color}05)`, border: `1px solid ${a.color}66`, textAlign: "center" }}>
           <div style={{ fontSize: 11, color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>{aName}님은</div>
           <div style={{ fontSize: 38, fontWeight: 900, color: a.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em", lineHeight: 1, margin: "6px 0" }}>{a.name}</div>
-          <div style={{ fontSize: 11, color: gold, fontStyle: "italic", letterSpacing: "0.2em", fontFamily: "'Cormorant Garamond', serif" }}>스타일</div>
+          <div style={{ fontSize: 12, color: "#6b1e3a", letterSpacing: "0.1em", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}>스타일</div>
           <div style={{ fontSize: 11, color: inkSoft, marginTop: 10, paddingTop: 8, borderTop: `1px solid ${a.color}33`, lineHeight: 1.7, fontFamily: "'Gowun Batang', serif" }}>{aDetail}</div>
         </div>
         <div style={{ padding: 16, borderRadius: 6, background: `linear-gradient(135deg, ${b.color}1a, ${b.color}05)`, border: `1px solid ${b.color}66`, textAlign: "center" }}>
           <div style={{ fontSize: 11, color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>{bName}님은</div>
           <div style={{ fontSize: 38, fontWeight: 900, color: b.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em", lineHeight: 1, margin: "6px 0" }}>{b.name}</div>
-          <div style={{ fontSize: 11, color: gold, fontStyle: "italic", letterSpacing: "0.2em", fontFamily: "'Cormorant Garamond', serif" }}>스타일</div>
+          <div style={{ fontSize: 12, color: "#6b1e3a", letterSpacing: "0.1em", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}>스타일</div>
           <div style={{ fontSize: 11, color: inkSoft, marginTop: 10, paddingTop: 8, borderTop: `1px solid ${b.color}33`, lineHeight: 1.7, fontFamily: "'Gowun Batang', serif" }}>{bDetail}</div>
         </div>
       </div>
@@ -705,7 +705,7 @@ function RichCharCard({
         >
           {match.name}
         </div>
-        <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
+        <div className="text-[12px] font-bold" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.1em" }}>
           스타일
         </div>
       </div>
@@ -713,8 +713,8 @@ function RichCharCard({
       {/* 시그너처 한 줄 */}
       {rich?.signature && (
         <div
-          className="text-center text-[13px] mt-3 px-2 italic"
-          style={{ color: match.color, fontFamily: "'Gowun Batang', serif", lineHeight: 1.6, fontWeight: 600 }}
+          className="text-center text-[14px] mt-3 px-2"
+          style={{ color: match.color, fontFamily: "'Nanum Myeongjo', serif", lineHeight: 1.6, fontWeight: 700 }}
         >
           "{rich.signature}"
         </div>
@@ -804,11 +804,12 @@ function RichCharCard({
       {/* 어울리는 결 */}
       {rich?.chemistry && (
         <div
-          className="mt-4 pt-3 text-[12px] text-center italic leading-[1.7]"
+          className="mt-4 pt-3 text-[13px] text-center leading-[1.7]"
           style={{
             borderTop: `1px solid ${match.color}33`,
             color: match.color,
             fontFamily: "'Gowun Batang', serif",
+            fontWeight: 600,
           }}
         >
           ❀ {rich.chemistry}
@@ -963,8 +964,8 @@ function CharacterIntroCard({
         >
           {/* 발표 라벨 */}
           <div
-            className="text-center text-[11px] tracking-[0.45em]"
-            style={{ color: thread, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            className="text-center text-[13px] font-bold"
+            style={{ color: thread, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.1em" }}
           >
             당신의 결
           </div>
@@ -1367,10 +1368,10 @@ function BehaviorTranslator({ targetName, ilgan, shinkang, sipseong, color }: {
       }}
     >
       <div
-        className="text-[11px] mb-1 text-center tracking-[0.3em]"
-        style={{ color, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        className="text-[13px] mb-1 text-center font-bold"
+        style={{ color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
       >
-        BEHAVIOR · 그 사람 행동 통역
+        그 사람 행동 통역
       </div>
       <div
         className="text-[13px] mb-3 text-center"
@@ -1391,7 +1392,7 @@ function BehaviorTranslator({ targetName, ilgan, shinkang, sipseong, color }: {
             <div className="text-[13px] leading-[1.65]" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: 500 }}>
               {it.tone}
             </div>
-            <div className="text-[10px] mt-1.5" style={{ color: "#6b4d2e", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+            <div className="text-[11px] mt-1.5" style={{ color: "#6b4d2e", fontFamily: "'Gowun Batang', serif" }}>
               {it.hint}
             </div>
           </div>
@@ -1438,10 +1439,10 @@ function CharmSinsalCard({ name, sinsalList, color }: { name: string; sinsalList
       }}
     >
       <div
-        className="text-[11px] mb-3 text-center tracking-[0.3em]"
-        style={{ color, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        className="text-[14px] mb-3 text-center font-bold"
+        style={{ color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
       >
-        {name}님의 매력 신살
+        {name}님의 매력 신살(神煞)
       </div>
       <div className="space-y-2">
         {found.map((info) => (
@@ -1739,10 +1740,10 @@ function ConflictTagsCard({ tags }: { tags: string[] }) {
       }}
     >
       <div
-        className="text-[11px] mb-3 text-center"
-        style={{ color: "#c8203a", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.25em" }}
+        className="text-[13px] mb-3 text-center font-bold"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
       >
-        CONFLICT PATTERNS · 갈등 결
+        우리 갈등 패턴
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         {tags.map((t) => (
@@ -1850,11 +1851,11 @@ function QuoteCard({
       {/* 명언 한 줄 */}
       <div className="px-6 py-4 text-center">
         <div
-          className="text-[13px] italic leading-[1.85]"
-          style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+          className="text-[14px] leading-[1.9]"
+          style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: 500 }}
         >
-          *"운명의 두 사람은 보이지 않는 붉은 실로 묶여 있어요.<br />
-          시간이 흘러도, 거리가 멀어도, 그 매듭은 끊어지지 않아요."*
+          "운명의 두 사람은 보이지 않는 붉은 실로 묶여 있어요.<br />
+          시간이 흘러도, 거리가 멀어도, 그 매듭은 끊어지지 않아요."
         </div>
       </div>
 
@@ -1892,8 +1893,8 @@ function TransitionLine({ text }: { text: string }) {
         }}
       />
       <div
-        className="text-[13px] italic leading-[1.85] px-4"
-        style={{ color: "#6b1e3a", fontFamily: "'Gowun Batang', serif" }}
+        className="text-[14px] leading-[1.9] px-4"
+        style={{ color: "#6b1e3a", fontFamily: "'Gowun Batang', serif", fontWeight: 600 }}
       >
         {text}
       </div>

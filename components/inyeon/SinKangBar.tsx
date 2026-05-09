@@ -102,22 +102,40 @@ export default function SinKangBar({ ilgan, stage }: Props) {
         </div>
       </div>
 
-      {/* 7단계 풀어쓰기 — 자도인 V2식 단어 설명 */}
-      <details className="mt-3" style={{ fontFamily: "'Gowun Batang', serif" }}>
-        <summary className="text-[12px] cursor-pointer" style={{ color: GOLD }}>
-          ▾ 7단계가 뭔가요?
-        </summary>
-        <div className="mt-2 space-y-1 text-[12px]" style={{ color: INK_SOFT }}>
-          {STAGES.map((s) => (
-            <div key={s} className="flex gap-2">
-              <span className="font-bold w-10 flex-shrink-0" style={{ color: s === stage ? THREAD : PLUM }}>
-                {s}
-              </span>
-              <span className="flex-1">{STAGE_DESC[s]}</span>
-            </div>
-          ))}
+      {/* 7단계 풀어쓰기 — 항상 노출 (자도인 V2식 단어 사전) */}
+      <div className="mt-4 pt-4" style={{ borderTop: `1px solid rgba(212,169,107,0.3)` }}>
+        <div
+          className="text-[12px] mb-2 text-center font-bold"
+          style={{ color: GOLD, fontFamily: "'Nanum Myeongjo', serif" }}
+        >
+          7단계가 뭔가요?
         </div>
-      </details>
+        <div className="space-y-1.5 text-[13px]" style={{ fontFamily: "'Gowun Batang', serif" }}>
+          {STAGES.map((s) => {
+            const isCurrent = s === stage;
+            return (
+              <div
+                key={s}
+                className="flex gap-2 px-2 py-1.5 rounded"
+                style={{
+                  background: isCurrent ? `${THREAD}10` : "transparent",
+                  border: isCurrent ? `1px solid ${THREAD}55` : "1px solid transparent",
+                }}
+              >
+                <span
+                  className="font-bold w-10 flex-shrink-0"
+                  style={{ color: isCurrent ? THREAD : PLUM, fontFamily: "'Nanum Myeongjo', serif" }}
+                >
+                  {s}
+                </span>
+                <span className="flex-1" style={{ color: isCurrent ? INK : INK_SOFT, fontWeight: isCurrent ? 600 : 400 }}>
+                  {STAGE_DESC[s]}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

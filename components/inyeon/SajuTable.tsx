@@ -82,30 +82,30 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
       }}
     >
       <div
-        className="text-sm font-bold mb-1 text-center"
-        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
+        className="text-[15px] font-bold mb-1 text-center"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}
       >
-        {name}님의 사주
+        {name}님의 사주(四柱)
       </div>
       <div
-        className="text-xs text-center mb-4"
-        style={{ color: `${ACCENT}cc` }}
+        className="text-[12px] text-center mb-4"
+        style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}
       >
         {birthLine}
       </div>
 
       <div className="grid grid-cols-5 gap-1 items-center">
-        <div className="text-[10px] text-center" style={{ color: "#8a6b4d" }}>
-          十星<br />(십성)
+        <div className="text-[11px] text-center font-bold leading-tight" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
+          十星<br /><span className="text-[10px]" style={{ color: "#3a2530", fontWeight: 400 }}>(십성)</span>
         </div>
         {cols.map((c, i) => (
-          <div key={`top-${i}`} className="text-center text-[10px]" style={{ color: "#8a6b4d" }}>
+          <div key={`top-${i}`} className="text-center text-[11px] font-bold" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
             {c.p?.stemSipseong || "-"}
           </div>
         ))}
 
-        <div className="text-[10px] text-center" style={{ color: "#8a6b4d" }}>
-          天干<br />(천간)
+        <div className="text-[11px] text-center font-bold leading-tight" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
+          天干<br /><span className="text-[10px]" style={{ color: "#3a2530", fontWeight: 400 }}>(천간)</span>
         </div>
         {cols.map((c, i) => (
           <div key={`mid-${i}`} className="flex justify-center">
@@ -113,22 +113,22 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
           </div>
         ))}
 
-        <div className="text-[10px] text-center" style={{ color: "#8a6b4d" }}>
-          十星<br />(십성)
+        <div className="text-[11px] text-center font-bold leading-tight" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
+          十星<br /><span className="text-[10px]" style={{ color: "#3a2530", fontWeight: 400 }}>(십성)</span>
         </div>
         {cols.map((c, i) => (
-          <div key={`bot-${i}`} className="text-center text-[10px]" style={{ color: "#8a6b4d" }}>
+          <div key={`bot-${i}`} className="text-center text-[11px] font-bold" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}>
             {c.p?.branchSipseong || "-"}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-5 gap-1 mt-2 text-center">
+      <div className="grid grid-cols-5 gap-1 mt-3 text-center">
         <div />
         {cols.map((c, i) => (
-          <div key={`label-${i}`} className="text-xs" style={{ color: `${ACCENT}cc` }}>
-            <span style={{ fontFamily: "'Noto Serif KR', serif" }}>{c.label}</span>
-            <span className="text-[10px]" style={{ color: "#8a6b4d" }}> · {c.sub}</span>
+          <div key={`label-${i}`} className="text-[13px] font-bold" style={{ color: "#c8203a", fontFamily: "'Nanum Myeongjo', serif" }}>
+            <span>{c.label}</span>
+            <span className="text-[11px] ml-0.5" style={{ color: "#6b1e3a", fontWeight: 600 }}>· {c.sub}</span>
           </div>
         ))}
       </div>
