@@ -1064,6 +1064,232 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
+// 매력 신살 카드 — 1·2장 보유 신살 색깔 카드
+const CHARM_SINSAL_INFO: Record<string, { name: string; charm: string; emoji: string }> = {
+  도화: { name: "도화살(桃花)", charm: "사람 모이는 자리에 자연스럽게 시선을 받는 결", emoji: "✿" },
+  홍염: { name: "홍염살(紅艶)", charm: "은은한 매력, 말 없이도 끌어당기는 결", emoji: "⌬" },
+  천을: { name: "천을귀인(天乙)", charm: "어려울 때 누군가 먼저 손을 내미는 인덕", emoji: "✦" },
+  문창: { name: "문창귀인(文昌)", charm: "지식과 학문이 매력으로 작용하는 결", emoji: "文" },
+  학당: { name: "학당귀인(學堂)", charm: "평생 배움이 끊이지 않는 결", emoji: "學" },
+  화개: { name: "화개살(華蓋)", charm: "예술적 깊이, 고독을 잘 견디는 결", emoji: "華" },
+  역마: { name: "역마살(驛馬)", charm: "움직임 많은 자리에서 인연을 만나는 결", emoji: "驛" },
+  월덕: { name: "월덕귀인(月德)", charm: "따뜻한 인덕, 사람들이 의지하는 결", emoji: "月" },
+  복성: { name: "복성귀인(福星)", charm: "평생 복덕이 따라오는 결", emoji: "福" },
+  금여: { name: "금여(金輿)", charm: "재물·배우자 복의 황금 수레", emoji: "金" },
+  태극: { name: "태극귀인(太極)", charm: "음양 조화·신비로운 영감의 결", emoji: "極" },
+  양인: { name: "양인살(羊刃)", charm: "강한 추진력, 결단의 순간 빛나는 결", emoji: "刃" },
+  괴강: { name: "괴강살(魁罡)", charm: "굳건한 신념, 위기에 무너지지 않는 결", emoji: "魁" },
+  현침: { name: "현침살(懸針)", charm: "예리한 통찰, 정밀한 손재주의 결", emoji: "針" },
+  귀문: { name: "귀문관살(鬼門)", charm: "남이 못 보는 것을 보는 직관의 결", emoji: "鬼" },
+};
+function CharmSinsalCard({ name, sinsalList, color }: { name: string; sinsalList: string[]; color: string }) {
+  const found = sinsalList
+    .map((s) => {
+      for (const [key, info] of Object.entries(CHARM_SINSAL_INFO)) {
+        if (s.includes(key)) return info;
+      }
+      return null;
+    })
+    .filter((x): x is { name: string; charm: string; emoji: string } => x !== null);
+  if (found.length === 0) return null;
+  return (
+    <div
+      className="rounded-md p-4"
+      style={{
+        background: `linear-gradient(135deg, ${color}10, ${color}03)`,
+        border: `1px solid ${color}55`,
+      }}
+    >
+      <div
+        className="text-[11px] mb-3 text-center tracking-[0.3em]"
+        style={{ color, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+      >
+        {name}님의 매력 신살
+      </div>
+      <div className="space-y-2">
+        {found.map((info) => (
+          <div
+            key={info.name}
+            className="flex items-start gap-3 p-3 rounded"
+            style={{ background: "rgba(255,251,247,0.6)", border: `1px solid ${color}33` }}
+          >
+            <div
+              className="text-[24px] leading-none flex-shrink-0"
+              style={{ color, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 800 }}
+            >
+              {info.emoji}
+            </div>
+            <div className="flex-1">
+              <div
+                className="text-[13px] font-bold mb-0.5"
+                style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}
+              >
+                {info.name}
+              </div>
+              <div
+                className="text-[12px] leading-[1.7]"
+                style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+              >
+                {info.charm}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// QuadrantChart — 성격 4분면 (외향-내향 × 활동-안정)
+function QuadrantChart({
+  aName, bName, aPos, bPos, aColor, bColor,
+}: {
+  aName: string;
+  bName: string;
+  aPos: { x: number; y: number };  // 0~100
+  bPos: { x: number; y: number };
+  aColor: string;
+  bColor: string;
+}) {
+  const W = 280, H = 280, P = 30;
+  const cx = (p: number) => P + (p / 100) * (W - 2 * P);
+  const cy = (p: number) => H - P - (p / 100) * (H - 2 * P);
+  return (
+    <div
+      className="rounded-md p-4"
+      style={{
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: "1px solid rgba(212,169,107,0.35)",
+      }}
+    >
+      <div
+        className="text-[12px] mb-3 text-center"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}
+      >
+        성격 4분면 — 두 분의 결 위치
+      </div>
+      <div className="flex justify-center">
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
+          {/* 사분면 배경 */}
+          <rect x={P} y={P} width={W - 2 * P} height={H - 2 * P} fill="rgba(212,169,107,0.06)" />
+          {/* 축 */}
+          <line x1={P} y1={H / 2} x2={W - P} y2={H / 2} stroke="rgba(212,169,107,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+          <line x1={W / 2} y1={P} x2={W / 2} y2={H - P} stroke="rgba(212,169,107,0.4)" strokeWidth="1" strokeDasharray="3 3" />
+          {/* 축 라벨 */}
+          <text x={W / 2} y={P - 10} textAnchor="middle" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">활동</text>
+          <text x={W / 2} y={H - P + 18} textAnchor="middle" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">안정</text>
+          <text x={P - 8} y={H / 2 + 4} textAnchor="end" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">내향</text>
+          <text x={W - P + 8} y={H / 2 + 4} textAnchor="start" fontSize="10" fill="#8a6b4d" fontFamily="'Gowun Batang',serif">외향</text>
+          {/* 두 점 잇는 선 */}
+          <line x1={cx(aPos.x)} y1={cy(aPos.y)} x2={cx(bPos.x)} y2={cy(bPos.y)} stroke="#c8203a" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
+          {/* A 점 */}
+          <circle cx={cx(aPos.x)} cy={cy(aPos.y)} r="9" fill={aColor} stroke="#fff" strokeWidth="2.5" />
+          <text x={cx(aPos.x)} y={cy(aPos.y) - 14} textAnchor="middle" fontSize="11" fontWeight="700" fill={aColor} fontFamily="'Nanum Myeongjo',serif">{aName}</text>
+          {/* B 점 */}
+          <circle cx={cx(bPos.x)} cy={cy(bPos.y)} r="9" fill={bColor} stroke="#fff" strokeWidth="2.5" />
+          <text x={cx(bPos.x)} y={cy(bPos.y) - 14} textAnchor="middle" fontSize="11" fontWeight="700" fill={bColor} fontFamily="'Nanum Myeongjo',serif">{bName}</text>
+        </svg>
+      </div>
+      <div className="text-[10px] text-center mt-2" style={{ color: "#8a6b4d", fontFamily: "'Gowun Batang',serif" }}>
+        가로 = 외향-내향 / 세로 = 활동-안정
+      </div>
+    </div>
+  );
+}
+
+// MonthGrid — 6장 시기궁합 12개월 그리드 (결정론 색깔)
+function MonthGrid({ aBranch, bBranch }: { aBranch: string; bBranch: string }) {
+  // 양력 월 → 지지 매핑 (음력 절기 근사)
+  const MONTH_BRANCH = ["축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해", "자"];
+  // 육합: 자축, 인해, 묘술, 진유, 사신, 오미
+  const YUKHAP: Record<string, string> = {
+    자: "축", 축: "자", 인: "해", 해: "인", 묘: "술", 술: "묘",
+    진: "유", 유: "진", 사: "신", 신: "사", 오: "미", 미: "오",
+  };
+  // 충: 자오, 축미, 인신, 묘유, 진술, 사해
+  const CHUNG: Record<string, string> = {
+    자: "오", 오: "자", 축: "미", 미: "축", 인: "신", 신: "인",
+    묘: "유", 유: "묘", 진: "술", 술: "진", 사: "해", 해: "사",
+  };
+  function evalMonth(monthBr: string): { color: string; tone: string } {
+    const aHap = YUKHAP[aBranch] === monthBr;
+    const bHap = YUKHAP[bBranch] === monthBr;
+    const aChung = CHUNG[aBranch] === monthBr;
+    const bChung = CHUNG[bBranch] === monthBr;
+    if (aHap && bHap) return { color: "#c8203a", tone: "가장 가까워질" };
+    if (aHap || bHap) return { color: "#e88a8a", tone: "가까워질" };
+    if (aChung && bChung) return { color: "#5a3c4a", tone: "가장 흔들릴" };
+    if (aChung || bChung) return { color: "#8a6b4d", tone: "흔들릴 수도" };
+    return { color: "#d4a96b", tone: "평범한 흐름" };
+  }
+  const now = new Date();
+  const startMonth = now.getMonth(); // 0~11
+  const months: { label: string; branch: string; color: string; tone: string }[] = [];
+  for (let i = 0; i < 12; i++) {
+    const mIdx = (startMonth + i) % 12;
+    const br = MONTH_BRANCH[mIdx];
+    const { color, tone } = evalMonth(br);
+    months.push({ label: `${mIdx + 1}월`, branch: br, color, tone });
+  }
+  return (
+    <div
+      className="rounded-md p-4"
+      style={{
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: "1px solid rgba(212,169,107,0.35)",
+      }}
+    >
+      <div
+        className="text-[12px] mb-3 text-center"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}
+      >
+        앞으로 12개월의 결
+      </div>
+      <div className="grid grid-cols-4 gap-1.5">
+        {months.map((m, i) => (
+          <div
+            key={i}
+            className="rounded p-2 text-center"
+            style={{
+              background: `${m.color}1a`,
+              border: `1px solid ${m.color}66`,
+            }}
+          >
+            <div className="text-[12px] font-bold" style={{ color: m.color, fontFamily: "'Nanum Myeongjo', serif" }}>
+              {m.label}
+            </div>
+            <div className="text-[9px] mt-0.5" style={{ color: "#5a3c4a", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+              {m.branch}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-center gap-3 mt-3 text-[9px]" style={{ color: "#8a6b4d", fontFamily: "'Gowun Batang', serif" }}>
+        <span style={{ color: "#c8203a" }}>● 가까워질</span>
+        <span style={{ color: "#5a3c4a" }}>● 흔들릴</span>
+        <span style={{ color: "#d4a96b" }}>● 평범</span>
+      </div>
+    </div>
+  );
+}
+
+// ChildLuckCard — 8장 부부 자녀운 디테일 카드
+function ChildLuckCard({ aName, bName, sikCountA, sikCountB, color }: {
+  aName: string; bName: string; sikCountA: number; sikCountB: number; color: string;
+}) {
+  const totalSik = sikCountA + sikCountB;
+  const childCount = totalSik === 0 ? "1명 정도" : totalSik <= 2 ? "1~2명" : totalSik <= 4 ? "2~3명" : "3명 이상";
+  const timing = totalSik >= 3 ? "비교적 빠른 시기" : totalSik === 0 ? "기다림이 필요한 결" : "자연스러운 흐름";
+  const bond = totalSik >= 2 ? "표현이 풍부한 자녀" : "조용히 깊은 자녀";
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      <MilestoneCard icon="子" label={`자녀 수: ${childCount}`} color={color} />
+      <MilestoneCard icon="時" label={`시기: ${timing}`} color={color} />
+      <MilestoneCard icon="情" label={`결: ${bond}`} color={color} />
+    </div>
+  );
+}
+
 // BiBar — 양방향 비교 막대 (좌우 채움)
 function BiBar({
   leftLabel, rightLabel, leftValue, rightValue, leftColor = "#c8203a", rightColor = "#b88646", topLabel,
@@ -1622,8 +1848,8 @@ function InyeonResultInner() {
             <OhaengChart name={aName} counts={data.a.elements} ratios={ratioOf(data.a.elements)} />
             <YongsinCards yongsin={data.a.yongsin} huisin="" gisin="" />
             <SinKangBar ilgan={data.a.ilgan} stage={data.a.shinkang} />
-            {data.a.sinsal.length > 0 && (
-              <SubSection title="신살" body={data.a.sinsal.join(" · ")} />
+            {data.a.sinsal.length > 0 && data.character?.a.color && (
+              <CharmSinsalCard name={aName} sinsalList={data.a.sinsal} color={data.character.a.color} />
             )}
             <ChSub ch={1} title="나의 타고난 성격"
               fallback={`${aName}님의 일간 ${data.a.ilgan}(${data.a.shinkang}) — ${data.a.ohaengTop} 기운이 강한 결을 풀어드려요.`} />
@@ -1646,8 +1872,8 @@ function InyeonResultInner() {
             <OhaengChart name={bName} counts={data.b.elements} ratios={ratioOf(data.b.elements)} />
             <YongsinCards yongsin={data.b.yongsin} huisin="" gisin="" />
             <SinKangBar ilgan={data.b.ilgan} stage={data.b.shinkang} />
-            {data.b.sinsal.length > 0 && (
-              <SubSection title="신살" body={data.b.sinsal.join(" · ")} />
+            {data.b.sinsal.length > 0 && data.character?.b.color && (
+              <CharmSinsalCard name={bName} sinsalList={data.b.sinsal} color={data.character.b.color} />
             )}
             <ChSub ch={1} title="그 사람의 타고난 성격"
               fallback={`${bName}님의 일간 ${data.b.ilgan}(${data.b.shinkang}) — ${data.b.ohaengTop} 기운이 강한 결을 풀어드려요.`} />
@@ -1703,6 +1929,46 @@ function InyeonResultInner() {
           <Section title="성격 궁합 점수">
             <ScoreGauge score={data.scores.seonggyeok} label={data.scores.labels.seonggyeok} caption="Personality Score" />
           </Section>
+
+          {/* QuadrantChart — 성격 4분면 */}
+          {(() => {
+            const STEM_ELEM_LOCAL: Record<string, string> = {
+              갑: "목", 을: "목", 병: "화", 정: "화", 무: "토", 기: "토",
+              경: "금", 신: "금", 임: "수", 계: "수",
+            };
+            const sipScore = (sip: typeof data.a.sipseong, kw: string[]) => {
+              const all = [sip.year?.stem, sip.year?.branch, sip.month?.stem, sip.month?.branch, sip.day?.branch, sip.hour?.stem, sip.hour?.branch].filter(Boolean) as string[];
+              return all.filter(s => kw.some(k => s.includes(k))).length;
+            };
+            const aSik = sipScore(data.a.sipseong, ["식신", "상관"]);
+            const aJae = sipScore(data.a.sipseong, ["정재", "편재"]);
+            const aIn = sipScore(data.a.sipseong, ["정인", "편인", "효신"]);
+            const aBi = sipScore(data.a.sipseong, ["비견", "겁재"]);
+            const aGwan = sipScore(data.a.sipseong, ["정관", "편관", "칠살"]);
+            const bSik = sipScore(data.b.sipseong, ["식신", "상관"]);
+            const bJae = sipScore(data.b.sipseong, ["정재", "편재"]);
+            const bIn = sipScore(data.b.sipseong, ["정인", "편인", "효신"]);
+            const bBi = sipScore(data.b.sipseong, ["비견", "겁재"]);
+            const bGwan = sipScore(data.b.sipseong, ["정관", "편관", "칠살"]);
+            // 외향(0~100): 식상+재성 강도. 내향: 인성 강도.
+            const aExt = Math.min(100, Math.max(0, 50 + (aSik + aJae) * 8 - aIn * 8));
+            const bExt = Math.min(100, Math.max(0, 50 + (bSik + bJae) * 8 - bIn * 8));
+            // 활동(0~100): 비겁+식상 강도. 안정: 인성+관성 강도.
+            const aAct = Math.min(100, Math.max(0, 50 + (aBi + aSik) * 7 - (aIn + aGwan) * 7));
+            const bAct = Math.min(100, Math.max(0, 50 + (bBi + bSik) * 7 - (bIn + bGwan) * 7));
+            return (
+              <Section title="성격 4분면 위치">
+                <QuadrantChart
+                  aName={aName}
+                  bName={bName}
+                  aPos={{ x: aExt, y: aAct }}
+                  bPos={{ x: bExt, y: bAct }}
+                  aColor={data.character?.a.color ?? "#c8203a"}
+                  bColor={data.character?.b.color ?? "#b88646"}
+                />
+              </Section>
+            );
+          })()}
 
           <Section title="우리의 성격 케미">
             <ChSub ch={3} title="우리 성격이 만났을 때의 큰 그림"
@@ -1846,6 +2112,7 @@ function InyeonResultInner() {
           </Section>
 
           <Section title="우리의 시기궁합">
+            <MonthGrid aBranch={data.a.pillars.day.branch} bBranch={data.b.pillars.day.branch} />
             <ChSub ch={5} title="가장 가까워질 시기"
               fallback="두 분 결이 가장 가까워질 시기를 대운 흐름으로 풀어드려요." />
             <ChSub ch={5} title="흔들릴 수 있는 시기"
@@ -2054,6 +2321,13 @@ function InyeonResultInner() {
             };
             const aColor = data.character?.a.color ?? "#c8203a";
             const bColor = data.character?.b.color ?? "#b88646";
+            // 자녀운 카드용 데이터
+            const sipScoreLocal = (sip: typeof data.a.sipseong, kw: string[]) => {
+              const all = [sip.year?.stem, sip.year?.branch, sip.month?.stem, sip.month?.branch, sip.day?.branch, sip.hour?.stem, sip.hour?.branch].filter(Boolean) as string[];
+              return all.filter(s => kw.some(k => s.includes(k))).length;
+            };
+            const sikA = sipScoreLocal(data.a.sipseong, ["식신", "상관"]);
+            const sikB = sipScoreLocal(data.b.sipseong, ["식신", "상관"]);
             return (
               <>
                 {/* MilestoneCard 미리 보기 */}
@@ -2069,6 +2343,16 @@ function InyeonResultInner() {
                     ))}
                   </div>
                 </Section>
+                {/* 자녀운 디테일 카드 — 부부 또는 연인길어짐 시에만 */}
+                {(rel === "married" || rel === "dating_long") && (
+                  <Section title="자녀운의 결">
+                    <ChildLuckCard
+                      aName={aName} bName={bName}
+                      sikCountA={sikA} sikCountB={sikB}
+                      color={aColor}
+                    />
+                  </Section>
+                )}
                 <Section title={plan.sectionTitle}>
                   {plan.subs.map(title => (
                     <ChSub key={title} ch={7} title={title}
