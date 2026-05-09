@@ -38,6 +38,7 @@ interface PersonData {
   shinkang: "극약" | "태약" | "신약" | "중화" | "신강" | "태강" | "극왕";
   ohaengTop: string;
   ohaengWeak: string;
+  daeun?: { cycles: { age: number; ganji: string }[] };
 }
 
 interface CharData {
@@ -135,6 +136,223 @@ function CharacterIntroCard({ name, character }: { name: string; character: NonN
         </div>
         <div className="text-[11px] mt-2" style={{ color: GOLD, fontFamily: "'Gowun Batang', serif" }}>
           {destiny.signal}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 2장 — 대운 10년 단위 타임라인 (현재 위치 강조)
+function DaeunTimeline({ daeun, birthYear, currentYear }: {
+  daeun: { cycles: { age: number; ganji: string }[] };
+  birthYear: number;
+  currentYear: number;
+}) {
+  const currentAge = currentYear - birthYear;
+  const cycles = daeun.cycles.slice(0, 8);
+  return (
+    <div className="rounded-md p-5"
+      style={{
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: "1px solid rgba(212,169,107,0.4)",
+        boxShadow: "0 6px 20px -8px rgba(178,40,71,0.12)",
+      }}>
+      <div className="text-[14px] font-bold mb-1 text-center" style={{ color: PLUM, fontFamily: "'Nanum Myeongjo', serif" }}>
+        대운(大運) — 10년 단위 큰 흐름
+      </div>
+      <div className="text-[11px] mb-4 text-center" style={{ color: GOLD, fontFamily: "'Gowun Batang', serif" }}>
+        ▾ 현재 위치 강조
+      </div>
+      <div className="space-y-1.5">
+        {cycles.map((c, i) => {
+          const startYear = birthYear + c.age;
+          const endAge = i + 1 < cycles.length ? cycles[i + 1].age - 1 : c.age + 9;
+          const endYear = birthYear + endAge;
+          const isCurrent = currentAge >= c.age && currentAge <= endAge;
+          return (
+            <div key={i} className="flex items-center gap-3 px-3 py-2 rounded"
+              style={{
+                background: isCurrent ? `${THREAD}12` : "transparent",
+                border: isCurrent ? `1.5px solid ${THREAD}66` : "1px solid rgba(212,169,107,0.2)",
+              }}>
+              <div className="text-[12px] font-bold w-12 flex-shrink-0" style={{ color: isCurrent ? THREAD : INK_SOFT, fontFamily: "'Cormorant Garamond', serif" }}>
+                {c.age}~{endAge}세
+              </div>
+              <div className="text-[16px] font-black w-10 text-center" style={{ color: isCurrent ? THREAD : PLUM, fontFamily: "'Nanum Myeongjo', serif" }}>
+                {c.ganji}
+              </div>
+              <div className="text-[11px] flex-1" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+                {startYear}~{endYear}년
+              </div>
+              {isCurrent && <div className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: THREAD, color: "#fff" }}>지금</div>}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// 3장 — 운명 짝꿍 큰 카드 (CharacterIntroCard보다 임팩트 ↑)
+function DestinyHeroCard({ destiny, name }: { destiny: CharData; name: string }) {
+  return (
+    <div className="rounded-md p-6 text-center"
+      style={{
+        background: `linear-gradient(135deg, ${destiny.color}10, ${destiny.color}03)`,
+        border: `2px solid ${destiny.color}66`,
+        boxShadow: `0 12px 32px -12px ${destiny.color}33`,
+      }}>
+      <div className="text-[10px] tracking-[0.45em] mb-3" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
+        DESTINY · 운명의 짝꿍
+      </div>
+      <div className="text-[14px] mb-2" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+        {name}님의 운명 짝꿍은
+      </div>
+      <div className="text-[56px] font-black leading-none mb-3"
+        style={{ color: destiny.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em",
+          textShadow: `0 4px 16px ${destiny.color}33` }}>
+        {destiny.name}
+      </div>
+      <div className="text-[13px] mb-3" style={{ color: INK, fontFamily: "'Gowun Batang', serif", fontWeight: 600 }}>
+        {destiny.innerImage}
+      </div>
+      <div className="text-[12px] px-4 py-2 rounded-full inline-block"
+        style={{ background: `${destiny.color}1a`, border: `1px solid ${destiny.color}66`, color: destiny.color, fontFamily: "'Gowun Batang', serif" }}>
+        ✦ {destiny.signal}
+      </div>
+    </div>
+  );
+}
+
+// 4장 — 갈등 패턴 chip 카드 (결정론 태그)
+function PatternTagsCard({ tags }: { tags: string[] }) {
+  return (
+    <div className="rounded-md p-4"
+      style={{ background: "rgba(255,235,240,0.6)", border: "1px dashed rgba(200,32,58,0.4)" }}>
+      <div className="text-[13px] mb-3 text-center font-bold"
+        style={{ color: PLUM, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}>
+        반복 패턴 결
+      </div>
+      <div className="flex flex-wrap justify-center gap-2">
+        {tags.map((t) => (
+          <span key={t} className="text-[12px] px-3 py-1.5 rounded-full"
+            style={{
+              background: "rgba(200,32,58,0.12)",
+              border: "1px solid rgba(200,32,58,0.4)",
+              color: PLUM,
+              fontFamily: "'Gowun Batang', serif",
+            }}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 5장 — 욕구 4분면 BiBar (Q2 욕망 표시)
+function DesireBar({ desire }: { desire: LoveDesire }) {
+  const items: { label: string; key: LoveDesire; color: string }[] = [
+    { label: "단단한 사랑", key: "stable", color: "#7eb6ff" },
+    { label: "짜릿한 사랑", key: "intense", color: "#c8203a" },
+    { label: "자연스러운", key: "natural", color: "#7dd3c0" },
+    { label: "결혼 사랑", key: "marriage", color: "#b88646" },
+  ];
+  return (
+    <div className="rounded-md p-5"
+      style={{
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: "1px solid rgba(212,169,107,0.4)",
+      }}>
+      <div className="text-[14px] font-bold mb-1 text-center" style={{ color: PLUM, fontFamily: "'Nanum Myeongjo', serif" }}>
+        본능 욕구 — 4 가지 결
+      </div>
+      <div className="text-[11px] mb-4 text-center" style={{ color: GOLD, fontFamily: "'Gowun Batang', serif" }}>
+        본인 선택: {LOVE_DESIRE_LABEL[desire].split(" — ")[0]}
+      </div>
+      <div className="space-y-2.5">
+        {items.map((it) => {
+          const isActive = it.key === desire;
+          return (
+            <div key={it.key} className="flex items-center gap-2">
+              <div className="w-20 text-[12px] font-bold"
+                style={{ color: isActive ? it.color : INK_SOFT, fontFamily: "'Nanum Myeongjo', serif" }}>
+                {it.label}
+              </div>
+              <div className="flex-1 h-3 rounded-full overflow-hidden"
+                style={{ background: "rgba(212,169,107,0.15)" }}>
+                <div style={{
+                  width: isActive ? "100%" : "30%",
+                  height: "100%",
+                  background: isActive ? it.color : `${it.color}66`,
+                  transition: "width 0.6s ease",
+                }} />
+              </div>
+              {isActive && <div className="text-[11px] font-bold px-2 py-0.5 rounded-full"
+                style={{ background: it.color, color: "#fff" }}>본능</div>}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// 6장 — 편지 마무리 캡처 카드
+function LetterQuoteCard({ name, meChar, destinyChar, meColor, destinyColor }: {
+  name: string;
+  meChar: string;
+  destinyChar: string;
+  meColor: string;
+  destinyColor: string;
+}) {
+  return (
+    <div className="my-6 rounded-md overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(ellipse at 30% 0%, rgba(255,225,234,0.95) 0%, transparent 60%),
+          radial-gradient(ellipse at 70% 100%, rgba(255,240,214,0.95) 0%, transparent 60%),
+          linear-gradient(180deg, #fff7f9 0%, #ffeef3 50%, #fce4d6 100%)
+        `,
+        border: "1px solid rgba(212,169,107,0.4)",
+        boxShadow: "0 16px 40px -16px rgba(178,40,71,0.18)",
+      }}>
+      <div className="px-6 pt-7 text-center">
+        <div className="text-[10px] tracking-[0.45em] mb-2 font-bold"
+          style={{ color: GOLD, fontFamily: "'Nanum Myeongjo', serif" }}>
+          紅 絲 · MY HONGSIL
+        </div>
+      </div>
+      <div className="flex items-center justify-center gap-6 py-5">
+        <div className="text-center">
+          <div className="text-[10px]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+            {name}님
+          </div>
+          <div className="text-[28px] font-black leading-none mt-1" style={{ color: meColor, fontFamily: "'Nanum Myeongjo', serif" }}>
+            {meChar}
+          </div>
+        </div>
+        <div className="text-[18px]" style={{ color: THREAD, letterSpacing: "0.3em" }}>
+          ✦
+        </div>
+        <div className="text-center">
+          <div className="text-[10px]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+            짝꿍
+          </div>
+          <div className="text-[28px] font-black leading-none mt-1" style={{ color: destinyColor, fontFamily: "'Nanum Myeongjo', serif" }}>
+            {destinyChar}
+          </div>
+        </div>
+      </div>
+      <div className="px-6 py-4 text-center">
+        <div className="text-[14px] leading-[1.9]" style={{ color: INK, fontFamily: "'Gowun Batang', serif", fontWeight: 500 }}>
+          &quot;운명의 두 사람은 보이지 않는 붉은 실로 묶여 있어요.<br />
+          시간이 흘러도, 거리가 멀어도, 그 매듭은 끊어지지 않아요.&quot;
+        </div>
+      </div>
+      <div className="px-6 py-4 text-center" style={{ borderTop: "1px solid rgba(212,169,107,0.3)" }}>
+        <div className="text-[12px] font-bold" style={{ color: THREAD, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.1em" }}>
+          paljawon.com / love
         </div>
       </div>
     </div>
@@ -345,21 +563,41 @@ function HongsilResultInner() {
 
       {chapter === 2 && (
         <Section title="사랑이 오는 타이밍">
+          {me.daeun && <DaeunTimeline daeun={me.daeun} birthYear={parseInt(sp.get("meYear") || "0", 10)} currentYear={new Date().getFullYear()} />}
           <ChSub ch={2} title="인생 전체, 사랑의 큰 흐름" fallback="일생 연애운 곡선을 풀어드리고 있어요." />
           <ChSub ch={2} title="솔로 탈출은 언제?" fallback="활동 vs 기다림 분류로 솔로 탈출 시기를 풀어드리고 있어요." />
         </Section>
       )}
 
       {chapter === 3 && (
-        <Section title="내 짝꿍 미리 보기">
-          <ChSub ch={3} title="내 짝꿍은 누구일까?" fallback={`${meName}님의 운명 짝꿍을 12 캐릭터 중에서 풀어드리고 있어요.`} />
-          <ChSub ch={3} title="운명을 알아보는 단서" fallback="짝꿍이 다가올 때 결정적 사인을 풀어드리고 있어요." />
-          <ChSub ch={3} title="운명을 잡는 한 수" fallback="적극 어필·매력 발휘 행동을 풀어드리고 있어요." />
-        </Section>
+        <>
+          {data.character && <DestinyHeroCard destiny={data.character.destiny} name={meName} />}
+          <Section title="내 짝꿍 미리 보기">
+            <ChSub ch={3} title="내 짝꿍은 누구일까?" fallback={`${meName}님의 운명 짝꿍을 12 캐릭터 중에서 풀어드리고 있어요.`} />
+            <ChSub ch={3} title="운명을 알아보는 단서" fallback="짝꿍이 다가올 때 결정적 사인을 풀어드리고 있어요." />
+            <ChSub ch={3} title="운명을 잡는 한 수" fallback="적극 어필·매력 발휘 행동을 풀어드리고 있어요." />
+          </Section>
+        </>
       )}
 
       {chapter === 4 && (
         <Section title="내 사랑 흑역사 — 반복되는 그 패턴">
+          {(() => {
+            const tags: string[] = [];
+            const sip = me.sipseong as Record<string, { stem: string; branch: string } | null>;
+            const all = [sip.year?.stem, sip.year?.branch, sip.month?.stem, sip.month?.branch, sip.day?.branch, sip.hour?.stem, sip.hour?.branch].filter(Boolean) as string[];
+            const sik = all.filter((s) => s.includes("식신") || s.includes("상관")).length;
+            const inn = all.filter((s) => s.includes("정인") || s.includes("편인") || s.includes("효신")).length;
+            const gwan = all.filter((s) => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length;
+            if (sik >= 3) tags.push("#감정 폭발");
+            if (sik <= 1) tags.push("#속에 쌓음");
+            if (inn >= 3) tags.push("#회피·곱씹기");
+            if (gwan >= 2) tags.push("#책임감 함정");
+            if (duration === "gt_3y") tags.push("#오랜 결핍");
+            if (duration === "lt_6m") tags.push("#이별 잔재");
+            if (tags.length === 0) tags.push("#일상의 결");
+            return <PatternTagsCard tags={tags} />;
+          })()}
           <ChSub ch={4} title="자꾸 끌리는 가짜 인연" fallback="자꾸 끌리는 가짜 유형을 진단하고 있어요." />
           {duration === "never" ? (
             <ChSub ch={4} title="첫 연애에서 가장 조심해야 할 패턴" fallback="첫 연애에서 빠질 수 있는 함정을 풀어드리고 있어요." />
@@ -374,6 +612,7 @@ function HongsilResultInner() {
         <Section title="솔직한 19금 사주">
           <SipseongRow name={meName} hour={sipHour} day={pillars.day} month={pillars.month} year={pillars.year} jijanggan={jj} />
           <ChSub ch={5} title="감춰진 야한 매력" fallback={`${meName}님의 본능적 매력을 풀어드리고 있어요.`} />
+          <DesireBar desire={desire} />
           <ChSub ch={5} title="내 본능이 원하는 욕구" fallback="본능이 원하는 사랑·잠자리 욕구를 풀어드리고 있어요." />
           <ChSub ch={5} title="둘이 가장 깊어지는 분위기" fallback="가장 깊어지는 결의 분위기·시기를 풀어드리고 있어요." />
         </Section>
@@ -384,6 +623,15 @@ function HongsilResultInner() {
           <Section title="홍도인의 마지막 한 마디">
             <ChSub ch={6} title="홍도인의 마지막 편지" fallback="편지를 정리하고 있어요…" />
           </Section>
+          {data.character && (
+            <LetterQuoteCard
+              name={meName}
+              meChar={data.character.me.name}
+              destinyChar={data.character.destiny.name}
+              meColor={data.character.me.color}
+              destinyColor={data.character.destiny.color}
+            />
+          )}
           <div className="rounded-md px-5 py-4 text-[13px] leading-[1.85] mt-4"
             style={{ background: "rgba(255,235,240,0.7)", border: "1px dashed rgba(200,32,58,0.45)", color: INK, fontFamily: "'Gowun Batang', serif" }}>
             <strong style={{ color: THREAD }}>마지막까지 함께해 주세요</strong> 🙏<br />
