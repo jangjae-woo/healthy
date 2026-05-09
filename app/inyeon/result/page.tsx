@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ChapterShell from "@/components/inyeon/ChapterShell";
 import SajuTable from "@/components/inyeon/SajuTable";
@@ -14,6 +14,7 @@ import {
   RELATIONSHIP_LABEL, DURATION_LABEL,
   RelationshipKind, MeetDuration,
 } from "@/lib/inyeon/types";
+import { FEMALE_META, MALE_META } from "@/lib/inyeon/character-match";
 
 const ACCENT = "#f0a8b8";
 const BG = "#2a1a1d";
@@ -128,142 +129,412 @@ const CHARACTER_DETAIL: Record<string, string> = {
   상철: "편안하고 부담 없는 균형의 결을 가진 사람이에요. 어떤 자리에서도 자연스럽게 어우러지는 매력이 있어요. 일상을 함께 가꾸기 좋은 결이에요.",
 };
 
-function CharacterIntroCard({
-  aName, bName, character,
+// ─── 11명 캐릭터 라인업 (포켓몬 효과) ───
+const FEMALE_LINEUP = ["옥순", "현숙", "정숙", "순자", "영숙", "영자"] as const;
+const MALE_LINEUP = ["영철", "영호", "광수", "영수", "상철"] as const;
+
+function CharacterLineup({ highlightName, gender }: { highlightName: string; gender: "여" | "남" }) {
+  const lineup = gender === "여" ? FEMALE_LINEUP : MALE_LINEUP;
+  const meta = (gender === "여" ? FEMALE_META : MALE_META) as Record<string, { color: string; innerImage: string; enLabel: string }>;
+  return (
+    <div className="grid grid-cols-6 gap-1.5">
+      {lineup.map((name) => {
+        const m = meta[name];
+        const isMe = name === highlightName;
+        return (
+          <div
+            key={name}
+            className="flex flex-col items-center py-2 rounded transition-all"
+            style={{
+              background: isMe ? `${m.color}22` : "transparent",
+              border: isMe ? `1.5px solid ${m.color}` : `1px solid rgba(212,169,107,0.2)`,
+              transform: isMe ? "scale(1.06)" : "scale(1)",
+            }}
+          >
+            <div
+              className="text-[10px] mb-0.5"
+              style={{
+                color: isMe ? m.color : "#8a6b4d",
+                fontFamily: "'Nanum Myeongjo', serif",
+                fontWeight: isMe ? 800 : 400,
+              }}
+            >
+              {name}
+            </div>
+            {isMe && <div className="text-[7px]" style={{ color: m.color }}>●</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── 공유 카드 캡처 영역 (html2canvas로 이미지 변환) ───
+function ShareableCard({
+  aName, bName, character, captureRef,
 }: {
-  aName: string;
-  bName: string;
+  aName: string; bName: string;
   character: NonNullable<InyeonComputeData["character"]>;
+  captureRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { a, b, pair } = character;
   const aDetail = CHARACTER_DETAIL[a.name] ?? a.innerImage;
   const bDetail = CHARACTER_DETAIL[b.name] ?? b.innerImage;
-  // 홍실 팔레트
-  const cream = "#fbf3e8";
   const thread = "#c8203a";
   const gold = "#b88646";
   const plumDeep = "#6b1e3a";
   const inkSoft = "#5a3c4a";
   return (
     <div
-      className="mb-8 rounded-lg overflow-hidden"
+      ref={captureRef}
       style={{
-        background: `linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.92) 100%)`,
-        border: `1px solid rgba(212,169,107,0.35)`,
-        boxShadow: `0 16px 40px -16px rgba(178,40,71,0.18), 0 0 0 1px rgba(255,255,255,0.5) inset`,
+        position: "fixed", left: "-9999px", top: 0,
+        width: 540, padding: 32,
+        background: `
+          radial-gradient(ellipse at 30% 0%, #ffe1ea 0%, transparent 55%),
+          radial-gradient(ellipse at 70% 100%, #fff0d6 0%, transparent 60%),
+          linear-gradient(180deg, #fff7f9 0%, #ffeef3 60%, #fce4d6 100%)
+        `,
+        fontFamily: "'Noto Serif KR', 'Gowun Batang', serif",
       }}
     >
-      {/* 홍실 헤드 — 짝꿍 라벨 */}
+      <div style={{ textAlign: "center", marginBottom: 20 }}>
+        <div style={{ color: gold, fontSize: 11, letterSpacing: "0.4em", fontStyle: "italic", fontFamily: "'Cormorant Garamond', serif" }}>
+          紅 絲 · RED THREAD
+        </div>
+        <div style={{ color: thread, fontSize: 13, letterSpacing: "0.3em", marginTop: 6 }}>
+          홍실 인연
+        </div>
+      </div>
       {pair && (
-        <div className="px-5 py-6 text-center" style={{ borderBottom: `1px solid rgba(212,169,107,0.25)` }}>
-          <div
-            className="text-[10px] tracking-[0.4em] mb-3"
-            style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
-          >
-            紅 絲 · RED THREAD
-          </div>
-          <h3
-            className="text-[20px] font-bold leading-snug px-2"
-            style={{
-              fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
-              backgroundImage: `linear-gradient(180deg, ${plumDeep} 0%, ${thread} 100%)`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
+        <div style={{ textAlign: "center", padding: "16px 12px", borderTop: `1px solid rgba(212,169,107,0.3)`, borderBottom: `1px solid rgba(212,169,107,0.3)`, marginBottom: 18 }}>
+          <h3 style={{
+            fontSize: 22, fontWeight: 800,
+            backgroundImage: `linear-gradient(180deg, ${plumDeep} 0%, ${thread} 100%)`,
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            fontFamily: "'Nanum Myeongjo', serif",
+          }}>
             "{pair.label}"
           </h3>
           {pair.tone && (
-            <div
-              className="text-[12px] mt-3 leading-relaxed px-2"
-              style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}
-            >
-              {pair.tone}
-            </div>
+            <div style={{ fontSize: 12, color: inkSoft, marginTop: 8, fontFamily: "'Gowun Batang', serif" }}>{pair.tone}</div>
           )}
         </div>
       )}
-
-      {/* 캐릭터 카드 — 세로 스택 + 큰 캐릭터 이름 (공유 친화) */}
-      <div className="p-4 space-y-3">
-        {/* A 카드 */}
-        <div
-          className="rounded-md p-5"
-          style={{
-            background: `linear-gradient(135deg, ${a.color}14, ${a.color}03)`,
-            border: `1px solid ${a.color}55`,
-          }}
-        >
-          <div className="text-center">
-            <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
-              {aName}님은
-            </div>
-            <div
-              className="text-[34px] font-black leading-none mb-1"
-              style={{ color: a.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
-            >
-              {a.name}
-            </div>
-            <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
-              스타일
-            </div>
-          </div>
-          <div
-            className="text-[12px] leading-[1.95] mt-4 pt-3"
-            style={{
-              color: inkSoft,
-              fontFamily: "'Gowun Batang', serif",
-              borderTop: `1px solid ${a.color}33`,
-            }}
-          >
-            {aDetail}
-          </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+        <div style={{ padding: 16, borderRadius: 6, background: `linear-gradient(135deg, ${a.color}1a, ${a.color}05)`, border: `1px solid ${a.color}66`, textAlign: "center" }}>
+          <div style={{ fontSize: 11, color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>{aName}님은</div>
+          <div style={{ fontSize: 38, fontWeight: 900, color: a.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em", lineHeight: 1, margin: "6px 0" }}>{a.name}</div>
+          <div style={{ fontSize: 11, color: gold, fontStyle: "italic", letterSpacing: "0.2em", fontFamily: "'Cormorant Garamond', serif" }}>스타일</div>
+          <div style={{ fontSize: 11, color: inkSoft, marginTop: 10, paddingTop: 8, borderTop: `1px solid ${a.color}33`, lineHeight: 1.7, fontFamily: "'Gowun Batang', serif" }}>{aDetail}</div>
         </div>
-
-        {/* B 카드 */}
-        <div
-          className="rounded-md p-5"
-          style={{
-            background: `linear-gradient(135deg, ${b.color}14, ${b.color}03)`,
-            border: `1px solid ${b.color}55`,
-          }}
-        >
-          <div className="text-center">
-            <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
-              {bName}님은
-            </div>
-            <div
-              className="text-[34px] font-black leading-none mb-1"
-              style={{ color: b.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
-            >
-              {b.name}
-            </div>
-            <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
-              스타일
-            </div>
-          </div>
-          <div
-            className="text-[12px] leading-[1.95] mt-4 pt-3"
-            style={{
-              color: inkSoft,
-              fontFamily: "'Gowun Batang', serif",
-              borderTop: `1px solid ${b.color}33`,
-            }}
-          >
-            {bDetail}
-          </div>
+        <div style={{ padding: 16, borderRadius: 6, background: `linear-gradient(135deg, ${b.color}1a, ${b.color}05)`, border: `1px solid ${b.color}66`, textAlign: "center" }}>
+          <div style={{ fontSize: 11, color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>{bName}님은</div>
+          <div style={{ fontSize: 38, fontWeight: 900, color: b.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em", lineHeight: 1, margin: "6px 0" }}>{b.name}</div>
+          <div style={{ fontSize: 11, color: gold, fontStyle: "italic", letterSpacing: "0.2em", fontFamily: "'Cormorant Garamond', serif" }}>스타일</div>
+          <div style={{ fontSize: 11, color: inkSoft, marginTop: 10, paddingTop: 8, borderTop: `1px solid ${b.color}33`, lineHeight: 1.7, fontFamily: "'Gowun Batang', serif" }}>{bDetail}</div>
         </div>
-
-        {/* 공유 안내 (작은 캡션) */}
-        <div
-          className="text-center text-[10px] pt-2"
-          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
-        >
-          ─ paljawon.com / love ─
+      </div>
+      <div style={{ textAlign: "center", paddingTop: 16, borderTop: `1px solid rgba(212,169,107,0.3)` }}>
+        <div style={{ fontSize: 13, color: thread, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700, letterSpacing: "0.1em" }}>
+          paljawon.com / love
+        </div>
+        <div style={{ fontSize: 10, color: gold, fontStyle: "italic", letterSpacing: "0.2em", marginTop: 4, fontFamily: "'Cormorant Garamond', serif" }}>
+          사주가 읽어주는 인연
         </div>
       </div>
     </div>
+  );
+}
+
+function CharacterIntroCard({
+  aName, bName, character, aGender, bGender,
+}: {
+  aName: string;
+  bName: string;
+  character: NonNullable<InyeonComputeData["character"]>;
+  aGender: "여" | "남";
+  bGender: "여" | "남";
+}) {
+  const { a, b, pair } = character;
+  const aDetail = CHARACTER_DETAIL[a.name] ?? a.innerImage;
+  const bDetail = CHARACTER_DETAIL[b.name] ?? b.innerImage;
+  const [revealed, setRevealed] = useState<0 | 1 | 2 | 3>(0);
+  const [shareMsg, setShareMsg] = useState<string | null>(null);
+  const captureRef = useRef<HTMLDivElement>(null);
+
+  // BIG REVEAL — 단계별 페이드인
+  useEffect(() => {
+    const t1 = setTimeout(() => setRevealed(1), 200);   // 짝꿍 라벨
+    const t2 = setTimeout(() => setRevealed(2), 900);   // 캐릭터 카드
+    const t3 = setTimeout(() => setRevealed(3), 1500);  // 갤러리·공유
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
+  async function handleShare() {
+    const text = pair
+      ? `난 #${a.name}이래! ${aName} × ${bName} = "${pair.label}"\n사주가 읽어주는 인연 — paljawon.com/love`
+      : `난 #${a.name}이래! 사주가 읽어주는 인연 — paljawon.com/love`;
+    try {
+      if (typeof window !== "undefined" && (navigator as any).share) {
+        // 이미지 캡처 시도
+        try {
+          const html2canvas = (await import("html2canvas-pro")).default;
+          if (captureRef.current) {
+            const canvas = await html2canvas(captureRef.current, { scale: 2, useCORS: true, backgroundColor: null });
+            const blob = await new Promise<Blob | null>((res) => canvas.toBlob((b) => res(b), "image/png"));
+            if (blob && (navigator as any).canShare?.({ files: [new File([blob], "hongsil.png", { type: "image/png" })] })) {
+              await (navigator as any).share({
+                files: [new File([blob], "hongsil.png", { type: "image/png" })],
+                text,
+              });
+              return;
+            }
+          }
+        } catch {}
+        await (navigator as any).share({ text, url: "https://www.paljawon.com/love" });
+        return;
+      }
+      // fallback: 클립보드 복사
+      await navigator.clipboard.writeText(text);
+      setShareMsg("링크 복사됐어요");
+      setTimeout(() => setShareMsg(null), 2000);
+    } catch {
+      // 사용자 취소 또는 미지원 — 무시
+    }
+  }
+
+  async function handleDownload() {
+    try {
+      const html2canvas = (await import("html2canvas-pro")).default;
+      if (!captureRef.current) return;
+      const canvas = await html2canvas(captureRef.current, { scale: 2, useCORS: true, backgroundColor: null });
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = `홍실_${a.name}x${b.name}.png`;
+      link.click();
+      setShareMsg("이미지 저장됨");
+      setTimeout(() => setShareMsg(null), 2000);
+    } catch {
+      setShareMsg("저장 실패");
+      setTimeout(() => setShareMsg(null), 2000);
+    }
+  }
+
+  // 홍실 팔레트
+  const thread = "#c8203a";
+  const gold = "#b88646";
+  const plumDeep = "#6b1e3a";
+  const inkSoft = "#5a3c4a";
+  return (
+    <>
+      {/* 캡처용 숨김 카드 (SNS 공유 이미지) */}
+      <ShareableCard aName={aName} bName={bName} character={character} captureRef={captureRef} />
+
+      <div
+        className="mb-8 rounded-lg overflow-hidden"
+        style={{
+          background: `linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.92) 100%)`,
+          border: `1px solid rgba(212,169,107,0.35)`,
+          boxShadow: `0 16px 40px -16px rgba(178,40,71,0.18), 0 0 0 1px rgba(255,255,255,0.5) inset`,
+        }}
+      >
+        {/* 홍실 헤드 — 짝꿍 라벨 (REVEAL stage 1) */}
+        {pair && (
+          <div
+            className="px-5 py-6 text-center"
+            style={{
+              borderBottom: `1px solid rgba(212,169,107,0.25)`,
+              opacity: revealed >= 1 ? 1 : 0,
+              transform: revealed >= 1 ? "translateY(0)" : "translateY(8px)",
+              transition: "opacity 0.7s ease, transform 0.7s ease",
+            }}
+          >
+            <div
+              className="text-[10px] tracking-[0.4em] mb-3"
+              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            >
+              紅 絲 · RED THREAD
+            </div>
+            <h3
+              className="text-[20px] font-bold leading-snug px-2"
+              style={{
+                fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+                backgroundImage: `linear-gradient(180deg, ${plumDeep} 0%, ${thread} 100%)`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              "{pair.label}"
+            </h3>
+            {pair.tone && (
+              <div
+                className="text-[12px] mt-3 leading-relaxed px-2"
+                style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}
+              >
+                {pair.tone}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 캐릭터 발표 (REVEAL stage 2) — BIG REVEAL */}
+        <div
+          className="p-4 space-y-3"
+          style={{
+            opacity: revealed >= 2 ? 1 : 0,
+            transform: revealed >= 2 ? "translateY(0) scale(1)" : "translateY(12px) scale(0.97)",
+            transition: "opacity 0.8s ease, transform 0.8s cubic-bezier(.2,.7,.2,1)",
+          }}
+        >
+          {/* 발표 라벨 */}
+          <div
+            className="text-center text-[11px] tracking-[0.45em]"
+            style={{ color: thread, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          >
+            당신의 결
+          </div>
+
+          {/* A 카드 */}
+          <div
+            className="rounded-md p-5"
+            style={{
+              background: `linear-gradient(135deg, ${a.color}14, ${a.color}03)`,
+              border: `1px solid ${a.color}55`,
+            }}
+          >
+            <div className="text-center">
+              <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
+                {aName}님은
+              </div>
+              <div
+                className="text-[40px] font-black leading-none mb-1"
+                style={{ color: a.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
+              >
+                {a.name}
+              </div>
+              <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
+                스타일
+              </div>
+            </div>
+            <div
+              className="text-[12px] leading-[1.95] mt-4 pt-3"
+              style={{
+                color: inkSoft,
+                fontFamily: "'Gowun Batang', serif",
+                borderTop: `1px solid ${a.color}33`,
+              }}
+            >
+              {aDetail}
+            </div>
+          </div>
+
+          {/* B 카드 */}
+          <div
+            className="rounded-md p-5"
+            style={{
+              background: `linear-gradient(135deg, ${b.color}14, ${b.color}03)`,
+              border: `1px solid ${b.color}55`,
+            }}
+          >
+            <div className="text-center">
+              <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
+                {bName}님은
+              </div>
+              <div
+                className="text-[40px] font-black leading-none mb-1"
+                style={{ color: b.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
+              >
+                {b.name}
+              </div>
+              <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
+                스타일
+              </div>
+            </div>
+            <div
+              className="text-[12px] leading-[1.95] mt-4 pt-3"
+              style={{
+                color: inkSoft,
+                fontFamily: "'Gowun Batang', serif",
+                borderTop: `1px solid ${b.color}33`,
+              }}
+            >
+              {bDetail}
+            </div>
+          </div>
+        </div>
+
+        {/* 11명 갤러리 + 공유 (REVEAL stage 3) */}
+        <div
+          className="px-4 pb-4 space-y-4"
+          style={{
+            opacity: revealed >= 3 ? 1 : 0,
+            transition: "opacity 0.7s ease",
+          }}
+        >
+          {/* 11명 라인업 */}
+          <div className="pt-3" style={{ borderTop: `1px solid rgba(212,169,107,0.25)` }}>
+            <div
+              className="text-center text-[10px] tracking-[0.3em] mb-2"
+              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            >
+              {aGender === "여" ? "여자 6 캐릭터 중" : "남자 5 캐릭터 중"} {aName}님은
+            </div>
+            <CharacterLineup highlightName={a.name} gender={aGender} />
+            <div
+              className="text-center text-[10px] tracking-[0.3em] mt-3 mb-2"
+              style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            >
+              {bGender === "여" ? "여자 6 캐릭터 중" : "남자 5 캐릭터 중"} {bName}님은
+            </div>
+            <CharacterLineup highlightName={b.name} gender={bGender} />
+          </div>
+
+          {/* 공유 버튼 */}
+          <div className="flex gap-2 pt-3" style={{ borderTop: `1px solid rgba(212,169,107,0.25)` }}>
+            <button
+              onClick={handleShare}
+              className="flex-1 py-3 rounded-md text-sm font-bold active:scale-95 transition-all"
+              style={{
+                background: `linear-gradient(135deg, ${thread}, ${plumDeep})`,
+                color: "#fbf3e8",
+                fontFamily: "'Gowun Batang', serif",
+                letterSpacing: "0.05em",
+                boxShadow: `0 6px 16px -4px ${thread}66`,
+              }}
+            >
+              결과 공유하기
+            </button>
+            <button
+              onClick={handleDownload}
+              className="px-4 py-3 rounded-md text-sm active:scale-95 transition-all"
+              style={{
+                background: "rgba(255,255,255,0.7)",
+                border: `1px solid rgba(212,169,107,0.5)`,
+                color: plumDeep,
+                fontFamily: "'Gowun Batang', serif",
+              }}
+            >
+              이미지 저장
+            </button>
+          </div>
+          {shareMsg && (
+            <div className="text-center text-[11px]" style={{ color: thread, fontFamily: "'Gowun Batang', serif" }}>
+              {shareMsg}
+            </div>
+          )}
+
+          {/* 안내 */}
+          <div
+            className="text-center text-[10px]"
+            style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
+          >
+            ─ paljawon.com / love ─
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -512,7 +783,12 @@ function InyeonResultInner() {
       {chapter === 1 && (
         <>
           {data.character && (
-            <CharacterIntroCard aName={aName} bName={bName} character={data.character} />
+            <CharacterIntroCard
+              aName={aName} bName={bName}
+              character={data.character}
+              aGender={(sp.get("aGender") || "여") === "남" ? "남" : "여"}
+              bGender={(sp.get("bGender") || "남") === "여" ? "여" : "남"}
+            />
           )}
           <NoticeBubble>
             궁합을 보기 전에, 두 분의 사주를 한 분씩 펼쳐볼게요. 타고난 성격·연애할 때의 결·이상형, 그리고 우리의 첫인상까지 차례로 살펴봐요.

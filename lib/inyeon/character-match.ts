@@ -66,7 +66,7 @@ function isBalanced(saju: SajuAnalysis): boolean {
 }
 
 // ─── 캐릭터 메타 ─────────────────────
-const FEMALE_META: Record<FemaleCharacter, Omit<CharacterMatch, "name" | "signal">> = {
+export const FEMALE_META: Record<FemaleCharacter, Omit<CharacterMatch, "name" | "signal">> = {
   옥순: { innerImage: "자유분방·솔직 직진녀", color: "#ec4899", enLabel: "BOLD HEART" },
   현숙: { innerImage: "쿨·시크 차도녀·완벽주의", color: "#a855f7", enLabel: "COOL CITY" },
   정숙: { innerImage: "강단·성숙·안정·차분", color: "#3b82f6", enLabel: "CALM PILLAR" },
@@ -75,7 +75,7 @@ const FEMALE_META: Record<FemaleCharacter, Omit<CharacterMatch, "name" | "signal
   영자: { innerImage: "무난·평범·따스함·일상적", color: "#22c55e", enLabel: "DAILY GLOW" },
 };
 
-const MALE_META: Record<MaleCharacter, Omit<CharacterMatch, "name" | "signal">> = {
+export const MALE_META: Record<MaleCharacter, Omit<CharacterMatch, "name" | "signal">> = {
   영철: { innerImage: "자신감·매력 자연스러운", color: "#dc2626", enLabel: "STEADY FLAME" },
   영호: { innerImage: "포용력·외향·인싸·점잖", color: "#f97316", enLabel: "OPEN WAVE" },
   광수: { innerImage: "이지적·진중·깊이·신중", color: "#1e40af", enLabel: "DEEP THINKER" },

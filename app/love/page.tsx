@@ -315,6 +315,39 @@ export default function LoveLandingPage() {
           <span className="divider-line" />
         </div>
 
+        {/* HOOK — 11 캐릭터 후크 */}
+        <section className="legend" id="hook">
+          <div className="legend-inner">
+            <div className="legend-content">
+              <div className="legend-tag reveal">
+                <span className="hanja">十 一</span>11 CHARACTERS
+              </div>
+              <h2 className="legend-headline reveal d1">
+                <span className="red">당신</span>은 11명 중<br />
+                누구일까요
+              </h2>
+              <div className="legend-body reveal d2">
+                <p>
+                  사주가 그려내는 <span className="red">11가지 인연 결</span>.<br />
+                  여자 6 캐릭터, 남자 5 캐릭터.<br />
+                  당신은 그 중 어떤 결로 태어났을까요.
+                </p>
+                <p>
+                  <span className="soft">옥순일까, 정숙일까,</span><br />
+                  <span className="soft">광수일까, 영철일까…</span><br />
+                  사주만 가져오면 곧 답이 풀려요.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider">
+          <span className="divider-line" />
+          <span className="divider-mark">緣</span>
+          <span className="divider-line" />
+        </div>
+
         {/* CHOICES */}
         <section className="choices" id="choose">
           <div className="section-tag reveal">CHOOSE YOUR PATH</div>
