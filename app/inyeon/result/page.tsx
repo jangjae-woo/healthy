@@ -102,8 +102,8 @@ function SubSection({ title, body }: { title: string; body: string }) {
       }}
     >
       <div
-        className="text-[17px] font-bold mb-3"
-        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "-0.01em" }}
+        className="text-[17px] font-bold mb-3 leading-relaxed"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", paddingTop: 2 }}
       >
         {title}
       </div>
@@ -1235,8 +1235,8 @@ function ChemistryDiagram({
           {STEM_HANJA[aIlgan] ?? aIlgan}
         </div>
         <div className="text-center">
-          <div className="text-[10px]" style={{ color: "#5e4828", fontFamily: "'Cormorant Garamond', serif" }}>
-            stem
+          <div className="text-[12px] font-bold" style={{ color: "#5e4828", fontFamily: "'Nanum Myeongjo', serif" }}>
+            천간
           </div>
           <div
             className="text-[13px] font-bold px-3 py-0.5 rounded-full mt-1"
@@ -1280,8 +1280,8 @@ function ChemistryDiagram({
           {BRANCH_HANJA[aDayBranch] ?? aDayBranch}
         </div>
         <div className="text-center">
-          <div className="text-[10px]" style={{ color: "#5e4828", fontFamily: "'Cormorant Garamond', serif" }}>
-            branch
+          <div className="text-[12px] font-bold" style={{ color: "#5e4828", fontFamily: "'Nanum Myeongjo', serif" }}>
+            지지
           </div>
           <div
             className="text-[12px] font-bold px-2.5 py-0.5 rounded-full mt-1"
@@ -1512,21 +1512,21 @@ function QuadrantChart({
           <line x1={P} y1={H / 2} x2={W - P} y2={H / 2} stroke="rgba(212,169,107,0.4)" strokeWidth="1" strokeDasharray="3 3" />
           <line x1={W / 2} y1={P} x2={W / 2} y2={H - P} stroke="rgba(212,169,107,0.4)" strokeWidth="1" strokeDasharray="3 3" />
           {/* 축 라벨 */}
-          <text x={W / 2} y={P - 10} textAnchor="middle" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">활동</text>
-          <text x={W / 2} y={H - P + 18} textAnchor="middle" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">안정</text>
-          <text x={P - 8} y={H / 2 + 4} textAnchor="end" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">내향</text>
-          <text x={W - P + 8} y={H / 2 + 4} textAnchor="start" fontSize="10" fill="#5e4828" fontFamily="'Gowun Batang',serif">외향</text>
+          <text x={W / 2} y={P - 10} textAnchor="middle" fontSize="14" fontWeight="700" fill="#6b1e3a" fontFamily="'Nanum Myeongjo',serif">활동</text>
+          <text x={W / 2} y={H - P + 22} textAnchor="middle" fontSize="14" fontWeight="700" fill="#6b1e3a" fontFamily="'Nanum Myeongjo',serif">안정</text>
+          <text x={P - 8} y={H / 2 + 5} textAnchor="end" fontSize="14" fontWeight="700" fill="#6b1e3a" fontFamily="'Nanum Myeongjo',serif">내향</text>
+          <text x={W - P + 8} y={H / 2 + 5} textAnchor="start" fontSize="14" fontWeight="700" fill="#6b1e3a" fontFamily="'Nanum Myeongjo',serif">외향</text>
           {/* 두 점 잇는 선 */}
           <line x1={cx(aPos.x)} y1={cy(aPos.y)} x2={cx(bPos.x)} y2={cy(bPos.y)} stroke="#c8203a" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
           {/* A 점 */}
-          <circle cx={cx(aPos.x)} cy={cy(aPos.y)} r="9" fill={aColor} stroke="#fff" strokeWidth="2.5" />
-          <text x={cx(aPos.x)} y={cy(aPos.y) - 14} textAnchor="middle" fontSize="11" fontWeight="700" fill={aColor} fontFamily="'Nanum Myeongjo',serif">{aName}</text>
+          <circle cx={cx(aPos.x)} cy={cy(aPos.y)} r="11" fill={aColor} stroke="#fff" strokeWidth="3" />
+          <text x={cx(aPos.x)} y={cy(aPos.y) - 18} textAnchor="middle" fontSize="14" fontWeight="800" fill={aColor} fontFamily="'Nanum Myeongjo',serif">{aName}</text>
           {/* B 점 */}
-          <circle cx={cx(bPos.x)} cy={cy(bPos.y)} r="9" fill={bColor} stroke="#fff" strokeWidth="2.5" />
-          <text x={cx(bPos.x)} y={cy(bPos.y) - 14} textAnchor="middle" fontSize="11" fontWeight="700" fill={bColor} fontFamily="'Nanum Myeongjo',serif">{bName}</text>
+          <circle cx={cx(bPos.x)} cy={cy(bPos.y)} r="11" fill={bColor} stroke="#fff" strokeWidth="3" />
+          <text x={cx(bPos.x)} y={cy(bPos.y) - 18} textAnchor="middle" fontSize="14" fontWeight="800" fill={bColor} fontFamily="'Nanum Myeongjo',serif">{bName}</text>
         </svg>
       </div>
-      <div className="text-[10px] text-center mt-2" style={{ color: "#5e4828", fontFamily: "'Gowun Batang',serif" }}>
+      <div className="text-[12px] text-center mt-3 font-bold" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang',serif" }}>
         가로 = 외향-내향 / 세로 = 활동-안정
       </div>
     </div>
