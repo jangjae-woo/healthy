@@ -16,6 +16,11 @@ interface SeongCtx {
   bOhaengWeak: string;
   seonggyeokScore: number;
   scoreLabel: string;
+  // ─── "나는 솔로" 캐릭터 결합 (V2) ───
+  aCharacter?: string;          // "옥순" 등
+  bCharacter?: string;          // "영철" 등
+  pairLabel?: string;           // "빠르게 뜨거워지는 결" 등
+  pairTone?: string;            // 추가 톤 키워드
 }
 
 export function buildInyeonChapter3Prompt(
@@ -36,6 +41,11 @@ ${c.bName}님 일간: ${c.bIlgan}
 ${c.aName}님 강한 오행: ${c.aOhaengTop} / 약한 오행: ${c.aOhaengWeak}
 ${c.bName}님 강한 오행: ${c.bOhaengTop} / 약한 오행: ${c.bOhaengWeak}
 성격 궁합 점수: ${c.seonggyeokScore}점 — ${c.scoreLabel}
+${c.aCharacter && c.bCharacter ? `\n━━━ "나는 솔로" 결정론 캐릭터 결합 (필수 인용) ━━━
+${c.aName}님 캐릭터: ${c.aCharacter}
+${c.bName}님 캐릭터: ${c.bCharacter}
+짝꿍 라벨: ${c.pairLabel ?? "—"}
+짝꿍 톤: ${c.pairTone ?? "—"}\n` : ""}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [★ 3장 출력 룰 — 모든 sub 강제]
@@ -59,10 +69,10 @@ ${c.bName}님 강한 오행: ${c.bOhaengTop} / 약한 오행: ${c.bOhaengWeak}
 ## 우리의 성격 케미
 
 ### 우리 성격이 만났을 때의 큰 그림
-${c.aIlgan}와 ${c.bIlgan} 두 일간이 만나는 큰 그림. ${c.ilganRelation} 관계를 자연 풍경으로 풀이 — 누가 누구를 받쳐주는지·서로 다른 결이 어떻게 어우러지는지·부딪히는 자리는 어디인지. ${c.aOhaengTop}·${c.bOhaengTop} 강한 오행과 ${c.aOhaengWeak}·${c.bOhaengWeak} 약한 오행의 만남으로 두 사람의 케미 색깔 결정. 두 분이 함께 있을 때 자연스럽게 만들어지는 분위기 한 단락.
+${c.aIlgan}와 ${c.bIlgan} 두 일간이 만나는 큰 그림. ${c.ilganRelation} 관계를 자연 풍경으로 풀이 — 누가 누구를 받쳐주는지·서로 다른 결이 어떻게 어우러지는지·부딪히는 자리는 어디인지. ${c.aOhaengTop}·${c.bOhaengTop} 강한 오행과 ${c.aOhaengWeak}·${c.bOhaengWeak} 약한 오행의 만남으로 두 사람의 케미 색깔 결정. ${c.pairLabel ? `이 두 분의 짝꿍 결은 한 줄로 "${c.pairLabel}"에요. 본문에 이 라벨 그대로 자연스럽게 녹여 인용 (괄호·별표·박스 X, 산문 안에 흐르듯). ${c.pairTone ? `짝꿍 톤: ${c.pairTone}.` : ""}` : ""} 두 분이 함께 있을 때 자연스럽게 만들어지는 분위기 한 단락.
 
 ### 함께 있을 때 자연스럽게 나뉘는 역할
-${c.aName}님과 ${c.bName}님이 함께 있을 때 누가 어떤 자리를 자연스럽게 맡는지. 일간 음양·신강신약 + 식상·재성·관성·인성·비겁 분포로 결정·주도·정서·돌봄·기획·실행 결의 분담을 풀이. 이 분담이 어색하지 않게 자리잡는 일상 장면 1개 — 여행 계획·맛집 결정·다툼 후 회복 같은 구체 자리에서 누가 어떤 결로 움직이는지. 부드러운 마무리.
+${c.aName}님과 ${c.bName}님이 함께 있을 때 누가 어떤 자리를 자연스럽게 맡는지. 일간 음양·신강신약 + 식상·재성·관성·인성·비겁 분포로 결정·주도·정서·돌봄·기획·실행 결의 분담을 풀이. ${c.pairLabel ? `이 분담은 짝꿍 결("${c.pairLabel}")이 자연스럽게 만들어내는 역할 — 본문에 짝꿍 결을 다시 한 번 자연 결합 (반복 X, 다른 표현으로). ` : ""}이 분담이 어색하지 않게 자리잡는 일상 장면 1개 — 여행 계획·맛집 결정·다툼 후 회복 같은 구체 자리에서 누가 어떤 결로 움직이는지. 부드러운 마무리.
 
 ## 우리의 끌림 포인트
 

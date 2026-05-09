@@ -16,7 +16,7 @@ import { buildInyeonChapter6Prompt } from "./prompts/ch6-finance";
 import { buildInyeonChapter7Prompt } from "./prompts/ch7-marriage";
 import { buildInyeonChapter8Prompt } from "./prompts/ch8-final-letter";
 import { deriveInyeonTraits, inyeonTraitsToPromptBlock } from "../inyeon-traits-block-v2";
-import { matchCharacter, type CharacterMatch } from "./character-match";
+import { matchCharacter, deriveIdealType, type CharacterMatch } from "./character-match";
 import { getPairLabelFor, type PairLabel } from "./character-pair";
 
 const STEM_ELEM: Record<string, string> = {
@@ -188,6 +188,8 @@ export interface InyeonAllPrompts {
 export interface InyeonCharacterMatch {
   aMatch: CharacterMatch;
   bMatch: CharacterMatch;
+  aIdeal: CharacterMatch;       // A가 끌리는 이상형 캐릭터
+  bIdeal: CharacterMatch;       // B가 끌리는 이상형 캐릭터
   pairLabel: PairLabel | null;
 }
 
@@ -199,8 +201,10 @@ export function buildCharacterMatch(
 ): InyeonCharacterMatch {
   const aMatch = matchCharacter(a, req.a.gender);
   const bMatch = matchCharacter(b, req.b.gender);
+  const aIdeal = deriveIdealType(a, req.a.gender);
+  const bIdeal = deriveIdealType(b, req.b.gender);
   const pairLabel = getPairLabelFor(req.a.gender, aMatch.name, req.b.gender, bMatch.name);
-  return { aMatch, bMatch, pairLabel };
+  return { aMatch, bMatch, aIdeal, bIdeal, pairLabel };
 }
 
 export function buildAllInyeonPrompts(
@@ -222,6 +226,15 @@ export function buildAllInyeonPrompts(
   const aNature = ILGAN_NATURE[a.ilgan] ?? "고유한 결의 사람";
   const bNature = ILGAN_NATURE[b.ilgan] ?? "고유한 결의 사람";
 
+  // ─── "나는 솔로" 캐릭터 결정론 분류 ───
+  const aMatch = matchCharacter(a, req.a.gender);
+  const bMatch = matchCharacter(b, req.b.gender);
+  const aIdeal = deriveIdealType(a, req.a.gender);
+  const bIdeal = deriveIdealType(b, req.b.gender);
+  const pairLabelObj = getPairLabelFor(req.a.gender, aMatch.name, req.b.gender, bMatch.name);
+  const pairLabel = pairLabelObj?.label ?? "두 사람만의 결";
+  const pairTone = pairLabelObj?.tone ?? "";
+
   const aPersonCtx = {
     name: aName,
     ilgan: `${a.ilgan}(${aIlganHanja})`,
@@ -235,6 +248,13 @@ export function buildAllInyeonPrompts(
     gisin: gisinOf(a.yongsin),
     shinkang: shinkangLevel(a),
     sinsalLine: a.sinsal.join(" · ") || "특별한 신살 없음",
+    character: aMatch.name,
+    characterImage: aMatch.innerImage,
+    characterColor: aMatch.color,
+    characterEnLabel: aMatch.enLabel,
+    idealType: aIdeal.name,
+    idealTypeImage: aIdeal.innerImage,
+    idealTypeSignal: aIdeal.signal,
   };
   const bPersonCtx = {
     name: bName,
@@ -249,6 +269,13 @@ export function buildAllInyeonPrompts(
     gisin: gisinOf(b.yongsin),
     shinkang: shinkangLevel(b),
     sinsalLine: b.sinsal.join(" · ") || "특별한 신살 없음",
+    character: bMatch.name,
+    characterImage: bMatch.innerImage,
+    characterColor: bMatch.color,
+    characterEnLabel: bMatch.enLabel,
+    idealType: bIdeal.name,
+    idealTypeImage: bIdeal.innerImage,
+    idealTypeSignal: bIdeal.signal,
   };
 
   const ch1 = buildInyeonChapter1Prompt(req, aPersonCtx, bPersonCtx);
@@ -282,6 +309,10 @@ export function buildAllInyeonPrompts(
     aOhaengWeak: weakElement(a), bOhaengWeak: weakElement(b),
     seonggyeokScore: scores.seonggyeok,
     scoreLabel: scoreLabelFor(scores.seonggyeok),
+    aCharacter: aMatch.name,
+    bCharacter: bMatch.name,
+    pairLabel,
+    pairTone,
   };
   const ch3 = buildInyeonChapter3Prompt(req, seongCtx);
 

@@ -187,3 +187,52 @@ export function matchMaleCharacter(saju: SajuAnalysis): CharacterMatch {
 export function matchCharacter(saju: SajuAnalysis, gender: "남" | "여"): CharacterMatch {
   return gender === "여" ? matchFemaleCharacter(saju) : matchMaleCharacter(saju);
 }
+
+// ─── 끌리는 이상형 — 본인 사주 부족 십성을 보충하는 반대 성별 캐릭터 ─────────
+// 원리: 사주에서 부족한 결을 가진 사람에게 끌림. 보완 매칭.
+export function deriveIdealType(saju: SajuAnalysis, myGender: "남" | "여"): CharacterMatch {
+  const c = deriveSipCounts(saju);
+  const oppositeGender: "남" | "여" = myGender === "여" ? "남" : "여";
+
+  // 부족 십성 우선순위:
+  // 정관 부족 → 안정·책임감 받쳐주는 결 (영수)
+  // 인성 부족 → 깊이·받침 (광수)
+  // 식상 부족 → 표현·활기 (영철 / 옥순)
+  // 비겁 부족 → 함께 가는 결 (영호 / 순자)
+  // 재성 부족 → 현실 안내 (영자 / 상철)
+
+  if (myGender === "여") {
+    // 여자가 끌리는 남자
+    if (c.정관 <= 1 && c.인성 <= 1) {
+      return { name: "영수", signal: "정관·인성 부족 — 안정과 깊이를 받쳐주는 중후한 결에 끌림", ...MALE_META.영수 };
+    }
+    if (c.인성 <= 1 && c.정관 >= 2) {
+      return { name: "광수", signal: "인성 부족 — 깊이 있고 사색적인 진중한 결에 끌림", ...MALE_META.광수 };
+    }
+    if (c.식상 <= 1) {
+      return { name: "영철", signal: "식상 부족 — 표현 풍부하고 자연스러운 자신감에 끌림", ...MALE_META.영철 };
+    }
+    if (c.비겁 <= 1) {
+      return { name: "영호", signal: "비겁 부족 — 함께 가는 사교적이고 든든한 결에 끌림", ...MALE_META.영호 };
+    }
+    return { name: "상철", signal: "균형 사주 — 부담 없고 편안한 결에 끌림", ...MALE_META.상철 };
+  } else {
+    // 남자가 끌리는 여자
+    if (c.인성 <= 1 && c.정관 <= 1) {
+      return { name: "정숙", signal: "정관·인성 부족 — 차분하고 강단 있는 안정의 결에 끌림", ...FEMALE_META.정숙 };
+    }
+    if (c.식상 <= 1 && isYangIlgan(saju)) {
+      return { name: "옥순", signal: "식상 부족 + 양일간 — 솔직 직진의 활기 있는 결에 끌림", ...FEMALE_META.옥순 };
+    }
+    if (c.식상 <= 1) {
+      return { name: "순자", signal: "식상 부족 — 발랄하고 애교 있는 감수성에 끌림", ...FEMALE_META.순자 };
+    }
+    if (c.인성 <= 1) {
+      return { name: "영숙", signal: "인성 부족 — 다정하고 받쳐주는 부드러운 결에 끌림", ...FEMALE_META.영숙 };
+    }
+    if (c.편관 >= 2) {
+      return { name: "현숙", signal: "편관강 — 시크하고 도시적인 완벽주의 결에 끌림", ...FEMALE_META.현숙 };
+    }
+    return { name: "영자", signal: "균형 사주 — 무난하고 따스한 일상적 결에 끌림", ...FEMALE_META.영자 };
+  }
+}
