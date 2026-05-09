@@ -30,7 +30,7 @@ interface Props {
 
 export default function ChapterShell({
   chapterNo, chapterTitle, totalChapters, chapters, onPrev, onNext, onSelect,
-  backHref = "/나의홍실/form", children,
+  backHref = "/hongsil/form", children,
 }: Props) {
   const [showToc, setShowToc] = useState(false);
 

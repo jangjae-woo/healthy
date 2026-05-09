@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import EntryModal from "@/components/나의홍실/EntryModal";
-import { InyeonEntryChoice } from "@/lib/나의홍실/types";
+import EntryModal from "@/components/hongsil/EntryModal";
+import { InyeonEntryChoice } from "@/lib/hongsil/types";
 
 const HOURS = [
   "시간 모름",
@@ -144,7 +144,7 @@ export default function InyeonForm() {
       relationship: choice.relationship,
       duration: choice.duration,
     });
-    router.push(`/나의홍실/result?${params.toString()}`);
+    router.push(`/hongsil/result?${params.toString()}`);
   };
 
   return (
@@ -156,7 +156,7 @@ export default function InyeonForm() {
       }}
     >
       <Link
-        href="/나의홍실"
+        href="/hongsil"
         className="text-xs"
         style={{ color: `${ACCENT}cc` }}
       >

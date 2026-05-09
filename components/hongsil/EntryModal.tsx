@@ -4,7 +4,7 @@ import {
   RelationshipKind, MeetDuration,
   RELATIONSHIP_LABEL, DURATION_LABEL,
   InyeonEntryChoice,
-} from "@/lib/나의홍실/types";
+} from "@/lib/hongsil/types";
 
 // 홍실 팔레트
 const THREAD = "#c8203a";

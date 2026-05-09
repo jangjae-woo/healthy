@@ -10,7 +10,7 @@ export default function InyeonPage() {
       bg="#2a1a1d"
       bgEnd="#1a0d10"
       accent="#f0a8b8"
-      formHref="/나의홍실/form"
+      formHref="/hongsil/form"
       features={[
         "두 분 각자의 본질·매력·이상형 (제1장)",
         "인연의 붉은 실 — 전생부터 이번 생까지 (제2장)",

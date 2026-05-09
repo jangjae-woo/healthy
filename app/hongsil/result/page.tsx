@@ -1,20 +1,20 @@
 "use client";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import ChapterShell from "@/components/나의홍실/ChapterShell";
-import SajuTable from "@/components/나의홍실/SajuTable";
-import OhaengChart from "@/components/나의홍실/OhaengChart";
-import YongsinCards from "@/components/나의홍실/YongsinCards";
-import SinKangBar from "@/components/나의홍실/SinKangBar";
-import ScoreGauge from "@/components/나의홍실/ScoreGauge";
-import SeasonGrid from "@/components/나의홍실/SeasonGrid";
-import SipseongRow from "@/components/나의홍실/SipseongRow";
-import AssetCurve from "@/components/나의홍실/AssetCurve";
+import ChapterShell from "@/components/hongsil/ChapterShell";
+import SajuTable from "@/components/hongsil/SajuTable";
+import OhaengChart from "@/components/hongsil/OhaengChart";
+import YongsinCards from "@/components/hongsil/YongsinCards";
+import SinKangBar from "@/components/hongsil/SinKangBar";
+import ScoreGauge from "@/components/hongsil/ScoreGauge";
+import SeasonGrid from "@/components/hongsil/SeasonGrid";
+import SipseongRow from "@/components/hongsil/SipseongRow";
+import AssetCurve from "@/components/hongsil/AssetCurve";
 import {
   RELATIONSHIP_LABEL, DURATION_LABEL,
   RelationshipKind, MeetDuration,
-} from "@/lib/나의홍실/types";
-import { FEMALE_META, MALE_META } from "@/lib/나의홍실/character-match";
+} from "@/lib/hongsil/types";
+import { FEMALE_META, MALE_META } from "@/lib/hongsil/character-match";
 
 const ACCENT = "#f0a8b8";
 const BG = "#2a1a1d";
@@ -2164,7 +2164,7 @@ function InyeonResultInner() {
       onPrev={chapter > 1 ? () => setChapter((chapter - 1) as Chap) : undefined}
       onNext={chapter < TOTAL ? () => setChapter((chapter + 1) as Chap) : undefined}
       onSelect={(no) => setChapter(no as Chap)}
-      backHref="/나의홍실/form"
+      backHref="/hongsil/form"
     >
       {/* Page 1 — 당신은 (ME) */}
       {chapter === 1 && (
