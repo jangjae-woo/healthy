@@ -9,7 +9,7 @@
 import type { SajuAnalysis } from "../saju-calculator";
 
 export type FemaleCharacter = "옥순" | "현숙" | "정숙" | "순자" | "영숙" | "영자";
-export type MaleCharacter = "영철" | "영호" | "광수" | "영수" | "상철";
+export type MaleCharacter = "영철" | "영호" | "광수" | "영수" | "상철" | "정수";
 export type CharacterName = FemaleCharacter | MaleCharacter;
 
 export interface CharacterMatch {
@@ -81,6 +81,7 @@ export const MALE_META: Record<MaleCharacter, Omit<CharacterMatch, "name" | "sig
   광수: { innerImage: "이지적·진중·깊이·신중", color: "#1e40af", enLabel: "DEEP THINKER" },
   영수: { innerImage: "중후·진중·안정·든든한", color: "#92400e", enLabel: "STRONG PILLAR" },
   상철: { innerImage: "무난·편안·밸런스·부담 없는", color: "#64748b", enLabel: "EASY BREEZE" },
+  정수: { innerImage: "단정·반듯한·책임감·예의 바른", color: "#0f766e", enLabel: "STEADY GENT" },
 };
 
 // ─── 여자 캐릭터 분류 (우선순위 캐스케이드) ─────────────────────
@@ -159,6 +160,10 @@ export function matchMaleCharacter(saju: SajuAnalysis): CharacterMatch {
   if (c.인성 >= 4) {
     return { name: "광수", signal: "인성 매우 강 — 깊이·신중함의 결", ...MALE_META.광수 };
   }
+  // 3.7순위 정수 — 정관강 + 음일간 + 도화 X (단정·반듯·예의)
+  if (c.정관 >= 2 && !yang && !dohwa) {
+    return { name: "정수", signal: "정관강 + 음일간 + 도화 없음 — 단정·반듯·예의 바른 결", ...MALE_META.정수 };
+  }
   // 4순위 영수 — 정관·인성 안정
   if (c.정관 >= 1 && c.인성 >= 2) {
     return { name: "영수", signal: "정관·인성 안정 — 중후하고 든든한 결", ...MALE_META.영수 };
@@ -214,6 +219,9 @@ export function deriveIdealType(saju: SajuAnalysis, myGender: "남" | "여"): Ch
     }
     if (c.비겁 <= 1) {
       return { name: "영호", signal: "비겁 부족 — 함께 가는 사교적이고 든든한 결에 끌림", ...MALE_META.영호 };
+    }
+    if (c.재성 <= 1) {
+      return { name: "정수", signal: "재성 부족 — 단정·반듯하고 책임감 있는 결에 끌림", ...MALE_META.정수 };
     }
     return { name: "상철", signal: "균형 사주 — 부담 없고 편안한 결에 끌림", ...MALE_META.상철 };
   } else {
