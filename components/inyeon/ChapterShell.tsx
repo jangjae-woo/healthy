@@ -1,9 +1,15 @@
 "use client";
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 
-const ACCENT = "#f0a8b8";
-const BG = "#2a1a1d";
+// 홍실(紅絲) 팔레트 — /love 랜딩과 통일
+const THREAD = "#c8203a";
+const PLUM = "#6b1e3a";
+const GOLD = "#b88646";
+const GOLD_LIGHT = "#d4a96b";
+const INK = "#2a1722";
+const INK_SOFT = "#5a3c4a";
+const CREAM = "#fbf3e8";
 
 export interface ChapterEntry {
   no: number;
@@ -28,86 +34,151 @@ export default function ChapterShell({
 }: Props) {
   const [showToc, setShowToc] = useState(false);
 
+  // 홍실 폰트 로드
+  useEffect(() => {
+    const id = "hongsil-fonts";
+    if (document.getElementById(id)) return;
+    const link = document.createElement("link");
+    link.id = id;
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@400;700&display=swap";
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <div
       className="min-h-screen relative"
-      style={{ background: `linear-gradient(180deg, ${BG} 0%, #150810 100%)` }}
+      style={{
+        background: `
+          radial-gradient(ellipse at 20% 0%, #ffe1ea 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 30%, #ffd9e3 0%, transparent 55%),
+          radial-gradient(ellipse at 50% 100%, #fff0d6 0%, transparent 60%),
+          linear-gradient(180deg, #fff7f9 0%, #ffeef3 40%, #fce4d6 100%)
+        `,
+        backgroundAttachment: "fixed",
+        fontFamily: "'Noto Serif KR', 'Gowun Batang', serif",
+      }}
     >
-      <main className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col relative">
-        {/* 헤더 — 자도인 V2 패턴: sticky top */}
+      <main className="w-full max-w-[480px] mx-auto min-h-screen flex flex-col relative">
+        {/* 헤더 — 홍실 톤 sticky */}
         <div
           className="flex items-center gap-3 px-4 py-3 flex-shrink-0 sticky top-0 z-20"
-          style={{ borderBottom: `1px solid ${ACCENT}22`, background: `${BG}ee`, backdropFilter: "blur(10px)" }}
+          style={{
+            borderBottom: `1px solid rgba(212,169,107,0.3)`,
+            background: "rgba(255,247,249,0.92)",
+            backdropFilter: "blur(10px)",
+          }}
         >
-          <Link href={backHref} className="text-sm" style={{ color: `${ACCENT}88` }}>←</Link>
-          <div className="flex-1 text-sm font-bold text-white">홍연(紅蓮) 인연궁합</div>
-          <span className="text-[11px] tabular-nums" style={{ color: `${ACCENT}77` }}>
+          <Link
+            href={backHref}
+            className="text-[13px]"
+            style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          >
+            ← paljawon
+          </Link>
+          <div className="flex-1 text-center">
+            <div
+              className="text-[10px] tracking-[0.4em]"
+              style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+            >
+              紅 絲
+            </div>
+          </div>
+          <span className="text-[11px] tabular-nums" style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif" }}>
             {chapterNo} / {totalChapters}
           </span>
           <button
             onClick={() => setShowToc((v) => !v)}
-            className="text-xs px-2.5 py-1.5 rounded-xl transition-all"
-            style={{ backgroundColor: `${ACCENT}18`, color: ACCENT }}
+            className="text-xs px-2.5 py-1.5 rounded-full transition-all"
+            style={{
+              background: `${THREAD}10`,
+              border: `1px solid ${THREAD}55`,
+              color: THREAD,
+            }}
           >
-            목차 ↓
+            목차
           </button>
         </div>
 
-        {/* TOC 드롭다운 — 자도인 V2 패턴: fixed (뷰포트 기준, 스크롤 위치 무관) + 백드롭 */}
+        {/* TOC 드롭다운 — fixed */}
         {showToc && chapters && (
           <>
-          <div className="fixed inset-0 z-30" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setShowToc(false)} />
-          <div
-            className="fixed top-[58px] left-1/2 -translate-x-1/2 w-[calc(100%-16px)] max-w-[414px] z-40 rounded-2xl shadow-2xl overflow-y-auto max-h-[70vh]"
-            style={{ backgroundColor: "#0c0510", border: `1px solid ${ACCENT}33` }}
-          >
+            <div className="fixed inset-0 z-30" style={{ background: "rgba(106,30,58,0.35)" }} onClick={() => setShowToc(false)} />
             <div
-              className="flex items-center justify-between px-4 py-3"
-              style={{ borderBottom: `1px solid ${ACCENT}18` }}
+              className="fixed top-[58px] left-1/2 -translate-x-1/2 w-[calc(100%-16px)] max-w-[464px] z-40 rounded-lg shadow-2xl overflow-y-auto max-h-[70vh]"
+              style={{
+                background: "linear-gradient(180deg, rgba(255,251,247,0.98) 0%, rgba(253,243,232,0.96) 100%)",
+                border: `1px solid rgba(212,169,107,0.4)`,
+                boxShadow: `0 24px 60px -16px rgba(178,40,71,0.25)`,
+              }}
             >
-              <span className="text-sm font-bold text-white">목차</span>
-              <button onClick={() => setShowToc(false)} style={{ color: `${ACCENT}77` }}>✕</button>
-            </div>
-            {chapters.map((c) => {
-              const isCurrent = chapterNo === c.no;
-              return (
+              <div
+                className="flex items-center justify-between px-4 py-3"
+                style={{ borderBottom: `1px solid rgba(212,169,107,0.25)` }}
+              >
+                <span className="text-sm font-bold" style={{ color: INK, fontFamily: "'Nanum Myeongjo', serif" }}>
+                  목차
+                </span>
                 <button
-                  key={c.no}
-                  onClick={() => {
-                    onSelect?.(c.no);
-                    setShowToc(false);
-                    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className="w-full flex items-center justify-between px-4 py-3 text-left transition-all"
-                  style={{
-                    borderBottom: `1px solid ${ACCENT}0d`,
-                    backgroundColor: isCurrent ? `${ACCENT}15` : "transparent",
-                    color: isCurrent ? ACCENT : "white",
-                  }}
+                  onClick={() => setShowToc(false)}
+                  style={{ color: GOLD, fontSize: 18, lineHeight: 1 }}
                 >
-                  <span className="text-xs">제{c.no}장 · {c.label}</span>
-                  {isCurrent && <span className="text-[10px]" style={{ color: ACCENT }}>●</span>}
+                  ✕
                 </button>
-              );
-            })}
-          </div>
+              </div>
+              {chapters.map((c) => {
+                const isCurrent = chapterNo === c.no;
+                return (
+                  <button
+                    key={c.no}
+                    onClick={() => {
+                      onSelect?.(c.no);
+                      setShowToc(false);
+                      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="w-full flex items-center justify-between px-4 py-3 text-left transition-all"
+                    style={{
+                      borderBottom: `1px solid rgba(212,169,107,0.15)`,
+                      background: isCurrent ? `${THREAD}0d` : "transparent",
+                      color: isCurrent ? THREAD : INK,
+                    }}
+                  >
+                    <span className="text-[13px]" style={{ fontFamily: "'Gowun Batang', serif" }}>
+                      제{c.no}장 · {c.label}
+                    </span>
+                    {isCurrent && <span className="text-[10px]" style={{ color: THREAD }}>●</span>}
+                  </button>
+                );
+              })}
+            </div>
           </>
         )}
 
-        {/* 챕터 타이틀 영역 (자도인 톤의 가운데 정렬 부제) */}
-        <div className="px-4 pt-6 pb-2 text-center">
+        {/* 챕터 타이틀 영역 */}
+        <div className="px-4 pt-7 pb-3 text-center">
           <div
             className="text-[10px] tracking-[0.4em] uppercase mb-2"
-            style={{ color: `${ACCENT}aa`, fontFamily: "'Cormorant Garamond', serif" }}
+            style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
           >
             Chapter {String(chapterNo).padStart(2, "0")}
           </div>
           <h1
-            className="text-lg font-bold"
-            style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif", letterSpacing: "0.05em" }}
+            className="text-[19px] font-bold leading-snug"
+            style={{
+              color: INK,
+              fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+              letterSpacing: "-0.01em",
+            }}
           >
             {chapterTitle}
           </h1>
+          <div
+            className="mt-3 h-px mx-auto"
+            style={{
+              maxWidth: 80,
+              background: `linear-gradient(90deg, transparent, ${GOLD_LIGHT}, transparent)`,
+            }}
+          />
         </div>
 
         {/* 본문 */}
@@ -115,10 +186,14 @@ export default function ChapterShell({
           <div>{children}</div>
         </div>
 
-        {/* sticky bottom nav — 자도인 V2 패턴 */}
+        {/* sticky bottom nav */}
         <div
           className="flex-shrink-0 px-4 py-3 sticky bottom-0 z-20"
-          style={{ borderTop: `1px solid ${ACCENT}22`, background: `${BG}ee`, backdropFilter: "blur(10px)" }}
+          style={{
+            borderTop: `1px solid rgba(212,169,107,0.3)`,
+            background: "rgba(255,247,249,0.92)",
+            backdropFilter: "blur(10px)",
+          }}
         >
           <div className="flex gap-2">
             <button
@@ -127,11 +202,12 @@ export default function ChapterShell({
                 if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               disabled={!onPrev || chapterNo <= 1}
-              className="flex-1 py-3 rounded-xl text-sm font-medium transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex-1 py-3 rounded-md text-sm transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
-                backgroundColor: !onPrev || chapterNo <= 1 ? "rgba(255,255,255,0.04)" : `${ACCENT}18`,
-                border: `1px solid ${!onPrev || chapterNo <= 1 ? "rgba(255,255,255,0.08)" : `${ACCENT}55`}`,
-                color: !onPrev || chapterNo <= 1 ? "rgba(255,255,255,0.3)" : ACCENT,
+                background: !onPrev || chapterNo <= 1 ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.7)",
+                border: `1px solid ${!onPrev || chapterNo <= 1 ? "rgba(212,169,107,0.2)" : "rgba(212,169,107,0.5)"}`,
+                color: !onPrev || chapterNo <= 1 ? "rgba(106,30,58,0.4)" : PLUM,
+                fontFamily: "'Gowun Batang', serif",
                 letterSpacing: "0.05em",
               }}
             >
@@ -143,13 +219,14 @@ export default function ChapterShell({
                 if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               disabled={!onNext || chapterNo >= totalChapters}
-              className="flex-1 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex-1 py-3 rounded-md text-sm font-bold transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
                 background: !onNext || chapterNo >= totalChapters
-                  ? "rgba(255,255,255,0.04)"
-                  : `linear-gradient(135deg, ${ACCENT}, ${ACCENT}cc)`,
-                border: `1px solid ${!onNext || chapterNo >= totalChapters ? "rgba(255,255,255,0.08)" : ACCENT}`,
-                color: !onNext || chapterNo >= totalChapters ? "rgba(255,255,255,0.3)" : BG,
+                  ? "rgba(255,255,255,0.4)"
+                  : `linear-gradient(135deg, ${THREAD}, ${PLUM})`,
+                border: `1px solid ${!onNext || chapterNo >= totalChapters ? "rgba(212,169,107,0.2)" : THREAD}`,
+                color: !onNext || chapterNo >= totalChapters ? "rgba(106,30,58,0.4)" : CREAM,
+                fontFamily: "'Gowun Batang', serif",
                 letterSpacing: "0.05em",
               }}
             >

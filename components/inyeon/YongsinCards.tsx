@@ -33,13 +33,13 @@ function Card({ kind, elem }: { kind: string; elem: string }) {
         style={{
           background: `${color}22`,
           border: `1px solid ${color}88`,
-          color: "#fef3c7",
+          color: "#2a1722",
           fontFamily: "'Noto Serif KR', serif",
         }}
       >
         {display}
       </div>
-      <div className="text-xs" style={{ color: "#d6cdb8" }}>
+      <div className="text-xs" style={{ color: "#5a3c4a" }}>
         {elem}
       </div>
     </div>

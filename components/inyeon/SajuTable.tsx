@@ -30,7 +30,7 @@ const ELEM_COLOR: Record<string, string> = {
 function Cell({ p }: { p: Pillar | null }) {
   if (!p) {
     return (
-      <div className="text-center py-3 px-1 text-xs" style={{ color: "#a39068" }}>
+      <div className="text-center py-3 px-1 text-xs" style={{ color: "#8a6b4d" }}>
         모름
       </div>
     );
@@ -43,7 +43,7 @@ function Cell({ p }: { p: Pillar | null }) {
         style={{
           background: `${stemColor}22`,
           border: `1px solid ${stemColor}66`,
-          color: "#fef3c7",
+          color: "#2a1722",
           fontFamily: "'Noto Serif KR', serif",
         }}
       >
@@ -54,7 +54,7 @@ function Cell({ p }: { p: Pillar | null }) {
         style={{
           background: `${stemColor}11`,
           border: `1px solid ${stemColor}44`,
-          color: "#fef3c7",
+          color: "#2a1722",
           fontFamily: "'Noto Serif KR', serif",
         }}
       >
@@ -83,7 +83,7 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
     >
       <div
         className="text-sm font-bold mb-1 text-center"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         {name}님의 사주
       </div>
@@ -95,16 +95,16 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
       </div>
 
       <div className="grid grid-cols-5 gap-1 items-center">
-        <div className="text-[10px] text-center" style={{ color: "#a39068" }}>
+        <div className="text-[10px] text-center" style={{ color: "#8a6b4d" }}>
           十星<br />(십성)
         </div>
         {cols.map((c, i) => (
-          <div key={`top-${i}`} className="text-center text-[10px]" style={{ color: "#a39068" }}>
+          <div key={`top-${i}`} className="text-center text-[10px]" style={{ color: "#8a6b4d" }}>
             {c.p?.stemSipseong || "-"}
           </div>
         ))}
 
-        <div className="text-[10px] text-center" style={{ color: "#a39068" }}>
+        <div className="text-[10px] text-center" style={{ color: "#8a6b4d" }}>
           天干<br />(천간)
         </div>
         {cols.map((c, i) => (
@@ -113,11 +113,11 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
           </div>
         ))}
 
-        <div className="text-[10px] text-center" style={{ color: "#a39068" }}>
+        <div className="text-[10px] text-center" style={{ color: "#8a6b4d" }}>
           十星<br />(십성)
         </div>
         {cols.map((c, i) => (
-          <div key={`bot-${i}`} className="text-center text-[10px]" style={{ color: "#a39068" }}>
+          <div key={`bot-${i}`} className="text-center text-[10px]" style={{ color: "#8a6b4d" }}>
             {c.p?.branchSipseong || "-"}
           </div>
         ))}
@@ -128,7 +128,7 @@ export default function SajuTable({ name, birthLine, hour, day, month, year }: P
         {cols.map((c, i) => (
           <div key={`label-${i}`} className="text-xs" style={{ color: `${ACCENT}cc` }}>
             <span style={{ fontFamily: "'Noto Serif KR', serif" }}>{c.label}</span>
-            <span className="text-[10px]" style={{ color: "#a39068" }}> · {c.sub}</span>
+            <span className="text-[10px]" style={{ color: "#8a6b4d" }}> · {c.sub}</span>
           </div>
         ))}
       </div>

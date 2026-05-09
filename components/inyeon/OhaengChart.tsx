@@ -50,7 +50,7 @@ export default function OhaengChart({ name, counts, ratios }: Props) {
     >
       <div
         className="text-sm font-bold mb-4"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         {name}님의 오행 분포
       </div>
@@ -87,7 +87,7 @@ export default function OhaengChart({ name, counts, ratios }: Props) {
           />
           {/* 데이터 노드 */}
           {radarPoints.map((p, i) => (
-            <circle key={i} cx={p.x} cy={p.y} r="3.5" fill={ELEM_COLOR[ELEM[i]]} stroke="#fef3c7" strokeWidth="1" />
+            <circle key={i} cx={p.x} cy={p.y} r="3.5" fill={ELEM_COLOR[ELEM[i]]} stroke="#2a1722" strokeWidth="1" />
           ))}
           {/* 라벨 (한자) */}
           {ELEM.map((e, i) => {
@@ -118,7 +118,7 @@ export default function OhaengChart({ name, counts, ratios }: Props) {
               style={{
                 background: `linear-gradient(135deg, ${ELEM_COLOR[e]}33, ${ELEM_COLOR[e]}11)`,
                 border: `1px solid ${ELEM_COLOR[e]}88`,
-                color: "#fef3c7",
+                color: "#2a1722",
                 fontFamily: "'Noto Serif KR', serif",
                 boxShadow: `0 2px 8px ${ELEM_COLOR[e]}22`,
               }}
@@ -132,7 +132,7 @@ export default function OhaengChart({ name, counts, ratios }: Props) {
         ))}
       </div>
 
-      <div className="text-[11px] mb-2" style={{ color: "#a39068" }}>
+      <div className="text-[11px] mb-2" style={{ color: "#8a6b4d" }}>
         오행 비율 (총 {total})
       </div>
       <div className="flex flex-col gap-2">
@@ -155,7 +155,7 @@ export default function OhaengChart({ name, counts, ratios }: Props) {
                   }}
                 />
               </div>
-              <div className="w-20 text-right text-[11px]" style={{ color: "#d6cdb8" }}>
+              <div className="w-20 text-right text-[11px]" style={{ color: "#5a3c4a" }}>
                 {Math.round(r)}% · {ratioLabel(r)}
               </div>
             </div>

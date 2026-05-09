@@ -22,7 +22,7 @@ export default function SinKangBar({ ilgan, stage }: Props) {
     >
       <div
         className="text-sm font-bold mb-4"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         신강신약
       </div>
@@ -46,9 +46,9 @@ export default function SinKangBar({ ilgan, stage }: Props) {
           );
         })}
       </div>
-      <div className="flex justify-between text-[10px] px-1" style={{ color: "#a39068" }}>
+      <div className="flex justify-between text-[10px] px-1" style={{ color: "#8a6b4d" }}>
         {STAGES.map((s) => (
-          <div key={s} style={{ color: s === stage ? ACCENT : "#a39068", fontWeight: s === stage ? 700 : 400 }}>
+          <div key={s} style={{ color: s === stage ? ACCENT : "#8a6b4d", fontWeight: s === stage ? 700 : 400 }}>
             {s}
           </div>
         ))}
@@ -59,7 +59,7 @@ export default function SinKangBar({ ilgan, stage }: Props) {
         style={{
           background: `${ACCENT}22`,
           border: `1px solid ${ACCENT}55`,
-          color: "#fef3c7",
+          color: "#2a1722",
         }}
       >
         일간 <strong style={{ color: ACCENT }}>{ilgan}</strong>, <strong style={{ color: ACCENT }}>{stage}</strong>한 사주에요

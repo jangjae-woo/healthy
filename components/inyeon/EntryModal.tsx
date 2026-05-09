@@ -79,7 +79,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
             <>
               <h3
                 className="text-base font-bold mb-1"
-                style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+                style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
               >
                 두 분은 어떤 관계이신가요?
               </h3>
@@ -95,7 +95,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
                     style={{
                       background: rel === r ? `${ACCENT}22` : BG_INNER,
                       border: `1px solid ${rel === r ? ACCENT : `${ACCENT}22`}`,
-                      color: rel === r ? "#fef3c7" : "#d6cdb8",
+                      color: rel === r ? "#2a1722" : "#5a3c4a",
                     }}
                   >
                     {RELATIONSHIP_LABEL[r]}
@@ -109,7 +109,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
             <>
               <h3
                 className="text-base font-bold mb-1"
-                style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+                style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
               >
                 두 분이 알고 지낸 기간은요?
               </h3>
@@ -125,7 +125,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
                     style={{
                       background: dur === d ? `${ACCENT}22` : BG_INNER,
                       border: `1px solid ${dur === d ? ACCENT : `${ACCENT}22`}`,
-                      color: dur === d ? "#fef3c7" : "#d6cdb8",
+                      color: dur === d ? "#2a1722" : "#5a3c4a",
                     }}
                   >
                     {DURATION_LABEL[d]}
@@ -146,7 +146,7 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
               style={{
                 background: BG_INNER,
                 border: `1px solid ${ACCENT}33`,
-                color: "#d6cdb8",
+                color: "#5a3c4a",
               }}
             >
               이전

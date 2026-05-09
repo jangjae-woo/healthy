@@ -60,7 +60,7 @@ export default function ScoreGauge({ score, label, caption }: Props) {
       </svg>
       <div
         className="text-4xl font-bold -mt-2"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         {clamped}
         <span className="text-base ml-1" style={{ color: `${ACCENT}cc` }}>점</span>
@@ -70,18 +70,18 @@ export default function ScoreGauge({ score, label, caption }: Props) {
         style={{
           background: `${ACCENT}22`,
           border: `1px solid ${ACCENT}55`,
-          color: "#fef3c7",
+          color: "#2a1722",
         }}
       >
         {label}
       </div>
-      <div className="mt-4 w-full text-[11px] flex justify-between" style={{ color: "#a39068" }}>
+      <div className="mt-4 w-full text-[11px] flex justify-between" style={{ color: "#8a6b4d" }}>
         <span>0~39: 개선 여지가 있어요</span>
       </div>
-      <div className="w-full text-[11px] flex justify-between" style={{ color: "#a39068" }}>
+      <div className="w-full text-[11px] flex justify-between" style={{ color: "#8a6b4d" }}>
         <span>40~69: 괜찮은 궁합이에요</span>
       </div>
-      <div className="w-full text-[11px] flex justify-between" style={{ color: "#a39068" }}>
+      <div className="w-full text-[11px] flex justify-between" style={{ color: "#8a6b4d" }}>
         <span>70~100: 운명적인 궁합이에요</span>
       </div>
     </div>

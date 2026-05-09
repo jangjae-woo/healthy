@@ -78,9 +78,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       <h2
         className="text-base font-bold mb-3 pl-3"
         style={{
-          color: "#fef3c7",
-          fontFamily: "'Noto Serif KR', serif",
-          borderLeft: `3px solid ${ACCENT}`,
+          color: "#2a1722",
+          fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+          borderLeft: `3px solid #c8203a`,
         }}
       >
         {title}
@@ -93,19 +93,20 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function SubSection({ title, body }: { title: string; body: string }) {
   return (
     <div
-      className="rounded-2xl p-5"
+      className="rounded-md p-5"
       style={{
-        background: "rgba(240,168,184,0.04)",
-        border: `1px solid ${ACCENT}22`,
+        background: "linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.88) 100%)",
+        border: `1px solid rgba(212,169,107,0.3)`,
+        boxShadow: `0 8px 24px -12px rgba(178,40,71,0.12)`,
       }}
     >
       <div
         className="text-sm font-bold mb-2"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}
       >
         {title}
       </div>
-      <div className="text-[13px] leading-7" style={{ color: "#d6cdb8" }}>
+      <div className="text-[13px] leading-7" style={{ color: "#2a1722", fontFamily: "'Gowun Batang', serif" }}>
         {body}
       </div>
     </div>
@@ -269,11 +270,12 @@ function CharacterIntroCard({
 function NoticeBubble({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="rounded-2xl px-5 py-3 text-[12px] leading-6 mb-4"
+      className="rounded-md px-5 py-3 text-[12px] leading-6 mb-4"
       style={{
-        background: `${ACCENT}11`,
-        border: `1px dashed ${ACCENT}55`,
-        color: "#d6cdb8",
+        background: "rgba(255,235,240,0.55)",
+        border: `1px dashed rgba(200,32,58,0.4)`,
+        color: "#5a3c4a",
+        fontFamily: "'Gowun Batang', serif",
       }}
     >
       {children}

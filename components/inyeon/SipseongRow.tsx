@@ -30,11 +30,11 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
   return (
     <div
       className="rounded-2xl p-4"
-      style={{ background: `linear-gradient(135deg, ${BG_INNER}, #120709)`, border: `1px solid ${ACCENT}33`, boxShadow: `0 4px 20px ${ACCENT}08` }}
+      style={{ background: `linear-gradient(135deg, ${ACCENT}10, ${ACCENT}03)`, border: `1px solid ${ACCENT}33`, boxShadow: `0 4px 20px ${ACCENT}08` }}
     >
       <div
         className="text-sm font-bold mb-3"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         {name}님의 십성과 지장간
       </div>
@@ -47,7 +47,7 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
               className="w-full text-center text-[10px] py-0.5 rounded"
               style={{
                 background: c.mark ? `${ACCENT}33` : "transparent",
-                color: c.mark ? "#fef3c7" : `${ACCENT}cc`,
+                color: c.mark ? "#2a1722" : `${ACCENT}cc`,
               }}
             >
               {c.mark ? "일간" : c.p.stemSipseong}
@@ -55,8 +55,8 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
             <div
               className="w-full aspect-square rounded-md flex items-center justify-center text-base font-bold"
               style={{
-                background: c.mark ? ACCENT : "rgba(255,255,255,0.04)",
-                color: c.mark ? "#1a0d10" : "#fef3c7",
+                background: c.mark ? ACCENT : "rgba(212,169,107,0.08)",
+                color: c.mark ? "#fff" : "#2a1722",
                 fontFamily: "'Noto Serif KR', serif",
                 border: `1px solid ${ACCENT}33`,
               }}
@@ -75,7 +75,7 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
           className="mt-3 pt-3 text-[11px]"
           style={{
             borderTop: `1px dashed ${ACCENT}33`,
-            color: "#d6cdb8",
+            color: "#5a3c4a",
           }}
         >
           <span style={{ color: ACCENT }}>지장간</span> · {jijanggan.join(" · ")}

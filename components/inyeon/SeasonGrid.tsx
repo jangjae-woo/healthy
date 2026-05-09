@@ -30,11 +30,11 @@ export default function SeasonGrid({ items }: Props) {
     >
       <div
         className="text-sm font-bold mb-1 text-center"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         계절별 여행 & 데이트 코스
       </div>
-      <div className="text-[11px] text-center mb-4" style={{ color: "#a39068" }}>
+      <div className="text-[11px] text-center mb-4" style={{ color: "#8a6b4d" }}>
         두 분의 결을 보강하는 자리예요
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -52,12 +52,12 @@ export default function SeasonGrid({ items }: Props) {
               className="text-xl mb-1"
               style={{
                 fontFamily: "'Ma Shan Zheng', 'Noto Serif KR', serif",
-                color: "#fef3c7",
+                color: "#2a1722",
               }}
             >
               {it.hanja} <span className="text-xs">/ {it.season}</span>
             </div>
-            <div className="text-xs leading-relaxed mt-2" style={{ color: "#d6cdb8" }}>
+            <div className="text-xs leading-relaxed mt-2" style={{ color: "#5a3c4a" }}>
               {it.place}
             </div>
           </div>

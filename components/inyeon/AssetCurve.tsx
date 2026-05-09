@@ -28,11 +28,11 @@ export default function AssetCurve({ title, points, unit = "억", color = ACCENT
   return (
     <div
       className="rounded-2xl p-4"
-      style={{ background: `linear-gradient(135deg, ${BG_INNER}, #120709)`, border: `1px solid ${color}33`, boxShadow: `0 4px 20px ${color}11` }}
+      style={{ background: `linear-gradient(135deg, ${color}10, ${color}03)`, border: `1px solid ${color}33`, boxShadow: `0 4px 20px ${color}11` }}
     >
       <div
         className="text-sm font-bold mb-3"
-        style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}
+        style={{ color: "#2a1722", fontFamily: "'Noto Serif KR', serif" }}
       >
         {title}
       </div>
@@ -51,7 +51,7 @@ export default function AssetCurve({ title, points, unit = "억", color = ACCENT
               y={norm(p.value) - 10}
               textAnchor="middle"
               fontSize={11}
-              fill="#fef3c7"
+              fill="#2a1722"
               fontWeight={600}
             >
               +{p.value}{unit}
