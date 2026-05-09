@@ -433,14 +433,26 @@ export function buildAllInyeonPrompts(
   const _block = (scope: "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "ch8"): string =>
     _inyeonTraits ? inyeonTraitsToPromptBlock(_inyeonTraits, aName, bName, scope) : "";
 
+  // ─── "나는 솔로" 캐릭터 톤 가이드 — 모든 챕터 공통 prepend (톤 일관성) ───
+  const _characterBlock = `
+【"나는 솔로" 결정론 캐릭터 톤 가이드 — 풀이 본문 전체에 톤 일관 유지】
+▸ ${aName}님: ${aMatch.name} (${aMatch.innerImage})
+▸ ${bName}님: ${bMatch.name} (${bMatch.innerImage})
+${pairLabelObj ? `▸ 짝꿍 라벨: "${pairLabel}" — ${pairTone}` : ""}
+▸ 적용 룰: 본문 어조·연애 묘사·갈등 묘사·미래 묘사 모두 위 두 캐릭터 결을 의식하고 전개.
+   - ${aMatch.name} 캐릭터의 결로 ${aName}님 행동·심리 묘사 (예: 옥순=직진, 현숙=시크, 정숙=강단, 순자=애교, 영숙=다정, 영자=일상)
+   - ${bMatch.name} 캐릭터의 결로 ${bName}님 행동·심리 묘사 (예: 영철=자신감, 영호=인싸, 광수=진중, 영수=중후, 상철=편안)
+   - 캐릭터 이름 본문 직접 명시는 ch1·ch3 지정 sub에서만. 다른 챕터는 톤만 반영하고 이름 직접 호출 X.
+`;
+
   return {
-    ch1: _block("ch1") + ch1,
-    ch2: _block("ch2") + ch2,
-    ch3: _block("ch3") + ch3,
-    ch4: _block("ch4") + ch4,
-    ch5: _block("ch5") + ch5,
-    ch6: _block("ch6") + ch6,
-    ch7: _block("ch7") + ch7,
-    ch8: _block("ch8") + ch8,
+    ch1: _characterBlock + _block("ch1") + ch1,
+    ch2: _characterBlock + _block("ch2") + ch2,
+    ch3: _characterBlock + _block("ch3") + ch3,
+    ch4: _characterBlock + _block("ch4") + ch4,
+    ch5: _characterBlock + _block("ch5") + ch5,
+    ch6: _characterBlock + _block("ch6") + ch6,
+    ch7: _characterBlock + _block("ch7") + ch7,
+    ch8: _characterBlock + _block("ch8") + ch8,
   };
 }
