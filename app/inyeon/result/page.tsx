@@ -222,6 +222,24 @@ const CHARACTER_RICH: Record<string, CharacterRich> = {
 const FEMALE_LINEUP = ["옥순", "현숙", "정숙", "순자", "영숙", "영자"] as const;
 const MALE_LINEUP = ["영철", "영호", "광수", "영수", "상철"] as const;
 
+// ─── 일간 한자 + 자연 비유 (Ceremony용) ───
+const ILGAN_HANJA: Record<string, string> = {
+  갑: "甲", 을: "乙", 병: "丙", 정: "丁", 무: "戊",
+  기: "己", 경: "庚", 신: "辛", 임: "壬", 계: "癸",
+};
+const ILGAN_NATURE: Record<string, string> = {
+  갑: "곧게 뻗는 큰 나무",
+  을: "유연하게 휘는 풀",
+  병: "한낮의 태양",
+  정: "따뜻한 등불",
+  무: "광활한 큰 산",
+  기: "곡식을 품은 옥토",
+  경: "단단한 강철",
+  신: "빛나는 보석",
+  임: "끝없이 흐르는 큰 강",
+  계: "조용히 스미는 이슬",
+};
+
 function CharacterLineup({ highlightName, gender }: { highlightName: string; gender: "여" | "남" }) {
   const lineup = gender === "여" ? FEMALE_LINEUP : MALE_LINEUP;
   const meta = (gender === "여" ? FEMALE_META : MALE_META) as Record<string, { color: string; innerImage: string; enLabel: string }>;
@@ -334,6 +352,324 @@ function ShareableCard({
           사주가 읽어주는 인연
         </div>
       </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RevealCeremony — 결과 발표 빌드업 5막 (8초)
+// Act 1 (0~2s): 분석 중 + 한자 흩날림
+// Act 2 (2~4s): 일간 단서 펼침
+// Act 3 (4~7s): 캐릭터 슬롯 회전 (점점 느려짐)
+// Act 4 (7~8s): 정적 + BIG REVEAL
+// Act 5 (8s~): 자동 dismiss
+// ════════════════════════════════════════════════════════════════════
+function RevealCeremony({
+  aName, bName, character, aIlganHanja, bIlganHanja, aIlganNature, bIlganNature, aGender, bGender, onComplete,
+}: {
+  aName: string;
+  bName: string;
+  character: NonNullable<InyeonComputeData["character"]>;
+  aIlganHanja: string;
+  bIlganHanja: string;
+  aIlganNature: string;
+  bIlganNature: string;
+  aGender: "여" | "남";
+  bGender: "여" | "남";
+  onComplete: () => void;
+}) {
+  const [act, setAct] = useState<0 | 1 | 2 | 3 | 4>(0);
+  const [aSlotIdx, setASlotIdx] = useState(0);
+  const [bSlotIdx, setBSlotIdx] = useState(0);
+  const aLineup = aGender === "여" ? FEMALE_LINEUP : MALE_LINEUP;
+  const bLineup = bGender === "여" ? FEMALE_LINEUP : MALE_LINEUP;
+  const aMeta = (aGender === "여" ? FEMALE_META : MALE_META) as Record<string, { color: string; innerImage: string; enLabel: string }>;
+  const bMeta = (bGender === "여" ? FEMALE_META : MALE_META) as Record<string, { color: string; innerImage: string; enLabel: string }>;
+
+  const thread = "#c8203a";
+  const plumDeep = "#6b1e3a";
+  const gold = "#b88646";
+  const cream = "#fbf3e8";
+
+  // 타이밍 — 모바일 친화 8초 빌드업
+  useEffect(() => {
+    const t1 = setTimeout(() => setAct(1), 100);    // Act 1 시작
+    const t2 = setTimeout(() => setAct(2), 2000);   // Act 2 — 일간 단서
+    const t3 = setTimeout(() => setAct(3), 4000);   // Act 3 — 슬롯 회전
+    const t4 = setTimeout(() => setAct(4), 7000);   // Act 4 — REVEAL
+    const t5 = setTimeout(() => onComplete(), 9500); // Auto dismiss
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
+  }, [onComplete]);
+
+  // 슬롯 회전 — Act 3 동안 빠르게 → 점점 느리게
+  useEffect(() => {
+    if (act < 3) return;
+    if (act >= 4) return;
+    let aLast = 0; let bLast = 0;
+    let aSpeed = 80; let bSpeed = 90;
+    const startTime = Date.now();
+    const tick = () => {
+      const elapsed = Date.now() - startTime;
+      // 점점 느리게 (0~3000ms 동안)
+      aSpeed = 80 + (elapsed / 3000) * 200;
+      bSpeed = 90 + (elapsed / 3000) * 200;
+      if (Date.now() - aLast > aSpeed) {
+        setASlotIdx((i) => (i + 1) % aLineup.length);
+        aLast = Date.now();
+      }
+      if (Date.now() - bLast > bSpeed) {
+        setBSlotIdx((i) => (i + 1) % bLineup.length);
+        bLast = Date.now();
+      }
+      if (act === 3 && elapsed < 3000) requestAnimationFrame(tick);
+    };
+    const raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [act, aLineup.length, bLineup.length]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center px-6 overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(ellipse at 30% 20%, rgba(255,225,234,0.95) 0%, transparent 60%),
+          radial-gradient(ellipse at 70% 80%, rgba(255,240,214,0.95) 0%, transparent 60%),
+          linear-gradient(180deg, #fff7f9 0%, #ffeef3 50%, #fce4d6 100%)
+        `,
+        animation: "fadeIn 0.6s ease",
+        fontFamily: "'Noto Serif KR', 'Gowun Batang', serif",
+      }}
+    >
+      {/* 한자 배경 흩날림 */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"].map((h, i) => (
+          <div
+            key={h}
+            className="absolute select-none"
+            style={{
+              left: `${(i * 13 + 7) % 95}%`,
+              top: `${(i * 19 + 11) % 90}%`,
+              fontSize: 32 + (i % 3) * 14,
+              color: i % 2 === 0 ? `${thread}22` : `${gold}33`,
+              fontFamily: "'Nanum Myeongjo', serif",
+              fontWeight: 800,
+              opacity: act === 1 ? 0.9 : act === 2 ? 0.5 : act === 3 ? 0.3 : act === 4 ? 0.2 : 0,
+              transform: `rotate(${(i * 23) % 30 - 15}deg) translateY(${act === 1 ? 0 : -15}px)`,
+              transition: "opacity 1.2s ease, transform 1.5s ease",
+            }}
+          >
+            {h}
+          </div>
+        ))}
+      </div>
+
+      {/* 스킵 버튼 */}
+      <button
+        onClick={onComplete}
+        className="absolute top-5 right-5 text-[11px] px-3 py-1.5 rounded-full z-10"
+        style={{
+          background: "rgba(255,255,255,0.7)",
+          border: `1px solid rgba(212,169,107,0.5)`,
+          color: plumDeep,
+          fontFamily: "'Cormorant Garamond', serif",
+          fontStyle: "italic",
+          letterSpacing: "0.15em",
+        }}
+      >
+        skip ›
+      </button>
+
+      {/* Act 1 — 분석 중 */}
+      <div
+        className="relative z-10 text-center"
+        style={{
+          opacity: act === 1 ? 1 : 0,
+          transform: act === 1 ? "translateY(0)" : "translateY(-20px)",
+          transition: "opacity 0.8s ease, transform 0.8s ease",
+          position: act === 1 ? "relative" : "absolute",
+        }}
+      >
+        <div
+          className="text-[12px] tracking-[0.5em] mb-6"
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        >
+          紅 絲
+        </div>
+        <div
+          className="text-[18px] font-bold leading-relaxed"
+          style={{ color: plumDeep, fontFamily: "'Nanum Myeongjo', serif" }}
+        >
+          두 분의 사주를<br />펼치는 중…
+        </div>
+        <div className="flex justify-center gap-1.5 mt-6">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              style={{
+                width: 6, height: 6, borderRadius: "50%",
+                background: thread,
+                animation: `pulse 1.4s ease-in-out ${i * 0.2}s infinite`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Act 2 — 일간 단서 */}
+      <div
+        className="relative z-10 text-center max-w-xs"
+        style={{
+          opacity: act === 2 ? 1 : 0,
+          transform: act === 2 ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.7s ease, transform 0.8s ease",
+          position: act === 2 ? "relative" : "absolute",
+        }}
+      >
+        <div
+          className="text-[12px] tracking-[0.4em] mb-5"
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        >
+          THE READING
+        </div>
+        <div
+          className="space-y-3"
+          style={{ fontFamily: "'Gowun Batang', serif" }}
+        >
+          <div className="text-[14px]" style={{ color: plumDeep, lineHeight: 1.8 }}>
+            <span style={{ fontWeight: 700 }}>{aName}</span>님의 일간 ─{" "}
+            <span style={{ color: thread, fontWeight: 800, fontFamily: "'Nanum Myeongjo', serif", fontSize: 18 }}>
+              {aIlganHanja}
+            </span>
+            <div className="text-[11px] mt-0.5" style={{ color: "#5a3c4a" }}>{aIlganNature}</div>
+          </div>
+          <div className="text-[14px]" style={{ color: plumDeep, lineHeight: 1.8 }}>
+            <span style={{ fontWeight: 700 }}>{bName}</span>님의 일간 ─{" "}
+            <span style={{ color: thread, fontWeight: 800, fontFamily: "'Nanum Myeongjo', serif", fontSize: 18 }}>
+              {bIlganHanja}
+            </span>
+            <div className="text-[11px] mt-0.5" style={{ color: "#5a3c4a" }}>{bIlganNature}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Act 3 — 슬롯 회전 */}
+      <div
+        className="relative z-10 text-center"
+        style={{
+          opacity: act === 3 ? 1 : 0,
+          transform: act === 3 ? "scale(1)" : "scale(0.95)",
+          transition: "opacity 0.6s ease, transform 0.6s ease",
+          position: act === 3 ? "relative" : "absolute",
+        }}
+      >
+        <div
+          className="text-[12px] tracking-[0.4em] mb-6"
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        >
+          {aGender === "여" ? "여자 6 캐릭터" : "남자 5 캐릭터"} · {bGender === "여" ? "여자 6 캐릭터" : "남자 5 캐릭터"} 중에서
+        </div>
+        <div className="space-y-4">
+          <div className="text-[12px]" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+            {aName}님은…
+          </div>
+          <div
+            className="text-[44px] font-black leading-none"
+            style={{
+              color: aMeta[aLineup[aSlotIdx]]?.color ?? thread,
+              fontFamily: "'Nanum Myeongjo', serif",
+              letterSpacing: "0.05em",
+              transition: "color 0.05s linear",
+            }}
+          >
+            {aLineup[aSlotIdx]}
+          </div>
+          <div className="text-[12px] mt-4" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+            {bName}님은…
+          </div>
+          <div
+            className="text-[44px] font-black leading-none"
+            style={{
+              color: bMeta[bLineup[bSlotIdx]]?.color ?? thread,
+              fontFamily: "'Nanum Myeongjo', serif",
+              letterSpacing: "0.05em",
+              transition: "color 0.05s linear",
+            }}
+          >
+            {bLineup[bSlotIdx]}
+          </div>
+        </div>
+      </div>
+
+      {/* Act 4 — BIG REVEAL */}
+      <div
+        className="relative z-10 text-center"
+        style={{
+          opacity: act === 4 ? 1 : 0,
+          transform: act === 4 ? "scale(1)" : "scale(0.7)",
+          transition: "opacity 0.5s ease, transform 0.6s cubic-bezier(.2,1.4,.4,1)",
+          position: act === 4 ? "relative" : "absolute",
+        }}
+      >
+        <div
+          className="text-[11px] tracking-[0.5em] mb-3"
+          style={{ color: thread, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        >
+          REVEALED
+        </div>
+        <div
+          className="text-[13px] mb-6"
+          style={{ color: plumDeep, fontFamily: "'Nanum Myeongjo', serif" }}
+        >
+          {aName}님은
+        </div>
+        <div
+          className="text-[68px] font-black leading-none mb-3"
+          style={{
+            color: character.a.color,
+            fontFamily: "'Nanum Myeongjo', serif",
+            letterSpacing: "0.05em",
+            textShadow: `0 4px 20px ${character.a.color}66`,
+          }}
+        >
+          {character.a.name}
+        </div>
+        <div
+          className="text-[13px] mb-6 mt-8"
+          style={{ color: plumDeep, fontFamily: "'Nanum Myeongjo', serif" }}
+        >
+          {bName}님은
+        </div>
+        <div
+          className="text-[68px] font-black leading-none mb-4"
+          style={{
+            color: character.b.color,
+            fontFamily: "'Nanum Myeongjo', serif",
+            letterSpacing: "0.05em",
+            textShadow: `0 4px 20px ${character.b.color}66`,
+          }}
+        >
+          {character.b.name}
+        </div>
+        {character.pair && (
+          <div
+            className="text-[13px] mt-8 px-6 py-2 rounded-full inline-block"
+            style={{
+              background: `linear-gradient(135deg, ${thread}10, ${plumDeep}05)`,
+              border: `1px solid ${thread}55`,
+              color: plumDeep,
+              fontFamily: "'Gowun Batang', serif",
+              fontStyle: "italic",
+            }}
+          >
+            "{character.pair.label}"
+          </div>
+        )}
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes pulse { 0%,100% { opacity: 0.3; transform: scale(0.85) } 50% { opacity: 1; transform: scale(1.1) } }
+      `}} />
     </div>
   );
 }
@@ -746,6 +1082,26 @@ function InyeonResultInner() {
   const [data, setData] = useState<InyeonComputeData | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [aiText, setAiText] = useState<Record<number, string>>({});
+  const [ceremonyDone, setCeremonyDone] = useState(false);
+
+  // localStorage 체크 — 이 커플 한 번 본 적 있으면 ceremony 자동 스킵
+  useEffect(() => {
+    if (!data?.character) return;
+    try {
+      const key = `hongsil_seen_${aName}_${bName}_${sp.get("aYear")}${sp.get("aMonth")}${sp.get("aDay")}_${sp.get("bYear")}${sp.get("bMonth")}${sp.get("bDay")}`;
+      if (typeof window !== "undefined" && localStorage.getItem(key) === "1") {
+        setCeremonyDone(true);
+      }
+    } catch {}
+  }, [data, aName, bName, sp]);
+
+  function handleCeremonyComplete() {
+    try {
+      const key = `hongsil_seen_${aName}_${bName}_${sp.get("aYear")}${sp.get("aMonth")}${sp.get("aDay")}_${sp.get("bYear")}${sp.get("bMonth")}${sp.get("bDay")}`;
+      if (typeof window !== "undefined") localStorage.setItem(key, "1");
+    } catch {}
+    setCeremonyDone(true);
+  }
 
   // 스트리밍 마크다운 → ### 소제목별 본문 맵
   const aiBodies = (() => {
@@ -920,6 +1276,22 @@ function InyeonResultInner() {
   const sipHourB = pB.hour ?? pB.day;
 
   return (
+    <>
+      {/* RevealCeremony — 첫 진입 시 8초 빌드업 */}
+      {!ceremonyDone && data.character && (
+        <RevealCeremony
+          aName={aName}
+          bName={bName}
+          character={data.character}
+          aIlganHanja={ILGAN_HANJA[data.a.ilgan] ?? data.a.ilgan}
+          bIlganHanja={ILGAN_HANJA[data.b.ilgan] ?? data.b.ilgan}
+          aIlganNature={ILGAN_NATURE[data.a.ilgan] ?? "고유한 결의 사람"}
+          bIlganNature={ILGAN_NATURE[data.b.ilgan] ?? "고유한 결의 사람"}
+          aGender={(sp.get("aGender") || "여") === "남" ? "남" : "여"}
+          bGender={(sp.get("bGender") || "남") === "여" ? "여" : "남"}
+          onComplete={handleCeremonyComplete}
+        />
+      )}
     <ChapterShell
       chapterNo={chapter}
       chapterTitle={
@@ -1352,6 +1724,7 @@ function InyeonResultInner() {
         </>
       )}
     </ChapterShell>
+    </>
   );
 }
 
