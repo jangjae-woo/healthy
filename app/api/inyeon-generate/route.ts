@@ -142,7 +142,7 @@ function computeFullSaju(p: InyeonPersonInput): SajuAnalysis | null {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as InyeonRequest;
+    const body = (await req.json()) as InyeonRequest & { phase?: string };
     const a = computeFullSaju(body.a);
     const b = computeFullSaju(body.b);
     if (!a || !b) {
@@ -162,12 +162,17 @@ export async function POST(req: NextRequest) {
     if (!apiKey) return NextResponse.json({ error: "API 키 없음" }, { status: 500 });
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${apiKey}`;
-    const chapterPrompts: Array<{ ch: number; prompt: string }> = [
+    const allChapters: Array<{ ch: number; prompt: string }> = [
       { ch: 1, prompt: prompts.ch1 }, { ch: 2, prompt: prompts.ch2 },
       { ch: 3, prompt: prompts.ch3 }, { ch: 4, prompt: prompts.ch4 },
       { ch: 5, prompt: prompts.ch5 }, { ch: 6, prompt: prompts.ch6 },
       { ch: 7, prompt: prompts.ch7 }, { ch: 8, prompt: prompts.ch8 },
     ];
+    // ─── Phase 분기 — 단일 챕터만 streaming (Vercel 60초 한도 회피) ───
+    const phaseMatch = body.phase?.match(/^ch([1-8])$/);
+    const chapterPrompts: Array<{ ch: number; prompt: string }> = phaseMatch
+      ? [allChapters[parseInt(phaseMatch[1]) - 1]]
+      : allChapters;
 
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
