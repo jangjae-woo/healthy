@@ -97,19 +97,19 @@ function SubSection({ title, body }: { title: string; body: string }) {
       className="rounded-md p-6"
       style={{
         background: "linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.88) 100%)",
-        border: `1px solid rgba(212,169,107,0.35)`,
+        border: `1px solid rgba(212,169,107,0.4)`,
         boxShadow: `0 8px 24px -12px rgba(178,40,71,0.14)`,
       }}
     >
       <div
-        className="text-[16px] font-bold mb-3"
+        className="text-[17px] font-bold mb-3"
         style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "-0.01em" }}
       >
         {title}
       </div>
       <div
-        className="text-[14px] leading-[1.95]"
-        style={{ color: "#2a1722", fontFamily: "'Gowun Batang', serif" }}
+        className="text-[15px] leading-[2.0]"
+        style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: 400 }}
       >
         {body}
       </div>
@@ -742,11 +742,12 @@ function RichCharCard({
 
       {/* 본문 설명 */}
       <div
-        className="text-[13px] leading-[1.9] mt-4 pt-3"
+        className="text-[14px] leading-[1.95] mt-4 pt-3"
         style={{
           color: ink,
           fontFamily: "'Gowun Batang', serif",
           borderTop: `1px solid ${match.color}33`,
+          fontWeight: 400,
         }}
       >
         {rich?.detail ?? detailFallback}
@@ -761,14 +762,14 @@ function RichCharCard({
           >
             ✦ 이런 면이 빛나요
           </div>
-          <ul className="space-y-1">
+          <ul className="space-y-1.5">
             {rich.strengths.map((s, i) => (
               <li
                 key={i}
-                className="text-[12px] leading-[1.7] pl-4 relative"
-                style={{ color: ink, fontFamily: "'Gowun Batang', serif" }}
+                className="text-[13px] leading-[1.75] pl-4 relative"
+                style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}
               >
-                <span style={{ position: "absolute", left: 0, top: 0, color: match.color }}>·</span>
+                <span style={{ position: "absolute", left: 0, top: 0, color: match.color, fontWeight: 800 }}>·</span>
                 {s}
               </li>
             ))}
@@ -785,14 +786,14 @@ function RichCharCard({
           >
             ⌇ 이런 결은 살펴주세요
           </div>
-          <ul className="space-y-1">
+          <ul className="space-y-1.5">
             {rich.watchout.map((s, i) => (
               <li
                 key={i}
-                className="text-[12px] leading-[1.7] pl-4 relative"
-                style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}
+                className="text-[13px] leading-[1.75] pl-4 relative"
+                style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}
               >
-                <span style={{ position: "absolute", left: 0, top: 0, color: gold }}>·</span>
+                <span style={{ position: "absolute", left: 0, top: 0, color: gold, fontWeight: 800 }}>·</span>
                 {s}
               </li>
             ))}
@@ -1051,11 +1052,11 @@ function CharacterIntroCard({
 function NoticeBubble({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="rounded-md px-5 py-4 text-[13px] leading-[1.85] mb-4"
+      className="rounded-md px-5 py-4 text-[14px] leading-[1.9] mb-4"
       style={{
-        background: "rgba(255,235,240,0.7)",
-        border: `1px dashed rgba(200,32,58,0.45)`,
-        color: "#3a2530",
+        background: "rgba(255,235,240,0.75)",
+        border: `1px dashed rgba(200,32,58,0.5)`,
+        color: "#1a0a14",
         fontFamily: "'Gowun Batang', serif",
       }}
     >
@@ -1335,15 +1336,15 @@ function BehaviorTranslator({ targetName, ilgan, shinkang, sipseong, color }: {
           <div
             key={it.label}
             className="rounded p-3"
-            style={{ background: "rgba(255,251,247,0.7)", border: `1px solid ${color}33` }}
+            style={{ background: "rgba(255,251,247,0.85)", border: `1px solid ${color}55` }}
           >
-            <div className="text-[10px] mb-1 tracking-wider" style={{ color, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}>
+            <div className="text-[11px] mb-1.5 tracking-wider" style={{ color, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}>
               {it.label}
             </div>
-            <div className="text-[12px] leading-[1.55]" style={{ color: "#2a1722", fontFamily: "'Gowun Batang', serif" }}>
+            <div className="text-[13px] leading-[1.65]" style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: 500 }}>
               {it.tone}
             </div>
-            <div className="text-[9px] mt-1" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
+            <div className="text-[10px] mt-1.5" style={{ color: "#6b4d2e", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}>
               {it.hint}
             </div>
           </div>
@@ -1640,8 +1641,8 @@ function ActionCard({
       </div>
       <div className="flex-1">
         <div
-          className="text-[14px] font-bold leading-snug"
-          style={{ color: "#2a1722", fontFamily: "'Nanum Myeongjo', serif" }}
+          className="text-[15px] font-bold leading-snug"
+          style={{ color: "#1a0a14", fontFamily: "'Nanum Myeongjo', serif" }}
         >
           {title}
         </div>
@@ -1665,14 +1666,14 @@ function MilestoneCard({
       }}
     >
       <div
-        className="text-[28px] leading-none"
+        className="text-[32px] leading-none"
         style={{ color, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 800 }}
       >
         {icon}
       </div>
       <div
-        className="text-[12px] leading-snug"
-        style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+        className="text-[13px] leading-snug font-medium"
+        style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif" }}
       >
         {label}
       </div>
