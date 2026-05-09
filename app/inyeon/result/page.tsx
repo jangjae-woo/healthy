@@ -117,19 +117,105 @@ function SubSection({ title, body }: { title: string; body: string }) {
   );
 }
 
-// 캐릭터 스타일 — 2~3줄 풀 설명 (성격 카드용)
-const CHARACTER_DETAIL: Record<string, string> = {
-  옥순: "솔직하고 직진하는 결의 사람이에요. 마음에 들면 망설임이 없고, 표현이 풍부해서 함께 있을 때 분위기가 환해져요. 자기 결이 분명해 한 번 정한 마음은 잘 흔들리지 않아요.",
-  현숙: "쿨하고 시크한 도시적 매력이 있는 사람이에요. 겉은 차분해 보이지만 속은 단단하고, 자기 기준이 분명해요. 가까워질수록 그 안의 다정함이 보이는 결이에요.",
-  정숙: "성숙하고 강단 있는 결의 사람이에요. 흔들림 없이 자기 길을 가는 차분함이 매력이에요. 가벼운 만남보다는 깊고 안정된 관계를 자연스럽게 만들어가는 결이에요.",
-  순자: "발랄하고 애교 있는 감수성의 사람이에요. 표현이 풍부하고 활기찬 매력이 있어요. 함께 있으면 일상이 즐거워지는 결이에요.",
-  영숙: "참하고 다정한 결의 사람이에요. 상대를 자연스럽게 챙기고 분위기를 부드럽게 만드는 매력이 있어요. 따뜻하고 받아주는 결이에요.",
-  영자: "무난하고 따스한 일상의 결을 가진 사람이에요. 균형 잡힌 사주로 어떤 자리에서도 편안한 매력이 있어요. 평범함 속의 깊이가 매력 포인트예요.",
-  영철: "자연스러운 자신감과 매력이 있는 사람이에요. 솔직하고 활기차며, 표현에 거침이 없어요. 함께 있으면 분위기가 환해지는 결이에요.",
-  영호: "포용력 있고 외향적인 인싸형이에요. 사람을 자연스럽게 끌어당기는 사교 매력이 있고, 모임 안에서 가장 빛나는 결이에요. 점잖은 면도 함께 가지고 있어요.",
-  광수: "이지적이고 진중한 깊이의 사람이에요. 신중하게 마음을 여는 결이라 처음엔 조용해 보이지만, 가까워질수록 그 안의 깊이가 매력으로 다가와요.",
-  영수: "중후하고 든든한 결의 사람이에요. 흔들림 없는 안정감이 매력이에요. 함께 있으면 마음이 편해지고, 오래 기댈 수 있는 결이에요.",
-  상철: "편안하고 부담 없는 균형의 결을 가진 사람이에요. 어떤 자리에서도 자연스럽게 어우러지는 매력이 있어요. 일상을 함께 가꾸기 좋은 결이에요.",
+// 캐릭터 풍부 데이터 — 시그너처·태그·본문·강점·살펴볼 자리·어울리는 결
+interface CharacterRich {
+  signature: string;     // 한 줄 시그너처 카피
+  tags: string[];        // 키워드 태그 3~4개
+  detail: string;        // 본문 설명 2~3줄
+  strengths: string[];   // 강점 3개
+  watchout: string[];    // 살펴볼 자리 2개
+  chemistry: string;     // 어울리는 결 한 줄
+}
+
+const CHARACTER_RICH: Record<string, CharacterRich> = {
+  옥순: {
+    signature: "마음에 들면 망설임 없이 직진하는 결",
+    tags: ["#솔직", "#직진", "#불꽃", "#자유분방"],
+    detail: "솔직하고 직진하는 결의 사람이에요. 마음에 들면 망설임이 없고, 표현이 풍부해서 함께 있을 때 분위기가 환해져요. 자기 결이 분명해 한 번 정한 마음은 잘 흔들리지 않아요.",
+    strengths: ["감정을 숨기지 않는 솔직함", "강한 추진력과 결단", "함께 있을 때 분위기를 환하게 함"],
+    watchout: ["속도가 너무 빨라 상대가 따라잡기 어려울 때", "한 번 식으면 회복이 더디는 결"],
+    chemistry: "받쳐주고 차분한 결의 영수·광수와 가장 잘 어우러져요",
+  },
+  현숙: {
+    signature: "차가워 보이지만 속은 단단한 도시적 결",
+    tags: ["#시크", "#완벽주의", "#도시적", "#차도녀"],
+    detail: "쿨하고 시크한 도시적 매력이 있는 사람이에요. 겉은 차분해 보이지만 속은 단단하고, 자기 기준이 분명해요. 가까워질수록 그 안의 다정함이 보이는 결이에요.",
+    strengths: ["분명한 자기 기준과 안목", "감정에 휩쓸리지 않는 절제력", "세련된 매력의 결"],
+    watchout: ["처음 다가오는 사람에게 차가워 보일 수 있음", "기준이 너무 높아 까다로워 보일 때"],
+    chemistry: "편안하게 풀어주는 영호·상철과 만나면 가장 부드러워져요",
+  },
+  정숙: {
+    signature: "흔들림 없이 자기 길을 가는 강단의 결",
+    tags: ["#강단", "#성숙", "#안정", "#차분"],
+    detail: "성숙하고 강단 있는 결의 사람이에요. 흔들림 없이 자기 길을 가는 차분함이 매력이에요. 가벼운 만남보다는 깊고 안정된 관계를 자연스럽게 만들어가는 결이에요.",
+    strengths: ["흔들리지 않는 자기 결의 안정감", "성숙한 판단력", "오래 기댈 수 있는 신뢰"],
+    watchout: ["표현이 적어 마음이 닿는 데 시간이 걸림", "변화에 다소 보수적일 수 있음"],
+    chemistry: "광수·영수와 만나면 가장 깊고 안정된 결이 펼쳐져요",
+  },
+  순자: {
+    signature: "표현이 풍부하고 일상이 즐거워지는 애교의 결",
+    tags: ["#애교", "#발랄", "#감수성", "#마이웨이"],
+    detail: "발랄하고 애교 있는 감수성의 사람이에요. 표현이 풍부하고 활기찬 매력이 있어요. 함께 있으면 일상이 즐거워지는 결이에요.",
+    strengths: ["감정을 자연스럽게 표현하는 결", "활기와 위트로 분위기를 살림", "감수성이 풍부한 다정함"],
+    watchout: ["기분에 따라 결이 자주 바뀜", "혼자 결정하는 자리에서 흔들리기 쉬움"],
+    chemistry: "광수·영수와 만나면 활기가 깊이를 깨워주는 결이 돼요",
+  },
+  영숙: {
+    signature: "상대를 자연스럽게 챙기는 다정한 결",
+    tags: ["#참한", "#다정", "#부드러움", "#배려"],
+    detail: "참하고 다정한 결의 사람이에요. 상대를 자연스럽게 챙기고 분위기를 부드럽게 만드는 매력이 있어요. 따뜻하고 받아주는 결이에요.",
+    strengths: ["상대 마음을 자연스럽게 헤아리는 다정함", "분위기를 부드럽게 만드는 결", "오래 함께해도 편안한 결"],
+    watchout: ["자기 의견을 못 내고 맞춰주기만 할 때", "혼자 짊어지는 결의 무거움"],
+    chemistry: "영철·영수와 만나면 가장 평화롭고 따뜻한 결이 돼요",
+  },
+  영자: {
+    signature: "어떤 자리에서도 편안한 균형의 결",
+    tags: ["#무난", "#균형", "#일상적", "#편안"],
+    detail: "무난하고 따스한 일상의 결을 가진 사람이에요. 균형 잡힌 사주로 어떤 자리에서도 편안한 매력이 있어요. 평범함 속의 깊이가 매력 포인트예요.",
+    strengths: ["어떤 자리에서도 자연스럽게 어우러짐", "흔들림 없는 일상의 결", "부담 없이 다가갈 수 있는 매력"],
+    watchout: ["눈에 띄는 매력이 약하다고 느껴질 때", "결정의 순간 미루기 쉬운 결"],
+    chemistry: "상철과 만나면 가장 부담 없고 평온한 결이 돼요",
+  },
+  영철: {
+    signature: "자연스러운 자신감으로 분위기를 환하게 하는 결",
+    tags: ["#자신감", "#솔직", "#활기", "#매력적"],
+    detail: "자연스러운 자신감과 매력이 있는 사람이에요. 솔직하고 활기차며, 표현에 거침이 없어요. 함께 있으면 분위기가 환해지는 결이에요.",
+    strengths: ["자신감 있는 결로 사람을 끌어당김", "솔직하고 거침없는 표현력", "활기로 분위기를 살리는 매력"],
+    watchout: ["속도가 빨라 상대가 부담스러울 수 있음", "감정이 너무 직접적으로 드러날 때"],
+    chemistry: "정숙·영숙과 만나면 단단함과 따뜻함의 균형이 좋아요",
+  },
+  영호: {
+    signature: "사람을 자연스럽게 끌어당기는 인싸의 결",
+    tags: ["#포용력", "#인싸", "#사교적", "#점잖음"],
+    detail: "포용력 있고 외향적인 인싸형이에요. 사람을 자연스럽게 끌어당기는 사교 매력이 있고, 모임 안에서 가장 빛나는 결이에요. 점잖은 면도 함께 가지고 있어요.",
+    strengths: ["사람들 안에서 가장 빛나는 사교성", "포용력 있는 따뜻한 결", "활기와 점잖음의 균형"],
+    watchout: ["혼자만의 시간이 부족할 때 지치는 결", "여러 사람에게 친절해 오해를 받기 쉬움"],
+    chemistry: "현숙·순자와 만나면 가장 활기 넘치는 결이 돼요",
+  },
+  광수: {
+    signature: "신중하게 마음을 여는 진중한 결",
+    tags: ["#이지적", "#진중", "#깊이", "#신중"],
+    detail: "이지적이고 진중한 깊이의 사람이에요. 신중하게 마음을 여는 결이라 처음엔 조용해 보이지만, 가까워질수록 그 안의 깊이가 매력으로 다가와요.",
+    strengths: ["깊이 있는 사색과 통찰", "신중하고 흔들림 없는 결", "한 번 마음 주면 길게 가는 신뢰"],
+    watchout: ["감정 표현이 더뎌 답답하게 느껴질 때", "혼자 짊어지고 가는 무거움"],
+    chemistry: "옥순·순자의 활기가 깊이를 깨워주는 결이에요",
+  },
+  영수: {
+    signature: "흔들림 없는 안정감으로 마음이 편해지는 결",
+    tags: ["#중후", "#든든", "#안정", "#신뢰"],
+    detail: "중후하고 든든한 결의 사람이에요. 흔들림 없는 안정감이 매력이에요. 함께 있으면 마음이 편해지고, 오래 기댈 수 있는 결이에요.",
+    strengths: ["흔들리지 않는 든든한 결", "오래 함께할 수 있는 안정감", "묵묵히 받쳐주는 신뢰"],
+    watchout: ["표현이 적어 마음이 닿는 데 시간이 걸림", "변화나 새로움에 다소 무딘 결"],
+    chemistry: "정숙·옥순과 만나면 가장 안정되고 균형 좋은 결이 돼요",
+  },
+  상철: {
+    signature: "어디서든 편안하게 어우러지는 균형의 결",
+    tags: ["#편안", "#무난", "#밸런스", "#부담없음"],
+    detail: "편안하고 부담 없는 균형의 결을 가진 사람이에요. 어떤 자리에서도 자연스럽게 어우러지는 매력이 있어요. 일상을 함께 가꾸기 좋은 결이에요.",
+    strengths: ["부담 없이 다가갈 수 있는 편안함", "어떤 결과도 잘 어우러지는 균형", "일상을 함께 가꾸기 좋은 결"],
+    watchout: ["눈에 띄는 매력이 약하다고 느껴질 때", "강한 결을 가진 사람과 부딪히면 흐려지기 쉬움"],
+    chemistry: "현숙의 강함을 부드럽게 풀어주는 자리에 가장 잘 맞아요",
+  },
 };
 
 // ─── 11명 캐릭터 라인업 (포켓몬 효과) ───
@@ -181,8 +267,10 @@ function ShareableCard({
   captureRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { a, b, pair } = character;
-  const aDetail = CHARACTER_DETAIL[a.name] ?? a.innerImage;
-  const bDetail = CHARACTER_DETAIL[b.name] ?? b.innerImage;
+  const aRich = CHARACTER_RICH[a.name] ?? null;
+  const bRich = CHARACTER_RICH[b.name] ?? null;
+  const aDetail = aRich?.detail ?? a.innerImage;
+  const bDetail = bRich?.detail ?? b.innerImage;
   const thread = "#c8203a";
   const gold = "#b88646";
   const plumDeep = "#6b1e3a";
@@ -250,6 +338,149 @@ function ShareableCard({
   );
 }
 
+// 풍부한 캐릭터 카드 — 시그너처 + 태그 + 본문 + 강점·살펴볼 자리 + 어울리는 결
+function RichCharCard({
+  name, match, rich, detailFallback,
+}: {
+  name: string;
+  match: CharacterMatchData;
+  rich: CharacterRich | null;
+  detailFallback: string;
+}) {
+  const gold = "#b88646";
+  const inkSoft = "#5a3c4a";
+  const ink = "#2a1722";
+  return (
+    <div
+      className="rounded-md p-5"
+      style={{
+        background: `linear-gradient(135deg, ${match.color}14, ${match.color}03)`,
+        border: `1px solid ${match.color}55`,
+      }}
+    >
+      {/* 이름 + 캐릭터 큰 글씨 */}
+      <div className="text-center">
+        <div className="text-[12px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
+          {name}님은
+        </div>
+        <div
+          className="text-[44px] font-black leading-none mb-1"
+          style={{ color: match.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
+        >
+          {match.name}
+        </div>
+        <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
+          스타일
+        </div>
+      </div>
+
+      {/* 시그너처 한 줄 */}
+      {rich?.signature && (
+        <div
+          className="text-center text-[13px] mt-3 px-2 italic"
+          style={{ color: match.color, fontFamily: "'Gowun Batang', serif", lineHeight: 1.6, fontWeight: 600 }}
+        >
+          "{rich.signature}"
+        </div>
+      )}
+
+      {/* 태그 chips */}
+      {rich?.tags && rich.tags.length > 0 && (
+        <div className="flex flex-wrap justify-center gap-1.5 mt-3">
+          {rich.tags.map((t) => (
+            <span
+              key={t}
+              className="text-[11px] px-2 py-0.5 rounded-full"
+              style={{
+                background: `${match.color}22`,
+                color: match.color,
+                border: `1px solid ${match.color}55`,
+                fontFamily: "'Gowun Batang', serif",
+              }}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* 본문 설명 */}
+      <div
+        className="text-[13px] leading-[1.9] mt-4 pt-3"
+        style={{
+          color: ink,
+          fontFamily: "'Gowun Batang', serif",
+          borderTop: `1px solid ${match.color}33`,
+        }}
+      >
+        {rich?.detail ?? detailFallback}
+      </div>
+
+      {/* 강점 */}
+      {rich?.strengths && rich.strengths.length > 0 && (
+        <div className="mt-4">
+          <div
+            className="text-[11px] font-bold mb-1.5 tracking-wider"
+            style={{ color: match.color, fontFamily: "'Nanum Myeongjo', serif" }}
+          >
+            ✦ 이런 면이 빛나요
+          </div>
+          <ul className="space-y-1">
+            {rich.strengths.map((s, i) => (
+              <li
+                key={i}
+                className="text-[12px] leading-[1.7] pl-4 relative"
+                style={{ color: ink, fontFamily: "'Gowun Batang', serif" }}
+              >
+                <span style={{ position: "absolute", left: 0, top: 0, color: match.color }}>·</span>
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* 살펴볼 자리 */}
+      {rich?.watchout && rich.watchout.length > 0 && (
+        <div className="mt-3">
+          <div
+            className="text-[11px] font-bold mb-1.5 tracking-wider"
+            style={{ color: gold, fontFamily: "'Nanum Myeongjo', serif" }}
+          >
+            ⌇ 이런 결은 살펴주세요
+          </div>
+          <ul className="space-y-1">
+            {rich.watchout.map((s, i) => (
+              <li
+                key={i}
+                className="text-[12px] leading-[1.7] pl-4 relative"
+                style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}
+              >
+                <span style={{ position: "absolute", left: 0, top: 0, color: gold }}>·</span>
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* 어울리는 결 */}
+      {rich?.chemistry && (
+        <div
+          className="mt-4 pt-3 text-[12px] text-center italic leading-[1.7]"
+          style={{
+            borderTop: `1px solid ${match.color}33`,
+            color: match.color,
+            fontFamily: "'Gowun Batang', serif",
+          }}
+        >
+          ❀ {rich.chemistry}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function CharacterIntroCard({
   aName, bName, character, aGender, bGender,
 }: {
@@ -260,8 +491,10 @@ function CharacterIntroCard({
   bGender: "여" | "남";
 }) {
   const { a, b, pair } = character;
-  const aDetail = CHARACTER_DETAIL[a.name] ?? a.innerImage;
-  const bDetail = CHARACTER_DETAIL[b.name] ?? b.innerImage;
+  const aRich = CHARACTER_RICH[a.name] ?? null;
+  const bRich = CHARACTER_RICH[b.name] ?? null;
+  const aDetail = aRich?.detail ?? a.innerImage;
+  const bDetail = bRich?.detail ?? b.innerImage;
   const [revealed, setRevealed] = useState<0 | 1 | 2 | 3>(0);
   const [shareMsg, setShareMsg] = useState<string | null>(null);
   const captureRef = useRef<HTMLDivElement>(null);
@@ -400,72 +633,10 @@ function CharacterIntroCard({
           </div>
 
           {/* A 카드 */}
-          <div
-            className="rounded-md p-5"
-            style={{
-              background: `linear-gradient(135deg, ${a.color}14, ${a.color}03)`,
-              border: `1px solid ${a.color}55`,
-            }}
-          >
-            <div className="text-center">
-              <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
-                {aName}님은
-              </div>
-              <div
-                className="text-[40px] font-black leading-none mb-1"
-                style={{ color: a.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
-              >
-                {a.name}
-              </div>
-              <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
-                스타일
-              </div>
-            </div>
-            <div
-              className="text-[12px] leading-[1.95] mt-4 pt-3"
-              style={{
-                color: inkSoft,
-                fontFamily: "'Gowun Batang', serif",
-                borderTop: `1px solid ${a.color}33`,
-              }}
-            >
-              {aDetail}
-            </div>
-          </div>
+          <RichCharCard name={aName} match={a} rich={aRich} detailFallback={aDetail} />
 
           {/* B 카드 */}
-          <div
-            className="rounded-md p-5"
-            style={{
-              background: `linear-gradient(135deg, ${b.color}14, ${b.color}03)`,
-              border: `1px solid ${b.color}55`,
-            }}
-          >
-            <div className="text-center">
-              <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
-                {bName}님은
-              </div>
-              <div
-                className="text-[40px] font-black leading-none mb-1"
-                style={{ color: b.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
-              >
-                {b.name}
-              </div>
-              <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
-                스타일
-              </div>
-            </div>
-            <div
-              className="text-[12px] leading-[1.95] mt-4 pt-3"
-              style={{
-                color: inkSoft,
-                fontFamily: "'Gowun Batang', serif",
-                borderTop: `1px solid ${b.color}33`,
-              }}
-            >
-              {bDetail}
-            </div>
-          </div>
+          <RichCharCard name={bName} match={b} rich={bRich} detailFallback={bDetail} />
         </div>
 
         {/* 11명 갤러리 + 공유 (REVEAL stage 3) */}
@@ -777,12 +948,6 @@ function InyeonResultInner() {
       onSelect={(no) => setChapter(no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8)}
       backHref="/inyeon/form"
     >
-      {/* 진입 선택값 표시 */}
-      <NoticeBubble>
-        <strong style={{ color: ACCENT }}>이번 풀이</strong> · {relLabel} · {durLabel}<br />
-        선택하신 관계와 기간에 맞춰 풀이의 결을 조정했어요
-      </NoticeBubble>
-
       {chapter === 1 && (
         <>
           {data.character && (
