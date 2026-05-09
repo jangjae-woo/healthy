@@ -1,0 +1,78 @@
+// ════════════════════════════════════════════════════════════════════
+// 인연 — 6×5 = 30 짝꿍 매트릭스 (한 줄 라벨)
+// 메모장 기반. 빈 cell 없음.
+// 사용: getPairLabel("옥순", "영철") → { label, tone }
+// ════════════════════════════════════════════════════════════════════
+
+import type { FemaleCharacter, MaleCharacter } from "./character-match";
+
+export interface PairLabel {
+  label: string;       // 본문 결합용 한 줄 라벨
+  tone: string;        // 추가 톤 키워드
+}
+
+const MATRIX: Record<FemaleCharacter, Record<MaleCharacter, PairLabel>> = {
+  옥순: {
+    영철: { label: "빠르게 뜨거워지는 불꽃 인연", tone: "직진과 자신감이 만나 첫 만남부터 강하게 끌리는 결" },
+    영호: { label: "사람들 사이에서 더 빛나는 인연", tone: "활발한 매력과 사교성이 만나 모임 안에서 자연스레 통하는 결" },
+    광수: { label: "활기가 깊이를 깨우는 인연", tone: "직진의 빛이 진중한 결을 흔들어 깨우는 매력적인 사이" },
+    영수: { label: "활기와 든든함이 어우러진 인연", tone: "솔직한 매력이 단단한 안정과 만나 깊어지는 결" },
+    상철: { label: "리드와 받침이 잘 맞는 인연", tone: "한쪽이 이끌고 한쪽이 단단히 받쳐주는 호흡 좋은 결" },
+  },
+  현숙: {
+    영철: { label: "도시 모던 매력의 인연", tone: "시크한 스타일과 자신감이 만나 함께 빛나는 세련된 결" },
+    영호: { label: "차분함과 활기의 도시 인연", tone: "쿨한 매력이 사교 안에서 부드럽게 풀리는 결" },
+    광수: { label: "도시적 깊이를 함께 나누는 인연", tone: "둘 다 진중하고 깊은 결 — 차분한 대화가 매력인 사이" },
+    영수: { label: "스타일과 안정의 도시 인연", tone: "세련된 매력과 든든한 결이 만나는 안정된 사이" },
+    상철: { label: "강함을 부드럽게 녹이는 인연", tone: "시크함이 편안함과 만나 자연스럽게 풀리는 결" },
+  },
+  정숙: {
+    영철: { label: "안정과 자신감이 잘 맞는 인연", tone: "성숙한 결과 자신감이 어우러져 균형이 아주 좋은 사이" },
+    영호: { label: "든든함과 사교성의 인연", tone: "강단 있는 결 위에 활기가 더해지는 매력적인 사이" },
+    광수: { label: "가장 깊이 있는 인연", tone: "둘 다 진중하고 성숙한 결 — 깊은 대화가 매력인 사이" },
+    영수: { label: "가장 안정된 인연", tone: "강단과 중후함이 만나 흔들림 없는 결의 사이" },
+    상철: { label: "성숙함과 편안함의 인연", tone: "단단한 결과 편안한 결이 만나 자연스럽게 흐르는 사이" },
+  },
+  순자: {
+    영철: { label: "활기 가득한 인연", tone: "발랄한 매력과 자신감이 만나 함께 즐거운 결" },
+    영호: { label: "가장 즐거운 인연", tone: "활발함과 사교성이 만나 웃음이 끊이지 않는 사이" },
+    광수: { label: "깊이를 깨우는 따스한 인연", tone: "활기 있는 결이 진중함을 부드럽게 풀어주는 매력적인 사이" },
+    영수: { label: "발랄함과 든든함의 인연", tone: "애교 있는 매력이 단단한 결과 만나 따뜻한 결" },
+    상철: { label: "다정함이 자연스러운 인연", tone: "발랄한 결과 편안한 결이 만나 부담 없이 다정한 사이" },
+  },
+  영숙: {
+    영철: { label: "균형 잘 맞는 인연", tone: "참한 결과 자신감 있는 매력이 어우러지는 균형 좋은 사이" },
+    영호: { label: "부드러운 사교의 인연", tone: "다정한 결이 사교 안에서 자연스럽게 빛나는 사이" },
+    광수: { label: "안정과 깊이의 인연", tone: "부드러운 결과 진중한 결이 만나 마음 깊이 닿는 사이" },
+    영수: { label: "가장 평화로운 인연", tone: "다정함과 중후함이 만나 가장 평온한 결의 사이" },
+    상철: { label: "따뜻한 일상의 인연", tone: "참한 결과 편안한 결이 만나 일상이 따스하게 흐르는 사이" },
+  },
+  영자: {
+    영철: { label: "일상에 활기를 더하는 인연", tone: "평범한 결에 자신감이 들어와 생기를 더해주는 사이" },
+    영호: { label: "자연스러운 활기의 인연", tone: "일상의 결이 사교 안에서 부드럽게 펼쳐지는 사이" },
+    광수: { label: "차분한 안정의 인연", tone: "평범한 결과 진중한 깊이가 만나 잔잔하게 안정되는 사이" },
+    영수: { label: "평온한 인연", tone: "일상의 결과 든든함이 만나 흔들림 없이 평온한 사이" },
+    상철: { label: "균형이 아주 좋은 인연", tone: "둘 다 균형 잡힌 결 — 호흡이 자연스럽고 마음이 편한 사이" },
+  },
+};
+
+export function getPairLabel(female: FemaleCharacter, male: MaleCharacter): PairLabel {
+  return MATRIX[female]?.[male] ?? { label: "두 사람만의 결", tone: "고유한 인연" };
+}
+
+// 성별 무관하게 (a, b)에서 여자/남자 추출 후 짝꿍 라벨 반환
+export function getPairLabelFor(
+  aGender: "남" | "여",
+  aChar: string,
+  bGender: "남" | "여",
+  bChar: string,
+): PairLabel | null {
+  if (aGender === "여" && bGender === "남") {
+    return getPairLabel(aChar as FemaleCharacter, bChar as MaleCharacter);
+  }
+  if (aGender === "남" && bGender === "여") {
+    return getPairLabel(bChar as FemaleCharacter, aChar as MaleCharacter);
+  }
+  // 동성 커플 — 매트릭스 미지원
+  return null;
+}

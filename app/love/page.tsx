@@ -361,7 +361,7 @@ export default function LoveLandingPage() {
               <path className="thread-path" d="M 50,30 C 250,5 350,55 500,30 C 650,5 750,55 950,30" fill="none" stroke="#c8203a" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
             </svg>
 
-            <Link href="/saju-love" className="card reveal d2">
+            <Link href="/나의홍실" className="card reveal d2">
               <div className="card-en">F O R &nbsp; O N E</div>
               <div className="card-title">나의 홍실</div>
               <p className="card-quote">"내 사주가 보여주는 사랑의 패턴"</p>
