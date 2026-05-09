@@ -15,6 +15,7 @@ import { buildInyeonChapter5Prompt } from "./prompts/ch5-physical";
 import { buildInyeonChapter6Prompt } from "./prompts/ch6-finance";
 import { buildInyeonChapter7Prompt } from "./prompts/ch7-marriage";
 import { buildInyeonChapter8Prompt } from "./prompts/ch8-final-letter";
+import { deriveInyeonTraits, inyeonTraitsToPromptBlock } from "../inyeon-traits-block-v2";
 
 const STEM_ELEM: Record<string, string> = {
   갑: "목", 을: "목", 병: "화", 정: "화", 무: "토", 기: "토",
@@ -374,5 +375,21 @@ export function buildAllInyeonPrompts(
   };
   const ch8 = buildInyeonChapter8Prompt(req, finalCtx);
 
-  return { ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8 };
+  // ─── V2 traits-block 주입 — 두 사람 결합 키워드 풀 챕터별 prepend ───
+  const _inyeonTraits = (() => {
+    try { return deriveInyeonTraits(a, b, req.choice.relationship); } catch { return null; }
+  })();
+  const _block = (scope: "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "ch8"): string =>
+    _inyeonTraits ? inyeonTraitsToPromptBlock(_inyeonTraits, aName, bName, scope) : "";
+
+  return {
+    ch1: _block("ch1") + ch1,
+    ch2: _block("ch2") + ch2,
+    ch3: _block("ch3") + ch3,
+    ch4: _block("ch4") + ch4,
+    ch5: _block("ch5") + ch5,
+    ch6: _block("ch6") + ch6,
+    ch7: _block("ch7") + ch7,
+    ch8: _block("ch8") + ch8,
+  };
 }
