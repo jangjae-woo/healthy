@@ -33,11 +33,11 @@ export default function ChapterShell({
       className="min-h-screen relative"
       style={{ background: `linear-gradient(180deg, ${BG} 0%, #150810 100%)` }}
     >
-      <main className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col">
-        {/* 헤더 — 자도인 톤 */}
+      <main className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col relative">
+        {/* 헤더 — 자도인 V2 패턴: sticky top */}
         <div
-          className="flex items-center gap-3 px-4 py-3 flex-shrink-0"
-          style={{ borderBottom: `1px solid ${ACCENT}18` }}
+          className="flex items-center gap-3 px-4 py-3 flex-shrink-0 sticky top-0 z-20"
+          style={{ borderBottom: `1px solid ${ACCENT}22`, background: `${BG}ee`, backdropFilter: "blur(10px)" }}
         >
           <Link href={backHref} className="text-sm" style={{ color: `${ACCENT}88` }}>←</Link>
           <div className="flex-1 text-sm font-bold text-white">홍연(紅蓮) 인연궁합</div>
@@ -53,11 +53,13 @@ export default function ChapterShell({
           </button>
         </div>
 
-        {/* TOC 드롭다운 */}
+        {/* TOC 드롭다운 — 자도인 V2 패턴: fixed (뷰포트 기준, 스크롤 위치 무관) + 백드롭 */}
         {showToc && chapters && (
+          <>
+          <div className="fixed inset-0 z-30" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setShowToc(false)} />
           <div
-            className="absolute top-14 right-4 z-50 rounded-2xl shadow-2xl overflow-hidden max-w-[80vw]"
-            style={{ backgroundColor: "#0c0510", border: `1px solid ${ACCENT}33`, minWidth: "220px" }}
+            className="fixed top-[58px] left-1/2 -translate-x-1/2 w-[calc(100%-16px)] max-w-[414px] z-40 rounded-2xl shadow-2xl overflow-y-auto max-h-[70vh]"
+            style={{ backgroundColor: "#0c0510", border: `1px solid ${ACCENT}33` }}
           >
             <div
               className="flex items-center justify-between px-4 py-3"
@@ -89,6 +91,7 @@ export default function ChapterShell({
               );
             })}
           </div>
+          </>
         )}
 
         {/* 챕터 타이틀 영역 (자도인 톤의 가운데 정렬 부제) */}
@@ -108,13 +111,21 @@ export default function ChapterShell({
         </div>
 
         {/* 본문 */}
-        <div className="flex-1 px-4 flex flex-col">
+        <div className="flex-1 px-4 flex flex-col pb-24">
           <div>{children}</div>
+        </div>
 
-          {/* 인라인 챕터 nav (자도인 동일 톤) */}
-          <div className="mt-8 mb-8 flex items-center gap-3 px-2">
+        {/* sticky bottom nav — 자도인 V2 패턴 */}
+        <div
+          className="flex-shrink-0 px-4 py-3 sticky bottom-0 z-20"
+          style={{ borderTop: `1px solid ${ACCENT}22`, background: `${BG}ee`, backdropFilter: "blur(10px)" }}
+        >
+          <div className="flex gap-2">
             <button
-              onClick={onPrev}
+              onClick={() => {
+                onPrev?.();
+                if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               disabled={!onPrev || chapterNo <= 1}
               className="flex-1 py-3 rounded-xl text-sm font-medium transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
@@ -127,7 +138,10 @@ export default function ChapterShell({
               ‹  이전 챕터
             </button>
             <button
-              onClick={onNext}
+              onClick={() => {
+                onNext?.();
+                if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               disabled={!onNext || chapterNo >= totalChapters}
               className="flex-1 py-3 rounded-xl text-sm font-bold transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
