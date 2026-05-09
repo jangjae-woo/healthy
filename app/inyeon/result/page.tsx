@@ -39,9 +39,21 @@ interface PersonData {
   ohaengTop: string;
   ohaengWeak: string;
 }
+interface CharacterMatchData {
+  name: string;
+  innerImage: string;
+  signal: string;
+  color: string;
+  enLabel: string;
+}
 interface InyeonComputeData {
   a: PersonData;
   b: PersonData;
+  character?: {
+    a: CharacterMatchData;
+    b: CharacterMatchData;
+    pair: { label: string; tone: string } | null;
+  };
   compat: {
     score: number; scoreLabel: string;
     ilganRelation: string; ilganDetail: string;
@@ -95,6 +107,59 @@ function SubSection({ title, body }: { title: string; body: string }) {
       </div>
       <div className="text-[13px] leading-7" style={{ color: "#d6cdb8" }}>
         {body}
+      </div>
+    </div>
+  );
+}
+
+// "나는 솔로" 캐릭터 인트로 카드 — 1장 최상단
+function CharacterIntroCard({
+  aName, bName, character,
+}: {
+  aName: string;
+  bName: string;
+  character: NonNullable<InyeonComputeData["character"]>;
+}) {
+  const { a, b, pair } = character;
+  return (
+    <div className="mb-8 -mx-2 sm:mx-0">
+      {/* 시즌 바 */}
+      <div className="flex items-center justify-between px-3 py-2 bg-black border-b border-red-600/40">
+        <div className="text-[10px] text-red-500 tracking-[0.3em] font-bold">I AM SOLO · 사주</div>
+        <div className="text-[9px] text-white/40 tracking-widest">EPISODE</div>
+      </div>
+      {/* 본 카드 */}
+      <div className="bg-black text-white p-5">
+        <div className="text-center mb-5">
+          <div className="text-[10px] text-red-500 tracking-[0.3em] mb-1">TONIGHT'S MATCH</div>
+          {pair && (
+            <h3 className="text-xl font-black leading-tight">
+              <span className="text-red-600">"{pair.label}"</span>
+            </h3>
+          )}
+          {pair?.tone && (
+            <div className="text-[11px] text-white/50 mt-1.5 leading-relaxed">{pair.tone}</div>
+          )}
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {/* A 카드 */}
+          <div className="border border-zinc-800 p-3" style={{ borderColor: a.color + "55" }}>
+            <div className="text-[9px] tracking-widest mb-1" style={{ color: a.color }}>{a.enLabel}</div>
+            <div className="text-base font-black mb-1">{aName}님</div>
+            <div className="text-2xl font-black mb-2" style={{ color: a.color }}>{a.name}</div>
+            <div className="text-[10px] text-white/60 leading-snug">{a.innerImage}</div>
+          </div>
+          {/* B 카드 */}
+          <div className="border border-zinc-800 p-3" style={{ borderColor: b.color + "55" }}>
+            <div className="text-[9px] tracking-widest mb-1" style={{ color: b.color }}>{b.enLabel}</div>
+            <div className="text-base font-black mb-1">{bName}님</div>
+            <div className="text-2xl font-black mb-2" style={{ color: b.color }}>{b.name}</div>
+            <div className="text-[10px] text-white/60 leading-snug">{b.innerImage}</div>
+          </div>
+        </div>
+        <div className="mt-3 text-[9px] text-white/30 text-center tracking-widest">
+          DETERMINISTIC MATCH · 사주 기반 자동 분류
+        </div>
       </div>
     </div>
   );
@@ -343,6 +408,9 @@ function InyeonResultInner() {
 
       {chapter === 1 && (
         <>
+          {data.character && (
+            <CharacterIntroCard aName={aName} bName={bName} character={data.character} />
+          )}
           <NoticeBubble>
             궁합을 보기 전에, 두 분의 사주를 한 분씩 펼쳐볼게요. 타고난 성격·연애할 때의 결·이상형, 그리고 우리의 첫인상까지 차례로 살펴봐요.
           </NoticeBubble>
