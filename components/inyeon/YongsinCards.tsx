@@ -20,8 +20,9 @@ function Card({ kind, elem }: { kind: string; elem: string }) {
     <div
       className="flex-1 rounded-2xl p-4 flex flex-col items-center"
       style={{
-        background: `${color}11`,
+        background: `linear-gradient(135deg, ${color}1a, ${color}05)`,
         border: `1px solid ${color}66`,
+        boxShadow: `0 4px 16px ${color}11`,
       }}
     >
       <div className="text-[11px] mb-2" style={{ color: `${ACCENT}cc` }}>

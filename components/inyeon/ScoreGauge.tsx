@@ -27,8 +27,9 @@ export default function ScoreGauge({ score, label, caption }: Props) {
     <div
       className="rounded-3xl p-6 flex flex-col items-center"
       style={{
-        background: "rgba(240,168,184,0.06)",
+        background: `linear-gradient(135deg, ${ACCENT}12, ${ACCENT}04)`,
         border: `1px solid ${ACCENT}33`,
+        boxShadow: `0 4px 20px ${ACCENT}08`,
       }}
     >
       {caption && (

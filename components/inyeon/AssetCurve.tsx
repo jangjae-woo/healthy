@@ -28,7 +28,7 @@ export default function AssetCurve({ title, points, unit = "억", color = ACCENT
   return (
     <div
       className="rounded-2xl p-4"
-      style={{ background: BG_INNER, border: `1px solid ${color}22` }}
+      style={{ background: `linear-gradient(135deg, ${BG_INNER}, #120709)`, border: `1px solid ${color}33`, boxShadow: `0 4px 20px ${color}11` }}
     >
       <div
         className="text-sm font-bold mb-3"

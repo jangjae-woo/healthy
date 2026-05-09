@@ -910,27 +910,57 @@ export default function SajuSlideResult() {
     if (paying) return;
     setPaying(true);
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set('unlocked', '1');
-      const returnUrl = `${window.location.origin}/api/payment/complete?${urlParams.toString()}`;
-      const res = await fetch('/api/payment', {
+      const PortOne = (await import('@portone/browser-sdk/v2')).default;
+      const storeId = process.env.NEXT_PUBLIC_PORTONE_STORE_ID;
+      const channelKey = process.env.NEXT_PUBLIC_PORTONE_CHANNEL_KEY;
+      if (!storeId || !channelKey) {
+        alert('결제 설정이 누락됐습니다. 관리자에게 문의해주세요.');
+        setPaying(false);
+        throw new Error('PortOne env missing');
+      }
+
+      const paymentId = `payment${Date.now()}${Math.random().toString(36).slice(2, 10)}`;
+      const response = await PortOne.requestPayment({
+        storeId,
+        channelKey,
+        paymentId,
+        orderName: '평생 사주 풀이',
+        totalAmount: PRICE,
+        currency: 'CURRENCY_KRW',
+        payMethod: 'CARD',
+        customer: {
+          fullName: payerName,
+          phoneNumber: payerPhone,
+        },
+      } as any);
+
+      if (response?.code !== undefined) {
+        // 사용자 취소 또는 결제 실패
+        if (response.code !== 'USER_CANCEL') {
+          alert(response.message || '결제가 취소되었습니다.');
+        }
+        setPaying(false);
+        throw new Error(response.message || '결제 취소');
+      }
+
+      // 서버 검증 — 위변조 방어
+      const verifyRes = await fetch('/api/portone/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          price: PRICE,
-          returnUrl,
-          recvphone: payerPhone,
-          name: payerName,
-        }),
+        body: JSON.stringify({ paymentId, expectedAmount: PRICE }),
       });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || '결제 요청에 실패했습니다.');
+      const verify = await verifyRes.json();
+      if (!verify.success) {
+        alert(verify.error || '결제 검증에 실패했습니다.');
         setPaying(false);
-        throw new Error(data.error || '결제 요청 실패');
+        throw new Error(verify.error || '결제 검증 실패');
       }
+
+      // 검증 통과 — unlocked 쿼리 박고 새로고침
+      const url = new URL(window.location.href);
+      url.searchParams.set('unlocked', '1');
+      url.searchParams.set('paymentId', paymentId);
+      window.location.href = url.toString();
     } catch (e) {
       setPaying(false);
       throw e;

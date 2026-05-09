@@ -15,8 +15,9 @@ export default function SinKangBar({ ilgan, stage }: Props) {
     <div
       className="rounded-2xl p-5"
       style={{
-        background: "rgba(240,168,184,0.06)",
+        background: `linear-gradient(135deg, ${ACCENT}10, ${ACCENT}03)`,
         border: `1px solid ${ACCENT}33`,
+        boxShadow: `0 4px 20px ${ACCENT}08`,
       }}
     >
       <div

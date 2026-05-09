@@ -112,7 +112,21 @@ function SubSection({ title, body }: { title: string; body: string }) {
   );
 }
 
-// "나는 솔로" 캐릭터 인트로 카드 — 1장 최상단
+// 캐릭터 스타일 — 2~3줄 풀 설명 (성격 카드용)
+const CHARACTER_DETAIL: Record<string, string> = {
+  옥순: "솔직하고 직진하는 결의 사람이에요. 마음에 들면 망설임이 없고, 표현이 풍부해서 함께 있을 때 분위기가 환해져요. 자기 결이 분명해 한 번 정한 마음은 잘 흔들리지 않아요.",
+  현숙: "쿨하고 시크한 도시적 매력이 있는 사람이에요. 겉은 차분해 보이지만 속은 단단하고, 자기 기준이 분명해요. 가까워질수록 그 안의 다정함이 보이는 결이에요.",
+  정숙: "성숙하고 강단 있는 결의 사람이에요. 흔들림 없이 자기 길을 가는 차분함이 매력이에요. 가벼운 만남보다는 깊고 안정된 관계를 자연스럽게 만들어가는 결이에요.",
+  순자: "발랄하고 애교 있는 감수성의 사람이에요. 표현이 풍부하고 활기찬 매력이 있어요. 함께 있으면 일상이 즐거워지는 결이에요.",
+  영숙: "참하고 다정한 결의 사람이에요. 상대를 자연스럽게 챙기고 분위기를 부드럽게 만드는 매력이 있어요. 따뜻하고 받아주는 결이에요.",
+  영자: "무난하고 따스한 일상의 결을 가진 사람이에요. 균형 잡힌 사주로 어떤 자리에서도 편안한 매력이 있어요. 평범함 속의 깊이가 매력 포인트예요.",
+  영철: "자연스러운 자신감과 매력이 있는 사람이에요. 솔직하고 활기차며, 표현에 거침이 없어요. 함께 있으면 분위기가 환해지는 결이에요.",
+  영호: "포용력 있고 외향적인 인싸형이에요. 사람을 자연스럽게 끌어당기는 사교 매력이 있고, 모임 안에서 가장 빛나는 결이에요. 점잖은 면도 함께 가지고 있어요.",
+  광수: "이지적이고 진중한 깊이의 사람이에요. 신중하게 마음을 여는 결이라 처음엔 조용해 보이지만, 가까워질수록 그 안의 깊이가 매력으로 다가와요.",
+  영수: "중후하고 든든한 결의 사람이에요. 흔들림 없는 안정감이 매력이에요. 함께 있으면 마음이 편해지고, 오래 기댈 수 있는 결이에요.",
+  상철: "편안하고 부담 없는 균형의 결을 가진 사람이에요. 어떤 자리에서도 자연스럽게 어우러지는 매력이 있어요. 일상을 함께 가꾸기 좋은 결이에요.",
+};
+
 function CharacterIntroCard({
   aName, bName, character,
 }: {
@@ -121,44 +135,41 @@ function CharacterIntroCard({
   character: NonNullable<InyeonComputeData["character"]>;
 }) {
   const { a, b, pair } = character;
+  const aDetail = CHARACTER_DETAIL[a.name] ?? a.innerImage;
+  const bDetail = CHARACTER_DETAIL[b.name] ?? b.innerImage;
   return (
-    <div className="mb-8 -mx-2 sm:mx-0">
-      {/* 시즌 바 */}
-      <div className="flex items-center justify-between px-3 py-2 bg-black border-b border-red-600/40">
-        <div className="text-[10px] text-red-500 tracking-[0.3em] font-bold">I AM SOLO · 사주</div>
-        <div className="text-[9px] text-white/40 tracking-widest">EPISODE</div>
-      </div>
-      {/* 본 카드 */}
-      <div className="bg-black text-white p-5">
-        <div className="text-center mb-5">
-          <div className="text-[10px] text-red-500 tracking-[0.3em] mb-1">TONIGHT'S MATCH</div>
-          {pair && (
-            <h3 className="text-xl font-black leading-tight">
-              <span className="text-red-600">"{pair.label}"</span>
-            </h3>
-          )}
-          {pair?.tone && (
-            <div className="text-[11px] text-white/50 mt-1.5 leading-relaxed">{pair.tone}</div>
+    <div className="mb-8 rounded-2xl overflow-hidden" style={{ border: `1px solid ${ACCENT}33` }}>
+      {/* 짝꿍 라벨 헤드 */}
+      {pair && (
+        <div className="px-5 py-5 text-center" style={{ background: `linear-gradient(135deg, ${ACCENT}1a, ${ACCENT}05)`, borderBottom: `1px solid ${ACCENT}22` }}>
+          <div className="text-[10px] tracking-[0.3em] mb-2" style={{ color: ACCENT }}>두 분의 인연</div>
+          <h3 className="text-lg font-bold leading-tight" style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}>
+            "{pair.label}"
+          </h3>
+          {pair.tone && (
+            <div className="text-[11px] mt-2 leading-relaxed" style={{ color: "#d6cdb8" }}>{pair.tone}</div>
           )}
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          {/* A 카드 */}
-          <div className="border border-zinc-800 p-3" style={{ borderColor: a.color + "55" }}>
-            <div className="text-[9px] tracking-widest mb-1" style={{ color: a.color }}>{a.enLabel}</div>
-            <div className="text-base font-black mb-1">{aName}님</div>
-            <div className="text-2xl font-black mb-2" style={{ color: a.color }}>{a.name}</div>
-            <div className="text-[10px] text-white/60 leading-snug">{a.innerImage}</div>
+      )}
+      {/* 캐릭터 카드 — 세로 스택 (모바일 가독성) */}
+      <div className="p-4 space-y-3">
+        {/* A 카드 */}
+        <div className="rounded-xl p-4" style={{ background: `${a.color}0d`, border: `1px solid ${a.color}44` }}>
+          <div className="flex items-baseline gap-2 mb-2">
+            <span className="text-base font-bold" style={{ color: "#fef3c7" }}>{aName}님은</span>
+            <span className="text-xl font-black" style={{ color: a.color }}>{a.name}</span>
+            <span className="text-[12px]" style={{ color: "#d6cdb8" }}>스타일</span>
           </div>
-          {/* B 카드 */}
-          <div className="border border-zinc-800 p-3" style={{ borderColor: b.color + "55" }}>
-            <div className="text-[9px] tracking-widest mb-1" style={{ color: b.color }}>{b.enLabel}</div>
-            <div className="text-base font-black mb-1">{bName}님</div>
-            <div className="text-2xl font-black mb-2" style={{ color: b.color }}>{b.name}</div>
-            <div className="text-[10px] text-white/60 leading-snug">{b.innerImage}</div>
-          </div>
+          <div className="text-[12px] leading-6" style={{ color: "#d6cdb8" }}>{aDetail}</div>
         </div>
-        <div className="mt-3 text-[9px] text-white/30 text-center tracking-widest">
-          DETERMINISTIC MATCH · 사주 기반 자동 분류
+        {/* B 카드 */}
+        <div className="rounded-xl p-4" style={{ background: `${b.color}0d`, border: `1px solid ${b.color}44` }}>
+          <div className="flex items-baseline gap-2 mb-2">
+            <span className="text-base font-bold" style={{ color: "#fef3c7" }}>{bName}님은</span>
+            <span className="text-xl font-black" style={{ color: b.color }}>{b.name}</span>
+            <span className="text-[12px]" style={{ color: "#d6cdb8" }}>스타일</span>
+          </div>
+          <div className="text-[12px] leading-6" style={{ color: "#d6cdb8" }}>{bDetail}</div>
         </div>
       </div>
     </div>

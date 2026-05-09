@@ -30,7 +30,7 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
   return (
     <div
       className="rounded-2xl p-4"
-      style={{ background: BG_INNER, border: `1px solid ${ACCENT}22` }}
+      style={{ background: `linear-gradient(135deg, ${BG_INNER}, #120709)`, border: `1px solid ${ACCENT}33`, boxShadow: `0 4px 20px ${ACCENT}08` }}
     >
       <div
         className="text-sm font-bold mb-3"

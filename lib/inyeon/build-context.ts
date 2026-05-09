@@ -62,7 +62,7 @@ function ohaengCount(s: SajuAnalysis): string {
 function ohaengRatio(s: SajuAnalysis): string {
   const e = s.elements;
   const total = e.목 + e.화 + e.토 + e.금 + e.수;
-  const f = (n: number) => total > 0 ? ((n / total) * 100).toFixed(1) : "0";
+  const f = (n: number) => total > 0 ? String(Math.round((n / total) * 100)) : "0";
   return `목 ${f(e.목)}% 화 ${f(e.화)}% 토 ${f(e.토)}% 금 ${f(e.금)}% 수 ${f(e.수)}%`;
 }
 
