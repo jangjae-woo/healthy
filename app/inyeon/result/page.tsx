@@ -1065,7 +1065,15 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
-// AttractionStyleBar — 1·2장 연애 스타일 5 막대 (식상·재성·관성·인성·비겁)
+// AttractionStyleBar — 1·2장 연애 스타일 5 막대 + 단어 풀이 (자도인 V2식)
+const SIP5_INFO = [
+  { label: "식상", sub: "표현", desc: "감정·말·창작 — 마음을 바깥으로 풀어내는 결", color: "#ff9d6b" },
+  { label: "재성", sub: "현실", desc: "돈·결과·실용 — 손에 잡히는 것을 챙기는 결", color: "#7dd3c0" },
+  { label: "관성", sub: "책임", desc: "규칙·약속·절제 — 틀과 책임에 따르는 결", color: "#7eb6ff" },
+  { label: "인성", sub: "받침", desc: "사색·받아들임·깊이 — 곱씹고 받아주는 결", color: "#c89cff" },
+  { label: "비겁", sub: "자존", desc: "자기 결·동지 — 함께 가거나 스스로 서는 결", color: "#f5b942" },
+];
+
 function AttractionStyleBar({ name, sipseong, color }: {
   name: string;
   sipseong: { year: { stem: string; branch: string }; month: { stem: string; branch: string }; day: { branch: string }; hour: { stem: string; branch: string } | null };
@@ -1077,43 +1085,82 @@ function AttractionStyleBar({ name, sipseong, color }: {
     sipseong.day.branch,
     sipseong.hour?.stem, sipseong.hour?.branch,
   ].filter(Boolean) as string[];
-  const counts = {
-    "식상 (표현)": all.filter(s => s.includes("식신") || s.includes("상관")).length,
-    "재성 (현실)": all.filter(s => s.includes("정재") || s.includes("편재")).length,
-    "관성 (책임)": all.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length,
-    "인성 (받침)": all.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length,
-    "비겁 (자존)": all.filter(s => s.includes("비견") || s.includes("겁재")).length,
+  const counts: Record<string, number> = {
+    식상: all.filter(s => s.includes("식신") || s.includes("상관")).length,
+    재성: all.filter(s => s.includes("정재") || s.includes("편재")).length,
+    관성: all.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length,
+    인성: all.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length,
+    비겁: all.filter(s => s.includes("비견") || s.includes("겁재")).length,
   };
   const max = Math.max(1, ...Object.values(counts));
-  const COLORS = ["#e88a8a", "#d4a96b", "#7a9bbf", "#7fbf7f", "#bfbfbf"];
+  const top = (Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0]) ?? "비겁";
+
   return (
     <div
-      className="rounded-md p-4"
+      className="rounded-md p-5"
       style={{
         background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
         border: `1px solid ${color}55`,
+        boxShadow: `0 6px 20px -8px ${color}22`,
       }}
     >
       <div
-        className="text-[12px] mb-3 text-center"
-        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700 }}
+        className="text-[15px] font-bold mb-1 text-center"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}
       >
-        {name}님의 연애 스타일 분포
+        {name}님의 십성(十星) 분포
       </div>
-      <div className="space-y-2">
-        {Object.entries(counts).map(([label, c], i) => {
+      <div
+        className="text-[11px] mb-5 text-center"
+        style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
+      >
+        연애·관계에서 어떤 결로 다가가는가
+      </div>
+
+      <div className="space-y-3">
+        {SIP5_INFO.map((info) => {
+          const c = counts[info.label] ?? 0;
           const pct = (c / max) * 100;
-          const bar = COLORS[i];
+          const isTop = info.label === top;
           return (
-            <div key={label} className="flex items-center gap-2">
-              <div className="w-24 text-[11px] text-right" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
-                {label}
+            <div key={info.label}>
+              <div className="flex items-baseline gap-2 mb-1.5">
+                <span
+                  className="text-[16px] font-black"
+                  style={{
+                    color: info.color,
+                    fontFamily: "'Nanum Myeongjo', serif",
+                    minWidth: 36,
+                  }}
+                >
+                  {info.label}
+                </span>
+                <span
+                  className="text-[12px]"
+                  style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif", fontWeight: isTop ? 700 : 400 }}
+                >
+                  {info.sub}
+                </span>
+                <span
+                  className="text-[16px] font-bold ml-auto"
+                  style={{ color: info.color, fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  {c}
+                </span>
               </div>
-              <div className="flex-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(212,169,107,0.12)" }}>
-                <div style={{ width: `${pct}%`, height: "100%", background: bar, transition: "width 0.6s ease" }} />
+              <div className="h-3 rounded-full overflow-hidden" style={{ background: "rgba(212,169,107,0.15)" }}>
+                <div
+                  style={{
+                    width: `${pct}%`,
+                    height: "100%",
+                    background: info.color,
+                    transition: "width 0.6s ease",
+                    boxShadow: isTop ? `0 0 8px ${info.color}88` : "none",
+                  }}
+                />
               </div>
-              <div className="w-6 text-[11px] font-bold text-right" style={{ color: bar, fontFamily: "'Cormorant Garamond', serif" }}>
-                {c}
+              <div className="text-[12px] mt-1.5 leading-snug" style={{ color: "#3a2530", fontFamily: "'Gowun Batang', serif" }}>
+                {info.desc}
               </div>
             </div>
           );
