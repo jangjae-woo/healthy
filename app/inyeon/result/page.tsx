@@ -1064,10 +1064,39 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
+// 챕터 사이 안내자 transition — 홍도인 1인칭 한 줄
+function TransitionLine({ text }: { text: string }) {
+  return (
+    <div className="my-8 text-center">
+      <div
+        className="mx-auto mb-3 h-px"
+        style={{
+          maxWidth: 100,
+          background: "linear-gradient(90deg, transparent, #d4a96b, transparent)",
+        }}
+      />
+      <div
+        className="text-[13px] italic leading-[1.85] px-4"
+        style={{ color: "#6b1e3a", fontFamily: "'Gowun Batang', serif" }}
+      >
+        {text}
+      </div>
+      <div
+        className="mx-auto mt-3 h-px"
+        style={{
+          maxWidth: 100,
+          background: "linear-gradient(90deg, transparent, #d4a96b, transparent)",
+        }}
+      />
+    </div>
+  );
+}
+
 function InyeonResultInner() {
   const sp = useSearchParams();
-  const [chapter, setChapter] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8>(1);
-  const TOTAL = 8;
+  const [chapter, setChapter] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9>(1);
+  const TOTAL = 9;
+  type Chap = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
   const aName = sp.get("aName") || "A";
   const bName = sp.get("bName") || "B";
@@ -1295,31 +1324,34 @@ function InyeonResultInner() {
     <ChapterShell
       chapterNo={chapter}
       chapterTitle={
-        chapter === 1 ? "기본 사주분석 - 우린 어떤 사람일까?"
-        : chapter === 2 ? "인연궁합 - 사주에 적힌 우리의 인연"
-        : chapter === 3 ? "성격궁합 - 사주로 보는 성격의 조화"
-        : chapter === 4 ? "감정궁합 - 우리의 감정·심리 궁합"
-        : chapter === 5 ? "체질궁합 - 건강과 활동성의 결"
-        : chapter === 6 ? "재물궁합 - 재물운과 재테크"
-        : chapter === 7 ? "혼인궁합 - 혼인·가족·자녀운"
-        : "풀이를 마치며 - 홍연의 마지막 편지"
+        chapter === 1 ? "당신은 — 사주가 펼치는 나의 결"
+        : chapter === 2 ? "그 사람은 — 사주가 펼치는 그의 결"
+        : chapter === 3 ? "우리는 — 인연의 시작과 결"
+        : chapter === 4 ? "성격궁합 - 함께 있을 때 우리는"
+        : chapter === 5 ? "감정궁합 - 마음이 닿는 방식"
+        : chapter === 6 ? "깊은궁합 - 체질·시기·본능"
+        : chapter === 7 ? "관계조언 - 지금 우리에게 필요한 것"
+        : chapter === 8 ? "미래궁합 - 결혼·자녀·노년"
+        : "홍도인의 마지막 편지"
       }
       totalChapters={TOTAL}
       chapters={[
-        { no: 1, label: "기본 사주분석" },
-        { no: 2, label: "인연궁합" },
-        { no: 3, label: "성격궁합" },
-        { no: 4, label: "감정궁합" },
-        { no: 5, label: "체질궁합" },
-        { no: 6, label: "재물궁합" },
-        { no: 7, label: "혼인궁합" },
-        { no: 8, label: "홍연의 마지막 편지" },
+        { no: 1, label: "당신은" },
+        { no: 2, label: "그 사람은" },
+        { no: 3, label: "우리는 (인연)" },
+        { no: 4, label: "성격궁합" },
+        { no: 5, label: "감정궁합" },
+        { no: 6, label: "깊은궁합" },
+        { no: 7, label: "관계조언" },
+        { no: 8, label: "미래궁합" },
+        { no: 9, label: "홍도인의 편지" },
       ]}
-      onPrev={chapter > 1 ? () => setChapter((chapter - 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) : undefined}
-      onNext={chapter < TOTAL ? () => setChapter((chapter + 1) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) : undefined}
-      onSelect={(no) => setChapter(no as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8)}
+      onPrev={chapter > 1 ? () => setChapter((chapter - 1) as Chap) : undefined}
+      onNext={chapter < TOTAL ? () => setChapter((chapter + 1) as Chap) : undefined}
+      onSelect={(no) => setChapter(no as Chap)}
       backHref="/inyeon/form"
     >
+      {/* Page 1 — 당신은 (ME) */}
       {chapter === 1 && (
         <>
           {data.character && (
@@ -1330,9 +1362,6 @@ function InyeonResultInner() {
               bGender={(sp.get("bGender") || "남") === "여" ? "여" : "남"}
             />
           )}
-          <NoticeBubble>
-            궁합을 보기 전에, 두 분의 사주를 한 분씩 펼쳐볼게요. 타고난 성격·연애할 때의 결·이상형, 그리고 우리의 첫인상까지 차례로 살펴봐요.
-          </NoticeBubble>
 
           <Section title={`${aName}님의 사주 — "나"`}>
             <SajuTable name={aName} birthLine={aBirth}
@@ -1351,6 +1380,13 @@ function InyeonResultInner() {
               fallback={`${aName}님이 마음을 흔드는 결을 풀어드려요.`} />
           </Section>
 
+          <TransitionLine text={`당신을 펼쳐봤어요. 이제 ${bName}님 ─ 그 사람을 살펴볼게요.`} />
+        </>
+      )}
+
+      {/* Page 2 — 그 사람은 (THEM) */}
+      {chapter === 2 && (
+        <>
           <Section title={`${bName}님의 사주 — "그 사람"`}>
             <SajuTable name={bName} birthLine={bBirth}
               hour={pB.hour} day={pB.day} month={pB.month} year={pB.year} />
@@ -1368,20 +1404,19 @@ function InyeonResultInner() {
               fallback={`${bName}님이 어떤 결의 사람에게 끌리는지 풀어드려요.`} />
           </Section>
 
+          <TransitionLine text="두 분의 결을 모두 펼쳤어요. 이제 두 분의 만남을 그려드릴게요." />
+        </>
+      )}
+
+      {/* Page 3 — 우리는 (US 시작 — 첫인상 + 인연궁합) */}
+      {chapter === 3 && (
+        <>
           <Section title="우리의 첫인상">
             <ChSub ch={1} title="그 사람이 나에게 받은 첫인상"
               fallback={`${bName}님이 ${aName}님을 처음 마주했을 때의 결을 풀어드려요.`} />
             <ChSub ch={1} title="내가 그 사람에게 받은 첫인상"
               fallback={`${aName}님이 ${bName}님을 처음 만났을 때 마음에 남은 결을 풀어드려요.`} />
           </Section>
-        </>
-      )}
-
-      {chapter === 2 && (
-        <>
-          <NoticeBubble>
-            두 분이 어떤 인연으로 만났는지, 무엇이 두 분을 끌어당겼는지 사주의 결로 풀어드려요.
-          </NoticeBubble>
 
           <Section title="인연 궁합 점수">
             <ScoreGauge score={data.scores.inyeon} label={data.scores.labels.inyeon} caption="In-yeon Score" />
@@ -1400,10 +1435,13 @@ function InyeonResultInner() {
             <ChSub ch={2} title="이 인연이 우리에게 주는 의미"
               fallback="이 인연이 두 분에게 어떤 결을 더해주는지 풀어드려요." />
           </Section>
+
+          <TransitionLine text="인연의 시작이 보이시나요? 함께 있을 때 두 분의 케미를 따라가봐요." />
         </>
       )}
 
-      {chapter === 3 && (
+      {/* Page 4 — 성격궁합 (LLM ch3) */}
+      {chapter === 4 && (
         <>
           <NoticeBubble>
             성격궁합은 두 분의 일간(日干)을 중심으로 봐요. 일간이 어떻게 만나는지가 일상의 결을 결정해요.
@@ -1440,10 +1478,13 @@ function InyeonResultInner() {
             <ChSub ch={3} title="우리가 함께할 때 가장 잘 맞는 활동"
               fallback="두 분의 결이 가장 잘 살아나는 활동을 풀어드려요." />
           </Section>
+
+          <TransitionLine text="성격은 봤어요. 두 분의 마음은 어떻게 닿을까요?" />
         </>
       )}
 
-      {chapter === 4 && (
+      {/* Page 5 — 감정궁합 (LLM ch4) */}
+      {chapter === 5 && (
         <>
           <NoticeBubble>
             감정궁합은 일간 기준 천간 3개와 일지 지장간을 봐요. 십성을 통해 두 분의 내면 심리·감정 결을 살펴봐요.
@@ -1490,10 +1531,13 @@ function InyeonResultInner() {
             <ChSub ch={4} title="권태기를 슬기롭게 넘기는 법"
               fallback="두 분만의 권태기 처방을 풀어드려요." />
           </Section>
+
+          <TransitionLine text="마음 깊이까지 들어왔어요. 이제 더 내밀한 결 — 체질·시기·본능을 펼쳐드릴게요." />
         </>
       )}
 
-      {chapter === 5 && (
+      {/* Page 6 — 깊은궁합 (LLM ch5) */}
+      {chapter === 6 && (
         <>
           <NoticeBubble>
             두 분의 깊은 결을 오행 체질·시기 흐름·본능으로 살펴드려요. 본능궁합은 {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
@@ -1579,10 +1623,13 @@ function InyeonResultInner() {
               </>
             )}
           </Section>
+
+          <TransitionLine text="그래서, 지금 두 분에게 필요한 건 뭘까요?" />
         </>
       )}
 
-      {chapter === 6 && (
+      {/* Page 7 — 관계조언 (LLM ch6) */}
+      {chapter === 7 && (
         <>
           <NoticeBubble>
             지금 두 분에게 가장 필요한 결을 풀어드려요. {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
@@ -1625,10 +1672,13 @@ function InyeonResultInner() {
               </Section>
             );
           })()}
+
+          <TransitionLine text="지금을 정리했어요. 이제 두 분의 미래를 봅시다." />
         </>
       )}
 
-      {chapter === 7 && (
+      {/* Page 8 — 미래궁합 (LLM ch7) */}
+      {chapter === 8 && (
         <>
           <NoticeBubble>
             결혼·미래의 결을 풀어드려요. {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
@@ -1687,10 +1737,13 @@ function InyeonResultInner() {
               </Section>
             );
           })()}
+
+          <TransitionLine text="두 분의 결을 모두 살펴봤어요. 마지막으로 한 마디 남겨드릴게요." />
         </>
       )}
 
-      {chapter === 8 && (
+      {/* Page 9 — 편지 (LLM ch8) */}
+      {chapter === 9 && (
         <>
           <NoticeBubble>
             홍도인이 두 분께 드리는 마지막 편지예요. {relLabel} 단계에 맞춰 톤을 조정했어요.
