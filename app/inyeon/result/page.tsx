@@ -1064,6 +1064,122 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
+// QuoteCard — 9장 마지막 캡처용 인용구 카드 (SNS 공유 친화)
+function QuoteCard({
+  aName, bName, aChar, bChar, aColor, bColor, pairLabel,
+}: {
+  aName: string;
+  bName: string;
+  aChar: string;
+  bChar: string;
+  aColor: string;
+  bColor: string;
+  pairLabel: string;
+}) {
+  return (
+    <div
+      className="my-6 rounded-md overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(ellipse at 30% 0%, rgba(255,225,234,0.95) 0%, transparent 60%),
+          radial-gradient(ellipse at 70% 100%, rgba(255,240,214,0.95) 0%, transparent 60%),
+          linear-gradient(180deg, #fff7f9 0%, #ffeef3 50%, #fce4d6 100%)
+        `,
+        border: "1px solid rgba(212,169,107,0.4)",
+        boxShadow: "0 16px 40px -16px rgba(178,40,71,0.18)",
+      }}
+    >
+      {/* 상단 라벨 */}
+      <div className="px-6 pt-7 text-center">
+        <div
+          className="text-[10px] tracking-[0.45em] mb-2"
+          style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+        >
+          紅 絲 · RED THREAD
+        </div>
+      </div>
+
+      {/* 짝꿍 라벨 — 큰 글씨 */}
+      <div className="px-6 py-3 text-center">
+        <div
+          className="text-[22px] font-bold leading-tight"
+          style={{
+            fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+            backgroundImage: "linear-gradient(180deg, #6b1e3a 0%, #c8203a 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
+        >
+          "{pairLabel}"
+        </div>
+      </div>
+
+      {/* 두 캐릭터 이름 */}
+      <div className="flex items-center justify-center gap-6 py-4">
+        <div className="text-center">
+          <div className="text-[10px]" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+            {aName}님
+          </div>
+          <div
+            className="text-[28px] font-black leading-none mt-1"
+            style={{ color: aColor, fontFamily: "'Nanum Myeongjo', serif" }}
+          >
+            {aChar}
+          </div>
+        </div>
+        <div
+          className="text-[18px]"
+          style={{ color: "#c8203a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.3em" }}
+        >
+          ✦
+        </div>
+        <div className="text-center">
+          <div className="text-[10px]" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+            {bName}님
+          </div>
+          <div
+            className="text-[28px] font-black leading-none mt-1"
+            style={{ color: bColor, fontFamily: "'Nanum Myeongjo', serif" }}
+          >
+            {bChar}
+          </div>
+        </div>
+      </div>
+
+      {/* 명언 한 줄 */}
+      <div className="px-6 py-4 text-center">
+        <div
+          className="text-[13px] italic leading-[1.85]"
+          style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+        >
+          *"운명의 두 사람은 보이지 않는 붉은 실로 묶여 있어요.<br />
+          시간이 흘러도, 거리가 멀어도, 그 매듭은 끊어지지 않아요."*
+        </div>
+      </div>
+
+      {/* 하단 워터마크 */}
+      <div
+        className="px-6 py-4 text-center"
+        style={{ borderTop: "1px solid rgba(212,169,107,0.3)" }}
+      >
+        <div
+          className="text-[12px] font-bold"
+          style={{ color: "#c8203a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.1em" }}
+        >
+          paljawon.com / love
+        </div>
+        <div
+          className="text-[9px] mt-1"
+          style={{ color: "#b88646", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}
+        >
+          사주가 읽어주는 인연
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 챕터 사이 안내자 transition — 홍도인 1인칭 한 줄
 function TransitionLine({ text }: { text: string }) {
   return (
@@ -1324,7 +1440,7 @@ function InyeonResultInner() {
     <ChapterShell
       chapterNo={chapter}
       chapterTitle={
-        chapter === 1 ? "당신은 — 사주가 펼치는 나의 결"
+        chapter === 1 ? "나는 — 사주가 펼치는 나의 결"
         : chapter === 2 ? "그 사람은 — 사주가 펼치는 그의 결"
         : chapter === 3 ? "우리는 — 인연의 시작과 결"
         : chapter === 4 ? "성격궁합 - 함께 있을 때 우리는"
@@ -1336,7 +1452,7 @@ function InyeonResultInner() {
       }
       totalChapters={TOTAL}
       chapters={[
-        { no: 1, label: "당신은" },
+        { no: 1, label: "나는" },
         { no: 2, label: "그 사람은" },
         { no: 3, label: "우리는 (인연)" },
         { no: 4, label: "성격궁합" },
@@ -1684,6 +1800,10 @@ function InyeonResultInner() {
             결혼·미래의 결을 풀어드려요. {relLabel} 단계에 맞춰 풀이의 결을 조정했어요.
           </NoticeBubble>
 
+          <Section title="결혼·미래 가능성">
+            <ScoreGauge score={data.scores.marriage} label={data.scores.labels.marriage} caption="Marriage Score" />
+          </Section>
+
           {(() => {
             const ch7Map: Record<RelationshipKind, { sectionTitle: string; subs: string[] }> = {
               crush: {
@@ -1770,8 +1890,21 @@ function InyeonResultInner() {
             );
           })()}
 
+          {/* QuoteCard — 캡처용 큰 인용구 (9:16 비율) */}
+          {data.character?.pair && (
+            <QuoteCard
+              aName={aName}
+              bName={bName}
+              aChar={data.character.a.name}
+              bChar={data.character.b.name}
+              aColor={data.character.a.color}
+              bColor={data.character.b.color}
+              pairLabel={data.character.pair.label}
+            />
+          )}
+
           <NoticeBubble>
-            <strong style={{ color: ACCENT }}>마지막까지 함께해 주세요</strong> 🙏<br />
+            <strong style={{ color: "#c8203a" }}>마지막까지 함께해 주세요</strong> 🙏<br />
             궁합은 단지 방향을 알려주는 나침반일 뿐이에요. 결국 인연은 두 분이 함께 만들어가는 거예요.
           </NoticeBubble>
         </>
