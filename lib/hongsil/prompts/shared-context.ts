@@ -1,43 +1,48 @@
-// 인연 전용 — 모달 선택값을 톤 가이드로 변환
-// 평생사주·엄마와아이 모듈에서 import 금지 (격리)
+// 나의 홍실 V3 — Q1·Q2·Q3 → 톤 가이드 변환
 import {
-  InyeonEntryChoice, RELATIONSHIP_LABEL, DURATION_LABEL,
+  HongsilEntryChoice,
+  SOLO_DURATION_LABEL,
+  LOVE_DESIRE_LABEL,
+  LOVE_STYLE_LABEL,
+  SoloDuration,
+  LoveDesire,
+  LoveStyle,
 } from "../types";
 
-export function buildChoiceContext(c: InyeonEntryChoice): string {
-  const tone = relationshipTone(c.relationship);
-  const stage = stageGuide(c);
-  return `[관계 유형] ${RELATIONSHIP_LABEL[c.relationship]}
-[만난 기간] ${DURATION_LABEL[c.duration]}
-[관계 톤 가이드] ${tone}
-[관계 단계 톤] ${stage}`;
+export function buildHongsilChoiceContext(c: HongsilEntryChoice): string {
+  return `[Q1 솔로 기간] ${SOLO_DURATION_LABEL[c.duration]}
+[Q2 원하는 사랑] ${LOVE_DESIRE_LABEL[c.desire]}
+[Q3 본인 사랑 스타일] ${LOVE_STYLE_LABEL[c.style]}
+[톤 가이드]
+- ${durationTone(c.duration)}
+- ${desireTone(c.desire)}
+- ${styleTone(c.style)}`;
 }
 
-function relationshipTone(r: InyeonEntryChoice["relationship"]): string {
-  switch (r) {
-    case "crush":
-      return "한쪽의 마음이 더 깊은 단계. '상대방이 어떤 사람인지', '내 마음이 닿을 가능성', '먼저 다가가는 것이 좋은지'에 초점. 결혼·동거 같은 장기 가정사 표현은 피하고 끌림과 첫 다가감의 결로.";
-    case "talking":
-      return "관계가 막 시작되는 탐색 단계. 첫인상·서로의 매력·고백 타이밍 중심. 단정적 미래 표현 자제, 가능성과 흐름의 결로.";
-    case "dating_short":
-      return "연애 초기. 끌림과 적응이 동시에 일어나는 시기. 갈등의 전조·서로 맞춰가는 법·이 시기를 잘 넘기는 조언 중심.";
-    case "dating_long":
-      return "안정기에 들어선 연인. 권태·미래 설계·서운함이 쌓이는 결을 풀이. 결혼 가능성도 자연스럽게 다룰 수 있음.";
-    case "married":
-      return "이미 부부. 자녀·재정·집안일·권태기 같은 현실 결혼생활의 결을 풀이. 끌림보다 관계 유지·회복의 결로.";
-    case "exboyfriend":
-      return "이미 한 번 어긋난 인연. 왜 어긋났는지·재회 가능성·다시 만났을 때의 흐름 중심. '재회가 무조건 좋다'는 단정 금지, 양쪽 가능성 모두 짚기.";
+function durationTone(d: SoloDuration): string {
+  switch (d) {
+    case "lt_6m":     return "이별 직후 회복기 — '곧 골든타임 다가옴' 톤. 위로+희망.";
+    case "6m_to_1y":  return "회복기 거침 — '다음 인연이 가까워지는 결' 톤.";
+    case "1y_to_3y":  return "안정 솔로 — '준비 끝, 다가올 인연 기다림' 톤.";
+    case "gt_3y":     return "긴 솔로 — '기다림 vs 행동 결정 시기' 깊은 자각 톤.";
+    case "never":     return "모태솔로 — '첫 인연을 향한 응원' 톤. 과거 패턴 풀이 X. 예방·기대 톤만.";
   }
 }
-
-function stageGuide(c: InyeonEntryChoice): string {
-  const short = c.duration === "lt_1m" || c.duration === "1to3m";
-  const long = c.duration === "1to3y" || c.duration === "gt_3y";
-  if (short) {
-    return "아직 짧은 시간이라 깊은 갈등은 드러나지 않은 단계. 표면적 끌림과 첫 결을 중심으로, 앞으로 드러날 결을 미리 짚어주는 톤.";
+function desireTone(d: LoveDesire): string {
+  switch (d) {
+    case "stable":    return "안정·깊이 갈망 — 정관·정재 본능 강조";
+    case "intense":   return "강렬·자극 갈망 — 편관·편재 본능 강조";
+    case "natural":   return "편안·흐름 갈망 — 식상·재성 본능 강조";
+    case "marriage":  return "약속·미래 갈망 — 정관·정재 + 안정형 결혼 톤";
   }
-  if (long) {
-    return "시간이 충분히 쌓여 두 사람의 결이 이미 드러난 단계. 누적된 갈등·서운함·익숙함을 구체적으로 풀어내는 톤.";
+}
+function styleTone(s: LoveStyle): string {
+  switch (s) {
+    case "direct":   return "본인 직진형 — 자가 인식과 사주 결과 갭 분석";
+    case "careful":  return "본인 신중형 — 자가 인식과 사주 결과 갭 분석";
+    case "miyldang": return "본인 밀당형 — 자가 인식과 사주 결과 갭 분석";
+    case "distant":  return "본인 거리 두는 편 — 다가가야 할지 검토";
+    case "passive":  return "본인 수동형 — 적극성 끌어내는 결 짚기";
+    case "balance":  return "본인 균형형 — 상황별 변화 강조";
   }
-  return "관계가 한창 깊어지는 중간 단계. 끌림과 갈등이 같이 보이는 결로 균형있게.";
 }
