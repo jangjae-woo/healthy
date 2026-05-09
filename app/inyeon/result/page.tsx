@@ -94,20 +94,23 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function SubSection({ title, body }: { title: string; body: string }) {
   return (
     <div
-      className="rounded-md p-5"
+      className="rounded-md p-6"
       style={{
         background: "linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.88) 100%)",
-        border: `1px solid rgba(212,169,107,0.3)`,
-        boxShadow: `0 8px 24px -12px rgba(178,40,71,0.12)`,
+        border: `1px solid rgba(212,169,107,0.35)`,
+        boxShadow: `0 8px 24px -12px rgba(178,40,71,0.14)`,
       }}
     >
       <div
-        className="text-sm font-bold mb-2"
-        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}
+        className="text-[16px] font-bold mb-3"
+        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "-0.01em" }}
       >
         {title}
       </div>
-      <div className="text-[13px] leading-7" style={{ color: "#2a1722", fontFamily: "'Gowun Batang', serif" }}>
+      <div
+        className="text-[14px] leading-[1.95]"
+        style={{ color: "#2a1722", fontFamily: "'Gowun Batang', serif" }}
+      >
         {body}
       </div>
     </div>
@@ -541,11 +544,11 @@ function CharacterIntroCard({
 function NoticeBubble({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="rounded-md px-5 py-3 text-[12px] leading-6 mb-4"
+      className="rounded-md px-5 py-4 text-[13px] leading-[1.85] mb-4"
       style={{
-        background: "rgba(255,235,240,0.55)",
-        border: `1px dashed rgba(200,32,58,0.4)`,
-        color: "#5a3c4a",
+        background: "rgba(255,235,240,0.7)",
+        border: `1px dashed rgba(200,32,58,0.45)`,
+        color: "#3a2530",
         fontFamily: "'Gowun Batang', serif",
       }}
     >
