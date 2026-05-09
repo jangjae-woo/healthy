@@ -1064,6 +1064,143 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
   );
 }
 
+// BiBar — 양방향 비교 막대 (좌우 채움)
+function BiBar({
+  leftLabel, rightLabel, leftValue, rightValue, leftColor = "#c8203a", rightColor = "#b88646", topLabel,
+}: {
+  leftLabel: string; rightLabel: string;
+  leftValue: number; rightValue: number;
+  leftColor?: string; rightColor?: string;
+  topLabel?: string;
+}) {
+  const total = leftValue + rightValue;
+  const leftPct = total > 0 ? (leftValue / total) * 100 : 50;
+  const rightPct = 100 - leftPct;
+  return (
+    <div className="my-4">
+      {topLabel && (
+        <div className="text-[12px] mb-2 text-center" style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}>
+          {topLabel}
+        </div>
+      )}
+      <div className="flex justify-between text-[12px] mb-1.5" style={{ fontFamily: "'Gowun Batang', serif" }}>
+        <span style={{ color: leftColor, fontWeight: 700 }}>{leftLabel}</span>
+        <span style={{ color: rightColor, fontWeight: 700 }}>{rightLabel}</span>
+      </div>
+      <div
+        className="h-3 rounded-full overflow-hidden flex"
+        style={{ background: "rgba(212,169,107,0.15)" }}
+      >
+        <div style={{ width: `${leftPct}%`, background: leftColor, transition: "width 0.6s ease" }} />
+        <div style={{ width: `${rightPct}%`, background: rightColor, transition: "width 0.6s ease" }} />
+      </div>
+      <div className="flex justify-between text-[10px] mt-1" style={{ color: "#8a6b4d", fontFamily: "'Cormorant Garamond', serif" }}>
+        <span>{Math.round(leftPct)}%</span>
+        <span>{Math.round(rightPct)}%</span>
+      </div>
+    </div>
+  );
+}
+
+// ActionCard — 관계조언 7장 행동 카드
+function ActionCard({
+  num, title, color = "#c8203a",
+}: {
+  num: string; title: string; color?: string;
+}) {
+  return (
+    <div
+      className="rounded-md p-4 flex items-start gap-3"
+      style={{
+        background: "linear-gradient(135deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        border: `1px solid ${color}55`,
+        boxShadow: `0 4px 12px -4px ${color}22`,
+      }}
+    >
+      <div
+        className="text-[24px] font-black leading-none flex-shrink-0"
+        style={{ color, fontFamily: "'Italiana', 'Nanum Myeongjo', serif" }}
+      >
+        {num}
+      </div>
+      <div className="flex-1">
+        <div
+          className="text-[14px] font-bold leading-snug"
+          style={{ color: "#2a1722", fontFamily: "'Nanum Myeongjo', serif" }}
+        >
+          {title}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// MilestoneCard — 8장 미래궁합 마일스톤 카드 (결혼·자녀·신혼·노년)
+function MilestoneCard({
+  icon, label, color = "#c8203a",
+}: {
+  icon: string; label: string; color?: string;
+}) {
+  return (
+    <div
+      className="rounded-md p-4 text-center flex flex-col items-center gap-2"
+      style={{
+        background: `linear-gradient(135deg, ${color}10, ${color}03)`,
+        border: `1px solid ${color}55`,
+      }}
+    >
+      <div
+        className="text-[28px] leading-none"
+        style={{ color, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 800 }}
+      >
+        {icon}
+      </div>
+      <div
+        className="text-[12px] leading-snug"
+        style={{ color: "#5a3c4a", fontFamily: "'Gowun Batang', serif" }}
+      >
+        {label}
+      </div>
+    </div>
+  );
+}
+
+// ConflictTagsCard — 5장 갈등 패턴 chip 카드
+function ConflictTagsCard({ tags }: { tags: string[] }) {
+  return (
+    <div
+      className="rounded-md p-4"
+      style={{
+        background: "rgba(255,235,240,0.6)",
+        border: "1px dashed rgba(200,32,58,0.4)",
+      }}
+    >
+      <div
+        className="text-[11px] mb-3 text-center"
+        style={{ color: "#c8203a", fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.25em" }}
+      >
+        CONFLICT PATTERNS · 갈등 결
+      </div>
+      <div className="flex flex-wrap justify-center gap-2">
+        {tags.map((t) => (
+          <span
+            key={t}
+            className="text-[12px] px-3 py-1.5 rounded-full"
+            style={{
+              background: "rgba(200,32,58,0.12)",
+              border: "1px solid rgba(200,32,58,0.4)",
+              color: "#6b1e3a",
+              fontFamily: "'Gowun Batang', serif",
+            }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // QuoteCard — 9장 마지막 캡처용 인용구 카드 (SNS 공유 친화)
 function QuoteCard({
   aName, bName, aChar, bChar, aColor, bColor, pairLabel,
@@ -1584,6 +1721,22 @@ function InyeonResultInner() {
           <Section title="함께 오래갈 수 있을까">
             <ChSub ch={3} title="시간이 지나도 단단할 수 있을까"
               fallback="합과 충, 원진과 해의 흔적을 종합해 풀어드려요." />
+            {(() => {
+              const STAGE_LEVEL: Record<string, number> = { 극약: 1, 태약: 2, 신약: 3, 중화: 4, 신강: 5, 태강: 6, 극왕: 7 };
+              const aLv = STAGE_LEVEL[data.a.shinkang] ?? 4;
+              const bLv = STAGE_LEVEL[data.b.shinkang] ?? 4;
+              return (
+                <BiBar
+                  topLabel="신강·신약으로 본 두 분의 결"
+                  leftLabel={`${aName}님 (${data.a.shinkang})`}
+                  rightLabel={`${bName}님 (${data.b.shinkang})`}
+                  leftValue={aLv}
+                  rightValue={bLv}
+                  leftColor={data.character?.a.color ?? "#c8203a"}
+                  rightColor={data.character?.b.color ?? "#b88646"}
+                />
+              );
+            })()}
             <ChSub ch={3} title="누가 주도하고 누가 양보하는가"
               fallback="신강신약과 일간 강약을 토대로 풀어드려요." />
           </Section>
@@ -1640,6 +1793,28 @@ function InyeonResultInner() {
           </Section>
 
           <Section title="갈등과 화해의 결">
+            {(() => {
+              // 갈등 패턴 chip — 사주 기반 결정론
+              const tags: string[] = [];
+              const aSip = (data.a.sipseong as Record<string, { stem: string; branch: string } | null>);
+              const bSip = (data.b.sipseong as Record<string, { stem: string; branch: string } | null>);
+              const allA = [aSip.year?.stem, aSip.year?.branch, aSip.month?.stem, aSip.month?.branch, aSip.day?.branch, aSip.hour?.stem, aSip.hour?.branch].filter(Boolean) as string[];
+              const allB = [bSip.year?.stem, bSip.year?.branch, bSip.month?.stem, bSip.month?.branch, bSip.day?.branch, bSip.hour?.stem, bSip.hour?.branch].filter(Boolean) as string[];
+              const sikA = allA.filter(s => s.includes("식신") || s.includes("상관")).length;
+              const sikB = allB.filter(s => s.includes("식신") || s.includes("상관")).length;
+              const inA = allA.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length;
+              const inB = allB.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length;
+              const gwanA = allA.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length;
+              const gwanB = allB.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length;
+              if (sikA >= 3 || sikB >= 3) tags.push("#잔소리");
+              if (sikA <= 1 && sikB <= 1) tags.push("#침묵");
+              if (inA >= 3 || inB >= 3) tags.push("#회피");
+              if (gwanA >= 2 || gwanB >= 2) tags.push("#통제");
+              if (sikA >= 2 && inB >= 2) tags.push("#엇갈림");
+              if (data.a.ohaengTop === data.b.ohaengWeak || data.b.ohaengTop === data.a.ohaengWeak) tags.push("#오해");
+              if (tags.length === 0) tags.push("#일상의 결");
+              return <ConflictTagsCard tags={tags} />;
+            })()}
             <ChSub ch={4} title="우리가 자주 부딪히는 갈등 패턴"
               fallback={`${aName}님과 ${bName}님 사이에 반복될 결의 갈등을 풀어드려요.`} />
             <ChSub ch={4} title="화해의 길을 여는 한 마디"
@@ -1780,12 +1955,27 @@ function InyeonResultInner() {
             };
             const plan = ch6Map[rel];
             return (
-              <Section title={plan.sectionTitle}>
-                {plan.subs.map(title => (
-                  <ChSub key={title} ch={6} title={title}
-                    fallback={`${relLabel} 단계에 맞춰 두 분에게 지금 필요한 결을 풀어드리고 있어요.`} />
-                ))}
-              </Section>
+              <>
+                {/* 행동 지도 카드 미리 보기 */}
+                <Section title="행동 지도 — 한눈에 보기">
+                  <div className="grid grid-cols-2 gap-2">
+                    {plan.subs.map((title, i) => (
+                      <ActionCard
+                        key={title}
+                        num={String(i + 1).padStart(2, "0")}
+                        title={title}
+                        color={data.character?.a.color ?? "#c8203a"}
+                      />
+                    ))}
+                  </div>
+                </Section>
+                <Section title={plan.sectionTitle}>
+                  {plan.subs.map(title => (
+                    <ChSub key={title} ch={6} title={title}
+                      fallback={`${relLabel} 단계에 맞춰 두 분에게 지금 필요한 결을 풀어드리고 있어요.`} />
+                  ))}
+                </Section>
+              </>
             );
           })()}
 
@@ -1848,13 +2038,44 @@ function InyeonResultInner() {
               },
             };
             const plan = ch7Map[rel];
+            // MilestoneCard 아이콘 매핑
+            const ICON: Record<string, string> = {
+              "결혼까지": "婚", "결혼의 장애물": "難", "좋은 결혼 시기": "時", "신혼생활": "新",
+              "자녀운": "子", "자녀 인연": "子", "보완하는 길": "養",
+              "노년기": "老", "60대 이후": "老", "평생": "永", "흔들리지 않는": "永",
+              "재물": "財", "생활": "財",
+              "결혼까지 갈 가능성": "婚", "함께한다면": "夢", "미래의 모습": "夢",
+              "닿을 수 있는 곳": "境", "지금 챙겨야": "備",
+              "다시 만나서": "再", "재회": "再", "함께 가기": "永",
+            };
+            const iconFor = (title: string) => {
+              for (const [k, v] of Object.entries(ICON)) if (title.includes(k)) return v;
+              return "緣";
+            };
+            const aColor = data.character?.a.color ?? "#c8203a";
+            const bColor = data.character?.b.color ?? "#b88646";
             return (
-              <Section title={plan.sectionTitle}>
-                {plan.subs.map(title => (
-                  <ChSub key={title} ch={7} title={title}
-                    fallback={`${relLabel} 단계에 맞춰 결혼·미래의 결을 풀어드리고 있어요.`} />
-                ))}
-              </Section>
+              <>
+                {/* MilestoneCard 미리 보기 */}
+                <Section title="미래의 결 — 한눈에 보기">
+                  <div className="grid grid-cols-3 gap-2">
+                    {plan.subs.map((title, i) => (
+                      <MilestoneCard
+                        key={title}
+                        icon={iconFor(title)}
+                        label={title.length > 14 ? title.slice(0, 13) + "…" : title}
+                        color={i % 2 === 0 ? aColor : bColor}
+                      />
+                    ))}
+                  </div>
+                </Section>
+                <Section title={plan.sectionTitle}>
+                  {plan.subs.map(title => (
+                    <ChSub key={title} ch={7} title={title}
+                      fallback={`${relLabel} 단계에 맞춰 결혼·미래의 결을 풀어드리고 있어요.`} />
+                  ))}
+                </Section>
+              </>
             );
           })()}
 
