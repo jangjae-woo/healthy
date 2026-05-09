@@ -16,7 +16,7 @@ interface SeongCtx {
   bOhaengWeak: string;
   seonggyeokScore: number;
   scoreLabel: string;
-  // ─── "나는 솔로" 캐릭터 결합 (V2) ───
+  // ─── 홍실 캐릭터 결합 (V2) ───
   aCharacter?: string;          // "옥순" 등
   bCharacter?: string;          // "영철" 등
   pairLabel?: string;           // "빠르게 뜨거워지는 결" 등
@@ -41,7 +41,7 @@ ${c.bName}님 일간: ${c.bIlgan}
 ${c.aName}님 강한 오행: ${c.aOhaengTop} / 약한 오행: ${c.aOhaengWeak}
 ${c.bName}님 강한 오행: ${c.bOhaengTop} / 약한 오행: ${c.bOhaengWeak}
 성격 궁합 점수: ${c.seonggyeokScore}점 — ${c.scoreLabel}
-${c.aCharacter && c.bCharacter ? `\n━━━ "나는 솔로" 결정론 캐릭터 결합 (필수 인용) ━━━
+${c.aCharacter && c.bCharacter ? `\n━━━ 홍실 결정론 캐릭터 결합 (필수 인용) ━━━
 ${c.aName}님 캐릭터: ${c.aCharacter}
 ${c.bName}님 캐릭터: ${c.bCharacter}
 짝꿍 라벨: ${c.pairLabel ?? "—"}

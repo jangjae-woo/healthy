@@ -226,7 +226,7 @@ export function buildAllInyeonPrompts(
   const aNature = ILGAN_NATURE[a.ilgan] ?? "고유한 결의 사람";
   const bNature = ILGAN_NATURE[b.ilgan] ?? "고유한 결의 사람";
 
-  // ─── "나는 솔로" 캐릭터 결정론 분류 ───
+  // ─── 홍실 캐릭터 결정론 분류 ───
   const aMatch = matchCharacter(a, req.a.gender);
   const bMatch = matchCharacter(b, req.b.gender);
   const aIdeal = deriveIdealType(a, req.a.gender);
@@ -433,9 +433,9 @@ export function buildAllInyeonPrompts(
   const _block = (scope: "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "ch8"): string =>
     _inyeonTraits ? inyeonTraitsToPromptBlock(_inyeonTraits, aName, bName, scope) : "";
 
-  // ─── "나는 솔로" 캐릭터 톤 가이드 — 모든 챕터 공통 prepend (톤 일관성) ───
+  // ─── 홍실 캐릭터 톤 가이드 — 모든 챕터 공통 prepend (톤 일관성) ───
   const _characterBlock = `
-【"나는 솔로" 결정론 캐릭터 톤 가이드 — 풀이 본문 전체에 톤 일관 유지】
+【홍실 결정론 캐릭터 톤 가이드 — 풀이 본문 전체에 톤 일관 유지】
 ▸ ${aName}님: ${aMatch.name} (${aMatch.innerImage})
 ▸ ${bName}님: ${bMatch.name} (${bMatch.innerImage})
 ${pairLabelObj ? `▸ 짝꿍 라벨: "${pairLabel}" — ${pairTone}` : ""}

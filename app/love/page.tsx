@@ -58,7 +58,7 @@ const CSS = `
 .hero-deco-tag::after{right:0}
 .hero-pre{font-family:"Gowun Batang",serif;font-size:14px;color:var(--ink-soft);margin-bottom:20px;letter-spacing:0.02em;line-height:1.9}
 .hero-pre em{font-style:normal;color:var(--thread);font-weight:700}
-.hero-title{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:24vw;line-height:1.0;letter-spacing:-0.02em;color:var(--ink);margin-bottom:6px;position:relative}
+.hero-title{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:64px;line-height:1.0;letter-spacing:-0.02em;color:var(--ink);margin-bottom:6px;position:relative}
 .hero-title .ko{display:inline-block;background:linear-gradient(180deg,var(--plum-deep) 0%,var(--crimson) 50%,var(--thread) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 6px}
 .hero-title-en{font-family:"Italiana",serif;font-size:11px;letter-spacing:0.45em;color:var(--gold);margin-top:10px;margin-bottom:4px}
 .hero-hanja{font-family:"Nanum Myeongjo",serif;font-size:16px;color:var(--thread);letter-spacing:0.35em;margin-bottom:6px;font-weight:400}
@@ -233,7 +233,7 @@ export default function LoveLandingPage() {
           </svg>
 
           <div>
-            <div className="hero-deco-tag reveal">SEASON · 春</div>
+            <div className="hero-deco-tag reveal">千年의 인연</div>
             <p className="hero-pre reveal d1">
               운명의 두 사람을 잇는<br />
               보이지 않는 <em>붉은 실</em>

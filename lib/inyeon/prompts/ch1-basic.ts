@@ -17,7 +17,7 @@ interface PersonCtx {
   gisin: string;
   shinkang: string;       // "태약" / "중화" 등
   sinsalLine: string;     // 신살 모음
-  // ─── "나는 솔로" 캐릭터 (V2) — 결정론 분류 ───
+  // ─── 홍실 캐릭터 (V2) — 결정론 분류 ───
   character?: string;          // "옥순" 등 — 본인 캐릭터
   characterImage?: string;     // 내적 이미지 ("자유분방·솔직 직진녀")
   characterColor?: string;     // UI 색깔 hex
@@ -48,7 +48,7 @@ ${choiceCtx}
 용신/희신/기신: ${a.yongsin} / ${a.huisin} / ${a.gisin}
 신강신약: ${a.shinkang}
 신살: ${a.sinsalLine}
-${a.character ? `"나는 솔로" 캐릭터: ${a.character} (${a.characterImage ?? ""})
+${a.character ? `홍실 캐릭터: ${a.character} (${a.characterImage ?? ""})
 끌리는 이상형 캐릭터: ${a.idealType ?? "—"} (${a.idealTypeImage ?? ""}) — ${a.idealTypeSignal ?? ""}` : ""}
 
 ━━━ ${b.name}님 사주 (이번 풀이의 "그 사람") ━━━
@@ -60,7 +60,7 @@ ${a.character ? `"나는 솔로" 캐릭터: ${a.character} (${a.characterImage ?
 용신/희신/기신: ${b.yongsin} / ${b.huisin} / ${b.gisin}
 신강신약: ${b.shinkang}
 신살: ${b.sinsalLine}
-${b.character ? `"나는 솔로" 캐릭터: ${b.character} (${b.characterImage ?? ""})
+${b.character ? `홍실 캐릭터: ${b.character} (${b.characterImage ?? ""})
 끌리는 이상형 캐릭터: ${b.idealType ?? "—"} (${b.idealTypeImage ?? ""}) — ${b.idealTypeSignal ?? ""}` : ""}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -84,7 +84,7 @@ ${b.character ? `"나는 솔로" 캐릭터: ${b.character} (${b.characterImage ?
 ## ${a.name}님의 사주 — 이번 풀이의 "나"
 
 ### 나의 타고난 성격
-${a.name}님이 어떤 결을 타고났는지. 일간 ${a.ilgan}(${a.ilganNature}) 자연 비유로 시작 + 일지에 깔린 기운 + 신살 1~2개 결합. 겉으로 비치는 모습과 속의 결이 어떻게 다른지 한 단락 포함. ${a.shinkang}이라는 신강신약의 결도 자연스럽게 녹임.${a.character ? ` **"나는 솔로" 캐릭터로 풀어보면 ${a.character}(${a.characterImage}) 결**임을 본문 첫 단락 또는 마무리에 자연스럽게 한 번 명시 (괄호·박스 X — "${a.character} 같은 결의 사람이에요" 톤). 시스템이 분류한 결정론 결과니 임의 변경 X.` : ""}
+${a.name}님이 어떤 결을 타고났는지. 일간 ${a.ilgan}(${a.ilganNature}) 자연 비유로 시작 + 일지에 깔린 기운 + 신살 1~2개 결합. 겉으로 비치는 모습과 속의 결이 어떻게 다른지 한 단락 포함. ${a.shinkang}이라는 신강신약의 결도 자연스럽게 녹임.${a.character ? ` **홍실 캐릭터로 풀어보면 ${a.character}(${a.characterImage}) 결**임을 본문 첫 단락 또는 마무리에 자연스럽게 한 번 명시 (괄호·박스 X — "${a.character} 같은 결의 사람이에요" 톤). 시스템이 분류한 결정론 결과니 임의 변경 X.` : ""}
 
 ### 연애할 때 드러나는 나의 매력
 ${a.name}님이 연애 자리에 들어갔을 때 자연스럽게 드러나는 매력. 식상·재성 분포 + 도화살·홍염살·천을귀인 등 매력 신살 보유 시 그것을 매력 결로 연결. ${a.character ? `${a.character}(${a.characterImage}) 캐릭터의 색깔을 본문에 자연 결합 — 캐릭터 이름 직접 명시는 선택. 매력 결을 ${a.character} 톤으로 풀이 (예: ${a.character}가 "옥순"이면 솔직 직진의 매력, "현숙"이면 시크 차도녀의 매력 등). ` : ""}그 사람이 ${a.name}님에게 끌리는 구체 매력 포인트 한두 가지를 일상 장면으로 (예: 카페에서 마주 앉았을 때, 함께 걷는 길에서, 메시지의 결).
@@ -95,7 +95,7 @@ ${a.name}님이 어떤 사람에게 깊이 끌리는지. 부족한 오행 + 정�
 ## ${b.name}님의 사주 — 이번 풀이의 "그 사람"
 
 ### 그 사람의 타고난 성격
-${b.name}님 일간 ${b.ilgan}(${b.ilganNature}) 자연 비유 + 일지·신살 결합. ${b.shinkang}의 결을 풀이. ${a.name}님과 어떻게 다른 결인지 자연스럽게 드러나도록 (대비). 겉과 속의 차이 한 줄 포함.${b.character ? ` **"나는 솔로" 캐릭터로 풀어보면 ${b.character}(${b.characterImage}) 결**임을 본문에 자연스럽게 한 번 명시 ("${b.character} 같은 결의 사람이에요" 톤). 결정론 분류 — 변경 X.` : ""}
+${b.name}님 일간 ${b.ilgan}(${b.ilganNature}) 자연 비유 + 일지·신살 결합. ${b.shinkang}의 결을 풀이. ${a.name}님과 어떻게 다른 결인지 자연스럽게 드러나도록 (대비). 겉과 속의 차이 한 줄 포함.${b.character ? ` **홍실 캐릭터로 풀어보면 ${b.character}(${b.characterImage}) 결**임을 본문에 자연스럽게 한 번 명시 ("${b.character} 같은 결의 사람이에요" 톤). 결정론 분류 — 변경 X.` : ""}
 
 ### 그 사람이 연애할 때 보이는 모습
 ${b.name}님이 연애에 들어갔을 때 어떤 결로 다가가는지. 식상·재성·관성 결합 + 표현 방식·다가가는 거리·마음 표현 속도. ${b.character ? `${b.character}(${b.characterImage}) 캐릭터 색깔을 본문에 자연 결합 — 다가가는 결을 ${b.character} 톤으로 풀이. ` : ""}${a.name}님 입장에서 "그 사람의 이런 모습이 보일 거예요" 톤. 신살 매력 인자(있는 경우) 자연 결합.

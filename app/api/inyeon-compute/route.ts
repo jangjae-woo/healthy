@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
     const bCurve = estimateAssetCurve(b);
     const togetherCurve = estimateTogetherCurve(aCurve, bCurve, scores.finance);
 
-    // ─── 결정론 캐릭터 매칭 — "나는 솔로" 컨셉 ───
+    // ─── 결정론 캐릭터 매칭 — 홍실 컨셉 ───
     const aGender: "남" | "여" = body.a.gender === "여" ? "여" : "남";
     const bGender: "남" | "여" = body.b.gender === "여" ? "여" : "남";
     const aMatch = matchCharacter(a, aGender);

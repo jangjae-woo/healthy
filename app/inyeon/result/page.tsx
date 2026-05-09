@@ -137,39 +137,129 @@ function CharacterIntroCard({
   const { a, b, pair } = character;
   const aDetail = CHARACTER_DETAIL[a.name] ?? a.innerImage;
   const bDetail = CHARACTER_DETAIL[b.name] ?? b.innerImage;
+  // 홍실 팔레트
+  const cream = "#fbf3e8";
+  const thread = "#c8203a";
+  const gold = "#b88646";
+  const plumDeep = "#6b1e3a";
+  const inkSoft = "#5a3c4a";
   return (
-    <div className="mb-8 rounded-2xl overflow-hidden" style={{ border: `1px solid ${ACCENT}33` }}>
-      {/* 짝꿍 라벨 헤드 */}
+    <div
+      className="mb-8 rounded-lg overflow-hidden"
+      style={{
+        background: `linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.92) 100%)`,
+        border: `1px solid rgba(212,169,107,0.35)`,
+        boxShadow: `0 16px 40px -16px rgba(178,40,71,0.18), 0 0 0 1px rgba(255,255,255,0.5) inset`,
+      }}
+    >
+      {/* 홍실 헤드 — 짝꿍 라벨 */}
       {pair && (
-        <div className="px-5 py-5 text-center" style={{ background: `linear-gradient(135deg, ${ACCENT}1a, ${ACCENT}05)`, borderBottom: `1px solid ${ACCENT}22` }}>
-          <div className="text-[10px] tracking-[0.3em] mb-2" style={{ color: ACCENT }}>두 분의 인연</div>
-          <h3 className="text-lg font-bold leading-tight" style={{ color: "#fef3c7", fontFamily: "'Noto Serif KR', serif" }}>
+        <div className="px-5 py-6 text-center" style={{ borderBottom: `1px solid rgba(212,169,107,0.25)` }}>
+          <div
+            className="text-[10px] tracking-[0.4em] mb-3"
+            style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic" }}
+          >
+            紅 絲 · RED THREAD
+          </div>
+          <h3
+            className="text-[20px] font-bold leading-snug px-2"
+            style={{
+              fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+              backgroundImage: `linear-gradient(180deg, ${plumDeep} 0%, ${thread} 100%)`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             "{pair.label}"
           </h3>
           {pair.tone && (
-            <div className="text-[11px] mt-2 leading-relaxed" style={{ color: "#d6cdb8" }}>{pair.tone}</div>
+            <div
+              className="text-[12px] mt-3 leading-relaxed px-2"
+              style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}
+            >
+              {pair.tone}
+            </div>
           )}
         </div>
       )}
-      {/* 캐릭터 카드 — 세로 스택 (모바일 가독성) */}
+
+      {/* 캐릭터 카드 — 세로 스택 + 큰 캐릭터 이름 (공유 친화) */}
       <div className="p-4 space-y-3">
         {/* A 카드 */}
-        <div className="rounded-xl p-4" style={{ background: `${a.color}0d`, border: `1px solid ${a.color}44` }}>
-          <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-base font-bold" style={{ color: "#fef3c7" }}>{aName}님은</span>
-            <span className="text-xl font-black" style={{ color: a.color }}>{a.name}</span>
-            <span className="text-[12px]" style={{ color: "#d6cdb8" }}>스타일</span>
+        <div
+          className="rounded-md p-5"
+          style={{
+            background: `linear-gradient(135deg, ${a.color}14, ${a.color}03)`,
+            border: `1px solid ${a.color}55`,
+          }}
+        >
+          <div className="text-center">
+            <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
+              {aName}님은
+            </div>
+            <div
+              className="text-[34px] font-black leading-none mb-1"
+              style={{ color: a.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
+            >
+              {a.name}
+            </div>
+            <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
+              스타일
+            </div>
           </div>
-          <div className="text-[12px] leading-6" style={{ color: "#d6cdb8" }}>{aDetail}</div>
+          <div
+            className="text-[12px] leading-[1.95] mt-4 pt-3"
+            style={{
+              color: inkSoft,
+              fontFamily: "'Gowun Batang', serif",
+              borderTop: `1px solid ${a.color}33`,
+            }}
+          >
+            {aDetail}
+          </div>
         </div>
+
         {/* B 카드 */}
-        <div className="rounded-xl p-4" style={{ background: `${b.color}0d`, border: `1px solid ${b.color}44` }}>
-          <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-base font-bold" style={{ color: "#fef3c7" }}>{bName}님은</span>
-            <span className="text-xl font-black" style={{ color: b.color }}>{b.name}</span>
-            <span className="text-[12px]" style={{ color: "#d6cdb8" }}>스타일</span>
+        <div
+          className="rounded-md p-5"
+          style={{
+            background: `linear-gradient(135deg, ${b.color}14, ${b.color}03)`,
+            border: `1px solid ${b.color}55`,
+          }}
+        >
+          <div className="text-center">
+            <div className="text-[11px] mb-1" style={{ color: inkSoft, fontFamily: "'Gowun Batang', serif" }}>
+              {bName}님은
+            </div>
+            <div
+              className="text-[34px] font-black leading-none mb-1"
+              style={{ color: b.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}
+            >
+              {b.name}
+            </div>
+            <div className="text-[11px]" style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.2em" }}>
+              스타일
+            </div>
           </div>
-          <div className="text-[12px] leading-6" style={{ color: "#d6cdb8" }}>{bDetail}</div>
+          <div
+            className="text-[12px] leading-[1.95] mt-4 pt-3"
+            style={{
+              color: inkSoft,
+              fontFamily: "'Gowun Batang', serif",
+              borderTop: `1px solid ${b.color}33`,
+            }}
+          >
+            {bDetail}
+          </div>
+        </div>
+
+        {/* 공유 안내 (작은 캡션) */}
+        <div
+          className="text-center text-[10px] pt-2"
+          style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", letterSpacing: "0.15em" }}
+        >
+          ─ paljawon.com / love ─
         </div>
       </div>
     </div>
