@@ -1,23 +1,23 @@
 import ServiceLanding from "@/components/ServiceLanding";
 
-export default function InyeonPage() {
+export default function HongsilPage() {
   return (
     <ServiceLanding
-      character="홍연"
-      title="인연궁합 — 紅蓮의 풀이"
-      tagline="청월당 인연지기 홍연이 두 분의 사주를 펼쳐 인연의 결을 풀어드려요"
-      emoji="🌺"
-      bg="#2a1a1d"
-      bgEnd="#1a0d10"
-      accent="#f0a8b8"
+      character="홍도인"
+      title="나의 홍실 — 紅絲의 풀이"
+      tagline="홍도인이 당신의 사주를 펼쳐 매력·인연 시기·짝꿍을 풀어드려요"
+      emoji="🌹"
+      bg="#fff7f9"
+      bgEnd="#fce4d6"
+      accent="#c8203a"
       formHref="/hongsil/form"
       features={[
-        "두 분 각자의 본질·매력·이상형 (제1장)",
-        "인연의 붉은 실 — 전생부터 이번 생까지 (제2장)",
-        "성격궁합 — 함께 있을 때의 결 (제3장)",
-        "관계 유형·만난 기간에 따라 풀이가 달라져요",
-        "사주 8글자 표·오행 분포·용신 카드 시각 자료",
-        "계절별 데이트 · 화해법 · 장기 조언",
+        "내 매력과 연애 스타일 (1장 4풀이)",
+        "사랑이 오는 타이밍 — 솔로 탈출은 언제? (2장)",
+        "내 짝꿍 미리 보기 — 12 캐릭터 중 운명 (3장)",
+        "반복되는 흑역사 패턴 진단·해방 (4장)",
+        "솔직한 19금 사주 — 본능과 욕구 (5장)",
+        "홍도인의 마지막 편지 (6장)",
       ]}
     />
   );
