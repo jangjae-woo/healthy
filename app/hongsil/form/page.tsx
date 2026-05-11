@@ -47,7 +47,7 @@ export default function HongsilFormPage() {
       desire: choice.desire,
       style: choice.style,
     });
-    router.push(`/hongsil/result?${params.toString()}`);
+    router.push(`/hongsil/result-v3?${params.toString()}`);
   };
 
   const setField = (k: keyof PersonForm, v: string) => setMe((p) => ({ ...p, [k]: v as PersonForm[keyof PersonForm] }));
