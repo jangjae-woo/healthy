@@ -90,6 +90,50 @@ export function personalTraitsToPromptBlock(
   if (t.combinationKeywords && t.combinationKeywords.length > 0) {
     lines.push(`▸ 결합 매핑 (${t.combinationKey}): ${t.combinationKeywords.join(" / ")}`);
   }
+  // ─── V2.5 정밀화 결합 (5가지 진짜 명리 결합) ─────
+  const wsc = t.weightedSipCounts;
+  lines.push(`▸ 가중 십성 카운트 (위치·충합·합화 반영): 비겁 ${wsc.비겁?.toFixed(1) ?? "0"} / 식상 ${wsc.식상?.toFixed(1) ?? "0"} / 재성 ${wsc.재성?.toFixed(1) ?? "0"} / 관성 ${wsc.관성?.toFixed(1) ?? "0"} / 인성 ${wsc.인성?.toFixed(1) ?? "0"} — 단순 카운트보다 이 수치 기반 풀이`);
+  if (t.combinedTransformations.length > 0) {
+    lines.push(`▸ 천간 합화: ${t.combinedTransformations.map(c => `${c.pair}→${c.element}(${c.sipName})`).join(" / ")}`);
+  }
+  if (t.sipShinkangCombos.length > 0) {
+    lines.push(`▸ 십성×신강 결합 (카운트만으로 단정 X):`);
+    for (const c of t.sipShinkangCombos) {
+      lines.push(`  · ${c.sip}(${c.level}) + ${c.shinkangBucket}: ${c.keywords.join("·")}`);
+    }
+  }
+  if (t.jaeBigCombo) {
+    lines.push(`▸ 재성×비겁: 재성 ${t.jaeBigCombo.jaeLevel} × 비겁 ${t.jaeBigCombo.bigLevel} — ${t.jaeBigCombo.keywords.join("·")}`);
+  }
+  if (t.gwanInCombo) {
+    lines.push(`▸ 관성×인성: 관성 ${t.gwanInCombo.gwanLevel} × 인성 ${t.gwanInCombo.inLevel} — ${t.gwanInCombo.keywords.join("·")}`);
+  }
+  if (t.sikJaeCombo) {
+    lines.push(`▸ 식상→재성: 식상 ${t.sikJaeCombo.sikLevel} × 재성 ${t.sikJaeCombo.jaeLevel} — ${t.sikJaeCombo.keywords.join("·")}`);
+  }
+  // ─── V2.6 자평진전 격국·공망 ─────
+  lines.push(`▸ 격국(格局) — ${t.gyeokGuk.label} (${t.gyeokGuk.type}) · ${t.gyeokGuk.meaning}`);
+  lines.push(`  · 활약 무대: ${t.gyeokGuk.stage}`);
+  if (t.gyeokGuk.keywords.length > 0) lines.push(`  · 키워드: ${t.gyeokGuk.keywords.join("·")}`);
+  lines.push(`  · 판별: ${t.gyeokGuk.detail}`);
+  if (t.gongmang.hasGongmang) {
+    lines.push(`▸ 공망(空亡) — ${t.gongmang.detail}`);
+    for (const p of t.gongmang.positions) lines.push(`  · ${p.effect}`);
+  }
+  // V2.6 십이운성·신살×십성
+  lines.push(`▸ 십이운성: 年 ${t.sibiUnseong.year.unseong}(${t.sibiUnseong.year.strength}) / 月 ${t.sibiUnseong.month.unseong}(${t.sibiUnseong.month.strength}) / 日 ${t.sibiUnseong.day.unseong}(${t.sibiUnseong.day.strength}) ${t.sibiUnseong.hour ? `/ 時 ${t.sibiUnseong.hour.unseong}(${t.sibiUnseong.hour.strength})` : ""}`);
+  if (t.sinsalSipCombos.length > 0) {
+    lines.push(`▸ 신살×십성 결합:`);
+    for (const c of t.sinsalSipCombos) lines.push(`  · ${c.combo}: ${c.keywords.join("·")}`);
+  }
+  // V2.7 자평진전 후반
+  lines.push(`▸ 격국 변화·진가: ${t.gyeokChange.changeType} — ${t.gyeokChange.detail}`);
+  lines.push(`▸ 통근(通根): ${t.tonggeun.level} (총점 ${t.tonggeun.totalScore}) — ${t.tonggeun.recommendation}`);
+  if (t.hapResults.length > 0) {
+    lines.push(`▸ 지지 합국:`);
+    for (const h of t.hapResults) lines.push(`  · ${h.type} ${h.name} (${h.element}국)`);
+  }
+  lines.push(`▸ 세운(${t.seun.year}년 ${t.seun.ganji}): ${t.seun.tone} — ${t.seun.cheongan_sip}, 점수 ${t.seun.net_score}`);
   if (kind === "saju-love") {
     lines.push(`▸ 적용 톤: 연애·인연 풀이 — 본인의 끌리는 상대 결, 만남 자리 결, 인연 시기에 위 키워드 풀 활용. "당신에게 끌리는 결은…" 어조`);
   } else {

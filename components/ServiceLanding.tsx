@@ -15,12 +15,17 @@ interface Props {
   formHref: string;
   image?: string;
   refKey?: string;
+  homeHref?: string;
+  // 'gold' = 기존 금색 그라데이션 버튼 / 'unified' = accent 색으로 배경·글자 통일 (777 패턴)
+  buttonStyle?: 'gold' | 'unified';
 }
 
 export default function ServiceLanding({
   character, title, tagline, features, emoji, bg, bgEnd = "#1a0d00", accent, formHref, image, refKey,
+  homeHref = "/",
+  buttonStyle = 'gold',
 }: Props) {
-  const homeUrl = "/";
+  const homeUrl = homeHref;
   const labelHome = "← 홈으로";
   const labelStart = "시작하기";
   const labelFee = "결과 확인 시 소정의 이용료가 발생합니다";
@@ -63,14 +68,30 @@ export default function ServiceLanding({
       <div className="w-full max-w-sm">
         <Link href={formHref}>
           <button
-            className="w-full py-4 rounded-2xl text-base font-bold tracking-wider transition-all hover:brightness-110 active:scale-95"
-            style={{
-              background: "linear-gradient(135deg, #FFE066 0%, #FFD700 40%, #FFA800 100%)",
-              color: "#1a0d00",
-              boxShadow: "0 0 24px #FFD70099, 0 0 8px #FFD70066, 0 4px 16px #FFA80044",
-            }}
+            className={
+              buttonStyle === 'unified'
+                ? "w-full py-5 rounded-xl text-lg font-bold transition-all hover:brightness-125 active:scale-95"
+                : "w-full py-4 rounded-2xl text-base font-bold tracking-wider transition-all hover:brightness-110 active:scale-95"
+            }
+            style={
+              buttonStyle === 'unified'
+                ? {
+                    background: "linear-gradient(180deg, #1f1308 0%, #14090a 100%)",
+                    color: "#ffd700",
+                    border: "1.5px solid #c9960c",
+                    boxShadow: "0 0 36px #c9960c55, 0 0 14px #c9960c44, 0 6px 20px #00000088, inset 0 1px 0 #ffd70033, inset 0 -1px 0 #00000066",
+                    letterSpacing: "0.14em",
+                    textShadow: "0 0 12px #ffd70088, 0 1px 0 #00000088",
+                    fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+                  }
+                : {
+                    background: "linear-gradient(135deg, #FFF4B0 0%, #FFE066 40%, #FFD700 100%)",
+                    color: "#1a0d00",
+                    boxShadow: "0 0 32px #FFE066cc, 0 0 14px #FFD700aa, 0 4px 16px #FFD70055",
+                  }
+            }
           >
-            {labelStart}
+            {buttonStyle === 'unified' ? `❖   ${labelStart}   ❖` : labelStart}
           </button>
         </Link>
         <p className="text-center text-xs mt-3" style={{ color: `${accent}55` }}>

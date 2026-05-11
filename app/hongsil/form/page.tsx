@@ -74,7 +74,7 @@ export default function HongsilFormPage() {
 
         <div className="text-center mb-8">
           <div className="text-[10px] tracking-[0.4em] mb-2" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
-            나의 홍실 · 인연사주
+            연애사주
           </div>
           <h1 className="text-[24px] font-bold" style={{ color: PLUM, fontFamily: "'Nanum Myeongjo', serif" }}>
             당신의 사주를 알려주세요
@@ -169,11 +169,11 @@ export default function HongsilFormPage() {
           disabled={!valid}
           className="w-full py-4 rounded-md text-[15px] font-bold transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
-            background: valid ? `linear-gradient(135deg, ${THREAD}, ${PLUM})` : "rgba(212,169,107,0.2)",
-            color: valid ? "#fbf3e8" : GOLD,
+            background: valid ? `${THREAD}22` : "rgba(212,169,107,0.2)",
+            color: valid ? THREAD : GOLD,
             fontFamily: "'Gowun Batang', serif",
             letterSpacing: "0.05em",
-            boxShadow: valid ? `0 6px 16px -4px ${THREAD}66` : "none",
+            border: valid ? `1.5px solid ${THREAD}55` : "1.5px solid transparent",
           }}
         >
           다음 — 3 가지 질문 ›

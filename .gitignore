@@ -51,3 +51,6 @@ next-env.d.ts
 .env*.local
 182.json
 185.jpeg
+
+# video backups (pre-compression originals)
+public/_video_backup/

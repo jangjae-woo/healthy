@@ -204,9 +204,9 @@ export default function ChapterShell({
               disabled={!onPrev || chapterNo <= 1}
               className="flex-1 py-3 rounded-md text-sm transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
-                background: !onPrev || chapterNo <= 1 ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.7)",
-                border: `1px solid ${!onPrev || chapterNo <= 1 ? "rgba(212,169,107,0.2)" : "rgba(212,169,107,0.5)"}`,
-                color: !onPrev || chapterNo <= 1 ? "rgba(106,30,58,0.4)" : PLUM,
+                background: `${THREAD}1f`,
+                border: `1px solid ${THREAD}55`,
+                color: THREAD,
                 fontFamily: "'Gowun Batang', serif",
                 letterSpacing: "0.05em",
               }}
@@ -219,13 +219,11 @@ export default function ChapterShell({
                 if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               disabled={!onNext || chapterNo >= totalChapters}
-              className="flex-1 py-3 rounded-md text-sm font-bold transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="flex-1 py-3 rounded-md text-sm transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
               style={{
-                background: !onNext || chapterNo >= totalChapters
-                  ? "rgba(255,255,255,0.4)"
-                  : `linear-gradient(135deg, ${THREAD}, ${PLUM})`,
-                border: `1px solid ${!onNext || chapterNo >= totalChapters ? "rgba(212,169,107,0.2)" : THREAD}`,
-                color: !onNext || chapterNo >= totalChapters ? "rgba(106,30,58,0.4)" : CREAM,
+                background: `${THREAD}1f`,
+                border: `1px solid ${THREAD}55`,
+                color: THREAD,
                 fontFamily: "'Gowun Batang', serif",
                 letterSpacing: "0.05em",
               }}

@@ -8,6 +8,7 @@ import { getSipseongCounts, SIPSEONG_DESC, inferDangerCards, type SipseongCount,
 import { getIljuInfo, inferYongsinMeaning, type IljuInfo } from "@/lib/parent-child-traits-v2";
 import PrecisionPillarTable from "@/components/saju-visuals/PrecisionPillarTable";
 import OpeningGreeting from "@/components/parent-child-shared/OpeningGreeting";
+import OpeningVideo from "@/components/OpeningVideo";
 import { ILGAN_METAPHOR } from "@/lib/child-seed";
 import { calcGisin, type GisinResult } from "@/lib/saju-traditional";
 import { deriveChildKeywords } from "@/components/saju-visuals/KeywordChips";
@@ -17,11 +18,13 @@ import { inferPositiveSinsal, type PositiveSinsalReading, inferDominantMeaning, 
 import { inferJobRadar, type JobRadarItem, inferElementCompare, type ElementCompare, inferIlganRelation, type IlganRelation, inferFlowGiven, type FlowGiven } from "@/lib/parent-child-charts-v2";
 import { enforceParentVoice, stripAgeInappropriate, stripParentTakeaway } from "@/lib/text-postprocess";
 import { classifyAgeStage } from "@/lib/age-stage";
+import { renderInlineEmphasis as renderInlineEmphasisShared, renderParagraphs as renderParagraphsShared } from "@/lib/inline-emphasis";
 
-const ACCENT = "#f0a8b8";
-const GOLD = "#FFD700";
-const BG = "#2a1a1d";
-const BG_END = "#150810";
+// 홍실 라이트 테마 (2026-05-10) — /love/parent-child 합류
+const ACCENT = "#c8203a";    // THREAD 자두 (라이트 액센트)
+const GOLD = "#b88646";       // 베이지 골드
+const BG = "#fff7f9";         // 핑크 라이트
+const BG_END = "#fce4d6";     // 크림
 
 // ─── 7장 슬라이드 명세 (브라덜 요청건 100% 반영) ──────────────────────────────
 type SlideKind =
@@ -216,6 +219,7 @@ export default function ParentChildSlideResultV2() {
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [tocOpen, setTocOpen] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   const childName = params.get("childName") || "";
   const childGender = params.get("childGender") || "";
@@ -362,12 +366,12 @@ export default function ParentChildSlideResultV2() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: `linear-gradient(180deg, ${BG} 0%, ${BG_END} 100%)`, color: "white" }}>
+    <div className="min-h-screen" style={{ background: `linear-gradient(180deg, ${BG} 0%, ${BG_END} 100%)`, color: "#1a0a14" }}>
       <main className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col relative">
         {/* 헤더 */}
         <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0 sticky top-0 z-10"
           style={{ borderBottom: `1px solid ${ACCENT}22`, background: `${BG}ee`, backdropFilter: "blur(10px)" }}>
-          <Link href="/parent-child-v2" className="text-sm" style={{ color: `${ACCENT}88` }}>←</Link>
+          <Link href="/love/parent-child" className="text-sm" style={{ color: `${ACCENT}88` }}>←</Link>
           <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
             style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>慈</div>
           <div className="flex-1 min-w-0">
@@ -412,7 +416,7 @@ export default function ParentChildSlideResultV2() {
             <div className="rounded-xl p-4 my-3" style={{ backgroundColor: "rgba(255,138,138,0.1)", border: "1px solid rgba(255,138,138,0.3)" }}>
               <p className="text-sm font-bold text-[#ff8a8a] mb-1">풀이 생성 실패</p>
               <pre className="text-[11px] text-white/70 whitespace-pre-wrap break-all">{errMsg}</pre>
-              <Link href="/parent-child-v2/form" className="inline-block mt-3 px-4 py-2 rounded-lg text-sm"
+              <Link href="/love/parent-child/form" className="inline-block mt-3 px-4 py-2 rounded-lg text-sm"
                 style={{ backgroundColor: `${ACCENT}33`, color: ACCENT }}>← 돌아가기</Link>
             </div>
           )}
@@ -423,7 +427,16 @@ export default function ParentChildSlideResultV2() {
               childGender={(childGender === "여" ? "여" : "남") as "남" | "여"}
               hasMom={meta?.hasMom ?? true}
               hasDad={meta?.hasDad ?? true}
-              onStart={() => go(1)}
+              onStart={() => setVideoPlaying(true)}
+            />
+          )}
+
+          {videoPlaying && (
+            <OpeningVideo
+              src="/opening-jadoin.mp4"
+              dataReady={true}
+              onComplete={() => { setVideoPlaying(false); go(1); }}
+              loadingMessage="자녀 사주를 펼치는 중…"
             />
           )}
 
@@ -481,17 +494,15 @@ export default function ParentChildSlideResultV2() {
               ‹ 이전
             </button>
             <button onClick={() => go(1)} disabled={slideIdx === total - 1}
-              className="flex-1 py-3 rounded-xl text-sm font-bold disabled:opacity-30"
-              style={{ backgroundColor: GOLD, color: "#1a0d00" }}>
+              className="flex-1 py-3 rounded-xl text-sm disabled:opacity-30"
+              style={{ backgroundColor: `${ACCENT}22`, color: ACCENT, border: `1px solid ${ACCENT}44` }}>
               다음 ›
             </button>
           </div>
           {slideIdx === total - 1 && !loading && (
             <div className="mt-2 flex gap-2">
-              <Link href="/parent-child-v2/form" className="flex-1 text-center py-2 rounded-lg text-[12px]"
+              <Link href="/love/parent-child/form" className="flex-1 text-center py-2 rounded-lg text-[12px]"
                 style={{ backgroundColor: `${ACCENT}22`, color: ACCENT }}>다른 가족 풀이</Link>
-              <Link href="/parent-child" className="flex-1 text-center py-2 rounded-lg text-[12px]"
-                style={{ backgroundColor: `${GOLD}22`, color: GOLD }}>V1과 비교</Link>
             </div>
           )}
         </div>
@@ -524,7 +535,7 @@ function SlideView({
       </div>
 
       {/* 소제목 */}
-      <h2 className="text-[20px] font-bold leading-tight" style={{ color: "white" }}>
+      <h2 className="text-[20px] font-bold leading-tight" style={{ color: "#1a0a14" }}>
         {spec.subtitle ?? spec.chapterTitle}
       </h2>
 
@@ -584,7 +595,7 @@ function SlideView({
 
       {/* 본문 — outro는 OutroCard만 노출, LLM 본문 중복 숨김 */}
       {spec.kind !== "outro" && (
-        <div className="text-[14px] leading-7" style={{ color: "rgba(255,255,255,0.92)" }}>
+        <div className="text-[14px] leading-7" style={{ color: "#1a0a14" }}>
           {text ? (
             renderParagraphs(text)
           ) : loading ? (
@@ -603,37 +614,13 @@ function SlideView({
 }
 
 // 본문 강조 마커: [[텍스트]] → 골드 bold (핵심 단어만)
-// 안전망: LLM이 가끔 출력하는 **bold** / *italic* / `code` 마크다운 마커는 마커만 제거하고 평문으로.
+// V2.5 (2026-05-10): 공용 helper 사용 — `[메인:`·`[시그너처:`·`구성:`·`[★`·`※` 라인 echo 방어 포함
 function renderInlineEmphasis(text: string): React.ReactNode[] {
-  // ❶ 안전망: 마크다운 강조 마커 sanitize (마커만 제거)
-  const sanitized = text
-    .replace(/\*\*\*([^\n*]+?)\*\*\*/g, "$1")  // ***bold-italic***
-    .replace(/\*\*([^\n*]+?)\*\*/g, "$1")       // **bold**
-    .replace(/(?<!\*)\*([^\n*]+?)\*(?!\*)/g, "$1") // *italic*
-    .replace(/`([^`\n]+?)`/g, "$1")               // `code`
-    .replace(/~~([^~\n]+?)~~/g, "$1");            // ~~strike~~
-
-  // ❷ 우리 마커 [[...]] → 골드
-  const parts: React.ReactNode[] = [];
-  const regex = /\[\[([^\]]+)\]\]/g;
-  let lastIdx = 0;
-  let m: RegExpExecArray | null;
-  let key = 0;
-  while ((m = regex.exec(sanitized)) !== null) {
-    if (m.index > lastIdx) parts.push(sanitized.slice(lastIdx, m.index));
-    parts.push(
-      <span key={key++} style={{ color: GOLD, fontWeight: 700 }}>{m[1]}</span>
-    );
-    lastIdx = regex.lastIndex;
-  }
-  if (lastIdx < sanitized.length) parts.push(sanitized.slice(lastIdx));
-  return parts.length > 0 ? parts : [sanitized];
+  return renderInlineEmphasisShared(text, GOLD);
 }
 
 function renderParagraphs(text: string) {
-  return text.split(/\n\n+/).map((p, i) => (
-    <p key={i} className="my-2 whitespace-pre-wrap">{renderInlineEmphasis(p)}</p>
-  ));
+  return renderParagraphsShared(text, GOLD);
 }
 
 // ─── 시각 컴포넌트 ─────────────────────────────────────────────────────────
@@ -653,13 +640,13 @@ function IljuCard({ saju }: { saju: SajuAnalysis }) {
         <div className="space-y-2 text-[12px]">
           <div className="text-center font-bold" style={{ color: GOLD }}>{info.fusion}</div>
           <div className="grid grid-cols-2 gap-2 mt-2">
-            <div className="rounded p-2" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+            <div className="rounded p-2" style={{ backgroundColor: "rgba(255,235,228,0.6)" }}>
               <div className="text-[10px]" style={{ color: `${ACCENT}aa` }}>천간 ({info.stemHanja})</div>
-              <div className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>{info.stemMeaning}</div>
+              <div className="text-[11px] mt-0.5" style={{ color: "#2a1722" }}>{info.stemMeaning}</div>
             </div>
-            <div className="rounded p-2" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+            <div className="rounded p-2" style={{ backgroundColor: "rgba(255,235,228,0.6)" }}>
               <div className="text-[10px]" style={{ color: `${ACCENT}aa` }}>지지 ({info.branchHanja})</div>
-              <div className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.85)" }}>{info.branchMeaning}</div>
+              <div className="text-[11px] mt-0.5" style={{ color: "#2a1722" }}>{info.branchMeaning}</div>
             </div>
           </div>
         </div>
@@ -673,7 +660,7 @@ function YongsinCard({ saju }: { saju: SajuAnalysis }) {
   try { meaning = inferYongsinMeaning(saju); } catch { meaning = null; }
   if (!meaning) {
     return (
-      <div className="rounded-xl p-3 text-[12px]" style={{ backgroundColor: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}22`, color: `${ACCENT}99` }}>
+      <div className="rounded-xl p-3 text-[12px]" style={{ backgroundColor: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}22`, color: `${ACCENT}99` }}>
         용신 정보 분석 중…
       </div>
     );
@@ -684,8 +671,8 @@ function YongsinCard({ saju }: { saju: SajuAnalysis }) {
         <div className="text-[11px]" style={{ color: "#7eda7e" }}>채워줄 결 (用神)</div>
         <div className="text-[18px] font-bold" style={{ color: "#7eda7e" }}>{meaning.element ?? "—"} ({meaning.hanja})</div>
       </div>
-      <div className="text-[12px] leading-6" style={{ color: "rgba(255,255,255,0.88)" }}>{meaning.meaning}</div>
-      <div className="text-[12px] leading-6 pt-2 mt-2" style={{ color: "rgba(255,255,255,0.78)", borderTop: "1px solid rgba(126,218,126,0.2)" }}>
+      <div className="text-[12px] leading-6" style={{ color: "#2a1722" }}>{meaning.meaning}</div>
+      <div className="text-[12px] leading-6 pt-2 mt-2" style={{ color: "#2a1722", borderTop: "1px solid rgba(126,218,126,0.2)" }}>
         <span className="text-[10px] mr-1" style={{ color: "#7eda7e" }}>길</span>
         {meaning.guidance}
       </div>
@@ -790,12 +777,12 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
       <svg width="340" height="320" viewBox="0 0 340 320">
         {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
           <polygon key={gi} points={gridPts(s)} fill="none"
-            stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
+            stroke={s === 1.0 ? "rgba(184,134,70,0.4)" : "rgba(184,134,70,0.18)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
         {ELEM_ORDER.map((_, i) => {
           const [x, y] = pt(i, 1);
-          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />;
+          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(184,134,70,0.25)" strokeWidth="1" />;
         })}
         <polygon points={dataPts} fill={`${ELEM_COLORS[topEl]}35`} stroke={ELEM_COLORS[topEl]} strokeWidth="2.5" strokeLinejoin="round" />
         {ELEM_ORDER.map((el, i) => {
@@ -808,7 +795,7 @@ function ElementsRadar({ elements }: { elements: Record<string, number> }) {
             <g key={i}>
               <text x={lx + dx} y={ly - 10} textAnchor={anchor} fontSize="22" fontWeight="bold" fill={ELEM_COLORS[el]}>{ELEM_HANJA[el]}</text>
               <text x={lx + dx} y={ly + 12} textAnchor={anchor} fontSize="16" fontWeight={isTop ? "bold" : "normal"} fill={ELEM_COLORS[el]}>{pct}%</text>
-              <text x={lx + dx} y={ly + 26} textAnchor={anchor} fontSize="11" fill="rgba(255,255,255,0.65)">{ELEM_DESC[el].split("·")[0]}</text>
+              <text x={lx + dx} y={ly + 26} textAnchor={anchor} fontSize="11" fill="#5a3c4a">{ELEM_DESC[el].split("·")[0]}</text>
             </g>
           );
         })}
@@ -825,7 +812,7 @@ function SpectrumTable({ elements }: { elements: Record<string, number> }) {
       <p className="text-[11px] leading-relaxed text-center mb-3 px-3" style={{ color: `${ACCENT}cc` }}>
         ※ 우리 아이의 다섯 기운 분포입니다. <strong style={{ color: GOLD }}>그 결이 강하면 본질 그대로</strong>, <strong style={{ color: GOLD }}>약하면 반대 모습</strong>이 일상에서 두드러집니다.
       </p>
-      <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(184,134,70,0.3)" }}>
         {ORDER.map((el) => {
           const pct = Math.round(adjusted[el] ?? 0);
           const color = ELEM_COLORS[el];
@@ -838,15 +825,15 @@ function SpectrumTable({ elements }: { elements: Record<string, number> }) {
           const arrow = dominant === "strong" ? "↑" : dominant === "weak" ? "↓" : "≈";
           const arrowLabel = dominant === "strong" ? "강함" : dominant === "weak" ? "약함" : "균형";
           return (
-            <div key={el} className="px-3 py-3" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+            <div key={el} className="px-3 py-3" style={{ borderTop: "1px solid rgba(184,134,70,0.18)" }}>
               <div className="flex items-baseline gap-2.5 mb-1.5">
                 <span className="text-xl font-bold" style={{ color }}>{ELEM_HANJA[el]}</span>
-                <span className="text-[13px]" style={{ color: "rgba(255,255,255,0.55)" }}>{ELEM_NAME_FRIENDLY[el].label.replace(/^.*— /, "")}</span>
+                <span className="text-[13px]" style={{ color: "#6b1e3a" }}>{ELEM_NAME_FRIENDLY[el].label.replace(/^.*— /, "")}</span>
                 <span className="text-[13px] font-bold ml-auto" style={{ color }}>{pct}%</span>
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-[13px] font-bold" style={{ color: dominant === "balanced" ? "rgba(255,255,255,0.5)" : color }}>{arrow} {arrowLabel}</span>
-                <p className="text-[13px] leading-snug flex-1" style={{ color: dominant === "balanced" ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.92)" }}>{phrase}</p>
+                <span className="text-[13px] font-bold" style={{ color: dominant === "balanced" ? "#6b1e3a" : color }}>{arrow} {arrowLabel}</span>
+                <p className="text-[13px] leading-snug flex-1" style={{ color: dominant === "balanced" ? "#5a3c4a" : "#1a0a14" }}>{phrase}</p>
               </div>
             </div>
           );
@@ -872,12 +859,12 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
       <svg width="340" height="380" viewBox="0 0 340 380">
         {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
           <polygon key={gi} points={gridPts(s)} fill="none"
-            stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
+            stroke={s === 1.0 ? "rgba(184,134,70,0.4)" : "rgba(184,134,70,0.18)"}
             strokeWidth={s === 1.0 ? 1.2 : 0.8} />
         ))}
         {ORDER.map((_, i) => {
           const [x, y] = pt(i, 1);
-          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />;
+          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(184,134,70,0.25)" strokeWidth="1" />;
         })}
         {ORDER.map((k, i) => {
           if (counts[k] === 0) return null;
@@ -892,8 +879,8 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
           const isZero = counts[k] === 0;
           const anchor = lx < cx - 10 ? "end" : lx > cx + 10 ? "start" : "middle";
           const dx = anchor === "end" ? -4 : anchor === "start" ? 4 : 0;
-          const labelColor = isZero ? "rgba(255,255,255,0.45)" : isTop ? GOLD : "rgba(255,255,255,0.85)";
-          const subColor = isZero ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.6)";
+          const labelColor = isZero ? "#8a6878" : isTop ? GOLD : "#2a1722";
+          const subColor = isZero ? "#b88646" : "#5a3c4a";
           return (
             <g key={i}>
               <text x={lx + dx} y={ly - 8} textAnchor={anchor} fontSize="14" fontWeight={isTop ? "bold" : "normal"} fill={labelColor}>
@@ -901,7 +888,7 @@ function SipseongRadar({ counts }: { counts: SipseongCount }) {
               </text>
               <text x={lx + dx} y={ly + 8} textAnchor={anchor} fontSize="10" fill={subColor}>{SIPSEONG_DESC[k]}</text>
               {isZero && (
-                <text x={lx + dx} y={ly + 22} textAnchor={anchor} fontSize="10" fill="rgba(255,255,255,0.45)" fontWeight="600">약한 부분</text>
+                <text x={lx + dx} y={ly + 22} textAnchor={anchor} fontSize="10" fill="#8a6878" fontWeight="600">약한 부분</text>
               )}
             </g>
           );
@@ -920,7 +907,7 @@ function SipseongSpectrumTable({ counts }: { counts: SipseongCount }) {
       <p className="text-[11px] leading-relaxed text-center mb-3 px-3" style={{ color: `${ACCENT}cc` }}>
         ※ 우리 아이의 다섯 색깔(기질) 분포입니다. <strong style={{ color: GOLD }}>그 색이 강하면 본질 그대로</strong>, <strong style={{ color: GOLD }}>약하면 반대 모습</strong>이 일상에서 두드러집니다.
       </p>
-      <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
+      <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(184,134,70,0.3)" }}>
         {ORDER.map((k) => {
           const v = counts[k];
           const color = SIP_COLORS[k];
@@ -935,16 +922,16 @@ function SipseongSpectrumTable({ counts }: { counts: SipseongCount }) {
           const arrow = dominant === "strong" ? "↑" : dominant === "weak" ? "↓" : "≈";
           const arrowLabel = dominant === "strong" ? "강함" : dominant === "weak" ? "약함" : "균형";
           return (
-            <div key={k} className="px-3 py-3" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+            <div key={k} className="px-3 py-3" style={{ borderTop: "1px solid rgba(184,134,70,0.18)" }}>
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="text-[15px] font-bold" style={{ color }}>{k}</span>
-                <span className="text-[12px]" style={{ color: "rgba(255,255,255,0.55)" }}>{data.label}</span>
+                <span className="text-[12px]" style={{ color: "#6b1e3a" }}>{data.label}</span>
                 <span className="text-[13px] font-bold ml-auto" style={{ color }}>{v}</span>
               </div>
-              <p className="text-[10.5px] leading-snug mb-1.5" style={{ color: "rgba(255,255,255,0.45)", fontStyle: "italic" }}>{data.explain}</p>
+              <p className="text-[10.5px] leading-snug mb-1.5" style={{ color: "#8a6878", fontStyle: "italic" }}>{data.explain}</p>
               <div className="flex items-baseline gap-2">
-                <span className="text-[13px] font-bold flex-shrink-0" style={{ color: dominant === "balanced" ? "rgba(255,255,255,0.5)" : color }}>{arrow} {arrowLabel}</span>
-                <p className="text-[12.5px] leading-snug flex-1" style={{ color: dominant === "balanced" ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.92)" }}>{phrase}</p>
+                <span className="text-[13px] font-bold flex-shrink-0" style={{ color: dominant === "balanced" ? "#6b1e3a" : color }}>{arrow} {arrowLabel}</span>
+                <p className="text-[12.5px] leading-snug flex-1" style={{ color: dominant === "balanced" ? "#5a3c4a" : "#1a0a14" }}>{phrase}</p>
               </div>
             </div>
           );
@@ -959,11 +946,11 @@ function IljuSubsectionBanner({ childIlju }: { childIlju: IljuInfo | null }) {
   return (
     <div className="mb-2">
       <h4 className="text-sm font-bold text-center mb-1" style={{ color: GOLD }}>일주(日柱) 기반 풀이</h4>
-      <p className="text-center text-[10.5px] mb-3 italic" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-center text-[10.5px] mb-3 italic" style={{ color: "#3a2530" }}>
         자녀의 자기 결 — 십성 5분류와는 다른 본질 인자
       </p>
       {childIlju && (
-        <div className="rounded-2xl p-3" style={{ background: `linear-gradient(135deg, ${HUE}1a, rgba(255,255,255,0.03))`, border: `1px solid ${HUE}40` }}>
+        <div className="rounded-2xl p-3" style={{ background: `linear-gradient(135deg, ${HUE}1a, rgba(255,235,228,0.5))`, border: `1px solid ${HUE}40` }}>
           <div className="flex items-center justify-center gap-3">
             <div className="text-center">
               <div className="text-[28px] font-bold tracking-widest leading-none" style={{ color: HUE }}>{childIlju.hanja}</div>
@@ -971,13 +958,13 @@ function IljuSubsectionBanner({ childIlju }: { childIlju: IljuInfo | null }) {
             </div>
             <div className="w-px h-12" style={{ background: `${HUE}30` }} />
             <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-lg px-2.5 py-1.5 text-center min-w-[64px]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+              <div className="rounded-lg px-2.5 py-1.5 text-center min-w-[64px]" style={{ backgroundColor: "rgba(255,235,228,0.6)" }}>
                 <div className="text-[18px] font-bold leading-none" style={{ color: HUE }}>{childIlju.stemHanja}</div>
-                <p className="text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>{childIlju.stemMeaning}</p>
+                <p className="text-[9px] mt-1" style={{ color: "#5a3c4a" }}>{childIlju.stemMeaning}</p>
               </div>
-              <div className="rounded-lg px-2.5 py-1.5 text-center min-w-[64px]" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+              <div className="rounded-lg px-2.5 py-1.5 text-center min-w-[64px]" style={{ backgroundColor: "rgba(255,235,228,0.6)" }}>
                 <div className="text-[18px] font-bold leading-none" style={{ color: HUE }}>{childIlju.branchHanja}</div>
-                <p className="text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>{childIlju.branchMeaning}</p>
+                <p className="text-[9px] mt-1" style={{ color: "#5a3c4a" }}>{childIlju.branchMeaning}</p>
               </div>
             </div>
           </div>
@@ -997,15 +984,15 @@ function GisinCard({ saju }: { saju: SajuAnalysis }) {
         <div className="text-[11px]" style={{ color: "#ff8a8a" }}>살펴줄 결 (忌神)</div>
         <div className="text-[18px] font-bold" style={{ color: "#ff8a8a" }}>{g.element} ({g.hanja})</div>
       </div>
-      <div className="text-[12px] leading-6" style={{ color: "rgba(255,255,255,0.85)" }}>{g.meaning}</div>
-      <div className="text-[12px] leading-6" style={{ color: "rgba(255,255,255,0.78)" }}>
+      <div className="text-[12px] leading-6" style={{ color: "#2a1722" }}>{g.meaning}</div>
+      <div className="text-[12px] leading-6" style={{ color: "#2a1722" }}>
         <span className="text-[10px] mr-1" style={{ color: "#ff8a8a" }}>주의</span>
         {g.caution}
       </div>
       {g.avoid.length > 0 && (
         <div className="pt-1.5 mt-1.5" style={{ borderTop: "1px solid rgba(239,68,68,0.2)" }}>
           <p className="text-[10.5px] mb-1 tracking-[0.05em]" style={{ color: "#ff8a8a" }}>이런 양육이 누적되면</p>
-          <ul className="text-[11.5px] leading-6 pl-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+          <ul className="text-[11.5px] leading-6 pl-2" style={{ color: "#3a2530" }}>
 
             {g.avoid.map((a, i) => <li key={i}>· {a}</li>)}
           </ul>
@@ -1071,7 +1058,7 @@ function StrengthGrid({ saju }: { saju: SajuAnalysis }) {
             <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 48, height: 48, fontSize: 26, background: `${color}25`, borderRadius: 12, border: `1px solid ${color}50` }}>{c.emoji}</div>
             <div className="flex-1 min-w-0">
               <p className="font-bold mb-1.5 leading-tight" style={{ color, fontSize: 15, letterSpacing: "-0.01em" }}>{c.keyword}</p>
-              <p className="leading-[1.65]" style={{ color: "rgba(255,255,255,0.86)", fontSize: 13 }}>{c.body}</p>
+              <p className="leading-[1.65]" style={{ color: "#1a0a14", fontSize: 13 }}>{c.body}</p>
             </div>
           </div>
         );
@@ -1085,7 +1072,7 @@ function DangerCardsView({ list }: { list: DangerCard[] }) {
   const topTwo = sorted.slice(0, 2);
   const restThree = sorted.slice(2);
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 이 자녀에게 가장 깊이 닿는 살핌 2가지 ─</p>
       <div className="space-y-2.5">
         {topTwo.map((c, i) => (
@@ -1094,23 +1081,23 @@ function DangerCardsView({ list }: { list: DangerCard[] }) {
               <span className="text-[13.5px] font-bold leading-snug" style={{ color: "#ff8a8a" }}>{c.name}</span>
               <span className="text-[12px] flex-shrink-0" style={{ color: "#ef4444", letterSpacing: "1px" }}>{"★".repeat(c.level)}{"☆".repeat(5 - c.level)}</span>
             </div>
-            <p className="text-[12px] leading-snug" style={{ color: "rgba(255,255,255,0.7)" }}>{c.why}</p>
+            <p className="text-[12px] leading-snug" style={{ color: "#3a2530" }}>{c.why}</p>
             <div className="mt-2.5 rounded-lg p-2.5" style={{ backgroundColor: "rgba(239,68,68,0.06)", borderLeft: "3px solid #ef4444" }}>
               <p className="text-[10px] tracking-wider mb-1" style={{ color: "#ff8a8a", fontWeight: "bold" }}>─ 왜 {i === 0 ? "가장" : "특히"} 깊이 닿는가 (사주 근거) ─</p>
-              <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{c.sajuBasis}</p>
+              <p className="text-[12px] leading-relaxed" style={{ color: "#2a1722" }}>{c.sajuBasis}</p>
             </div>
           </div>
         ))}
       </div>
       {restThree.length > 0 && (
         <>
-          <p className="text-[14px] tracking-[0.15em] text-center font-semibold mt-4 mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>─ 그 외 살펴볼 결 ─</p>
+          <p className="text-[14px] tracking-[0.15em] text-center font-semibold mt-4 mb-2" style={{ color: "#8a6878" }}>─ 그 외 살펴볼 결 ─</p>
           <div className="space-y-1.5">
             {restThree.map((c) => {
-              const danger = c.level >= 3 ? "#f5b942" : "rgba(255,255,255,0.4)";
+              const danger = c.level >= 3 ? "#f5b942" : "#8a6878";
               return (
-                <div key={c.name} className="flex items-center justify-between rounded-lg px-3 py-2" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <span className="text-[12.5px] leading-snug" style={{ color: "rgba(255,255,255,0.78)" }}>{c.name}</span>
+                <div key={c.name} className="flex items-center justify-between rounded-lg px-3 py-2" style={{ backgroundColor: "rgba(255,235,228,0.5)", border: "1px solid rgba(184,134,70,0.18)" }}>
+                  <span className="text-[12.5px] leading-snug" style={{ color: "#2a1722" }}>{c.name}</span>
                   <span className="text-[11px] flex-shrink-0 ml-2" style={{ color: danger, letterSpacing: "1px" }}>{"★".repeat(c.level)}{"☆".repeat(5 - c.level)}</span>
                 </div>
               );
@@ -1139,11 +1126,11 @@ function DualGauge({ leftLabel, rightLabel, leftPct, leftColor, rightColor, hint
           <span className="text-[13px] font-bold" style={{ color: rightColor }}>{rightLabel}</span>
         </div>
       </div>
-      <div className="relative h-3 rounded-full overflow-hidden flex" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
+      <div className="relative h-3 rounded-full overflow-hidden flex" style={{ backgroundColor: "rgba(184,134,70,0.15)" }}>
         <div className="h-full" style={{ width: `${lp}%`, background: `linear-gradient(90deg, ${leftColor}, ${leftColor}cc)` }} />
         <div className="h-full" style={{ width: `${100 - lp}%`, background: `linear-gradient(90deg, ${rightColor}cc, ${rightColor})` }} />
       </div>
-      {hint && <p className="text-[11.5px] mt-2 leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.7)" }}>{hint}</p>}
+      {hint && <p className="text-[11.5px] mt-2 leading-relaxed text-center" style={{ color: "#3a2530" }}>{hint}</p>}
     </div>
   );
 }
@@ -1162,7 +1149,7 @@ function BigeopFocusCard({ saju }: { saju: SajuAnalysis }) {
       ? `재성(연결의 결) ${jaesong} — 친구·부모와 함께 풀어볼 때 흡수가 잘 되는 자녀입니다.`
       : `비겁 ${bigeop} · 재성 ${jaesong} — 혼자와 함께를 번갈아 가는 결의 자녀입니다.`;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 혼자 vs 같이 공부 ─</p>
       <DualGauge
         leftLabel="혼자" leftPct={alonePct} leftColor="#7eb6ff"
@@ -1189,7 +1176,7 @@ function InsongLearnCard({ saju }: { saju: SajuAnalysis }) {
       ? "보고 듣고 따라 하는 결 — 손으로·몸으로·말로 익히는 학습이 닿습니다"
       : "사색과 행동을 번갈아 가는 결 — 보고 익힌 뒤 곱씹는 흐름이 잘 맞습니다";
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 우리 아이만의 공부법 ─</p>
       <DualGauge
         leftLabel="깊이 사색" leftPct={depthPct} leftColor="#c89cff"
@@ -1199,11 +1186,11 @@ function InsongLearnCard({ saju }: { saju: SajuAnalysis }) {
       <div className="mt-3 grid grid-cols-2 gap-2 text-[11.5px]">
         <div className="rounded-lg p-2" style={{ background: "rgba(200,156,255,0.08)", border: "1px solid rgba(200,156,255,0.25)" }}>
           <div className="font-bold mb-1" style={{ color: "#c89cff" }}>인성(印) {insong}</div>
-          <div style={{ color: "rgba(255,255,255,0.75)" }}>받아들임·사색의 결</div>
+          <div style={{ color: "#3a2530" }}>받아들임·사색의 결</div>
         </div>
         <div className="rounded-lg p-2" style={{ background: "rgba(255,157,107,0.08)", border: "1px solid rgba(255,157,107,0.25)" }}>
           <div className="font-bold mb-1" style={{ color: "#ff9d6b" }}>식상(食) {siksang}</div>
-          <div style={{ color: "rgba(255,255,255,0.75)" }}>표현·창의의 결</div>
+          <div style={{ color: "#3a2530" }}>표현·창의의 결</div>
         </div>
       </div>
     </div>
@@ -1226,7 +1213,7 @@ function SiksangExpressionCard({ saju }: { saju: SajuAnalysis }) {
       ? "마음을 말·소리로 풀 때 단단해집니다 — 친구에게 설명·발표·녹음"
       : "글과 말 둘 다 통하는 결 — 정리한 뒤 말로 다시 설명하는 흐름이 좋습니다";
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 글로 정리할까, 말로 표현할까 ─</p>
       <DualGauge
         leftLabel="글" leftPct={writePct} leftColor="#94a3b8"
@@ -1250,22 +1237,22 @@ function TimeSlotGauge({ saju }: { saju: SajuAnalysis }) {
   const max = Math.max(...slots.map((s) => s.pct), 1);
   const top = [...slots].sort((a, b) => b.pct - a.pct)[0];
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 또렷해지는 시간대 ─</p>
       <div className="space-y-2">
         {slots.map((s) => (
           <div key={s.label}>
             <div className="flex justify-between text-[11.5px] mb-0.5">
-              <span style={{ color: s.color, fontWeight: 600 }}>{s.label} <span style={{ color: "rgba(255,255,255,0.5)" }}>· {s.time}</span> <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 10 }}>({s.el})</span></span>
-              <span style={{ color: "rgba(255,255,255,0.7)" }}>{Math.round(s.pct)}%</span>
+              <span style={{ color: s.color, fontWeight: 600 }}>{s.label} <span style={{ color: "#6b1e3a" }}>· {s.time}</span> <span style={{ color: "#8a6878", fontSize: 10 }}>({s.el})</span></span>
+              <span style={{ color: "#3a2530" }}>{Math.round(s.pct)}%</span>
             </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
+            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(184,134,70,0.15)" }}>
               <div style={{ width: `${(s.pct / max) * 100}%`, height: "100%", backgroundColor: s.color }} />
             </div>
           </div>
         ))}
       </div>
-      <p className="text-[11.5px] mt-3 leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-[11.5px] mt-3 leading-relaxed text-center" style={{ color: "#3a2530" }}>
         가장 또렷한 시간 → <strong style={{ color: top.color }}>{top.label} ({top.time})</strong> — 이 시간대에 가장 어려운 과목·집중이 필요한 일을 배치하시면 결이 잘 잡힙니다.
       </p>
     </div>
@@ -1279,7 +1266,7 @@ function ThinkingMatrix({ tt }: { tt: ThinkingType }) {
   const cx = PAD + (tt.x + 1) / 2 * inner;
   const cy = PAD + (1 - tt.y) / 2 * inner;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 책상 앞 머릿속 (사고 유형) ─</p>
       <div className="flex justify-center">
         <svg width={SIZE} height={SIZE + 30} viewBox={`0 0 ${SIZE} ${SIZE + 30}`}>
@@ -1287,9 +1274,9 @@ function ThinkingMatrix({ tt }: { tt: ThinkingType }) {
           <rect x={PAD + inner / 2} y={PAD} width={inner / 2} height={inner / 2} fill="rgba(255,193,107,0.06)" />
           <rect x={PAD} y={PAD + inner / 2} width={inner / 2} height={inner / 2} fill="rgba(196,156,255,0.06)" />
           <rect x={PAD + inner / 2} y={PAD + inner / 2} width={inner / 2} height={inner / 2} fill="rgba(255,157,107,0.06)" />
-          <line x1={PAD} y1={SIZE / 2} x2={SIZE - PAD} y2={SIZE / 2} stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-          <line x1={SIZE / 2} y1={PAD} x2={SIZE / 2} y2={SIZE - PAD} stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-          <rect x={PAD} y={PAD} width={inner} height={inner} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
+          <line x1={PAD} y1={SIZE / 2} x2={SIZE - PAD} y2={SIZE / 2} stroke="rgba(184,134,70,0.4)" strokeWidth="1" />
+          <line x1={SIZE / 2} y1={PAD} x2={SIZE / 2} y2={SIZE - PAD} stroke="rgba(184,134,70,0.4)" strokeWidth="1" />
+          <rect x={PAD} y={PAD} width={inner} height={inner} fill="none" stroke="rgba(184,134,70,0.3)" strokeWidth="1" />
           <text x={SIZE / 2} y={PAD - 10} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#7eb6ff">논리</text>
           <text x={SIZE / 2} y={SIZE - PAD + 18} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#ff9d6b">감각</text>
           <text x={PAD - 4} y={SIZE / 2 + 4} textAnchor="end" fontSize="13" fontWeight="bold" fill="#c89cff">직관</text>
@@ -1306,7 +1293,7 @@ function ThinkingMatrix({ tt }: { tt: ThinkingType }) {
           style={{ backgroundColor: `${ACCENT}22`, color: GOLD, border: `1px solid ${ACCENT}66` }}>
           {tt.dominant}
         </span>
-        <p className="text-[12px] mt-2 leading-relaxed px-3" style={{ color: "rgba(255,255,255,0.7)" }}>{tt.desc}</p>
+        <p className="text-[12px] mt-2 leading-relaxed px-3" style={{ color: "#3a2530" }}>{tt.desc}</p>
       </div>
     </div>
   );
@@ -1317,23 +1304,23 @@ function TantrumBars({ triggers }: { triggers: TantrumTrigger[] }) {
   const max = Math.max(...triggers.map((t) => t.score), 1);
   const top = [...triggers].sort((a, b) => b.score - a.score)[0];
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 고집의 뿌리 4가지 ─</p>
       <div className="space-y-2.5">
         {triggers.map((t) => (
           <div key={t.name}>
             <div className="flex justify-between items-baseline mb-1">
               <span className="text-[12.5px] font-bold" style={{ color: t.color }}>{t.name}</span>
-              <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.65)" }}>{Math.round(t.score)}%</span>
+              <span className="text-[11px]" style={{ color: "#5a3c4a" }}>{Math.round(t.score)}%</span>
             </div>
-            <div className="h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
+            <div className="h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(184,134,70,0.15)" }}>
               <div style={{ width: `${(t.score / max) * 100}%`, height: "100%", background: `linear-gradient(90deg, ${t.color}, ${t.color}cc)` }} />
             </div>
-            <p className="text-[10.5px] mt-1 leading-snug" style={{ color: "rgba(255,255,255,0.6)" }}>{t.subtitle}</p>
+            <p className="text-[10.5px] mt-1 leading-snug" style={{ color: "#5a3c4a" }}>{t.subtitle}</p>
           </div>
         ))}
       </div>
-      <p className="text-[11.5px] mt-3 leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-[11.5px] mt-3 leading-relaxed text-center" style={{ color: "#3a2530" }}>
         가장 큰 뿌리 → <strong style={{ color: top.color }}>{top.name}</strong> · 두 분이 이 결을 알아봐주실 때 자녀의 마음이 자기 결로 가라앉습니다.
       </p>
     </div>
@@ -1357,21 +1344,21 @@ function EmotionCalmEnvCard({ saju }: { saju: SajuAnalysis }) {
   };
   const env = ENV[weakest];
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 감정이 가라앉는 환경 ─</p>
       <div className="rounded-xl p-3 mb-3" style={{ background: `${ELEM_COLORS[weakest]}10`, border: `1px solid ${ELEM_COLORS[weakest]}40` }}>
         <div className="flex items-baseline gap-2 mb-1">
           <span className="text-[20px] font-bold" style={{ color: ELEM_COLORS[weakest] }}>{ELEM_HANJA[weakest]}</span>
           <span className="text-[12.5px] font-bold" style={{ color: ELEM_COLORS[weakest] }}>{env.name}</span>
-          <span className="text-[10px] ml-auto" style={{ color: "rgba(255,255,255,0.5)" }}>가장 약함 {Math.round(pct[weakest])}%</span>
+          <span className="text-[10px] ml-auto" style={{ color: "#6b1e3a" }}>가장 약함 {Math.round(pct[weakest])}%</span>
         </div>
-        <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.7)" }}>키워드 → <strong style={{ color: ELEM_COLORS[weakest] }}>{env.tag}</strong></p>
+        <p className="text-[11.5px]" style={{ color: "#3a2530" }}>키워드 → <strong style={{ color: ELEM_COLORS[weakest] }}>{env.tag}</strong></p>
       </div>
-      <p className="text-[11.5px] leading-relaxed mb-2" style={{ color: "rgba(255,255,255,0.78)" }}>이 결을 채워줄 환경 3가지:</p>
+      <p className="text-[11.5px] leading-relaxed mb-2" style={{ color: "#2a1722" }}>이 결을 채워줄 환경 3가지:</p>
       <ul className="space-y-1.5">
         {env.rec.map((r, i) => (
           <li key={i} className="rounded-lg px-3 py-2 text-[12px] leading-snug"
-            style={{ background: "rgba(255,255,255,0.03)", borderLeft: `3px solid ${ELEM_COLORS[weakest]}`, color: "rgba(255,255,255,0.85)" }}>
+            style={{ background: "rgba(255,235,228,0.5)", borderLeft: `3px solid ${ELEM_COLORS[weakest]}`, color: "#2a1722" }}>
             · {r}
           </li>
         ))}
@@ -1414,7 +1401,7 @@ function PraiseCompareCard({ saju }: { saju: SajuAnalysis }) {
           <p className="text-[13px] font-bold" style={{ color: "#7dd3c0" }}>마음 열리는 칭찬</p>
         </div>
         <p className="text-[13px] font-bold mb-1.5" style={{ color: GOLD }}>{goodTone}</p>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{goodBody}</p>
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{goodBody}</p>
       </div>
       <div className="rounded-2xl p-4" style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.35)" }}>
         <div className="flex items-center gap-2 mb-2">
@@ -1422,9 +1409,9 @@ function PraiseCompareCard({ saju }: { saju: SajuAnalysis }) {
           <p className="text-[13px] font-bold" style={{ color: "#ff8a8a" }}>마음 닫히는 톤</p>
         </div>
         <p className="text-[13px] font-bold mb-1.5" style={{ color: "#ff8a8a" }}>{badTone}</p>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{badBody}</p>
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{badBody}</p>
       </div>
-      <div className="text-center text-[10.5px] mt-2" style={{ color: "rgba(255,255,255,0.55)" }}>
+      <div className="text-center text-[10.5px] mt-2" style={{ color: "#6b1e3a" }}>
         근거 → 인성 {insong} · 식상 {siksang} · 비겁 {bigeop}
       </div>
     </div>
@@ -1459,14 +1446,14 @@ function LieResponseCard({ saju }: { saju: SajuAnalysis }) {
       <div className="rounded-2xl p-4" style={{ background: "rgba(200,156,255,0.08)", border: "1px solid rgba(200,156,255,0.35)" }}>
         <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-2" style={{ color: "#c89cff" }}>─ 일주에서 본 자녀 결 ─</p>
         <p className="text-[13px] font-bold text-center mb-1" style={{ color: GOLD }}>{tone.kind} ({ilgan})</p>
-        <p className="text-[12.5px] leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.85)" }}>다가가실 때 → <strong style={{ color: "#c89cff" }}>{tone.voice}</strong></p>
+        <p className="text-[12.5px] leading-relaxed text-center" style={{ color: "#2a1722" }}>다가가실 때 → <strong style={{ color: "#c89cff" }}>{tone.voice}</strong></p>
       </div>
       <div className="rounded-2xl p-4" style={{ background: "rgba(126,182,255,0.08)", border: "1px solid rgba(126,182,255,0.35)" }}>
         <div className="flex items-baseline gap-2 mb-2">
           <p className="text-[13px] font-bold" style={{ color: "#7eb6ff" }}>관성(절제 회로)</p>
           <span className="text-[11px]" style={{ color: "#7eb6ff" }}>{gwansong} · {restraintLevel}</span>
         </div>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{restraintTip}</p>
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{restraintTip}</p>
       </div>
     </div>
   );
@@ -1485,7 +1472,7 @@ function BreakdownTriggerCard({ saju }: { saju: SajuAnalysis }) {
               <span className="text-[11px]" style={{ color: "#ff8a8a" }}>기신</span>
               <span className="text-[20px] font-bold" style={{ color: "#ff8a8a" }}>{g.element} ({g.hanja})</span>
             </div>
-            <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{g.caution}</p>
+            <p className="text-[12px] leading-relaxed" style={{ color: "#2a1722" }}>{g.caution}</p>
           </div>
           {g.avoid.length > 0 && (
             <>
@@ -1493,7 +1480,7 @@ function BreakdownTriggerCard({ saju }: { saju: SajuAnalysis }) {
               <ul className="space-y-1.5">
                 {g.avoid.map((a, i) => (
                   <li key={i} className="rounded-lg px-3 py-2 text-[12px] leading-snug"
-                    style={{ background: "rgba(255,255,255,0.03)", borderLeft: "3px solid #ef4444", color: "rgba(255,255,255,0.85)" }}>
+                    style={{ background: "rgba(255,235,228,0.5)", borderLeft: "3px solid #ef4444", color: "#2a1722" }}>
                     · {a}
                   </li>
                 ))}
@@ -1502,7 +1489,7 @@ function BreakdownTriggerCard({ saju }: { saju: SajuAnalysis }) {
           )}
         </>
       ) : (
-        <p className="text-[12px] text-center" style={{ color: "rgba(255,255,255,0.55)" }}>용신 정보가 없어 기신을 산출할 수 없습니다.</p>
+        <p className="text-[12px] text-center" style={{ color: "#6b1e3a" }}>용신 정보가 없어 기신을 산출할 수 없습니다.</p>
       )}
     </div>
   );
@@ -1526,14 +1513,14 @@ function HeartDoorCard({ saju }: { saju: SajuAnalysis }) {
       ? `빠르게 — 새로운 친구에게 먼저 다가가는 결. 친해지는 데 시간이 짧습니다.`
       : `중간 속도 — 상대 결을 보며 자기 페이스로 다가가는 자녀입니다.`;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 마음 문 여는 시간 ─</p>
       <DualGauge
         leftLabel="천천히" leftPct={slowPct} leftColor="#7eb6ff"
         rightLabel="빠르게" rightColor="#ff9d6b"
         hint={tone}
       />
-      <div className="text-center text-[10.5px] mt-2" style={{ color: "rgba(255,255,255,0.55)" }}>
+      <div className="text-center text-[10.5px] mt-2" style={{ color: "#6b1e3a" }}>
         근거 → 인성 {insong} · 식상 {siksang} · 비겁 {bigeop}
       </div>
     </div>
@@ -1547,7 +1534,7 @@ function FriendStyleQuadrant({ fs }: { fs: FriendStyle }) {
   const cx = PAD + (fs.x + 1) / 2 * inner;
   const cy = PAD + (1 - fs.y) / 2 * inner;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 친구 사이 결의 자리 ─</p>
       <div className="flex justify-center">
         <svg width={SIZE} height={SIZE + 30} viewBox={`0 0 ${SIZE} ${SIZE + 30}`}>
@@ -1555,9 +1542,9 @@ function FriendStyleQuadrant({ fs }: { fs: FriendStyle }) {
           <rect x={PAD + inner / 2} y={PAD} width={inner / 2} height={inner / 2} fill="rgba(255,157,107,0.06)" />
           <rect x={PAD} y={PAD + inner / 2} width={inner / 2} height={inner / 2} fill="rgba(126,182,255,0.06)" />
           <rect x={PAD + inner / 2} y={PAD + inner / 2} width={inner / 2} height={inner / 2} fill="rgba(125,211,192,0.06)" />
-          <line x1={PAD} y1={SIZE / 2} x2={SIZE - PAD} y2={SIZE / 2} stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-          <line x1={SIZE / 2} y1={PAD} x2={SIZE / 2} y2={SIZE - PAD} stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-          <rect x={PAD} y={PAD} width={inner} height={inner} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
+          <line x1={PAD} y1={SIZE / 2} x2={SIZE - PAD} y2={SIZE / 2} stroke="rgba(184,134,70,0.4)" strokeWidth="1" />
+          <line x1={SIZE / 2} y1={PAD} x2={SIZE / 2} y2={SIZE - PAD} stroke="rgba(184,134,70,0.4)" strokeWidth="1" />
+          <rect x={PAD} y={PAD} width={inner} height={inner} fill="none" stroke="rgba(184,134,70,0.3)" strokeWidth="1" />
           <text x={SIZE / 2} y={PAD - 10} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#ff9d6b">적극</text>
           <text x={SIZE / 2} y={SIZE - PAD + 18} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#7eb6ff">관찰</text>
           <text x={PAD - 4} y={SIZE / 2 + 4} textAnchor="end" fontSize="13" fontWeight="bold" fill="#f5b942">이끄는</text>
@@ -1574,8 +1561,8 @@ function FriendStyleQuadrant({ fs }: { fs: FriendStyle }) {
           style={{ backgroundColor: `${ACCENT}22`, color: GOLD, border: `1px solid ${ACCENT}66` }}>
           {fs.dominant}
         </span>
-        <p className="text-[12px] leading-relaxed px-3" style={{ color: "rgba(255,255,255,0.78)" }}>{fs.subtitle}</p>
-        <p className="text-[11.5px] leading-relaxed px-3" style={{ color: "rgba(255,255,255,0.65)" }}>{fs.desc}</p>
+        <p className="text-[12px] leading-relaxed px-3" style={{ color: "#2a1722" }}>{fs.subtitle}</p>
+        <p className="text-[11.5px] leading-relaxed px-3" style={{ color: "#5a3c4a" }}>{fs.desc}</p>
         <pre className="text-[10.5px] mt-1 leading-snug whitespace-pre-wrap font-sans" style={{ color: `${ACCENT}99` }}>{fs.basis}</pre>
       </div>
     </div>
@@ -1584,7 +1571,7 @@ function FriendStyleQuadrant({ fs }: { fs: FriendStyle }) {
 
 function LifeFriendSinsalCard({ reading }: { reading: PositiveSinsalReading }) {
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 인생을 바꿀 친구 (귀인 신살) ─</p>
       {reading.hasAny ? (
         <div className="space-y-2.5">
@@ -1595,12 +1582,12 @@ function LifeFriendSinsalCard({ reading }: { reading: PositiveSinsalReading }) {
                 <span style={{ color: GOLD, fontSize: 14 }}>★</span>
                 <span className="text-[13.5px] font-bold" style={{ color: GOLD }}>{s.name}</span>
               </div>
-              <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{s.meaning}</p>
+              <p className="text-[12px] leading-relaxed" style={{ color: "#2a1722" }}>{s.meaning}</p>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-[12px] leading-relaxed text-center px-3" style={{ color: "rgba(255,255,255,0.78)" }}>
+        <p className="text-[12px] leading-relaxed text-center px-3" style={{ color: "#2a1722" }}>
           {reading.fallback}
         </p>
       )}
@@ -1616,19 +1603,19 @@ function FriendShiftTimeline({ list }: { list: DaeunHighlight[] }) {
     gold: "빛나는", good: "좋은", normal: "보통", caution: "주의",
   };
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 친구 결이 바뀌는 시기 (대운) ─</p>
       <div className="grid grid-cols-4 gap-1.5">
         {list.slice(0, 8).map((d) => (
           <div key={d.age} className="rounded-lg p-2 text-center"
             style={{ background: `${COLOR[d.rating]}15`, border: `1px solid ${COLOR[d.rating]}50` }}>
-            <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>{d.age}–{d.ageEnd}세</div>
+            <div className="text-[10px]" style={{ color: "#5a3c4a" }}>{d.age}–{d.ageEnd}세</div>
             <div className="text-[14px] font-bold mt-0.5" style={{ color: COLOR[d.rating] }}>{d.ganji}</div>
             <div className="text-[9px] mt-1" style={{ color: COLOR[d.rating] }}>{LABEL[d.rating]}</div>
           </div>
         ))}
       </div>
-      <p className="text-[11.5px] mt-3 leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-[11.5px] mt-3 leading-relaxed text-center" style={{ color: "#3a2530" }}>
         <strong style={{ color: COLOR.gold }}>★ 빛나는</strong> 시기에 자녀의 친구 결이 한 번 크게 바뀝니다 — 그 결이 평생 인연이 되기 쉬운 시기입니다.
       </p>
     </div>
@@ -1667,20 +1654,20 @@ function FatiguePatternCard({ saju }: { saju: SajuAnalysis }) {
   const level = dms?.level ?? "중화";
   const p = PATTERN[level] ?? PATTERN.중화;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 친구들 속에서 지치는 패턴 ─</p>
       <div className="rounded-xl p-3 mb-3" style={{ background: `${p.color}10`, border: `1px solid ${p.color}40` }}>
         <div className="flex items-baseline gap-2 mb-1">
           <span className="text-[11px]" style={{ color: p.color }}>신강·신약</span>
           <span className="text-[16px] font-bold" style={{ color: p.color }}>{level} — {p.tag}</span>
         </div>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{p.pattern}</p>
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{p.pattern}</p>
       </div>
       <div className="rounded-xl p-3" style={{ background: "rgba(125,211,192,0.06)", border: "1px solid rgba(125,211,192,0.3)" }}>
         <div className="flex items-baseline gap-2 mb-1">
           <span className="text-[11px]" style={{ color: "#7dd3c0" }}>회복 결</span>
         </div>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{p.recovery}</p>
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{p.recovery}</p>
       </div>
     </div>
   );
@@ -1700,18 +1687,18 @@ function JobRadarCard({ items }: { items: JobRadarItem[] }) {
   const top = [...items].sort((a, b) => b.score - a.score)[0];
   const LO = 1.3;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-2" style={{ color: ACCENT }}>─ 진짜 빛날 분야 ─</p>
       <div className="flex justify-center">
         <svg width={SIZE} height={SIZE + 20} viewBox={`0 0 ${SIZE} ${SIZE + 20}`}>
           {[0.25, 0.5, 0.75, 1.0].map((s, gi) => (
             <polygon key={gi} points={gridPts(s)} fill="none"
-              stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
+              stroke={s === 1.0 ? "rgba(184,134,70,0.4)" : "rgba(184,134,70,0.18)"}
               strokeWidth={s === 1.0 ? 1.2 : 0.8} />
           ))}
           {items.map((_, i) => {
             const [x, y] = pt(i, 1);
-            return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />;
+            return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(184,134,70,0.25)" strokeWidth="1" />;
           })}
           <polygon points={dataPts} fill={`${ACCENT}30`} stroke={ACCENT} strokeWidth="2.2" strokeLinejoin="round" />
           {items.map((it, i) => {
@@ -1720,8 +1707,8 @@ function JobRadarCard({ items }: { items: JobRadarItem[] }) {
             const anchor = lx < cx - 10 ? "end" : lx > cx + 10 ? "start" : "middle";
             return (
               <g key={i}>
-                <text x={lx} y={ly - 4} textAnchor={anchor} fontSize="12" fontWeight={isTop ? "bold" : "normal"} fill={isTop ? GOLD : "rgba(255,255,255,0.85)"}>{it.shortName}</text>
-                <text x={lx} y={ly + 10} textAnchor={anchor} fontSize="10" fill="rgba(255,255,255,0.55)">{it.score}%</text>
+                <text x={lx} y={ly - 4} textAnchor={anchor} fontSize="12" fontWeight={isTop ? "bold" : "normal"} fill={isTop ? GOLD : "#2a1722"}>{it.shortName}</text>
+                <text x={lx} y={ly + 10} textAnchor={anchor} fontSize="10" fill="#5a3c4a">{it.score}%</text>
               </g>
             );
           })}
@@ -1730,7 +1717,7 @@ function JobRadarCard({ items }: { items: JobRadarItem[] }) {
       <div className="mt-2 rounded-xl p-3" style={{ background: `${GOLD}10`, border: `1px solid ${GOLD}40` }}>
         <p className="text-[11px]" style={{ color: GOLD }}>가장 빛나는 결</p>
         <p className="text-[14px] font-bold mt-0.5" style={{ color: GOLD }}>{top?.name}</p>
-        <p className="text-[12px] mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{top?.desc}</p>
+        <p className="text-[12px] mt-1 leading-relaxed" style={{ color: "#2a1722" }}>{top?.desc}</p>
       </div>
     </div>
   );
@@ -1744,10 +1731,10 @@ function WeaponCard({ saju, dom }: { saju: SajuAnalysis; dom: DominantMeaning })
       <div className="rounded-2xl p-4 text-center" style={{ background: `${HUE}10`, border: `1px solid ${HUE}40` }}>
         <p className="text-[11px]" style={{ color: HUE }}>{dom.title}</p>
         <p className="text-[28px] font-bold mt-1" style={{ color: HUE }}>{dom.element} ({dom.hanja})</p>
-        <p className="text-[12.5px] leading-relaxed mt-2" style={{ color: "rgba(255,255,255,0.88)" }}>{dom.meaning}</p>
+        <p className="text-[12.5px] leading-relaxed mt-2" style={{ color: "#2a1722" }}>{dom.meaning}</p>
         <div className="mt-3 pt-3" style={{ borderTop: `1px solid ${HUE}30` }}>
           <p className="text-[11px] mb-1" style={{ color: HUE }}>자녀의 무기로 작용하는 이유</p>
-          <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{dom.asset}</p>
+          <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{dom.asset}</p>
         </div>
       </div>
       {ilju && (
@@ -1770,7 +1757,7 @@ function ShineKeyCard({ saju }: { saju: SajuAnalysis }) {
   try { m = inferYongsinMeaning(saju); } catch { m = null; }
   if (!m) {
     return (
-      <div className="rounded-xl p-3 text-[12px]" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}22`, color: `${ACCENT}99` }}>
+      <div className="rounded-xl p-3 text-[12px]" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}22`, color: `${ACCENT}99` }}>
         용신 정보 분석 중…
       </div>
     );
@@ -1783,10 +1770,10 @@ function ShineKeyCard({ saju }: { saju: SajuAnalysis }) {
         <p className="text-[11px]" style={{ color: HUE }}>용신(用神) — 자녀를 살리는 결</p>
         <p className="text-[28px] font-bold mt-1" style={{ color: HUE }}>{m.element} ({m.hanja})</p>
       </div>
-      <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: "rgba(255,255,255,0.85)" }}>{m.meaning}</p>
-      <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.04)", borderLeft: `3px solid ${HUE}` }}>
+      <p className="text-[12.5px] leading-relaxed mb-3" style={{ color: "#2a1722" }}>{m.meaning}</p>
+      <div className="rounded-lg p-3" style={{ background: "rgba(255,235,228,0.6)", borderLeft: `3px solid ${HUE}` }}>
         <p className="text-[10.5px] mb-1" style={{ color: HUE }}>두 분이 자녀를 빛나게 해주실 길</p>
-        <p className="text-[12.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.88)" }}>{m.guidance}</p>
+        <p className="text-[12.5px] leading-relaxed" style={{ color: "#2a1722" }}>{m.guidance}</p>
       </div>
     </div>
   );
@@ -1812,7 +1799,7 @@ function ShineAgeTimeline({ list }: { list: DaeunHighlight[] }) {
   });
   const topGroup = [...groupBest].sort((a, b) => Number(b.hasGold) - Number(a.hasGold) || Number(b.hasGood) - Number(a.hasGood))[0];
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 10·20·30대 어느 때 빛날까 ─</p>
       <div className="grid grid-cols-4 gap-1.5 mb-3">
         {groupBest.map((g) => {
@@ -1820,14 +1807,14 @@ function ShineAgeTimeline({ list }: { list: DaeunHighlight[] }) {
           return (
             <div key={g.label} className="rounded-lg p-2 text-center" style={{ background: `${hue}15`, border: `1px solid ${hue}50` }}>
               <div className="text-[11px] font-bold" style={{ color: hue }}>{g.label}</div>
-              <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>{g.from}–{g.to === 99 ? "" : g.to}세</div>
+              <div className="text-[10px] mt-0.5" style={{ color: "#6b1e3a" }}>{g.from}–{g.to === 99 ? "" : g.to}세</div>
               <div className="text-[14px] font-bold mt-1" style={{ color: hue }}>{g.hasGold ? "★" : g.hasGood ? "✦" : "·"}</div>
-              {g.best && <div className="text-[9px] mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>{g.best.ganji}</div>}
+              {g.best && <div className="text-[9px] mt-0.5" style={{ color: "#5a3c4a" }}>{g.best.ganji}</div>}
             </div>
           );
         })}
       </div>
-      <p className="text-[11.5px] leading-relaxed text-center" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-[11.5px] leading-relaxed text-center" style={{ color: "#3a2530" }}>
         가장 환히 빛날 시기 → <strong style={{ color: topGroup.hasGold ? COLOR.gold : COLOR.good }}>{topGroup.label}</strong>
         {topGroup.best ? ` (${topGroup.best.age}세부터 ${topGroup.best.ganji} 대운)` : ""}
         에 자녀의 결이 활짝 펼쳐집니다.
@@ -1855,7 +1842,7 @@ function LeaderExpertCard({ saju }: { saju: SajuAnalysis }) {
       ? `인성(印) ${insong} — 한 분야를 깊이 파고드는 자리에서 자녀의 결이 단단해집니다.`
       : `관성 ${gwansong} · 인성 ${insong} — 이끌면서도 깊이를 가진 자녀 — 두 길을 번갈아 가며 결이 자라납니다.`;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 리더 vs 전문가 ─</p>
       <DualGauge
         leftLabel="리더형" leftPct={leaderPct} leftColor="#fbbf24"
@@ -1865,11 +1852,11 @@ function LeaderExpertCard({ saju }: { saju: SajuAnalysis }) {
       <div className="mt-3 grid grid-cols-2 gap-2 text-[11.5px]">
         <div className="rounded-lg p-2" style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.25)" }}>
           <div className="font-bold mb-1" style={{ color: "#fbbf24" }}>리더형 키</div>
-          <div style={{ color: "rgba(255,255,255,0.75)" }}>방향·결단·사람 끌기</div>
+          <div style={{ color: "#3a2530" }}>방향·결단·사람 끌기</div>
         </div>
         <div className="rounded-lg p-2" style={{ background: "rgba(200,156,255,0.08)", border: "1px solid rgba(200,156,255,0.25)" }}>
           <div className="font-bold mb-1" style={{ color: "#c89cff" }}>전문가형 키</div>
-          <div style={{ color: "rgba(255,255,255,0.75)" }}>탐구·깊이·정밀함</div>
+          <div style={{ color: "#3a2530" }}>탐구·깊이·정밀함</div>
         </div>
       </div>
     </div>
@@ -1896,9 +1883,9 @@ function IlganRelationCard({ rel, parentLabel, parentColor }: { rel: IlganRelati
           <div className="text-[10px] mt-0.5" style={{ color: `${GOLD}cc` }}>{rel.childKor}</div>
         </div>
       </div>
-      <div className="rounded-lg p-2" style={{ background: "rgba(255,255,255,0.04)" }}>
+      <div className="rounded-lg p-2" style={{ background: "rgba(255,235,228,0.6)" }}>
         <p className="text-[11.5px] font-bold mb-1" style={{ color: rel.color }}>{rel.label}</p>
-        <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{rel.detail}</p>
+        <p className="text-[12px] leading-relaxed" style={{ color: "#2a1722" }}>{rel.detail}</p>
       </div>
     </div>
   );
@@ -1923,7 +1910,7 @@ function FamilyIlganRelations({ meta }: { meta: MetaEvent }) {
         />
       )}
       {!meta.hasMom && !meta.hasDad && (
-        <p className="text-[12px] text-center" style={{ color: "rgba(255,255,255,0.55)" }}>부모 정보가 입력되지 않았습니다.</p>
+        <p className="text-[12px] text-center" style={{ color: "#6b1e3a" }}>부모 정보가 입력되지 않았습니다.</p>
       )}
     </div>
   );
@@ -1954,12 +1941,12 @@ function TrioRadar({ child, mom, dad }: { child: Record<string, number>; mom?: R
     <svg width="340" height="320" viewBox="0 0 340 320">
       {[0.2, 0.4, 0.6, 0.8, 1.0].map((s, gi) => (
         <polygon key={gi} points={gridPts(s)} fill="none"
-          stroke={s === 1.0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.10)"}
+          stroke={s === 1.0 ? "rgba(184,134,70,0.4)" : "rgba(184,134,70,0.18)"}
           strokeWidth={s === 1.0 ? 1.2 : 0.8} />
       ))}
       {ELEM_ORDER.map((_, i) => {
         const [x, y] = pt(i, 1);
-        return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />;
+        return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(184,134,70,0.25)" strokeWidth="1" />;
       })}
       {mN && <polygon points={dataPts(mN)} fill={`${ACCENT}25`} stroke={ACCENT} strokeWidth="1.8" strokeLinejoin="round" strokeDasharray="3,3" />}
       {dN && <polygon points={dataPts(dN)} fill="rgba(126,182,255,0.20)" stroke="#7eb6ff" strokeWidth="1.8" strokeLinejoin="round" strokeDasharray="3,3" />}
@@ -1970,7 +1957,7 @@ function TrioRadar({ child, mom, dad }: { child: Record<string, number>; mom?: R
         return (
           <g key={i}>
             <text x={lx} y={ly - 4} textAnchor={anchor} fontSize="20" fontWeight="bold" fill={ELEM_COLORS[el]}>{ELEM_HANJA[el]}</text>
-            <text x={lx} y={ly + 12} textAnchor={anchor} fontSize="10" fill="rgba(255,255,255,0.55)">{ELEM_DESC[el]}</text>
+            <text x={lx} y={ly + 12} textAnchor={anchor} fontSize="10" fill="#5a3c4a">{ELEM_DESC[el]}</text>
           </g>
         );
       })}
@@ -1983,7 +1970,7 @@ function TrioRadarCard({ meta }: { meta: MetaEvent }) {
   const cmpDad = meta.hasDad && meta.sajuDad ? inferElementCompare(meta.sajuDad, meta.sajuChild) : null;
   const cmp: ElementCompare | null = cmpMom ?? cmpDad;
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 셋이 함께 편안한 순간 (오행 3겹) ─</p>
       <div className="flex justify-center">
         <TrioRadar
@@ -2002,12 +1989,12 @@ function TrioRadarCard({ meta }: { meta: MetaEvent }) {
           <div className="rounded-lg p-2.5" style={{ background: "rgba(125,211,192,0.08)", border: "1px solid rgba(125,211,192,0.3)" }}>
             <div className="text-[10px]" style={{ color: "#7dd3c0" }}>가장 닮은 결</div>
             <div className="text-[14px] font-bold mt-0.5" style={{ color: "#7dd3c0" }}>{cmp.similar.emoji} {cmp.similar.kor}</div>
-            <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>평균 {cmp.similar.avgPct}%</div>
+            <div className="text-[10px] mt-0.5" style={{ color: "#5a3c4a" }}>평균 {cmp.similar.avgPct}%</div>
           </div>
           <div className="rounded-lg p-2.5" style={{ background: "rgba(251,146,60,0.08)", border: "1px solid rgba(251,146,60,0.3)" }}>
             <div className="text-[10px]" style={{ color: "#fb923c" }}>가장 다른 결</div>
             <div className="text-[14px] font-bold mt-0.5" style={{ color: "#fb923c" }}>{cmp.different.emoji} {cmp.different.kor}</div>
-            <div className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>{cmp.different.parentPct}% vs {cmp.different.childPct}%</div>
+            <div className="text-[10px] mt-0.5" style={{ color: "#5a3c4a" }}>{cmp.different.parentPct}% vs {cmp.different.childPct}%</div>
           </div>
         </div>
       )}
@@ -2030,7 +2017,7 @@ function FlowFillCard({ meta }: { meta: MetaEvent }) {
       {y && (
         <div className="rounded-2xl p-3" style={{ background: "rgba(126,218,126,0.08)", border: "1px solid rgba(126,218,126,0.3)" }}>
           <p className="text-[12px] font-bold mb-1" style={{ color: "#7eda7e" }}>채워줄 결 (用神) — {y.element} ({y.hanja})</p>
-          <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{y.guidance}</p>
+          <p className="text-[12px] leading-relaxed" style={{ color: "#2a1722" }}>{y.guidance}</p>
         </div>
       )}
       {flowMom && (
@@ -2045,7 +2032,7 @@ function FlowFillCard({ meta }: { meta: MetaEvent }) {
               ))}
             </div>
           ) : (
-            <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.6)" }}>두 결의 흐름이 비슷해 채워주기보단 같은 결을 함께 가는 사이입니다.</p>
+            <p className="text-[11.5px]" style={{ color: "#5a3c4a" }}>두 결의 흐름이 비슷해 채워주기보단 같은 결을 함께 가는 사이입니다.</p>
           )}
         </div>
       )}
@@ -2061,12 +2048,12 @@ function FlowFillCard({ meta }: { meta: MetaEvent }) {
               ))}
             </div>
           ) : (
-            <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.6)" }}>두 결의 흐름이 비슷해 채워주기보단 같은 결을 함께 가는 사이입니다.</p>
+            <p className="text-[11.5px]" style={{ color: "#5a3c4a" }}>두 결의 흐름이 비슷해 채워주기보단 같은 결을 함께 가는 사이입니다.</p>
           )}
         </div>
       )}
       {flowMom?.overlapLabel && (
-        <div className="rounded-lg px-3 py-2 text-[11.5px]" style={{ background: "rgba(251,191,36,0.08)", borderLeft: "3px solid #fbbf24", color: "rgba(255,255,255,0.85)" }}>
+        <div className="rounded-lg px-3 py-2 text-[11.5px]" style={{ background: "rgba(251,191,36,0.08)", borderLeft: "3px solid #fbbf24", color: "#2a1722" }}>
           ✦ {flowMom.overlapLabel}
         </div>
       )}
@@ -2085,7 +2072,7 @@ function FlowFillCard({ meta }: { meta: MetaEvent }) {
       {g && (
         <div className="rounded-2xl p-3" style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.35)" }}>
           <p className="text-[12px] font-bold mb-1" style={{ color: "#ff8a8a" }}>살펴줄 결 (忌神) — {g.element} ({g.hanja})</p>
-          <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{g.caution}</p>
+          <p className="text-[12px] leading-relaxed" style={{ color: "#2a1722" }}>{g.caution}</p>
         </div>
       )}
     </div>
@@ -2095,9 +2082,9 @@ function FlowFillCard({ meta }: { meta: MetaEvent }) {
 function ExternalBoostCard({ saju }: { saju: SajuAnalysis }) {
   const reading = inferPositiveSinsal(saju);
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 부모 외 인생에 큰 힘이 되어줄 어른 ─</p>
-      <p className="text-[11.5px] leading-relaxed text-center mb-3 px-2" style={{ color: "rgba(255,255,255,0.7)" }}>
+      <p className="text-[11.5px] leading-relaxed text-center mb-3 px-2" style={{ color: "#3a2530" }}>
         부모 외에도 자녀의 결을 단단하게 받쳐줄 외부 어른의 결입니다.
       </p>
       {reading.hasAny ? (
@@ -2108,15 +2095,15 @@ function ExternalBoostCard({ saju }: { saju: SajuAnalysis }) {
                 <span style={{ color: GOLD, fontSize: 14 }}>★</span>
                 <span className="text-[13px] font-bold" style={{ color: GOLD }}>{s.name}</span>
               </div>
-              <p className="text-[11.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{s.meaning}</p>
+              <p className="text-[11.5px] leading-relaxed" style={{ color: "#2a1722" }}>{s.meaning}</p>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-[12px] leading-relaxed text-center px-3" style={{ color: "rgba(255,255,255,0.78)" }}>{reading.fallback}</p>
+        <p className="text-[12px] leading-relaxed text-center px-3" style={{ color: "#2a1722" }}>{reading.fallback}</p>
       )}
-      <div className="mt-3 rounded-lg p-3" style={{ background: "rgba(255,255,255,0.03)", borderLeft: `3px solid ${ACCENT}` }}>
-        <p className="text-[11.5px] leading-relaxed" style={{ color: "rgba(255,255,255,0.78)" }}>
+      <div className="mt-3 rounded-lg p-3" style={{ background: "rgba(255,235,228,0.5)", borderLeft: `3px solid ${ACCENT}` }}>
+        <p className="text-[11.5px] leading-relaxed" style={{ color: "#2a1722" }}>
           학교 선생님 · 동네 어른 · 친척 중 자녀와 결이 잘 통하는 분이 있다면, 그 인연이 자녀의 평생 자산이 됩니다. 부모는 그 길을 막지 않고 열어주실 때 자녀의 결이 가장 풍부해집니다.
         </p>
       </div>
@@ -2132,13 +2119,13 @@ function BondAgeTimeline({ list }: { list: DaeunHighlight[] }) {
   const bondCandidates = list.filter((d) => d.age <= 30 && (d.rating === "gold" || d.rating === "good"));
   const top = bondCandidates[0] ?? list[0];
   return (
-    <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}33` }}>
+    <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}33` }}>
       <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 부모와 마음이 가장 통하는 나이 ─</p>
       <div className="grid grid-cols-4 gap-1.5 mb-3">
         {list.slice(0, 4).map((d) => (
           <div key={d.age} className="rounded-lg p-2 text-center"
             style={{ background: `${COLOR[d.rating]}15`, border: `1px solid ${COLOR[d.rating]}50` }}>
-            <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>{d.age}–{d.ageEnd}세</div>
+            <div className="text-[10px]" style={{ color: "#5a3c4a" }}>{d.age}–{d.ageEnd}세</div>
             <div className="text-[14px] font-bold mt-0.5" style={{ color: COLOR[d.rating] }}>{d.ganji}</div>
             <div className="text-[9px] mt-1" style={{ color: COLOR[d.rating] }}>
               {d.rating === "gold" ? "★ 빛남" : d.rating === "good" ? "✦ 좋음" : d.rating === "caution" ? "주의" : "보통"}
@@ -2150,7 +2137,7 @@ function BondAgeTimeline({ list }: { list: DaeunHighlight[] }) {
         <div className="rounded-lg p-3" style={{ background: `${COLOR[top.rating]}10`, borderLeft: `3px solid ${COLOR[top.rating]}` }}>
           <p className="text-[11px]" style={{ color: COLOR[top.rating] }}>가장 통하는 시기</p>
           <p className="text-[14px] font-bold mt-0.5" style={{ color: COLOR[top.rating] }}>{top.age}–{top.ageEnd}세 ({top.ganji} 대운)</p>
-          <p className="text-[11.5px] mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.78)" }}>
+          <p className="text-[11.5px] mt-1 leading-relaxed" style={{ color: "#2a1722" }}>
             이 시기에 자녀가 부모 결을 가장 따뜻하게 받아들입니다 — 결정·진로·관계 이야기를 깊이 나누기 좋은 때입니다.
           </p>
         </div>
@@ -2171,12 +2158,12 @@ function OutroCard({ childName, honorific, hasMom = true, hasDad = true }: { chi
         <div className="w-14 h-14 mx-auto rounded-full flex items-center justify-center text-[22px] font-bold mb-3"
           style={{ background: `${ACCENT}22`, color: ACCENT, border: `1px solid ${ACCENT}66` }}>慈</div>
         <p className="text-[13px] font-bold mb-2" style={{ color: GOLD }}>자도인(慈道人)의 마지막 당부</p>
-        <p className="text-[12.5px] leading-[1.85]" style={{ color: "rgba(255,255,255,0.88)" }}>
+        <p className="text-[12.5px] leading-[1.85]" style={{ color: "#2a1722" }}>
           {parentSalutation} — <strong style={{ color: GOLD }}>{childLabel}</strong>의 사주를 함께 들여다봐주셔서 감사합니다.
         </p>
       </div>
-      <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${ACCENT}22` }}>
-        <p className="text-[12.5px] leading-[1.85]" style={{ color: "rgba(255,255,255,0.85)" }}>
+      <div className="rounded-2xl p-4" style={{ background: "rgba(255,235,228,0.6)", border: `1px solid ${ACCENT}22` }}>
+        <p className="text-[12.5px] leading-[1.85]" style={{ color: "#2a1722" }}>
           이 풀이는 자녀를 <strong style={{ color: GOLD }}>틀에 가두기 위한 지도</strong>가 아닙니다.<br />
           오히려 자녀 안에 이미 있는 결을 {parentNominative} 더 잘 알아봐주시고, 자녀의 호흡에 맞춰 다가가시기 위한 <strong style={{ color: GOLD }}>가이드</strong>입니다.
         </p>
@@ -2249,9 +2236,9 @@ function IntroSummaryV2({
 
   const sectionDivider = (
     <div className="my-6 flex items-center gap-3 px-2">
-      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)" }} />
-      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>✦</span>
-      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)" }} />
+      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(184,134,70,0.4), transparent)" }} />
+      <span style={{ fontSize: 10, color: "#b88646" }}>✦</span>
+      <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(184,134,70,0.4), transparent)" }} />
     </div>
   );
 
@@ -2275,20 +2262,20 @@ function IntroSummaryV2({
         <p className="text-xs font-semibold tracking-[0.25em]" style={{ color: "#a8b8d4" }}>
           1장 — 우리 아이는 어떤 아이일까
         </p>
-        <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <p className="text-[10px] mt-1" style={{ color: "#8a6878" }}>
           아래로 스크롤해서 읽어주세요
         </p>
       </div>
 
       {/* 자도인 도입 — 설계도 7가지 */}
       <section className="space-y-4 py-4">
-        <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
+        <p className="text-[13.5px] leading-[1.95]" style={{ color: "#2a1722" }}>
           아이를 제대로 이해하려면, 먼저 <strong style={{ color: GOLD }}>원국</strong>부터 봐야 해요.
         </p>
-        <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
+        <p className="text-[13.5px] leading-[1.95]" style={{ color: "#2a1722" }}>
           원국은 <strong style={{ color: GOLD }}>{childLabel}</strong>이 태어날 때부터 가지고 온 <strong style={{ color: ACCENT }}>설계도</strong>예요.
         </p>
-        <p className="text-[13.5px] leading-[1.95]" style={{ color: "rgba(255,255,255,0.88)" }}>
+        <p className="text-[13.5px] leading-[1.95]" style={{ color: "#2a1722" }}>
           저는 이 설계도를 <strong style={{ color: GOLD }}>7가지</strong>로 나눠 읽어요.
         </p>
         <div className="rounded-xl p-4 space-y-2.5" style={{ background: "rgba(255,215,0,0.04)", border: `1px solid ${GOLD}33` }}>
@@ -2297,12 +2284,12 @@ function IntroSummaryV2({
               <span className="text-[14px] font-bold" style={{ color: GOLD, minWidth: 20 }}>{f.num}</span>
               <div className="flex-1">
                 <span className="text-[13.5px] font-bold" style={{ color: GOLD }}>{f.name}</span>
-                <span className="text-[12.5px]" style={{ color: "rgba(255,255,255,0.7)" }}> — {f.subtitle}</span>
+                <span className="text-[12.5px]" style={{ color: "#3a2530" }}> — {f.subtitle}</span>
               </div>
             </div>
           ))}
         </div>
-        <p className="text-[13.5px] leading-[1.95] italic" style={{ color: "rgba(255,255,255,0.78)" }}>
+        <p className="text-[13.5px] leading-[1.95] italic" style={{ color: "#2a1722" }}>
           이 일곱 가지를 먼저 이해하면, 이후 모든 챕터가 하나의 이야기로 연결돼요.
         </p>
       </section>
@@ -2315,11 +2302,11 @@ function IntroSummaryV2({
           <span className="text-[16px] font-bold" style={{ color: GOLD }}>①</span>
           <p className="text-[15px] font-bold" style={{ color: GOLD }}>오행 — 다섯 가지 자연의 결</p>
         </div>
-        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>어떤 기운으로 채워진 아이인가</p>
+        <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>어떤 기운으로 채워진 아이인가</p>
         <ElementsRadar elements={sajuChild.elements as Record<string, number>} />
         <SpectrumTable elements={sajuChild.elements as Record<string, number>} />
         <div className="rounded-xl p-3" style={{ background: "rgba(125,211,192,0.05)", border: "1px solid rgba(125,211,192,0.3)" }}>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#2a1722" }}>
             <span className="text-[10px] mr-1" style={{ color: "#7dd3c0" }}>요약</span>
             가장 강한 기운은 <strong>{childLabel}</strong>의 일상에서 가장 두드러지는 결이고, 약한 기운은 부모가 채워주면 좋은 결이에요.
           </p>
@@ -2336,11 +2323,11 @@ function IntroSummaryV2({
               <span className="text-[16px] font-bold" style={{ color: GOLD }}>②</span>
               <p className="text-[15px] font-bold" style={{ color: GOLD }}>십성 — 10가지 성향의 지도</p>
             </div>
-            <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>세상을 어떻게 받아들이는 아이인가</p>
+            <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>세상을 어떻게 받아들이는 아이인가</p>
             <SipseongRadar counts={sipCounts} />
             <SipseongSpectrumTable counts={sipCounts} />
             <div className="rounded-xl p-3" style={{ background: "rgba(167,139,250,0.05)", border: "1px solid rgba(167,139,250,0.3)" }}>
-              <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <p className="text-[12px] leading-[1.75]" style={{ color: "#2a1722" }}>
                 <span className="text-[10px] mr-1" style={{ color: "#a78bfa" }}>요약</span>
                 강한 결은 자녀가 자연스럽게 드러내는 성향이고, 약한 결은 부모가 살짝 보태주면 좋은 자리예요.
               </p>
@@ -2359,9 +2346,9 @@ function IntroSummaryV2({
               <span className="text-[16px] font-bold" style={{ color: GOLD }}>③</span>
               <p className="text-[15px] font-bold" style={{ color: GOLD }}>신강·신약 — 에너지의 균형</p>
             </div>
-            <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>에너지의 방향과 균형</p>
+            <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>에너지의 방향과 균형</p>
             <div className="rounded-xl p-4" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
-              <p className="text-[11px] mb-2 text-center" style={{ color: "rgba(255,255,255,0.6)" }}>일간 기운 총량</p>
+              <p className="text-[11px] mb-2 text-center" style={{ color: "#5a3c4a" }}>일간 기운 총량</p>
               <div className="relative h-8 rounded-full overflow-hidden" style={{
                 background: "linear-gradient(to right, #ef4444, #fbbf24, #34d399, #34d399, #fbbf24, #ef4444)",
               }}>
@@ -2369,19 +2356,19 @@ function IntroSummaryV2({
                   <div className="w-3 h-10 rounded-sm border-2" style={{ background: "white", borderColor: GOLD, boxShadow: `0 0 12px ${GOLD}` }} />
                 </div>
               </div>
-              <div className="flex justify-between text-[9px] mt-2" style={{ color: "rgba(255,255,255,0.5)" }}>
+              <div className="flex justify-between text-[9px] mt-2" style={{ color: "#6b1e3a" }}>
                 {STRENGTH_LABELS.map((label, i) => (
-                  <span key={i} style={{ color: i === dms.positionIdx ? GOLD : "rgba(255,255,255,0.4)", fontWeight: i === dms.positionIdx ? "bold" : "normal" }}>
+                  <span key={i} style={{ color: i === dms.positionIdx ? GOLD : "#8a6878", fontWeight: i === dms.positionIdx ? "bold" : "normal" }}>
                     {label}
                   </span>
                 ))}
               </div>
-              <p className="text-[12.5px] mt-3 text-center" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <p className="text-[12.5px] mt-3 text-center" style={{ color: "#2a1722" }}>
                 <strong style={{ color: GOLD }}>{childLabel}</strong>은(는) <strong style={{ color: GOLD }}>{dms.level}</strong> 사주예요.
               </p>
             </div>
             <div className="rounded-xl p-3" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
-              <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <p className="text-[12px] leading-[1.75]" style={{ color: "#2a1722" }}>
                 <span className="text-[10px] mr-1" style={{ color: "#fbbf24" }}>요약</span>
                 기운이 강한 아이는 자기 의지로 끌고 가는 결, 약한 아이는 받아들이고 적응하는 결이에요.
               </p>
@@ -2398,17 +2385,17 @@ function IntroSummaryV2({
           <span className="text-[16px] font-bold" style={{ color: GOLD }}>④</span>
           <p className="text-[15px] font-bold" style={{ color: GOLD }}>용신·기신 — 채워줄 결, 살펴줄 결</p>
         </div>
-        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>이 아이에게 맞는 것과 맞지 않는 것</p>
+        <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>이 아이에게 맞는 것과 맞지 않는 것</p>
         <YongsinCard saju={sajuChild} />
         <GisinCard saju={sajuChild} />
         <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(126,218,126,0.05)", border: "1px solid rgba(126,218,126,0.3)" }}>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#1a0a14" }}>
             <strong style={{ color: "#7eda7e" }}>용신(用神)</strong>은 자녀에게 <em>약처럼 작용하는 결</em>이에요. 부족한 자리를 채워주는 기운.
           </p>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#1a0a14" }}>
             <strong style={{ color: "#ff8a8a" }}>기신(忌神)</strong>은 자녀를 <em>지치게 하는 결</em>이에요. 너무 많아지면 결이 흔들리는 기운.
           </p>
-          <p className="text-[12px] leading-[1.75] pt-1" style={{ color: "rgba(255,255,255,0.85)", borderTop: "1px solid rgba(126,218,126,0.2)" }}>
+          <p className="text-[12px] leading-[1.75] pt-1" style={{ color: "#2a1722", borderTop: "1px solid rgba(126,218,126,0.2)" }}>
             <span className="text-[10px] mr-1" style={{ color: "#7eda7e" }}>요약</span>
             <strong style={{ color: "#7eda7e" }}>채워줄 결</strong>은 부모가 양육에서 보태주면 자녀가 가장 빛나는 결, <strong style={{ color: "#ff8a8a" }}>살펴줄 결</strong>은 너무 많아지지 않게 살펴주면 좋은 결이에요.
           </p>
@@ -2425,7 +2412,7 @@ function IntroSummaryV2({
               <span className="text-[16px] font-bold" style={{ color: GOLD }}>⑤</span>
               <p className="text-[15px] font-bold" style={{ color: GOLD }}>대운 — 시간의 흐름</p>
             </div>
-            <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>앞으로 어떤 흐름이 펼쳐지는가</p>
+            <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>앞으로 어떤 흐름이 펼쳐지는가</p>
             <div className="rounded-xl p-3" style={{ background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.3)" }}>
               <div className="grid grid-cols-4 gap-2">
                 {daeunList.slice(0, 8).map((c, i) => {
@@ -2439,14 +2426,14 @@ function IntroSummaryV2({
                       <p className="text-[9px]" style={{ color: "#60a5fa" }}>{c.age}세~</p>
                       <p className="text-[16px] font-bold mt-1" style={{ color: GOLD, fontFamily: "serif" }}>{stemH}</p>
                       <p className="text-[16px] font-bold" style={{ color: GOLD, fontFamily: "serif" }}>{branchH}</p>
-                      <p className="text-[8.5px] mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>{c.stem}{c.branch}</p>
+                      <p className="text-[8.5px] mt-1" style={{ color: "#6b1e3a" }}>{c.stem}{c.branch}</p>
                     </div>
                   );
                 })}
               </div>
             </div>
             <div className="rounded-xl p-3" style={{ background: "rgba(96,165,250,0.05)", border: "1px solid rgba(96,165,250,0.3)" }}>
-              <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <p className="text-[12px] leading-[1.75]" style={{ color: "#2a1722" }}>
                 <span className="text-[10px] mr-1" style={{ color: "#60a5fa" }}>요약</span>
                 10년마다 자녀의 결이 어떻게 바뀌는지 미리 알면, 양육의 호흡을 맞춰가기 좋아요.
               </p>
@@ -2463,7 +2450,7 @@ function IntroSummaryV2({
           <span className="text-[16px] font-bold" style={{ color: GOLD }}>⑥</span>
           <p className="text-[15px] font-bold" style={{ color: GOLD }}>귀인 — 인생을 도와주는 별</p>
         </div>
-        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>어떤 인연이 이 아이를 돕는가</p>
+        <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>어떤 인연이 이 아이를 돕는가</p>
         {guardianSinsals.length > 0 ? (
           <div className="space-y-2">
             {guardianSinsals.map((name, i) => {
@@ -2474,23 +2461,23 @@ function IntroSummaryV2({
                   <div className="flex items-baseline gap-2 mb-1">
                     <span className="text-[16px]">{info.icon}</span>
                     <p className="text-[14px] font-bold" style={{ color: "#fbbf24" }}>{name}</p>
-                    <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>({info.hanja})</p>
+                    <p className="text-[10px]" style={{ color: "#6b1e3a" }}>({info.hanja})</p>
                   </div>
-                  <p className="text-[11.5px] mb-1" style={{ color: "rgba(255,255,255,0.65)", fontStyle: "italic" }}>{info.subtitle}</p>
-                  <p className="text-[12px] leading-[1.7]" style={{ color: "rgba(255,255,255,0.85)" }}>{info.desc}</p>
+                  <p className="text-[11.5px] mb-1" style={{ color: "#5a3c4a", fontStyle: "italic" }}>{info.subtitle}</p>
+                  <p className="text-[12px] leading-[1.7]" style={{ color: "#2a1722" }}>{info.desc}</p>
                 </div>
               );
             })}
           </div>
         ) : (
-          <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)" }}>
-            <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.78)" }}>
+          <div className="rounded-xl p-3" style={{ background: "rgba(255,235,228,0.6)", border: "1px solid rgba(184,134,70,0.2)" }}>
+            <p className="text-[12px] leading-[1.75]" style={{ color: "#2a1722" }}>
               <strong>{childLabel}</strong>의 사주에는 특별한 귀인 신살은 없어요. 대신 <strong>스스로 일으키는 자수성가형</strong>의 결이 강합니다.
             </p>
           </div>
         )}
         <div className="rounded-xl p-3" style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.3)" }}>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.85)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#2a1722" }}>
             <span className="text-[10px] mr-1" style={{ color: "#fbbf24" }}>요약</span>
             귀인은 살아가면서 자녀에게 손을 내밀어주는 인연들이에요.
           </p>
@@ -2505,7 +2492,7 @@ function IntroSummaryV2({
           <span className="text-[16px] font-bold" style={{ color: GOLD }}>⑦</span>
           <p className="text-[15px] font-bold" style={{ color: GOLD }}>일주 — 가장 근본적인 결</p>
         </div>
-        <p className="text-[12px] italic" style={{ color: "rgba(255,255,255,0.6)" }}>이 아이의 가장 근본적인 결</p>
+        <p className="text-[12px] italic" style={{ color: "#5a3c4a" }}>이 아이의 가장 근본적인 결</p>
         <div className="text-center py-2">
           <div className="text-[48px] font-bold leading-none" style={{ color: GOLD, fontFamily: "serif", textShadow: `0 0 16px ${GOLD}40` }}>
             {ilganHanja}{iljiHanja}
@@ -2515,16 +2502,16 @@ function IntroSummaryV2({
         <IljuSubsectionBanner childIlju={childIlju} />
         <IljuCard saju={sajuChild} />
         <div className="rounded-xl p-3 space-y-2" style={{ background: "rgba(200,156,255,0.05)", border: "1px solid rgba(200,156,255,0.3)" }}>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#1a0a14" }}>
             <strong style={{ color: "#c89cff" }}>일주(日柱)</strong>는 사주 네 기둥 중 자녀 본인을 나타내는 가장 핵심 기둥이에요. <strong>{childLabel}</strong>의 성격·기질이 가장 진하게 드러나는 자리.
           </p>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#1a0a14" }}>
             <strong style={{ color: "#c89cff" }}>일간(日干)</strong>은 일주의 위 글자 — 자녀의 <em>타고난 본질·바탕 기운</em>이에요. 변하지 않는 결.
           </p>
-          <p className="text-[12px] leading-[1.75]" style={{ color: "rgba(255,255,255,0.9)" }}>
+          <p className="text-[12px] leading-[1.75]" style={{ color: "#1a0a14" }}>
             <strong style={{ color: "#c89cff" }}>일지(日支)</strong>는 일주의 아래 글자 — 자녀가 <em>일상에서 살아내는 호흡·마음 속 자리</em>예요. 매일의 결.
           </p>
-          <p className="text-[12px] leading-[1.75] pt-1" style={{ color: "rgba(255,255,255,0.85)", borderTop: "1px solid rgba(200,156,255,0.2)" }}>
+          <p className="text-[12px] leading-[1.75] pt-1" style={{ color: "#2a1722", borderTop: "1px solid rgba(200,156,255,0.2)" }}>
             <span className="text-[10px] mr-1" style={{ color: "#c89cff" }}>요약</span>
             일간은 <strong>{childLabel}</strong>이 어떤 결로 태어났는가, 일지는 그 결이 매일 어떻게 펼쳐지는가를 말해줘요.
           </p>
@@ -2536,7 +2523,7 @@ function IntroSummaryV2({
       {/* 보고서 안내 — 7장 목차 */}
       <section className="space-y-3 py-4">
         <p className="text-[14px] tracking-[0.15em] text-center font-semibold" style={{ color: GOLD }}>─ 보고서 안내 ─</p>
-        <p className="text-[12.5px] leading-[1.7] text-center" style={{ color: "rgba(255,255,255,0.85)" }}>
+        <p className="text-[12.5px] leading-[1.7] text-center" style={{ color: "#2a1722" }}>
           이 보고서는 총 <strong style={{ color: GOLD }}>7장</strong>으로 구성되어 있어요.
         </p>
         <div className="rounded-xl p-4 mt-2 space-y-2" style={{ background: "rgba(255,215,0,0.04)", border: `1px solid ${GOLD}33` }}>
@@ -2551,11 +2538,11 @@ function IntroSummaryV2({
           ].map((c, i) => (
             <div key={i} className="flex items-center gap-3 py-1.5 px-1">
               <span className="text-[11px] font-bold w-12 text-center rounded px-1.5 py-0.5" style={{ color: GOLD, background: `${GOLD}15`, border: `1px solid ${GOLD}40` }}>{c.num}</span>
-              <span className="text-[12.5px]" style={{ color: "rgba(255,255,255,0.85)" }}>{c.title}</span>
+              <span className="text-[12.5px]" style={{ color: "#2a1722" }}>{c.title}</span>
             </div>
           ))}
         </div>
-        <p className="text-[12.5px] leading-[1.7] text-center italic mt-3" style={{ color: "rgba(255,255,255,0.85)" }}>
+        <p className="text-[12.5px] leading-[1.7] text-center italic mt-3" style={{ color: "#2a1722" }}>
           그럼 이제, 자도인과 함께 <strong style={{ color: GOLD }}>{childLabel}</strong>의 사주를 펼쳐볼까요?
         </p>
       </section>
@@ -2647,7 +2634,7 @@ function ScrollChapterPage({
     <article className="space-y-4 py-2">
       {/* 챕터 라벨 */}
       {/* 챕터 큰 제목 + 배지 한 줄 */}
-      <h2 className="text-[22px] font-bold leading-tight flex items-baseline gap-2 flex-wrap" style={{ color: "white" }}>
+      <h2 className="text-[22px] font-bold leading-tight flex items-baseline gap-2 flex-wrap" style={{ color: "#1a0a14" }}>
         <span className="px-2.5 py-0.5 rounded-full"
           style={{ backgroundColor: `${GOLD}22`, color: GOLD, fontSize: "20px" }}>
           {spec.chapter}
@@ -2663,7 +2650,7 @@ function ScrollChapterPage({
             {/* 소제목 */}
             <div className="flex items-baseline gap-2">
               <span className="text-[12px] font-bold" style={{ color: GOLD }}>{i + 1}.</span>
-              <h3 className="text-[17px] font-bold leading-tight" style={{ color: "white" }}>
+              <h3 className="text-[17px] font-bold leading-tight" style={{ color: "#1a0a14" }}>
                 {sub.subtitle}
               </h3>
             </div>
@@ -2672,7 +2659,7 @@ function ScrollChapterPage({
             {renderVisualByKey(sub.visualKey, meta)}
 
             {/* LLM 본문 */}
-            <div className="text-[14px] leading-7" style={{ color: "rgba(255,255,255,0.92)" }}>
+            <div className="text-[14px] leading-7" style={{ color: "#1a0a14" }}>
               {subText ? (
                 renderParagraphs(subText)
               ) : loading ? (

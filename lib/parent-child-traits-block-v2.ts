@@ -20,6 +20,11 @@
 
 import type { SajuAnalysis } from "./saju-calculator";
 import { getDayMasterStrength } from "./saju-calculator";
+import { deriveGyeokGuk, deriveGongmang, deriveGyeokChange, type GyeokgukResult, type GongmangResult, type GyeokChangeResult } from "./jpjjeon";
+import { deriveSibiUnseong, getUnseong, isWeakUnseong, UNSEONG_TRAITS, type SibiUnseongResult } from "./sibiunseong";
+import { deriveTonggeun, type TonggeunResult } from "./tonggeun";
+import { deriveSamhap, hapElemToSip, type HapResult } from "./samhap";
+import { deriveSeun, type SeunResult } from "./seun";
 
 const STEM_ELEM: Record<string, string> = {
   갑: "목", 을: "목", 병: "화", 정: "화",
@@ -503,6 +508,369 @@ const ILGAN_CHARM_BY_ELEM: Record<string, { label: string; charmKeys: string[] }
   수: { label: "수 일간", charmKeys: ["깊이 사색하는 매력", "흐르는 지혜", "조용한 깊이", "받아들임이 깊은 결", "큰 그림 보는 통찰", "조용히 스미는 직관"] },
 };
 
+// ════════════════════════════════════════════════════════════════════
+// 정밀화 V2.5 (2026-05-10) — 진짜 명리 결합 5가지
+//   1. 위치 가중치 (月支×2.0·日支×1.5·時×1.2·年×1.0)
+//   2. 충·합·원진 십성 약화/강화
+//   3. 천간 합화 → 합화 오행 가상 십성 추가
+//   4. 십성×신강 결합 cell (45)
+//   5. 재성×비겁·관인상생·식상→재성 cell (27)
+// ════════════════════════════════════════════════════════════════════
+
+// 천간 충 (4쌍)
+const STEM_CHUNG: Record<string, string> = {
+  갑: "경", 경: "갑", 을: "신", 신: "을",
+  병: "임", 임: "병", 정: "계", 계: "정",
+};
+// 천간 합 5쌍 + 합화 오행
+const STEM_HAP: Record<string, { partner: string; element: string }> = {
+  갑: { partner: "기", element: "토" },
+  기: { partner: "갑", element: "토" },
+  을: { partner: "경", element: "금" },
+  경: { partner: "을", element: "금" },
+  병: { partner: "신", element: "수" },
+  신: { partner: "병", element: "수" },
+  정: { partner: "임", element: "목" },
+  임: { partner: "정", element: "목" },
+  무: { partner: "계", element: "화" },
+  계: { partner: "무", element: "화" },
+};
+// 지지 충 (6쌍)
+const BRANCH_CHUNG_V25: Record<string, string> = {
+  자: "오", 오: "자", 축: "미", 미: "축",
+  인: "신", 신: "인", 묘: "유", 유: "묘",
+  진: "술", 술: "진", 사: "해", 해: "사",
+};
+// 지지 육합 (6쌍)
+const BRANCH_HAP_V25: Record<string, string> = {
+  자: "축", 축: "자", 인: "해", 해: "인",
+  묘: "술", 술: "묘", 진: "유", 유: "진",
+  사: "신", 신: "사", 오: "미", 미: "오",
+};
+// 원진 (6쌍)
+const BRANCH_WONJIN_V25: Record<string, string> = {
+  자: "미", 미: "자", 축: "오", 오: "축",
+  인: "유", 유: "인", 묘: "신", 신: "묘",
+  진: "해", 해: "진", 사: "술", 술: "사",
+};
+
+// 위치 가중치
+const PILLAR_WEIGHT: Record<string, number> = {
+  year_stem: 1.0, year_branch: 1.0,
+  month_stem: 1.0, month_branch: 2.0,   // 월령
+  day_branch: 1.5,                      // 배우자궁
+  hour_stem: 1.2, hour_branch: 1.2,     // 자녀자리
+};
+
+// 십성 분류 helper
+function classifySip(sipName: string): string | null {
+  if (!sipName) return null;
+  if (sipName.includes("식신") || sipName.includes("상관")) return "식상";
+  if (sipName.includes("정재") || sipName.includes("편재")) return "재성";
+  if (sipName.includes("정관") || sipName.includes("편관") || sipName.includes("칠살")) return "관성";
+  if (sipName.includes("비견") || sipName.includes("겁재")) return "비겁";
+  if (sipName.includes("정인") || sipName.includes("편인") || sipName.includes("효신")) return "인성";
+  return null;
+}
+
+// 천간 → 일간 기준 십성 (합화 오행으로 가상 십성 도출에 사용)
+function elemToSipFromIlgan(ilgan: string, targetElem: string): string {
+  const ilElem = STEM_ELEM[ilgan] ?? "토";
+  if (targetElem === ilElem) return "비겁";
+  // 생: 일간 → X (식상)
+  const generates: Record<string, string> = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
+  if (generates[ilElem] === targetElem) return "식상";
+  // 극: 일간 → X (재성)
+  const controls: Record<string, string> = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+  if (controls[ilElem] === targetElem) return "재성";
+  // X → 일간 (인성)
+  if (generates[targetElem] === ilElem) return "인성";
+  // X → 일간 극 (관성)
+  return "관성";
+}
+
+// ─── 가중 카운트 (위치 가중치 + 충 약화 + 합 강화 + 원진 약화 + 합화 십성 추가 + 공망/약운성 약화) ─
+// V2.6 추가: 공망 들어간 자리 -50%, 약한 십이운성(병·사·묘·절·태) 자리 -20%
+export function deriveWeightedSipCounts(saju: SajuAnalysis): Record<string, number> {
+  const counts: Record<string, number> = { 식상: 0, 재성: 0, 관성: 0, 비겁: 0, 인성: 0 };
+  const ilgan = saju.ilgan;
+
+  // 공망 2지지 (자평진전 旬 매핑) — 공망 자리 -50%
+  let gongmangBranches: string[] = [];
+  try {
+    const g = deriveGongmang(saju);
+    gongmangBranches = g.branches;
+  } catch { /* skip */ }
+
+  // 모든 천간·지지 수집 (위치별)
+  const allStems = [
+    saju.pillars.year.stem, saju.pillars.month.stem,
+    ...(saju.pillars.hour ? [saju.pillars.hour.stem] : []),
+  ];
+  const allBranches = [
+    saju.pillars.year.branch, saju.pillars.month.branch, saju.pillars.day.branch,
+    ...(saju.pillars.hour ? [saju.pillars.hour.branch] : []),
+  ];
+
+  // 위치 + 십성 매핑
+  type Slot = { sipName: string; weight: number; stemOrBranch: string; isStem: boolean };
+  const slots: Slot[] = [];
+  const sip = saju.sipseong;
+  const pushSlot = (sipName: string | undefined | null, weight: number, sb: string, isStem: boolean) => {
+    if (!sipName) return;
+    slots.push({ sipName, weight, stemOrBranch: sb, isStem });
+  };
+  pushSlot(sip.year?.stem, PILLAR_WEIGHT.year_stem, saju.pillars.year.stem, true);
+  pushSlot(sip.year?.branch, PILLAR_WEIGHT.year_branch, saju.pillars.year.branch, false);
+  pushSlot(sip.month?.stem, PILLAR_WEIGHT.month_stem, saju.pillars.month.stem, true);
+  pushSlot(sip.month?.branch, PILLAR_WEIGHT.month_branch, saju.pillars.month.branch, false);
+  pushSlot(sip.day?.branch, PILLAR_WEIGHT.day_branch, saju.pillars.day.branch, false);
+  if (saju.pillars.hour) {
+    pushSlot(sip.hour?.stem, PILLAR_WEIGHT.hour_stem, saju.pillars.hour.stem, true);
+    pushSlot(sip.hour?.branch, PILLAR_WEIGHT.hour_branch, saju.pillars.hour.branch, false);
+  }
+
+  // 충/합/원진 가중치 보정
+  for (const slot of slots) {
+    const cat = classifySip(slot.sipName);
+    if (!cat) continue;
+    let multiplier = 1.0;
+    if (slot.isStem) {
+      // 천간 충 = -50%, 천간 합 = +20%
+      const chungPair = STEM_CHUNG[slot.stemOrBranch];
+      if (chungPair && allStems.includes(chungPair)) multiplier *= 0.5;
+      const hapPair = STEM_HAP[slot.stemOrBranch]?.partner;
+      if (hapPair && allStems.includes(hapPair)) multiplier *= 1.2;
+    } else {
+      // 지지 충 = -50%, 육합 = +20%, 원진 = -30%
+      const chungPair = BRANCH_CHUNG_V25[slot.stemOrBranch];
+      if (chungPair && allBranches.includes(chungPair)) multiplier *= 0.5;
+      const hapPair = BRANCH_HAP_V25[slot.stemOrBranch];
+      if (hapPair && allBranches.includes(hapPair)) multiplier *= 1.2;
+      const wonjinPair = BRANCH_WONJIN_V25[slot.stemOrBranch];
+      if (wonjinPair && allBranches.includes(wonjinPair)) multiplier *= 0.7;
+      // 공망 자리 -50% (자평진전 정통)
+      if (gongmangBranches.includes(slot.stemOrBranch)) multiplier *= 0.5;
+      // 약한 십이운성(병·사·묘·절·태) 자리 -20%
+      const u = getUnseong(ilgan, slot.stemOrBranch);
+      if (isWeakUnseong(u)) multiplier *= 0.8;
+    }
+    counts[cat] += slot.weight * multiplier;
+  }
+
+  // 합화 분석 — 천간 합이 만들어내는 가상 십성 추가 (+0.5씩)
+  const seenStems = new Set(allStems);
+  const processedHap = new Set<string>();
+  for (const stem of allStems) {
+    const hap = STEM_HAP[stem];
+    if (!hap) continue;
+    if (!seenStems.has(hap.partner)) continue;
+    const key = [stem, hap.partner].sort().join("");
+    if (processedHap.has(key)) continue;
+    processedHap.add(key);
+    // 합화 오행 → 일간 기준 가상 십성
+    const virtualSip = elemToSipFromIlgan(ilgan, hap.element);
+    counts[virtualSip] += 0.5;
+  }
+
+  return counts;
+}
+
+// 합화 결과 정리 (promptBlock에 인용)
+export function deriveCombinedTransformations(saju: SajuAnalysis): Array<{ pair: string; element: string; sipName: string }> {
+  const allStems = [
+    saju.pillars.year.stem, saju.pillars.month.stem,
+    ...(saju.pillars.hour ? [saju.pillars.hour.stem] : []),
+  ];
+  const seen = new Set(allStems);
+  const processed = new Set<string>();
+  const result: Array<{ pair: string; element: string; sipName: string }> = [];
+  for (const stem of allStems) {
+    const hap = STEM_HAP[stem];
+    if (!hap) continue;
+    if (!seen.has(hap.partner)) continue;
+    const key = [stem, hap.partner].sort().join("");
+    if (processed.has(key)) continue;
+    processed.add(key);
+    const sipName = elemToSipFromIlgan(saju.ilgan, hap.element);
+    result.push({ pair: `${stem}+${hap.partner}`, element: hap.element, sipName });
+  }
+  return result;
+}
+
+// ─── 십성×신강 결합 cell (45) ─────
+// key 형식: `${십성}-${강도}-${신강}`
+// 강도: 강(가중≥3.0)·약(0.5~2.5)·없음(<0.5)
+// 신강: 신약(극약·태약·신약)·중화·신강(신강·태강·극왕)
+const SIP_X_SHINKANG: Record<string, string[]> = {
+  // 비겁
+  "비겁-강-신강": ["자기 페이스 단단·고집보다 자존감", "독립 결정 빠름", "외부 의견 영향 적음", "타협보다 자기 길"],
+  "비겁-강-중화": ["자기 결과 협력 균형", "고집 X·자기 페이스 분명", "양면형 자존감"],
+  "비겁-강-신약": ["자존감을 받쳐주는 결의 사람들", "혼자 결정 부담", "비겁이 회복 자리로 작동"],
+  "비겁-약-신강": ["자기 결 단단하나 협력 자리 옅음", "외로운 자율형"],
+  "비겁-약-중화": ["적당한 협력형", "자기 결과 외부 결의 균형"],
+  "비겁-약-신약": ["기댈 자리 풍부 시 회복", "혼자 결정 어려움", "외부 결로 자라는 사주"],
+  "비겁-없음-신강": ["종격 흐름·독자 길 만드는 결", "자기 색 명확하나 자리 부족"],
+  "비겁-없음-중화": ["남의 결을 받아들이는 협력형", "친구처럼 동등한 사람 곁"],
+  "비겁-없음-신약": ["외부 결로 자라는 사주", "받쳐주는 어른·친구 절실", "혼자 짊어지면 무거운 결"],
+  // 식상
+  "식상-강-신강": ["표현 풍부·자유·창의", "감정 솔직", "휴식 시간 따로 필요"],
+  "식상-강-중화": ["자연스러운 표현", "감정과 절제 균형"],
+  "식상-강-신약": ["표현 후 지침·휴식 필수", "발산하다 결국 약해짐", "조용한 사색 시간 자주"],
+  "식상-약-신강": ["표현 절제·내면 단단", "할 말 정제해서 함"],
+  "식상-약-중화": ["차분한 표현", "신중히 꺼냄"],
+  "식상-약-신약": ["안에서 정리하는 신중함", "말 아끼고 깊이 쌓음"],
+  "식상-없음-신강": ["깊이 쌓는 결·말 적은 카리스마", "행동으로 보여줌"],
+  "식상-없음-중화": ["신중한 표현형", "말보다 글·행동"],
+  "식상-없음-신약": ["안으로 정리하는 결", "표현 자리 자주 만들어주면 자라남"],
+  // 재성
+  "재성-강-신강": ["현실 감각·재물 끌어당김", "사람과 결과 결합 우수"],
+  "재성-강-중화": ["균형 잡힌 실용", "이상과 결과 함께"],
+  "재성-강-신약": ["결과의 짐 무거움·압도 위험", "결과보다 마음 우선 권고"],
+  "재성-약-신강": ["이상·과정 집중", "결과보다 의미"],
+  "재성-약-중화": ["중도형 — 실용과 의미 균형"],
+  "재성-약-신약": ["결과 약함·이상에 머묾", "작은 성공 모으기"],
+  "재성-없음-신강": ["의미 집중·이상형 사주", "실용은 옅으나 자기 길 단단"],
+  "재성-없음-중화": ["과정·동기 중심 결"],
+  "재성-없음-신약": ["가치·이상에 머무는 결", "현실 적용 더딤"],
+  // 관성
+  "관성-강-신강": ["책임감 단단·리더의 결", "체계와 자유 균형"],
+  "관성-강-중화": ["절제와 자유 균형형", "조직에 잘 맞음"],
+  "관성-강-신약": ["책임감 부담·압도 위험", "기대 부담 큼"],
+  "관성-약-신강": ["자유로운 결단", "체계보다 자기 길"],
+  "관성-약-중화": ["양면형·상황별 변주"],
+  "관성-약-신약": ["체계 받침 약함·자기 결도 약함", "외부 의지·받쳐주는 결 필요"],
+  "관성-없음-신강": ["자유·창의·틀에 안 갇힘", "자기 길 명확"],
+  "관성-없음-중화": ["유연한 결·상황 따라"],
+  "관성-없음-신약": ["틀 없는 자유·자기 결도 약", "안전한 울타리·작은 약속 1~2개"],
+  // 인성
+  "인성-강-신강": ["사색 깊고 받침 두텁", "학자·연구형", "큰 그림 잘 봄"],
+  "인성-강-중화": ["사색과 행동 균형", "받침 풍부"],
+  "인성-강-신약": ["받침 풍부·기댈 자리 풍부", "외부 결에 잘 안김"],
+  "인성-약-신강": ["자수성가형·체험으로 배움", "직관 빠름"],
+  "인성-약-중화": ["직관과 학습 균형형"],
+  "인성-약-신약": ["받침 부족·외로움·기댈 자리 절실"],
+  "인성-없음-신강": ["즉각 행동·실전형", "체험으로 배우는 결"],
+  "인성-없음-중화": ["직관형·실전형"],
+  "인성-없음-신약": ["받침 부재·자수성가 강제", "받쳐주는 사람 만나면 결 자라남"],
+};
+
+// ─── 재성×비겁 결합 cell (9) ─────
+const JAE_X_BIG: Record<string, string[]> = {
+  "강-강": ["사람과 결과 끌어당김·자존감 균형", "사람들이 모이는 결의 자리"],
+  "강-약": ["자기 잃을 위험·결과 좇다 줏대 흐림", "자기 결 의식 필수"],
+  "강-없음": ["사람 흐름에 휘둘림 위험·자기 결 옅음", "혼자 결정 자리 늘리기"],
+  "약-강": ["자기 결 단단·이상 집중", "결과보다 의미"],
+  "약-약": ["사색·내면형", "외부 자극 약하면 결 자라남 더딤"],
+  "약-없음": ["외부 의존·이상 머묾", "스스로 결정 경험 늘리기"],
+  "없음-강": ["자기 길 분명·이상 결의 사주", "실용은 옅으나 정체성 단단"],
+  "없음-약": ["가치 중심·내성적 결", "친한 사람 곁이 안식"],
+  "없음-없음": ["순수 사색형·세속과 거리", "가치·진리 중심 결"],
+};
+
+// ─── 관인상생 cell (9) ─────
+const GWAN_X_IN: Record<string, string[]> = {
+  "강-강": ["관인상생(官印相生) — 책임감+사색 결합·학자형 리더", "체계 안에서 깊이 만듦"],
+  "강-약": ["책임감 부담·받침 부족", "기대만 무겁고 사색 약함"],
+  "강-없음": ["체계·기대만 무거움·받침 부재", "기댈 자리 절실"],
+  "약-강": ["사색 풍부·체계는 자유로움", "자유로운 학자형"],
+  "약-약": ["자수성가·자유 결", "스스로 길 만듦"],
+  "약-없음": ["완전 자유형·자수성가 강제"],
+  "없음-강": ["사색 깊고 자유로운 결", "창의·통찰 풍부"],
+  "없음-약": ["자유·자기 결 명확하나 사색 짧음", "직관 빠름"],
+  "없음-없음": ["체계 X·받침 X — 완전 자유·체험형", "구속 못 견딤"],
+};
+
+// ─── 식상→재성 흐름 cell (9) ─────
+const SIK_X_JAE: Record<string, string[]> = {
+  "강-강": ["식재유기(食財有氣) — 표현이 결과로", "창업·콘텐츠·세일즈 적성"],
+  "강-약": ["표현은 풍부하나 결과 약함", "이상은 크고 실속 옅음"],
+  "강-없음": ["표현·창의 풍부·결과 의식 X", "예술·자유 직업 적성"],
+  "약-강": ["표현 절제+결과 중심", "꾸준한 실용가"],
+  "약-약": ["사색·내면형·결과도 약", "조용한 학자·연구형"],
+  "약-없음": ["내면·이상 중심·결과 X", "정신 세계 가치"],
+  "없음-강": ["말 적고 결과만 명확", "행동으로 결과 만듦"],
+  "없음-약": ["내면형·결과 옅음", "꾸준한 사색가"],
+  "없음-없음": ["완전 내면·정신 세계", "세속 거리"],
+};
+
+function strengthLevel(weighted: number): "강" | "약" | "없음" {
+  if (weighted >= 3.0) return "강";
+  if (weighted >= 0.5) return "약";
+  return "없음";
+}
+function shinkangBucket(label: string): "신강" | "중화" | "신약" {
+  if (label.includes("중화")) return "중화";
+  if (label.includes("강") || label.includes("왕")) return "신강";
+  return "신약";
+}
+
+// ─── 신살×십성 결합 cell (V2.6 — 명리정종 결합 풀이) ─────
+// 핵심 신살이 어느 십성과 결합했을 때 어떤 무대를 만드는지.
+// 신살 단독으론 단순 표지지만 십성 결합 시 진짜 의미 발휘.
+const SINSAL_X_SIP: Record<string, string[]> = {
+  "도화-식상": ["표현+매력 결합 — 사람을 끌어당기는 창작·연예의 결", "대중 어필력 강함"],
+  "도화-재성": ["매력+재물 결합 — 활달함·사람·돈 모두 끌어당기는 결", "사업·세일즈 적성"],
+  "도화-관성": ["매력+권위 결합 — 무대에 선 권위자의 결", "정치·연예·리더십"],
+  "홍염-식상": ["은은한 매력+표현 — 잔잔히 마음 흔드는 결", "예술·문학 적성"],
+  "홍염-재성": ["은은한 매력+재물 — 조용히 사람·돈 끌어모으는 결"],
+  "홍염-인성": ["은은한 매력+사색 — 신비롭고 깊은 결"],
+  "양인-관성": ["결단+권위 결합 — 강한 추진의 권위자", "군경·CEO·검사 적성"],
+  "양인-재성": ["결단+이재 — 큰 사업·과감한 투자의 결"],
+  "양인-식상": ["결단+표현 — 격렬한 표현·추진형 창작"],
+  "괴강-관성": ["강한 의지+권위 — 굳건한 정점의 결", "법조·군경·통솔"],
+  "괴강-인성": ["강한 의지+사색 — 깊고 단단한 학자형"],
+  "괴강-재성": ["강한 의지+재물 — 큰 사업가·집념의 이재"],
+  "천을귀인-인성": ["학문 인덕 — 스승·선배·책의 도움 풍부", "학자·연구자형"],
+  "천을귀인-관성": ["권위 인덕 — 윗사람 도움으로 자리 만듦"],
+  "천을귀인-재성": ["재물 인덕 — 사람을 통한 부 축적"],
+  "문창귀인-인성": ["문장·학문의 결 — 글쓰기·학문의 별"],
+  "학당귀인-인성": ["평생 학문의 결 — 끊임없이 배우는 결"],
+  "화개-인성": ["예술 깊이+사색 — 종교·철학·예술의 깊은 결"],
+  "화개-식상": ["예술 깊이+표현 — 작가·시인·예술가의 결"],
+  "역마-재성": ["변화+재물 — 무역·여행·동적 사업의 결"],
+  "역마-관성": ["변화+권위 — 외교·지방근무·이동 직업"],
+  "역마-식상": ["변화+표현 — 방송·언론·이동 콘텐츠"],
+  "장성-관성": ["장수의 별+권위 — 군·경찰·대통솔의 결"],
+  "복성-재성": ["복덕+재물 — 평생 재물 복 따라옴"],
+  "월덕-인성": ["월덕 인덕+사색 — 어른의 도움이 끊이지 않는 결"],
+  "금여-재성": ["황금 수레+재물 — 배우자·재물 복 두 겹"],
+  "현침-식상": ["예리한 통찰+표현 — 정밀 손재주·외과의·세공"],
+  "귀문-인성": ["남이 못 보는 통찰+사색 — 직관 천재·영감 학문"],
+};
+
+// 신살×십성 결합 룩업
+function deriveSinsalSipCombos(charms: { name: string }[], sipStrong: { sip: string }[]): { combo: string; keywords: string[] }[] {
+  const result: { combo: string; keywords: string[] }[] = [];
+  for (const charm of charms) {
+    // 신살명에서 핵심 키워드 추출 (도화살 → 도화)
+    const charmKey = charm.name.replace("살", "").replace("귀인", "귀인");
+    const charmShort = charm.name.includes("도화") ? "도화"
+      : charm.name.includes("홍염") ? "홍염"
+      : charm.name.includes("양인") ? "양인"
+      : charm.name.includes("괴강") ? "괴강"
+      : charm.name.includes("천을") ? "천을귀인"
+      : charm.name.includes("문창") ? "문창귀인"
+      : charm.name.includes("학당") ? "학당귀인"
+      : charm.name.includes("화개") ? "화개"
+      : charm.name.includes("역마") ? "역마"
+      : charm.name.includes("장성") ? "장성"
+      : charm.name.includes("복성") ? "복성"
+      : charm.name.includes("월덕") ? "월덕"
+      : charm.name.includes("금여") ? "금여"
+      : charm.name.includes("현침") ? "현침"
+      : charm.name.includes("귀문") ? "귀문"
+      : charmKey;
+    for (const sip of sipStrong) {
+      const key = `${charmShort}-${sip.sip}`;
+      if (SINSAL_X_SIP[key]) {
+        result.push({ combo: `${charm.name} × ${sip.sip} 강`, keywords: SINSAL_X_SIP[key] });
+      }
+    }
+  }
+  return result;
+}
+
 // ─── 십성 강약 행동 풀 (V1 1층 그대로 — 자도인에도 동일 유효) ─────────
 const SIP_TRAITS: Record<string, { 강: string[]; 약: string[] }> = {
   식상: {
@@ -576,6 +944,23 @@ export interface ChildTraitsV2 {
   // 결합 매핑 — 일간 + 강한 오행 + 약한 오행 cell. 사용자 채워졌으면 keywords 배열, 미채움이면 null.
   combinationKeywords: string[] | null;
   combinationKey: string;  // "갑-화-수" 형태 — 메모 작성 참조용
+  // ─── V2.5 정밀화 (5가지 결합) ─────
+  weightedSipCounts: Record<string, number>;  // 가중 카운트 (위치+충합+합화)
+  combinedTransformations: Array<{ pair: string; element: string; sipName: string }>;  // 천간 합화
+  sipShinkangCombos: { sip: string; level: string; shinkangBucket: string; keywords: string[] }[];  // 5 십성 × 신강
+  jaeBigCombo: { jaeLevel: string; bigLevel: string; keywords: string[] } | null;  // 재성×비겁
+  gwanInCombo: { gwanLevel: string; inLevel: string; keywords: string[] } | null;  // 관인상생
+  sikJaeCombo: { sikLevel: string; jaeLevel: string; keywords: string[] } | null;  // 식상→재성
+  // ─── V2.6 자평진전 (2026-05-10) ─────
+  gyeokGuk: GyeokgukResult;        // 격국 — 8 정격 + 외격
+  gongmang: GongmangResult;        // 공망 — 일주 旬 + 위치별 풀이
+  sibiUnseong: SibiUnseongResult;  // 십이운성 — 4기둥 운기
+  sinsalSipCombos: { combo: string; keywords: string[] }[];  // 신살×십성 결합
+  // ─── V2.7 정통 framework 확장 (2026-05-10) ─────
+  gyeokChange: GyeokChangeResult;  // 격국 변화·진가 (자평진전 후반)
+  tonggeun: TonggeunResult;        // 지장간 통근 분석
+  hapResults: HapResult[];         // 삼합·방합·반합
+  seun: SeunResult;                // 세운 (현재 년도)
 }
 
 export function deriveChildTraitsV2(saju: SajuAnalysis): ChildTraitsV2 {
@@ -617,14 +1002,15 @@ export function deriveChildTraitsV2(saju: SajuAnalysis): ChildTraitsV2 {
     }
   }
 
-  // 십성 강약
-  const counts = deriveSipCounts(saju);
+  // 십성 강약 — V2.5: 가중 카운트 기준으로 통일 (단순 카운트 ↔ 가중 카운트 모순 해결)
+  // 단순 카운트(deriveSipCounts)는 derive 내부 fallback용으로만, sipStrong/sipWeak는 가중 기반.
+  const weighted = deriveWeightedSipCounts(saju);
   const sipStrong: { sip: string; count: number; keywords: string[] }[] = [];
   const sipWeak: { sip: string; meaning: string; needs: string[] }[] = [];
   for (const s of ["식상", "재성", "관성", "비겁", "인성"]) {
-    const c = counts[s];
-    if (c >= 3) sipStrong.push({ sip: s, count: c, keywords: SIP_TRAITS[s].강 });
-    else if (c === 0) {
+    const w = weighted[s] ?? 0;
+    if (w >= 3.0) sipStrong.push({ sip: s, count: Math.round(w * 10) / 10, keywords: SIP_TRAITS[s].강 });
+    else if (w < 0.5) {
       const wsa = WEAK_SIP_ATTRACT[s];
       sipWeak.push({ sip: s, meaning: wsa.meaning, needs: wsa.needs });
     }
@@ -642,12 +1028,58 @@ export function deriveChildTraitsV2(saju: SajuAnalysis): ChildTraitsV2 {
   const combinationKey = `${saju.ilgan}-${strongEl}-${weakEl ?? "—"}`;
   const combinationKeywords = lookupCombinationKeywords(saju.ilgan, strongEl, weakEl);
 
+  // ─── V2.5 정밀화 결합 산출 ─────
+  // weighted 이미 위에서 계산 (sipStrong/sipWeak에 사용). 재사용.
+  const weightedSipCounts = weighted;
+  const combinedTransformations = deriveCombinedTransformations(saju);
+
+  // 십성×신강 결합 cell 룩업 (5 십성 모두)
+  const sbk = shinkangBucket(shinkang.label);
+  const sipShinkangCombos = (["비겁", "식상", "재성", "관성", "인성"] as const).map((sip) => {
+    const level = strengthLevel(weightedSipCounts[sip] ?? 0);
+    const cellKey = `${sip}-${level}-${sbk}`;
+    const keywords = SIP_X_SHINKANG[cellKey] ?? [];
+    return { sip, level, shinkangBucket: sbk, keywords };
+  }).filter(c => c.keywords.length > 0);
+
+  // 재성×비겁 결합
+  const jaeLevel = strengthLevel(weightedSipCounts.재성 ?? 0);
+  const bigLevel = strengthLevel(weightedSipCounts.비겁 ?? 0);
+  const jaeBigKw = JAE_X_BIG[`${jaeLevel}-${bigLevel}`];
+  const jaeBigCombo = jaeBigKw ? { jaeLevel, bigLevel, keywords: jaeBigKw } : null;
+
+  // 관인상생 결합
+  const gwanLevel = strengthLevel(weightedSipCounts.관성 ?? 0);
+  const inLevel = strengthLevel(weightedSipCounts.인성 ?? 0);
+  const gwanInKw = GWAN_X_IN[`${gwanLevel}-${inLevel}`];
+  const gwanInCombo = gwanInKw ? { gwanLevel, inLevel, keywords: gwanInKw } : null;
+
+  // 식상→재성 결합
+  const sikLevel = strengthLevel(weightedSipCounts.식상 ?? 0);
+  const sikJaeKw = SIK_X_JAE[`${sikLevel}-${jaeLevel}`];
+  const sikJaeCombo = sikJaeKw ? { sikLevel, jaeLevel, keywords: sikJaeKw } : null;
+
+  // ─── V2.6 자평진전 격국·공망·십이운성·신살×십성 결합 산출 ─────
+  const gyeokGuk = deriveGyeokGuk(saju, shinkang.label, weightedSipCounts);
+  const gongmang = deriveGongmang(saju);
+  const sibiUnseong = deriveSibiUnseong(saju);
+  const sinsalSipCombos = deriveSinsalSipCombos(charms, sipStrong);
+  // ─── V2.7 자평진전 후반 + 통근 + 합·세운 ─────
+  const gyeokChange = deriveGyeokChange(saju, gyeokGuk);
+  const tonggeun = deriveTonggeun(saju);
+  const hapResults = deriveSamhap(saju);
+  const seun = deriveSeun(saju, new Date().getFullYear());
+
   return {
     ilgan, ilganElem, iljiElem,
     shinkang, iljuInnerOuter, charms,
     sipStrong, sipWeak,
     weakElem, ilganCharm,
     combinationKeywords, combinationKey,
+    weightedSipCounts, combinedTransformations,
+    sipShinkangCombos, jaeBigCombo, gwanInCombo, sikJaeCombo,
+    gyeokGuk, gongmang, sibiUnseong, sinsalSipCombos,
+    gyeokChange, tonggeun, hapResults, seun,
   };
 }
 
@@ -672,11 +1104,18 @@ export function childTraitsToPromptBlockV2(
 
   lines.push(`━━━ ${cnh} 자동 매핑 키워드 풀 (이 풀에서만 본문 인용 — 임의 통설 추가 금지) ━━━`);
 
-  // 일간 본질 (모든 챕터 공통)
+  // 일간 본질 — ch2(공부)에서만 자연 비유 nature 풀 노출. 다른 챕터엔 명사·키워드만.
+  // (자도인 V2: ch2 자녀 성격 도입 챕터에서 자연 비유 1회 등장. 다른 챕터선 비유 반복 X)
   lines.push("");
   lines.push(`[일간 본질]`);
-  lines.push(`- ${t.ilgan.name}: ${t.ilgan.nature}`);
-  lines.push(`- 키워드 풀: ${t.ilgan.keywords.join(" / ")}`);
+  if (scope === "all" || scope === "ch2") {
+    lines.push(`- ${t.ilgan.name}: ${t.ilgan.nature}`);
+    lines.push(`- 키워드 풀: ${t.ilgan.keywords.join(" / ")}`);
+  } else {
+    // 자연 비유 nature string 빼기 — 다른 챕터에서 비유 반복 차단
+    lines.push(`- ${t.ilgan.name} (자연 비유 ch2에서 등장 — 본 챕터선 비유 인용 X)`);
+    lines.push(`- 키워드 풀 (인자 명사로만 인용): ${t.ilgan.keywords.join(" / ")}`);
+  }
 
   // 신강 (ch2·ch3·ch4 강조 — 자녀 회복·충전·자기 결)
   if (scope === "all" || scope === "ch2" || scope === "ch3" || scope === "ch4") {
@@ -751,6 +1190,145 @@ export function childTraitsToPromptBlockV2(
     lines.push("");
     lines.push(`[결합 매핑 — 일간 + 강한 오행 + 약한 오행]`);
     lines.push(`- ${t.combinationKey}: ${t.combinationKeywords.join(" / ")}`);
+  }
+
+  // ─── V2.5 정밀화 결합 (5가지) ─────
+  // 가중 카운트 (위치+충합+합화) 모든 챕터 공통 — 단순 카운트보다 우선 인용
+  lines.push("");
+  lines.push(`[가중 십성 카운트 — 위치(月支×2/日支×1.5)·충(-50%)·합(+20%)·원진(-30%)·합화 반영]`);
+  const wsc = t.weightedSipCounts;
+  lines.push(`- 비겁 ${wsc.비겁?.toFixed(1) ?? "0"} / 식상 ${wsc.식상?.toFixed(1) ?? "0"} / 재성 ${wsc.재성?.toFixed(1) ?? "0"} / 관성 ${wsc.관성?.toFixed(1) ?? "0"} / 인성 ${wsc.인성?.toFixed(1) ?? "0"}`);
+  lines.push(`※ 단순 카운트보다 위 가중 카운트가 정통 명리 결합 — 본문 풀이는 이 수치 기반.`);
+
+  // 천간 합화 (있을 때만)
+  if (t.combinedTransformations.length > 0) {
+    lines.push("");
+    lines.push(`[천간 합화 — 합화로 발생하는 가상 십성]`);
+    for (const trans of t.combinedTransformations) {
+      lines.push(`- ${trans.pair} → ${trans.element} 합화 (${trans.sipName} 가상 발생)`);
+    }
+  }
+
+  // 십성×신강 결합 (모든 챕터 공통 — 진짜 명리의 핵심)
+  if (t.sipShinkangCombos.length > 0) {
+    lines.push("");
+    lines.push(`[십성 × 신강 결합 풀 — 카운트만으로 단정 X. 신강과 결합한 의미만 인용]`);
+    for (const c of t.sipShinkangCombos) {
+      lines.push(`- ${c.sip}(${c.level}) + ${c.shinkangBucket}: ${c.keywords.join(" / ")}`);
+    }
+  }
+
+  // 재성×비겁 (ch3·ch5 — 짝꿍·진로)
+  if (t.jaeBigCombo && (scope === "all" || scope === "ch3" || scope === "ch5")) {
+    lines.push("");
+    lines.push(`[재성×비겁 결합 — 자기 결과 외부 결의 균형]`);
+    lines.push(`- 재성 ${t.jaeBigCombo.jaeLevel} × 비겁 ${t.jaeBigCombo.bigLevel}: ${t.jaeBigCombo.keywords.join(" / ")}`);
+  }
+
+  // 관인상생 (모든 챕터 — 책임감·사색의 결합)
+  if (t.gwanInCombo) {
+    lines.push("");
+    lines.push(`[관성×인성 결합 — 체계와 사색의 균형]`);
+    lines.push(`- 관성 ${t.gwanInCombo.gwanLevel} × 인성 ${t.gwanInCombo.inLevel}: ${t.gwanInCombo.keywords.join(" / ")}`);
+  }
+
+  // 식상→재성 흐름 (ch5 — 진로 핵심)
+  if (t.sikJaeCombo && (scope === "all" || scope === "ch5")) {
+    lines.push("");
+    lines.push(`[식상→재성 흐름 — 표현이 결과로 이어지는지]`);
+    lines.push(`- 식상 ${t.sikJaeCombo.sikLevel} × 재성 ${t.sikJaeCombo.jaeLevel}: ${t.sikJaeCombo.keywords.join(" / ")}`);
+  }
+
+  // ─── V2.6 자평진전 격국 (모든 챕터 공통 — 사주의 본질 무대) ─────
+  lines.push("");
+  lines.push(`[격국(格局) — 자평진전 정통 — 사주의 본질 무대]`);
+  lines.push(`- ${t.gyeokGuk.label} (${t.gyeokGuk.type})`);
+  lines.push(`- 의미: ${t.gyeokGuk.meaning}`);
+  lines.push(`- 활약 무대: ${t.gyeokGuk.stage}`);
+  if (t.gyeokGuk.keywords.length > 0) {
+    lines.push(`- 핵심 키워드: ${t.gyeokGuk.keywords.join(" / ")}`);
+  }
+  lines.push(`- 판별: ${t.gyeokGuk.detail}`);
+  lines.push(`★ 본문 풀이는 격국을 토대로 — "단순 십성 카운트"보다 격국이 우선. 이 사주의 무대(${t.gyeokGuk.label})를 의식한 풀이.`);
+
+  // ─── 공망(空亡) (ch3·ch4·ch5·ch6 강조 — 인연·반복 패턴·진로·부모 관계) ─────
+  if (scope === "all" || scope === "ch3" || scope === "ch4" || scope === "ch5" || scope === "ch6") {
+    if (t.gongmang.hasGongmang) {
+      lines.push("");
+      lines.push(`[공망(空亡) — 비어있는 자리·인연 옅음]`);
+      lines.push(`- ${t.gongmang.detail}`);
+      for (const p of t.gongmang.positions) {
+        lines.push(`- ${p.effect}`);
+      }
+      lines.push(`★ 공망 자리의 십성·궁(부모/형제/배우자/자녀)은 효과 약화. 본문 풀이에 반영.`);
+    } else {
+      lines.push("");
+      lines.push(`[공망(空亡)] - ${t.gongmang.detail} (사주 안 공망 자리 없음)`);
+    }
+  }
+
+  // ─── V2.6 십이운성 (4기둥 운기) — 모든 챕터 ─────
+  lines.push("");
+  lines.push(`[십이운성(十二運星) — 일간 기준 4기둥 운기 단계]`);
+  lines.push(`- 年支 ${t.sibiUnseong.year.branch}: ${t.sibiUnseong.year.unseong}(${t.sibiUnseong.year.strength})`);
+  lines.push(`- 月支 ${t.sibiUnseong.month.branch}: ${t.sibiUnseong.month.unseong}(${t.sibiUnseong.month.strength})`);
+  lines.push(`- 日支 ${t.sibiUnseong.day.branch}: ${t.sibiUnseong.day.unseong}(${t.sibiUnseong.day.strength}) ★ 배우자궁`);
+  if (t.sibiUnseong.hour) {
+    lines.push(`- 時支 ${t.sibiUnseong.hour.branch}: ${t.sibiUnseong.hour.unseong}(${t.sibiUnseong.hour.strength}) ★ 자녀궁`);
+  }
+  lines.push(`- 분포: 강 ${t.sibiUnseong.strongCount} / 중 ${t.sibiUnseong.midCount} / 약 ${t.sibiUnseong.weakCount}`);
+  // 일지 운성 키워드 — 배우자궁의 운기
+  const iljiUnTraits = UNSEONG_TRAITS[t.sibiUnseong.iljiUnseong];
+  if (iljiUnTraits) {
+    lines.push(`- 일지 운기 키워드: ${iljiUnTraits.keywords.join(" / ")}`);
+  }
+  lines.push(`★ 약한 운성(병·사·묘·절·태) 자리 십성은 효과 -20% (가중 카운트에 이미 반영).`);
+
+  // ─── V2.6 신살×십성 결합 — 모든 챕터 ─────
+  if (t.sinsalSipCombos.length > 0) {
+    lines.push("");
+    lines.push(`[신살×십성 결합 풀 (명리정종 정통) — 신살 단독 X, 십성 결합 의미만 인용]`);
+    for (const c of t.sinsalSipCombos) {
+      lines.push(`- ${c.combo}: ${c.keywords.join(" / ")}`);
+    }
+  }
+
+  // ─── V2.7 격국 변화·진가 (자평진전 후반) — 모든 챕터 ─────
+  lines.push("");
+  lines.push(`[격국 변화·진가(眞假) — 자평진전 후반]`);
+  lines.push(`- ${t.gyeokChange.changeType}: ${t.gyeokChange.detail}`);
+  lines.push(`- 권고: ${t.gyeokChange.recommendation}`);
+  lines.push(`★ 진격이면 격 단단·가격이면 격 흔들림. 본문 풀이 강도 조정.`);
+
+  // ─── V2.7 지장간 통근 (모든 챕터) ─────
+  lines.push("");
+  lines.push(`[지장간 통근(通根) — 일간 뿌리 강도]`);
+  lines.push(`- ${t.tonggeun.detail}`);
+  lines.push(`- 통근 등급: ${t.tonggeun.level} (총점 ${t.tonggeun.totalScore})`);
+  lines.push(`- ${t.tonggeun.recommendation}`);
+
+  // ─── V2.7 삼합·방합·반합 (있을 때만) ─────
+  if (t.hapResults.length > 0) {
+    lines.push("");
+    lines.push(`[지지 합국 — 삼합·방합·반합]`);
+    for (const h of t.hapResults) {
+      lines.push(`- ${h.type} ${h.name}: ${h.formedBy.join("·")} → ${h.element}국 형성 (강도 ${h.strength})`);
+    }
+    lines.push(`★ 합국 형성 → 그 오행 무대 강함. 본문에 합국 무대 인용.`);
+  }
+
+  // ─── V2.7 세운 (ch2·ch5·ch6·ch7 강조) ─────
+  if (scope === "all" || scope === "ch2" || scope === "ch5" || scope === "ch6") {
+    lines.push("");
+    lines.push(`[세운(歲運) — 현재 년도 ${t.seun.year}년 운기]`);
+    lines.push(`- ${t.seun.ganji}년 (${t.seun.tone}, 점수 ${t.seun.net_score})`);
+    lines.push(`- 일간 기준 십성: ${t.seun.cheongan_sip}`);
+    if (t.seun.branch_relations.length > 0) {
+      lines.push(`- 지지 관계: ${t.seun.branch_relations.join(" / ")}`);
+    }
+    if (t.seun.stem_relations.length > 0) {
+      lines.push(`- 천간 관계: ${t.seun.stem_relations.join(" / ")}`);
+    }
   }
 
   return lines.join("\n");

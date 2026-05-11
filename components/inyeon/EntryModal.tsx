@@ -201,11 +201,11 @@ export default function EntryModal({ open, onClose, onSubmit }: Props) {
             disabled={!canNext}
             className="flex-1 py-3 rounded-md text-[14px] font-bold transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
-              background: canNext ? `linear-gradient(135deg, ${THREAD}, ${PLUM})` : "rgba(212,169,107,0.2)",
-              color: canNext ? CREAM : GOLD,
+              background: canNext ? `${THREAD}22` : "rgba(212,169,107,0.2)",
+              color: canNext ? THREAD : GOLD,
               fontFamily: "'Gowun Batang', serif",
               letterSpacing: "0.05em",
-              boxShadow: canNext ? `0 6px 16px -4px ${THREAD}66` : "none",
+              border: canNext ? `1.5px solid ${THREAD}55` : "1.5px solid transparent",
             }}
           >
             {step === 2 ? "다음으로 ›" : "다음 ›"}

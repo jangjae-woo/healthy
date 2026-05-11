@@ -42,12 +42,12 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
       <div className="grid grid-cols-4 gap-2">
         {cols.map((c) => (
           <div key={c.label} className="flex flex-col items-center gap-1.5">
-            <div className="text-[10px]" style={{ color: `${ACCENT}88` }}>{c.label}</div>
+            <div className="text-[10px] font-bold" style={{ color: "#2a1722" }}>{c.label}</div>
             <div
-              className="w-full text-center text-[10px] py-0.5 rounded"
+              className="w-full text-center text-[10px] py-0.5 rounded font-bold"
               style={{
                 background: c.mark ? `${ACCENT}33` : "transparent",
-                color: c.mark ? "#2a1722" : `${ACCENT}cc`,
+                color: "#2a1722",
               }}
             >
               {c.mark ? "일간" : c.p.stemSipseong}
@@ -63,7 +63,7 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
             >
               {c.p.stem}
             </div>
-            <div className="text-[10px]" style={{ color: `${ACCENT}aa` }}>
+            <div className="text-[10px] font-bold" style={{ color: "#2a1722" }}>
               {c.p.branchSipseong}
             </div>
           </div>
@@ -72,13 +72,13 @@ export default function SipseongRow({ name, hour, day, month, year, jijanggan }:
 
       {jijanggan.length > 0 && (
         <div
-          className="mt-3 pt-3 text-[11px]"
+          className="mt-3 pt-3 text-[11px] font-semibold"
           style={{
             borderTop: `1px dashed ${ACCENT}33`,
-            color: "#2a1a20",
+            color: "#1a0a14",
           }}
         >
-          <span style={{ color: ACCENT }}>지장간</span> · {jijanggan.join(" · ")}
+          <span style={{ color: "#6b1e3a", fontWeight: 700 }}>지장간</span> · {jijanggan.join(" · ")}
         </div>
       )}
     </div>

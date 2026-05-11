@@ -16,48 +16,8 @@ const services = [
     bonus: false,
     href: "/saju",
   },
-  {
-    id: "matching",
-    hanja: "緣",
-    en: "In-yeon",
-    title: "인연",
-    desc: "연인·친구·가족·동료 — 두 사람의 사주로 풀어보는 모든 인연의 결",
-    price: null,
-    bonus: false,
-    href: "/matching",
-  },
-  {
-    id: "inyeon",
-    hanja: "蓮",
-    en: "Hong-Yeon",
-    title: "인연궁합 — 紅蓮의 풀이 (V2)",
-    desc: "청월당 인연지기 홍연이 펼치는 3장 구성의 깊은 궁합 풀이",
-    price: null,
-    bonus: false,
-    href: "/inyeon",
-    previewOnly: true,
-  },
-  {
-    id: "parent-child",
-    hanja: "慈",
-    en: "Mother & Child",
-    title: "엄마와 아이 궁합",
-    desc: "사랑으로 이어진 두 사람의 결을 풀어드립니다",
-    price: null,
-    bonus: false,
-    href: "/parent-child",
-  },
-  {
-    id: "parent-child-v2",
-    hanja: "慈",
-    en: "Mother & Child V2",
-    title: "엄마와 아이 궁합 (V2)",
-    desc: "새 7장 구조 — 부모 언어로 다시 쓴 자도인 풀이",
-    price: null,
-    bonus: false,
-    href: "/parent-child-v2",
-    previewOnly: true,
-  },
+  // 인연·인연궁합·엄마와 아이는 paljawon.com/love 산하로 이동 (2026-05-10)
+  // matching·inyeon·parent-child·parent-child-v2 항목 메인 랜딩에서 숨김
   {
     id: "moving",
     hanja: "擇",
@@ -166,9 +126,7 @@ export default function Home() {
 
       {/* ─── 서비스 카드 ─── */}
       <section id="services" className="relative z-10 w-full max-w-md mx-auto flex flex-col gap-4 px-2 pt-6">
-        {services
-          .filter((s) => !s.previewOnly || process.env.VERCEL_ENV !== "production")
-          .map((s) => (
+        {services.map((s) => (
           <Link key={s.id} href={s.href}>
             <div
               className="relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"

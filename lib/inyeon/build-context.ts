@@ -16,6 +16,8 @@ import { buildInyeonChapter6Prompt } from "./prompts/ch6-finance";
 import { buildInyeonChapter7Prompt } from "./prompts/ch7-marriage";
 import { buildInyeonChapter8Prompt } from "./prompts/ch8-final-letter";
 import { deriveInyeonTraits, inyeonTraitsToPromptBlock } from "../inyeon-traits-block-v2";
+import { deriveHongsilTraits, hongsilTraitsToPromptBlock, type HongsilChapterScope } from "../hongsil/traits-block";
+import { inyeonSubDistribution } from "./sub-distribution";
 import { matchCharacter, deriveIdealType, type CharacterMatch } from "./character-match";
 import { getPairLabelFor, type PairLabel } from "./character-pair";
 
@@ -135,42 +137,173 @@ function curveLine(curve: { phase: string; value: number }[]): string {
   return curve.map(p => `${p.phase} ${p.value}억`).join(" → ");
 }
 
-// 결혼운 시기 추정 — 가장 가까운 정재·정관·식상 대운 1개
-function estimateMarriageYear(s: SajuAnalysis, currentYear: number, birthYear: number): string {
-  const age = currentYear - birthYear;
-  const upcoming = s.daeun.cycles.find(c => c.age >= age && c.age <= age + 20);
-  if (!upcoming) return "앞으로 10년 안";
-  const year = birthYear + upcoming.age;
-  return `${year}년(${upcoming.ganji}년) 무렵`;
-}
-function estimateCrisisRange(s: SajuAnalysis, currentYear: number, birthYear: number): string {
-  const age = currentYear - birthYear;
-  // 결혼 추정 시점 + 3~5년 무렵
-  const m = s.daeun.cycles.find(c => c.age >= age && c.age <= age + 20);
-  if (!m) return "결혼 후 3~5년차 무렵";
-  const start = birthYear + m.age + 3;
-  const end = start + 2;
-  return `${start}년~${end}년 무렵`;
-}
-function estimateChildPlanRange(s: SajuAnalysis, currentYear: number, birthYear: number): string {
-  const age = currentYear - birthYear;
-  const m = s.daeun.cycles.find(c => c.age >= age && c.age <= age + 20);
-  if (!m) return "혼인 직후 1~2년";
-  const start = birthYear + m.age + 1;
-  const end = start + 1;
-  return `${start}년 하반기~${end}년 상반기`;
+// ─── 대운 정통화 helper — 천간 십성·지지 충·원진·기신 결합 ────────
+const BRANCH_ELEM_LOCAL: Record<string, string> = {
+  자: "수", 축: "토", 인: "목", 묘: "목",
+  진: "토", 사: "화", 오: "화", 미: "토",
+  신: "금", 유: "금", 술: "토", 해: "수",
+};
+const YANG_STEMS = new Set(["갑", "병", "무", "경", "임"]);
+const BRANCH_CHUNG: Record<string, string> = {
+  자: "오", 오: "자", 축: "미", 미: "축",
+  인: "신", 신: "인", 묘: "유", 유: "묘",
+  진: "술", 술: "진", 사: "해", 해: "사",
+};
+const BRANCH_WONJIN: Record<string, string> = {
+  자: "미", 미: "자", 축: "오", 오: "축",
+  인: "유", 유: "인", 묘: "신", 신: "묘",
+  진: "해", 해: "진", 사: "술", 술: "사",
+};
+const BRANCH_YUKHAP: Record<string, string> = {
+  자: "축", 축: "자", 인: "해", 해: "인",
+  묘: "술", 술: "묘", 진: "유", 유: "진",
+  사: "신", 신: "사", 오: "미", 미: "오",
+};
+
+function sipseongOfStem(ilgan: string, otherStem: string): string {
+  const ilElem = STEM_ELEM[ilgan];
+  const otherElem = STEM_ELEM[otherStem];
+  if (!ilElem || !otherElem) return "비견";
+  const sameYinYang = YANG_STEMS.has(ilgan) === YANG_STEMS.has(otherStem);
+  if (otherElem === ilElem) return sameYinYang ? "비견" : "겁재";
+  if (GENERATES[ilElem] === otherElem) return sameYinYang ? "식신" : "상관";
+  if (CONTROLS[ilElem] === otherElem) return sameYinYang ? "편재" : "정재";
+  if (CONTROLS[otherElem] === ilElem) return sameYinYang ? "편관" : "정관";
+  return sameYinYang ? "편인" : "정인";
 }
 
+function marriageScoreOfCycle(
+  ilgan: string,
+  dayBranch: string,
+  gisinElem: string | null,
+  c: { stem: string; branch: string },
+): number {
+  const sip = sipseongOfStem(ilgan, c.stem);
+  let score = 0;
+  if (["정관", "편관", "정재", "편재"].includes(sip)) score += 2;
+  else if (["식신", "상관"].includes(sip)) score += 1;
+  if (BRANCH_YUKHAP[dayBranch] === c.branch) score += 2;
+  if (BRANCH_CHUNG[dayBranch] === c.branch) score -= 3;
+  if (BRANCH_WONJIN[dayBranch] === c.branch) score -= 2;
+  if (gisinElem && BRANCH_ELEM_LOCAL[c.branch] === gisinElem) score -= 1;
+  return score;
+}
+
+function childScoreOfCycle(
+  ilgan: string,
+  dayBranch: string,
+  c: { stem: string; branch: string },
+): number {
+  const sip = sipseongOfStem(ilgan, c.stem);
+  let score = 0;
+  if (["식신", "상관"].includes(sip)) score += 2;
+  else if (["정관", "편관"].includes(sip)) score += 1;
+  if (BRANCH_YUKHAP[dayBranch] === c.branch) score += 1;
+  if (BRANCH_CHUNG[dayBranch] === c.branch) score -= 2;
+  return score;
+}
+
+// 결혼운 시기 추정 (정통화) — 향후 50년 대운 중 결혼운 점수 최고 1개
+function estimateMarriageYear(s: SajuAnalysis, currentYear: number, birthYear: number): string {
+  const age = currentYear - birthYear;
+  const ilgan = s.ilgan;
+  const dayBranch = s.pillars.day.branch;
+  const gisinElem = gisinOf(s.yongsin);
+  const upcoming = s.daeun.cycles
+    .filter(c => c.age >= age - 1 && c.age <= age + 50)
+    .map(c => ({ ...c, score: marriageScoreOfCycle(ilgan, dayBranch, gisinElem, c) }))
+    .sort((a, b) => b.score - a.score);
+  if (upcoming.length === 0 || upcoming[0].score <= 0) {
+    const fb = s.daeun.cycles.find(c => c.age >= age && c.age <= age + 20);
+    if (!fb) return "앞으로 10년 안";
+    return `${birthYear + fb.age}년(${fb.ganji}년) 무렵`;
+  }
+  const best = upcoming[0];
+  return `${birthYear + best.age}년(${best.ganji}년 대운, 결혼운 점수 ${best.score}) 무렵`;
+}
+
+// 흔들리는 시기 추정 (정통화) — 충·원진·기신 들어오는 가장 점수 낮은 1개
+function estimateCrisisRange(s: SajuAnalysis, currentYear: number, birthYear: number): string {
+  const age = currentYear - birthYear;
+  const ilgan = s.ilgan;
+  const dayBranch = s.pillars.day.branch;
+  const gisinElem = gisinOf(s.yongsin);
+  const upcoming = s.daeun.cycles
+    .filter(c => c.age >= age && c.age <= age + 50)
+    .map(c => ({ ...c, score: marriageScoreOfCycle(ilgan, dayBranch, gisinElem, c) }))
+    .sort((a, b) => a.score - b.score);
+  if (upcoming.length === 0) return "특별히 흔들릴 시기 없음";
+  const worst = upcoming[0];
+  if (worst.score >= 0) return "결정적 위험 시기 약함 — 일상의 작은 자극만 살피기";
+  const start = birthYear + worst.age;
+  const end = start + 4;
+  return `${start}년~${end}년 무렵(${worst.ganji}년 대운, 충·원진·기신 자극)`;
+}
+
+// 자녀 계획 시기 추정 (정통화) — 식상·정관 들어오는 가장 가까운 대운
+function estimateChildPlanRange(s: SajuAnalysis, currentYear: number, birthYear: number): string {
+  const age = currentYear - birthYear;
+  const ilgan = s.ilgan;
+  const dayBranch = s.pillars.day.branch;
+  const upcoming = s.daeun.cycles
+    .filter(c => c.age >= age - 1 && c.age <= age + 30)
+    .map(c => ({ ...c, score: childScoreOfCycle(ilgan, dayBranch, c) }))
+    .sort((a, b) => b.score - a.score);
+  if (upcoming.length === 0 || upcoming[0].score <= 0) return "혼인 후 1~3년 안";
+  const best = upcoming[0];
+  const start = birthYear + best.age;
+  const end = start + 2;
+  return `${start}년~${end}년 무렵(${best.ganji}년 대운, 식상·관성 활성기)`;
+}
+
+// 부모궁 정통화 — 年柱(부모궁) 천간·지지 십성 + 인성·관성 분포 결합
+// 정통: 年柱 = 조부·부모 자리. 인성·관성·식상 분포가 부모 영향력 결정.
 function parentPalace(s: SajuAnalysis): string {
-  const top = topElement(s);
-  const tone: Record<string, string> = {
-    목: "목 기운이 강한 활발하고 진취적인 가정",
-    화: "화 기운이 강한 표현이 풍부한 가정",
-    토: "토 기운이 강한 책임감 있는 가정",
-    금: "금 기운이 강한 규율과 절제의 가정",
-    수: "수 기운이 강한 지혜롭고 깊은 가정",
+  const yearStem = s.pillars.year.stem;
+  const yearBranch = s.pillars.year.branch;
+  const yearStemSip = sipseongOfStem(s.ilgan, yearStem);
+  const yearBranchElem = BRANCH_ELEM_LOCAL[yearBranch] ?? "토";
+  const ilElem = STEM_ELEM[s.ilgan];
+
+  // 인성·관성·식상 카운트
+  const sip = s.sipseong as Record<string, { stem: string; branch: string } | null>;
+  const all = [
+    sip.year?.stem, sip.year?.branch,
+    sip.month?.stem, sip.month?.branch,
+    sip.day?.branch,
+    sip.hour?.stem, sip.hour?.branch,
+  ].filter(Boolean) as string[];
+  const insongCount = all.filter(s => s.includes("정인") || s.includes("편인") || s.includes("효신")).length;
+  const gwanCount = all.filter(s => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length;
+  const sikCount = all.filter(s => s.includes("식신") || s.includes("상관")).length;
+
+  // 부모궁 결 결정
+  const traits: string[] = [];
+  // 年柱 천간 십성 → 부모와의 결
+  if (["정인", "편인"].includes(yearStemSip)) traits.push("받쳐주고 품어주는 결의 부모");
+  else if (["정관", "편관"].includes(yearStemSip)) traits.push("규율·기대가 분명한 결의 부모");
+  else if (["정재", "편재"].includes(yearStemSip)) traits.push("현실 감각·실용 중심 결의 부모");
+  else if (["식신", "상관"].includes(yearStemSip)) traits.push("자녀 표현·자유를 받아주는 결의 부모");
+  else traits.push("자기 결이 단단한 부모");
+
+  // 年支 오행 → 가정 분위기
+  const branchTone: Record<string, string> = {
+    목: "활발·성장 분위기 가정",
+    화: "표현·열정 풍부한 가정",
+    토: "신뢰·책임감 깊은 가정",
+    금: "절제·기준 분명한 가정",
+    수: "사색·지혜로운 가정",
   };
-  return tone[top] ?? "균형있는 가정";
+  traits.push(branchTone[yearBranchElem]);
+
+  // 인성 강도로 부모 영향
+  if (insongCount >= 3) traits.push("부모 영향력 강함 (인성 ${insongCount})");
+  else if (insongCount === 0) traits.push("부모 의지 옅음 — 자수성가형");
+
+  // 관성 강도로 부모 기대
+  if (gwanCount >= 3) traits.push("부모 기대 부담 큼");
+
+  return traits.join(" / ");
 }
 
 function topStrength(compat: CompatibilityResult): string {
@@ -433,6 +566,28 @@ export function buildAllInyeonPrompts(
   const _block = (scope: "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "ch8"): string =>
     _inyeonTraits ? inyeonTraitsToPromptBlock(_inyeonTraits, aName, bName, scope) : "";
 
+  // ─── V2 두 사람 각자 본인 결정론 매핑 풀 (자도인 M1~M7 cell) — LLM 임의 통설 차단 ───
+  // 인연 챕터 → 홍실 scope 매핑 (홍실 6 챕터의 scope 키 재활용)
+  // 매핑 — 자연 비유는 ch1(사주 펼치기)에서만 등장. ch2~ch8은 비유 인용 X (명사만).
+  const INYEON_TO_HONGSIL_SCOPE: Record<"ch1"|"ch2"|"ch3"|"ch4"|"ch5"|"ch6"|"ch7"|"ch8", HongsilChapterScope> = {
+    ch1: "ch1",  // 사주 펼치기 → 매력 풀 (자연 비유 OK 1-1·1-4)
+    ch2: "ch3",  // 인연 결 → 짝꿍 결 (자연 비유 X)
+    ch3: "ch3",  // 성격궁합 → 짝꿍 결 (자연 비유 X)
+    ch4: "ch4",  // 감정궁합 → 패턴 (비유 X)
+    ch5: "ch5",  // 체질·시기·본능 → 본능 (비유 X)
+    ch6: "ch3",  // 지금 필요한 것 → 짝꿍 (비유 X)
+    ch7: "ch3",  // 결혼·미래 → 짝꿍 (비유 X)
+    ch8: "ch6",  // 편지 → 편지 (회상 1회 OK)
+  };
+  const _aTraits = (() => { try { return deriveHongsilTraits(a); } catch { return null; } })();
+  const _bTraits = (() => { try { return deriveHongsilTraits(b); } catch { return null; } })();
+  const _personPair = (scope: "ch1"|"ch2"|"ch3"|"ch4"|"ch5"|"ch6"|"ch7"|"ch8"): string => {
+    const hScope = INYEON_TO_HONGSIL_SCOPE[scope];
+    const aBlock = _aTraits ? hongsilTraitsToPromptBlock(_aTraits, aName, hScope) : "";
+    const bBlock = _bTraits ? hongsilTraitsToPromptBlock(_bTraits, bName, hScope) : "";
+    return aBlock + bBlock;
+  };
+
   // ─── 홍실 캐릭터 톤 가이드 — 모든 챕터 공통 prepend (톤 일관성) ───
   const _characterBlock = `
 【홍실 결정론 캐릭터 톤 가이드 — 풀이 본문 전체에 톤 일관 유지】
@@ -441,7 +596,7 @@ export function buildAllInyeonPrompts(
 ${pairLabelObj ? `▸ 짝꿍 라벨: "${pairLabel}" — ${pairTone}` : ""}
 ▸ 적용 룰: 본문 어조·연애 묘사·갈등 묘사·미래 묘사 모두 위 두 캐릭터 결을 의식하고 전개.
    - ${aMatch.name} 캐릭터의 결로 ${aName}님 행동·심리 묘사 (예: 옥순=직진, 현숙=시크, 정숙=강단, 순자=애교, 영숙=다정, 영자=일상)
-   - ${bMatch.name} 캐릭터의 결로 ${bName}님 행동·심리 묘사 (예: 영철=자신감, 영호=인싸, 광수=진중, 영수=중후, 상철=편안)
+   - ${bMatch.name} 캐릭터의 결로 ${bName}님 행동·심리 묘사 (예: 영철=자신감, 영식=정성·바른생활, 영호=인싸, 광수=진중, 영수=중후, 상철=편안)
    - 캐릭터 이름 본문 직접 명시는 ch1·ch3 지정 sub에서만. 다른 챕터는 톤만 반영하고 이름 직접 호출 X.
 
 【20~30 여성 친화 콘텐츠 룰 — 9챕터 전체 강제】
@@ -457,14 +612,18 @@ ${pairLabelObj ? `▸ 짝꿍 라벨: "${pairLabel}" — ${pairTone}` : ""}
 10. **권태기·갈등 풀이**는 위협 X·해결책 중심. "이렇게 풀면 돼요" 톤.
 `;
 
+  // ─── sub 분배표 prepend (PRIMARY 인자 sub간 중복 차단 + 자연 비유 1회 룰) ───
+  type IS = "ch1"|"ch2"|"ch3"|"ch4"|"ch5"|"ch6"|"ch7"|"ch8";
+  const _dist = (s: IS) => inyeonSubDistribution(s);
+
   return {
-    ch1: _characterBlock + _block("ch1") + ch1,
-    ch2: _characterBlock + _block("ch2") + ch2,
-    ch3: _characterBlock + _block("ch3") + ch3,
-    ch4: _characterBlock + _block("ch4") + ch4,
-    ch5: _characterBlock + _block("ch5") + ch5,
-    ch6: _characterBlock + _block("ch6") + ch6,
-    ch7: _characterBlock + _block("ch7") + ch7,
-    ch8: _characterBlock + _block("ch8") + ch8,
+    ch1: _characterBlock + _dist("ch1") + _personPair("ch1") + _block("ch1") + ch1,
+    ch2: _characterBlock + _dist("ch2") + _personPair("ch2") + _block("ch2") + ch2,
+    ch3: _characterBlock + _dist("ch3") + _personPair("ch3") + _block("ch3") + ch3,
+    ch4: _characterBlock + _dist("ch4") + _personPair("ch4") + _block("ch4") + ch4,
+    ch5: _characterBlock + _dist("ch5") + _personPair("ch5") + _block("ch5") + ch5,
+    ch6: _characterBlock + _dist("ch6") + _personPair("ch6") + _block("ch6") + ch6,
+    ch7: _characterBlock + _dist("ch7") + _personPair("ch7") + _block("ch7") + ch7,
+    ch8: _characterBlock + _dist("ch8") + _personPair("ch8") + _block("ch8") + ch8,
   };
 }

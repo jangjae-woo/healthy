@@ -1,6 +1,6 @@
 // ════════════════════════════════════════════════════════════════════
 // 인연 — 홍실 캐릭터 결정론 분류
-// 사주 → 6 여캐(옥순/현숙/정숙/순자/영숙/영자) 또는 5 남캐(영철/영호/광수/영수/상철)
+// 사주 → 6 여캐(옥순/현숙/정숙/순자/영숙/영자) 또는 6 남캐(영철/영식/영호/광수/영수/상철)
 // 우선순위 캐스케이드 — 1순위부터 검사, 미매칭 시 fallback.
 //
 // 격리: 이 파일은 인연 전용. 자도인·평생사주·연애사주 영향 X.
@@ -9,7 +9,7 @@
 import type { SajuAnalysis } from "../saju-calculator";
 
 export type FemaleCharacter = "옥순" | "현숙" | "정숙" | "순자" | "영숙" | "영자";
-export type MaleCharacter = "영철" | "영호" | "광수" | "영수" | "상철" | "정수";
+export type MaleCharacter = "영철" | "영식" | "영호" | "광수" | "영수" | "상철";
 export type CharacterName = FemaleCharacter | MaleCharacter;
 
 export interface CharacterMatch {
@@ -68,20 +68,20 @@ function isBalanced(saju: SajuAnalysis): boolean {
 // ─── 캐릭터 메타 ─────────────────────
 export const FEMALE_META: Record<FemaleCharacter, Omit<CharacterMatch, "name" | "signal">> = {
   옥순: { innerImage: "자유분방·솔직 직진녀", color: "#ec4899", enLabel: "BOLD HEART" },
-  현숙: { innerImage: "쿨·시크 차도녀·완벽주의", color: "#a855f7", enLabel: "COOL CITY" },
-  정숙: { innerImage: "강단·성숙·안정·차분", color: "#3b82f6", enLabel: "CALM PILLAR" },
-  순자: { innerImage: "활발·애교·감수성·마이웨이", color: "#eab308", enLabel: "BRIGHT CHARM" },
-  영숙: { innerImage: "참한·맞춰주는·다정·부드러운", color: "#14b8a6", enLabel: "WARM GRACE" },
-  영자: { innerImage: "무난·평범·따스함·일상적", color: "#22c55e", enLabel: "DAILY GLOW" },
+  현숙: { innerImage: "쿨·시크 차도녀·완벽주의", color: "#ec4899", enLabel: "COOL CITY" },
+  정숙: { innerImage: "강단·성숙·안정·차분", color: "#ec4899", enLabel: "CALM PILLAR" },
+  순자: { innerImage: "활발·애교·감수성·마이웨이", color: "#ec4899", enLabel: "BRIGHT CHARM" },
+  영숙: { innerImage: "참한·맞춰주는·다정·부드러운", color: "#ec4899", enLabel: "WARM GRACE" },
+  영자: { innerImage: "무난·평범·따스함·일상적", color: "#ec4899", enLabel: "DAILY GLOW" },
 };
 
 export const MALE_META: Record<MaleCharacter, Omit<CharacterMatch, "name" | "signal">> = {
-  영철: { innerImage: "자신감·매력 자연스러운", color: "#dc2626", enLabel: "STEADY FLAME" },
-  영호: { innerImage: "포용력·외향·인싸·점잖", color: "#f97316", enLabel: "OPEN WAVE" },
-  광수: { innerImage: "이지적·진중·깊이·신중", color: "#1e40af", enLabel: "DEEP THINKER" },
-  영수: { innerImage: "중후·진중·안정·든든한", color: "#92400e", enLabel: "STRONG PILLAR" },
+  영철: { innerImage: "자신감·매력 자연스러운", color: "#64748b", enLabel: "STEADY FLAME" },
+  영식: { innerImage: "착실·정성·세심·바른생활·모범생", color: "#64748b", enLabel: "STEADY DEVOTION" },
+  영호: { innerImage: "포용력·외향·인싸·점잖", color: "#64748b", enLabel: "OPEN WAVE" },
+  광수: { innerImage: "이지적·진중·깊이·신중", color: "#64748b", enLabel: "DEEP THINKER" },
+  영수: { innerImage: "중후·진중·안정·든든한", color: "#64748b", enLabel: "STRONG PILLAR" },
   상철: { innerImage: "무난·편안·밸런스·부담 없는", color: "#64748b", enLabel: "EASY BREEZE" },
-  정수: { innerImage: "단정·반듯한·책임감·예의 바른", color: "#0f766e", enLabel: "STEADY GENT" },
 };
 
 // ─── 여자 캐릭터 분류 (우선순위 캐스케이드) ─────────────────────
@@ -148,21 +148,21 @@ export function matchMaleCharacter(saju: SajuAnalysis): CharacterMatch {
   if (c.식상 >= 3 && dohwa && yang) {
     return { name: "영철", signal: "식상강 + 도화살 + 양일간 — 자연스러운 자신감의 결", ...MALE_META.영철 };
   }
-  // 2순위 영호 — 정관 + 식상 + 비겁 결합
+  // 2순위 영식 — 정관 + 정인 + 식신 균형 + 음일간
+  if (c.정관 >= 1 && c.인성 >= 2 && c.식상 >= 1 && !yang) {
+    return { name: "영식", signal: "정관·정인·식신 균형 + 음일간 — 착실하고 정성스러운 모범의 결", ...MALE_META.영식 };
+  }
+  // 3순위 영호 — 정관 + 식상 + 비겁 결합
   if (c.정관 >= 1 && c.식상 >= 2 && c.비겁 >= 2) {
     return { name: "영호", signal: "정관·식상·비겁 결합 — 포용력 있는 인싸의 결", ...MALE_META.영호 };
   }
-  // 3순위 광수 (strict) — 인성강 + 정관 + 깊이
+  // 4순위 광수 (strict) — 인성강 + 정관 + 깊이
   if (c.인성 >= 3 && c.정관 >= 1) {
     return { name: "광수", signal: "인성강 + 정관 — 이지적·진중·깊이의 결", ...MALE_META.광수 };
   }
-  // 3.5순위 광수 (인성 매우 강) — 정관 없어도 인성≥4면 진중·깊이
+  // 4.5순위 광수 (인성 매우 강) — 정관 없어도 인성≥4면 진중·깊이
   if (c.인성 >= 4) {
     return { name: "광수", signal: "인성 매우 강 — 깊이·신중함의 결", ...MALE_META.광수 };
-  }
-  // 3.7순위 정수 — 정관강 + 음일간 + 도화 X (단정·반듯·예의)
-  if (c.정관 >= 2 && !yang && !dohwa) {
-    return { name: "정수", signal: "정관강 + 음일간 + 도화 없음 — 단정·반듯·예의 바른 결", ...MALE_META.정수 };
   }
   // 4순위 영수 — 정관·인성 안정
   if (c.정관 >= 1 && c.인성 >= 2) {
@@ -221,7 +221,7 @@ export function deriveIdealType(saju: SajuAnalysis, myGender: "남" | "여"): Ch
       return { name: "영호", signal: "비겁 부족 — 함께 가는 사교적이고 든든한 결에 끌림", ...MALE_META.영호 };
     }
     if (c.재성 <= 1) {
-      return { name: "정수", signal: "재성 부족 — 단정·반듯하고 책임감 있는 결에 끌림", ...MALE_META.정수 };
+      return { name: "영식", signal: "재성 부족 — 정성스럽고 바른 결의 사람에게 끌림", ...MALE_META.영식 };
     }
     return { name: "상철", signal: "균형 사주 — 부담 없고 편안한 결에 끌림", ...MALE_META.상철 };
   } else {

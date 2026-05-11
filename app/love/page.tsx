@@ -51,7 +51,7 @@ const CSS = `
 .back-link:hover{color:var(--rose-deep);transform:translateX(-3px)}
 .brand-mark{font-family:"Italiana",serif;font-size:11px;letter-spacing:0.4em;color:var(--gold);text-transform:uppercase}
 
-.hero{position:relative;min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 20px 60px}
+.hero{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 20px 20px}
 .hero-deco-tag{display:inline-block;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:20px;position:relative;padding:0 28px}
 .hero-deco-tag::before,.hero-deco-tag::after{content:"";position:absolute;top:50%;width:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
 .hero-deco-tag::before{left:0}
@@ -59,7 +59,7 @@ const CSS = `
 .hero-pre{font-family:"Gowun Batang",serif;font-size:14px;color:var(--ink-soft);margin-bottom:20px;letter-spacing:0.02em;line-height:1.9}
 .hero-pre em{font-style:normal;color:var(--thread);font-weight:700}
 .hero-title{font-family:"Nanum Myeongjo",serif;font-weight:800;font-size:64px;line-height:1.0;letter-spacing:-0.02em;color:var(--ink);margin-bottom:6px;position:relative}
-.hero-title .ko{display:inline-block;background:linear-gradient(180deg,var(--plum-deep) 0%,var(--crimson) 50%,var(--thread) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 6px}
+.hero-title .ko{display:inline-block;color:var(--thread);padding:0 6px}
 .hero-title-en{font-family:"Italiana",serif;font-size:11px;letter-spacing:0.45em;color:var(--gold);margin-top:10px;margin-bottom:4px}
 .hero-hanja{font-family:"Nanum Myeongjo",serif;font-size:16px;color:var(--thread);letter-spacing:0.35em;margin-bottom:6px;font-weight:400}
 .hero-title-suffix{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;color:var(--rose-deep);margin-bottom:24px}
@@ -249,10 +249,45 @@ export default function LoveLandingPage() {
               그 매듭의 끝이 어디로 향하는지,<br />
               <span className="accent">사주</span>가 말해줍니다.
             </p>
-            <a href="#legend" className="cta-enter reveal d4">
-              <span>입장하기</span>
-              <span className="cta-arrow" />
-            </a>
+          </div>
+        </section>
+
+        {/* CHOICES */}
+        <section className="choices" id="choose">
+          <div className="cards">
+            <svg className="cards-thread" viewBox="0 0 1000 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <path className="thread-path" d="M 50,30 C 250,5 350,55 500,30 C 650,5 750,55 950,30" fill="none" stroke="#c8203a" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+            </svg>
+
+            <Link href="/hongsil" className="card reveal d2">
+              <div className="card-en">F O R &nbsp; O N E</div>
+              <div className="card-title">연애사주</div>
+              <p className="card-quote">"내 사주가 보여주는 사랑의 패턴"</p>
+              <div className="card-cta">
+                <span>사주 보러가기</span>
+                <span className="card-cta-arrow">→</span>
+              </div>
+            </Link>
+
+            <Link href="/inyeon" className="card reveal d3">
+              <div className="card-en">F O R &nbsp; T W O</div>
+              <div className="card-title">인연궁합</div>
+              <p className="card-quote">"이 사람, 정말 맞는 사람일까?"</p>
+              <div className="card-cta">
+                <span>사주 보러가기</span>
+                <span className="card-cta-arrow">→</span>
+              </div>
+            </Link>
+
+            <Link href="/love/parent-child" className="card reveal d3">
+              <div className="card-en">F O R &nbsp; F A M I L Y</div>
+              <div className="card-title">부모와 자녀궁합</div>
+              <p className="card-quote">"내 아이의 결, 어떻게 키워줘야 할까"</p>
+              <div className="card-cta">
+                <span>사주 보러가기</span>
+                <span className="card-cta-arrow">→</span>
+              </div>
+            </Link>
           </div>
         </section>
 
@@ -306,126 +341,6 @@ export default function LoveLandingPage() {
                 <span className="legend-attribution-text">Yue Lao · The Old Man Under the Moon</span>
               </div>
             </div>
-          </div>
-        </section>
-
-        <div className="divider">
-          <span className="divider-line" />
-          <span className="divider-mark">緣</span>
-          <span className="divider-line" />
-        </div>
-
-        {/* HOOK — 11 캐릭터 후크 */}
-        <section className="legend" id="hook">
-          <div className="legend-inner">
-            <div className="legend-content">
-              <div className="legend-tag reveal">
-                <span className="hanja">十 一</span>11 CHARACTERS
-              </div>
-              <h2 className="legend-headline reveal d1">
-                <span className="red">당신</span>은 11명 중<br />
-                누구일까요
-              </h2>
-              <div className="legend-body reveal d2">
-                <p>
-                  사주가 그려내는 <span className="red">11가지 인연 결</span>.<br />
-                  여자 6 캐릭터, 남자 5 캐릭터.<br />
-                  당신은 그 중 어떤 결로 태어났을까요.
-                </p>
-                <p>
-                  <span className="soft">옥순일까, 정숙일까,</span><br />
-                  <span className="soft">광수일까, 영철일까…</span><br />
-                  사주만 가져오면 곧 답이 풀려요.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="divider">
-          <span className="divider-line" />
-          <span className="divider-mark">緣</span>
-          <span className="divider-line" />
-        </div>
-
-        {/* CHOICES */}
-        <section className="choices" id="choose">
-          <div className="section-tag reveal">CHOOSE YOUR PATH</div>
-          <h2 className="section-title reveal d1">
-            당신의 홍실은<br />
-            <span className="soft">어디로</span> 이어져 있나요
-          </h2>
-
-          <div className="cards">
-            <svg className="cards-thread" viewBox="0 0 1000 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-              <path className="thread-path" d="M 50,30 C 250,5 350,55 500,30 C 650,5 750,55 950,30" fill="none" stroke="#c8203a" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-            </svg>
-
-            <Link href="/hongsil" className="card reveal d2">
-              <div className="card-en">F O R &nbsp; O N E</div>
-              <div className="card-title">나의 홍실</div>
-              <p className="card-quote">"내 사주가 보여주는 사랑의 패턴"</p>
-              <ul>
-                <li>나의 연애 스타일</li>
-                <li>끌리는 이상형의 결</li>
-                <li>인연이 오는 시기</li>
-                <li>반복되는 연애 약점</li>
-              </ul>
-              <div className="card-cta">
-                <span>REVEAL ME</span>
-                <span className="card-cta-arrow">→</span>
-              </div>
-            </Link>
-
-            <Link href="/inyeon" className="card reveal d3">
-              <div className="card-en">F O R &nbsp; T W O</div>
-              <div className="card-title">둘의 홍실</div>
-              <p className="card-quote">"이 사람, 정말 맞는 사람일까?"</p>
-              <ul>
-                <li>짝사랑·썸·연인·부부·재회 분기</li>
-                <li>두 사주의 깊은 결</li>
-                <li>결혼·미래 궁합</li>
-                <li>홍도인의 마지막 편지</li>
-              </ul>
-              <div className="card-cta">
-                <span>CHECK US</span>
-                <span className="card-cta-arrow">→</span>
-              </div>
-            </Link>
-          </div>
-        </section>
-
-        <div className="divider">
-          <span className="divider-line" />
-          <span className="divider-mark">命</span>
-          <span className="divider-line" />
-        </div>
-
-        {/* RULES */}
-        <section className="rules">
-          <div className="rules-inner">
-            <div className="section-tag reveal">THE RULES</div>
-            <h2 className="section-title reveal d1">
-              홍실을 풀어드리는 <span className="soft">약속</span>
-            </h2>
-            <ol className="rule-list">
-              <li className="reveal d1">
-                <span className="rule-num" />
-                <span className="rule-text"><strong>진심으로 인연</strong>을 찾는 분을 위한 풀이입니다.</span>
-              </li>
-              <li className="reveal d2">
-                <span className="rule-num" />
-                <span className="rule-text">본명은 묻지 않습니다 — <strong>자기 사주</strong>만 가져오세요.</span>
-              </li>
-              <li className="reveal d3">
-                <span className="rule-num" />
-                <span className="rule-text">결과는 <strong>만세력 + AI 명리학</strong>의 정통 풀이입니다.</span>
-              </li>
-              <li className="reveal d4">
-                <span className="rule-num" />
-                <span className="rule-text">인연은 정해진 결과가 아닌 <strong>선택의 가능성</strong>입니다.</span>
-              </li>
-            </ol>
           </div>
         </section>
 

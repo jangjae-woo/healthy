@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ChapterShell from "@/components/hongsil/ChapterShell";
 import SajuTable from "@/components/hongsil/SajuTable";
@@ -11,6 +11,9 @@ import {
   SOLO_DURATION_LABEL, LOVE_DESIRE_LABEL, LOVE_STYLE_LABEL,
   SoloDuration, LoveDesire, LoveStyle,
 } from "@/lib/hongsil/types";
+import { renderParagraphs } from "@/lib/inline-emphasis";
+import { derivePatternTags } from "@/lib/hongsil/pattern-tags";
+import OpeningVideo from "@/components/OpeningVideo";
 
 const THREAD = "#c8203a";
 const PLUM = "#6b1e3a";
@@ -86,7 +89,7 @@ function SubSection({ title, body }: { title: string; body: string }) {
       </div>
       <div className="text-[15px] leading-[2.0]"
         style={{ color: INK, fontFamily: "'Gowun Batang', serif" }}>
-        {body}
+        {renderParagraphs(body, GOLD)}
       </div>
     </div>
   );
@@ -95,50 +98,190 @@ function SubSection({ title, body }: { title: string; body: string }) {
 function CharacterIntroCard({ name, character }: { name: string; character: NonNullable<ComputeData["character"]> }) {
   const me = character.me;
   const destiny = character.destiny;
+  const [revealed, setRevealed] = useState<0 | 1 | 2 | 3>(0);
+  const captureRef = useRef<HTMLDivElement>(null);
+  const [shareMsg, setShareMsg] = useState<string | null>(null);
+
+  // 빅 리빌 — 단계별 페이드 인
+  useEffect(() => {
+    const t1 = setTimeout(() => setRevealed(1), 200);  // 본인 카드
+    const t2 = setTimeout(() => setRevealed(2), 1000); // 운명 짝꿍 카드
+    const t3 = setTimeout(() => setRevealed(3), 1700); // 공유 버튼
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
+  async function handleShare() {
+    const text = `난 #${me.name}이래! 운명 짝꿍은 #${destiny.name}\n사주가 읽어주는 내 인연 — paljawon.com/love`;
+    try {
+      if (typeof window !== "undefined" && (navigator as any).share) {
+        try {
+          const html2canvas = (await import("html2canvas-pro")).default;
+          if (captureRef.current) {
+            const canvas = await html2canvas(captureRef.current, { scale: 2, useCORS: true, backgroundColor: null });
+            const blob = await new Promise<Blob | null>((res) => canvas.toBlob((b) => res(b), "image/png"));
+            if (blob && (navigator as any).canShare?.({ files: [new File([blob], "hongsil.png", { type: "image/png" })] })) {
+              await (navigator as any).share({
+                files: [new File([blob], "hongsil.png", { type: "image/png" })],
+                text,
+              });
+              setShareMsg("✓ 공유했어요");
+              setTimeout(() => setShareMsg(null), 2000);
+              return;
+            }
+          }
+        } catch { /* fallback */ }
+        await (navigator as any).share({ text, url: "https://paljawon.com/love" });
+        setShareMsg("✓ 공유했어요");
+      } else {
+        await navigator.clipboard.writeText(text);
+        setShareMsg("✓ 복사됐어요!");
+      }
+      setTimeout(() => setShareMsg(null), 2000);
+    } catch {
+      setShareMsg("× 공유 실패");
+      setTimeout(() => setShareMsg(null), 2000);
+    }
+  }
+
   return (
-    <div className="mb-8 rounded-lg overflow-hidden"
-      style={{
-        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.92))",
-        border: "1px solid rgba(212,169,107,0.35)",
-        boxShadow: "0 16px 40px -16px rgba(178,40,71,0.18)",
-      }}>
-      <div className="px-5 py-5 text-center" style={{ borderBottom: "1px solid rgba(212,169,107,0.25)" }}>
-        <div className="text-[10px] tracking-[0.4em] mb-2" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
-          紅 絲 · MY HONGSIL
+    <>
+      {/* 캡처용 hidden 카드 (SNS 공유) */}
+      <div
+        ref={captureRef}
+        style={{
+          position: "fixed", left: "-9999px", top: 0,
+          width: 540, padding: 32,
+          background: `
+            radial-gradient(ellipse at 30% 0%, #ffe1ea 0%, transparent 55%),
+            radial-gradient(ellipse at 70% 100%, #fff0d6 0%, transparent 60%),
+            linear-gradient(180deg, #fff7f9 0%, #ffeef3 60%, #fce4d6 100%)
+          `,
+          fontFamily: "'Noto Serif KR', 'Gowun Batang', serif",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <div style={{ color: GOLD, fontSize: 11, letterSpacing: "0.4em", fontFamily: "'Cormorant Garamond', serif" }}>
+            紅 絲 · MY HONGSIL
+          </div>
+          <div style={{ color: THREAD, fontSize: 13, letterSpacing: "0.3em", marginTop: 6 }}>
+            연애사주
+          </div>
         </div>
-        <div className="text-[13px]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
-          {name}님은
+        <div style={{ textAlign: "center", padding: "24px 16px", borderTop: `1px solid #c9a871`, borderBottom: `1px solid #c9a871`, marginBottom: 20 }}>
+          <div style={{ color: INK_SOFT, fontSize: 14, marginBottom: 8 }}>{name}님은</div>
+          <div style={{ color: me.color, fontSize: 64, fontWeight: 900, lineHeight: 1, marginBottom: 6, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}>
+            {me.name}
+          </div>
+          <div style={{ color: PLUM, fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", marginBottom: 10 }}>스타일</div>
+          <div style={{ color: INK, fontSize: 14 }}>{me.innerImage}</div>
         </div>
-        <div className="text-[44px] font-black leading-none mt-1 mb-1"
-          style={{ color: me.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}>
-          {me.name}
+        <div style={{ textAlign: "center", padding: "16px" }}>
+          <div style={{ color: GOLD, fontSize: 11, letterSpacing: "0.4em", marginBottom: 8 }}>DESTINY</div>
+          <div style={{ color: INK_SOFT, fontSize: 13, marginBottom: 4 }}>운명의 짝꿍</div>
+          <div style={{ color: destiny.color, fontSize: 44, fontWeight: 900, lineHeight: 1, marginBottom: 8, fontFamily: "'Nanum Myeongjo', serif" }}>
+            {destiny.name}
+          </div>
+          <div style={{ color: INK, fontSize: 13, fontWeight: 600, marginBottom: 10 }}>{destiny.innerImage}</div>
+          <div style={{ color: GOLD, fontSize: 12 }}>✦ {destiny.signal}</div>
         </div>
-        <div className="text-[12px] font-bold" style={{ color: PLUM, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.1em" }}>
-          스타일
-        </div>
-        <div className="text-[12px] mt-2" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
-          {me.innerImage}
+        <div style={{ textAlign: "center", marginTop: 16, color: GOLD, fontSize: 10, letterSpacing: "0.2em" }}>
+          paljawon.com/love
         </div>
       </div>
-      <div className="px-5 py-4 text-center">
-        <div className="text-[11px] mb-2" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
-          DESTINY · 운명의 짝꿍
+
+      {/* 표시용 카드 — 일반 흰 박스 + 빅 리빌 단계별 페이드 */}
+      <div className="mb-8">
+      <div className="rounded-lg overflow-hidden relative"
+        style={{
+          background: "#ffffff",
+          border: "1px solid rgba(0,0,0,0.08)",
+          boxShadow: "0 4px 12px -4px rgba(0,0,0,0.08)",
+        }}>
+
+        {/* 본인 카드 — Stage 1 페이드 */}
+        <div className="px-5 py-6 text-center"
+          style={{
+            borderBottom: "1px solid rgba(201,168,113,0.4)",
+            opacity: revealed >= 1 ? 1 : 0,
+            transform: revealed >= 1 ? "translateY(0)" : "translateY(8px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
+          }}>
+          <div className="text-[10px] tracking-[0.4em] mb-2" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
+            紅 絲 · MY HONGSIL
+          </div>
+          <div className="text-[13px] mb-2" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+            {name}님은
+          </div>
+          <div className="text-[48px] font-black leading-none mt-1 mb-2"
+            style={{
+              color: me.color,
+              fontFamily: "'Nanum Myeongjo', serif",
+              letterSpacing: "0.05em",
+              textShadow: `0 2px 12px ${me.color}33`,
+            }}>
+            {me.name}
+          </div>
+          <div className="text-[11px] font-bold tracking-[0.2em]" style={{ color: PLUM, fontFamily: "'Nanum Myeongjo', serif" }}>
+            스타일
+          </div>
+          <div className="text-[12px] mt-2" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+            {me.innerImage}
+          </div>
         </div>
-        <div className="text-[13px]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
-          {name}님의 운명 짝꿍은
+
+        {/* 운명 짝꿍 — Stage 2 페이드 */}
+        <div className="px-5 py-5 text-center"
+          style={{
+            opacity: revealed >= 2 ? 1 : 0,
+            transform: revealed >= 2 ? "translateY(0)" : "translateY(8px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
+          }}>
+          <div className="text-[11px] tracking-[0.45em] mb-2" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
+            DESTINY · 운명의 짝꿍
+          </div>
+          <div className="text-[13px]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+            {name}님의 운명 짝꿍은
+          </div>
+          <div className="text-[36px] font-black leading-none mt-1 mb-1"
+            style={{
+              color: destiny.color,
+              fontFamily: "'Nanum Myeongjo', serif",
+              letterSpacing: "0.05em",
+              textShadow: `0 2px 8px ${destiny.color}33`,
+            }}>
+            {destiny.name}
+          </div>
+          <div className="text-[12px] mt-1" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
+            {destiny.innerImage}
+          </div>
+          <div className="text-[11px] mt-2" style={{ color: GOLD, fontFamily: "'Gowun Batang', serif", fontWeight: 600 }}>
+            ✦ {destiny.signal}
+          </div>
         </div>
-        <div className="text-[32px] font-black leading-none mt-1 mb-1"
-          style={{ color: destiny.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em" }}>
-          {destiny.name}
-        </div>
-        <div className="text-[12px] mt-1" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
-          {destiny.innerImage}
-        </div>
-        <div className="text-[11px] mt-2" style={{ color: GOLD, fontFamily: "'Gowun Batang', serif" }}>
-          {destiny.signal}
+
+        {/* 공유 버튼 — 숨김 (나중에 살릴 수 있도록 코드 보존) */}
+        <div className="hidden px-5 pb-5"
+          style={{
+            opacity: revealed >= 3 ? 1 : 0,
+            transition: "opacity 0.6s ease",
+          }}>
+          <button
+            onClick={handleShare}
+            className="w-full py-3 rounded-md text-[13px] font-bold transition-all active:scale-95"
+            style={{
+              background: `${THREAD}22`,
+              color: THREAD,
+              fontFamily: "'Gowun Batang', serif",
+              letterSpacing: "0.1em",
+              border: `1.5px solid ${THREAD}55`,
+            }}
+          >
+            {shareMsg ?? "♡ 친구에게 결과 공유하기"}
+          </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -149,7 +292,8 @@ function DaeunTimeline({ daeun, birthYear, currentYear }: {
   currentYear: number;
 }) {
   const currentAge = currentYear - birthYear;
-  const cycles = daeun.cycles.slice(0, 8);
+  // 60세 이하 대운까지만 표시 (사랑 풀이에서 노년 대운 인용 차단)
+  const cycles = daeun.cycles.filter(c => c.age <= 60).slice(0, 7);
   return (
     <div className="rounded-md p-5"
       style={{
@@ -196,28 +340,37 @@ function DaeunTimeline({ daeun, birthYear, currentYear }: {
 // 3장 — 운명 짝꿍 큰 카드 (CharacterIntroCard보다 임팩트 ↑)
 function DestinyHeroCard({ destiny, name }: { destiny: CharData; name: string }) {
   return (
-    <div className="rounded-md p-6 text-center"
+    <div className="rounded-md p-6 text-center relative overflow-hidden"
       style={{
-        background: `linear-gradient(135deg, ${destiny.color}10, ${destiny.color}03)`,
-        border: `2px solid ${destiny.color}66`,
-        boxShadow: `0 12px 32px -12px ${destiny.color}33`,
+        background: "linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,232,0.92) 100%)",
+        border: `2px solid #c9a871`,
+        boxShadow: `0 12px 32px -10px rgba(184,134,70,0.30), 0 4px 12px -4px rgba(178,40,71,0.10), inset 0 0 0 1px rgba(255,255,255,0.5)`,
       }}>
-      <div className="text-[10px] tracking-[0.45em] mb-3" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
+      {/* 상단 베이지 액센트 */}
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: 4,
+        background: "linear-gradient(90deg, transparent, #d4a96b, #b88646, #d4a96b, transparent)",
+      }} />
+      <div className="text-[10px] tracking-[0.45em] mb-3 mt-1" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
         DESTINY · 운명의 짝꿍
       </div>
       <div className="text-[14px] mb-2" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
         {name}님의 운명 짝꿍은
       </div>
       <div className="text-[56px] font-black leading-none mb-3"
-        style={{ color: destiny.color, fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.05em",
-          textShadow: `0 4px 16px ${destiny.color}33` }}>
+        style={{
+          color: destiny.color,
+          fontFamily: "'Nanum Myeongjo', serif",
+          letterSpacing: "0.05em",
+          textShadow: `0 4px 16px ${destiny.color}33`,
+        }}>
         {destiny.name}
       </div>
       <div className="text-[13px] mb-3" style={{ color: INK, fontFamily: "'Gowun Batang', serif", fontWeight: 600 }}>
         {destiny.innerImage}
       </div>
       <div className="text-[12px] px-4 py-2 rounded-full inline-block"
-        style={{ background: `${destiny.color}1a`, border: `1px solid ${destiny.color}66`, color: destiny.color, fontFamily: "'Gowun Batang', serif" }}>
+        style={{ background: `${destiny.color}1a`, border: `1px solid ${destiny.color}66`, color: destiny.color, fontFamily: "'Gowun Batang', serif", fontWeight: 600 }}>
         ✦ {destiny.signal}
       </div>
     </div>
@@ -373,6 +526,7 @@ function HongsilResultInner() {
   const [data, setData] = useState<ComputeData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [aiText, setAiText] = useState<Record<number, string>>({});
+  const [openingDone, setOpeningDone] = useState(false);
 
   useEffect(() => {
     const meYear = parseInt(sp.get("meYear") || "0", 10);
@@ -482,11 +636,13 @@ function HongsilResultInner() {
       </div>
     </div>;
   }
-  if (!data) {
-    return <div className="min-h-screen flex items-center justify-center" style={{ background: "#fff7f9" }}>
-      <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
-        style={{ borderColor: `${THREAD}33`, borderTopColor: THREAD }} />
-    </div>;
+  if (!data || !openingDone) {
+    return <OpeningVideo
+      dataReady={!!data}
+      onComplete={() => setOpeningDone(true)}
+      loadingMessage={`${meName}님의 사주를 펼치는 중…`}
+      src="/opening-hongsil.mp4"
+    />;
   }
 
   const me = data.me;
@@ -514,7 +670,7 @@ function HongsilResultInner() {
     <ChapterShell
       chapterNo={chapter}
       chapterTitle={
-        chapter === 1 ? "내 매력과 연애 스타일"
+        chapter === 1 ? ""
         : chapter === 2 ? "사랑이 오는 타이밍"
         : chapter === 3 ? "내 짝꿍 미리 보기"
         : chapter === 4 ? "내 사랑 흑역사 — 반복 패턴"
@@ -544,7 +700,6 @@ function HongsilResultInner() {
 
       {chapter === 1 && (
         <>
-          {data.character && <CharacterIntroCard name={meName} character={data.character} />}
           <Section title={`${meName}님의 사주`}>
             <SajuTable name={meName} birthLine={meBirth}
               hour={pillars.hour} day={pillars.day} month={pillars.month} year={pillars.year} />
@@ -553,6 +708,7 @@ function HongsilResultInner() {
             <SinKangBar ilgan={me.ilgan} stage={me.shinkang} />
           </Section>
           <Section title="내 매력과 연애 스타일">
+            {data.character && <CharacterIntroCard name={meName} character={data.character} />}
             <ChSub ch={1} title="내 매력은?" fallback={`${meName}님의 본질적 매력을 풀어드리고 있어요.`} />
             <ChSub ch={1} title="썸 단계 결정적 매력" fallback="썸 시점에 발휘되는 결정적 매력을 풀어드리고 있어요." />
             <ChSub ch={1} title="사랑하면 변하는 나" fallback="사랑에 빠지면 변하는 결을 풀어드리고 있어요." />
@@ -582,22 +738,7 @@ function HongsilResultInner() {
 
       {chapter === 4 && (
         <Section title="내 사랑 흑역사 — 반복되는 그 패턴">
-          {(() => {
-            const tags: string[] = [];
-            const sip = me.sipseong as Record<string, { stem: string; branch: string } | null>;
-            const all = [sip.year?.stem, sip.year?.branch, sip.month?.stem, sip.month?.branch, sip.day?.branch, sip.hour?.stem, sip.hour?.branch].filter(Boolean) as string[];
-            const sik = all.filter((s) => s.includes("식신") || s.includes("상관")).length;
-            const inn = all.filter((s) => s.includes("정인") || s.includes("편인") || s.includes("효신")).length;
-            const gwan = all.filter((s) => s.includes("정관") || s.includes("편관") || s.includes("칠살")).length;
-            if (sik >= 3) tags.push("#감정 폭발");
-            if (sik <= 1) tags.push("#속에 쌓음");
-            if (inn >= 3) tags.push("#회피·곱씹기");
-            if (gwan >= 2) tags.push("#책임감 함정");
-            if (duration === "gt_3y") tags.push("#오랜 결핍");
-            if (duration === "lt_6m") tags.push("#이별 잔재");
-            if (tags.length === 0) tags.push("#일상의 결");
-            return <PatternTagsCard tags={tags} />;
-          })()}
+          <PatternTagsCard tags={derivePatternTags(me as unknown as Parameters<typeof derivePatternTags>[0], duration)} />
           <ChSub ch={4} title="자꾸 끌리는 가짜 인연" fallback="자꾸 끌리는 가짜 유형을 진단하고 있어요." />
           {duration === "never" ? (
             <ChSub ch={4} title="첫 연애에서 가장 조심해야 할 패턴" fallback="첫 연애에서 빠질 수 있는 함정을 풀어드리고 있어요." />
@@ -639,6 +780,11 @@ function HongsilResultInner() {
           </div>
         </>
       )}
+      <div className="text-center mt-6 text-[10px] tracking-[0.05em] leading-[1.6]"
+        style={{ color: `${INK_SOFT}88`, fontFamily: "'Cormorant Garamond', 'Gowun Batang', serif" }}>
+        본 풀이는 청나라 자평명리 <strong style={{ color: GOLD }}>자평진전(子平眞詮)</strong>·적천수(滴天髓)·명리정종(命理正宗) 정통 framework 기준입니다.
+        <br />격국·공망·십이운성·신살×십성 결합·천간 합화 결정론 적용.
+      </div>
     </ChapterShell>
   );
 }

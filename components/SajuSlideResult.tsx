@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import PaymentModal from "@/components/PaymentModal";
+import OpeningVideo from "@/components/OpeningVideo";
 import {
   type SajuAnalysis,
   getSipseong,
@@ -505,6 +506,8 @@ export default function SajuSlideResult() {
   const [qaPayState, setQaPayState]   = useState<'none'|'input'|'paying'>('none');
   const [qaPayProgress, setQaPayProgress] = useState(0);
   const [hintDismissed, setHintDismissed] = useState(false);
+  // 평생사주 오프닝 영상 — 신규 풀이일 때만 노출, 저장된 풀이(saved=1) 재방문 시 스킵
+  const [openingDone, setOpeningDone] = useState(() => params.get("saved") === "1");
   const slideRef = useRef<HTMLDivElement>(null);
   const tapStartRef = useRef<{x:number; y:number} | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -906,7 +909,7 @@ export default function SajuSlideResult() {
     return null;
   })();
 
-  async function handlePayment(payerName: string, payerPhone: string) {
+  async function handlePayment(finalPrice: number) {
     if (paying) return;
     setPaying(true);
     try {
@@ -925,13 +928,9 @@ export default function SajuSlideResult() {
         channelKey,
         paymentId,
         orderName: '평생 사주 풀이',
-        totalAmount: PRICE,
+        totalAmount: finalPrice,
         currency: 'CURRENCY_KRW',
         payMethod: 'CARD',
-        customer: {
-          fullName: payerName,
-          phoneNumber: payerPhone,
-        },
       } as any);
 
       if (response?.code !== undefined) {
@@ -943,11 +942,11 @@ export default function SajuSlideResult() {
         throw new Error(response.message || '결제 취소');
       }
 
-      // 서버 검증 — 위변조 방어
+      // 서버 검증 — 위변조 방어 (서버가 쿠키 기반으로 단독 계산)
       const verifyRes = await fetch('/api/portone/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ paymentId, expectedAmount: PRICE }),
+        body: JSON.stringify({ paymentId }),
       });
       const verify = await verifyRes.json();
       if (!verify.success) {
@@ -960,6 +959,32 @@ export default function SajuSlideResult() {
       const url = new URL(window.location.href);
       url.searchParams.set('unlocked', '1');
       url.searchParams.set('paymentId', paymentId);
+      window.location.href = url.toString();
+    } catch (e) {
+      setPaying(false);
+      throw e;
+    }
+  }
+
+  // 무료 쿠폰 — PortOne 스킵, 서버에 unlock 요청 + payments 적재
+  async function handleFreeUnlock(couponCode: string) {
+    if (paying) return;
+    setPaying(true);
+    try {
+      const res = await fetch('/api/coupon/free-unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: couponCode }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.error || '쿠폰 적용에 실패했습니다.');
+        setPaying(false);
+        throw new Error(data.error || '쿠폰 실패');
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.set('unlocked', '1');
+      url.searchParams.set('paymentId', data.paymentId);
       window.location.href = url.toString();
     } catch (e) {
       setPaying(false);
@@ -2141,6 +2166,21 @@ export default function SajuSlideResult() {
     return null;
   }
 
+  // ── 평생사주 오프닝 영상 ─────────────────────────
+  // 신규 풀이("사주 풀이 시작" 클릭 → 결제 → 결과 페이지 진입)에서만 노출.
+  // 저장된 풀이(saved=1) 재방문 시 스킵 (openingDone init=true)
+  if (!openingDone) {
+    return (
+      <OpeningVideo
+        src="/평생사주.mp4"
+        theme="saju"
+        dataReady={!!sajuData}
+        onComplete={() => setOpeningDone(true)}
+        loadingMessage={`${name || '당신'}님의 평생 사주를 펼치는 중…`}
+      />
+    );
+  }
+
   // ── 헤더 섹션 라벨 ─────────────────────────────
   const sectionLabel = currentSection();
 
@@ -2281,8 +2321,11 @@ export default function SajuSlideResult() {
       onClose={() => setShowPayModal(false)}
       price={PRICE}
       goodsName="평생 사주 풀이"
-      onSubmit={async ({ name, phone }) => {
-        await handlePayment(name, phone);
+      onSubmit={async (finalPrice) => {
+        await handlePayment(finalPrice);
+      }}
+      onFreeUnlock={async (code) => {
+        await handleFreeUnlock(code);
       }}
     />
     </div>
