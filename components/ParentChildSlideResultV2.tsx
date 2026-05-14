@@ -99,6 +99,11 @@ const SLIDES: SlideSpec[] = [
     { subtitle: "셋이 함께 가장 편안한 순간", indicator: "오행", visualKey: "ch7-trio-radar" },
     { subtitle: "부모가 채워줄 결 / 살펴줄 결", indicator: "용신 + 기신", visualKey: "ch7-flow" },
   ]},
+  // ⭐ V2.1 (2026-05-15) — 7장 신설: 몸 그리고 채워줄 한 그릇 (sub 2)
+  { chapter: "7장", chapterTitle: "우리 아이 몸 그리고 채워줄 한 그릇", kind: "scroll-chapter", subs: [
+    { subtitle: "이 아이가 약하게 타고난 자리", indicator: "약한 오행" },
+    { subtitle: "사주에 채워주면 좋은 음식", indicator: "용신 + 한국 식재료" },
+  ]},
   // 마지막 당부
   { chapter: "마지막", chapterTitle: "자도인의 마지막 당부", kind: "outro" },
 ];
@@ -157,7 +162,7 @@ const CHAPTER_KEY = "__chapter__";
 // 마커로 phase 분기 → phase → 챕터 매핑 → ### sub 헤더만 매칭.
 // hongsil/inyeon은 cs/cd 이벤트 패턴, 부모자녀 V2는 phase별 단일 fetch라 마커 방식 채택.
 const PHASE_TO_CHAPTER: Record<string, string> = {
-  ch1: "1장", ch2: "2장", ch3: "3장", ch4: "4장", ch5: "5장", ch6: "6장", outro: "마지막",
+  ch1: "1장", ch2: "2장", ch3: "3장", ch4: "4장", ch5: "5장", ch6: "6장", ch7: "7장", outro: "마지막",
 };
 
 function buildSlideTextMap(full: string): SlideTextMap {
@@ -165,7 +170,7 @@ function buildSlideTextMap(full: string): SlideTextMap {
   if (!full) return result;
 
   // phase 마커로 본문 분기
-  const markerRegex = /<<<PARENT_CHILD_PHASE:(ch[1-6]|outro)>>>/g;
+  const markerRegex = /<<<PARENT_CHILD_PHASE:(ch[1-7]|outro)>>>/g;
   const markers = [...full.matchAll(markerRegex)];
 
   // 마커 없으면 옛 패턴 fallback (회귀 안전망 — 다만 신규 fetch 루프 후엔 안 들어옴)
@@ -450,8 +455,8 @@ export default function ParentChildSlideResultV2() {
         setMeta(computeJson as MetaEvent);
 
         // Stage 1~7 — 챕터별 streaming 순차 호출
-        const phases: Array<"ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "outro"> =
-          ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "outro"];
+        const phases: Array<"ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "outro"> =
+          ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "outro"];
         let full = "";
         // ⭐ Step 5 (2026-05-13) — cross-chapter usedTokens 누적
         // 매 phase 응답에서 가드가 mutate한 token 카운트 받아 누적, 다음 phase 요청에 보냄.

@@ -51,6 +51,9 @@ import type { ParentChildChapterScope } from "@/lib/parent-child/sub-distributio
 // ⭐ F3 (2026-05-14) — 자녀 연령대 분류 (guard 후처리에 전달)
 import { classifyAgeStageFromYear, getAgeAdaptedHeaders } from "@/lib/parent-child/interpretation-plan";
 import { guardGeneratedText, type GuardPersonContext } from "@/lib/llm-output-guard";
+// ⭐ V2.1 (2026-05-14) — 청월당 풀 시스템 + 깨달음 4단 메커니즘 + ch7 신설
+import { injectPoolsBlock, injectOutroPoolsBlock, INSIGHT_4STEP_RULE } from "@/lib/parent-child/pool-injector";
+import { injectTimeResolution } from "@/lib/parent-child/chapter-time-resolution";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -2716,7 +2719,7 @@ export function computeParentChildChartFacts(sajuChild: SajuAnalysis, birthYear?
 }
 
 // ─── V2 자도인 (브라덜 7장 요청건) — 컴포넌트 SLIDES 매핑과 정확 정합, 격국 삭제, 양육 톤 흡수 ──
-type V2Phase = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "outro";
+type V2Phase = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "outro";
 
 function buildParentChildPromptV2(
   d: Record<string, string>,
@@ -2955,6 +2958,8 @@ L. **★ 가독성 강조 (1종만 — 절제 사용)**
   const _ch4TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch4") : "";
   const _ch5TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch5") : "";
   const _ch6TraitsBlock = _childTraitsV2 ? childTraitsToPromptBlockV2(_childTraitsV2, cnh, "ch6") : "";
+  // ⭐ V2.1 ch7 — ch6 traits 재사용 (자녀 본질 데이터 동일, 챕터 도메인만 ch7 = 몸·음식)
+  const _ch7TraitsBlock = _ch6TraitsBlock;
 
   // 부모-자녀 오행 비교 (6장)
   const cf_momCompare = sajuMom ? inferElementCompare(sajuMom, sajuChild) : null;
@@ -3031,6 +3036,16 @@ ${cf_momCompare ? `- [엄마-자녀 오행 비교] 엄마 강한 결: ${(cf_momC
 ${cf_dadCompare ? `- [아빠-자녀 오행 비교] 아빠 강한 결: ${(cf_dadCompare as any)?.parentStronger ?? "—"} / 자녀 강한 결: ${(cf_dadCompare as any)?.childStronger ?? "—"}` : ""}
 "부모가 채워줄 결 / 살펴줄 결" sub는 용신·기신 한자/오행을 본문에 그대로 인용. "${ch6TrioMoment}" sub는 자녀 강한 오행(${cf_strongestElem})과 부모 결 비교 인용.`;
 
+  // ⭐ V2.1 ch7 — 몸·음식 차트값 (약한 오행 + 용신·기신 재인용)
+  const ch7ChartFacts = `
+[★★★ 7장 차트값 — 본문에 반드시 이 결과만 사용.]
+- [자녀 오행] ${cf_elemLine}
+- [자녀 가장 약한 오행 = 약하게 타고난 자리·채워줄 음식의 근거] ${cf_weakestElem}
+- [자녀 가장 강한 오행] ${cf_strongestElem}
+- [용신/기신] 용신 = ${cf_gaeun?.yongsinElement ?? "—"} / 기신 = ${cf_gisin?.element ?? "—"}(${cf_gisin?.hanja ?? "—"})
+- [자녀 일간] ${sajuChild.ilgan} (signature-metaphor 풀에서 핵심 자연 비유 도출 시드)
+"이 아이가 약하게 타고난 자리" sub는 약한 오행 + body-pool 풀만 사용. "사주에 채워주면 좋은 음식" sub는 약한 오행/용신 오행 + food-pool 한국인 친숙 식재료 풀만 사용. 한약재(당귀·황기·인삼·녹용) 절대 X. 의학 진단 어조 X.`;
+
   // ─── phase별 본문 (호출마다 그 챕터만) ─────────────────────────────────────
   const ch1Body = `
 출력은 정확히 다음 한 줄 헤더만. 본문은 절대 작성하지 마세요.
@@ -3076,6 +3091,8 @@ ${ch2ChartFacts}
 ${_ch3TraitsBlock}
 ${ch3ChartFacts}
 
+${injectTimeResolution("ch3")}
+
 [★ 3장 공용 출력 룰 — system 룰과 함께 적용]
 - **출력 형식: 산문체 4단 구조**. 박스·번호·이모지 분리·가상 대화·표 절대 금지. 단락 사이 빈 줄 1개로만 구분.
   ① 도입 단정 한 줄 (60~100자) — 자녀 사주 인자에서 도출된 결을 단호히 선언.
@@ -3084,32 +3101,50 @@ ${ch3ChartFacts}
   ④ "부모님이 기억해야 할 한 가지" 마무리 (90~130자) — "부모님이 기억해야 할 한 가지는, ${cnh}은 [구체 단정]라는 거예요." 어조로. 다독임 X.
 - 사주 인자 명사 본문 최소 3개 노출 (system 룰 #5).
 - 분량 sub당 450~600자. \`[[ ]]\` sub당 1~2회 키 어절(10자 이내)에만.
+- ★ V2 풀 시스템 — 각 sub에 박힌 [가정문 풀] [대사 풀] [인자 속성 매트릭스]는 절대 룰. 풀 외 즉흥 가정문·대사 생성 시 위반. 풀 항목을 자연 인용·약간 변주만 허용.
+
+${INSIGHT_4STEP_RULE}
 
 ## 3장 — 우리 아이 칭찬하고 혼내는 법
 
 ### 화났을 때 입을 닫을까, 폭발할까
 [메인: 식상 / 서브: 비겁·신강신약·일주·신살(양인·괴강·고란)]
 [시그너처: 두갈래 대비형] — "안으로 삼킴 vs 밖으로 즉시" 패턴을 한 단락 안에서 대비하며 ${cnh}이 어느 쪽에 가까운지 단정. 안으로 삼키는 결이면 "평소엔 ○○하다가 어느 날 갑자기 폭발"하는 시간 누적 패턴 묘사 의무. 밖으로 즉시면 "작은 자극에도 즉각 흘러나와 잔잔히 식음" 패턴.
+
+${injectPoolsBlock({ chapterId: "ch3", subId: "anger", mainFactor: "식상", scenarios: [{ key: "ch3_anger_pattern", pickCount: 1 }, { key: "ch3_anger_inward_scene", pickCount: 1 }, { key: "ch3_anger_outward_scene", pickCount: 1 }], dialogs: [{ category: "ch3_anger_inner", insertCount: 1 }, { category: "ch3_anger_parent_wrong", insertCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}은 화가 났을 때 [밖으로 표현하기보다 안으로 삼키는 / 그때그때 즉시 흘려보내는] 아이예요." → ② "식상이 [약/강]하게 자리한 ${cnh}은 자기 감정을 [말로 풀어내는 통로가 좁아요/즉각 표현으로 드러내요]" 톤으로 시작. 식상 + 신강신약 + 비겁 + 일주·신살(양인 = 폭발 / 고란 = 닫힘) 결합. ③ 누적 폭발 또는 잦은 분출 일상 장면 1개 + "왜 이제 와서 그래?" 또는 "작은 일에도 또 이래?"가 도움 안 되는 이유 + 작은 감정 자주 꺼낼 환경 처방. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}이 [입을 닫는/즉시 터뜨리는] 건 [괜찮아서가 아니라 표현하는 법을 못 찾아서/억제가 안 되어서가 아니라 쌓아둘 통로가 없어서]라는 거예요." 식상 0 = "안으로 정리하는 신중한 결" 양면 풀이.
 
 ### 아이 감정이 가라앉는 환경
 [메인: 오행 / 서브: 일주·신강신약·기신 오행·12운성]
 [시그너처: 처방전형 — 환경 권장이 산문 안에 자연 녹음. 박스·5축 리스트·이모지 절대 X.]
+
+${injectPoolsBlock({ chapterId: "ch3", subId: "calm_environment", mainFactor: "오행", scenarios: [{ key: "ch3_calm_light", pickCount: 1 }, { key: "ch3_calm_space", pickCount: 1 }, { key: "ch3_calm_sound", pickCount: 1 }, { key: "ch3_calm_warmth", pickCount: 1 }, { key: "ch3_calm_recovery_ritual", pickCount: 1 }], dialogs: [{ category: "ch3_calm_inner", insertCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}은 [구체 환경 한 줄 — 빛·공간·소리·온도 중 자녀 결에 맞는 1~2축]에서 가장 빨리 감정이 가라앉는 아이예요." → ② "오행에서 [강한 오행]의 기운이 강한 ${cnh}은 외부 자극에 [어떻게] 반응해요" 톤. 강한 오행·약한 오행·기신 결합으로 어수선한 vs 정돈된, 시끄러운 vs 부드러운, 차가운 vs 따뜻한 환경 대비를 산문으로 풀이. ③ 혼자만의 시간 의무 + 야단 직후 대화 X 권고 — ${cnh}이 진정될 시간을 충분히 보장받았을 때 부모 말이 머리와 가슴에 동시에 가닿는 메커니즘 묘사. 좋아하는 음악·따뜻한 차 같은 회복 의식 1~2개 자녀 결에서 도출. ④ 마무리 — "부모님이 기억해야 할 한 가지는, '진정해'라고 말하는 것보다 진정될 수 있는 환경을 먼저 만들어주는 것이 ${cnh}에게는 훨씬 효과적이라는 거예요." 환경은 반드시 자녀 강한 오행·약한 오행·기신·12운성 결합으로 도출. 일반 인테리어 조언 금지.
 
 ### 마음 열리는 칭찬
 [메인: 인성 / 서브: 식상·일주·용신·천을귀인]
 [시그너처: 단정+일화형] — "결과보다 과정 / 능력보다 노력" 단정 + 구체 칭찬 멘트 1~2개를 [[ ]] 골드 강조로 + 둘만 있을 때라는 자리까지 짚어줌.
+
+${injectPoolsBlock({ chapterId: "ch3", subId: "praise", mainFactor: "인성", scenarios: [{ key: "ch3_praise_scene", pickCount: 1 }, { key: "ch3_praise_compare_bad", pickCount: 1 }], dialogs: [{ category: "ch3_praise_phrase", insertCount: 2 }] })}
+
 구성: ① 단정 — "${cnh}은 [결과보다 과정을 / 능력보다 노력을 / 행동보다 마음을] 알아봐줄 때 마음이 활짝 열리는 아이예요." → ② "인성이 [발달한/얇게 자리한] ${cnh}은 '잘했다'는 한마디보다 '네가 어떤 마음으로 했는지 엄마가 알아'라는 인정에 더 깊이 반응해요" 톤. 정인(태도·과정 인정형) vs 편인(직관·고유성 인정형) 분기 + 식상·일주·용신·천을귀인 결합. ③ 구체 칭찬 멘트 1~2개 — 자녀 사주 인자에서 도출된 30~50자 멘트를 [[ ]] 강조로 한 번 (예: [[네가 포기하지 않고 끝까지 해낸 그 부분]]). 차가운 평가·비교 언어("형은 이렇게 했는데", "옆집 아이는") 가 ${cnh}의 어디를 찌르는지 짧게 + 사람들 앞 칭찬보다 둘만 있을 때 진심 한마디가 깊게 새겨지는 이유. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}은 '결과를 칭찬받는 아이'가 아니라 '존재를 인정받고 싶은 아이'라는 거예요." 인성 0 = "직관·실전 — 행동 자체로 확인받고 싶은 결" 양면 풀이.
 
 ### ${ah.ch3_lie}
 [메인: 일주 / 서브: 관성·인성·신살·합·충]
 [시그너처: 관찰자/통찰형] — 표면(${ah.ch3_lieContext} 한 행동)이 아니라 본심을 깊이 분석. 가상 대화 박스 절대 X — 통찰의 산문으로.
+
+${injectPoolsBlock({ chapterId: "ch3", subId: "lie", mainFactor: "일주", scenarios: [{ key: "ch3_lie_motive", pickCount: 1 }, { key: "ch3_lie_approach", pickCount: 1 }], dialogs: [{ category: "ch3_lie_inner", insertCount: 1 }, { category: "ch3_lie_parent_wrong", insertCount: 1 }, { category: "ch3_lie_parent_open", insertCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}은 ${ah.ch3_lieContext} 자체가 목적이 아니라, [실망시키고 싶지 않은 마음 / 혼나는 게 두려운 마음 / 자유를 지키려는 마음 / 부담을 잠시 내려놓고 싶은 마음] 에서 ${ah.ch3_lieContext}을 하는 아이예요." (자녀 일주 + 관성 결합으로 동기 결정. 자녀 연령이 영유아면 "거짓말" 어휘 X — 고집·억지·떼·짜증으로) → ② "${cnh}의 일주는 기본적으로 [정직하고 책임감 있는 / 감정 풍부하고 즉흥적인 / 자유로운 결을 가진 / 부드럽고 받아주는] 결을 가지고 있어요" 톤. 일주(60갑자) + 관성 강/약 + 인성 + 신살 + 합·충 결합. 관성 강 = 부모 기대 부담이 또래보다 큼 / 관성 약 = 자유 막혔을 때 즉흥 회피 등. ③ "왜 ${ah.ch3_lieContext}이 나왔을까"를 먼저 들어주는 대화법 + "솔직하게 말하면 더 크게 화내지 않을게" 약속이 ${ah.ch3_lieContext}의 필요성을 줄이는 메커니즘. 추궁이 닫게 만드는 이유 짧게. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}의 ${ah.ch3_lieContext}은 나쁜 마음이 아니라 [약한 순간의 표현 / 부담을 던 임시방편 / 자기 자유를 지키는 방어]라는 거예요. 그 [약한 순간/부담/자유]을 안전하게 만들어주는 게, 결국 단단한 ${cnh}로 키우는 길이에요." 가상 대화 X.
 
 ### 이 아이가 무너지는 자극
 [메인: 기신 / 서브: 약한 오행·신강신약·신살·12운성]
 [시그너처: 신호등/금지형] — 기신(忌神) 한자 1회 명시 + 금지어 직접 인용 + "행동만 짚되 인격은 보호". 노랑·주황·빨강 신호등 박스·이모지 절대 X — 기신 메커니즘의 산문으로.
+
+${injectPoolsBlock({ chapterId: "ch3", subId: "breaking", mainFactor: "기신", scenarios: [{ key: "ch3_breaking_stimulus", pickCount: 1 }, { key: "ch3_breaking_setting", pickCount: 1 }], dialogs: [{ category: "ch3_breaking_words", insertCount: 2 }] })}
+
 구성: ① 단정 — "${cnh}은 [차가운 비교 / 일방적인 재촉 / 자기 페이스 무시 / 공개적인 지적] 같은 자극을 받을 때 가장 깊이 무너지는 아이예요." (자녀 기신 + 약한 오행 + 비겁 강도로 도출) → ② "${cnh}의 기신(忌神)은 [차가운 비교와 일방적인 재촉 / 강한 통제와 침범 / 무관심한 거리]이에요" 톤. 기신·약한 오행·신강신약·신살·12운성 결합 풀이. 비겁 강 = 자기 페이스 부정당하면 자존감 무너짐 / 인성 약 = 차가운 평가에 결 흔들림 등. ③ 금지어 직접 인용 — "왜 너는 못해?", "다른 애들은 다 하는데", "빨리빨리 좀 해", "너는 왜 이런 애가 됐어" 중 ${cnh}의 결에 맞는 1~2개를 그대로 인용 + 그 말이 ${cnh}의 어디를 찌르는지 + 사람들 앞·형제자매 앞·친구 앞에서 혼나는 경험이 자존감에 남기는 흔적. 행동만 짚되 인격은 지키는 훈육 메커니즘. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}은 [강하게 키우려고 흔들면 흔들수록 더 약해지는 / 통제로 누르면 누를수록 더 멀어지는] 결을 가졌다는 거예요. 단단하게 키우려면, 오히려 [안전한 울타리부터 / 자기 페이스부터] 만들어주세요." 부정형 톤 X — "살펴줄 결" 어조.`;
 
   const ch4Body = `
@@ -3155,6 +3190,8 @@ ${ch4ChartFacts}
 ${_ch5TraitsBlock}
 ${ch5ChartFacts}
 
+${injectTimeResolution("ch5")}
+
 [★ 5장 공용 출력 룰 — system 룰과 함께 적용]
 - **출력 형식: 산문체**. 박스·키워드 묶음·5축 처방·타임라인·★ 표시·이모지·표 절대 금지. 단락 사이 빈 줄 1개로만 구분.
   ① 도입 단정 한 줄 (60~100자) — 자녀 사주 인자에서 도출된 결을 단호히 선언.
@@ -3163,32 +3200,50 @@ ${ch5ChartFacts}
   ④ "부모님이 기억해야 할 한 가지" 마무리 (90~130자).
 - 사주 인자 명사 본문 최소 3개 노출 (식상·재성·관성·인성·일주·용신·대운 등).
 - 분량 sub당 500~700자 (sub ②는 600~750자 허용). \`[[ ]]\` sub당 1~3회 (sub ② 무기 3개 나열에선 무기당 1회 = 최대 3회).
+- ★ V2 풀 시스템 — 각 sub에 박힌 [가정문 풀] [대사 풀] [인자 속성 매트릭스]는 절대 룰. 풀 외 즉흥 직업명·평판·멘트 생성 시 위반.
+
+${INSIGHT_4STEP_RULE}
 
 ## 5장 — 우리 아이는 무엇으로 빛날까
 
 ### 진짜 빛날 분야
 [메인: 식상·재성 / 서브: 일간 오행·일주·관성·신강신약]
 [시그너처: 단정+직업 예시 산문형] — 키워드 묶음 박스(창작/표현/사람/무대) 절대 X. 자녀 결과 잘 맞는 분야를 산문에 직업명으로 자연 인용 + 돈 감각 단정 + [[ ]] 강조 1회.
+
+${injectPoolsBlock({ chapterId: "ch5", subId: "field", mainFactor: "식상", scenarios: [{ key: "ch5_field_mok", pickCount: 1 }, { key: "ch5_field_hwa", pickCount: 1 }, { key: "ch5_field_to", pickCount: 1 }, { key: "ch5_field_geum", pickCount: 1 }, { key: "ch5_field_su", pickCount: 1 }, { key: "ch5_field_drain", pickCount: 1 }], dialogs: [{ category: "ch5_field_misread", insertCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}은 [결과물이 눈에 보이고 다른 사람에게 가치를 전달할 수 있는 / 본질을 깊이 파고드는 / 사람의 마음을 다루는 / 정확하고 단단한 구조를 만드는] 분야에서 진짜로 빛나는 아이예요." (식상·재성·일간 오행 결합으로 분야 결 결정) → ② "식상은 자기 안의 것을 밖으로 표현하고 만들어내는 별이에요. 재성은 그 결과물이 세상과 만나 가치로 전환되는 별이에요" 톤으로 시작. 식상·재성 강도 + 일간 오행별 분야 결(목 = 교육·창작 / 화 = 예술·발표 / 토 = 신뢰·관리·중재 / 금 = 정밀·결단·기술 / 수 = 연구·지혜·상담) + 관성·신강신약 결합 풀이. ③ ${cnh}에게 잘 맞는 분야 직업명 4~6개 산문에 자연 나열 (예: "디자인, 기획, 마케팅, 교육, 콘텐츠 제작, 요리, 의료, 상담" 같은 자녀 결에 맞는 분야명) + 반대로 지치게 하는 일(추상 이론·결과물 안 보이는 일 등) 짧게. 재성 강도에 따라 "돈 버는 감각이 어릴 때부터 발달 / 돈보다 의미·과정에 집중" 양면 풀이 + 작은 경제 활동 권고 한 줄. ④ 마무리 — "부모님이 기억해야 할 한 가지는, [[${cnh}의 진로는 '안정적인 직업'이 아니라 '자기가 만든 것을 세상에 내놓는 직업']]이라는 / [${cnh}의 진로는 '많이 아는 사람'이 아니라 '한 가지를 깊이 아는 사람']이라는 거예요. 그 길을 일찍 알아봐주는 것이 가장 큰 응원이에요." 직업명 단정 X — 결의 방향만.
 
 ### 아이만의 무기
 [메인: 일주 / 서브: 신살·일간 오행·신강신약·관성·인성]
 [시그너처: 무기 3가지 나열형] — 무기 1개 명명·영화 장면 묘사 절대 X. ${cnh}의 무기 3개를 각각 한 단락씩 산문으로 나열 + 각 무기마다 [[ ]] 강조 평판/멘트 1회 = 최대 3회.
+
+${injectPoolsBlock({ chapterId: "ch5", subId: "weapon", mainFactor: "일주", scenarios: [{ key: "ch5_weapon_first_axis", pickCount: 1 }, { key: "ch5_weapon_second_axis", pickCount: 1 }, { key: "ch5_weapon_third_axis", pickCount: 1 }], dialogs: [{ category: "ch5_weapon_misread", insertCount: 1 }, { category: "ch5_weapon_praise", insertCount: 2 }] })}
+
 구성: ① 단정 — "${cnh}의 가장 단단한 무기는 [구체 무기명 1 — 자녀 일주에서 도출]이에요." → ② 첫 번째 무기 단락 (180~220자) — "일주는 ${cnh}의 가장 근본적인 본질이에요. ${cnh}의 일주는 [단단하고 진중한 / 부드럽고 받아주는 / 결단력 있고 추진하는 / 섬세하고 헤아리는] 결을 담고 있어요" 톤. 일주(60갑자 또는 일간·일지)·일간 오행·신살(괴강 = 단호 / 양인 = 결단 등) + 신강신약 결합. 또래가 휩쓸릴 때 ${cnh}이 어떻게 자기 자리를 지키는지 + 어릴 때는 [[ ]] 평판으로 오해받기도 하는 결(예: [[고집이 세다]] / [[융통성이 없다]] / [[너무 무르다]] 자녀 결에 맞는 한 줄) → ③ 두 번째 무기 단락 (140~180자) — 신뢰감·약속 지키는 결(관성 강) / 마음으로 받아주는 결(인성 강) / 빠른 판단 결(식상 강) 등 자녀 사주 인자에서 도출. 친구·가족·미래 직장에서의 평판 [[ ]] 강조 1회 (예: [[걔는 믿을 수 있어]] / [[걔한테 부탁하면 끝까지 해]] 자녀 결에 맞는 한 줄) → ④ 세 번째 무기 단락 (140~180자) — 깊이 보는 눈(인성 강) / 분위기 살리는 손(식상 강) / 사람 챙기는 마음(재성 강) 등. 그 결이 분석·본질 보기·관계 다루기에서 어떻게 강점이 되는지. ⑤ 마무리 — "부모님이 기억해야 할 한 가지는, [[${cnh}의 무기는 '빠름'이 아니라 '깊음']]이라는 / [${cnh}의 무기는 '많음'이 아니라 '진심']이라는 거예요. [빠른/많은] 아이로 만들려고 하지 마세요. [깊은/진심 어린] 아이로 자랄 수 있게 시간을 주세요." 무기 3개는 자녀 사주 인자에서만 도출 — 일반론 X.
 
 ### 환하게 빛나게 해주는 결 한 가지
 [메인: 용신 / 서브: 일간 오행·신강신약·12운성·계절]
 [시그너처: 3축 환경 산문형] — 색·활동·공간·계절·시간 5축 처방 박스 절대 X. ${cnh}을 빛나게 하는 환경을 3축(인정·일상 리듬·멘토 류)으로 산문 묘사 + [[ ]] 강조 1~2회.
+
+${injectPoolsBlock({ chapterId: "ch5", subId: "environment", mainFactor: "용신", scenarios: [{ key: "ch5_env_recognition", pickCount: 1 }, { key: "ch5_env_rhythm", pickCount: 1 }, { key: "ch5_env_mentor", pickCount: 1 }, { key: "ch5_env_dimmer", pickCount: 1 }], dialogs: [{ category: "ch5_environment_phrase", insertCount: 1 }, { category: "ch5_mentor_phrase", insertCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}을 가장 환하게 빛나게 해주는 결은 [따뜻한 인정과 안정된 환경 / 자유로운 도전과 새로운 자극 / 깊은 신뢰와 한결같은 곁 / 분명한 책임과 명확한 기준]이에요." (자녀 용신 오행 + 일간 결합) → ② "용신은 ${cnh}에게 약처럼 작용하는 기운이에요" 톤. ${cnh}의 용신 오행(목 = 성장·인정 / 화 = 따뜻함·표현 / 토 = 안정·신뢰 / 금 = 단단함·기준 / 수 = 깊이·고요) + 일간 오행 관계 + 신강·신약별 용신 강도 + 12운성·계절 결합 풀이. ③ 환경 3축을 산문으로 — (a) "첫째, 자기 노력을 알아봐주는 사람이 곁에 있을 때예요" 류 인정의 결 + [[ ]] 강조 멘트 1회 (예: [[네가 얼마나 애쓰는지 알고 있어]] / [[네가 그 자리에 있어줘서 든든해]] 자녀 결에 맞게) / (b) 일상 리듬 — 안정된 시간 vs 변동 잦은 환경 / (c) 멘토 — 닮고 싶은 어른·선배·책 속 인물 곁에 있을 때 성장 속도 달라지는 메커니즘. 반대로 빛을 꺼뜨리는 환경(차가운 평가·끊임없는 비교·예측 불가) 짧게. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}은 [잘하는 아이로 만들려고 하기보다, 안전한 환경을 먼저 만들어주면 알아서 잘하는 / 누르려고 하기보다, 자유로운 자리를 먼저 만들어주면 알아서 책임지는] 아이로 자란다는 거예요." 용신=일간 동일 케이스 = "자기 결로 자라는 사주" 양면 풀이.
 
 ### 10대·20대·30대 어느 때 가장 빛날까
 [메인: 대운 / 서브: 일간 오행·용신·세운·12운성]
 [시그너처: 연령대 단락 묘사형] — 10대~80대 타임라인 박스·★ 표시 절대 X. 10대·20대·30대 각 연령대를 한 단락씩 산문으로 풀이.
+
+${injectPoolsBlock({ chapterId: "ch5", subId: "age", mainFactor: "대운", scenarios: [{ key: "ch5_age_10s", pickCount: 1 }, { key: "ch5_age_20s", pickCount: 1 }, { key: "ch5_age_30s", pickCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}은 [20대 후반에서 30대 중반 사이에 / 30대 후반에서 40대에 / 10대 후반에서 20대에 / 40대 중반 이후] 인생의 결이 가장 환하게 펼쳐지는 흐름을 가지고 있어요." (자녀 대운 + 용신 진입 시기 + 12운성 강세 결합) → ② "대운은 인생의 큰 흐름을 10년 단위로 보는 별이에요" 톤. ${cnh}의 대운 흐름 개관 — 10대는 [다지는/탐색하는/이미 빛나기 시작하는] 시기, 20대는 [탐색·실패와 시도/본격적으로 자기 자리 만드는], 30대는 [수확/한 번 더 도약]. 일찍 빛나는 결 vs 늦게 깊어지는 결 단정. ③ 연령대 단락 — (a) 10대 단락(80~120자): 기초·자기 결 확인 / 결과 쥐어짜내지 말 권고 / 다양한 경험 권장. (b) 20대 단락(80~120자): 실패와 시도 / "다른 애들은 자리 잡았는데 우리 애만 헤매네" 부모 흔들림 + 헤맴이 필요한 과정인 이유 / 또는 자기 자리 만들기 시작. (c) 30대 단락(80~120자): 수확 / 자기 분야에서 깊이 만들어가고 영향력 펼침. 자녀 대운 흐름에 맞춰 강한 시기 자연 묘사. ④ 마무리 — "부모님이 기억해야 할 한 가지는, [[${cnh}의 시간표는 '일찍'이 아니라 '정확한 때']]라는 / [${cnh}의 시간표는 '남들과 같이'가 아니라 '자기 결대로']라는 거예요. 그 때를 기다려주는 것이 ${cnh}을 가장 환하게 피우는 길이에요." 사춘기 단어 X — "결이 변하는 시기".
 
 ### 리더로 클까, 깊이 있는 전문가로 클까
 [메인: 관성·인성 / 서브: 비겁·일주·신강신약·식상]
 [시그너처: 양 갈래 비교 + 자녀 결 단정 + 직업 예시형] — 이모지(🌟📚) 절대 X. 리더형 vs 전문가형 정의 산문 + ${cnh}이 어느 쪽인지 단정 + 직업 예시 산문 + 작은 팀 리더 가능 여부 한 단락.
+
+${injectPoolsBlock({ chapterId: "ch5", subId: "role", mainFactor: "관성", scenarios: [{ key: "ch5_role_leader", pickCount: 1 }, { key: "ch5_role_expert", pickCount: 1 }, { key: "ch5_role_pioneer", pickCount: 1 }] })}
+
 구성: ① 단정 — "${cnh}은 [여러 사람을 이끄는 리더보다, 자기 분야에서 깊이를 만드는 전문가의 / 깊이 파고드는 전문가보다, 큰 그림을 그리는 리더의 / 두 결을 모두 갖춘 양면형의] 결을 가진 아이예요." (관성·인성 강도 비교 + 비겁·식상 결합) → ② "관성은 책임감과 체계의 별이고, 인성은 배움과 깊이의 별이에요" 톤. 두 별이 함께 작동할 때 만들어지는 결 풀이. 관성 강·인성 강 = 전문가형 / 관성 강·비겁 강 = 리더형 / 식상 강·재성 강 = 분야 개척형 / 관인상생 = 양면형. 일주·신강신약 결합 풀이. ③ 리더의 길 vs 전문가의 길 산문 비교 — 리더는 빠른 결정·사람 동원·큰 그림 / 전문가는 충분히 들여다본 후 결정·혼자 깊이 파고드는 시간·한 분야 오래. ${cnh}이 어느 쪽에 본 능력 발휘하는지 + 반대 자리에 억지로 올려놓을 때 본인도 힘들고 결과 안 나오는 메커니즘. 직업 예시 산문에 자연 인용 (전문가형 = 연구자·교수·전문 기술자·CTO·핵심 콘텐츠 제작자 / 리더형 = CEO·팀장·기획자·운영자 / 분야 개척형 = 창업가·프리랜서·콘텐츠 크리에이터). ④ 작은 팀 리더 가능 여부 한 단락 — 5명 이내 작고 신뢰 깊은 팀에선 자기 색 잃지 않으면서도 책임 다할 수 있는지(전문가형) / 큰 조직 리더가 본업인지(리더형). ⑤ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}을 ['리더로 키우려고' 하지 말라는 / '전문가로 가두려고' 하지 말라는 / '한 가지로 정하려고' 하지 말라는] 거예요. [깊이의 결을 그대로 키워주면 그 깊이가 결국 사람들을 끌어당기는 진짜 영향력이 / 큰 그림 그리는 결을 그대로 키워주면 자기 길을 만드는 진짜 힘이 / 두 결을 다 키워주면 그 양면이 진짜 무기가] 돼요." 관인상생 케이스 = 양면형 풀이.`;
 
   const ch6Body = `
@@ -3215,8 +3270,51 @@ ${hasMom && hasDad ? `구성: ① 도입 — "두 분이 ${cnh}과 통하는 결
 
 `;
 
+  const ch7Body = `
+출력 순서·헤더는 정확히 다음과 같이. 헤더 글자 한 자도 변경 금지.
+**원칙 A~L 강제 적용.** 5인자 결합·메인 0 양면 + 절제된 [[ ]] 1~2회.
+${_ch7TraitsBlock}
+${ch7ChartFacts}
+
+${injectTimeResolution("ch7")}
+
+[★ 7장 공용 출력 룰 — system 룰과 함께 적용]
+- **출력 형식: 산문체 4단 구조**. 박스·번호·이모지 분리·표·체크리스트 절대 금지. 단락 사이 빈 줄 1개로만 구분.
+  ① 도입 단정 한 줄 (60~100자) — 자녀 사주 약한 오행에서 도출된 결을 단호히 선언.
+  ② 사주 메커니즘 + 자연 비유 (140~200자) — 약한 오행 + 일간 결합 + 메커니즘 풀 자연 비유로 4단 연결.
+  ③ 일상 신호 + 채워줄 자리/음식 (150~220자) — 풀에서 인용된 신호·음식만 본문 노출. 의학 진단 어조 X.
+  ④ "부모님이 기억해야 할 한 가지" 마무리 (90~130자).
+- 사주 인자 명사 본문 최소 2개 노출 (약한 오행 + 일간 또는 용신).
+- 분량 sub당 450~600자. \`[[ ]]\` sub당 1~2회 키 어절(10자 이내)에만.
+- ★ V2 풀 시스템 — 각 sub에 박힌 [가정문 풀] [메커니즘 풀] [신체 풀]/[음식 풀]은 절대 룰. 풀 외 즉흥 부위명·음식명·자연 비유 생성 시 위반.
+- ★ 의학 진단 절대 금지 — "사주적으로 옅게 타고난 자리·채워주는 결" 어조. "병에 걸린다·치료된다" 식 표현 X.
+- ★ 한약재 본문 노출 절대 금지 — 당귀·황기·인삼·녹용 같은 한약재 어휘 X. 한국인 일상 식재료만.
+
+${INSIGHT_4STEP_RULE}
+
+## 7장 — 우리 아이 몸 그리고 채워줄 한 그릇
+
+### 이 아이가 약하게 타고난 자리
+[메인: 오행 / 서브: 일간_오행·신강신약]
+[시그너처: 자연 비유 메커니즘형 — 4단 연결 의무]
+
+${injectPoolsBlock({ chapterId: "ch7", subId: "weak_body", mainFactor: "오행", scenarios: [{ key: "ch7_body_natural_metaphor", pickCount: 1 }, { key: "ch7_body_daily_sign", pickCount: 1 }], mechanisms: [{ key: "wood_lack", pickCount: 1 }, { key: "fire_lack", pickCount: 1 }, { key: "earth_lack", pickCount: 1 }, { key: "metal_lack", pickCount: 1 }, { key: "water_lack", pickCount: 1 }], includeBodyPool: true })}
+
+구성: ① 단정 — "${cnh}은 사주적으로 [목/화/토/금/수] 기운이 [부족·약]하게 타고나, [위 신체 풀에서 도출된 자리]가 옅게 자리한 아이예요." (자녀 사주에서 가장 약한 오행 1개만 선택. 두 개 이상 약하면 더 약한 1개만.) → ② 4단 메커니즘 — "${cnh}의 사주에 [강한 오행]이 가득해서 [위 메커니즘 풀에서 자녀 결에 맞는 자연 비유 1개]" 형태. 사주 인자 명시 → 자연 비유 → 결과 현상 → 일상·마음 번역. ③ 일상 신호 — 위 일상 신호 풀에서 자녀 결에 가장 맞는 1개를 본문에 자연 인용. 부위 나열식 금지 — 한 부위 + 한 신호. "환절기에 코가 먼저 반응하는" 식 구체. ④ 마무리 — "부모님이 기억해야 할 한 가지는, ${cnh}의 [그 자리]가 약한 게 아니라 [사주적으로 옅게 타고나 더 살펴주면 좋은 자리]라는 거예요." 약함 단정 X — "옅게 타고난" 어조. 약한 오행이 0(완전 부재)인 경우 양면 풀이.
+
+### 사주에 채워주면 좋은 음식
+[메인: 용신·오행 / 서브: 일간_오행·기신]
+[시그너처: 음식 풀 자연 나열형 — 한국인 친숙 위주]
+
+${injectPoolsBlock({ chapterId: "ch7", subId: "supplement_food", mainFactor: "용신", scenarios: [{ key: "ch7_food_cooking_method", pickCount: 1 }, { key: "ch7_food_meal_scene", pickCount: 1 }], includeFoodPool: true })}
+
+구성: ① 단정 — "${cnh}에게 사주적으로 채워주면 좋은 결은 [목/화/토/금/수] 기운이고, 이를 채워주는 한국 식재료가 가까이에 있어요." (앞 sub1에서 짚은 약한 오행 또는 용신 오행 기준) → ② 사주 결합 — "[그 오행]은 [전통 맛·색] 음식으로 채워져요" 톤. 위 음식 풀에서 자녀 결에 맞는 카테고리(과일·구황작물·나물·해산물·기타) 중 3~5개 식재료를 본문에 자연 나열. 한약재(당귀·황기·인삼 등) 절대 X. ③ 어떻게 먹이면 좋은지 — 위 조리 방식 풀에서 1~2개 + 위 먹이는 자리 풀에서 1개 자연 인용. 예: "환절기 무렵 배숙 한 그릇을 따뜻하게" 식. 조리법 길게 X — 1~2줄 짧게. ④ 마무리 — "부모님이 기억해야 할 한 가지는, [[작은 한 그릇이 결을 채운다]]는 거예요. 매일이 아니라 [환절기·계절 바뀌는 자리]에 한 번씩, 식탁 위 작은 한 접시로 충분해요." 음식 효과 단정 X — "결을 채우는" 어조.
+`;
+
   const outroBody = `
 출력은 정확히 다음 헤더 + 마지막 단락:
+
+${injectOutroPoolsBlock(sajuChild.ilgan as any)}
 
 ## 자도인의 마지막 당부
 **정확히 2~3문장. 한 문장은 50자 이내.** ${parentsLabel}과 ${cnh} 사이의 인연을 관통하는 가장 핵심 메시지. 시적이지만 구체적 — 자녀 일간·오행·일주 중 한두 근거를 자연 비유로 녹임.
@@ -3226,6 +3324,7 @@ ${hasMom && hasDad ? `구성: ① 도입 — "두 분이 ${cnh}과 통하는 결
 - **새 정보·새 풀이 추가 절대 금지** — 앞 1~6장에서 언급된 자녀 본질·약점·부모 메시지만 압축.
 - 부모 다독임 표현·일반 격려·"~할 거예요" 미래 약속 X.
 - 자도인이 마지막에 부모에게 남기는 한 호흡으로 끝나는 시적 종합.
+- ★ V2 수미상관 회로 — 위 [수미상관 핵심 비유] 블록의 시드 토큰을 반드시 1회 본문에 등장시켜 1장 도입 비유를 회수. 시드 외 자연물(예: 갑 일간인데 "바다" 등) 사용 절대 금지.
 
 마지막에 빈 줄 하나 띄고 다음 한 줄을 정확히 그대로 출력:
 "※ 본 풀이는 사주명리학을 현시대 부모의 언어로 재표현한 양육 안내이며, 의학적 진단·치료가 아닙니다. 자녀의 결은 사주에 환경·경험이 더해져 만들어집니다."`;
@@ -3239,6 +3338,7 @@ ${hasMom && hasDad ? `구성: ① 도입 — "두 분이 ${cnh}과 통하는 결
       case "ch4": return ch4Body;
       case "ch5": return ch5Body;
       case "ch6": return ch6Body;
+      case "ch7": return ch7Body;
       case "outro": return outroBody;
       default: return ch2Body;
     }
@@ -3251,8 +3351,8 @@ ${hasMom && hasDad ? `구성: ① 도입 — "두 분이 ${cnh}과 통하는 결
     childName: d.childName ?? "자녀",
     hasMom,
     hasDad,
-    scope: phase, // ch1~ch6 + outro
-    chapterScope: phase === "outro" ? undefined : (phase as ParentChildChapterScope),
+    scope: (phase === "ch7" ? "outro" : phase) as "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "outro", // ch7은 outro와 같은 그룹 (build-context는 ch7 별도 컨텍스트 안 만듦 — ch7Body가 자체 풀 시스템)
+    chapterScope: phase === "outro" || phase === "ch7" ? undefined : (phase as ParentChildChapterScope),
     childBirthYear: childBirthYear && !Number.isNaN(childBirthYear) ? childBirthYear : undefined,
   });
 
@@ -3868,7 +3968,7 @@ export async function POST(req: NextRequest) {
           });
         }
         // phase=ch1~ch6, outro → 그 챕터 프롬프트만 streaming
-        const validPhases = ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "outro"] as const;
+        const validPhases = ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "outro"] as const;
         type ValidPhase = typeof validPhases[number];
         if (!validPhases.includes(phase as ValidPhase)) {
           return NextResponse.json({ error: `Invalid phase: ${phase}` }, { status: 400 });
@@ -3985,8 +4085,21 @@ export async function POST(req: NextRequest) {
                 finalText = guardedResult.text;
                 console.log(`[v2/${phase}] output guard ${guardedResult.changed ? "repaired" : "pass"} issues=${guardedResult.issues.length} pre-len=${accumulatedText.length} post-len=${finalText.length}`);
                 // Step 3: ch6/outro 진단 로깅 (hongsil ch6 / inyeon ch8 패턴)
-                if (phase === "ch6" || phase === "outro") {
+                if (phase === "ch6" || phase === "ch7" || phase === "outro") {
                   console.error(`[pc ${phase} diag] head-150=${finalText.slice(0, 150).replace(/\n/g, "\\n")}`);
+                }
+                // ⭐ V2.1 — ch7 헤더 안전망
+                if (phase === "ch7") {
+                  const ch7Subs = ["이 아이가 약하게 타고난 자리", "사주에 채워주면 좋은 음식"];
+                  const missing = ch7Subs.filter(s => !finalText.includes(`### ${s}`));
+                  if (missing.length > 0) {
+                    console.error(`[pc ch7 diag] MISSING HEADERS — ${missing.join(", ")}`);
+                    for (const sub of missing) {
+                      finalText += `\n\n### ${sub}\n(다음 풀이에 이어집니다.)`;
+                    }
+                  } else {
+                    console.error(`[pc ch7 diag] sub-hits=2/2 ✓`);
+                  }
                 }
                 // Step 4: ch6 헤더 안전망 — sub 누락 시 placeholder 강제 추가
                 if (phase === "ch6") {
