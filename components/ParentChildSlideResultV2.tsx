@@ -85,13 +85,11 @@ const SLIDES: SlideSpec[] = [
     { subtitle: "인생을 바꿀 친구는 따로 있다", indicator: "귀인 신살" },
     { subtitle: "친구들 속에서 지치는 패턴", indicator: "신강/신약" },
   ]},
-  // 5장 — 빛날 (5 sub → 1 슬라이드)
+  // 5장 — 빛날 (3 sub → 1 슬라이드) [V2.1 2026-05-15: 10대·20대·30대 + 리더 vs 전문가 sub 2개 삭제]
   { chapter: "5장", chapterTitle: "우리 아이는 무엇으로 빛날까", kind: "scroll-chapter", subs: [
     { subtitle: "진짜 빛날 분야", indicator: "식상 + 재성" },
     { subtitle: "아이만의 무기", indicator: "일주", visualKey: "ch6-weapon" },
     { subtitle: "환하게 빛나게 해주는 결 한 가지", indicator: "용신", visualKey: "ch6-shine-key" },
-    { subtitle: "10대·20대·30대 어느 때 가장 빛날까", indicator: "대운", visualKey: "ch6-shine-age" },
-    { subtitle: "리더로 클까, 깊이 있는 전문가로 클까", indicator: "관성 + 인성", visualKey: "ch6-leader-expert" },
   ]},
   // 6장 — 셋의 결 (3 sub → 1 슬라이드)
   { chapter: "6장", chapterTitle: "엄마아빠와 우리 셋의 결", kind: "scroll-chapter", subs: [

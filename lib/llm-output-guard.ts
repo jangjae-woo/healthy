@@ -447,6 +447,27 @@ function fixChildHonorificCorruption(text: string, stem?: string, honorific?: st
   return text.replace(re, `${stem}${honorific}`);
 }
 
+// ⭐ V2.1 (2026-05-15) — 자녀 호칭 0% 오타 가드 (G19)
+// LLM이 "이주희양" 대신 "이주희야"·"이주희님"·"이주희씨"·성별 반대 호칭으로 부르는 케이스 강제 복원.
+// 반드시 fixParentDirectAddress 호출 전에 적용 — 그래야 따옴표 안 의도 변환이 망가지지 않음.
+// 단독 stem(호칭 없음)은 fixParentDirectAddress 흐름과 충돌 우려로 건드리지 않음.
+function normalizeChildHonorific(text: string, stem?: string, honorific?: string): string {
+  if (!stem || !honorific) return text;
+  const escaped = stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const cnh = `${stem}${honorific}`;
+  // 명백한 잘못된 호칭 패턴 + 성별 반대 호칭
+  const wrongSuffixes = ["야", "님", "씨"];
+  if (honorific === "양") wrongSuffixes.push("군");
+  else if (honorific === "군") wrongSuffixes.push("양");
+  let out = text;
+  for (const suffix of wrongSuffixes) {
+    // ${stem}${wrongSuffix} → ${cnh}. lookahead로 한글 단어 안 잘리지 않게.
+    const re = new RegExp(`${escaped}${suffix}(?![가-힣])`, "g");
+    out = out.replace(re, cnh);
+  }
+  return out;
+}
+
 // ⭐ G12 v2 (2026-05-14) — 풀 phrase + 한자 잘못 합성 strip
 // 발견 사례 (555 이미지): "사주의 결(균화)한 구조" — 풀 phrase("사주의 결") 뒤에 한자 괄호("(균화)") 직접 결합 어색.
 // 풀 phrase 뒤 즉시 한자 괄호가 오면 괄호 제거. (정상 한자 토큰은 풀 phrase 없이 단독)
@@ -1299,6 +1320,8 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
     text = fixShineAgeMismatch(text, input.chartFacts?.shineGroup); // ⭐ G7 v2 — ShineAge 시기 결정론 치환
     text = stripPhraseHanjaMisbinding(text); // ⭐ G12 v2 — "사주의 결(균화)" 같이 풀 phrase + 한자 괄호 잘못 합성 strip
     {
+      // ⭐ V2.1 G19 (2026-05-15) — 호칭 normalize 먼저 (parent direct address 전)
+      text = normalizeChildHonorific(text, input.childNameStem, input.childHonorific);
       const _cnh = input.childNameStem && input.childHonorific ? `${input.childNameStem}${input.childHonorific}` : "";
       text = fixParentDirectAddress(text, input.childNameStem, _cnh); // ⭐ G18 — 부모 직접 인용 호칭 동희양→동희야
     }
@@ -1348,6 +1371,8 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
           text = fixChartFactsMismatch(text, input.chartFacts);
           text = fixShineAgeMismatch(text, input.chartFacts?.shineGroup); // ⭐ G7 v2 rewrite 후 재적용
           text = stripPhraseHanjaMisbinding(text); // ⭐ G12 v2 rewrite 후 재적용
+          // ⭐ G19 V2.1 (2026-05-15) rewrite 후에도 호칭 0% 오타 가드 재적용
+          text = normalizeChildHonorific(text, input.childNameStem, input.childHonorific);
           // ⭐ G18 rewrite 후 호칭 분기 재적용
           {
             const _cnh = input.childNameStem && input.childHonorific ? `${input.childNameStem}${input.childHonorific}` : "";
