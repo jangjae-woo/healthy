@@ -1906,41 +1906,95 @@ export default function SajuSlideResult() {
       //   timeline2(앞으로 5년) = 십성 막대 — 5년 운 톤
       //   compass(종합) = 용신 카드
       //   closing(마지막 한 마디) = 일간 키워드
+      // ⭐ V2.1.10 (2026-05-15) Session H — sub별 시각화 매핑 확장
+      // 기존: pgIdx===0 (첫 sub)만 시각화 / 나머지 sub는 텍스트만 (사용자 "볼맛 떨어짐" 피드백)
+      // 신: 14개 saju-visuals 풀을 13섹션 × sub들에 골고루 분배
       const renderSectionVisual = () => {
-        if (!sajuData || pgIdx !== 0) return null;
+        if (!sajuData) return null;
         const ilganTags = ILGAN_INFO[sajuData.ilgan]?.tags ?? [];
         const counts = countSipseongFromSaju(sajuData);
         const byInt = parseInt(year, 10);
         const ageNow = isFinite(byInt) ? (new Date().getFullYear() - byInt) : 30;
-        switch (aiKey) {
-          case 'personality1':
-            return <SajuElementsRadar elements={sajuData.elements} />;
-          case 'personality2':
-            return <SajuTalentTop3 counts={counts} />;
-          case 'money1':
-            // 999 사용자 요청: SajuMoneyMeter 폐기 → 인생 4단계 재산 곡선으로 교체
-            return <SajuLifeWealthCurve saju={sajuData} />;
-          case 'money2':
-            return <SajuJobRadar counts={counts} elements={sajuData.elements} />;
-          case 'love1':
-            return <SajuSipseongRadar counts={counts} />;
-          case 'love2':
-            return <SajuKeywordCard keywords={ilganTags} />;
-          case 'love3':
-            return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['도화살','홍염살','천을귀인','금여'].includes(s))} />;
-          case 'health':
-            return <SajuHealthMap elements={sajuData.elements} />;
-          case 'hidden':
-            return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
-          case 'timeline1':
-            return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
-          case 'timeline2':
-            return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
-          case 'compass':
-            // 기신은 SajuYongsinCard가 yongsin에서 자동 도출 (용신≠기신 보장)
-            return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-          case 'closing':
-            return <SajuKeywordCard keywords={ilganTags} />;
+        const filteredLoveSinsal = (sajuData.sinsal || []).filter(s => ['도화살','홍염살','천을귀인','금여'].includes(s));
+        // 섹션·sub별 시각화 매트릭스
+        const key = `${aiKey}-${pgIdx}`;
+        switch (key) {
+          // personality1 — 나는 어떤 사람인가 (4 sub)
+          case 'personality1-0': return <SajuElementsRadar elements={sajuData.elements} />;
+          case 'personality1-1': return <SajuElementsSpectrum elements={sajuData.elements} />;
+          case 'personality1-2': return <SajuSipseongRadar counts={counts} />;
+          case 'personality1-3': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+
+          // personality2 — 타고난 재능의 방향 (4 sub)
+          case 'personality2-0': return <SajuTalentTop3 counts={counts} />;
+          case 'personality2-1': return <SajuSipseongSpectrum counts={counts} />;
+          case 'personality2-2': return <SajuKeywordCard keywords={ilganTags} />;
+          case 'personality2-3': return <SajuElementsRadar elements={sajuData.elements} />;
+
+          // money1 — 돈과 현실 감각 (4 sub)
+          case 'money1-0': return <SajuLifeWealthCurve saju={sajuData} />;
+          case 'money1-1': return <SajuMoneyMeter counts={counts} />;
+          case 'money1-2': return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
+          case 'money1-3': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+
+          // money2 — 일과 직업의 방향 (4 sub)
+          case 'money2-0': return <SajuJobRadar counts={counts} elements={sajuData.elements} />;
+          case 'money2-1': return <SajuSipseongRadar counts={counts} />;
+          case 'money2-2': return <SajuElementsSpectrum elements={sajuData.elements} />;
+          case 'money2-3': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
+
+          // love1 — 사람과 인연 (4 sub)
+          case 'love1-0': return <SajuSipseongRadar counts={counts} />;
+          case 'love1-1': return <SajuKeywordCard keywords={ilganTags} />;
+          case 'love1-2': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+          case 'love1-3': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
+
+          // love2 — 인연의 결 세부 (5 sub)
+          case 'love2-0': return <SajuKeywordCard keywords={ilganTags} />;
+          case 'love2-1': return <SajuSipseongSpectrum counts={counts} />;
+          case 'love2-2': return <SajuElementsRadar elements={sajuData.elements} />;
+          case 'love2-3': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
+          case 'love2-4': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+
+          // love3 — 인연의 시기와 귀인 (4 sub)
+          case 'love3-0': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
+          case 'love3-1': return <SajuSipseongRadar counts={counts} />;
+          case 'love3-2': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
+          case 'love3-3': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['천을귀인','천덕귀인','월덕귀인','금여'].includes(s))} />;
+
+          // health — 몸과 마음의 리듬 (4 sub)
+          case 'health-0': return <SajuHealthMap elements={sajuData.elements} />;
+          case 'health-1': return <SajuElementsSpectrum elements={sajuData.elements} />;
+          case 'health-2': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+          case 'health-3': return <SajuSipseongSpectrum counts={counts} />;
+
+          // hidden — 조심해야 할 반복 패턴 (4 sub)
+          case 'hidden-0': return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
+          case 'hidden-1': return <SajuElementsRadar elements={sajuData.elements} />;
+          case 'hidden-2': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['괴강살','백호대살','양인살','현침살'].includes(s))} />;
+          case 'hidden-3': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['월덕귀인','문창귀인','학당귀인','복성귀인'].includes(s))} />;
+
+          // timeline1 — 시기별 흐름 (3 sub)
+          case 'timeline1-0': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
+          case 'timeline1-1': return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
+          case 'timeline1-2': return <SajuLifeWealthCurve saju={sajuData} />;
+
+          // timeline2 — 앞으로 5년의 흐름 (5 sub)
+          case 'timeline2-0': return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
+          case 'timeline2-1': return <SajuSeunGrid thisYear={new Date().getFullYear() + 1} />;
+          case 'timeline2-2': return <SajuSeunGrid thisYear={new Date().getFullYear() + 2} />;
+          case 'timeline2-3': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
+          case 'timeline2-4': return <SajuKeywordCard keywords={ilganTags} />;
+
+          // compass — 종합 해석 (3 sub)
+          case 'compass-0': return <SajuKeywordCard keywords={ilganTags} />;
+          case 'compass-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+          case 'compass-2': return <SajuElementsRadar elements={sajuData.elements} />;
+
+          // closing — 묵도인의 마지막 한 마디 (2 sub)
+          case 'closing-0': return <SajuKeywordCard keywords={ilganTags} />;
+          case 'closing-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+
           default:
             return null;
         }
