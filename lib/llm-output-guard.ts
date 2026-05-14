@@ -451,6 +451,11 @@ function fixChildHonorificCorruption(text: string, stem?: string, honorific?: st
 // LLM이 "이주희양" 대신 "이주희야"·"이주희님"·"이주희씨"·성별 반대 호칭으로 부르는 케이스 강제 복원.
 // 반드시 fixParentDirectAddress 호출 전에 적용 — 그래야 따옴표 안 의도 변환이 망가지지 않음.
 // 단독 stem(호칭 없음)은 fixParentDirectAddress 흐름과 충돌 우려로 건드리지 않음.
+//
+// ⭐ V2.1.2 (2026-05-15) lookahead FIX —
+// 기존 (?![가-힣]) lookahead가 한글 조사(은·는·이·가 등)를 차단해서
+// "이주희야은" 같은 명백한 오타가 매칭 안 되던 버그 수정.
+// 한국어 격조사·구두점·공백·문장끝만 허용으로 변경.
 function normalizeChildHonorific(text: string, stem?: string, honorific?: string): string {
   if (!stem || !honorific) return text;
   const escaped = stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -460,9 +465,10 @@ function normalizeChildHonorific(text: string, stem?: string, honorific?: string
   if (honorific === "양") wrongSuffixes.push("군");
   else if (honorific === "군") wrongSuffixes.push("양");
   let out = text;
+  // 한국어 격조사·종결어미 + 구두점·공백·문장끝
+  const ALLOWED_AFTER = `[은는이가을를도만에서로의과와로서께부터까지마저조차\\s,.;:!?'"“”‘’「」『』。、]|$`;
   for (const suffix of wrongSuffixes) {
-    // ${stem}${wrongSuffix} → ${cnh}. lookahead로 한글 단어 안 잘리지 않게.
-    const re = new RegExp(`${escaped}${suffix}(?![가-힣])`, "g");
+    const re = new RegExp(`${escaped}${suffix}(?=${ALLOWED_AFTER})`, "g");
     out = out.replace(re, cnh);
   }
   return out;
@@ -496,10 +502,12 @@ function stripPhraseHanjaMisbinding(text: string): string {
 function fixParentDirectAddress(text: string, childName?: string, cnh?: string): string {
   if (!childName || !cnh || childName === cnh) return text;
   const escapedCnh = cnh.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  // 따옴표 안 첫 cnh 등장 → childName + 야
-  // 본문에 "...어머님께서는 '동희양' 라고..." / `"동희양, ~"` 등 인용 안 호명 케이스만 swap.
+  // ⭐ V2.1.2 (2026-05-15) — 친구·가족 대사 호칭은 성을 빼고 이름만 (예: "주희야", "이주희야" X)
+  // 한 글자 성 가정 (대부분 한국 성), 한 글자 이름 fallback (드문 케이스)
+  const firstName = childName.length >= 2 ? childName.slice(1) : childName;
   let out = text;
-  out = out.replace(new RegExp(`(["'“‘])([^"'“”‘’]{0,200}?)${escapedCnh}(?=[은는이가을를도아야!?,.\\s])`, "g"), `$1$2${childName}야`);
+  // 따옴표 안 첫 cnh 등장 → firstName + 야 ("주희야" 형태, 친구·가족 대사 자연스럽게)
+  out = out.replace(new RegExp(`(["'“‘])([^"'“”‘’]{0,200}?)${escapedCnh}(?=[은는이가을를도아야!?,.\\s])`, "g"), `$1$2${firstName}야`);
   return out;
 }
 

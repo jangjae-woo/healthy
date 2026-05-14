@@ -2739,6 +2739,8 @@ function buildParentChildPromptV2(
   const childLabel = d.childGender === "남" ? "아들" : "딸";
   const honorific = d.childGender === "여" ? "양" : "군";
   const cnh = `${d.childName}${honorific}`;
+  // ⭐ V2.1.2 (2026-05-15) — 친구·가족 대사 호칭용 firstName (성 제거. 한 글자 성 가정. 한 글자 이름 fallback)
+  const childFirstName = (d.childName && d.childName.length >= 2) ? d.childName.slice(1) : (d.childName ?? "");
   // ⭐ G13 (2026-05-14) — 연령별 sub 헤더 분기
   const _childYearNum = d.childYear ? parseInt(d.childYear, 10) : NaN;
   const _ageStage = !Number.isNaN(_childYearNum) ? classifyAgeStageFromYear(_childYearNum) : "elementary";
@@ -3225,6 +3227,7 @@ ${injectPoolsBlock({ chapterId: "ch5", subId: "weapon", mainFactor: "일주", sc
 ### 환하게 빛나게 해주는 결 한 가지
 [메인: 용신 / 서브: 일간 오행·신강신약·12운성·계절]
 [시그너처: 3축 환경 산문형] — 색·활동·공간·계절·시간 5축 처방 박스 절대 X. ${cnh}을 빛나게 하는 환경을 3축(인정·일상 리듬·멘토 류)으로 산문 묘사 + [[ ]] 강조 1~2회.
+★ 시각화-본문 연동 강제 — 본 sub 본문 첫 단정 줄에 자녀의 **용신 오행 한자(예: 금(金)·수(水)·목(木)·화(火)·토(火))**를 반드시 1회 명시. 시각화 카드(용신 오행)와 본문이 같은 결을 가리키도록 함. 단정 형태: "${cnh}의 용신은 [그 오행]. 사주에 [그 오행]의 기운이 [강한/부족]한 ${cnh}을 가장 환하게 빛나게 해주는 결은 [그 오행 보강 환경]이에요." 추상 어휘(따뜻한 인정·자유로운 도전 등)만 단정 X.
 
 ${injectPoolsBlock({ chapterId: "ch5", subId: "environment", mainFactor: "용신", scenarios: [{ key: "ch5_env_recognition", pickCount: 1 }, { key: "ch5_env_rhythm", pickCount: 1 }, { key: "ch5_env_mentor", pickCount: 1 }, { key: "ch5_env_dimmer", pickCount: 1 }], dialogs: [{ category: "ch5_environment_phrase", insertCount: 1 }, { category: "ch5_mentor_phrase", insertCount: 1 }] })}
 
@@ -3359,6 +3362,11 @@ ${injectOutroPoolsBlock(sajuChild.ilgan as any)}
   });
 
   return `당신은 자도인입니다. ${cnh}의 사주를 부모님 눈높이에서 풀이합니다. 한국어 경어체, 날카롭되 따뜻하게.
+
+[★★★ 자녀 호칭 분기 룰 — 절대]
+- narrator 자리 (해설·풀이 등 따옴표 밖): 반드시 "${cnh}" 형태로 호명. 예: "${cnh}은", "${cnh}의", "${cnh}이". 절대 "${d.childName ?? ""}야"·"${d.childName ?? ""}님"·"${d.childName ?? ""}씨" X.
+- 따옴표 안 친구·가족 부르는 자리 + 자녀 본인 마음 대사: **반드시 성을 빼고 이름만 + 호명조사**. 정답 형태: "${childFirstName}야" (예: "${childFirstName}야, 이리 와봐"). 절대 "${d.childName ?? ""}야"·"${cnh}" 따옴표 안 사용 X.
+- 자녀 본명(성 포함, "${d.childName ?? ""}")은 단독 등장 절대 X. 항상 "${cnh}" 또는 "${childFirstName}야" 두 형태 중 하나로만.
 
 [★★★ 핵심 룰 — 시작 강제 (시스템 인스트럭션과 함께 적용)]
 1. 정통 자평명리 결합 풀이 — 분포 수치만 나열 절대 X.
