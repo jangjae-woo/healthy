@@ -54,6 +54,8 @@ import { guardGeneratedText, type GuardPersonContext } from "@/lib/llm-output-gu
 // ⭐ V2.1 (2026-05-14) — 청월당 풀 시스템 + 깨달음 4단 메커니즘 + ch7 신설
 import { injectPoolsBlock, injectOutroPoolsBlock, INSIGHT_4STEP_RULE } from "@/lib/parent-child/pool-injector";
 import { injectTimeResolution } from "@/lib/parent-child/chapter-time-resolution";
+// ⭐ V2.1.4 (2026-05-15) — 신살 어휘 풀 (B+C 하이브리드)
+import { buildSinsalVocabBlock } from "@/lib/sinsal-vocab";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 
@@ -2800,6 +2802,8 @@ function buildParentChildPromptV2(
 ${ctxChild}
 
 ${buildSipseongElementBlock(sajuChild.ilgan)}
+
+${buildSinsalVocabBlock(sajuChild.sinsal ?? [])}
 ${hasMom ? `\n[어머님 사주 컨텍스트 — ${d.momName}]\n${ctxMom}` : ""}${hasDad ? `\n[아버님 사주 컨텍스트 — ${d.dadName}]\n${ctxDad}` : ""}`;
 
   const principles = `
