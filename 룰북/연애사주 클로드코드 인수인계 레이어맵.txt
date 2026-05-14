@@ -1,0 +1,233 @@
+연애사주 클로드코드 인수인계 레이어맵
+작성일: 2026-05-12
+
+목적
+- 다음 작업자가 홍실/연애사주가 어떤 레이어로 작동하는지 바로 이해하게 만든다.
+- 프롬프트만 보는 실수를 막고, 엔진 계산값, 해석 기획, 캐릭터 매핑, LLM 생성, 후처리, 렌더가 어디서 이어지는지 고정한다.
+
+현재 홍실 연애사주 전체 흐름
+
+입력
+- 사용자가 `/hongsil/form`에서 이름, 생년월일시, 성별, 음/양력, 솔로 기간, 원하는 사랑, 연애 스타일을 입력한다.
+- 결과 페이지: `app/hongsil/result/page.tsx`
+- 결과 페이지는 먼저 `/api/hongsil-compute`를 호출해 계산/시각자료용 데이터를 받고, 이후 `/api/hongsil-generate`를 호출해 LLM 본문을 스트리밍으로 받는다.
+
+1. 엔진 레이어
+역할
+- 생년월일시를 바탕으로 사주 원국, 일간, 오행, 십성, 용신, 대운, 신살, 신강신약 등을 계산한다.
+
+주요 파일
+- `app/api/hongsil-compute/route.ts`
+- `app/api/hongsil-generate/route.ts`
+- `lib/saju-core.ts`
+- `lib/saju-calculator.ts`
+- `lib/jpjjeon.ts`
+- `lib/sibiunseong.ts`
+- `lib/tonggeun.ts`
+- `lib/samhap.ts`
+- `lib/seun.ts`
+
+출력값
+- `pillars`: 년월일시 기둥
+- `ilgan`: 일간
+- `sipseong`: 천간/지지 십성
+- `elements`: 목화토금수 카운트
+- `yongsin`: 용신
+- `sinsal`: 신살 목록
+- `daeun`: 대운
+- `shinkang`: 극약/태약/신약/중화/신강/태강/극왕
+- `ohaengTop`, `ohaengWeak`: 가장 강한/약한 오행
+
+주의
+- 홍실 생성에서도 다시 `computeFullSajuCore`를 호출한다. 즉 렌더용 compute와 LLM 생성용 generate가 같은 엔진 기준을 공유한다.
+- 계산법 자체를 바꿀 때는 홍실뿐 아니라 평생사주/인연궁합/부모자녀까지 영향이 갈 수 있으므로 호출 범위를 확인해야 한다.
+
+2. 해석 기획 레이어
+역할
+- 사주 결과를 그대로 LLM에 던지지 않고, 전체 톤, 반복 금지, 파트별 렌즈, 한문/한글 표현 정책을 먼저 정한다.
+- 중복을 줄이고, 같은 사주 인자가 여러 파트에서 같은 말로 반복되지 않게 한다.
+
+주요 파일
+- `lib/hongsil/interpretation-plan.ts`
+- `lib/hongsil/sub-distribution.ts`
+- `lib/hongsil/traits-block.ts`
+- `lib/hongsil/pattern-tags.ts`
+- `lib/hongsil/build-context.ts`
+
+현재 기준
+- `deriveHongsilInterpretationPlan`: 전체 해석 기획을 만든다.
+- `hongsilInterpretationPlanBlock`: 챕터별로 LLM에게 줄 해석 기획 블록을 만든다.
+- `hongsilSubDistribution`: 소제목별 primary 인자/생활어 슬롯을 분배한다.
+- `deriveHongsilTraits`: 결정론 매핑 풀을 만든다.
+- `hongsilTraitsToPromptBlock`: 챕터별로 필요한 결정론 블록만 넣는다.
+
+주의
+- 중복을 줄이고 싶으면 바로 프롬프트 본문만 고치지 말고, 먼저 `interpretation-plan`, `sub-distribution`, `traits-block`의 역할 분배를 확인한다.
+- 현재 V5 기준은 한문을 무조건 금지하지 않는다. 한문은 신뢰감이 필요한 곳에서 쓰되, 쉬운 풀이를 붙인다.
+
+3. 캐릭터 매핑 레이어
+역할
+- 사용자의 사주를 홍실 캐릭터 타입으로 매핑하고, 이상형/운명 짝꿍 캐릭터를 계산한다.
+- 결과 페이지의 캐릭터 카드와 LLM 프롬프트의 캐릭터 근거가 같은 값을 보게 한다.
+
+주요 파일
+- `lib/hongsil/character-match.ts`
+- `lib/hongsil/character-pair.ts`
+- `lib/hongsil/build-context.ts`
+- `app/api/hongsil-compute/route.ts`
+
+현재 흐름
+- `matchCharacter(saju, gender)`: 사용자 캐릭터 결정
+- `deriveIdealType(saju, gender)`: 이상형/짝꿍 캐릭터 결정
+- `getPairLabelFor(...)`: 두 캐릭터 조합 라벨 결정
+- compute API는 `character: { me, destiny }`를 렌더에 내려준다.
+- generate API는 같은 매핑을 prompt context에 넣는다.
+
+주의
+- 캐릭터 카드에 표시되는 값과 LLM 본문이 말하는 캐릭터가 달라지면 안 된다.
+- 캐릭터 이름/이미지/색상만 고칠 때도 `character-match`, `character-pair`, 렌더 컴포넌트를 같이 확인한다.
+
+4. 프롬프트 레이어
+역할
+- 각 챕터별 LLM 지시문을 만든다.
+- 엔진값, 해석 기획값, 캐릭터 매핑값, 사용자 선택값을 합쳐 Gemini에 줄 최종 프롬프트를 만든다.
+
+주요 파일
+- `lib/hongsil/build-context.ts`
+- `lib/hongsil/prompts/v5-report.ts`
+- `lib/hongsil/prompts/shared-context.ts`
+- 보존 파일: `lib/hongsil/prompts/v4-report.ts`
+- 구버전/참조 파일: `lib/hongsil/prompts/ch1-charm.ts` 등 ch1~ch6 파일
+
+현재 실제 사용
+- `build-context.ts`에서 V5를 import한다.
+- 실제 연결:
+  - `buildHongsilChapter1PromptV5`
+  - `buildHongsilChapter2PromptV5`
+  - `buildHongsilChapter3PromptV5`
+  - `buildHongsilChapter4PromptV5`
+  - `buildHongsilChapter5PromptV5`
+  - `buildHongsilChapter6PromptV5`
+
+`buildAllHongsilPrompts`가 최종으로 붙이는 것
+- 해석 기획 블록: `_planBlock(ch)`
+- 소제목 분배표: `_dist(ch)`
+- 결정론 traits 블록: `_block(ch)`
+- 시각 카드 사실 강제 블록: 2장 대운, 3장 짝꿍, 4장 패턴태그, 5장 욕구바, 6장 편지 캐릭터
+- V5 챕터 프롬프트 본문
+
+주의
+- 프롬프트를 고칠 때는 `연애사주전체 프롬프트.txt`도 최신화해야 한다.
+- 구버전 ch1~ch6 파일이 남아 있어도 현재 홍실 생성은 V5를 사용한다.
+
+5. LLM 레이어
+역할
+- Gemini가 챕터별 본문을 생성한다.
+
+주요 파일
+- `app/api/hongsil-generate/route.ts`
+- `lib/saju-system-instruction.ts`
+
+현재 모델/방식
+- 모델: `gemini-2.5-flash`
+- 호출 방식: `streamGenerateContent?alt=sse`
+- `thinkingBudget: 0`
+- 챕터 1~6을 순차 생성한다.
+- `phase=ch1`처럼 특정 챕터만 생성하는 모드도 있다.
+
+주의
+- 생성 속도는 LLM 호출 + 후처리 호출에 영향을 받는다.
+- 현재 오프닝 영상이 있어 초기 로딩은 어느 정도 가려지지만, 후처리 레이어를 과하게 키우면 체감이 다시 느려진다.
+
+6. 출력 후처리/검수 레이어
+역할
+- LLM 생성 후 결과를 렌더에 보내기 전에 이름 오타, 근거 없는 확장, 반복 한문/반복 근거, 어색한 표현을 보정한다.
+
+주요 파일
+- `lib/name-guard.ts`
+- `lib/llm-output-guard.ts`
+- `app/api/hongsil-generate/route.ts`
+
+현재 흐름
+- `guardGeneratedText({ service: "hongsil", chapter, text, prompt, people, apiKey })`
+- 이후 `createNameGuard([body.me.name])`로 이름 오타/중복 음절을 보정한다.
+- SSE로 `guard: "repaired"` 또는 `guard: "pass"` 상태를 보낸다.
+
+주의
+- 사용자가 속도를 걱정했던 레이어다.
+- 완전한 LLM judge/rewrite를 무겁게 켜기보다, 현재는 빠른 보정과 제한적 검수 중심으로 둔다.
+- 이 레이어를 끄거나 줄이면 속도는 빨라지지만, 이름 오타와 반복 한문 문제가 다시 생길 수 있다.
+
+7. 렌더 레이어
+역할
+- 계산값과 LLM 결과를 카드/챕터/슬라이드로 보여준다.
+- 초반 교육 UI, 시각자료, 캐릭터 카드, 대운 타임라인, 패턴 태그, 욕구바, 편지 카드가 여기에 속한다.
+
+주요 파일
+- `app/hongsil/result/page.tsx`
+- `components/hongsil/ChapterShell.tsx`
+- `components/hongsil/YongsinCards.tsx`
+- `components/hongsil/SipseongRow.tsx`
+- `components/hongsil/OhaengChart.tsx`
+- `components/hongsil/SajuTable.tsx`
+- `components/hongsil/SinKangBar.tsx`
+
+현재 초반 교육 UI
+- `app/hongsil/result/page.tsx` 안에 구현됨.
+- `EducationPage`
+- `FourPillarsDiagram`
+- `HeavenlyStemTable`
+- `BranchGrid`
+- `OhaengDiagram`
+- `IljuFocusCard`
+
+현재 초반 교육 흐름
+1. 어서 오세요
+2. 들어가며: 사주란 무엇인가요?
+3. 사주팔자의 구조
+4. 천간
+5. 지지
+6. 오행
+7. 연애의 열쇠, 일주
+8. 관계의 방향표: 용신·희신·기신
+
+주의
+- 이 파트는 LLM 생성 본문이 아니라 렌더 고정 UI다.
+- 디자인 수정은 프롬프트가 아니라 `app/hongsil/result/page.tsx`에서 해야 한다.
+
+8. 사용자 입력/선택 레이어
+역할
+- 솔로 기간, 원하는 사랑, 사랑 스타일 같은 사용자의 선택값을 프롬프트와 렌더에 반영한다.
+
+주요 파일
+- `app/hongsil/form/page.tsx`
+- `components/hongsil/EntryModal.tsx`
+- `lib/hongsil/types.ts`
+- `lib/hongsil/prompts/shared-context.ts`
+
+주의
+- 이 값은 사주 계산값이 아니라 사용자 자기보고 데이터다.
+- LLM은 사주와 사용자 선택이 다를 때 "갭"으로 해석할 수 있다.
+
+요약 파이프라인
+입력
+-> 엔진 레이어
+-> 해석 기획 레이어
+-> 캐릭터 매핑 레이어
+-> 프롬프트 레이어
+-> LLM 레이어
+-> 출력 후처리/검수 레이어
+-> 렌더 레이어
+-> 6챕터 결과지
+
+다음 작업자가 가장 먼저 볼 파일
+1. `app/hongsil/result/page.tsx`
+2. `app/api/hongsil-compute/route.ts`
+3. `app/api/hongsil-generate/route.ts`
+4. `lib/hongsil/build-context.ts`
+5. `lib/hongsil/prompts/v5-report.ts`
+6. `lib/hongsil/interpretation-plan.ts`
+7. `lib/hongsil/sub-distribution.ts`
+8. `lib/hongsil/traits-block.ts`
+9. `lib/hongsil/character-match.ts`
+10. `lib/llm-output-guard.ts`

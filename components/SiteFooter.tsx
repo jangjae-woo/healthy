@@ -87,7 +87,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="text-center text-[11px]" style={{ color: "#78350f99" }}>
-          © 2026 팔자원. All Rights Reserved.
+          © 2026 All Rights Reserved.
         </div>
       </div>
     </footer>

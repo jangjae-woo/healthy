@@ -2,17 +2,39 @@ import { NextRequest, NextResponse } from 'next/server';
 import { sbRest, hashPassword, generateSalt } from '@/lib/supabase-admin';
 import { verifyAdminSession, ADMIN_COOKIE_NAME } from '@/lib/affiliate-auth';
 
-// GET — 인플루언서 목록 + 각자 누적 통계 미니
+// 할인 금액 정규화 — 0 이상, 100만원 이하 정수
+function clampAmount(v: unknown): number {
+  const n = Math.floor(Number(v));
+  if (!Number.isFinite(n) || n < 0) return 0;
+  return Math.min(n, 1_000_000);
+}
+
+// 할인 유효일수 정규화 — 1~365일 정수 (기본 1일)
+function clampDays(v: unknown): number {
+  const n = Math.floor(Number(v));
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return Math.min(n, 365);
+}
+
+// GET — 인플루언서 목록 + 할인 설정 + 각자 누적 통계 미니
 export async function GET(req: NextRequest) {
   const cookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
   if (!(await verifyAdminSession(cookie))) {
     return NextResponse.json({ error: '인증 필요' }, { status: 401 });
   }
   try {
-    const list = await sbRest<Array<{ id: string; slug: string; name: string; created_at: string }>>(
-      'influencers',
-      { query: '?select=id,slug,name,created_at&order=created_at.desc' }
-    );
+    const list = await sbRest<
+      Array<{
+        id: string;
+        slug: string;
+        name: string;
+        discount_amount: number;
+        discount_days: number;
+        created_at: string;
+      }>
+    >('influencers', {
+      query: '?select=id,slug,name,discount_amount,discount_days,created_at&order=created_at.desc',
+    });
     return NextResponse.json({ ok: true, influencers: list ?? [] });
   } catch (e) {
     const msg = e instanceof Error ? e.message : '서버 오류';
@@ -30,14 +52,14 @@ const RESERVED_SLUGS = new Set([
   'about', 'contact', 'help', 'support', 'faq', 'home', 'index',
 ]);
 
-// POST — 신규 인플루언서 생성. body: { slug, name, password }
+// POST — 신규 인플루언서 생성. body: { slug, name, password, discount_amount?, discount_days? }
 export async function POST(req: NextRequest) {
   const cookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
   if (!(await verifyAdminSession(cookie))) {
     return NextResponse.json({ error: '인증 필요' }, { status: 401 });
   }
   try {
-    const { slug, name, password } = await req.json();
+    const { slug, name, password, discount_amount, discount_days } = await req.json();
     if (!slug || !name || !password) {
       return NextResponse.json({ error: 'slug, name, password 필수' }, { status: 400 });
     }
@@ -57,6 +79,8 @@ export async function POST(req: NextRequest) {
         name: String(name).slice(0, 100),
         password_hash: hash,
         password_salt: salt,
+        discount_amount: clampAmount(discount_amount),
+        discount_days: clampDays(discount_days),
       },
       prefer: 'return=minimal',
     });
@@ -66,6 +90,36 @@ export async function POST(req: NextRequest) {
     if (msg.includes('duplicate') || msg.includes('unique')) {
       return NextResponse.json({ ok: false, error: '이미 존재하는 slug입니다' }, { status: 400 });
     }
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
+  }
+}
+
+// PATCH — 기존 인플루언서의 할인 설정 수정. body: { id, discount_amount?, discount_days? }
+export async function PATCH(req: NextRequest) {
+  const cookie = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
+  if (!(await verifyAdminSession(cookie))) {
+    return NextResponse.json({ error: '인증 필요' }, { status: 401 });
+  }
+  try {
+    const { id, discount_amount, discount_days } = await req.json();
+    if (!id) return NextResponse.json({ error: 'id 누락' }, { status: 400 });
+
+    const patch: Record<string, number> = {};
+    if (discount_amount !== undefined) patch.discount_amount = clampAmount(discount_amount);
+    if (discount_days !== undefined) patch.discount_days = clampDays(discount_days);
+    if (Object.keys(patch).length === 0) {
+      return NextResponse.json({ error: 'discount_amount 또는 discount_days 중 하나는 필요' }, { status: 400 });
+    }
+
+    await sbRest('influencers', {
+      method: 'PATCH',
+      query: `?id=eq.${encodeURIComponent(id)}`,
+      body: patch,
+      prefer: 'return=minimal',
+    });
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : '서버 오류';
     return NextResponse.json({ ok: false, error: msg }, { status: 500 });
   }
 }

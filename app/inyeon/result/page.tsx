@@ -17,6 +17,10 @@ import {
 import { FEMALE_META, MALE_META } from "@/lib/inyeon/character-match";
 import { renderParagraphs } from "@/lib/inline-emphasis";
 import OpeningVideo from "@/components/OpeningVideo";
+import PaymentModal from "@/components/PaymentModal";
+
+// 인연궁합 소비자가 (다르면 이 값만 수정)
+const INYEON_PRICE = 32900;
 
 const ACCENT = "#f0a8b8";
 const BG = "#2a1a1d";
@@ -98,19 +102,19 @@ function SubSection({ title, body }: { title: string; body: string }) {
     <div
       className="rounded-md p-6"
       style={{
-        background: "linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.88) 100%)",
+        background: "#ffffff",
         border: `1px solid rgba(212,169,107,0.4)`,
         boxShadow: `0 8px 24px -12px rgba(178,40,71,0.14)`,
       }}
     >
       <div
-        className="text-[17px] font-bold mb-3 leading-relaxed"
-        style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif", paddingTop: 2 }}
+        className="text-[14px] font-bold mb-3 leading-relaxed"
+        style={{ color: "#8a4d16", fontFamily: "'Nanum Myeongjo', serif", paddingTop: 2 }}
       >
         {title}
       </div>
       <div
-        className="text-[15px] leading-[2.0]"
+        className="text-[13.5px] leading-[1.95]"
         style={{ color: "#1a0a14", fontFamily: "'Gowun Batang', serif", fontWeight: 400 }}
       >
         {renderParagraphs(body, "#b88646")}
@@ -355,7 +359,7 @@ function ShareableCard({
       </div>
       <div style={{ textAlign: "center", paddingTop: 16, borderTop: `1px solid rgba(212,169,107,0.3)` }}>
         <div style={{ fontSize: 13, color: thread, fontFamily: "'Nanum Myeongjo', serif", fontWeight: 700, letterSpacing: "0.1em" }}>
-          paljawon.com / love
+          &nbsp;
         </div>
         <div style={{ fontSize: 10, color: gold, letterSpacing: "0.2em", marginTop: 4, fontFamily: "'Cormorant Garamond', serif" }}>
           사주가 읽어주는 인연
@@ -871,8 +875,8 @@ function CharacterIntroCard({
 
   async function handleShare() {
     const text = pair
-      ? `난 #${a.name}이래! ${aName} × ${bName} = "${pair.label}"\n사주가 읽어주는 인연 — paljawon.com/love`
-      : `난 #${a.name}이래! 사주가 읽어주는 인연 — paljawon.com/love`;
+      ? `난 #${a.name}이래! ${aName} × ${bName} = "${pair.label}"\n사주가 읽어주는 인연`
+      : `난 #${a.name}이래! 사주가 읽어주는 인연`;
     try {
       if (typeof window !== "undefined" && (navigator as any).share) {
         // 이미지 캡처 시도
@@ -932,7 +936,7 @@ function CharacterIntroCard({
       <div
         className="mb-8 rounded-lg overflow-hidden"
         style={{
-          background: `linear-gradient(180deg, rgba(255,251,247,0.95) 0%, rgba(253,243,232,0.92) 100%)`,
+          background: "#ffffff",
           border: `1px solid rgba(212,169,107,0.35)`,
           boxShadow: `0 16px 40px -16px rgba(178,40,71,0.18), 0 0 0 1px rgba(255,255,255,0.5) inset`,
         }}
@@ -1066,7 +1070,7 @@ function CharacterIntroCard({
             className="text-center text-[10px]"
             style={{ color: gold, fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}
           >
-            ─ paljawon.com / love ─
+            &nbsp;
           </div>
         </div>
       </div>
@@ -1079,7 +1083,7 @@ function NoticeBubble({ children }: { children: React.ReactNode }) {
     <div
       className="rounded-md px-5 py-4 text-[14px] leading-[1.9] mb-4"
       style={{
-        background: "rgba(255,235,240,0.75)",
+        background: "#ffffff",
         border: `1px dashed rgba(200,32,58,0.5)`,
         color: "#1a0a14",
         fontFamily: "'Gowun Batang', serif",
@@ -1124,7 +1128,7 @@ function AttractionStyleBar({ name, sipseong, color }: {
     <div
       className="rounded-md p-5"
       style={{
-        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        background: "#ffffff",
         border: `1px solid ${color}55`,
         boxShadow: `0 6px 20px -8px ${color}22`,
       }}
@@ -1237,7 +1241,7 @@ function ChemistryDiagram({
     <div
       className="rounded-md p-5"
       style={{
-        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        background: "#ffffff",
         border: "1px solid rgba(212,169,107,0.4)",
       }}
     >
@@ -1520,7 +1524,7 @@ function QuadrantChart({
     <div
       className="rounded-md p-4"
       style={{
-        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        background: "#ffffff",
         border: "1px solid rgba(212,169,107,0.35)",
       }}
     >
@@ -1609,7 +1613,7 @@ function MonthGrid({ aBranch, bBranch }: { aBranch: string; bBranch: string }) {
     <div
       className="rounded-md p-4"
       style={{
-        background: "linear-gradient(180deg, rgba(255,251,247,0.95), rgba(253,243,232,0.85))",
+        background: "#ffffff",
         border: "1px solid rgba(212,169,107,0.35)",
       }}
     >
@@ -1771,7 +1775,7 @@ function ConflictTagsCard({ tags }: { tags: string[] }) {
     <div
       className="rounded-md p-4"
       style={{
-        background: "rgba(255,235,240,0.6)",
+        background: "#ffffff",
         border: "1px dashed rgba(200,32,58,0.4)",
       }}
     >
@@ -1904,7 +1908,7 @@ function QuoteCard({
           className="text-[12px] font-bold"
           style={{ color: "#c8203a", fontFamily: "'Nanum Myeongjo', serif", letterSpacing: "0.1em" }}
         >
-          paljawon.com / love
+          &nbsp;
         </div>
         <div
           className="text-[9px] mt-1"
@@ -1960,12 +1964,95 @@ function InyeonResultInner() {
 
   const relLabel = RELATIONSHIP_LABEL[rel];
   const durLabel = DURATION_LABEL[dur];
+  const inyeonSummaryLines = [
+    `두 사람: ${aName}님 · ${bName}님`,
+    `관계 유형: ${relLabel}`,
+    `알고 지낸 기간: ${durLabel}`,
+  ];
 
   const [data, setData] = useState<InyeonComputeData | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [aiText, setAiText] = useState<Record<number, string>>({});
   const [openingDone, setOpeningDone] = useState(false);
+  // ⭐ LLM 진행률 — 챕터 완료(cd 이벤트) 카운트. 영상 짧아도 50%까진 대기.
+  const [chaptersDone, setChaptersDone] = useState(0);
+  const HALF_CHAPTERS = 4; // 전체 8챕터 중 절반
   // ceremony 폐기 (오프닝 영상이 도입·리빌 역할 대체)
+
+  // ─── 결제 게이트 ─── 결제 완료(unlocked=1) 전엔 PaymentModal만 노출 ───
+  const unlocked = sp.get("unlocked") === "1";
+  const [paying, setPaying] = useState(false);
+
+  async function handlePayment(finalPrice: number) {
+    if (paying) return;
+    setPaying(true);
+    try {
+      const PortOne = (await import("@portone/browser-sdk/v2")).default;
+      const storeId = process.env.NEXT_PUBLIC_PORTONE_STORE_ID;
+      const channelKey = process.env.NEXT_PUBLIC_PORTONE_CHANNEL_KEY;
+      if (!storeId || !channelKey) {
+        alert("결제 설정이 누락됐습니다. 관리자에게 문의해주세요.");
+        setPaying(false);
+        throw new Error("PortOne env missing");
+      }
+      const paymentId = `payment${Date.now()}${Math.random().toString(36).slice(2, 10)}`;
+      const response = await PortOne.requestPayment({
+        storeId, channelKey, paymentId,
+        orderName: "인연 궁합 풀이",
+        totalAmount: finalPrice,
+        currency: "CURRENCY_KRW",
+        payMethod: "CARD",
+      } as Parameters<typeof PortOne.requestPayment>[0]);
+      if (response?.code !== undefined) {
+        if (response.code !== "USER_CANCEL") alert(response.message || "결제가 취소되었습니다.");
+        setPaying(false);
+        throw new Error(response.message || "결제 취소");
+      }
+      const verifyRes = await fetch("/api/portone/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId }),
+      });
+      const verify = await verifyRes.json();
+      if (!verify.success) {
+        alert(verify.error || "결제 검증에 실패했습니다.");
+        setPaying(false);
+        throw new Error(verify.error || "결제 검증 실패");
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.set("unlocked", "1");
+      url.searchParams.set("paymentId", paymentId);
+      window.location.href = url.toString();
+    } catch (e) {
+      setPaying(false);
+      throw e;
+    }
+  }
+
+  async function handleFreeUnlock(couponCode: string) {
+    if (paying) return;
+    setPaying(true);
+    try {
+      const res = await fetch("/api/coupon/free-unlock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: couponCode }),
+      });
+      const cdata = await res.json();
+      if (!cdata.success) {
+        alert(cdata.error || "쿠폰 적용에 실패했습니다.");
+        setPaying(false);
+        throw new Error(cdata.error || "쿠폰 실패");
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.set("unlocked", "1");
+      url.searchParams.set("paymentId", cdata.paymentId);
+      window.location.href = url.toString();
+    } catch (e) {
+      setPaying(false);
+      throw e;
+    }
+  }
 
   // 스트리밍 마크다운 → ### 소제목별 본문 맵
   const aiBodies = (() => {
@@ -2046,6 +2133,8 @@ function InyeonResultInner() {
                   ...prev,
                   [evt.ch!]: (prev[evt.ch!] ?? "") + evt.v,
                 }));
+              } else if (evt.t === "cd") {
+                setChaptersDone(n => n + 1); // 챕터 완료
               }
             } catch {}
           }
@@ -2056,6 +2145,7 @@ function InyeonResultInner() {
   }, [data, sp, aName, bName, rel, dur]);
 
   useEffect(() => {
+    if (!unlocked) return; // 결제 전엔 사주 계산 안 함
     const aYear = parseInt(sp.get("aYear") || "0", 10);
     const aMonth = parseInt(sp.get("aMonth") || "0", 10);
     const aDay = parseInt(sp.get("aDay") || "0", 10);
@@ -2081,7 +2171,7 @@ function InyeonResultInner() {
       .then(r => r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`)))
       .then(setData)
       .catch(e => setLoadError(String(e)));
-  }, [sp, aName, bName]);
+  }, [sp, aName, bName, unlocked]);
 
   if (loadError) {
     return (
@@ -2093,10 +2183,27 @@ function InyeonResultInner() {
       </div>
     );
   }
+  // ─── 결제 게이트 — 결제 완료(unlocked=1) 전엔 PaymentModal만 ───
+  if (!unlocked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: BG }}>
+        <PaymentModal
+          open={true}
+          onClose={() => { window.location.href = "/inyeon/form"; }}
+          price={INYEON_PRICE}
+          goodsName="인연 궁합 풀이"
+          onSubmit={handlePayment}
+          onFreeUnlock={handleFreeUnlock}
+        />
+      </div>
+    );
+  }
+
   if (!data || !openingDone) {
     return (
       <OpeningVideo
-        dataReady={!!data}
+        dataReady={!!data && chaptersDone >= HALF_CHAPTERS}
+        loadProgress={chaptersDone / HALF_CHAPTERS}
         onComplete={() => setOpeningDone(true)}
         loadingMessage={`${aName}·${bName} 두 분의 사주를 펼치는 중…`}
       />
@@ -2145,21 +2252,21 @@ function InyeonResultInner() {
     <ChapterShell
       chapterNo={chapter}
       chapterTitle={
-        chapter === 1 ? "나는 — 사주가 펼치는 나의 결"
-        : chapter === 2 ? "그 사람은 — 사주가 펼치는 그의 결"
-        : chapter === 3 ? "우리는 — 인연의 시작과 결"
-        : chapter === 4 ? "성격궁합 - 함께 있을 때 우리는"
-        : chapter === 5 ? "감정궁합 - 마음이 닿는 방식"
-        : chapter === 6 ? "깊은궁합 - 체질·시기·본능"
-        : chapter === 7 ? "관계조언 - 지금 우리에게 필요한 것"
-        : chapter === 8 ? "미래궁합 - 결혼·자녀·노년"
-        : "홍도인의 마지막 편지"
+        chapter === 1 ? "나는"
+        : chapter === 2 ? "그 사람은"
+        : chapter === 3 ? "우리는"
+        : chapter === 4 ? "성격궁합"
+        : chapter === 5 ? "감정궁합"
+        : chapter === 6 ? "깊은궁합"
+        : chapter === 7 ? "관계조언"
+        : chapter === 8 ? "미래궁합"
+        : "홍도인의 편지"
       }
       totalChapters={TOTAL}
       chapters={[
         { no: 1, label: "나는" },
         { no: 2, label: "그 사람은" },
-        { no: 3, label: "우리는 (인연)" },
+        { no: 3, label: "우리는" },
         { no: 4, label: "성격궁합" },
         { no: 5, label: "감정궁합" },
         { no: 6, label: "깊은궁합" },
@@ -2171,6 +2278,7 @@ function InyeonResultInner() {
       onNext={chapter < TOTAL ? () => setChapter((chapter + 1) as Chap) : undefined}
       onSelect={(no) => setChapter(no as Chap)}
       backHref="/inyeon/form"
+      summaryLines={chapter === 1 ? inyeonSummaryLines : undefined}
     >
       {/* Page 1 — 당신은 (ME) */}
       {chapter === 1 && (

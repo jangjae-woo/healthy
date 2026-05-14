@@ -1,6 +1,5 @@
 "use client";
 import { ReactNode, useState, useEffect } from "react";
-import Link from "next/link";
 
 // 홍실(紅絲) 팔레트 — /love 랜딩과 통일
 const THREAD = "#c8203a";
@@ -21,6 +20,7 @@ interface Props {
   chapterTitle: string;
   totalChapters: number;
   chapters?: ChapterEntry[];
+  summaryLines?: string[];
   onPrev?: () => void;
   onNext?: () => void;
   onSelect?: (no: number) => void;
@@ -30,6 +30,7 @@ interface Props {
 
 export default function ChapterShell({
   chapterNo, chapterTitle, totalChapters, chapters, onPrev, onNext, onSelect,
+  summaryLines,
   backHref = "/inyeon/form", children,
 }: Props) {
   const [showToc, setShowToc] = useState(false);
@@ -69,19 +70,13 @@ export default function ChapterShell({
             backdropFilter: "blur(10px)",
           }}
         >
-          <Link
-            href={backHref}
-            className="text-[13px]"
-            style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif" }}
-          >
-            ← paljawon
-          </Link>
-          <div className="flex-1 text-center">
+          <span className="w-4" aria-hidden="true" />
+          <div className="flex-1 text-center min-w-0">
             <div
-              className="text-[10px] tracking-[0.4em]"
-              style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
+              className="text-[13px] font-bold truncate"
+              style={{ color: "#1a0a14" }}
             >
-              紅 絲
+              제{chapterNo}장 · {chapterTitle}
             </div>
           </div>
           <span className="text-[11px] tabular-nums" style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif" }}>
@@ -157,8 +152,15 @@ export default function ChapterShell({
         {/* 챕터 타이틀 영역 */}
         <div className="px-4 pt-7 pb-3 text-center">
           <div
-            className="text-[10px] tracking-[0.4em] uppercase mb-2"
-            style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
+            className="inline-block text-[12px] tracking-[0.32em] uppercase mb-3 font-bold px-4 py-1.5 rounded-full"
+            style={{
+              color: "#8a4d16",
+              fontFamily: "'Cormorant Garamond', serif",
+              textShadow: "0 1px 0 rgba(255,255,255,0.9)",
+              background: "rgba(255,255,255,0.68)",
+              border: "1px solid rgba(184,134,70,0.38)",
+              boxShadow: "0 6px 18px -12px rgba(106,30,58,0.35)",
+            }}
           >
             Chapter {String(chapterNo).padStart(2, "0")}
           </div>
@@ -172,6 +174,28 @@ export default function ChapterShell({
           >
             {chapterTitle}
           </h1>
+          {summaryLines && summaryLines.length > 0 && (
+            <div
+              className="mt-5 mx-auto w-full rounded-md px-5 py-4 text-left"
+              style={{
+                background: "#ffffff",
+                border: `1px dashed ${THREAD}55`,
+              }}
+            >
+              {summaryLines.map((line) => (
+                <div
+                  key={line}
+                  className="text-[13px] leading-[1.7]"
+                  style={{
+                    color: INK_SOFT,
+                    fontFamily: "'Gowun Batang', serif",
+                  }}
+                >
+                  ▸ {line}
+                </div>
+              ))}
+            </div>
+          )}
           <div
             className="mt-3 h-px mx-auto"
             style={{

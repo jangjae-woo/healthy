@@ -1,0 +1,106 @@
+자평진전 기준 운영 룰북
+작성일: 2026-05-11
+
+목적
+- 서비스 전체의 사주 계산 진입점을 한 곳으로 묶어 같은 입력은 같은 사주 구조를 반환하게 한다.
+- 자평진전을 기준 참고축으로 두되, 현재 엔진이 자평진전 전체 원문을 완전 구현한 것처럼 표현하지 않는다.
+- 용신은 엄밀한 고전 용신 확정값이 아니라 서비스 보완오행으로 운영한다.
+
+1. 공통 계산 코어
+적용 파일: lib/saju-core.ts
+
+입력 처리
+- 양력 입력: 입력 연월일을 그대로 계산 날짜로 사용한다.
+- 음력 입력: lunarToSolar로 먼저 양력으로 바꾼 뒤 계산한다.
+- 연주, 월주, 일주, 시주, 대운은 모두 같은 양력 변환 날짜를 기준으로 계산한다.
+- 윤달은 isLeapMonth 값이 들어오면 반영한다. 현재 UI에는 윤달 선택값이 없으므로 기본값 false다.
+
+시간 처리
+- "시간 모름", "모름"은 정오 12:00으로 계산하되 시주는 null 처리한다.
+- 기존 선택값 "자시 (23:30~01:29)"와 "자시(23-01)"은 계속 받아들인다.
+- 신규 선택값 "야자시 (23:30~23:59)"와 "자시 (00:00~01:29)"을 분리해 받는다.
+- 야자시는 23:30, 자시는 00:30 대표값으로 manseryeok에 전달한다.
+
+2. 서비스별 적용 위치
+홍실 계산 API
+- app/api/hongsil-compute/route.ts
+- computeFullSajuCore 사용
+- 신강신약은 getDayMasterStrength 기반 getShinkangLevel로 통일
+
+홍실 생성 API
+- app/api/hongsil-generate/route.ts
+- computeFullSajuCore 사용
+- 프롬프트 생성에 들어가는 me 사주도 같은 코어 사용
+
+연인궁합 계산 API
+- app/api/inyeon-compute/route.ts
+- computeFullSajuCore 사용
+- 기존 오행 비율식 신강신약을 제거하고 getDayMasterStrength 기반으로 통일
+
+연인궁합 생성 API
+- app/api/inyeon-generate/route.ts
+- computeFullSajuCore 사용
+
+부모와 자녀/기존 통합 생성 API
+- app/api/generate/route.ts
+- 기존 computeFullSaju 내부를 computeFullSajuCore wrapper로 교체
+- 기존 호출부는 유지해 대규모 프롬프트 구조를 건드리지 않는다.
+
+3. UI 적용 위치
+적용 파일
+- app/hongsil/form/page.tsx
+- app/inyeon/form/page.tsx
+- app/parent-child/form/page.tsx
+- app/love/parent-child/form/page.tsx
+- app/saju/form/page.tsx
+- app/matching/form/page.tsx
+- components/SajuForm.tsx
+- app/face/form/page.tsx
+
+적용 내용
+- 기존 단일 "자시 (23:30~01:29)"을 새 입력에서는 "야자시 (23:30~23:59)"와 "자시 (00:00~01:29)"로 분리했다.
+- 과거 URL이나 저장값이 기존 자시 문자열을 보내도 계산 코어가 계속 처리한다.
+
+4. 용신/희신/기신 운영 문구
+운영 문구
+- 용신: 내 결을 살리는 핵심 기운
+- 희신: 용신이 잘 자라도록 받쳐주는 기운
+- 기신: 과해지면 흐름을 흔드는 기운
+
+계산상 주의
+- 현재 getYongsin은 엄밀한 격국별 용신 확정 엔진이 아니다.
+- 현재 서비스에서는 supportElement, 즉 보완오행으로 취급한다.
+- UI 호환 때문에 yongsin 필드는 유지한다.
+- 새 코어에는 supportElement와 yongsinModel: "service-support-element"를 함께 둔다.
+
+5. 가족 3인 공통 오행
+적용 파일: lib/saju-traditional.ts
+
+수정 전
+- calcFamilyTrio가 원시 오행 점수를 25 이상인지 비교했다.
+- 현재 오행 점수 체계에서는 25에 도달하기 어려워 공통 강한 오행이 거의 나오지 않는 구조였다.
+
+수정 후
+- 각 사람의 오행 총합 대비 비율로 바꿨다.
+- 엄마, 아빠, 자녀가 같은 오행을 각각 25% 이상 갖고 있으면 sharedElement로 본다.
+
+6. 아직 확정하지 않은 한계
+절기
+- 현재 월주/연주 보정은 날짜 단위 절기 공식이다.
+- 출생일이 절기 당일 경계에 걸리면 실제 절입 시각 기준과 다를 수 있다.
+- 다음 단계에서 정확도를 더 올리려면 절입 시각 데이터 또는 검증된 ephemeris 기반 라이브러리를 붙인다.
+
+윤달
+- 코어는 isLeapMonth를 받을 준비가 되어 있다.
+- UI에서 윤달 드롭다운을 아직 만들지 않았으므로 음력 윤달 출생자는 별도 입력을 받을 수 없다.
+
+자평진전
+- 자평진전은 기준 참고축으로 삼는다.
+- 현재 서비스는 자평진전 전체를 완전 구현한 엔진이 아니라, 격국/신강신약/통근/합충/세운 계층을 일부 결정론화한 서비스 모델이다.
+- 따라서 "정통 절대 산출" 같은 표현보다 "자평진전식 구조를 참고한 산출"이 더 안전하다.
+
+7. 다음 검토 우선순위
+1. 윤달 입력 UI 추가 여부 결정
+2. 절기 당일 출생 테스트셋 보강
+3. getYongsin을 격국 기반 용신 엔진으로 확장할지, 계속 보완오행으로 운영할지 결정
+4. 부모와 자녀 대형 프롬프트는 당장 축소하지 않고, 다음 작업에서 챕터별 룰북으로 분리한다.

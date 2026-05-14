@@ -116,6 +116,10 @@ const CSS = `
 .card-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14px;letter-spacing:0.18em;color:var(--thread);padding-top:14px;border-top:1px solid rgba(212,169,107,0.3);width:100%}
 .card-cta-arrow{font-size:18px}
 
+.home-bridge{padding:0 20px 14px;position:relative}
+.home-bridge-link{display:block;width:100%;padding:13px 18px;text-align:center;text-decoration:none;border-radius:8px;font-family:"Noto Serif KR",serif;font-size:14px;font-weight:700;letter-spacing:0.08em;color:var(--thread);background:linear-gradient(180deg,rgba(255,255,255,0.62) 0%,rgba(255,247,249,0.5) 100%);border:1px solid rgba(200,32,58,0.32);box-shadow:0 12px 30px -18px rgba(178,40,71,0.45)}
+.home-bridge-link:active{transform:scale(0.99)}
+
 .rules{padding:40px 20px 30px;position:relative}
 .rules-inner{max-width:100%;margin:0 auto}
 .rule-list{list-style:none;counter-reset:rule}
@@ -212,8 +216,8 @@ export default function LoveLandingPage() {
       <main className="hongsil-main">
         <header className="hongsil-header">
           <div className="top-row">
-            <Link href="/" className="back-link">← paljawon</Link>
-            <div className="brand-mark">八字苑</div>
+            <span className="back-link" aria-hidden="true" />
+            <div className="brand-mark" aria-hidden="true" />
           </div>
         </header>
 
@@ -251,6 +255,10 @@ export default function LoveLandingPage() {
             </p>
           </div>
         </section>
+
+        <div className="home-bridge reveal d4">
+          <Link href="/" className="home-bridge-link">팔자원으로 가기</Link>
+        </div>
 
         {/* CHOICES */}
         <section className="choices" id="choose">
@@ -347,7 +355,7 @@ export default function LoveLandingPage() {
         <footer className="hongsil-footer">
           <div className="footer-mark">홍 실 · 紅 絲</div>
           <div className="footer-line">
-            © PALJAWON 八字苑 · 사주 기반 인연 풀이<br />
+            사주 기반 인연 풀이<br />
             만 18세 이상
           </div>
           <div className="footer-fine">

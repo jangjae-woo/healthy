@@ -953,11 +953,13 @@ export function calcFamilyTrio(
   // 3인 모두 강한 오행 (각자 25% 이상)
   const sharedElement = (() => {
     const elements = ["목", "화", "토", "금", "수"];
+    const ratio = (saju: SajuAnalysis, el: string): number => {
+      const values = saju.elements as Record<string, number>;
+      const total = elements.reduce((sum, key) => sum + (values[key] ?? 0), 0);
+      return total > 0 ? (values[el] ?? 0) / total : 0;
+    };
     for (const el of elements) {
-      const me = (sajuMom.elements as Record<string, number>)[el] ?? 0;
-      const de = (sajuDad.elements as Record<string, number>)[el] ?? 0;
-      const ce = (sajuChild.elements as Record<string, number>)[el] ?? 0;
-      if (me >= 25 && de >= 25 && ce >= 25) return el;
+      if (ratio(sajuMom, el) >= 0.25 && ratio(sajuDad, el) >= 0.25 && ratio(sajuChild, el) >= 0.25) return el;
     }
     return null;
   })();

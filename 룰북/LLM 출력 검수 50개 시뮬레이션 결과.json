@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "service": "hongsil",
+    "pattern": "신약+비겁0 속도/수용 반복",
+    "text": "장재형1님은 신약(身弱)한 사주에 비겁(比劫)이 없어 상대 흐름을 받아들이는 협력형이라 자기 리듬을 천천히 세우는 데 시간이 필요한 결이에요.\n다만 신약(身弱) 사주이기에 자기 리듬을 천천히 세우는 것이 좋아요.\n특히 장재형1님에게 비겁(比劫)이 없다는 것은 자기 주장을 내세우기보다 상대방의 결을 받아들이고 맞춰주는 협력적인 성향이 강하다는 의미예요.\n자기 리듬을 천천히 세우는 신약 사주이기에, 안정적인 관계는 장재형1님에게 큰 힘이 되어줄 것이에요.",
+    "ok": false,
+    "pass": false,
+    "error": "Error: Gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+  },
+  {
+    "id": 2,
+    "service": "inyeon",
+    "pattern": "식상0 표현 반복",
+    "text": "민서2님은 식상(食傷)이 약해 감정을 바로 표현하기보다 안에서 정리하는 편이에요.\n식상(食傷)이 부족한 사주는 말보다 생각이 먼저 움직여 감정 표현이 늦어질 수 있어요.\n그래서 민서2님은 감정을 바로 꺼내기보다 한 번 더 정리하고 전하는 리듬이 강해요.\n표현의 기운이 얇기 때문에 상대가 기다려주는 분위기에서 말문이 편해져요.",
+    "ok": false,
+    "pass": false,
+    "error": "Error: Gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+  }
+]

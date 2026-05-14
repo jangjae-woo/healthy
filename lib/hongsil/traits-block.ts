@@ -71,13 +71,35 @@ export function deriveHongsilTraits(saju: SajuAnalysis): ChildTraitsV2 {
 // ─── 챕터별 scope — 홍실 6 챕터에 맞춰 부분 주입 ─────
 export type HongsilChapterScope = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6";
 
+function useBriefHongsilTraits(scope: HongsilChapterScope): boolean {
+  return scope !== "ch1";
+}
+
 export function hongsilTraitsToPromptBlock(
   t: ChildTraitsV2,
   name: string,
   scope: HongsilChapterScope,
 ): string {
+  if (useBriefHongsilTraits(scope)) {
+    const chapterPurpose: Record<HongsilChapterScope, string> = {
+      ch1: "",
+      ch2: "사랑의 시기, 속도, 준비감",
+      ch3: "맞는 사람의 태도, 첫인상, 만남 방식",
+      ch4: "반복되는 관계 장면과 벗어나는 행동",
+      ch5: "끌림의 온도, 거리감, 반응, 분위기",
+      ch6: "앞 장에서 본 생활어 결론의 편지식 회상",
+    };
+    return `【${name}님 사주 계산 결과 내부 반영 (${scope})】
+- 이 블록은 LLM 내부 판단용이다. 본문에는 소제목당 사주근거 1~3개까지만 짧게 인용할 수 있다.
+- 사주 인자명, 한자, 괄호 한자, 원국 용어를 인용하면 반드시 같은 문단에서 초보자용 자리 설명과 생활어 해석을 붙인다.
+- 점수와 원점수는 인용하지 않는다.
+- 출력은 ${chapterPurpose[scope]} 중심의 생활어로 바로 연결한다.
+- 같은 근거를 반복하지 말고, 앞에서 다룬 내용은 "이런 흐름", "그 지점"처럼 문맥으로만 이어받는다.
+`;
+  }
+
   const lines: string[] = [];
-  lines.push(`【${name}님 본인 사주 결정론 키워드 풀 (${scope}) — 이 단어 풀에서만 본문 인용. 임의 통설 추가 절대 금지】`);
+  lines.push(`【${name}님 본인 사주 결정론 키워드 풀 (${scope}) — 한문/사주근거는 소제목당 1~3개 제한 인용. 반드시 쉬운 해석 병기】`);
 
   // 일간 본질 — ch1(매력)에서만 자연 비유 nature 노출. 다른 챕터엔 명사·키워드만.
   if (scope === "ch1") {
@@ -136,7 +158,7 @@ export function hongsilTraitsToPromptBlock(
     lines.push(`▸ 천간 합화: ${t.combinedTransformations.map(c => `${c.pair}→${c.element}(${c.sipName})`).join(" / ")}`);
   }
   if (t.sipShinkangCombos.length > 0) {
-    lines.push(`▸ 십성×신강 결합 (카운트만으로 단정 X — 신강 결합 의미):`);
+    lines.push(`▸ 십성×신강 결합 (카운트만으로 확정 X — 신강 결합 의미):`);
     for (const c of t.sipShinkangCombos) {
       lines.push(`  · ${c.sip}(${c.level}) + ${c.shinkangBucket}: ${c.keywords.join("·")}`);
     }
@@ -151,15 +173,8 @@ export function hongsilTraitsToPromptBlock(
     lines.push(`▸ 식상→재성 흐름: 식상 ${t.sikJaeCombo.sikLevel} × 재성 ${t.sikJaeCombo.jaeLevel} — ${t.sikJaeCombo.keywords.join("·")}`);
   }
 
-  // ─── V2.6 자평진전 격국 (모든 챕터) ─────
-  lines.push(`▸ 격국(格局) — ${t.gyeokGuk.label} (${t.gyeokGuk.type})`);
-  lines.push(`  · 의미: ${t.gyeokGuk.meaning}`);
-  lines.push(`  · 활약 무대: ${t.gyeokGuk.stage}`);
-  if (t.gyeokGuk.keywords.length > 0) {
-    lines.push(`  · 키워드: ${t.gyeokGuk.keywords.join("·")}`);
-  }
-  lines.push(`  · 판별: ${t.gyeokGuk.detail}`);
-  lines.push(`  ★ 격국이 본문 풀이의 토대 — 단순 카운트보다 우선.`);
+  // 격국명은 연애사주 본문과 충돌하기 쉬워 직접 주입하지 않는다.
+  // 필요한 뉘앙스는 아래 결합 매핑과 십성/신강 조합에서 흡수한다.
 
   // 공망 (ch3·ch4·ch6 강조)
   if (scope === "ch3" || scope === "ch4" || scope === "ch6") {
@@ -182,8 +197,7 @@ export function hongsilTraitsToPromptBlock(
     }
   }
 
-  // ─── V2.7 자평진전 후반 ─────
-  lines.push(`▸ 격국 변화·진가: ${t.gyeokChange.changeType} — ${t.gyeokChange.detail}`);
+  // ─── V2.7 관계 해석 보조 ─────
   lines.push(`▸ 통근(通根): ${t.tonggeun.level} (총점 ${t.tonggeun.totalScore}) — ${t.tonggeun.recommendation}`);
   if (t.hapResults.length > 0) {
     lines.push(`▸ 지지 합국:`);

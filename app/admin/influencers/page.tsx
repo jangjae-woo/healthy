@@ -6,6 +6,8 @@ interface Influencer {
   id: string;
   slug: string;
   name: string;
+  discount_amount: number;
+  discount_days: number;
   created_at: string;
 }
 
@@ -17,8 +19,16 @@ export default function InfluencersPage() {
   const [newSlug, setNewSlug] = useState('');
   const [newName, setNewName] = useState('');
   const [newPw, setNewPw] = useState('');
+  const [newDiscount, setNewDiscount] = useState('0');
+  const [newDays, setNewDays] = useState('1');
   const [busy, setBusy] = useState(false);
   const [origin, setOrigin] = useState('');
+
+  // 행별 할인 수정 상태
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editDiscount, setEditDiscount] = useState('0');
+  const [editDays, setEditDays] = useState('1');
+  const [editBusy, setEditBusy] = useState(false);
 
   // 추적 URL은 항상 라이브 도메인. preview에서 봐도 공유할 URL은 paljawon.com
   useEffect(() => { setOrigin('https://www.paljawon.com'); load(); }, []);
@@ -42,16 +52,49 @@ export default function InfluencersPage() {
       const res = await fetch('/api/admin/influencers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug: newSlug, name: newName, password: newPw }),
+        body: JSON.stringify({
+          slug: newSlug,
+          name: newName,
+          password: newPw,
+          discount_amount: Number(newDiscount) || 0,
+          discount_days: Number(newDays) || 1,
+        }),
       });
       const j = await res.json();
       if (!res.ok || !j.ok) { setErr(j.error || '생성 실패'); }
       else {
-        setNewSlug(''); setNewName(''); setNewPw(''); setShowAdd(false);
+        setNewSlug(''); setNewName(''); setNewPw(''); setNewDiscount('0'); setNewDays('1');
+        setShowAdd(false);
         load();
       }
     } catch { setErr('네트워크 오류'); }
     setBusy(false);
+  }
+
+  function startEdit(i: Influencer) {
+    setEditId(i.id);
+    setEditDiscount(String(i.discount_amount ?? 0));
+    setEditDays(String(i.discount_days ?? 1));
+    setErr('');
+  }
+
+  async function saveEdit(id: string) {
+    setEditBusy(true); setErr('');
+    try {
+      const res = await fetch('/api/admin/influencers', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          discount_amount: Number(editDiscount) || 0,
+          discount_days: Number(editDays) || 1,
+        }),
+      });
+      const j = await res.json();
+      if (!res.ok || !j.ok) setErr(j.error || '수정 실패');
+      else { setEditId(null); load(); }
+    } catch { setErr('네트워크 오류'); }
+    setEditBusy(false);
   }
 
   async function remove(id: string, name: string) {
@@ -92,16 +135,21 @@ export default function InfluencersPage() {
         {showAdd && (
           <div className="bg-white rounded-xl border border-gray-200 p-5 mb-5">
             <h3 className="text-sm font-bold mb-4">신규 인플루언서</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
               <Field label="slug (URL용, 영숫자)" value={newSlug} onChange={setNewSlug} placeholder="예: hong" />
               <Field label="표시명" value={newName} onChange={setNewName} placeholder="예: 홍길동" />
               <Field label="비밀번호" value={newPw} onChange={setNewPw} placeholder="••••••••" type="password" />
+              <Field label="할인 금액 (원)" value={newDiscount} onChange={setNewDiscount} placeholder="예: 20000" type="number" />
+              <Field label="할인 유효일수 (일)" value={newDays} onChange={setNewDays} placeholder="기본 1" type="number" />
             </div>
+            <p className="text-[12px] text-gray-400 mb-3">
+              할인 유효일수 = 추적 URL 유입 후 며칠간 할인·실적이 인정되는지. 기본 1일(유입 당일만).
+            </p>
             <div className="flex gap-2">
               <button onClick={add} disabled={busy || !newSlug || !newName || !newPw} className="px-4 py-2 rounded-lg text-sm font-bold bg-[#1a1a1a] text-white hover:bg-[#333] transition disabled:opacity-40">
                 저장
               </button>
-              <button onClick={() => { setShowAdd(false); setNewSlug(''); setNewName(''); setNewPw(''); }} className="px-4 py-2 rounded-lg text-sm bg-gray-100 hover:bg-gray-200">
+              <button onClick={() => { setShowAdd(false); setNewSlug(''); setNewName(''); setNewPw(''); setNewDiscount('0'); setNewDays('1'); }} className="px-4 py-2 rounded-lg text-sm bg-gray-100 hover:bg-gray-200">
                 취소
               </button>
             </div>
@@ -121,6 +169,7 @@ export default function InfluencersPage() {
                 <tr>
                   <Th>표시명</Th>
                   <Th>slug</Th>
+                  <Th>할인 금액 / 유효일수</Th>
                   <Th>추적 URL (팔로워 공유용)</Th>
                   <Th>로그인 URL (인플루언서 전용)</Th>
                   <Th>등록일</Th>
@@ -131,10 +180,36 @@ export default function InfluencersPage() {
                 {list.map((i) => {
                   const trackUrl = `${origin}/${i.slug}`;
                   const loginUrl = `${origin}/influencer/login?slug=${i.slug}`;
+                  const editing = editId === i.id;
                   return (
                     <tr key={i.id} className="border-t border-gray-100 hover:bg-gray-50">
                       <Td>{i.name}</Td>
                       <Td className="font-mono text-[12px] text-gray-500">{i.slug}</Td>
+                      <Td>
+                        {editing ? (
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="number"
+                              value={editDiscount}
+                              onChange={(e) => setEditDiscount(e.target.value)}
+                              className="w-20 px-2 py-1 rounded border border-gray-300 text-[12px] focus:outline-none focus:border-gray-500"
+                            />
+                            <span className="text-[12px] text-gray-400">원 ·</span>
+                            <input
+                              type="number"
+                              value={editDays}
+                              onChange={(e) => setEditDays(e.target.value)}
+                              className="w-14 px-2 py-1 rounded border border-gray-300 text-[12px] focus:outline-none focus:border-gray-500"
+                            />
+                            <span className="text-[12px] text-gray-400">일</span>
+                          </div>
+                        ) : (
+                          <span className="text-[13px]">
+                            {(i.discount_amount ?? 0).toLocaleString()}원
+                            <span className="text-gray-400"> · {i.discount_days ?? 1}일</span>
+                          </span>
+                        )}
+                      </Td>
                       <Td>
                         <button
                           onClick={() => { navigator.clipboard.writeText(trackUrl); alert('추적 URL 복사됨'); }}
@@ -153,9 +228,32 @@ export default function InfluencersPage() {
                       </Td>
                       <Td className="text-gray-500">{new Date(i.created_at).toLocaleDateString('ko-KR')}</Td>
                       <Td>
-                        <button onClick={() => remove(i.id, i.name)} className="text-[12px] text-red-600 hover:text-red-800">
-                          삭제
-                        </button>
+                        {editing ? (
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => saveEdit(i.id)}
+                              disabled={editBusy}
+                              className="text-[12px] font-bold text-[#1a1a1a] hover:text-black disabled:opacity-40"
+                            >
+                              저장
+                            </button>
+                            <button
+                              onClick={() => setEditId(null)}
+                              className="text-[12px] text-gray-500 hover:text-gray-700"
+                            >
+                              취소
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex gap-2">
+                            <button onClick={() => startEdit(i)} className="text-[12px] text-blue-600 hover:text-blue-800">
+                              수정
+                            </button>
+                            <button onClick={() => remove(i.id, i.name)} className="text-[12px] text-red-600 hover:text-red-800">
+                              삭제
+                            </button>
+                          </div>
+                        )}
                       </Td>
                     </tr>
                   );

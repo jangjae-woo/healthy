@@ -1034,10 +1034,19 @@ export function inferFlowGiven(
   const c = norm(child.elements);
   const ELEMS = ["목", "화", "토", "금", "수"];
 
-  // 부모가 자녀에게 채워줌: 부모는 충분(15+)이고 자녀는 부족(15-)
+  // ⭐ G15 v2 (2026-05-14) — 자녀 기신(gisin) 오행 제외
+  // 발견 사례 (666 이미지): 자녀 부족 오행 = 자녀 기신 = 토 인 경우 차트 "아빠가 채워주는 결=토"와 "살펴줄 결=토" 동시 등장 → 명리 모순.
+  // 자녀 기신 오행은 부모도 채우면 안 되니 parentGives에서 제외.
+  const OVERCOMING_REV: Record<string, string> = { 목: "금", 화: "수", 토: "목", 금: "화", 수: "토" };
+  const yongsin = (child.yongsin ?? "").trim();
+  let childGisin = "";
+  for (const e of ELEMS) if (yongsin.includes(e)) { childGisin = OVERCOMING_REV[e] ?? ""; break; }
+
+  // 부모가 자녀에게 채워줌: 부모는 충분(15+)이고 자녀는 부족(15-), gisin 제외
   const parentGives: FlowGiven["parentGives"] = [];
   const bothLack: FlowGiven["bothLack"] = [];
   for (const e of ELEMS) {
+    if (e === childGisin) continue; // G15 v2: 자녀 기신은 채우지 않음
     if (p[e] >= 18 && c[e] < 15) {
       parentGives.push({ elem: e, kor: ELEM_KOR[e].kor, emoji: ELEM_KOR[e].emoji, intensity: Math.round(p[e] - c[e]) });
     }

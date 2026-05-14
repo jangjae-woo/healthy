@@ -1034,10 +1034,17 @@ export function inferFlowGiven(
   const c = norm(child.elements);
   const ELEMS = ["목", "화", "토", "금", "수"];
 
-  // 부모가 자녀에게 채워줌: 부모는 충분(15+)이고 자녀는 부족(15-)
+  // ⭐ G15 v2 (2026-05-14) — 자녀 기신 오행 제외 (666 모순 fix)
+  const OVERCOMING_REV: Record<string, string> = { 목: "금", 화: "수", 토: "목", 금: "화", 수: "토" };
+  const yongsin = (child.yongsin ?? "").trim();
+  let childGisin = "";
+  for (const e of ELEMS) if (yongsin.includes(e)) { childGisin = OVERCOMING_REV[e] ?? ""; break; }
+
+  // 부모가 자녀에게 채워줌: 부모는 충분(15+)이고 자녀는 부족(15-), gisin 제외
   const parentGives: FlowGiven["parentGives"] = [];
   const bothLack: FlowGiven["bothLack"] = [];
   for (const e of ELEMS) {
+    if (e === childGisin) continue; // G15 v2
     if (p[e] >= 18 && c[e] < 15) {
       parentGives.push({ elem: e, kor: ELEM_KOR[e].kor, emoji: ELEM_KOR[e].emoji, intensity: Math.round(p[e] - c[e]) });
     }

@@ -25,19 +25,7 @@ export default function HongsilLanding() {
       <div style={{ maxWidth: 480, margin: "0 auto" }}>
         {/* 상단 바 */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-          <Link
-            href="/love"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontStyle: "italic",
-              fontSize: 13,
-              color: PLUM,
-              textDecoration: "none",
-              letterSpacing: "0.02em",
-            }}
-          >
-            ← /love
-          </Link>
+          <span style={{ width: 20 }} aria-hidden="true" />
           <div
             style={{
               fontFamily: "'Italiana', serif",

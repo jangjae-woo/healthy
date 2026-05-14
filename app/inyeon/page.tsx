@@ -24,9 +24,7 @@ export default function InyeonLanding() {
     >
       <div style={{ maxWidth: 480, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-          <Link href="/love" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 13, color: PLUM, textDecoration: "none", letterSpacing: "0.02em" }}>
-            ← /love
-          </Link>
+          <span style={{ width: 20 }} aria-hidden="true" />
           <div style={{ fontFamily: "'Italiana', serif", fontSize: 11, letterSpacing: "0.4em", color: GOLD }}>
             紅 蓮
           </div>

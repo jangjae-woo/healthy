@@ -595,16 +595,42 @@ export function inferCrisisTiming(
 }
 
 // 용신 추천 (오행 부족한 것 중 일간을 돕는 오행)
-export function getYongsin(ilgan: string, elements: Elements): string {
+// ⭐ 2026-05-14 fix — 신강신약 분기 추가 (정통 자평진전 통설 적용)
+// 옛 로직: 무조건 비겁·인성 (신약 케이스에만 맞음)
+// 새 로직:
+//   - 신약·태약·극약 → 비겁·인성 (자기 도움) [옛 동작]
+//   - 신강·태강·극왕 → 식상·재성·관성 (자기 빼주거나 다스림)
+//   - 중화 → 가장 부족한 오행 (균형 보충)
+// shinkang은 optional — 미지정 시 옛 동작 fallback (backward compat)
+export function getYongsin(ilgan: string, elements: Elements, shinkang?: string): string {
   const ie = STEM_ELEM[ilgan as Stem];
-  // 내 오행을 생해주는 오행과 같은 오행을 찾음
-  const helpful = [
-    ie,                    // 비겁 (자신과 같은 오행)
-    Object.keys(GENERATES).find(k => GENERATES[k] === ie) ?? '', // 인성 (나를 생하는)
-  ].filter(Boolean);
+  if (!ie) return '';
 
-  // 오행 중 가장 부족한 것이 helpful에 해당하면 그것이 용신
-  const sorted = Object.entries(elements).sort((a,b) => a[1]-b[1]);
+  // 오행 5종 매핑 (일간 기준)
+  const bigyeop  = ie;                                                          // 비겁
+  const insong   = Object.keys(GENERATES).find(k => GENERATES[k] === ie) ?? ''; // 인성 (나를 생함)
+  const siksang  = GENERATES[ie] ?? '';                                         // 식상 (내가 생함)
+  const jaesong  = CONTROLS[ie] ?? '';                                          // 재성 (내가 극함)
+  const gwanseong = Object.keys(CONTROLS).find(k => CONTROLS[k] === ie) ?? ''; // 관성 (나를 극함)
+
+  // shinkang 기반 helpful 결정
+  let helpful: string[];
+  if (shinkang && /신강|태강|극왕|극강/.test(shinkang)) {
+    // 신강·태강 → 자기 기운 빼주거나 다스림: 식상·재성·관성
+    helpful = [siksang, jaesong, gwanseong].filter(Boolean);
+  } else if (shinkang && /신약|태약|극약/.test(shinkang)) {
+    // 신약·태약 → 자기 도움: 비겁·인성
+    helpful = [bigyeop, insong].filter(Boolean);
+  } else if (shinkang && /중화/.test(shinkang)) {
+    // 중화 → 균형 보충 (가장 부족한 오행, 5종 모두 후보)
+    helpful = [bigyeop, insong, siksang, jaesong, gwanseong].filter(Boolean);
+  } else {
+    // shinkang 미지정 → 옛 동작 fallback (비겁·인성)
+    helpful = [bigyeop, insong].filter(Boolean);
+  }
+
+  // helpful 중 가장 부족한 오행 선택 (보충 우선)
+  const sorted = Object.entries(elements).sort((a, b) => a[1] - b[1]);
   for (const [el] of sorted) {
     if (helpful.includes(el)) return el;
   }

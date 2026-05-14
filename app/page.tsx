@@ -124,6 +124,27 @@ export default function Home() {
 
       </section>
 
+      <div className="relative z-10 w-full max-w-md mx-auto px-2 -mt-3 mb-4">
+        <Link
+          href="/love"
+          className="block w-full rounded-xl text-center transition-all duration-200 hover:scale-[1.01] active:scale-[0.98]"
+          style={{
+            padding: "14px 18px",
+            color: GOLD_LIGHT,
+            border: `1px solid ${GOLD}55`,
+            background: `linear-gradient(135deg, ${GOLD}16 0%, ${GOLD}08 100%)`,
+            boxShadow: `0 0 24px ${GOLD}12`,
+            fontFamily: "'Noto Serif KR', serif",
+            fontSize: 14,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textDecoration: "none",
+          }}
+        >
+          홍실로 가기
+        </Link>
+      </div>
+
       {/* ─── 서비스 카드 ─── */}
       <section id="services" className="relative z-10 w-full max-w-md mx-auto flex flex-col gap-4 px-2 pt-6">
         {services.map((s) => (

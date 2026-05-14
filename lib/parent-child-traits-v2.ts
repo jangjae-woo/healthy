@@ -742,23 +742,29 @@ const YONGSIN_DATA: Record<string, { meaning: string; guidance: string }> = {
 };
 
 export function inferYongsinMeaning(saju: SajuAnalysis): YongsinMeaning {
-  const elements = saju.elements as Record<string, number>;
-  const total = Object.values(elements).reduce((a, b) => a + b, 0) || 1;
-  // 가장 부족한 오행 (15% 미만)
-  let weakest: string | null = null;
-  let minPct = 1;
-  for (const el of ["목", "화", "토", "금", "수"]) {
-    const pct = (elements[el] || 0) / total;
-    if (pct < minPct) {
-      minPct = pct;
-      weakest = el;
+  // ⭐ G15 (2026-05-14) — saju.yongsin (신강신약 기반 정확 계산) 우선 사용
+  // 발견 사례: 222 이미지 채워줄 결=화 + 살펴줄 결=화 모순.
+  // 원인: 이 함수가 saju.yongsin 무시하고 "가장 부족한 오행"만, calcGisin은 saju.yongsin 기반 → 충돌.
+  let target: string | null = null;
+  if (saju.yongsin) {
+    for (const e of ["목", "화", "토", "금", "수"]) {
+      if (saju.yongsin.includes(e)) { target = e; break; }
     }
   }
-  const target = weakest || "토";
-  const data = YONGSIN_DATA[target];
+  if (!target) {
+    const elements = saju.elements as Record<string, number>;
+    const total = Object.values(elements).reduce((a, b) => a + b, 0) || 1;
+    let minPct = 1;
+    for (const el of ["목", "화", "토", "금", "수"]) {
+      const pct = (elements[el] || 0) / total;
+      if (pct < minPct) { minPct = pct; target = el; }
+    }
+  }
+  const targetKey = target || "토";
+  const data = YONGSIN_DATA[targetKey];
   return {
-    element: weakest,
-    hanja: ELEM_HANJA_LOCAL[target] ?? "",
+    element: target,
+    hanja: ELEM_HANJA_LOCAL[targetKey] ?? "",
     title: "用神 — 채워야 할 기운",
     meaning: data.meaning,
     guidance: data.guidance,

@@ -1,0 +1,100 @@
+인연궁합 프롬프트 중복/모순 검토보고서
+작성일: 2026-05-11
+
+대상 파일
+- lib/inyeon/prompts/v2-principles.ts
+- lib/inyeon/prompts/ch1-basic.ts
+- lib/inyeon/prompts/ch2-inyeon.ts
+- lib/inyeon/prompts/ch3-seonggyeok.ts
+- lib/inyeon/prompts/ch4-emotion.ts
+- lib/inyeon/prompts/ch5-physical.ts
+- lib/inyeon/prompts/ch6-finance.ts
+- lib/inyeon/prompts/ch7-marriage.ts
+- lib/inyeon/prompts/ch8-final-letter.ts
+- lib/inyeon-traits-block-v2.ts
+- lib/inyeon/build-context.ts
+- app/api/inyeon-generate/route.ts
+
+1. 핵심 판단
+인연궁합 프롬프트도 연애사주와 같은 문제가 있다.
+공통 원칙, 챕터 핵심 룰, sub 분배표, end-check가 모두 비슷한 말을 반복한다.
+다만 인연궁합은 관계 단계가 많고 두 사람 이름을 모두 다뤄야 해서, 무리하게 줄이면 내용이 빈약해질 위험이 있다.
+
+이번 정리 원칙
+- 충돌 가능성이 큰 문장부터 줄인다.
+- 이름 변형 문제는 프롬프트가 아니라 출력 후처리로 막는다.
+- 프롬프트는 "이름을 정확히 쓰라"는 의도를 명시하고, 코드는 실제 변형을 치환한다.
+
+2. 발견한 문제
+문제 A. 공통 원칙이 과장되고 장황함
+- "V2 절대 원칙", "가장 중요한 룰", "강제" 같은 표현이 많다.
+- LLM에는 강하게 작동하지만, 룰끼리 충돌할 때 어느 룰이 더 우선인지 흐려진다.
+- 조치: v2-principles를 "인연궁합 공통 원칙"으로 압축했다.
+
+문제 B. "정통 자평명리 결합 풀이" 반복
+- 모든 챕터 핵심 룰에 반복된다.
+- 현재 서비스 모델은 자평진전 전체 구현체가 아니므로 과장 리스크가 있다.
+- 조치: ch1~ch7의 해당 문구를 "사주 인자 결합 풀이"로 완화했다.
+
+문제 C. 이름 오타
+- 예: "장재우" -> "장재재우"
+- 프롬프트에 이름을 넣어도 LLM이 생성 중 글자를 중복할 수 있다.
+- 조치: 이름 고정 룰을 프롬프트에 추가했고, 스트리밍 출력 후처리로 중복 음절 변형을 원래 이름으로 되돌리게 했다.
+
+문제 D. 점수 직접 노출 가능성
+- ch8 컨텍스트에는 점수가 들어가지만 출력 룰은 점수 직접 인용 금지다.
+- 이 구조는 유지한다. 점수는 LLM 판단 기준으로만 쓰고 본문에는 결로 풀도록 한다.
+
+3. 이번 실제 반영
+수정 파일
+- lib/inyeon/prompts/v2-principles.ts
+- lib/inyeon/prompts/ch1-basic.ts
+- lib/inyeon/prompts/ch2-inyeon.ts
+- lib/inyeon/prompts/ch3-seonggyeok.ts
+- lib/inyeon/prompts/ch4-emotion.ts
+- lib/inyeon/prompts/ch5-physical.ts
+- lib/inyeon/prompts/ch6-finance.ts
+- lib/inyeon/prompts/ch7-marriage.ts
+- app/api/inyeon-generate/route.ts
+- app/api/hongsil-generate/route.ts
+- lib/name-guard.ts
+
+반영 내용
+- 공통 원칙과 end-check 압축
+- 이름 고정 룰 추가
+- "정통 자평명리 결합 풀이" 반복 완화
+- 인연궁합 generate 스트림에 name guard 적용
+- 연애사주 generate 스트림에도 같은 name guard 적용
+
+4. 이름 오타 방지 방식
+프롬프트 방식만으로는 부족하다.
+따라서 두 겹으로 막는다.
+
+1차: 프롬프트
+- 이름은 입력값 그대로만 사용
+- "장재우님"이면 "장재우님"만 허용
+- 별칭, 중복 글자, 변형 금지
+
+2차: 코드 후처리
+- lib/name-guard.ts
+- "장재우" 기준으로 "장장재우", "장재재우", "장재우우" 같은 중복 음절 변형을 생성
+- LLM 스트리밍 chunk가 나오기 직전에 원래 이름으로 치환
+- chunk 경계에서 이름이 잘릴 수 있어 createNameGuard가 짧은 버퍼를 들고 있다가 안전한 부분만 방출
+
+5. 보류한 항목
+보류 A. sub-distribution
+- 길지만 같은 인자 반복을 막는 핵심 장치라 유지
+
+보류 B. ch8 점수 컨텍스트
+- 점수 직접 출력 금지와 함께 쓰면 판단 근거로 유효
+- 실제 출력 샘플에서 점수가 새면 그때 컨텍스트 자체를 라벨화한다.
+
+보류 C. 관계 단계별 긴 guide
+- 짝사랑/썸/연인/부부/재회 분기가 많아 지금은 유지
+- 다음 축소 때는 관계별 guide를 룰북화하고 프롬프트에는 키만 남기는 방식 권장
+
+6. 다음 검증 포인트
+- 실제 인연궁합 샘플에서 같은 표현이 반복되는지 확인
+- 두 사람 이름이 모두 정확히 출력되는지 확인
+- 한쪽만 과도하게 부각되는지 확인
+- ch8 편지에서 점수 숫자가 본문에 새는지 확인

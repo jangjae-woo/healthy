@@ -7,9 +7,9 @@ const ELEM_COLOR: Record<string, string> = {
 const ELEM_HANJA: Record<string, string> = { 목: "木", 화: "火", 토: "土", 금: "金", 수: "水" };
 
 const KIND_INFO: Record<string, { full: string; sub: string; desc: string }> = {
-  용신: { full: "용신(用神)", sub: "내 결을 살리는 기운", desc: "사주에서 가장 도움이 되는 오행" },
-  희신: { full: "희신(喜神)", sub: "용신을 받쳐주는 결", desc: "용신과 어울려 결을 더 살리는 오행" },
-  기신: { full: "기신(忌神)", sub: "결을 흩트리는 기운", desc: "사주의 흐름을 깨뜨릴 수 있는 오행" },
+  용신: { full: "용신(用神)", sub: "내 결을 살리는 핵심 기운", desc: "내 사주가 편안하게 살아나는 방향" },
+  희신: { full: "희신(喜神)", sub: "용신이 잘 자라도록 받쳐주는 기운", desc: "용신이 힘을 내도록 도와주는 결" },
+  기신: { full: "기신(忌神)", sub: "과해지면 흐름을 흔드는 기운", desc: "많아지면 균형을 살펴야 하는 자극" },
 };
 
 interface Props {
@@ -67,12 +67,15 @@ export default function YongsinCards({ yongsin, huisin, gisin }: Props) {
       }}
     >
       <div className="text-[14px] mb-3 text-center font-bold" style={{ color: "#6b1e3a", fontFamily: "'Nanum Myeongjo', serif" }}>
-        용신(用神) 카드
+        가까이 둘 결과 살펴볼 결
       </div>
-      <div className="flex gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         <Card kind="용신" elem={yongsin} />
         {huisin && <Card kind="희신" elem={huisin} />}
         {gisin && <Card kind="기신" elem={gisin} />}
+      </div>
+      <div className="mt-3 text-center text-[10.5px] leading-snug" style={{ color: "#6b1e3a", fontFamily: "'Gowun Batang', serif" }}>
+        용신은 정답 하나가 아니라, 내 사주가 편안해지는 방향을 잡아주는 기준이에요.
       </div>
     </div>
   );

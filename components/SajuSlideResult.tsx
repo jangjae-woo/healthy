@@ -2,9 +2,26 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import PaymentModal from "@/components/PaymentModal";
 import OpeningVideo from "@/components/OpeningVideo";
+// ⭐ Step D (2026-05-13) — parent-child 시각화 컴포넌트 평생사주 톤으로 포팅
+import {
+  SajuElementsRadar,
+  SajuElementsSpectrum,
+  SajuSipseongRadar,
+  SajuSipseongSpectrum,
+  SajuYongsinCard,
+  SajuKeywordCard,
+  SajuTalentTop3,
+  SajuMoneyMeter,
+  SajuLifeWealthCurve,
+  SajuJobRadar,
+  SajuHealthMap,
+  SajuSinsalCards,
+  SajuDaeunTimeline,
+  SajuSeunGrid,
+  countSipseongFromSaju,
+} from "@/components/SajuVisuals";
 import {
   type SajuAnalysis,
   getSipseong,
@@ -13,6 +30,20 @@ import {
 
 const ACCENT = "#c9960c";
 const BG     = "#0d1a0f";
+const SAJU_GREEN = "#12351f";
+const SAJU_GREEN_DARK = "#07170d";
+const SAJU_GOLD = "#b88646";
+const SAJU_GOLD_LIGHT = "#d4a96b";
+const SAJU_INK = "#1a0a14";
+const SAJU_CREAM = "#fbf3e8";
+// ⭐ Step B (2026-05-13) — parent-child/hongsil 패턴 동등: 흰 박스 + 검은 글자
+// 짙은 녹색 BG 위에 본문은 흰색 카드. 강조는 ACCENT 금색·SECONDARY 자두.
+const CARD_BG = "rgba(255,255,255,0.06)";
+const CARD_TEXT = "#ffffff";
+const CARD_BORDER = "rgba(201,150,12,0.3)";
+const CARD_TEXT_MUTED = "rgba(255,255,255,0.7)";
+const HIGHLIGHT = "#c8203a"; // 자두 (중요 강조)
+const HIGHLIGHT_GOLD = "#b88646"; // 베이지 골드 (서브 강조)
 
 // ── 일간 정보 ────────────────────────────────────────────────
 const ILGAN_INFO: Record<string, { hanja:string; name:string; desc:string; tags:string[] }> = {
@@ -40,20 +71,24 @@ const SEUN_YEARS = [
   { year:2030, stem:'경', branch:'술', shanHanja:'庚戌' },
 ];
 
-// 섹션 첫 슬라이드에 표시할 인라인 헤더 (인트로 별도 슬라이드 없음)
+// 섹션 첫 슬라이드에 표시할 인라인 헤더
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
-  12:{ title:'핵심 요약 아이템', icon:'✦' },
-  13:{ title:'당신은 누구',      icon:'✦' },
-  15:{ title:'관계·재물·직업·학문', icon:'✦' },
-  17:{ title:'인연의 자리',      icon:'✦' },
-  20:{ title:'몸과 마음',        icon:'✦' },
-  21:{ title:'특수 기운',        icon:'✦' },
-  22:{ title:'시기별 흐름',      icon:'✦' },
-  24:{ title:'종합 해석',        icon:'✦' },
-  25:{ title:'종합 해석',        icon:'✦' },
+  13:{ title:'나는 어떤 사람인가', icon:'✦' },
+  14:{ title:'타고난 재능의 방향', icon:'✦' },
+  15:{ title:'돈과 현실 감각', icon:'✦' },
+  16:{ title:'일과 직업의 방향', icon:'✦' },
+  17:{ title:'사람과 인연', icon:'✦' },
+  18:{ title:'사람과 인연', icon:'✦' },
+  19:{ title:'사람과 인연', icon:'✦' },
+  20:{ title:'몸과 마음의 리듬', icon:'✦' },
+  21:{ title:'조심해야 할 반복 패턴', icon:'✦' },
+  22:{ title:'시기별 흐름', icon:'✦' },
+  23:{ title:'앞으로 5년의 흐름', icon:'✦' },
+  24:{ title:'종합 해석과 앞으로의 방향', icon:'✦' },
+  25:{ title:'묵도인의 마지막 한 마디', icon:'✦' },
 };
 
-// 슬라이드 → AI 섹션 키 매핑
+// 슬라이드 → AI 섹션 키 매핑 (overview는 백그라운드 fetch — 다른 섹션의 참조용)
 const SLIDE_AI: Record<number,string> = {
   1: 'opener',
   12: 'overview',
@@ -67,72 +102,23 @@ const SLIDE_AI: Record<number,string> = {
   25: 'closing',
 };
 
-// 섹션별 기본 이미지 (페이지 0 배너)
-const SECTION_IMAGE: Record<string, string> = {
-  money1:'재물_돈',    money2:'사업_기회',
-  love1:'사랑_인연',  love2:'새_인연',     love3:'귀인_도움',
-  health:'건강_몸',   hidden:'묵도인_악운경고',
-  timeline1:'대운_전환', timeline2:'전환점_변화',
-  compass:'때를_기다려라', closing:'묵도인_마무리',
-};
-
-// 키워드 → 이미지 (페이지 1+ 트리거)
-const KEYWORD_IMAGE: Array<{ m: string[]; img: string }> = [
-  { m:['도화살'],                            img:'도화살' },
-  { m:['역마살'],                            img:'역마살' },
-  { m:['천을귀인'],                          img:'천을귀인' },
-  { m:['겁살'],                              img:'겁살' },
-  { m:['신장','방광','허리 통증'],            img:'신장_방광_허리' },
-  { m:['심장','혈압'],                       img:'심장_혈압' },
-  { m:['기관지','호흡기','폐 기능'],          img:'폐_피부_기관지' },
-  { m:['위장','소화불량','소화기'],           img:'위장_소화' },
-  { m:['수술','입원'],                        img:'수술_조심' },
-  { m:['음주','과음'],                        img:'음주_조심' },
-  { m:['교통사고','낙상','추락'],             img:'낙상_추락_조심' },
-  { m:['횡재','큰 재물'],                    img:'큰돈_들어옴' },
-  { m:['재물이 빠져','돈이 빠져나가'],        img:'돈이_새는_시기' },
-  { m:['투자 조심','투자에 신중'],            img:'투자_조심' },
-  { m:['이별','헤어짐'],                     img:'이별_헤어짐' },
-  { m:['새로운 인연','인연이 옵니다'],        img:'새_인연' },
-  { m:['배신','소인배'],                     img:'소인배_배신_조심' },
-  { m:['구설수','험담'],                     img:'구설수_조심' },
-  { m:['이직','전직'],                       img:'이직_전환' },
-  { m:['창업','사업 기회'],                  img:'사업_기회' },
-  { m:['승진','성취'],                       img:'승진_성취' },
-  { m:['직장 갈등','직장 내'],               img:'직장_갈등' },
-  { m:['전환점','대운이 바뀌'],              img:'전환점_변화' },
-  { m:['봄이 올','좋은 시기가'],             img:'봄이_온다' },
-  { m:['인내하','기다려야'],                 img:'겨울_인내' },
-  { m:['때를 기다'],                         img:'때를_기다려라' },
-  { m:['갈등','충돌'],                       img:'갈등_다툼' },
-  { m:['외로움','고독'],                     img:'외로움_고독' },
-  { m:['귀인이 나타','귀인을 만나'],         img:'귀인_등장' },
-  { m:['법적','소송'],                       img:'법적_분쟁_조심' },
-  { m:['도난','사기를'],                     img:'도난_사기_조심' },
-  { m:['화재','감전'],                       img:'화재_전기_조심' },
-  { m:['조심하시','주의하시'],               img:'조심_경계' },
-  { m:['재물운','재성'],                     img:'재물_돈' },
-  { m:['사랑','연애'],                       img:'사랑_인연' },
-  { m:['건강'],                              img:'건강_몸' },
-];
-
 // TOC 섹션 목록
 const TOC_ITEMS = [
-  { label:'사주팔자 뽑기',     slide:2  },
-  { label:'다섯 기운 균형',     slide:4  },
-  { label:'핵심 요약 아이템',    slide:12 },
-  { label:'당신은 누구',       slide:13 },
-  { label:'관계·재물·직업·학문', slide:15 },
-  { label:'인연의 자리',       slide:17 },
-  { label:'몸과 마음',         slide:20 },
-  { label:'특수 기운',         slide:21 },
-  { label:'시기별 흐름',       slide:22 },
-  { label:'종합 해석',         slide:24 },
+  { label:'내 사주의 기본 구조', slide:2  },
+  { label:'나는 어떤 사람인가', slide:13 },
+  { label:'타고난 재능의 방향', slide:14 },
+  { label:'돈과 현실 감각', slide:15 },
+  { label:'일과 직업의 방향', slide:16 },
+  { label:'사람과 인연', slide:17 },
+  { label:'몸과 마음의 리듬', slide:20 },
+  { label:'조심해야 할 반복 패턴', slide:21 },
+  { label:'시기별 흐름', slide:22 },
+  { label:'종합 해석과 앞으로의 방향', slide:24 },
 ];
 
 // 슬라이드 상수
 const FREE_END  = 11;  // GUIDE가 마지막 무료 슬라이드
-const AI_START  = 12;  // 핵심 요약부터 유료
+const AI_START  = 13;  // 당신은 누구부터 유료 (핵심 요약 아이템 슬라이드 12 제거)
 const GUIDE     = 11;  // 목차 안내 슬라이드
 const TOTAL     = 28;
 const PRICE     = 32900;  // 평생사주 소비자가
@@ -218,11 +204,11 @@ function renderHeading(raw: string, size: 'h2'|'h3', key: number) {
   const main = parts[0].trim();
   const sub  = parts.length > 1 ? parts.slice(1).join(' ').trim() : null;
   const cls  = size==='h2'
-    ? "saju-prose font-bold mt-4 mb-8 text-[22px] leading-snug text-center w-full"
-    : "saju-prose font-bold mt-6 mb-8 text-[20px] leading-snug text-center w-full";
+    ? "saju-prose font-bold mt-4 mb-6 text-[22px] leading-snug text-left w-full"
+    : "saju-prose font-bold mt-6 mb-6 text-[20px] leading-snug text-left w-full";
   if (sub) {
     return (
-      <div key={key} className={`${cls} flex flex-col items-center gap-1`} style={{color:ACCENT}}>
+      <div key={key} className={`${cls} flex flex-col items-start gap-1`} style={{color:ACCENT}}>
         <span>{main}</span>
         <span className="text-[16px] font-medium" style={{color:`${ACCENT}cc`}}>{sub}</span>
       </div>
@@ -255,7 +241,7 @@ function formatText(text:string) {
     // 인라인 **굵게**
     if (/\*\*[^*]+\*\*/.test(line))
       return (
-        <p key={i} className="saju-prose saju-body text-[17px] leading-[2.1] mb-4">
+        <p key={i} className="saju-prose saju-body text-[17px] leading-[2.1] mb-4" style={{ color: CARD_TEXT }}>
           {line.split(/(\*\*[^*]+\*\*)/).map((p2,j) =>
             /^\*\*[^*]+\*\*$/.test(p2)
               ? <strong key={j} style={{color:ACCENT}}>{p2.replace(/\*\*/g,"")}</strong>
@@ -265,14 +251,14 @@ function formatText(text:string) {
       );
     // 숫자 목록 (1. 2. 3. 형태)
     if (/^\d+\.\s/.test(line))
-      return <li key={i} className="saju-prose saju-body text-[17px] leading-[2.1] ml-5 mb-3 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
+      return <li key={i} className="saju-prose saju-body text-[17px] leading-[2.1] ml-5 mb-3 list-decimal" style={{ color: CARD_TEXT }}>{line.replace(/^\d+\.\s/, '')}</li>;
     // 불릿
     if (line.startsWith("- ")||line.startsWith("• "))
-      return <li key={i} className="saju-prose saju-body text-[17px] leading-[2.1] ml-5 mb-3 list-disc">{line.slice(2)}</li>;
+      return <li key={i} className="saju-prose saju-body text-[17px] leading-[2.1] ml-5 mb-3 list-disc" style={{ color: CARD_TEXT }}>{line.slice(2)}</li>;
     // 빈 줄
     if (line.trim()==="") return <div key={i} className="h-3"/>;
     // 일반 텍스트
-    return <p key={i} className="saju-prose saju-body text-[17px] leading-[2.1] mb-4">{line}</p>;
+    return <p key={i} className="saju-prose saju-body text-[17px] leading-[2.1] mb-4" style={{ color: CARD_TEXT }}>{line}</p>;
   });
 }
 
@@ -349,6 +335,25 @@ function splitIntoPages(text: string): string[] {
 }
 
 // 줄 단위 페이드인 (80ms 간격으로 순서대로 등장)
+const ONE_PAGE_AI_KEYS = new Set([
+  'personality1',
+  'personality2',
+  'money1',
+  'money2',
+  'love1',
+  'health',
+  'hidden',
+  'timeline1',
+  'compass',
+]);
+
+function pagesForAiSection(key: string, content: string): string[] {
+  const trimmed = content.trim();
+  if (!trimmed) return [];
+  if (ONE_PAGE_AI_KEYS.has(key)) return [trimmed];
+  return splitIntoPages(trimmed);
+}
+
 function TypeWriter({ text }: { text: string }) {
   const elements = formatText(text);
   return (
@@ -460,21 +465,6 @@ function ImageBanner({ name }:{ name:string }) {
   );
 }
 
-// 슬라이드/페이지 이미지 결정
-function getPageImage(aiKey:string, pgIdx:number, text:string, data:SajuAnalysis|null):string|null {
-  if (pgIdx===0) {
-    if (aiKey==='personality1'||aiKey==='personality2') {
-      if (data) { const {score}=calcEnergyScore(data.elements); return score>=310?'신강_사주':'신약_사주'; }
-      return null;
-    }
-    return SECTION_IMAGE[aiKey]??null;
-  }
-  for (const {m,img} of KEYWORD_IMAGE) {
-    if (m.some(kw=>text.includes(kw))) return img;
-  }
-  return null;
-}
-
 type SectionState = { status:"idle"|"loading"|"done"|"error"; content:string };
 
 // ── 메인 컴포넌트 ─────────────────────────────────────────────
@@ -483,7 +473,7 @@ export default function SajuSlideResult() {
   const [slide, setSlide]         = useState(0);
   const [sajuData, setSajuData]   = useState<SajuAnalysis|null>(null);
   const [aiContent, setAiContent] = useState<Record<string,SectionState>>(() => {
-    const keys = ['opener','overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
+    const keys = ['opener','overview','personality1','personality2','money1','money2','love1','health','hidden','timeline1','compass'];
     return Object.fromEntries(keys.map(k=>[k,{status:'idle',content:''}]));
   });
   const [unlocked, setUnlocked]       = useState(false);
@@ -505,14 +495,19 @@ export default function SajuSlideResult() {
   const [qaPayPhone, setQaPayPhone]   = useState('');
   const [qaPayState, setQaPayState]   = useState<'none'|'input'|'paying'>('none');
   const [qaPayProgress, setQaPayProgress] = useState(0);
-  const [hintDismissed, setHintDismissed] = useState(false);
-  // 평생사주 오프닝 영상 — 신규 풀이일 때만 노출, 저장된 풀이(saved=1) 재방문 시 스킵
-  const [openingDone, setOpeningDone] = useState(() => params.get("saved") === "1");
-  const slideRef = useRef<HTMLDivElement>(null);
-  const tapStartRef = useRef<{x:number; y:number} | null>(null);
+  // 평생사주 오프닝 영상 — 결제 완료(unlocked=1) 후 노출
+  // - saved=1 재방문 시 스킵 (영상 이미 봤음)
+  // - 흐름 변경(2026-05-14): 풀이 시작 → 바로 결제창 → 결제 후 영상 + LLM 50% 대기
+  const [openingDone, setOpeningDone] = useState(() =>
+    params.get("saved") === "1"
+  );
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null);
   const savedRef = useRef(false);
   const aiContentRef = useRef<Record<string,SectionState>>({});
+  // ⭐ Step 3 (2026-05-13) — Cross-chapter usedTokens 누적
+  // 14 섹션 cross 한자 토큰 카운트. 매 섹션 fetch body에 보내고 tk 이벤트로 누적 갱신.
+  // hongsil/inyeon은 서버 stateful, parent-child/saju는 클라이언트 누적 (다단계 fetch라).
+  const usedTokensRef = useRef<Record<string, number>>({});
 
   const name         = params.get("name")         || "";
   const gender       = params.get("gender")       || "";
@@ -522,22 +517,29 @@ export default function SajuSlideResult() {
   const hour         = params.get("hour")         || "";
   const calendarType = params.get("calendarType") || "양력";
   const isSavedUrl   = params.get("saved") === "1";
+  const sajuSummaryLines = [
+    `이름: ${name || "미입력"}`,
+    `생년월일: ${year || "----"}.${month || "--"}.${day || "--"} (${calendarType})`,
+    `성별 · 시간: ${gender || "미입력"} · ${hour || "시간 모름"}`,
+  ];
 
   const baseBody = { type:"saju", name, gender, year, month, day, hour, calendarType };
   const cacheKey = name ? `saju_v1_${name}_${year}_${month}_${day}_${hour}_${gender}_${calendarType}` : '';
 
-  // PayApp 결제 완료 감지
+  // PayApp/PortOne 결제 완료 감지
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const justPaid = urlParams.get('justpaid') === '1';
-    if (urlParams.get('unlocked') === '1') {
+    const isUnlocked = urlParams.get('unlocked') === '1';
+    if (isUnlocked) {
       setUnlocked(true);
       urlParams.delete('unlocked');
       urlParams.delete('justpaid');
       const newSearch = urlParams.toString();
       window.history.replaceState({}, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
     }
-    if (justPaid) {
+    // 결제 완료 직후 (unlocked=1 또는 justpaid=1) → 당신은 누구(AI_START)로 자동 점프
+    if (isUnlocked || justPaid) {
       setSlide(AI_START);
       setOvPage(0);
     }
@@ -552,7 +554,7 @@ export default function SajuSlideResult() {
       const pages: Record<string, string[]> = {};
       for (const [k, v] of Object.entries(aiData)) {
         if (v.status === 'done' && v.content && k !== 'opener') {
-          pages[k] = splitIntoPages(v.content);
+          pages[k] = pagesForAiSection(k, v.content);
         }
       }
       setAiPages(pages);
@@ -617,7 +619,7 @@ export default function SajuSlideResult() {
   // 모든 섹션 완료 시 Google Sheets에 저장 (1회)
   useEffect(() => {
     if (!cacheKey || !unlocked || savedRef.current) return;
-    const SECS = ['opener','overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
+    const SECS = ['opener','overview','personality1','personality2','money1','money2','love1','health','hidden','timeline1','compass'];
     if (!SECS.every(k => aiContent[k]?.status === 'done')) return;
     savedRef.current = true;
     fetch('/api/save-reading', {
@@ -653,7 +655,7 @@ export default function SajuSlideResult() {
     }
     return fetch("/api/generate", {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ ...baseBody, section:key, ...extra }),
+      body: JSON.stringify({ ...baseBody, section:key, ...extra, usedTokens: usedTokensRef.current }),
     }).then(async res => {
       if (!res.ok) throw new Error();
       const ct = res.headers.get('Content-Type') ?? '';
@@ -683,19 +685,22 @@ export default function SajuSlideResult() {
               setAiContent(prev => ({ ...prev, [key]:{ status:'loading', content: full } }));
               // 스트리밍 중에도 페이지 분할 — 첫 페이지 즉시 표시
               if (key !== 'opener') {
-                const partial = splitIntoPages(full);
+                const partial = pagesForAiSection(key, full);
                 if (partial.length > 1) {
                   setAiPages(prev => ({ ...prev, [key]: partial }));
                   setAiPage(prev => ({ ...prev, [key]: prev[key] ?? 0 }));
                 }
               }
+            } else if (msg.t === 'tk' && (msg as unknown as { m?: unknown }).m && typeof (msg as unknown as { m?: unknown }).m === 'object') {
+              // Step 3: cross-chapter usedTokens 누적 갱신
+              usedTokensRef.current = (msg as unknown as { m: Record<string, number> }).m;
             } else if (msg.t === 'e') {
               throw new Error();
             }
           }
         }
         if (key !== 'opener' && full) {
-          setAiPages(prev => ({ ...prev, [key]: splitIntoPages(full) }));
+          setAiPages(prev => ({ ...prev, [key]: pagesForAiSection(key, full) }));
           setAiPage(prev => ({ ...prev, [key]: prev[key] ?? 0 }));
         }
         setAiContent(prev => {
@@ -710,7 +715,7 @@ export default function SajuSlideResult() {
         const content = d.result ?? '';
         setAiContent(prev => ({ ...prev, [key]:{ status: d.error?'error':'done', content } }));
         if (key !== 'opener' && content) {
-          setAiPages(prev => ({ ...prev, [key]: splitIntoPages(content) }));
+          setAiPages(prev => ({ ...prev, [key]: pagesForAiSection(key, content) }));
           setAiPage(prev => ({ ...prev, [key]: prev[key] ?? 0 }));
         }
         if (d.sajuData) setSajuData(d.sajuData);
@@ -809,16 +814,17 @@ export default function SajuSlideResult() {
     });
   };
 
-  // 초기 로드: opener만
+  // 초기 로드: opener만 — 결제 완료(unlocked) 후에만 (결제 전 LLM 비용 0)
   useEffect(()=>{
+    if (!unlocked) return;
     fetchSection('opener');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [unlocked]);
 
   // 잠금 해제 시 순차 fetch — 앞 섹션부터 하나씩
   useEffect(()=>{
     if (!unlocked) return;
-    const keys = ['overview','personality1','personality2','money1','money2','love1','love2','love3','health','hidden','timeline1','timeline2','compass','closing'];
+    const keys = ['overview','personality1','personality2','money1','money2','love1','health','hidden','timeline1','compass'];
     (async () => {
       for (const k of keys) {
         if (['idle','error'].includes(aiContent[k]?.status ?? 'idle')) {
@@ -852,58 +858,21 @@ export default function SajuSlideResult() {
 
   // 현재 슬라이드의 AI 페이지 정보
   const curAiKey   = SLIDE_AI[slide];
-  const curPages   = (curAiKey && curAiKey !== 'opener' && curAiKey !== 'overview') ? (aiPages[curAiKey] || []) : [];
+
+  // 각 AI 키를 독립 챕터로 표시한다. 목차/프롬프트/렌더 순서가 어긋나지 않도록
+  // 여기서 임의 병합하지 않는다.
+  const displayPages: Record<string, string[]> = (() => {
+    return { ...aiPages };
+  })();
+
+  const curPages   = (() => {
+    if (curAiKey && curAiKey !== 'opener' && curAiKey !== 'overview') return displayPages[curAiKey] || [];
+    return [];
+  })();
   const curPgIdx   = curAiKey ? (aiPage[curAiKey] || 0) : 0;
   const hasMorePages = curPages.length > 1 && curPgIdx < curPages.length - 1;
 
-  // 섹션별 합산 페이지
-  const p1Pages  = aiPages['personality1'] || [];
-  const p2Pages  = aiPages['personality2'] || [];
-  const m1Pages  = aiPages['money1']       || [];
-  const m2Pages  = aiPages['money2']       || [];
-  const l1Pages  = aiPages['love1']        || [];
-  const l2Pages  = aiPages['love2']        || [];
-  const l3Pages  = aiPages['love3']        || [];
-  const t1Pages  = aiPages['timeline1']    || [];
-  const t2Pages  = aiPages['timeline2']    || [];
-
-  // 헤더 페이지 표시 문자열
   const headerPageText = (() => {
-    // 나라는 사람 (personality1+2)
-    if (slide === 13 && p1Pages.length > 0) {
-      const total = p1Pages.length + p2Pages.length || p1Pages.length;
-      return `${curPgIdx + 1} / ${total}`;
-    }
-    if (slide === 14 && p2Pages.length > 0) {
-      return `${p1Pages.length + curPgIdx + 1} / ${p1Pages.length + p2Pages.length}`;
-    }
-    // 돈과 일 (money1+2)
-    if (slide === 15 && m1Pages.length > 0) {
-      const total = m1Pages.length + m2Pages.length || m1Pages.length;
-      return `${curPgIdx + 1} / ${total}`;
-    }
-    if (slide === 16 && m2Pages.length > 0) {
-      return `${m1Pages.length + curPgIdx + 1} / ${m1Pages.length + m2Pages.length}`;
-    }
-    // 사람과 사랑 (love1+2+3)
-    if (slide === 17 && l1Pages.length > 0) {
-      const total = l1Pages.length + l2Pages.length + l3Pages.length || l1Pages.length;
-      return `${curPgIdx + 1} / ${total}`;
-    }
-    if (slide === 18 && l2Pages.length > 0) {
-      return `${l1Pages.length + curPgIdx + 1} / ${l1Pages.length + l2Pages.length + l3Pages.length}`;
-    }
-    if (slide === 19 && l3Pages.length > 0) {
-      return `${l1Pages.length + l2Pages.length + curPgIdx + 1} / ${l1Pages.length + l2Pages.length + l3Pages.length}`;
-    }
-    // 흐르는 시간 (timeline1+2)
-    if (slide === 22 && t1Pages.length > 0) {
-      const total = t1Pages.length + t2Pages.length || t1Pages.length;
-      return `${curPgIdx + 1} / ${total}`;
-    }
-    if (slide === 23 && t2Pages.length > 0) {
-      return `${t1Pages.length + curPgIdx + 1} / ${t1Pages.length + t2Pages.length}`;
-    }
     if (curPages.length > 1) return `${curPgIdx + 1} / ${curPages.length}`;
     if (curPages.length === 1) return `1 / 1`;
     return null;
@@ -999,20 +968,28 @@ export default function SajuSlideResult() {
       setAiPage(prev => ({ ...prev, [curAiKey!]: curPgIdx + 1 }));
       return;
     }
-    if (slide===FREE_END) {
+    if (slide===2 || slide===FREE_END) {
+      // 무료 영역 2번째 페이지(슬라이드 2 = 사주팔자+오행+십성+안내 머지) → 결제 트리거
       const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
       const alreadyPaid = unlocked || params.get('unlocked') === '1';
       if (alreadyPaid) { setUnlocked(true); setSlide(AI_START); return; }
       setShowPayModal(true);
       return;
     }
-    if (slide===2)        { setSlide(4); return; }    // 일간 소개(3) 건너뜀
-    if (slide===4)        { setSlide(6); return; }    // 에너지 총량(5) 건너뜀
-    if (slide===7)        { setSlide(11); return; }   // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
-    if (slide===12 && ovPage===0) { setOvPage(1); return; }  // 핵심요약 페이지 2
-    if (slide===12 && ovPage===1) { setOvPage(0); }          // 다음 슬라이드 전에 리셋
-    if (slide===22)       { setSlide(24); return; }   // 세운 timeline2(23) 건너뜀 (API는 호출됨)
-    if (slide===25)       { setSlide(27); return; }   // Q&A 슬라이드 숨김
+    if (slide===0)        { setSlide(2); return; }    // 무료 1페이지(커버+오프너) → 2페이지(머지)
+    if (slide===1)        { setSlide(2); return; }    // TOC 등 직접 진입 대비
+    if (slide===4)        { setSlide(2); return; }    // TOC 다섯 기운 균형 등 직접 진입 대비
+    if (slide===6)        { setSlide(2); return; }
+    if (slide===7)        { setSlide(2); return; }
+    if (slide===12)       { setSlide(13); return; }   // 핵심 요약 슬라이드 제거 — 직접 진입 시 다음으로 점프
+    if (slide===17)       { setSlide(20); return; }   // 인연의 자리 머지 → 몸과 마음 (love2·3 건너뜀)
+    if (slide===18)       { setSlide(20); return; }   // love2/3 직접 진입 시 다음으로
+    if (slide===19)       { setSlide(20); return; }
+    if (slide===22)       { setSlide(24); return; }   // 시기별 흐름 머지 → 종합 해석 (timeline2 건너뜀)
+    if (slide===23)       { setSlide(24); return; }   // timeline2 직접 진입 시
+    if (slide===24)       { setSlide(27); return; }   // 종합 해석 머지 → 마지막 (closing·Q&A 건너뜀)
+    if (slide===25)       { setSlide(27); return; }   // closing 직접 진입 시
+    if (slide===26)       { setSlide(27); return; }   // Q&A 직접 진입 시
     if (slide<TOTAL-1)    setSlide(s=>s+1);
   }
   function goPrev() {
@@ -1021,17 +998,27 @@ export default function SajuSlideResult() {
       setAiPage(prev => ({ ...prev, [curAiKey]: curPgIdx - 1 }));
       return;
     }
-    if (slide===4)   { setSlide(2); return; }    // 일간 소개(3) 건너뜀
-    if (slide===6)   { setSlide(4); return; }    // 에너지 총량(5) 건너뜀
-    if (slide===11)  { setSlide(7); return; }    // 운명의 별자리(8)·대운(9)·세운(10) 건너뜀
-    if (slide===12 && ovPage===1) { setOvPage(0); return; }  // 핵심요약 페이지 1로
-    if (slide===24)  {                           // 세운(23) 건너뜀 — timeline1 마지막 페이지로 복귀
-      const tlPages = aiPages['timeline1'] || [];
-      if (tlPages.length > 0) setAiPage(prev => ({ ...prev, timeline1: tlPages.length - 1 }));
-      setSlide(22);
-      return;
-    }
-    if (slide===27)  { setSlide(25); return; }   // Q&A 슬라이드 숨김
+    if (slide===2)   { setSlide(0); return; }    // 무료 2페이지 머지 → 1페이지 머지
+    if (slide===4)   { setSlide(0); return; }
+    if (slide===6)   { setSlide(0); return; }
+    if (slide===7)   { setSlide(0); return; }
+    if (slide===11)  { setSlide(0); return; }    // GUIDE → 무료 1페이지
+    if (slide===1)   { setSlide(0); return; }    // 직접 진입 대비
+    if (slide===13)  { setSlide(2); return; }    // 첫 유료 페이지 → 무료 머지 페이지 B
+    if (slide===12)  { setSlide(2); return; }    // 핵심 요약 슬라이드 제거 — 무료로 복귀
+    if (slide===14)  { setSlide(13); return; }   // 타고난 재능의 방향 → 나는 어떤 사람인가
+    if (slide===15)  { setSlide(14); return; }   // 돈과 현실 감각 → 타고난 재능의 방향
+    if (slide===16)  { setSlide(15); return; }   // 일과 직업의 방향 → 돈과 현실 감각
+    if (slide===17)  { setSlide(16); return; }   // 사람과 인연 → 일과 직업의 방향
+    if (slide===20)  { setSlide(17); return; }   // 몸과 마음 → 인연의 자리 (love2·3 건너뜀)
+    if (slide===18)  { setSlide(17); return; }   // 직접 진입 대비
+    if (slide===19)  { setSlide(17); return; }
+    if (slide===21)  { setSlide(20); return; }   // 특수 기운 → 몸과 마음
+    if (slide===22)  { setSlide(21); return; }   // 시기별 흐름 → 특수 기운
+    if (slide===24)  { setSlide(22); return; }   // 종합 해석 → 시기별 흐름 (timeline2 건너뜀)
+    if (slide===25)  { setSlide(24); return; }   // closing 직접 진입 시
+    if (slide===26)  { setSlide(24); return; }   // Q&A 직접 진입 시
+    if (slide===27)  { setSlide(24); return; }   // 마지막 → 종합 해석 (Q&A·closing 건너뜀)
     if (slide>0) setSlide(s=>s-1);
   }
   function goSlide(n:number) {
@@ -1041,21 +1028,9 @@ export default function SajuSlideResult() {
     if (key) setAiPage(prev => ({ ...prev, [key]: 0 }));
   }
 
+  const canGoPrev  = Boolean((curAiKey && curAiKey !== 'opener' && curPgIdx > 0) || slide > 0);
   const canGoNext  = hasMorePages || slide<TOTAL-1;
   const isLastSlide = slide===TOTAL-1 && !hasMorePages;
-
-  // 현재 섹션 이름
-  function currentSection() {
-    if (slide<=FREE_END) return null;
-    if (slide>=2 && slide<=10) return '사주팔자';
-    if (slide===GUIDE) return '풀이 안내';
-    const sorted = Object.keys(SECTION_LABELS).map(Number).sort((a,b)=>a-b);
-    let label = null;
-    for (const s of sorted) {
-      if (slide>=s) label = SECTION_LABELS[s].title;
-    }
-    return label;
-  }
 
   // 전체 풀이 공유
   function handleShareFull() {
@@ -1162,7 +1137,7 @@ export default function SajuSlideResult() {
                       setAiContent(res.aiContent);
                       const pages: Record<string, string[]> = {};
                       for (const [k, v] of Object.entries(res.aiContent)) {
-                        if (v.status === 'done' && v.content && k !== 'opener') pages[k] = splitIntoPages(v.content);
+                        if (v.status === 'done' && v.content && k !== 'opener') pages[k] = pagesForAiSection(k, v.content);
                       }
                       setAiPages(pages);
                       setUnlocked(true);
@@ -1203,7 +1178,7 @@ export default function SajuSlideResult() {
     }
 
     // ─ Slide 0: 커버 ─
-    if (slide===0) return (
+    const renderSlide0 = () => (
       <div className="flex-1 flex flex-col items-center justify-center text-center gap-6 py-8">
         <div className="w-24 h-24 rounded-full flex items-center justify-center text-5xl font-bold"
           style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}88`,color:'#f0c040'}}>
@@ -1222,11 +1197,10 @@ export default function SajuSlideResult() {
     );
 
     // ─ Slide 1: 선인의 첫마디 (AI opener) ─
-    if (slide===1) {
+    const renderSlide1 = () => {
       const st = aiContent['opener']?.status;
       return (
         <div className="flex-1 flex flex-col text-center">
-          <ImageBanner name="묵도인_등장" />
           <div className="flex flex-col items-center gap-6 py-6 px-4">
             <div className="text-3xl" style={{color:'#f0c040'}}>☽</div>
             <div>
@@ -1255,10 +1229,10 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
 
     // ─ Slide 2: 사주원국 ─
-    if (slide===2) {
+    const renderSlide2 = () => {
       const { pillars, sipseong, isHourUnknown } = sajuData!;
       const BRIGHT = "#f0c040";
       const cols = [
@@ -1327,7 +1301,7 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
 
     // ─ Slide 3: 일간 소개 ─
     if (slide===3) {
@@ -1354,7 +1328,7 @@ export default function SajuSlideResult() {
     }
 
     // ─ Slide 4: 오행 분포 (거미줄 레이더) ─
-    if (slide===4) {
+    const renderSlide4 = () => {
       const { elements, yongsin } = sajuData!;
       const total = Object.values(elements).reduce((a,b)=>a+b,0)||1;
       const ELEM_DESC: Record<string,string> = {
@@ -1456,15 +1430,18 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
 
-    // ─ Slide 5: 에너지 총량 ─
-    if (slide===5) {
+    // ─ Slide 5: 신강신약 (에너지 총량) — 무료 영역에 복원 (2026-05-14) ─
+    const renderSlide5 = () => {
       const { score, label, max } = calcEnergyScore(sajuData!.elements);
       const pct = Math.round((score/max)*100);
       return (
-        <div className="flex-1 flex flex-col items-center justify-center gap-6 py-6">
-          <p className="text-xs" style={{color:`${ACCENT}66`}}>에너지 총량</p>
+        <div className="flex flex-col items-center gap-4 py-2">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">신강신약 (身强身弱)</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.60)'}}>일간의 힘이 강한지 약한지 — 용신 결정의 출발점</p>
+          </div>
           <div className="text-center">
             <div className="text-5xl font-bold" style={{color:ACCENT}}>{score}</div>
             <div className="text-sm text-white/40 mt-1">/ {max}</div>
@@ -1490,10 +1467,10 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
 
     // ─ Slide 6: 사주팔자 ─
-    if (slide===6) {
+    const renderSlide6 = () => {
       const { pillars, sipseong, isHourUnknown } = sajuData!;
       const BRIGHT = "#f0c040";
       const STEM_EL: Record<string,string> = {
@@ -1582,10 +1559,10 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
 
     // ─ Slide 7: 십성 배치도 (레이더) ─
-    if (slide===7) {
+    const renderSlide7 = () => {
       const counts = getSipseongCounts(sajuData!.sipseong);
       const catColors: Record<string,string> = {
         비겁:'#60a5fa', 식상:'#34d399', 재성:'#fbbf24', 관성:'#f87171', 인성:'#a78bfa'
@@ -1686,7 +1663,7 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
 
     // ─ Slide 8: 운명의 별자리 ─
     if (slide===8) {
@@ -1834,126 +1811,23 @@ export default function SajuSlideResult() {
     }
 
 
-    // ─ Slide 11: 핵심 요약 (overview) ─
-    if (slide===12) {
-      const st = aiContent['overview'];
-      const content = st?.content || '';
-
-      const fortuneItems = [
-        { key:'💰', label:'재물·직업운', color:'#fbbf24' },
-        { key:'🌿', label:'건강운',       color:'#4ade80' },
-        { key:'🤝', label:'연애·관계운',  color:'#f472b6' },
-      ];
-      const allFortuneKeys = fortuneItems.map(i=>i.key);
-
-      const sajuItems = [
-        { key:'🐯', label:'수호 동물' },
-        { key:'🌸', label:'궁합 식물' },
-        { key:'🎨', label:'행운 색깔' },
-        { key:'🔢', label:'행운 숫자' },
-        { key:'🐾', label:'궁합 동물' },
-        { key:'💎', label:'궁합 보석' },
-      ];
-      const allSajuKeys = sajuItems.map(i=>i.key);
-      const allItemKeys = [...allFortuneKeys, ...allSajuKeys];
-
-      function parseItemText(emoji: string): string {
-        const escaped = emoji.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const others = allItemKeys.filter(k=>k!==emoji).map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
-        const regex = new RegExp(`${escaped}[^\\n]*\\n?([\\s\\S]*?)(?=---|${others.join('|')}|$)`);
-        const match = content.match(regex);
-        return match ? match[1].trim() : '';
-      }
-
-      function parseSajuItemValue(emoji: string): { name: string; reason: string } {
-        const line = content.split('\n').find(l => l.includes(emoji));
-        if (!line) return { name:'', reason:'' };
-        const dashIdx = line.indexOf('—');
-        if (dashIdx === -1) {
-          const colonIdx = line.indexOf(':');
-          return { name: colonIdx>=0 ? line.slice(colonIdx+1).trim() : '', reason:'' };
-        }
-        const afterEmoji = line.slice(line.indexOf(emoji)+2);
-        const colonIdx = afterEmoji.indexOf(':');
-        const rawName = colonIdx>=0 ? afterEmoji.slice(colonIdx+1, afterEmoji.indexOf('—')).trim() : '';
-        const name = rawName.replace(/\*\*/g, '');
-        const reason = afterEmoji.slice(afterEmoji.indexOf('—')+1).trim().replace(/\*\*/g, '');
-        return { name, reason };
-      }
-
-      const loading = st?.status==='loading' && !content;
-      return (
-        <div className="flex-1 flex flex-col py-3">
-          <div className="flex-1 overflow-y-auto space-y-3">
-            {loading ? <AiLoader sajuData={sajuData}/> :
-             st?.status==='error' ? <p className="text-base text-red-400 text-center py-8">오류가 발생했습니다</p> :
-             ovPage === 0 ? (
-               /* 페이지 1: 운세 3카드 */
-               <div className="space-y-3">
-                 <p className="text-center text-xs mb-1" style={{color:`${ACCENT}99`}}>운세 요약 · 1/2</p>
-                 {fortuneItems.map(({ key, label, color }) => {
-                   const text = parseItemText(key);
-                   return (
-                     <div key={label} className="rounded-2xl p-4" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}22`}}>
-                       <div className="flex items-center gap-2 mb-2">
-                         <span className="text-sm font-bold" style={{color}}>{label}</span>
-                       </div>
-                       {text
-                         ? <p className="saju-body text-[15px] leading-relaxed">{text}</p>
-                         : <div className="flex gap-1 items-center h-5">{[0,1,2].map(i=>(
-                             <div key={i} className="w-1.5 h-1.5 rounded-full animate-bounce"
-                               style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
-                           ))}</div>
-                       }
-                     </div>
-                   );
-                 })}
-               </div>
-             ) : (
-               /* 페이지 2: 나만의 사주 아이템 */
-               <div>
-                 <p className="text-center text-xs mb-3" style={{color:`${ACCENT}99`}}>나만의 사주 아이템 · 2/2</p>
-                 <div className="grid grid-cols-2 gap-2">
-                   {sajuItems.map(({ key, label }) => {
-                     const { name, reason } = parseSajuItemValue(key);
-                     return (
-                       <div key={label} className="rounded-xl p-3" style={{backgroundColor:`${ACCENT}0d`,border:`1px solid ${ACCENT}22`}}>
-                         <div className="flex items-center gap-1.5 mb-1">
-                           <span className="text-[11px] text-white/50">{label}</span>
-                         </div>
-                         {name
-                           ? <>
-                               <p className="text-[15px] font-bold text-white">{name}</p>
-                               {reason && <p className="text-[11px] text-white/55 mt-0.5 leading-snug">{reason}</p>}
-                             </>
-                           : <div className="flex gap-1 items-center h-4">{[0,1,2].map(i=>(
-                               <div key={i} className="w-1 h-1 rounded-full animate-bounce"
-                                 style={{backgroundColor:ACCENT,animationDelay:`${i*150}ms`}}/>
-                             ))}</div>
-                         }
-                       </div>
-                     );
-                   })}
-                 </div>
-               </div>
-             )
-            }
-          </div>
-        </div>
-      );
-    }
+    // ─ Slide 12 (핵심 요약) — 사용자 요청으로 완전 제거. navigation에서 슬라이드 13으로 자동 점프.
+    //   아래 옛 렌더 블록은 모두 삭제됨. ─
+    if (slide===12) return <div className="flex-1"/>;
 
     // ─ Slide 4: 목차 안내 ─
-    if (slide===GUIDE) {
+    const renderGuide = () => {
       const features = [
-        '핵심 요약 아이템 — 수호동물·보석·색깔 등 6가지',
-        '당신은 누구 — 일간의 본질과 기질',
-        '관계·재물·직업·학문 — 십성의 배치',
-        '인연의 자리 — 사랑·가족·배우자 궁',
-        '몸과 마음 — 건강과 정신의 흐름',
-        '특수 기운 — 운명의 별자리 19가지',
-        '시기별 흐름 — 대운·세운·삼재',
-        '종합 해석 — 통변(通變)과 나아갈 방향',
+        '내 사주의 기본 구조 - 오행·십성·용신 이해',
+        '나는 어떤 사람인가 - 기질과 마음의 기준',
+        '타고난 재능의 방향 - 강점·성장 방식',
+        '돈과 현실 감각 - 돈이 들어오고 새는 패턴',
+        '일과 직업의 방향 - 잘 맞는 일의 환경',
+        '사람과 인연 - 가까워지는 방식과 거리감',
+        '몸과 마음의 리듬 - 지치고 회복되는 패턴',
+        '조심해야 할 반복 패턴 - 운이 막힐 때의 습관',
+        '시기별 흐름 - 지금과 앞으로의 흐름',
+        '종합 해석과 앞으로의 방향 - 선택 기준 정리',
       ];
       return (
         <div className="flex-1 flex flex-col overflow-y-auto py-3 gap-4">
@@ -1982,44 +1856,185 @@ export default function SajuSlideResult() {
           </div>
         </div>
       );
-    }
+    };
+
+    // ─ Merged free pages dispatch ─
+    // 선인의 첫마디(renderSlide1) 제거 — 사용자 요청
+    if (slide===0) return (
+      <div className="flex-1 flex flex-col overflow-y-auto gap-6 py-2">
+        {renderSlide0()}
+      </div>
+    );
+    if (slide===2) return (
+      <div className="flex-1 flex flex-col overflow-y-auto gap-6 py-2">
+        {renderSlide2()}
+        {renderSlide4()}
+        {renderSlide5()}
+        {renderSlide6()}
+        {renderSlide7()}
+        {renderGuide()}
+      </div>
+    );
+    if (slide===1) return renderSlide1();
+    if (slide===4) return renderSlide4();
+    if (slide===6) return renderSlide6();
+    if (slide===7) return renderSlide7();
+    if (slide===GUIDE) return renderGuide();
 
     // ─ AI 풀이 슬라이드 ─
     const aiKey = SLIDE_AI[slide];
     if (aiKey && aiKey!=='opener') {
       const st = aiContent[aiKey];
       const secLabel = SECTION_LABELS[slide];
-      const pages    = aiPages[aiKey] || [];
+      const pages    = displayPages[aiKey] || [];
       const pgIdx    = aiPage[aiKey] || 0;
       const pageText = pages[pgIdx] || st?.content || '';
       const totalPgs = pages.length;
       const badges = sajuData ? getSectionBadges(aiKey, sajuData) : [];
+      // sub별 시각 컴포넌트 매핑 (섹션 주제에 맞춰 재배치 — 2026-05-14)
+      // 의미 매핑:
+      //   personality1(나는 누구) = 오행 펜타곤 — 기본 결
+      //   personality2(타고난 재능) = 십성 펜타곤 — 식상·재성·관성·인성으로 본 재능 결
+      //   money1(돈) = 십성 막대 — 재성/식상 강조
+      //   money2(일·직업) = 일간 키워드 — 직업 성향 캐릭터
+      //   love1(사람과 인연) = 십성 펜타곤 — 비겁·관성으로 본 관계 결
+      //   love2 = 오행 막대 — 짝이 되는 결 강·약
+      //   love3 = 일간 키워드
+      //   health(몸과 마음) = 오행 막대 — 약점 오행 부각
+      //   hidden(조심 패턴) = 일간 키워드 (조심 결)
+      //   timeline1(시기별 흐름) = 오행 펜타곤 — 흐르는 결
+      //   timeline2(앞으로 5년) = 십성 막대 — 5년 운 톤
+      //   compass(종합) = 용신 카드
+      //   closing(마지막 한 마디) = 일간 키워드
+      const renderSectionVisual = () => {
+        if (!sajuData || pgIdx !== 0) return null;
+        const ilganTags = ILGAN_INFO[sajuData.ilgan]?.tags ?? [];
+        const counts = countSipseongFromSaju(sajuData);
+        const byInt = parseInt(year, 10);
+        const ageNow = isFinite(byInt) ? (new Date().getFullYear() - byInt) : 30;
+        switch (aiKey) {
+          case 'personality1':
+            return <SajuElementsRadar elements={sajuData.elements} />;
+          case 'personality2':
+            return <SajuTalentTop3 counts={counts} />;
+          case 'money1':
+            // 999 사용자 요청: SajuMoneyMeter 폐기 → 인생 4단계 재산 곡선으로 교체
+            return <SajuLifeWealthCurve saju={sajuData} />;
+          case 'money2':
+            return <SajuJobRadar counts={counts} elements={sajuData.elements} />;
+          case 'love1':
+            return <SajuSipseongRadar counts={counts} />;
+          case 'love2':
+            return <SajuKeywordCard keywords={ilganTags} />;
+          case 'love3':
+            return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['도화살','홍염살','천을귀인','금여'].includes(s))} />;
+          case 'health':
+            return <SajuHealthMap elements={sajuData.elements} />;
+          case 'hidden':
+            return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
+          case 'timeline1':
+            return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
+          case 'timeline2':
+            return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
+          case 'compass':
+            // 기신은 SajuYongsinCard가 yongsin에서 자동 도출 (용신≠기신 보장)
+            return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+          case 'closing':
+            return <SajuKeywordCard keywords={ilganTags} />;
+          default:
+            return null;
+        }
+      };
       return (
-        <div className="flex-1 py-5 flex flex-col">
-          {pgIdx===0 && (() => { const img = getPageImage(aiKey, pgIdx, pageText, sajuData); return img ? <ImageBanner name={img} /> : null; })()}
-          <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 py-1 flex flex-col">
+          {/* 배너 이미지 제거 (사용자 요청) */}
+          <div className="flex-1">
+            {renderSectionVisual()}
             {st?.status==='loading' && !st?.content ? <AiLoader sajuData={sajuData}/> :
              st?.status==='error'   ? <p className="text-base text-red-400 text-center py-8">오류가 발생했습니다</p> :
              (() => {
-               // [요약: ...] 형식이면 대괄호 제거
-               let cleanText = pageText;
-               const summaryMatch = pageText.match(/^\s*\[요약:\s*([\s\S]*?)\]\s*$/);
-               if (summaryMatch) cleanText = summaryMatch[1].trim();
-               const isIntro = pgIdx === 0 && totalPgs > 1;
-               if (isIntro) {
-                 return (
-                   <div className="px-4 py-4 rounded-2xl" style={{
-                     background:`linear-gradient(135deg,${ACCENT}22,${ACCENT}0a)`,
-                     border:`1px solid ${ACCENT}44`,
-                   }}>
-                     <p className="text-[11px] mb-2" style={{color:`${ACCENT}88`}}>핵심 요약</p>
-                     <TypeWriter key={`${aiKey}-intro`} text={cleanText} />
-                   </div>
-                 );
+               // [요약: ...] 블록 통째 제거 (사용자 요청 — 본문 어디에 있든 strip)
+               let cleanText = pageText.replace(/\[\s*요약\s*:[^\]]*\]\s*\n*/g, '');
+               // "다음 풀이에 이어집니다" / "일부 소제목이 누락" 류 자리표시자 통째 제거
+               cleanText = cleanText
+                 .replace(/^.*다음\s*풀이에\s*이어집니다.*$\n?/gm, '')
+                 .replace(/^.*일부\s*소제목이?\s*누락.*$\n?/gm, '');
+               cleanText = cleanText.trim();
+               // 모든 소제목(###/##/▶/#/**bold**)을 흰박스 밖으로 빼냄. 각 소제목마다 본문 카드 분리
+               const lines = cleanText.split('\n');
+               const matchHeading = (t: string): string | null => {
+                 let m: RegExpMatchArray | null = null;
+                 if ((m = t.match(/^###\s*(?:\d+\.\s*)?(.+)$/))) return stripBold(m[1].trim());
+                 if ((m = t.match(/^##\s*(.+)$/)))                 return stripBold(m[1].trim());
+                 if ((m = t.match(/^▶\s*(.+)$/)))                  return stripBold(m[1].trim());
+                 if (t.startsWith('# ') && !t.startsWith('## ') && (m = t.match(/^#\s*(.+)$/))) return stripBold(m[1].trim());
+                 if ((m = t.match(/^\*\*([^*]+)\*\*$/)))           return m[1].trim();
+                 return null;
+               };
+               type Seg = { heading: string | null; body: string };
+               const segments: Seg[] = [];
+               let curH: string | null = null;
+               let curBody: string[] = [];
+               const flush = () => {
+                 const bodyJoined = curBody.join('\n').trim();
+                 // 빈 본문의 소제목은 통째 스킵 (자리표시자 strip 후 남은 고아 헤딩 정리)
+                 if (bodyJoined) segments.push({ heading: curH, body: bodyJoined });
+                 curH = null;
+                 curBody = [];
+               };
+               for (const raw of lines) {
+                 const h = matchHeading(raw.trim());
+                 if (h !== null) {
+                   flush();
+                   curH = h;
+                 } else {
+                   curBody.push(raw);
+                 }
                }
-               return st?.status === 'loading'
-                 ? <>{formatText(cleanText)}</>
-                 : <TypeWriter key={`${aiKey}-${pgIdx}`} text={cleanText} />;
+               flush();
+               if (segments.length === 0) segments.push({ heading: null, body: cleanText });
+               return (
+                 <>
+                   {segments.map((seg, sIdx) => (
+                     <div key={sIdx}>
+                       {seg.heading && (
+                         <div className={`${sIdx === 0 ? 'mt-1' : 'mt-7'} mb-4 pt-2 pb-1`}>
+                           <div
+                             className="h-px w-full mb-3"
+                             style={{
+                               background: `linear-gradient(90deg, transparent, ${SAJU_GOLD_LIGHT}88, transparent)`,
+                             }}
+                           />
+                           <h3
+                             className="text-[18px] font-bold leading-snug text-left"
+                             style={{
+                               color: SAJU_GOLD_LIGHT,
+                               fontFamily: "'Nanum Myeongjo', 'Noto Serif KR', serif",
+                               letterSpacing: "-0.01em",
+                             }}
+                           >
+                             {seg.heading}
+                           </h3>
+                         </div>
+                       )}
+                       {seg.body && (
+                         <div
+                           className="rounded-md p-4"
+                           style={{
+                             background: "rgba(255,255,255,0.08)",
+                             border: "1px solid rgba(201,150,12,0.32)",
+                             boxShadow: "0 16px 42px -28px rgba(0,0,0,0.5)",
+                           }}
+                         >
+                           {st?.status === 'loading'
+                             ? <>{formatText(seg.body)}</>
+                             : <TypeWriter key={`${aiKey}-${pgIdx}-${sIdx}`} text={seg.body} />}
+                         </div>
+                       )}
+                     </div>
+                   ))}
+                 </>
+               );
              })()
             }
           </div>
@@ -2166,154 +2181,237 @@ export default function SajuSlideResult() {
     return null;
   }
 
+  // ── 결제 게이트 ── 결제 완료(unlocked=1) 전엔 PaymentModal만 ──
+  // 흐름(2026-05-14): "사주 풀이 시작" → result 진입 → 결제창 → 영상 + LLM 50% 대기 → 본문
+  // saved=1 재방문은 이미 본 풀이라 게이트 스킵.
+  if (!unlocked && params.get("saved") !== "1") {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "#0d1a0f" }}>
+        <PaymentModal
+          open={true}
+          onClose={() => { window.location.href = "/saju/form"; }}
+          price={PRICE}
+          goodsName="평생 사주 풀이"
+          onSubmit={handlePayment}
+          onFreeUnlock={handleFreeUnlock}
+        />
+      </div>
+    );
+  }
+
   // ── 평생사주 오프닝 영상 ─────────────────────────
-  // 신규 풀이("사주 풀이 시작" 클릭 → 결제 → 결과 페이지 진입)에서만 노출.
+  // 결제 완료 후 노출. 영상 재생 동안 LLM 백그라운드 로딩, 50% 미만이면 영상 끝나도 대기.
   // 저장된 풀이(saved=1) 재방문 시 스킵 (openingDone init=true)
   if (!openingDone) {
+    const sectionsDone = Object.values(aiContent).filter(s => s.status === "done").length;
     return (
       <OpeningVideo
         src="/평생사주.mp4"
         theme="saju"
-        dataReady={!!sajuData}
+        dataReady={!!sajuData && sectionsDone >= 5}
+        loadProgress={sectionsDone / 5}
         onComplete={() => setOpeningDone(true)}
         loadingMessage={`${name || '당신'}님의 평생 사주를 펼치는 중…`}
       />
     );
   }
 
-  // ── 헤더 섹션 라벨 ─────────────────────────────
-  const sectionLabel = currentSection();
+  const chapterItems = TOC_ITEMS.map((item, idx) => ({ no: idx + 1, label: item.label, slide: item.slide }));
+  const currentChapter = (() => {
+    if (slide <= FREE_END) return chapterItems[0];
+    const found = [...chapterItems].reverse().find((item) => slide >= item.slide);
+    return found ?? chapterItems[0];
+  })();
 
   return (
-    <div className="min-h-screen" style={{background:`linear-gradient(180deg,${BG} 0%,#060d07 100%)`}}>
-    <main className="w-full max-w-[430px] mx-auto min-h-screen flex flex-col relative">
+    <div
+      className="min-h-screen relative"
+      style={{
+        background: "linear-gradient(180deg, #0d1a0f 0%, #060d07 100%)",
+        backgroundAttachment: "fixed",
+        fontFamily: "'Noto Serif KR', 'Gowun Batang', serif",
+      }}
+    >
+    {/* 별빛 배경 (랜딩 페이지 톤 통일) */}
+    <div
+      className="fixed inset-0 pointer-events-none"
+      style={{
+        backgroundImage: `
+          radial-gradient(1px 1px at 20% 30%, rgba(228, 184, 64, 0.5), transparent),
+          radial-gradient(1px 1px at 70% 60%, rgba(228, 184, 64, 0.4), transparent),
+          radial-gradient(1px 1px at 40% 80%, rgba(228, 184, 64, 0.3), transparent),
+          radial-gradient(1px 1px at 85% 20%, rgba(228, 184, 64, 0.4), transparent),
+          radial-gradient(1px 1px at 15% 70%, rgba(228, 184, 64, 0.3), transparent),
+          radial-gradient(1px 1px at 60% 15%, rgba(228, 184, 64, 0.4), transparent),
+          radial-gradient(1px 1px at 90% 85%, rgba(228, 184, 64, 0.3), transparent)
+        `,
+        backgroundSize: "100% 100%",
+        zIndex: 0,
+      }}
+    />
+    <main className="w-full max-w-[480px] mx-auto min-h-screen flex flex-col relative" style={{zIndex:1}}>
 
       {/* 헤더 */}
-      <div className="flex items-center justify-between px-4 py-3 flex-shrink-0"
-        style={{borderBottom:`1px solid ${ACCENT}18`,background:`linear-gradient(180deg,${BG} 0%,#060d07 100%)`}}>
-        <div className="flex items-center gap-2">
-          <button onClick={goPrev} disabled={slide===0}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all"
-            style={{backgroundColor:slide>0?`${ACCENT}18`:'transparent',color:slide>0?ACCENT:`${ACCENT}33`}}>
-            ←
-          </button>
-          <span className="text-lg font-bold text-white">
-            {slide<=FREE_END ? `${slide + 1 - [3,5,8,9,10].filter(s=>s<slide).length} / 7` :
-             sectionLabel ? sectionLabel :
-             `${slide - AI_START + 1} / ${TOTAL - AI_START}`}
-          </span>
+      <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0 sticky top-0 z-20"
+        style={{borderBottom:`1px solid rgba(212,169,107,0.34)`,background:"rgba(7,23,13,0.92)",backdropFilter:"blur(10px)"}}>
+        <span className="w-4" aria-hidden="true" />
+        <div className="flex-1 text-center min-w-0">
+          <div className="text-[13px] font-bold truncate" style={{color:SAJU_CREAM}}>
+            제{currentChapter.no}장 · {currentChapter.label}
+          </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          {headerPageText && slide > FREE_END && (
-            <span className="text-xs tabular-nums" style={{color:`${ACCENT}77`}}>
-              {headerPageText}
-            </span>
-          )}
-          {/* TOC 버튼 */}
-          <button onClick={()=>setShowToc(v=>!v)}
-            className="text-xs px-3 py-1.5 rounded-xl transition-all"
-            style={{backgroundColor:`${ACCENT}18`,color:ACCENT}}>
-            목차 ↓
-          </button>
-        </div>
+        <span className="text-[11px] tabular-nums" style={{color:SAJU_GOLD_LIGHT,fontFamily:"'Cormorant Garamond', serif"}}>
+          {currentChapter.no} / {chapterItems.length}
+        </span>
+        <button onClick={()=>setShowToc(v=>!v)}
+          className="text-xs px-2.5 py-1.5 rounded-full transition-all"
+          style={{background:"rgba(212,169,107,0.12)",border:"1px solid rgba(212,169,107,0.55)",color:SAJU_GOLD_LIGHT}}>
+          목차
+        </button>
       </div>
 
       {/* TOC 드롭다운 */}
       {showToc&&(
-        <div className="absolute top-14 right-4 z-50 rounded-2xl shadow-2xl overflow-hidden"
-          style={{backgroundColor:'#060d07',border:`1px solid ${ACCENT}33`,minWidth:'180px'}}>
-          <div className="flex items-center justify-between px-4 py-3" style={{borderBottom:`1px solid ${ACCENT}18`}}>
-            <span className="text-sm font-bold text-white">목차</span>
-            <button onClick={()=>setShowToc(false)} style={{color:`${ACCENT}77`}}>✕</button>
+        <>
+        <div className="fixed inset-0 z-30" style={{background:"rgba(7,23,13,0.58)"}} onClick={()=>setShowToc(false)} />
+        <div className="fixed top-[58px] left-1/2 -translate-x-1/2 w-[calc(100%-16px)] max-w-[464px] z-40 rounded-lg shadow-2xl overflow-y-auto max-h-[70vh]"
+          style={{
+            background:"linear-gradient(180deg, rgba(255,251,247,0.98) 0%, rgba(253,243,232,0.96) 100%)",
+            border:"1px solid rgba(212,169,107,0.45)",
+            boxShadow:"0 24px 60px -16px rgba(0,0,0,0.42)",
+          }}>
+          <div className="flex items-center justify-between px-4 py-3" style={{borderBottom:"1px solid rgba(212,169,107,0.25)"}}>
+            <span className="text-sm font-bold" style={{color:SAJU_INK,fontFamily:"'Nanum Myeongjo', serif"}}>목차</span>
+            <button onClick={()=>setShowToc(false)} style={{color:SAJU_GOLD,fontSize:18,lineHeight:1}}>✕</button>
           </div>
-          {TOC_ITEMS.map(item=>{
-            const locked = false;
-            const isCurrent = slide===item.slide ||
-              (slide>item.slide && (()=>{
-                const idx = TOC_ITEMS.findIndex(t=>t.slide===item.slide);
-                const next = TOC_ITEMS[idx+1];
-                return !next || slide < next.slide;
-              })());
+          {chapterItems.map(item=>{
+            const locked = !unlocked && item.slide >= AI_START;
+            const isCurrent = currentChapter.no === item.no;
             return (
-              <button key={item.label}
-                onClick={()=>goSlide(item.slide)}
+              <button key={item.no}
+                onClick={()=>{
+                  if (locked) {
+                    setShowToc(false);
+                    setShowPayModal(true);
+                    return;
+                  }
+                  goSlide(item.slide);
+                  if (typeof window !== "undefined") window.scrollTo({top:0,behavior:"smooth"});
+                }}
                 className="w-full flex items-center justify-between px-4 py-3 text-left transition-all"
                 style={{
-                  borderBottom:`1px solid ${ACCENT}0d`,
-                  backgroundColor:isCurrent?`${ACCENT}15`:'transparent',
-                  color: locked?`${ACCENT}44`:isCurrent?ACCENT:'white',
+                  borderBottom:"1px solid rgba(212,169,107,0.15)",
+                  background:isCurrent?"rgba(18,53,31,0.09)":"transparent",
+                  color:locked?"rgba(26,10,20,0.38)":isCurrent?SAJU_GREEN:SAJU_INK,
                 }}>
-                <span className="text-xs">{item.label}</span>
-                {locked&&<span className="text-[10px]" style={{color:`${ACCENT}44`}}>🔒</span>}
+                <span className="text-[13px]" style={{fontFamily:"'Gowun Batang', serif"}}>제{item.no}장 · {item.label}</span>
+                {locked ? <span className="text-[10px]" style={{color:SAJU_GOLD}}>잠김</span> : isCurrent ? <span className="text-[10px]" style={{color:SAJU_GREEN}}>●</span> : null}
               </button>
             );
           })}
         </div>
+        </>
       )}
 
       {/* 슬라이드 영역 */}
-      <div
-        ref={slideRef}
-        className="flex-1 overflow-hidden flex flex-col relative"
-        onTouchStart={e => {
-          tapStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }}
-        onTouchEnd={e => {
-          if (!tapStartRef.current) return;
-          const dx = Math.abs(e.changedTouches[0].clientX - tapStartRef.current.x);
-          const dy = Math.abs(e.changedTouches[0].clientY - tapStartRef.current.y);
-          if (dx < 12 && dy < 12) {
-            const target = e.target as HTMLElement;
-            if (target.closest('button,a,input,textarea,select,[role="button"]')) return;
-            setHintDismissed(true);
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.changedTouches[0].clientX - rect.left;
-            if (x > rect.width / 2) goNext(); else goPrev();
-          }
-          tapStartRef.current = null;
-        }}
-        onClick={e => {
-          if (showToc) { setShowToc(false); return; }
-          if ('ontouchstart' in window) return; // 터치 기기는 onTouchEnd 처리
-          const target = e.target as HTMLElement;
-          if (target.closest('button,a,input,textarea,select,[role="button"]')) return;
-          setHintDismissed(true);
-          const rect = e.currentTarget.getBoundingClientRect();
-          if (e.clientX - rect.left > rect.width / 2) goNext(); else goPrev();
-        }}
-      >
-        <div key={slide} className="saju-prose slide-enter flex-1 flex flex-col px-4 pt-4 pb-2 overflow-y-auto">
-          {renderSlide()}
+      <div className="px-4 pt-7 pb-3 text-center">
+        <div
+          className="inline-block text-[12px] tracking-[0.32em] uppercase mb-3 font-bold px-4 py-1.5 rounded-full"
+          style={{
+            color: SAJU_GOLD_LIGHT,
+            fontFamily: "'Cormorant Garamond', serif",
+            textShadow: "0 1px 0 rgba(0,0,0,0.35)",
+            background: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(212,169,107,0.48)",
+            boxShadow: "0 8px 22px -14px rgba(0,0,0,0.8)",
+          }}
+        >
+          Chapter {String(currentChapter.no).padStart(2,"0")}
         </div>
-
-        {/* 좌우 탭존 화살표 — 포인터 이벤트 없이 시각 안내만 */}
-        {(
-          <>
-            {slide > 0 && (
-              <div className="absolute left-1 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center w-8 h-16 rounded-full"
-                style={{backgroundColor:`${ACCENT}12`}}>
-                <span className="text-xl font-light select-none" style={{color:`${ACCENT}55`}}>‹</span>
+        <h1 className="text-[19px] font-bold leading-snug" style={{color:SAJU_CREAM,fontFamily:"'Nanum Myeongjo', 'Noto Serif KR', serif",letterSpacing:"-0.01em"}}>
+          {currentChapter.label}
+        </h1>
+        {currentChapter.no === 1 && (
+          <div
+            className="mt-5 mx-auto w-full rounded-md px-5 py-4 text-left"
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: `1px dashed ${SAJU_GOLD_LIGHT}66`,
+            }}
+          >
+            {sajuSummaryLines.map((line) => (
+              <div
+                key={line}
+                className="text-[13px] leading-[1.7]"
+                style={{
+                  color: SAJU_CREAM,
+                  fontFamily: "'Gowun Batang', serif",
+                }}
+              >
+                ▸ {line}
               </div>
-            )}
-            {canGoNext && (
-              <div className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center w-8 h-16 rounded-full"
-                style={{backgroundColor:`${ACCENT}12`}}>
-                <span className="text-xl font-light select-none" style={{color:`${ACCENT}55`}}>›</span>
-              </div>
-            )}
-            {slide===FREE_END && canGoNext && !hintDismissed && (
-              <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center gap-2 px-2 py-3 rounded-2xl"
-                style={{animation:'fadeIn 1s ease 0.5s both', backgroundColor:`${ACCENT}18`, border:`1px solid ${ACCENT}33`}}>
-                <span className="text-2xl select-none" style={{color:ACCENT}}>›</span>
-                <span className="text-[12px] font-medium select-none" style={{color:`${ACCENT}dd`}}>탭하여</span>
-                <span className="text-[12px] font-medium select-none" style={{color:`${ACCENT}dd`}}>다음으로</span>
-              </div>
-            )}
-          </>
+            ))}
+          </div>
         )}
+        {headerPageText && slide > FREE_END && (
+          <div className="text-[11px] mt-1 tabular-nums" style={{color:"rgba(251,243,232,0.62)",fontFamily:"'Cormorant Garamond', serif"}}>
+            {headerPageText}
+          </div>
+        )}
+        <div className="mt-3 h-px mx-auto" style={{maxWidth:80,background:`linear-gradient(90deg, transparent, ${SAJU_GOLD_LIGHT}, transparent)`}} />
       </div>
 
+      <div className="flex-1 px-4 flex flex-col pb-24">
+        <div key={slide} className="saju-prose slide-enter flex-1 flex flex-col">
+          {renderSlide()}
+        </div>
+      </div>
+
+      <div
+        className="flex-shrink-0 px-4 py-3 sticky bottom-0 z-20"
+        style={{
+          borderTop: `1px solid rgba(212,169,107,0.34)`,
+          background: "rgba(7,23,13,0.92)",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <div className="flex gap-2">
+          <button
+            onClick={()=>{
+              goPrev();
+              if (typeof window !== "undefined") window.scrollTo({top:0,behavior:"smooth"});
+            }}
+            disabled={!canGoPrev}
+            className="flex-1 py-3 rounded-md text-sm transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+            style={{
+              background: "rgba(212,169,107,0.12)",
+              border: "1px solid rgba(212,169,107,0.55)",
+              color: SAJU_GOLD_LIGHT,
+              fontFamily: "'Gowun Batang', serif",
+              letterSpacing: "0.05em",
+            }}
+          >
+            ‹  이전 챕터
+          </button>
+          <button
+            onClick={()=>{
+              goNext();
+              if (typeof window !== "undefined") window.scrollTo({top:0,behavior:"smooth"});
+            }}
+            disabled={!canGoNext}
+            className="flex-1 py-3 rounded-md text-sm transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+            style={{
+              background: "rgba(212,169,107,0.12)",
+              border: "1px solid rgba(212,169,107,0.55)",
+              color: SAJU_GOLD_LIGHT,
+              fontFamily: "'Gowun Batang', serif",
+              letterSpacing: "0.05em",
+            }}
+          >
+            다음 챕터  ›
+          </button>
+        </div>
+      </div>
 
     </main>
     <PaymentModal

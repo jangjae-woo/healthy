@@ -282,7 +282,7 @@ export default function IntroScrollChapter({
               { num: "4장", title: "우리 아이 칭찬하고 혼내는 법" },
               { num: "5장", title: "친구 사이 우리 아이" },
               { num: "6장", title: "우리 아이는 무엇으로 빛날까" },
-              { num: "7장", title: "엄마·아빠와 우리 셋의 결" },
+              { num: "7장", title: "엄마아빠와 우리 셋의 결" },
               { num: "마지막", title: "자도인의 마지막 당부" },
             ].map((c, i) => (
               <div key={i} className="flex items-center gap-3 py-1.5 px-1">

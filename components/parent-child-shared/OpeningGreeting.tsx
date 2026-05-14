@@ -36,7 +36,14 @@ export default function OpeningGreeting({
         </div>
 
         {/* 본문 — 단순 텍스트 */}
-        <div className="space-y-5">
+        <div
+          className="space-y-5 rounded-md px-6 py-6"
+          style={{
+            background: "#ffffff",
+            border: "1px solid rgba(212,169,107,0.34)",
+            boxShadow: "0 18px 44px -30px rgba(106,30,58,0.38)",
+          }}
+        >
           <p className="text-[16px] font-bold leading-[1.7]" style={{ color: GOLD }}>
             안녕하세요, {parentSalutation}.
           </p>

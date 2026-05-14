@@ -18,9 +18,7 @@ export default function LoveParentChildLanding() {
     }}>
       <div className="max-w-md mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <Link href="/love" className="text-[13px]" style={{ color: PLUM, fontFamily: "'Cormorant Garamond', serif" }}>
-            ← /love
-          </Link>
+          <span className="w-5" aria-hidden="true" />
           <div className="text-[10px] tracking-[0.4em]" style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}>
             紅 絲
           </div>
@@ -35,7 +33,7 @@ export default function LoveParentChildLanding() {
           </h1>
           <p className="text-[13px] mt-3 leading-[1.7]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
             부모 언어로 다시 쓴 자도인 풀이<br />
-            엄마·아빠와 자녀의 결을 7장으로 풀어드려요
+            엄마아빠와 자녀의 결을 6장으로 풀어드려요
           </p>
         </div>
 
@@ -47,27 +45,27 @@ export default function LoveParentChildLanding() {
           <ul className="space-y-3 text-[13px] leading-[1.65]" style={{ color: INK_SOFT, fontFamily: "'Gowun Batang', serif" }}>
             <li className="flex gap-2">
               <span style={{ color: THREAD, fontWeight: 800 }}>·</span>
-              <span>부모와 자녀의 본질·기질 비교</span>
+              <span>우리 아이는 어떤 아이일까</span>
             </li>
             <li className="flex gap-2">
               <span style={{ color: THREAD, fontWeight: 800 }}>·</span>
-              <span>오행 궁합 — 엄마가 채워주는 기운</span>
+              <span>우리 아이는 어떻게 공부할까</span>
             </li>
             <li className="flex gap-2">
               <span style={{ color: THREAD, fontWeight: 800 }}>·</span>
-              <span>아이의 타고난 재능과 성향</span>
+              <span>우리 아이 칭찬하고 혼내는 법</span>
             </li>
             <li className="flex gap-2">
               <span style={{ color: THREAD, fontWeight: 800 }}>·</span>
-              <span>양육 시 주의해야 할 점</span>
+              <span>친구 사이 우리 아이</span>
             </li>
             <li className="flex gap-2">
               <span style={{ color: THREAD, fontWeight: 800 }}>·</span>
-              <span>갈등이 생기는 시기와 푸는 법</span>
+              <span>우리 아이는 무엇으로 빛날까</span>
             </li>
             <li className="flex gap-2">
               <span style={{ color: THREAD, fontWeight: 800 }}>·</span>
-              <span>함께 성장하는 시간의 흐름</span>
+              <span>엄마아빠와 우리 셋의 결</span>
             </li>
           </ul>
         </div>
