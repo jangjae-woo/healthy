@@ -7,6 +7,9 @@
 import type { SajuAnalysis } from "@/lib/saju-calculator";
 import { buildStageGuide } from "@/lib/saju-life-stage";
 import { buildPrescriptionContext } from "@/lib/saju-prescription";
+// ⭐ V2.1.5 (2026-05-15) — 평생사주에 자도인 V2.1.3·V2.1.4 매핑 표 이식
+import { buildSipseongElementBlock } from "@/lib/saju-pools/sipseong-element-block";
+import { buildSinsalVocabBlock } from "@/lib/sinsal-vocab";
 
 export type PromptFn = (d: Record<string, string>, ctx: string, s: SajuAnalysis | null) => string;
 
@@ -31,14 +34,21 @@ export { buildPrescriptionContext };
 // [4] 단독 해석 금지 → 상호작용 분석 강제
 // [5] 구체적 수치(나이·연도) 명시 강제
 // [6] 사용자 동조 금지 (사주 데이터에만 충실)
-export function buildHeader(d: Record<string, string>, ctx: string): string {
+export function buildHeader(d: Record<string, string>, ctx: string, s?: SajuAnalysis | null): string {
+  // ⭐ V2.1.5 — s 있으면 십성-오행 매핑 + 신살 어휘 매핑 표 박음 (풀 대명사 폐기 + 신살 B+C 룰 작동용)
+  const mappingTables = s ? `
+
+${buildSipseongElementBlock(s.ilgan)}
+
+${buildSinsalVocabBlock(s.sinsal ?? [])}` : "";
+
   return `당신은 명리학 임상 경험 30년의 대가입니다. 수천 명의 내담자들이 "소름 돋을 만큼 정확하다"고 평가한 풀이로 유명합니다. 당신의 풀이는 사주 데이터에서 나오는 것이지 사용자가 듣고 싶은 말이 아닙니다.
 
 ■ 이름: ${d.name} | 성별: ${d.gender} | 생년월일: ${d.year}.${d.month}.${d.day}(${d.calendarType}) | 시간: ${d.hour}
 ${buildStageGuide(d.year)}
 
 ━━━ 사주 원국 데이터 (만세력 라이브러리 정밀 계산값 — 재계산 절대 금지) ━━━
-${ctx}
+${ctx}${mappingTables}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [금지 규칙 — 위반 시 풀이 전체가 무효]
