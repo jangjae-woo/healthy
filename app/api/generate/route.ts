@@ -4819,15 +4819,15 @@ ${_subListJson}
             }
           }
           // saju 가드 — 청크 누적 → 가드 → 단일 push + cross-chapter usedTokens + 헤더 안전망
-          // 각 섹션의 expected ### sub 개수 (LIFETIME_SAJU_PROMPTS + SAJU_PROMPTS 두 set 중 더 많은 쪽)
-          // factor-allocation.ts SAJU_ALLOCATION 의 sub 개수와 일치 (2026-05-14 4섹션 분리 후)
+          // ⭐ V2.4.0 (2026-05-15) — 목차 정리: 47 sub → 25 sub
+          // 삭제: love2/love3/timeline2/closing 섹션 통째 + 각 섹션 일부 sub
           const SAJU_SECTION_EXPECTED_SUBS: Record<string, number> = {
-            personality1: 4, personality2: 4,
-            money1: 4, money2: 4,
-            love1: 4, love2: 3, love3: 3,
-            health: 4, hidden: 4,
-            timeline1: 3, timeline2: 3,
-            compass: 3, closing: 2,
+            personality1: 3, personality2: 3,
+            money1: 3, money2: 3,
+            love1: 3,
+            health: 2, hidden: 3,
+            timeline1: 3,
+            compass: 2,
           };
           if (useSajuGuard && sajuAnalysis) {
             // Cross-chapter usedTokens: 클라이언트가 누적해서 보낸 Map 받아 가드에 전달

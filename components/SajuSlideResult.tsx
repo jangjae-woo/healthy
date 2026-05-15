@@ -74,20 +74,18 @@ const SEUN_YEARS = [
 ];
 
 // 섹션 첫 슬라이드에 표시할 인라인 헤더
+// ⭐ V2.4.0 (2026-05-15) — 목차 정리: 11 챕터 → 10 챕터, 47 sub → 25 sub
+// 삭제: love2/love3/timeline2/closing. 챕터명·sub 이름 일부 변경.
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
   13:{ title:'나는 어떤 사람인가', icon:'✦' },
-  14:{ title:'타고난 재능의 방향', icon:'✦' },
-  15:{ title:'돈과 현실 감각', icon:'✦' },
-  16:{ title:'일과 직업의 방향', icon:'✦' },
-  17:{ title:'사람과 인연', icon:'✦' },
-  18:{ title:'사람과 인연', icon:'✦' },
-  19:{ title:'사람과 인연', icon:'✦' },
-  20:{ title:'몸과 마음의 리듬', icon:'✦' },
-  21:{ title:'조심해야 할 반복 패턴', icon:'✦' },
-  22:{ title:'시기별 흐름', icon:'✦' },
-  23:{ title:'앞으로 5년의 흐름', icon:'✦' },
-  24:{ title:'종합 해석과 앞으로의 방향', icon:'✦' },
-  25:{ title:'묵도인의 마지막 한 마디', icon:'✦' },
+  14:{ title:'타고난 재능과 강점', icon:'✦' },
+  15:{ title:'돈의 결 — 재물·재테크', icon:'✦' },
+  16:{ title:'일의 결 — 직업·사업', icon:'✦' },
+  17:{ title:'인연과 결혼', icon:'✦' },
+  18:{ title:'몸과 마음의 리듬', icon:'✦' },
+  19:{ title:'사주의 그늘 — 신살·조심할 흐름', icon:'✦' },
+  20:{ title:'시기별 흐름 — 지금~향후 5년', icon:'✦' },
+  21:{ title:'종합 — 평생 가져갈 방향', icon:'✦' },
 };
 
 // 슬라이드 → AI 섹션 키 매핑 (overview는 백그라운드 fetch — 다른 섹션의 참조용)
@@ -96,33 +94,33 @@ const SLIDE_AI: Record<number,string> = {
   12: 'overview',
   13: 'personality1', 14: 'personality2',
   15: 'money1',       16: 'money2',
-  17: 'love1',        18: 'love2', 19: 'love3',
-  20: 'health',
-  21: 'hidden',
-  22: 'timeline1',    23: 'timeline2',
-  24: 'compass',
-  25: 'closing',
+  17: 'love1',
+  18: 'health',
+  19: 'hidden',
+  20: 'timeline1',
+  21: 'compass',
 };
 
 // TOC 섹션 목록
 const TOC_ITEMS = [
   { label:'내 사주의 기본 구조', slide:2  },
   { label:'나는 어떤 사람인가', slide:13 },
-  { label:'타고난 재능의 방향', slide:14 },
-  { label:'돈과 현실 감각', slide:15 },
-  { label:'일과 직업의 방향', slide:16 },
-  { label:'사람과 인연', slide:17 },
-  { label:'몸과 마음의 리듬', slide:20 },
-  { label:'조심해야 할 반복 패턴', slide:21 },
-  { label:'시기별 흐름', slide:22 },
-  { label:'종합 해석과 앞으로의 방향', slide:24 },
+  { label:'타고난 재능과 강점', slide:14 },
+  { label:'돈의 결 — 재물·재테크', slide:15 },
+  { label:'일의 결 — 직업·사업', slide:16 },
+  { label:'인연과 결혼', slide:17 },
+  { label:'몸과 마음의 리듬', slide:18 },
+  { label:'사주의 그늘 — 신살·조심할 흐름', slide:19 },
+  { label:'시기별 흐름 — 지금~향후 5년', slide:20 },
+  { label:'종합 — 평생 가져갈 방향', slide:21 },
 ];
 
 // 슬라이드 상수
 const FREE_END  = 11;  // GUIDE가 마지막 무료 슬라이드
-const AI_START  = 13;  // 당신은 누구부터 유료 (핵심 요약 아이템 슬라이드 12 제거)
+const AI_START  = 13;  // 당신은 누구부터 유료
 const GUIDE     = 11;  // 목차 안내 슬라이드
-const TOTAL     = 28;
+// ⭐ V2.4.0 (2026-05-15) — 목차 정리로 마지막 슬라이드 25 → 21
+const TOTAL     = 22;
 const PRICE     = 32900;  // 평생사주 소비자가
 
 // 에너지 점수
@@ -507,20 +505,17 @@ function getSectionBadges(key: string, data: SajuAnalysis): string[] {
   const jaesong = allSS.filter(s => s==='편재'||s==='정재');
   const bigyeop = allSS.filter(s => s==='비견'||s==='겁재');
 
+  // ⭐ V2.4.0 — love2/love3/timeline2/closing 키 제거
   const map: Record<string, string[]> = {
     personality1: [ilchu, wolji, yongsin],
     personality2: [ilchu, `일지 ${data.sipseong.day.branch}`, `월간 ${data.sipseong.month.stem}`],
     money1:       [`재성 ${jaesong.length ? jaesong.join('·') : '없음'}`, `비겁 ${bigyeop.length}개`, yongsin],
     money2:       [yongsin, wolji, ilchu],
     love1:        [baewoo, ilchu, sinsal].filter(Boolean) as string[],
-    love2:        [baewoo, `식상 ${allSS.filter(s=>s==='식신'||s==='상관').length}개`, ilchu],
-    love3:        [baewoo, yongsin, sinsal].filter(Boolean) as string[],
     health:       [`부족 오행 ${weakEl.length ? weakEl.join('·') : '없음'}`, yongsin, ilchu],
     hidden:       [ilchu, sinsal || '신살 없음', yongsin],
     timeline1:    [ilchu, wolji, yongsin],
-    timeline2:    [`2026~2030 세운`, ilchu, yongsin],
     compass:      [yongsin, ilchu, wolji],
-    closing:      [ilchu, yongsin, sinsal || ''],
   };
   return (map[key] ?? [ilchu, yongsin]).filter(Boolean).slice(0, 3);
 }
@@ -855,14 +850,17 @@ export default function SajuSlideResult() {
     setQaLoading(true);
 
     // 각 섹션의 인트로(핵심 요약)를 모아 Q&A context 구성
+    // ⭐ V2.4.0 — love2/love3/timeline2/closing 제거
     const KEY_LABELS: Record<string,string> = {
-      personality1:'나라는 사람 (강점·성격)',
-      personality2:'나라는 사람 (일주·재능)',
-      money1:'재물운', money2:'직업운',
-      love1:'사랑·궁합', love2:'연애 스타일', love3:'결혼운',
-      health:'건강', hidden:'숨겨진 카드',
-      timeline1:'대운 흐름', timeline2:'세운 흐름',
-      compass:'나침반', closing:'마무리',
+      personality1:'나라는 사람',
+      personality2:'타고난 재능',
+      money1:'재물·재테크',
+      money2:'직업·사업',
+      love1:'인연과 결혼',
+      health:'몸·마음 리듬',
+      hidden:'사주의 그늘',
+      timeline1:'시기 흐름',
+      compass:'평생 방향',
     };
     const summaries = Object.entries(KEY_LABELS).map(([key, label]) => {
       const pages = aiPages[key];
@@ -1105,14 +1103,7 @@ export default function SajuSlideResult() {
     if (slide===6)        { setSlide(2); return; }
     if (slide===7)        { setSlide(2); return; }
     if (slide===12)       { setSlide(13); return; }   // 핵심 요약 슬라이드 제거 — 직접 진입 시 다음으로 점프
-    if (slide===17)       { setSlide(20); return; }   // 인연의 자리 머지 → 몸과 마음 (love2·3 건너뜀)
-    if (slide===18)       { setSlide(20); return; }   // love2/3 직접 진입 시 다음으로
-    if (slide===19)       { setSlide(20); return; }
-    if (slide===22)       { setSlide(24); return; }   // 시기별 흐름 머지 → 종합 해석 (timeline2 건너뜀)
-    if (slide===23)       { setSlide(24); return; }   // timeline2 직접 진입 시
-    if (slide===24)       { setSlide(27); return; }   // 종합 해석 머지 → 마지막 (closing·Q&A 건너뜀)
-    if (slide===25)       { setSlide(27); return; }   // closing 직접 진입 시
-    if (slide===26)       { setSlide(27); return; }   // Q&A 직접 진입 시
+    // ⭐ V2.4.0 — 슬라이드 17(love1) → 18(health), 18→19(hidden), ... 21(compass) 마지막 (연속 1씩 증가, 건너뛰기 없음)
     if (slide<TOTAL-1)    setSlide(s=>s+1);
   }
   function goPrev() {
@@ -1129,19 +1120,7 @@ export default function SajuSlideResult() {
     if (slide===1)   { setSlide(0); return; }    // 직접 진입 대비
     if (slide===13)  { setSlide(2); return; }    // 첫 유료 페이지 → 무료 머지 페이지 B
     if (slide===12)  { setSlide(2); return; }    // 핵심 요약 슬라이드 제거 — 무료로 복귀
-    if (slide===14)  { setSlide(13); return; }   // 타고난 재능의 방향 → 나는 어떤 사람인가
-    if (slide===15)  { setSlide(14); return; }   // 돈과 현실 감각 → 타고난 재능의 방향
-    if (slide===16)  { setSlide(15); return; }   // 일과 직업의 방향 → 돈과 현실 감각
-    if (slide===17)  { setSlide(16); return; }   // 사람과 인연 → 일과 직업의 방향
-    if (slide===20)  { setSlide(17); return; }   // 몸과 마음 → 인연의 자리 (love2·3 건너뜀)
-    if (slide===18)  { setSlide(17); return; }   // 직접 진입 대비
-    if (slide===19)  { setSlide(17); return; }
-    if (slide===21)  { setSlide(20); return; }   // 특수 기운 → 몸과 마음
-    if (slide===22)  { setSlide(21); return; }   // 시기별 흐름 → 특수 기운
-    if (slide===24)  { setSlide(22); return; }   // 종합 해석 → 시기별 흐름 (timeline2 건너뜀)
-    if (slide===25)  { setSlide(24); return; }   // closing 직접 진입 시
-    if (slide===26)  { setSlide(24); return; }   // Q&A 직접 진입 시
-    if (slide===27)  { setSlide(24); return; }   // 마지막 → 종합 해석 (Q&A·closing 건너뜀)
+    // ⭐ V2.4.0 — 슬라이드 14~21 모두 1씩 감소 (건너뛰기 없음)
     if (slide>0) setSlide(s=>s-1);
   }
   function goSlide(n:number) {
@@ -1157,15 +1136,15 @@ export default function SajuSlideResult() {
 
   // 전체 풀이 공유
   function handleShareFull() {
+    // ⭐ V2.4.0 — 9 섹션 (love2·3·timeline2·closing 제거)
     const aiKeys = [
-      { title:'나라는 사람',   keys:['personality1','personality2'] },
-      { title:'돈과 일',       keys:['money1','money2'] },
-      { title:'사람과 사랑',   keys:['love1','love2','love3'] },
-      { title:'몸과 마음',     keys:['health'] },
-      { title:'숨겨진 카드',   keys:['hidden'] },
-      { title:'흐르는 시간',   keys:['timeline1','timeline2'] },
-      { title:'나침반',        keys:['compass'] },
-      { title:'결',            keys:['closing'] },
+      { title:'나라는 사람',     keys:['personality1','personality2'] },
+      { title:'돈과 일',         keys:['money1','money2'] },
+      { title:'인연과 결혼',     keys:['love1'] },
+      { title:'몸과 마음',       keys:['health'] },
+      { title:'사주의 그늘',     keys:['hidden'] },
+      { title:'시기별 흐름',     keys:['timeline1'] },
+      { title:'평생 방향',       keys:['compass'] },
     ];
     const opener = aiContent['opener']?.content || '';
     const body = aiKeys.map(sec => {
@@ -1977,57 +1956,28 @@ export default function SajuSlideResult() {
           case 'money2-2': return <SajuElementsSpectrum elements={sajuData.elements} />;
           case 'money2-3': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
 
-          // love1 — 사람과 인연 (4 sub)
+          // ⭐ V2.4.0 — love1 인연과 결혼 (3 sub)
           case 'love1-0': return <SajuSipseongRadar counts={counts} />;
           case 'love1-1': return <SajuKeywordCard keywords={ilganTags} />;
-          case 'love1-2': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-          case 'love1-3': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
+          case 'love1-2': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
 
-          // love2 — 인연의 결 세부 (5 sub)
-          case 'love2-0': return <SajuKeywordCard keywords={ilganTags} />;
-          case 'love2-1': return <SajuSipseongSpectrum counts={counts} />;
-          case 'love2-2': return <SajuElementsRadar elements={sajuData.elements} />;
-          case 'love2-3': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
-          case 'love2-4': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-
-          // love3 — 인연의 시기와 귀인 (4 sub)
-          case 'love3-0': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
-          case 'love3-1': return <SajuSipseongRadar counts={counts} />;
-          case 'love3-2': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
-          case 'love3-3': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['천을귀인','천덕귀인','월덕귀인','금여'].includes(s))} />;
-
-          // health — 몸과 마음의 리듬 (4 sub)
+          // ⭐ V2.4.0 — health 몸과 마음의 리듬 (2 sub)
           case 'health-0': return <SajuHealthMap elements={sajuData.elements} />;
-          case 'health-1': return <SajuElementsSpectrum elements={sajuData.elements} />;
-          case 'health-2': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-          case 'health-3': return <SajuSipseongSpectrum counts={counts} />;
+          case 'health-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
 
-          // hidden — 조심해야 할 반복 패턴 (4 sub)
+          // ⭐ V2.4.0 — hidden 사주의 그늘 (3 sub)
           case 'hidden-0': return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
-          case 'hidden-1': return <SajuElementsRadar elements={sajuData.elements} />;
-          case 'hidden-2': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['괴강살','백호대살','양인살','현침살'].includes(s))} />;
-          case 'hidden-3': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['월덕귀인','문창귀인','학당귀인','복성귀인'].includes(s))} />;
+          case 'hidden-1': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['괴강살','백호대살','양인살','현침살'].includes(s))} />;
+          case 'hidden-2': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['천을귀인','월덕귀인','문창귀인','학당귀인','복성귀인','태극귀인','금여'].includes(s))} />;
 
-          // timeline1 — 시기별 흐름 (3 sub)
+          // ⭐ V2.4.0 — timeline1 (3 sub) + money1-0에 SajuLifeWealthCurve 차트 (4-1 인생 4단계 재산 흐름)
           case 'timeline1-0': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
           case 'timeline1-1': return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
-          case 'timeline1-2': return <SajuLifeWealthCurve saju={sajuData} />;
+          case 'timeline1-2': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow + 5} />;
 
-          // timeline2 — 앞으로 5년의 흐름 (5 sub)
-          case 'timeline2-0': return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
-          case 'timeline2-1': return <SajuSeunGrid thisYear={new Date().getFullYear() + 1} />;
-          case 'timeline2-2': return <SajuSeunGrid thisYear={new Date().getFullYear() + 2} />;
-          case 'timeline2-3': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
-          case 'timeline2-4': return <SajuKeywordCard keywords={ilganTags} />;
-
-          // compass — 종합 해석 (3 sub)
+          // ⭐ V2.4.0 — compass 종합 평생 가져갈 방향 (2 sub, closing 통합)
           case 'compass-0': return <SajuKeywordCard keywords={ilganTags} />;
           case 'compass-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-          case 'compass-2': return <SajuElementsRadar elements={sajuData.elements} />;
-
-          // closing — 묵도인의 마지막 한 마디 (2 sub)
-          case 'closing-0': return <SajuKeywordCard keywords={ilganTags} />;
-          case 'closing-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
 
           default:
             return null;
