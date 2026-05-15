@@ -1159,35 +1159,6 @@ export default function SajuSlideResult() {
     }
   }
 
-  // 사주 아이템 6가지 공유
-  function handleShareItems() {
-    const overviewContent = aiContent['overview']?.content || '';
-    function extractItem(emoji: string): string {
-      const line = overviewContent.split('\n').find(l => l.includes(emoji));
-      if (!line) return '';
-      const dashIdx = line.indexOf('—');
-      const colonIdx = line.indexOf(':');
-      if (colonIdx < 0) return '';
-      const raw = dashIdx >= 0 ? line.slice(colonIdx + 1, dashIdx) : line.slice(colonIdx + 1);
-      return raw.replace(/\*\*/g, '').trim();
-    }
-    const items = [
-      { emoji:'🐯', label:'수호 동물' },
-      { emoji:'🌸', label:'궁합 식물' },
-      { emoji:'🎨', label:'행운 색깔' },
-      { emoji:'🔢', label:'행운 숫자' },
-      { emoji:'🐾', label:'궁합 동물' },
-      { emoji:'💎', label:'궁합 보석' },
-    ];
-    const lines = items.map(({ emoji, label }) => `${emoji} ${label}: ${extractItem(emoji) || '?'}`).join('\n');
-    const text = `✨ 내 사주 아이템 6가지\n\n${lines}\n\n나도 알아보기 → https://saju-kappa-hazel.vercel.app/saju`;
-    if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({ title:'내 사주 아이템 6가지', text }).catch(()=>{});
-    } else {
-      navigator.clipboard?.writeText(text).then(()=>alert('복사되었습니다!')).catch(()=>{});
-    }
-  }
-
   function handleCopyUrl() {
     const url = typeof window !== 'undefined' ? window.location.href : '';
     navigator.clipboard?.writeText(url).then(() => {
@@ -2193,12 +2164,6 @@ export default function SajuSlideResult() {
               className="w-full py-4 rounded-2xl text-sm font-bold transition-all active:scale-95"
               style={{backgroundColor:ACCENT,color:BG}}>
               💬 &nbsp;풀이 전체 공유하기
-            </button>
-            <button
-              onClick={handleShareItems}
-              className="w-full py-3.5 rounded-2xl text-sm font-medium transition-all active:scale-95"
-              style={{backgroundColor:`${ACCENT}22`,color:ACCENT,border:`1px solid ${ACCENT}44`}}>
-              🐾 &nbsp;사주 아이템 6가지 공유하기
             </button>
             <button
               onClick={handleCopyUrl}
