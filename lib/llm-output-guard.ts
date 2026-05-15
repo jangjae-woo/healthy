@@ -1474,6 +1474,15 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
           text = applyHongsilLifestyleRepair(applyDeterministicRepair(rewritten.trim()), input.chapter);
           text = stripPartnerHallucination(text);
           text = stripSipseongScoreLeakage(text);
+          // ⭐ V2.2.6 (2026-05-15) — rewrite 후 결정론 가드 재적용 누락 fix
+          // 평생사주5차 분석 결과: rewrite가 호칭 변질("장재형→장재형상"),
+          // "결론적으로" 마무리, 신살 한자 오타("貴인"), 풀 phrase 조사를
+          // 다시 만들어내는데 재적용 안 돼서 그대로 새어나감.
+          // parent-child 브랜치는 이미 재적용 중. saju도 같은 패턴으로 정렬.
+          text = fixJosaAfterPronouns(text);
+          text = stripUserNameSangSuffix(text, input.people.map(p => p.name));
+          text = fixHanjaCorruption(text);
+          text = stripConclusionFiller(text);
         }
       } catch {
         // rewrite 실패는 무시

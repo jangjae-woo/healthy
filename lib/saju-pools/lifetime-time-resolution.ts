@@ -17,14 +17,14 @@ export const LIFETIME_TIME_RESOLUTION: Record<LifetimeSectionId, {
   promptInstruction: string;
 }> = {
   personality1: {
-    unit: "본질·기질 (시점 없음 — 인생 무관 본인 결)",
+    unit: "본질·기질 (시점 없음 — 인생 무관 일간 본질)",
     forbidden: ["연도", "세운", "대운", "○○세", "올해", "내년"],
-    promptInstruction: "본 섹션은 본인 기질·정체성. 시간 단위 본문 노출 X. 시점 무관한 본질 묘사만.",
+    promptInstruction: "본 섹션은 본인 기질·정체성. 시간 단위 본문 노출 X. 시점 무관한 본질 묘사만 — 인자명(일간·강한 오행·격국 등)을 본문에 직접 노출.",
   },
   personality2: {
-    unit: "재능 발현 자리 (시점 없음 — 어디서든 통하는 결)",
+    unit: "재능 발현 자리 (시점 없음 — 어디서든 통하는 인자)",
     forbidden: ["연도", "세운", "대운", "○○세", "올해", "내년"],
-    promptInstruction: "본 섹션은 재능 방향. 시간 단위 본문 노출 X. 어디서·언제든 통하는 본인 결만.",
+    promptInstruction: "본 섹션은 재능 방향. 시간 단위 본문 노출 X. 어디서·언제든 통하는 인자(식상·재성·관성·인성·일간) 결만 — 구체 인자명 직접 노출.",
   },
   money1: {
     unit: "재산 시기 흐름 (대운 단위만 — 1번 sub 한정)",
@@ -74,7 +74,7 @@ export const LIFETIME_TIME_RESOLUTION: Record<LifetimeSectionId, {
   compass: {
     unit: "종합 (시점 없음 — 평생 선택 기준)",
     forbidden: ["연도", "세운", "○○세"],
-    promptInstruction: "본 섹션은 평생 가져갈 선택 기준 종합. 시간 단위 본문 노출 X. 평생 무관 본인 결만.",
+    promptInstruction: "본 섹션은 평생 가져갈 선택 기준 종합. 시간 단위 본문 노출 X. 평생 무관한 결을 풀되 일간·용신·격국 등 인자명을 본문에 직접 노출.",
   },
   closing: {
     unit: "시점 없음 (시적 마무리)",

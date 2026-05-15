@@ -304,9 +304,9 @@ export const LIFETIME_SCENARIO_POOL: Record<LifetimeScenarioKey, string[]> = {
   ],
   c_final_direction: [
     "결이 천천히 자라도 자기 자리를 지키는 흐름",
-    "본인 결로 끝까지 가는 자리",
+    "일간의 결로 끝까지 가는 자리",
     "결을 다듬어가며 평생 푸르게 자라는 흐름",
-    "자기 결의 빛이 꺼지지 않는 자리",
+    "일간의 빛이 꺼지지 않는 자리",
   ],
 
   // ─── love2 ───
@@ -417,9 +417,9 @@ export const LIFETIME_SCENARIO_POOL: Record<LifetimeScenarioKey, string[]> = {
   cl_final_words: [
     "큰 나무처럼 흔들리지 않는 결로 자라기를 바라는 자리",
     "맑은 물처럼 자기 결로 흐르기를 바라는 자리",
-    "환한 햇살처럼 본인 결을 비추기를 바라는 자리",
+    "환한 햇살처럼 일간을 비추기를 바라는 자리",
     "단단한 무쇠처럼 다듬어진 결로 빛나기를 바라는 자리",
-    "고요한 자리에 본인 결이 머무르기를 바라는 자리",
+    "고요한 자리에 일간이 머무르기를 바라는 자리",
   ],
 };
 
