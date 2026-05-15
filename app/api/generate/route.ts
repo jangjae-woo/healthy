@@ -4311,8 +4311,10 @@ ${_subListJson}
 - body 안에 \`### sub 헤더\`·\`## 챕터 헤더\` 마크다운 절대 출력 X — JSON 필드 안에 prose만.`;
           }
         }
+        // ⭐ (2026-05-15) JSON 모드 시 본문 잘림 발견 — 5 sub × 600자 한국어 + JSON 오버헤드가
+        // 16384 토큰 한계 근접. 32768로 상향해 헤드룸 확보 (Gemini 2.5는 65536까지 지원).
         const _generationConfig: Record<string, unknown> = {
-          maxOutputTokens: 16384,
+          maxOutputTokens: _pcJsonMode ? 32768 : 16384,
           thinkingConfig: { thinkingBudget: 0 },
         };
         if (_pcJsonMode && _pcSchema) {
