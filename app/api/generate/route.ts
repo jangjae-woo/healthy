@@ -2889,7 +2889,7 @@ type V2Phase = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "outro";
 // 자녀 호칭 누출 0% 목표: subtitle enum 강제(constrained decoding) + body 안에 {{CHILD}} 토큰만.
 // 후처리에서 성+이름+군/양으로 결정론 치환. 부수 효과: subtitle 변형(쉼표 drop·치환) 클래스 소멸.
 // ch1 = 헤더만 출력하므로 schema 미적용. ch2~ch7 = subs array. outro = body 단일.
-const PARENT_CHILD_BODY_DESCRIPTION = "본문 prose. 자녀를 가리키는 주어·호칭은 반드시 '{{CHILD}}' 토큰만 사용 — 실제 이름·호칭(군/양)·firstName(성 뺀 이름) 절대 X. 시스템이 토큰을 올바른 호칭으로 결정론 치환한다. 본문 내 ### / ## 마크다운 헤더 출력 X (JSON 필드 안에 prose만).";
+const PARENT_CHILD_BODY_DESCRIPTION = "본문 prose. 자녀를 가리키는 주어·호칭 자리에는 반드시 '{{CHILD}}' 토큰만 입력한다. 시스템이 토큰을 올바른 호칭으로 결정론 치환한다. 본문 내 ### / ## 마크다운 헤더 출력 X (JSON 필드 안에 prose만).";
 
 function _parentChildSubsSchema(subtitles: string[]): Record<string, unknown> {
   return {
@@ -4290,7 +4290,7 @@ export async function POST(req: NextRequest) {
 }
 
 [★★★★★ body 필드 작성 절대 룰]
-- body 안에서 자녀 주어·호칭은 **반드시 "{{CHILD}}" 토큰만 사용**. 실제 이름·호칭 절대 X. 시스템이 토큰을 올바른 호칭으로 치환한다.
+- body 안 **자녀 주어·호칭 자리에는 반드시 "{{CHILD}}" 토큰을 그대로 입력**한다. 시스템이 토큰을 올바른 호칭으로 치환한다.
 - "## 자도인의 마지막 당부" 헤더 출력 X (시스템이 자동 prepend).
 - "※ 본 풀이는..." 디스클레이머 출력 X (시스템이 자동 append).`;
           } else if (_pcSubtitles) {
@@ -4307,7 +4307,7 @@ ${_subListJson}
 
 [★★★★★ body 필드 작성 절대 룰]
 - subtitle은 위 ${_pcSubtitles.length}개 그대로 (한 글자도 변경 X — Gemini enum 강제하므로 변형 불가).
-- body 안에서 자녀 주어·호칭은 **반드시 "{{CHILD}}" 토큰만 사용**. 실제 이름·호칭(군/양)·firstName(성 뺀 이름)·"○○야" 같은 호명 절대 X. 시스템이 토큰을 올바른 호칭으로 치환한다.
+- body 안 **자녀 주어·호칭 자리에는 반드시 "{{CHILD}}" 토큰을 그대로 입력**한다. 시스템이 토큰을 올바른 호칭으로 치환한다.
 - body 안에 \`### sub 헤더\`·\`## 챕터 헤더\` 마크다운 절대 출력 X — JSON 필드 안에 prose만.`;
           }
         }
@@ -4432,6 +4432,22 @@ ${_subListJson}
             accumulatedText = accumulatedText
               .replace(/@\s*CHILD\s*@/gi, _cnhResolved)
               .replace(/\{\{\s*CHILD\s*\}\}/gi, _cnhResolved);
+            // ⭐ 추가 안전망: LLM이 prompt 안 공통어("그림"·"호수"·"하나" 등 일상 명사가 자녀 이름과 겹치는 경우)
+            // 를 보고 firstName + 야/님/씨/성별반대호칭 패턴을 hallucinate 해도 cnh로 복구.
+            // 가드의 normalizeChildHonorific와 동일 로직이지만 가드 진입 전에 미리 정리.
+            {
+              const _childNameRaw = data.childName ?? "";
+              if (_childNameRaw.length >= 2) {
+                const _firstName = _childNameRaw.slice(1);
+                const _escFn = _firstName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                const _allowedAfter = `[은는이가을를도만에서로의과와로서께부터까지마저조차\\s,.;:!?'"“”‘’「」『』。、]|$`;
+                const _wrongSuffixes = ["야", "님", "씨", data.childGender === "여" ? "군" : "양"];
+                for (const _suffix of _wrongSuffixes) {
+                  const _re = new RegExp(`${_escFn}${_suffix}(?=${_allowedAfter})`, "g");
+                  accumulatedText = accumulatedText.replace(_re, _cnhResolved);
+                }
+              }
+            }
             let finalText = accumulatedText;
             // Step 5: cross-chapter usedTokens — 클라이언트가 누적해서 보낸 Map 받아 가드에 전달.
             // 가드가 mutate 후 응답 stream에 직렬화해서 push (클라이언트가 다음 phase 요청에 또 보냄).
