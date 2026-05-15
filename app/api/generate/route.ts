@@ -193,6 +193,19 @@ function buildCtx(s: SajuAnalysis, name: string): string {
   const weak   = (Object.entries(s.elements) as [string,number][])
     .filter(([,n])=>n/totalElem<0.10).map(([el])=>el).join('/') || '없음';
 
+  // ⭐ V2.2.6 (2026-05-15) — 5오행 강·약 4단계 단언 데이터
+  // 평생사주5차 분석 결과: dataBlock에 강·약 1개씩만 명시 → LLM이 중간 오행(수·화·금)에
+  // 대해 멋대로 "강하다/옅다" 단정해 같은 풀이 안에 모순 발생.
+  // 5개 오행 모두 강도 라벨을 단언으로 박아서 LLM 추측 차단.
+  const elemRanking = (Object.entries(s.elements) as [string,number][])
+    .map(([el, n]) => ({ el, n, pct: Math.round((n / totalElem) * 100) }))
+    .sort((a, b) => b.pct - a.pct);
+  const elemBucket = (pct: number): string =>
+    pct >= 28 ? '매우 강' : pct >= 20 ? '강' : pct >= 14 ? '보통' : pct >= 8 ? '옅음' : '매우 옅음';
+  const elemFiveLine = elemRanking
+    .map(e => `${e.el}(${ELEM_DESC[e.el] ?? ''}) ${e.pct}% — ${elemBucket(e.pct)}`)
+    .join(' / ');
+
   const daeunStr = s.daeun.cycles.slice(0,6)
     .map(c=>`${c.age}세 ${h(c.stem)}${b(c.branch)}운`).join(' → ');
 
@@ -232,7 +245,9 @@ ${ssRow('월주',s.sipseong.month)}
 일지(배우자궁): ${s.sipseong.day.branch}(${SS_DESC[s.sipseong.day.branch]??s.sipseong.day.branch})
 ${s.sipseong.hour?ssRow('시주',s.sipseong.hour):'시주: 미상'}
 【오행 분포】${elemSummary}
-강한 오행: ${strong} / 부족한 오행: ${weak} / 용신: ${s.yongsin}(${ELEM_DESC[s.yongsin]})
+【★ 5오행 강·약 4단계 단언 (V2.2.6) — 본문에서 어떤 오행을 '강·옅' 말할 때 반드시 이 분류 그대로】
+${elemFiveLine}
+강한 오행(>=22%): ${strong} / 부족한 오행(<10%): ${weak} / 용신: ${s.yongsin}(${ELEM_DESC[s.yongsin]})
 【격국(月支 + 투간 보정)】${gyeokgukLine}
 【12운성(일주 — 일간이 일지에 앉은 결)】${unseongLine}
 【공망】${gongmangLine}
@@ -240,7 +255,13 @@ ${s.sipseong.hour?ssRow('시주',s.sipseong.hour):'시주: 미상'}
 【신살】${s.sinsal.join(', ') || '없음'}
 ${interactions}
 
-[★ 위 〖일간 강약〗·〖격국〗·〖12운성〗·〖공망〗 4종은 자평명리 정설 룩업 결과로 산출됨. 본문 작성 시 위 값 그대로 인용. 다른 단계·다른 격국명 임의 추론 절대 금지.]`.trim();
+[★ 위 〖일간 강약〗·〖격국〗·〖12운성〗·〖공망〗·〖5오행 4단계〗 5종은 자평명리 정설 룩업 결과로 산출됨. 본문 작성 시 위 값 그대로 인용. 다른 단계·다른 격국명·다른 오행 강·약 단정 임의 추론 절대 금지.
+
+[★ V2.2.6 일관성 자가 체크 — 본문 작성 직전 반드시 통과]
+1. "○ 오행이 강하다/옅다" 단정은 위 〖5오행 4단계〗 분류와 일치하는가? **같은 오행에 강·옅 양쪽 단정 0회**여야 함 (예: '수가 강하다'와 '수가 옅다' 동시 등장 = 위반).
+2. "월지에 ○○이 자리"·"월간 ○○이 투간" 같은 단정은 위 〖십성 구조〗의 월주 데이터와 정확히 일치하는가? 〖격국〗명과도 모순 없는가? (정인격이면 월지 정기는 정인 — 본문에 '월지 편인' 단정 X)
+3. "○○ 신살이 자리해" 단정은 〖신살〗 목록에 있는 신살만? (목록에 없는 신살명 등장 = 위반)
+4. "도드라진 인자" 우선 — 위 〖5오행 4단계〗에서 '매우 강·강' 표기된 오행 + 〖일간 강약〗 결과를 **메인 인자**로 풀고, '옅음' 인자는 보조로만. 일반론(누구에게나 통하는 신중·협력 묘사)으로 도피 금지.]`.trim();
 }
 
 // ─── 섹션별 프롬프트 ──────────────────────────
