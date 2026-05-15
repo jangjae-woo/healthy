@@ -458,7 +458,6 @@ function fixChildHonorificCorruption(text: string, stem?: string, honorific?: st
 // 한국어 격조사·구두점·공백·문장끝만 허용으로 변경.
 function normalizeChildHonorific(text: string, stem?: string, honorific?: string): string {
   if (!stem || !honorific) return text;
-  const escaped = stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const cnh = `${stem}${honorific}`;
   // 명백한 잘못된 호칭 패턴 + 성별 반대 호칭
   const wrongSuffixes = ["야", "님", "씨"];
@@ -467,9 +466,18 @@ function normalizeChildHonorific(text: string, stem?: string, honorific?: string
   let out = text;
   // 한국어 격조사·종결어미 + 구두점·공백·문장끝
   const ALLOWED_AFTER = `[은는이가을를도만에서로의과와로서께부터까지마저조차\\s,.;:!?'"“”‘’「」『』。、]|$`;
-  for (const suffix of wrongSuffixes) {
-    const re = new RegExp(`${escaped}${suffix}(?=${ALLOWED_AFTER})`, "g");
-    out = out.replace(re, cnh);
+  const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  // ⭐ (2026-05-15) 풀스템 + firstName(성 빼고) 둘 다 복구.
+  // V2는 @CHILD@ 토큰화로 LLM에 실제 이름 노출 X. 그래도 어떤 경로로든
+  // "하나야"·"군야"(firstName+vocative)가 새면 가드가 한 번 더 잡음.
+  // "최군"처럼 firstName이 호칭과 겹치는 pathological 케이스도 커버.
+  const candidates = stem.length >= 2 ? [stem, stem.slice(1)] : [stem];
+  for (const cand of candidates) {
+    const esc = escapeRe(cand);
+    for (const suffix of wrongSuffixes) {
+      const re = new RegExp(`${esc}${suffix}(?=${ALLOWED_AFTER})`, "g");
+      out = out.replace(re, cnh);
+    }
   }
   return out;
 }
