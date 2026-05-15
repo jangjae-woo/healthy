@@ -6,14 +6,14 @@ export type ParentChildChapterScope = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "c
 
 const CADENCE_OVERRIDE = `
 [★★★★ 첫 줄 cadence 강제 — sub guide의 "구성: ① 단정 한 줄" 보다 이 룰이 우선]
-이 챕터의 sub들 첫 줄 cadence는 모두 다름. "\${childName}\${honorific}은 [○○]이에요" 같은 단정 헤드라인 패턴 사용은 챕터 내 1 sub만.
+이 챕터의 sub들 첫 줄 cadence는 모두 다름. "@CHILD@은 [○○]이에요" 같은 단정 헤드라인 패턴 사용은 챕터 내 1 sub만.
 나머지 sub은 6 cadence 풀에서 다른 cadence 사용:
 1) 단정 헤드라인 — 챕터 내 1 sub만
-2) 질문 던지기 ("\${childName}\${honorific}에게 학습은 어떤 결일까요?")
+2) 질문 던지기 ("@CHILD@에게 학습은 어떤 결일까요?")
 3) 일상 한 컷 시작 ("저녁 식탁에 앉았을 때 — …")
 4) 장면 시작 (ch1만 자연 비유 OK)
 5) 시간 묘사 ("초등 저학년 시기엔 …", "사춘기 무렵 …")
-6) 짧은 단정 + 호명 ("\${childName}\${honorific} — 깊이 곱씹는 결.")
+6) 짧은 단정 + 호명 ("@CHILD@ — 깊이 곱씹는 결.")
 
 ★ 첫 줄 cadence 같은 챕터 내 두 번 X.
 ★ sub guide의 "구성: ① 단정 한 줄" 패턴은 1 sub만 적용.

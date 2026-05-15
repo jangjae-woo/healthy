@@ -2781,14 +2781,14 @@ function buildParentChildPromptV2(
 ): string {
   const hasMom = !!sajuMom;
   const hasDad = !!sajuDad;
-  const ctxChild = buildCtx(sajuChild, d.childName);
+  // ⭐ (2026-05-15) 자녀 호칭은 @CHILD@ 토큰으로만 프롬프트에 박는다.
+  // LLM이 실제 이름을 보지 못하게 해 호칭 변형·대사 누출(예: "군야") 차단.
+  // 생성 직후·가드 직전에 실제 호칭(성+이름+군/양)으로 결정론 치환한다.
+  const ctxChild = buildCtx(sajuChild, "@CHILD@");
   const ctxMom = sajuMom ? buildCtx(sajuMom, d.momName) : "";
   const ctxDad = sajuDad ? buildCtx(sajuDad, d.dadName) : "";
   const childLabel = d.childGender === "남" ? "아들" : "딸";
-  const honorific = d.childGender === "여" ? "양" : "군";
-  const cnh = `${d.childName}${honorific}`;
-  // ⭐ V2.1.2 (2026-05-15) — 친구·가족 대사 호칭용 firstName (성 제거. 한 글자 성 가정. 한 글자 이름 fallback)
-  const childFirstName = (d.childName && d.childName.length >= 2) ? d.childName.slice(1) : (d.childName ?? "");
+  const cnh = "@CHILD@";
   // ⭐ G13 (2026-05-14) — 연령별 sub 헤더 분기
   const _childYearNum = d.childYear ? parseInt(d.childYear, 10) : NaN;
   const _ageStage = !Number.isNaN(_childYearNum) ? classifyAgeStageFromYear(_childYearNum) : "elementary";
@@ -2798,7 +2798,7 @@ function buildParentChildPromptV2(
   const parentsLabel = [momLabel, dadLabel].filter(Boolean).join(" · ");
 
   const dataBlock = `
-[자녀 사주 컨텍스트 — ${d.childName} (${childLabel})]
+[자녀 사주 컨텍스트 — @CHILD@ (${childLabel})]
 ${ctxChild}
 
 ${buildSipseongElementBlock(sajuChild.ilgan)}
@@ -2822,14 +2822,14 @@ ${hasMom ? `\n[어머님 사주 컨텍스트 — ${d.momName}]\n${ctxMom}` : ""}
 - 예 정답: "${cnh}의 일지 오행은 토. 그 흙의 기운이 받쳐주는 자리에서..."
 - 예 금지: "${cnh}의 관계의 자리는 그 기운이에요" / "본인 결의 기운이 강한" / "인성 오행의 기운이 강한"
 
-★★★ G18 호칭 룰 (2026-05-14) — 절대 적용
-- narrator(자도인) 시점에서 자녀를 묘사할 때만 "${cnh}" 사용 OK: "${cnh}은 ~한 결의 아이예요" (○)
-- **부모가 자녀를 직접 부르는 인용(따옴표 안)에는 호칭(양/군) 절대 사용 금지.** "${d.childName}야" 형태만 사용.
-  예: "${d.childName}야, 네가 정말 잘하고 있어" (○)
-  예: "${cnh}, 네가 ~" (×)
+★★★ 자녀 호칭 룰 — 절대 적용
+- narrator(자도인) 시점에서 자녀를 묘사할 땐 반드시 "@CHILD@" 토큰을 그대로 쓴다: "@CHILD@은 ~한 결의 아이예요" (○). @CHILD@를 실제 이름이나 다른 호칭으로 바꾸지 말 것 — 토큰 그대로 출력하면 시스템이 올바른 호칭으로 치환한다.
+- **따옴표 안 대사(부모·친구·가족·자녀 본인 대사)에서는 자녀를 이름이나 호칭으로 부르지 않는다. 이름 없이 말한다.**
+  예: "네가 정말 잘하고 있어" (○)
+  예: "@CHILD@, 네가 ~" (×) / "○○야, 네가 ~" (×)
 - **부모가 자녀에게 양육 행동을 권고하는 본문 설명에서는 자녀 이름 반복 X.** "아이"·"자녀"·"아이의 결"로 자연스럽게.
   예: "어머님께서는 아이가 차분한 환경에 있을 때..." (○)
-  예: "어머님께서는 ${cnh}이 차분한 환경에 있을 때..." (×)
+  예: "어머님께서는 @CHILD@이 차분한 환경에 있을 때..." (×)
 
 A. **사주 용어 노출 룰 (한자 1회 허용)**
    - 각 소제목 본문에서 메인 인자 한자병기 1회만 허용 (예: "비겁(比劫)은 …"). 이후 본문은 부모 언어로 자연 등장.
@@ -2864,7 +2864,7 @@ D. **메인 인자 강도 분기 (강·중·약·0 모두 정통 풀이)**
 
 E. **아이 묘사 어조 보호** — "무너지는/폭발하는/약한 아이" 금지. "단단하게 받는/따스하게 받는/마음 쏟아내는 결" 등 양면 모두 긍정적으로.
 
-F. **자녀 호칭** — ${d.childName} 단독 사용 금지. 매번 ${cnh}. sub당 1~2회 등장.
+F. **자녀 호칭** — 자녀를 부를 땐 매번 "@CHILD@" 토큰을 그대로 쓴다 (실제 이름으로 바꾸지 말 것). sub당 1~2회 등장.
 
 G. **부모 호명** — "어머님·아버님" sub당 1~2회 등장.
 
@@ -3440,7 +3440,7 @@ ${injectOutroPoolsBlock(sajuChild.ilgan as any)}
   const childBirthYear = d.childYear ? parseInt(d.childYear, 10) : undefined;
   const interpretationContext = buildParentChildContext({
     sajuChild,
-    childName: d.childName ?? "자녀",
+    childName: "@CHILD@",
     hasMom,
     hasDad,
     scope: (phase === "ch7" ? "outro" : phase) as "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "outro", // ch7은 outro와 같은 그룹 (build-context는 ch7 별도 컨텍스트 안 만듦 — ch7Body가 자체 풀 시스템)
@@ -3450,10 +3450,10 @@ ${injectOutroPoolsBlock(sajuChild.ilgan as any)}
 
   return `당신은 자도인입니다. ${cnh}의 사주를 부모님 눈높이에서 풀이합니다. 한국어 경어체, 날카롭되 따뜻하게.
 
-[★★★ 자녀 호칭 분기 룰 — 절대]
-- narrator 자리 (해설·풀이 등 따옴표 밖): 반드시 "${cnh}" 형태로 호명. 예: "${cnh}은", "${cnh}의", "${cnh}이". 절대 "${d.childName ?? ""}야"·"${d.childName ?? ""}님"·"${d.childName ?? ""}씨" X.
-- 따옴표 안 친구·가족 부르는 자리 + 자녀 본인 마음 대사: **반드시 성을 빼고 이름만 + 호명조사**. 정답 형태: "${childFirstName}야" (예: "${childFirstName}야, 이리 와봐"). 절대 "${d.childName ?? ""}야"·"${cnh}" 따옴표 안 사용 X.
-- 자녀 본명(성 포함, "${d.childName ?? ""}")은 단독 등장 절대 X. 항상 "${cnh}" 또는 "${childFirstName}야" 두 형태 중 하나로만.
+[★★★ 자녀 호칭 룰 — 절대]
+- narrator 자리 (해설·풀이 등 따옴표 밖): 반드시 "@CHILD@" 토큰을 그대로 출력. 예: "@CHILD@은", "@CHILD@의", "@CHILD@이". @CHILD@를 실제 이름이나 다른 호칭으로 바꿔 쓰지 말 것 — 토큰 그대로 두면 시스템이 올바른 호칭으로 치환한다.
+- 따옴표 안 대사 (부모·친구·가족·자녀 본인 대사): 자녀를 이름이나 호칭으로 부르지 않는다. 이름 없이 말한다. 예: "네가 끝까지 해낸 그 부분이 정말 기특했어" (○).
+- "@CHILD@" 토큰 외에 자녀를 가리키는 다른 호칭(이름·○○야·○○님 등)을 본문에 만들어 쓰지 말 것.
 
 [★★★ 핵심 룰 — 시작 강제 (시스템 인스트럭션과 함께 적용)]
 1. 정통 자평명리 결합 풀이 — 분포 수치만 나열 절대 X.
@@ -3473,7 +3473,7 @@ ${body}
 - 정설 룩업값(일간 강약 단계·12운성 단계·공망 위치) 그대로 인용했는가? 다른 단계 추론 안 했는가?
 - 분포 수치만 나열한 단편 풀이 없는가? 인자 사이 결합으로 풀었는가?
 - 일반론·바넘 표현 0개인가?
-- 자녀 호칭 ${cnh} 사용했는가? 단독 ${d.childName} 사용 X?
+- 자녀 호칭 "@CHILD@" 토큰을 그대로 썼는가? 따옴표 안 대사에 자녀 이름·호칭을 넣지 않았는가?
 - 인자 강도 0인 경우 양면 풀이로 작성했는가?
 - 마크다운 헤더(## 챕터, ### 소제목) 정확한가? [[ ]] 강조 sub당 1~2회 절제 사용했는가?`;
 }
@@ -4146,6 +4146,11 @@ export async function POST(req: NextRequest) {
               console.error(`[v2/${phase}] empty or filtered finish=${finishReason} block=${blockReason} safety=${JSON.stringify(safetyRatings).slice(0, 400)}`);
               enqueue({ t: 'err', phase, finishReason, blockReason, chunks: chunkCount });
             }
+            // ⭐ (2026-05-15) @CHILD@ 토큰 → 실제 호칭(성+이름+군/양) 결정론 치환.
+            // 프롬프트는 자녀 이름을 토큰으로만 노출 → LLM 이름 변형·대사 누출 차단.
+            // 가드 전에 치환 → 가드(G1/G19 등)가 실제 이름 기준 안전망으로 동작.
+            const _cnhResolved = `${data.childName ?? ""}${data.childGender === "여" ? "양" : "군"}`;
+            accumulatedText = accumulatedText.replace(/@\s*CHILD\s*@/gi, _cnhResolved);
             let finalText = accumulatedText;
             // Step 5: cross-chapter usedTokens — 클라이언트가 누적해서 보낸 Map 받아 가드에 전달.
             // 가드가 mutate 후 응답 stream에 직렬화해서 push (클라이언트가 다음 phase 요청에 또 보냄).
