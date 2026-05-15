@@ -2885,42 +2885,85 @@ export function computeParentChildChartFacts(sajuChild: SajuAnalysis, birthYear?
 // ─── V2 자도인 (브라덜 7장 요청건) — 컴포넌트 SLIDES 매핑과 정확 정합, 격국 삭제, 양육 톤 흡수 ──
 type V2Phase = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "outro";
 
-// ⭐ (2026-05-15) ch3 파일럿 — B+C 결합 (Gemini responseSchema + {{CHILD}} sentinel).
-// 자녀 호칭 누출 0% 목표: subtitle enum 강제(constrained decoding) + body 안에서
-// 자녀 주어·호칭은 {{CHILD}} 토큰만 — 후처리에서 성+이름+군/양으로 결정론 치환.
-// 부수 효과: subtitle 변형(쉼표 drop·치환 등) 자체가 불가능 → 헤더 매핑 실패 클래스 소멸.
-function parentChildCh3SchemaResponse(lieSubtitle: string): Record<string, unknown> {
+// ⭐ (2026-05-15) B+C 결합 — Gemini responseSchema + {{CHILD}} sentinel — 전체 phase 적용.
+// 자녀 호칭 누출 0% 목표: subtitle enum 강제(constrained decoding) + body 안에 {{CHILD}} 토큰만.
+// 후처리에서 성+이름+군/양으로 결정론 치환. 부수 효과: subtitle 변형(쉼표 drop·치환) 클래스 소멸.
+// ch1 = 헤더만 출력하므로 schema 미적용. ch2~ch7 = subs array. outro = body 단일.
+const PARENT_CHILD_BODY_DESCRIPTION = "본문 prose. 자녀를 가리키는 주어·호칭은 반드시 '{{CHILD}}' 토큰만 사용 — 실제 이름·호칭(군/양)·firstName(성 뺀 이름) 절대 X. 시스템이 토큰을 올바른 호칭으로 결정론 치환한다. 본문 내 ### / ## 마크다운 헤더 출력 X (JSON 필드 안에 prose만).";
+
+function _parentChildSubsSchema(subtitles: string[]): Record<string, unknown> {
   return {
     type: "OBJECT",
     properties: {
       subs: {
         type: "ARRAY",
-        minItems: 5,
-        maxItems: 5,
+        minItems: subtitles.length,
+        maxItems: subtitles.length,
         items: {
           type: "OBJECT",
           required: ["subtitle", "body"],
           properties: {
-            subtitle: {
-              type: "STRING",
-              enum: [
-                "화났을 때 입을 닫을까, 폭발할까",
-                "아이 감정이 가라앉는 환경",
-                "마음 열리는 칭찬",
-                lieSubtitle,
-                "이 아이가 무너지는 자극",
-              ],
-            },
-            body: {
-              type: "STRING",
-              description: "본문 prose (450~600자). 자녀를 가리키는 주어·호칭은 반드시 '{{CHILD}}' 토큰만 사용 — 실제 이름·호칭(군/양)·firstName(성 뺀 이름) 절대 X. 시스템이 토큰을 올바른 호칭으로 결정론 치환한다.",
-            },
+            subtitle: { type: "STRING", enum: subtitles },
+            body: { type: "STRING", description: PARENT_CHILD_BODY_DESCRIPTION },
           },
         },
       },
     },
     required: ["subs"],
   };
+}
+
+function parentChildPhaseSubtitles(
+  phase: V2Phase,
+  ah: ReturnType<typeof getAgeAdaptedHeaders>,
+  hasMom: boolean,
+  hasDad: boolean,
+): string[] | null {
+  switch (phase) {
+    case "ch2":
+      return [ah.ch2_alone, ah.ch2_method, ah.ch2_express, ah.ch2_clock, ah.ch2_deskMind];
+    case "ch3":
+      return ["화났을 때 입을 닫을까, 폭발할까", "아이 감정이 가라앉는 환경", "마음 열리는 칭찬", ah.ch3_lie, "이 아이가 무너지는 자극"];
+    case "ch4":
+      return ["마음 문 여는 데 걸리는 시간", "리더 vs 짝꿍 vs 분위기 메이커", "인생을 바꿀 친구는 따로 있다", "친구들 속에서 지치는 패턴"];
+    case "ch5":
+      return ["진짜 빛날 분야", "아이만의 무기", "환하게 빛나게 해주는 결 한 가지"];
+    case "ch6": {
+      const first = hasMom && hasDad
+        ? "엄마와 통하는 결, 아빠와 통하는 결"
+        : hasMom ? "엄마와 통하는 결"
+        : hasDad ? "아빠와 통하는 결"
+        : "엄마와 통하는 결, 아빠와 통하는 결";
+      const trio = hasMom && hasDad ? "셋이 함께 가장 편안한 순간" : "둘이 함께 가장 편안한 순간";
+      return [first, trio, "부모가 채워줄 결 / 살펴줄 결"];
+    }
+    case "ch7":
+      return ["이 아이가 약하게 타고난 자리", "사주에 채워주면 좋은 음식"];
+    case "ch1":
+    case "outro":
+    default:
+      return null;
+  }
+}
+
+function parentChildPhaseSchema(
+  phase: V2Phase,
+  ah: ReturnType<typeof getAgeAdaptedHeaders>,
+  hasMom: boolean,
+  hasDad: boolean,
+): Record<string, unknown> | null {
+  if (phase === "outro") {
+    return {
+      type: "OBJECT",
+      properties: {
+        body: { type: "STRING", description: "정확히 2~3문장, 한 문장 50자 이내 시적 마지막 당부. " + PARENT_CHILD_BODY_DESCRIPTION },
+      },
+      required: ["body"],
+    };
+  }
+  const subs = parentChildPhaseSubtitles(phase, ah, hasMom, hasDad);
+  if (!subs) return null;
+  return _parentChildSubsSchema(subs);
 }
 
 function buildParentChildPromptV2(
@@ -4226,42 +4269,58 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: `Invalid phase: ${phase}` }, { status: 400 });
         }
         let chPrompt = buildParentChildPromptV2(data, sajuChild, sajuMom, sajuDad, momCompat, dadCompat, familySaja, phase as ValidPhase);
-        // ⭐ ch3 파일럿 — B+C 결합 (JSON 출력 + {{CHILD}} sentinel)
-        const _ch3JsonMode = phase === "ch3";
-        const _ch3YearNum = data.childYear ? parseInt(data.childYear, 10) : NaN;
-        const _ch3AgeStage = !Number.isNaN(_ch3YearNum) ? classifyAgeStageFromYear(_ch3YearNum) : "elementary";
-        const _ch3Ah = getAgeAdaptedHeaders(_ch3AgeStage);
-        if (_ch3JsonMode) {
-          // @CHILD@ → {{CHILD}} (LLM이 더 잘 학습한 Mustache 표준 sentinel)
-          chPrompt = chPrompt.replace(/@CHILD@/g, "{{CHILD}}") + `
+        // ⭐ B+C 결합 — Gemini responseSchema + {{CHILD}} sentinel 전체 phase 적용 (ch1 제외)
+        const _pcYearNum = data.childYear ? parseInt(data.childYear, 10) : NaN;
+        const _pcAgeStage = !Number.isNaN(_pcYearNum) ? classifyAgeStageFromYear(_pcYearNum) : "elementary";
+        const _pcAh = getAgeAdaptedHeaders(_pcAgeStage);
+        const _pcSchema = parentChildPhaseSchema(phase as V2Phase, _pcAh, hasMom, hasDad);
+        const _pcSubtitles = parentChildPhaseSubtitles(phase as V2Phase, _pcAh, hasMom, hasDad);
+        const _pcJsonMode = _pcSchema !== null;
+        if (_pcJsonMode) {
+          // @CHILD@ → {{CHILD}} (Mustache 표준 sentinel — LLM 학습 데이터 친화적)
+          chPrompt = chPrompt.replace(/@CHILD@/g, "{{CHILD}}");
+          // JSON 출력 룰 append (subs phases vs outro 분기)
+          if (phase === "outro") {
+            chPrompt += `
 
 [★★★★★ 출력 형식 — JSON only (Gemini responseSchema 강제 적용 중)]
-위 5개 sub 구성 지시 그대로 따르되, 출력은 마크다운 X — 다음 JSON 한 객체만:
+출력은 마크다운 X — 다음 JSON 한 객체만:
+{
+  "body": "(정확히 2~3문장, 한 문장 50자 이내, {{CHILD}} 토큰 사용)"
+}
+
+[★★★★★ body 필드 작성 절대 룰]
+- body 안에서 자녀 주어·호칭은 **반드시 "{{CHILD}}" 토큰만 사용**. 실제 이름·호칭 절대 X. 시스템이 토큰을 올바른 호칭으로 치환한다.
+- "## 자도인의 마지막 당부" 헤더 출력 X (시스템이 자동 prepend).
+- "※ 본 풀이는..." 디스클레이머 출력 X (시스템이 자동 append).`;
+          } else if (_pcSubtitles) {
+            const _subListJson = _pcSubtitles.map((s) => `    { "subtitle": ${JSON.stringify(s)}, "body": "(prose, {{CHILD}} 토큰 사용)" }`).join(",\n");
+            chPrompt += `
+
+[★★★★★ 출력 형식 — JSON only (Gemini responseSchema 강제 적용 중)]
+위 ${_pcSubtitles.length}개 sub 구성 지시 그대로 따르되, 출력은 마크다운 X — 다음 JSON 한 객체만:
 {
   "subs": [
-    { "subtitle": "화났을 때 입을 닫을까, 폭발할까", "body": "(450~600자 prose, {{CHILD}} 토큰 사용)" },
-    { "subtitle": "아이 감정이 가라앉는 환경", "body": "..." },
-    { "subtitle": "마음 열리는 칭찬", "body": "..." },
-    { "subtitle": "${_ch3Ah.ch3_lie}", "body": "..." },
-    { "subtitle": "이 아이가 무너지는 자극", "body": "..." }
+${_subListJson}
   ]
 }
 
 [★★★★★ body 필드 작성 절대 룰]
-- subtitle은 위 5개 그대로 (한 글자도 변경 X — Gemini enum이 강제하므로 변형 불가).
+- subtitle은 위 ${_pcSubtitles.length}개 그대로 (한 글자도 변경 X — Gemini enum 강제하므로 변형 불가).
 - body 안에서 자녀 주어·호칭은 **반드시 "{{CHILD}}" 토큰만 사용**. 실제 이름·호칭(군/양)·firstName(성 뺀 이름)·"○○야" 같은 호명 절대 X. 시스템이 토큰을 올바른 호칭으로 치환한다.
 - body 안에 \`### sub 헤더\`·\`## 챕터 헤더\` 마크다운 절대 출력 X — JSON 필드 안에 prose만.`;
+          }
         }
         const _generationConfig: Record<string, unknown> = {
           maxOutputTokens: 16384,
           thinkingConfig: { thinkingBudget: 0 },
         };
-        if (_ch3JsonMode) {
+        if (_pcJsonMode && _pcSchema) {
           _generationConfig.responseMimeType = "application/json";
-          _generationConfig.responseSchema = parentChildCh3SchemaResponse(_ch3Ah.ch3_lie);
+          _generationConfig.responseSchema = _pcSchema;
         }
         const tStart = Date.now();
-        console.log(`[v2/${phase}] start model=${GEMINI_MODEL} promptLen=${chPrompt.length}${_ch3JsonMode ? " json=schema" : ""}`);
+        console.log(`[v2/${phase}] start model=${GEMINI_MODEL} promptLen=${chPrompt.length}${_pcJsonMode ? " json=schema" : ""}`);
         const chRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${apiKey}`,
           {
@@ -4335,24 +4394,35 @@ export async function POST(req: NextRequest) {
               console.error(`[v2/${phase}] empty or filtered finish=${finishReason} block=${blockReason} safety=${JSON.stringify(safetyRatings).slice(0, 400)}`);
               enqueue({ t: 'err', phase, finishReason, blockReason, chunks: chunkCount });
             }
-            // ⭐ (2026-05-15) @CHILD@ / {{CHILD}} 토큰 → 실제 호칭(성+이름+군/양) 결정론 치환.
+            // ⭐ (2026-05-15) Gemini JSON 응답 → 마크다운 재조립 + 토큰 치환.
             // 프롬프트는 자녀 이름을 토큰으로만 노출 → LLM 이름 변형·대사 누출 차단.
             // 가드 전에 치환 → 가드(G1/G19 등)가 실제 이름 기준 안전망으로 동작.
-            // ch3 파일럿: Gemini JSON 응답 먼저 파싱해 마크다운으로 재조립 후 토큰 치환.
-            if (phase === "ch3") {
+            // ch2~ch7: subs[].subtitle/body → "### subtitle\n\nbody" 재조립.
+            // outro: body 단일 → "## 자도인의 마지막 당부\n\nbody + 디스클레이머" 재조립.
+            // ch1: JSON 모드 아님 — raw 그대로.
+            if (_pcJsonMode) {
               try {
                 const parsed = JSON.parse(accumulatedText);
-                const subs = Array.isArray(parsed?.subs) ? parsed.subs : [];
-                if (subs.length === 5) {
-                  accumulatedText = subs.map((sub: { subtitle?: string; body?: string }) => {
-                    return `### ${sub.subtitle ?? ""}\n\n${sub.body ?? ""}`;
-                  }).join("\n\n");
-                  console.log(`[v2/ch3] JSON parsed OK: 5 subs reconstructed → markdown (len=${accumulatedText.length})`);
+                if (phase === "outro") {
+                  const _body = String(parsed?.body ?? "").trim();
+                  if (_body) {
+                    accumulatedText = `## 자도인의 마지막 당부\n\n${_body}\n\n※ 본 풀이는 사주명리학을 현시대 부모의 언어로 재표현한 양육 안내이며, 의학적 진단·치료가 아닙니다. 자녀의 결은 사주에 환경·경험이 더해져 만들어집니다.`;
+                    console.log(`[v2/outro] JSON parsed OK: body len=${_body.length}`);
+                  } else {
+                    console.error(`[v2/outro] JSON parsed but body empty`);
+                  }
                 } else {
-                  console.error(`[v2/ch3] JSON parsed but subs invalid (length=${subs.length})`);
+                  const _subs = Array.isArray(parsed?.subs) ? (parsed.subs as Array<{ subtitle?: string; body?: string }>) : [];
+                  const _expectedCount = _pcSubtitles?.length ?? 0;
+                  if (_subs.length === _expectedCount && _expectedCount > 0) {
+                    accumulatedText = _subs.map((sub) => `### ${sub.subtitle ?? ""}\n\n${sub.body ?? ""}`).join("\n\n");
+                    console.log(`[v2/${phase}] JSON parsed OK: ${_subs.length}/${_expectedCount} subs reconstructed → markdown (len=${accumulatedText.length})`);
+                  } else {
+                    console.error(`[v2/${phase}] JSON parsed but subs invalid (got=${_subs.length} expected=${_expectedCount})`);
+                  }
                 }
               } catch (e) {
-                console.error(`[v2/ch3] JSON parse FAIL: ${(e as Error).message} head=${accumulatedText.slice(0, 200)}`);
+                console.error(`[v2/${phase}] JSON parse FAIL: ${(e as Error).message} head=${accumulatedText.slice(0, 200)}`);
                 // raw text 유지 — 아래 토큰 치환이 fallback
               }
             }
