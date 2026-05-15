@@ -658,9 +658,12 @@ export default function SajuSlideResult() {
       const newSearch = urlParams.toString();
       window.history.replaceState({}, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
     }
-    // 결제 완료 직후 (unlocked=1 또는 justpaid=1) → 당신은 누구(AI_START)로 자동 점프
+    // ⭐ V2.2.8 (2026-05-15) — 결제 완료 직후 → 1장(slide 2 = 내 사주의 기본 구조)부터
+    // 시작. 기존엔 AI_START(13 = 챕터2)로 바로 점프해서 친절 안내 1장을 건너뛰던 문제.
+    // 영상이 끝나면 1장 통합 스크롤(사주란?·일주·오행·신강신약·사주팔자·십성)을 보고
+    // "다음 챕터" 누르면 그때 AI 섹션(slide 13)으로 진입.
     if (isUnlocked || justPaid) {
-      setSlide(AI_START);
+      setSlide(2);
       setOvPage(0);
     }
   }, []);
