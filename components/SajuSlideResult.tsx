@@ -25,6 +25,8 @@ import {
 import {
   type SajuAnalysis,
   getSipseong,
+  getDayMasterStrength,
+  type DayMasterStrengthLevel,
   STEM_HANJA, BRANCH_HANJA, SIPSEONG_COLOR, SINSAL_INFO,
 } from "@/lib/saju-calculator";
 
@@ -222,6 +224,96 @@ function BodyCopyDark({ children }: { children: React.ReactNode }) {
 }
 function WordMarkGold({ children }: { children: React.ReactNode }) {
   return <b style={{ color: '#f0c040', fontWeight: 700 }}>{children}</b>;
+}
+
+// ⭐ V2.2.5 (2026-05-15) — 신강신약 7단계 게이지 (연애사주판 다크 골드 포팅)
+// 기존 평생사주 신강신약 (큰 점수 게이지)을 7단계 점진형으로 교체.
+const SHINKANG_LEVELS_DARK = ["극약", "태약", "신약", "중화", "신강", "태강", "극왕"] as const;
+const SHINKANG_LABEL_DARK: Record<DayMasterStrengthLevel, string> = {
+  극약: "극약(極弱)", 태약: "태약(太弱)", 신약: "신약(身弱)", 중화: "중화(中和)",
+  신강: "신강(身强)", 태강: "태강(太强)", 극왕: "극왕(極旺)",
+};
+const SHINKANG_SHORT_DARK: Record<DayMasterStrengthLevel, string> = {
+  극약: "외부 결을 받아 자라는 사주",
+  태약: "의지할 결을 찾는 협력형",
+  신약: "신중하게 받아들이는 결",
+  중화: "균형 잡힌 결",
+  신강: "자기 결이 단단한 사주",
+  태강: "강한 자기 색을 가진 결",
+  극왕: "독자적으로 길을 만드는 결",
+};
+function ShinkangGaugeDark({ level }: { level: DayMasterStrengthLevel }) {
+  const activeIdx = SHINKANG_LEVELS_DARK.indexOf(level);
+  const GOLD = '#f0c040';
+  return (
+    <div className="my-5">
+      {/* 상단 7 점 가로 게이지 */}
+      <div className="relative my-5">
+        <div className="absolute left-0 right-0 h-px" style={{ top: 6, background: "rgba(201,150,12,0.35)" }} />
+        <div className="relative grid grid-cols-7 gap-0">
+          {SHINKANG_LEVELS_DARK.map((lv, i) => {
+            const isActive = i === activeIdx;
+            return (
+              <div key={lv} className="flex flex-col items-center">
+                <div
+                  className="rounded-full transition-all"
+                  style={{
+                    width: isActive ? 13 : 9,
+                    height: isActive ? 13 : 9,
+                    background: isActive ? GOLD : "rgba(201,150,12,0.45)",
+                    boxShadow: isActive ? `0 0 0 3px ${GOLD}33` : undefined,
+                  }}
+                />
+                <div
+                  className="text-[11px] mt-2"
+                  style={{
+                    color: isActive ? GOLD : "rgba(255,255,255,0.55)",
+                    fontWeight: isActive ? 800 : 500,
+                  }}
+                >{lv}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {/* 본인 결 단언 박스 */}
+      <div className="mx-auto my-5 px-5 py-3 rounded-md text-center"
+        style={{ maxWidth: 320, border: `1px solid ${GOLD}55`, background: `${GOLD}10` }}>
+        <div className="text-[13px] font-bold" style={{ color: GOLD }}>
+          일간 깊은 {SHINKANG_LABEL_DARK[level]} 사주
+        </div>
+        <div className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>
+          · {SHINKANG_SHORT_DARK[level]} ·
+        </div>
+      </div>
+      {/* 하단 7단계 한 줄 설명 표 */}
+      <div className="mt-5">
+        <div className="text-[11px] mb-2 text-center" style={{ color: "rgba(255,255,255,0.55)" }}>
+          7단계가 뭔가요?
+        </div>
+        <div className="rounded-md overflow-hidden" style={{ border: "1px solid rgba(201,150,12,0.25)" }}>
+          {SHINKANG_LEVELS_DARK.map((lv, i) => {
+            const isActive = i === activeIdx;
+            return (
+              <div key={lv}
+                className="grid grid-cols-[80px_1fr] items-center py-2 px-3"
+                style={{
+                  background: isActive ? "rgba(240,192,64,0.12)" : i % 2 === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)",
+                  borderTop: i > 0 ? "1px solid rgba(201,150,12,0.15)" : undefined,
+                }}>
+                <div className="text-[12px] font-bold"
+                  style={{ color: isActive ? GOLD : "rgba(255,255,255,0.7)" }}>{lv}</div>
+                <div className="text-[11.5px]"
+                  style={{ color: isActive ? GOLD : "rgba(255,255,255,0.7)", fontWeight: isActive ? 700 : 400 }}>
+                  {SHINKANG_SHORT_DARK[lv]}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // 텍스트 포맷터
@@ -1374,7 +1466,6 @@ export default function SajuSlideResult() {
     // ─ Slide 4: 오행 분포 (거미줄 레이더) ─
     const renderSlide4 = () => {
       const { elements, yongsin } = sajuData!;
-      const total = Object.values(elements).reduce((a,b)=>a+b,0)||1;
       const ELEM_DESC: Record<string,string> = {
         목:'창의·성장', 화:'열정·표현', 토:'안정·신뢰', 금:'결단·의지', 수:'지혜·직관',
       };
@@ -1383,23 +1474,7 @@ export default function SajuSlideResult() {
         토:'믿음직하고 안정감을 주는 사람', 금:'논리적이고 결단력 있는 사람',
         수:'직관이 강하고 유연한 사람',
       };
-      const ELEM_ORDER = ['목','화','토','금','수'];
       const topEl = (Object.entries(elements).sort((a,b)=>b[1]-a[1])[0]?.[0]) ?? '목';
-      const cx=170, cy=175, R=88;
-      const MIN_SCALE = 0.05;
-      const maxVal = Math.max(...ELEM_ORDER.map(el=>((elements as Record<string,number>)[el]||0)), 1);
-      const angs = ELEM_ORDER.map((_,i)=>(i*72-90)*Math.PI/180);
-      const pt = (i:number, s:number):[number,number] => [
-        cx + R*s*Math.cos(angs[i]),
-        cy + R*s*Math.sin(angs[i]),
-      ];
-      const gridPts = (s:number) => ELEM_ORDER.map((_,i)=>pt(i,s).join(',')).join(' ');
-      const dataPts = ELEM_ORDER.map((el,i)=>{
-        const raw = ((elements as Record<string,number>)[el]||0)/maxVal;
-        const s = Math.max(MIN_SCALE, raw);
-        return pt(i,s).join(',');
-      }).join(' ');
-      const LO = 1.48;
       const elemStrongName = topEl;
       const elemEntries = Object.entries(elements).sort((a,b)=>(a[1] as number)-(b[1] as number));
       const elemWeakName = (elemEntries[0]?.[0] as string) || '목';
@@ -1414,56 +1489,12 @@ export default function SajuSlideResult() {
             {' '}<WordMarkGold>{elemWeakName}({ELEM_HANJA[elemWeakName]})</WordMarkGold>의 결이 옅게 자리한 분포예요.
             그래서 가장 필요한 보충제가 아래 <WordMarkGold>용신(用神)</WordMarkGold>이에요 — 평생 채워가야 할 결이지요.
           </BodyCopyDark>
-          {/* 거미줄 SVG */}
-          <div className="flex justify-center">
-            <svg width="340" height="330" viewBox="0 0 340 330">
-              {/* 그리드 거미줄 */}
-              {[0.25,0.5,0.75,1.0].map((s,gi)=>(
-                <polygon key={gi} points={gridPts(s)}
-                  fill="none"
-                  stroke={s===1.0?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.10)'}
-                  strokeWidth={s===1.0?1.2:0.8}/>
-              ))}
-              {/* 축선 (중심 → 꼭짓점) */}
-              {ELEM_ORDER.map((_,i)=>{
-                const [x,y]=pt(i,1);
-                return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
-                  stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>;
-              })}
-              {/* 데이터 폴리곤 */}
-              <polygon points={dataPts}
-                fill={`${ELEM_COLORS[topEl]}35`}
-                stroke={ELEM_COLORS[topEl]}
-                strokeWidth="2.5"
-                strokeLinejoin="round"/>
-              {/* 외부 레이블 */}
-              {ELEM_ORDER.map((el,i)=>{
-                const [lx,ly]=pt(i,LO);
-                const pct=Math.round(((elements as Record<string,number>)[el]||0)/total*100);
-                const isTop=el===topEl;
-                const anchor = lx<cx-10?'end':lx>cx+10?'start':'middle';
-                const dx = anchor==='end'?-4:anchor==='start'?4:0;
-                return (
-                  <g key={i}>
-                    <text x={lx+dx} y={ly-12} textAnchor={anchor} fontSize="24" fontWeight="bold"
-                      fill={ELEM_COLORS[el]}>
-                      {ELEM_HANJA[el]}
-                    </text>
-                    <text x={lx+dx} y={ly+12} textAnchor={anchor} fontSize="18" fontWeight={isTop?'bold':'normal'}
-                      fill={ELEM_COLORS[el]}>
-                      {pct}%
-                    </text>
-                    <text x={lx+dx} y={ly+28} textAnchor={anchor} fontSize="13"
-                      fill="rgba(255,255,255,0.65)">
-                      {ELEM_DESC[el].split('·')[0]}
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
+          {/* ⭐ V2.2.5 — 작은 거미줄 (SajuVisuals 컴포넌트로 교체) */}
+          <SajuElementsRadar elements={elements as Record<string, number>} />
+          {/* ⭐ V2.2.5 — 오행 강·약 막대 리스트 (부모와자녀에서 가져온 것) */}
+          <SajuElementsSpectrum elements={elements as Record<string, number>} />
           {/* 용신 */}
-          <div className="rounded-xl px-4 py-3 flex items-center gap-3"
+          <div className="rounded-xl px-4 py-3 flex items-center gap-3 mt-4"
             style={{backgroundColor:`${ELEM_COLORS[yongsin]}22`,border:`1.5px solid ${ELEM_COLORS[yongsin]}77`}}>
             <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{backgroundColor:`${ELEM_COLORS[yongsin]}33`,border:`1.5px solid ${ELEM_COLORS[yongsin]}`}}>
@@ -1475,7 +1506,7 @@ export default function SajuSlideResult() {
             </div>
           </div>
           {/* 정체성 */}
-          <div className="rounded-xl px-4 py-3 text-center"
+          <div className="rounded-xl px-4 py-3 text-center mt-2"
             style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
             <p className="text-sm" style={{color:'rgba(255,255,255,0.60)'}}>{name||'본인'}님은</p>
             <p className="text-base font-bold text-white mt-1">{ELEM_HANJA[topEl]}{topEl}형 — {TYPE_DESC[topEl]}</p>
@@ -1486,41 +1517,32 @@ export default function SajuSlideResult() {
 
     // ─ Slide 5: 신강신약 (에너지 총량) — 무료 영역에 복원 (2026-05-14) ─
     const renderSlide5 = () => {
-      const { score, label, max } = calcEnergyScore(sajuData!.elements);
-      const pct = Math.round((score/max)*100);
+      const sd = sajuData!;
+      // ⭐ V2.2.5 — 7단계 신강신약 (연애사주판 ShinkangGauge 다크 골드 포팅)
+      const allBranches = [
+        sd.pillars.year.branch,
+        sd.pillars.month.branch,
+        sd.pillars.day.branch,
+        ...(sd.pillars.hour ? [sd.pillars.hour.branch] : []),
+      ];
+      const otherStems = [
+        sd.pillars.year.stem,
+        sd.pillars.month.stem,
+        ...(sd.pillars.hour ? [sd.pillars.hour.stem] : []),
+      ];
+      let level: DayMasterStrengthLevel = '중화';
+      try {
+        level = getDayMasterStrength(sd.ilgan, sd.pillars.month.branch, allBranches, otherStems).level;
+      } catch {}
       return (
         <EducationPageDark title="신강신약 — 일간의 두께" subtitle="身强身弱 — 본인 결의 강도">
           <BodyCopyDark>
             일간(<WordMarkGold>{name||'본인'}님의 본질</WordMarkGold>)의 힘이 사주 안에서 얼마나 두텁게 자리하는지 보는 게 <WordMarkGold>신강신약</WordMarkGold>이에요.
-            오행 분포와 자리(월지·일지)에서 받는 힘을 종합해 결정됩니다.
+            오행 분포와 자리(월지·일지)에서 받는 힘을 종합해 7단계로 나뉩니다.
           </BodyCopyDark>
-          <div className="flex flex-col items-center gap-4 py-2">
-            <div className="text-center">
-              <div className="text-5xl font-bold" style={{color:ACCENT}}>{score}</div>
-              <div className="text-sm text-white/40 mt-1">/ {max}</div>
-            </div>
-            <div className="w-full">
-              <div className="h-3 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}15`}}>
-                <div className="h-full rounded-full" style={{width:`${pct}%`,background:`linear-gradient(90deg,${ACCENT}88,${ACCENT})`}}/>
-              </div>
-              <div className="flex justify-between mt-1">
-                <span className="text-[10px] text-white/30">신약</span>
-                <span className="text-[10px] text-white/30">신왕</span>
-              </div>
-            </div>
-            <div className="text-center py-3 px-6 rounded-2xl" style={{backgroundColor:`${ACCENT}15`}}>
-              <p className="text-base font-bold" style={{color:ACCENT}}>{label}</p>
-              <p className="text-xs text-white/50 mt-1">
-                {label==='신약(身弱)'?'에너지를 아끼고 기를 보충하는 게 중요해요':
-                 label==='편약(偏弱)'?'특정 오행이 치우쳐 균형이 필요해요':
-                 label==='중화(中和)'?'오행이 균형 잡혀 안정적인 기운이에요':
-                 label==='신강(身强)'?'강한 기운을 발산할 출구가 필요해요':
-                 '넘치는 에너지를 잘 다스리는 게 핵심이에요'}
-              </p>
-            </div>
-          </div>
+          <ShinkangGaugeDark level={level} />
           <BodyCopyDark>
-            {name||'본인'}님은 <WordMarkGold>{label}</WordMarkGold> — 신강하면 에너지를 발산할 출구를, 신약하면 받쳐줄 결을 챙겨야 균형이 잡혀요.
+            {name||'본인'}님은 <WordMarkGold>{SHINKANG_LABEL_DARK[level]}</WordMarkGold> — 신강 쪽이면 에너지를 발산할 출구를, 신약 쪽이면 받쳐줄 결을 챙겨야 균형이 잡혀요.
           </BodyCopyDark>
         </EducationPageDark>
       );
@@ -1639,23 +1661,7 @@ export default function SajuSlideResult() {
         { key:'관성', desc:'책임감·명예욕·조직 적응력이 강합니다' },
         { key:'인성', desc:'공부 운·어머니 덕·배움의 욕구가 있습니다' },
       ];
-      const SS_ORDER = ['비겁','식상','재성','관성','인성'];
-      const maxCount = Math.max(...Object.values(counts),1);
       const topCat = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0] ?? '비겁';
-      const cx=170, cy=175, R=88;
-      const MIN_SCALE = 0.05;
-      const angs = SS_ORDER.map((_,i)=>(i*72-90)*Math.PI/180);
-      const pt = (i:number, s:number):[number,number] => [
-        cx + R*s*Math.cos(angs[i]),
-        cy + R*s*Math.sin(angs[i]),
-      ];
-      const gridPts = (s:number) => SS_ORDER.map((_,i)=>pt(i,s).join(',')).join(' ');
-      const dataPts = SS_ORDER.map((cat,i)=>{
-        const raw = (counts[cat]||0)/maxCount;
-        const s = Math.max(MIN_SCALE, raw);
-        return pt(i,s).join(',');
-      }).join(' ');
-      const LO = 1.48;
       return (
         <EducationPageDark title="십성 — 자리마다의 역할" subtitle="十星 — 다섯 가지 관계 에너지">
           <BodyCopyDark>
@@ -1665,45 +1671,8 @@ export default function SajuSlideResult() {
           <BodyCopyDark>
             가장 많이 자리한 결이 <WordMarkGold>{topCat}</WordMarkGold> — {SS_DESC_LONG[topCat]}.
           </BodyCopyDark>
-          <div className="flex justify-center">
-            <svg width="360" height="300" viewBox="-10 10 360 300">
-              {[0.25,0.5,0.75,1.0].map((s,gi)=>(
-                <polygon key={gi} points={gridPts(s)}
-                  fill="none"
-                  stroke={s===1.0?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.10)'}
-                  strokeWidth={s===1.0?1.2:0.8}/>
-              ))}
-              {SS_ORDER.map((_,i)=>{
-                const [x,y]=pt(i,1);
-                return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
-                  stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>;
-              })}
-              <polygon points={dataPts}
-                fill={`${catColors[topCat]}35`}
-                stroke={catColors[topCat]}
-                strokeWidth="2.5"
-                strokeLinejoin="round"/>
-              {SS_ORDER.map((cat,i)=>{
-                const [lx,ly]=pt(i,LO);
-                const n = counts[cat]||0;
-                const isTop = cat===topCat;
-                const anchor = lx<cx-10?'end':lx>cx+10?'start':'middle';
-                const dx = anchor==='end'?-4:anchor==='start'?4:0;
-                return (
-                  <g key={i}>
-                    <text x={lx+dx} y={ly-6} textAnchor={anchor} fontSize="18" fontWeight="bold"
-                      fill={catColors[cat]}>
-                      {cat}
-                    </text>
-                    <text x={lx+dx} y={ly+14} textAnchor={anchor} fontSize="16" fontWeight={isTop?'bold':'normal'}
-                      fill={catColors[cat]}>
-                      {n}개
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
+          {/* ⭐ V2.2.5 — 작은 십성 레이더 (SajuVisuals 컴포넌트로 교체) */}
+          <SajuSipseongRadar counts={countSipseongFromSaju(sajuData!)} />
           {/* 기운 설명 리스트 */}
           <div className="rounded-xl px-4 py-3 space-y-2"
             style={{backgroundColor:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.12)'}}>
