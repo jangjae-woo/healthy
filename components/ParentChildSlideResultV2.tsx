@@ -2370,7 +2370,6 @@ function TrioRadarCard({ meta }: { meta: MetaEvent }) {
   const cmp: ElementCompare | null = cmpMom ?? cmpDad;
   return (
     <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.92)", border: `1px solid ${ACCENT}33` }}>
-      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 셋이 함께 편안한 순간 (오행 3겹) ─</p>
       <div className="flex justify-center">
         <TrioRadar
           child={meta.sajuChild.elements as Record<string, number>}
