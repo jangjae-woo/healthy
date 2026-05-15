@@ -787,6 +787,28 @@ function stripChapter5Hanja(text: string): string {
   return out;
 }
 
+// ── G21 (2026-05-15) — 신살 한자명에 한글 혼입 오타 복원 ──
+// 발견 사례: 평생사주4차.txt L6 "월덕귀인(月德貴인)" — 한자 "人" 자리에 한글 "인"
+// 한자+한글 혼합(貴인 / 귀人)만 복원. 순수 한글("귀인")·순수 한자("貴人")는 건드리지 않음.
+function fixHanjaCorruption(text: string): string {
+  return text
+    .replace(/貴인/g, "貴人")
+    .replace(/귀人/g, "貴人")
+    .replace(/天乙귀/g, "天乙貴")
+    .replace(/月德귀/g, "月德貴")
+    .replace(/學堂귀/g, "學堂貴")
+    .replace(/太極귀/g, "太極貴");
+}
+
+// ── V2.2.2 (2026-05-15) — "결론적으로" 마무리 접속어 strip ──
+// 발견 사례: 평생사주4차.txt L222·252·310·321 — sub 마지막 문단을 "결론적으로,"로 시작.
+// 문장/문단 첫머리의 "결론적으로 / 즉, / 이렇듯" 요약 접속어만 제거. 본문 중간은 보존.
+function stripConclusionFiller(text: string): string {
+  return text
+    .replace(/(^|\n)\s*결론적으로[,，]?\s*/g, "$1")
+    .replace(/([.!?]\s+)결론적으로[,，]?\s*/g, "$1");
+}
+
 // ── Fix #4: 환각 방지 가드 ────────────────────────────────
 // 단독 풀이(본인 사주만 입력)인데 LLM이 "상대의 비겁 기운이 강하여…"
 // 식으로 상대 사주를 단정하는 환각을 잡는다.
@@ -1332,6 +1354,7 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
     text = fixChartFactsMismatch(text, input.chartFacts); // ⭐ G17 — 차트 dominant ↔ 본문 키워드 치환
     text = fixShineAgeMismatch(text, input.chartFacts?.shineGroup); // ⭐ G7 v2 — ShineAge 시기 결정론 치환
     text = stripPhraseHanjaMisbinding(text); // ⭐ G12 v2 — "사주의 결(균화)" 같이 풀 phrase + 한자 괄호 잘못 합성 strip
+    text = fixHanjaCorruption(text); // ⭐ G21 — 신살 한자명 한글 혼입 오타 복원 (月德貴인→月德貴人)
     {
       // ⭐ V2.1 G19 (2026-05-15) — 호칭 normalize 먼저 (parent direct address 전)
       text = normalizeChildHonorific(text, input.childNameStem, input.childHonorific);
@@ -1421,6 +1444,8 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
     text = suppressRepeatedHongsilEvidence(text, input.usedTokens);
     text = fixJosaAfterPronouns(text); // ⭐ G5 — 받침 기반 조사 보정
     text = stripUserNameSangSuffix(text, input.people.map(p => p.name));
+    text = fixHanjaCorruption(text); // ⭐ G21 — 신살 한자명 한글 혼입 오타 복원 (月德貴인→月德貴人)
+    text = stripConclusionFiller(text); // ⭐ V2.2.2 — "결론적으로" 마무리 접속어 strip
 
     // ── Phase 2: LLM judge + rewrite (모든 섹션) ───────────────
     const repeatedEvidenceSaju = findRepeatedEvidence(text, input.people);

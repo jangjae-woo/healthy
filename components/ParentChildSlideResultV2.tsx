@@ -279,6 +279,10 @@ const SUB_HEADER_ALIASES: Record<string, string[]> = {
   "책상 앞 머릿속": ["혼자 놀이할 때 머릿속", "놀이매트 위 머릿속"],
   "거짓말 했을 때": ["고집부릴 때", "거짓말이나 고집이 시작될 때"],
 };
+// ⭐ V2.2.2 (2026-05-15) — sub 헤더 매칭용 정규화 (구두점·공백·괄호 제거)
+function normalizeSubKey(s: string): string {
+  return s.replace(/[?？!！.。·・,，、\s~―—()（）-]/g, "");
+}
 function getSubText(map: SlideTextMap, slideIdx: number, subtitle: string): string {
   const direct = map[slideIdx]?.[subtitle];
   if (direct) return direct;
@@ -292,6 +296,19 @@ function getSubText(map: SlideTextMap, slideIdx: number, subtitle: string): stri
     if (alts.includes(subtitle)) {
       const t = map[slideIdx]?.[canonical];
       if (t) return t;
+    }
+  }
+  // ⭐ V2.2.2 (2026-05-15) — 정규화 매칭 (최후 fallback)
+  // 발견 사례: LLM이 "### 글로 정리할까, 말로 표현할까?"처럼 물음표·콤마를 변형 출력 → 본문 미노출
+  const wanted = new Set<string>([subtitle, ...aliases]);
+  for (const [canonical, alts] of Object.entries(SUB_HEADER_ALIASES)) {
+    if (alts.includes(subtitle)) { wanted.add(canonical); alts.forEach((a) => wanted.add(a)); }
+  }
+  const wantedNorm = new Set([...wanted].map(normalizeSubKey));
+  const sectionMap = map[slideIdx];
+  if (sectionMap) {
+    for (const [k, v] of Object.entries(sectionMap)) {
+      if (v && wantedNorm.has(normalizeSubKey(k))) return v;
     }
   }
   return "";
