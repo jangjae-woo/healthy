@@ -739,10 +739,15 @@ function normalizeCharacterName(text: string): string {
 // CHARACTER_NAMES(12 캐릭터)에 안 들어가는 이름만 처리.
 function stripUserNameSangSuffix(text: string, userNames: string[]): string {
   let out = text;
+  // ⭐ V2.2.0 (2026-05-15) lookahead FIX — 기존 (?![가-힣])가 한국어 조사(은·는·이·가)를
+  // 차단해서 "수리당상은"·"수리당상의" 같은 명백한 오류를 못 잡던 버그 (G19와 동일 패턴).
+  // 한국어 격조사·구두점·공백·문장끝만 허용으로 변경.
+  const ALLOWED_AFTER = `[은는이가을를도만에서로의과와로서께부터까지마저조차\\s,.;:!?'"“”‘’「」『』。、]|$`;
   for (const name of userNames) {
     if (!name || name.length < 2) continue;
     if (CHARACTER_NAMES.includes(name)) continue;
-    const re = new RegExp(`${name}상(?![가-힣])`, "g");
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re = new RegExp(`${escaped}상(?=${ALLOWED_AFTER})`, "g");
     out = out.replace(re, `${name}님`);
   }
   return out;
