@@ -1004,22 +1004,19 @@ function suppressRepeatedHongsilEvidence(
       return segment.body;
     }
 
-    // 그 외 sub — 등장마다 카운트, 3회째부터 풀 대명사로 치환.
+    // ⭐ (2026-05-15) 풀 phrase 치환 비활성 — V2.2.2 톤("같은 인자명 반복 OK")과 정렬.
+    // 가드가 "본인 결"·"타고난 결"·"그 기운" 등을 박던 게 vague pronoun 누출의 주범.
+    // 4 서비스(부모자녀·hongsil·inyeon·평생사주) 공통 적용.
+    // 카운팅은 유지 — cross-chapter usedTokens 흐름과 다른 가드 로직 정합 보존.
     let body = segment.body.replace(HANJA_TOKEN_REGEX, (raw) => {
       const key = normalizeHanjaToken(raw);
-      const count = (counts.get(key) ?? 0) + 1;
-      counts.set(key, count);
-      if (count <= 2) return raw;
-      const pool = poolForHanja(key);
-      return pool[(count - 3) % pool.length];
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+      return raw;
     });
 
     body = body.replace(KOREAN_TERM_REGEX, (term) => {
-      const count = (counts.get(term) ?? 0) + 1;
-      counts.set(term, count);
-      if (count <= 2) return term;
-      const pool = poolForKorean(term);
-      return pool[(count - 3) % pool.length];
+      counts.set(term, (counts.get(term) ?? 0) + 1);
+      return term;
     });
 
     return body;
