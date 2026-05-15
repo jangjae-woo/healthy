@@ -2144,6 +2144,30 @@ function InyeonResultInner() {
     return () => ac.abort();
   }, [data, sp, aName, bName, rel, dur]);
 
+  // ⭐ V2.2.3 (2026-05-15) — 모든 챕터 완료 시 Google Sheets에 저장 (1회)
+  // 시트 탭: "인연궁합" — 두 사람 cacheKey에 포함
+  const inyeonSavedRef = useRef(false);
+  useEffect(() => {
+    if (!unlocked || inyeonSavedRef.current) return;
+    if (chaptersDone < TOTAL) return;
+    if (!aName || !bName) return;
+    const ay = sp.get("aYear") || ""; const am = sp.get("aMonth") || ""; const ad = sp.get("aDay") || "";
+    const ah = sp.get("aHour") || ""; const ag = sp.get("aGender") || "";
+    const by = sp.get("bYear") || ""; const bm = sp.get("bMonth") || ""; const bd = sp.get("bDay") || "";
+    const bh = sp.get("bHour") || ""; const bg = sp.get("bGender") || "";
+    const cacheKey = `inyeon_v1_${aName}_${ay}${am}${ad}_${ah}_${ag}__${bName}_${by}${bm}${bd}_${bh}_${bg}__${rel}_${dur}`;
+    inyeonSavedRef.current = true;
+    fetch('/api/save-reading', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service: 'inyeon',
+        key: cacheKey,
+        payload: { aiText },
+      }),
+    }).catch(() => {});
+  }, [chaptersDone, unlocked, aiText, aName, bName, rel, dur, sp]);
+
   useEffect(() => {
     if (!unlocked) return; // 결제 전엔 사주 계산 안 함
     const aYear = parseInt(sp.get("aYear") || "0", 10);

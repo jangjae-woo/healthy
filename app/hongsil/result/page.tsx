@@ -1754,6 +1754,29 @@ function HongsilResultInner() {
     return () => ac.abort();
   }, [data, sp, meName, duration, desire, style]);
 
+  // ⭐ V2.2.3 (2026-05-15) — 모든 챕터 완료 시 Google Sheets에 저장 (1회)
+  // 시트 탭: "연애사주"
+  const hongsilSavedRef = useRef(false);
+  useEffect(() => {
+    if (!unlocked || hongsilSavedRef.current) return;
+    if (chaptersDone < TOTAL) return;
+    if (!meName) return;
+    const my = sp.get("meYear") || ""; const mm = sp.get("meMonth") || ""; const md = sp.get("meDay") || "";
+    const mh = sp.get("meHour") || ""; const mg = sp.get("meGender") || "";
+    const mc = sp.get("meCalendar") || "양력";
+    const cacheKey = `hongsil_v1_${meName}_${my}${mm}${md}_${mh}_${mg}_${mc}_${duration}_${desire}_${style}`;
+    hongsilSavedRef.current = true;
+    fetch('/api/save-reading', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service: 'hongsil',
+        key: cacheKey,
+        payload: { aiText },
+      }),
+    }).catch(() => {});
+  }, [chaptersDone, unlocked, aiText, meName, duration, desire, style, sp]);
+
   const aiBodies = (() => {
     const out: Record<number, Record<string, string>> = {};
     for (const [chStr, md] of Object.entries(aiText)) {

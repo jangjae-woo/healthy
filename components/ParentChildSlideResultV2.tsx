@@ -538,6 +538,39 @@ export default function ParentChildSlideResultV2() {
     })();
   }, [childName, childGender, params, unlocked]);
 
+  // ⭐ V2.2.3 (2026-05-15) — 모든 phase 완료 시 Google Sheets에 저장 (1회)
+  // 시트 탭: "부모와자녀" — 가족 단위 1행 (자녀+엄마+아빠 cacheKey에 포함)
+  const savedRef = useRef(false);
+  const cacheKey = useMemo(() => {
+    if (!childName) return "";
+    const cy = params.get("childYear") || "";
+    const cm = params.get("childMonth") || "";
+    const cd = params.get("childDay") || "";
+    const ch = params.get("childHour") || "";
+    const cc = params.get("childCalendar") || "양력";
+    const my = params.get("momYear") || "";
+    const mm = params.get("momMonth") || "";
+    const md = params.get("momDay") || "";
+    const dy = params.get("dadYear") || "";
+    const dm = params.get("dadMonth") || "";
+    const dd = params.get("dadDay") || "";
+    return `parentchild_v1_${childName}_${cy}${cm}${cd}_${ch}_${childGender}_${cc}_M${my}${mm}${md}_D${dy}${dm}${dd}`;
+  }, [childName, childGender, params]);
+  useEffect(() => {
+    if (!cacheKey || !unlocked || savedRef.current) return;
+    if (loading || !streamText || phasesDone < 8) return;
+    savedRef.current = true;
+    fetch('/api/save-reading', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service: 'parentchild',
+        key: cacheKey,
+        payload: { streamText, meta },
+      }),
+    }).catch(() => {});
+  }, [cacheKey, unlocked, loading, streamText, phasesDone, meta]);
+
   const ageStage = useMemo(() => {
     const y = parseInt(params.get("childYear") || "", 10);
     const m = parseInt(params.get("childMonth") || "", 10) || 1;
