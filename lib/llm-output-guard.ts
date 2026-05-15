@@ -1,5 +1,6 @@
 import type { SajuAnalysisCore } from "@/lib/saju-core";
 import { REPETITION_TONE_GUIDE } from "@/lib/hongsil/prompts/refinement/repetition-tone";
+import { REPETITION_TONE_GUIDE_NEUTRAL } from "@/lib/parent-child-saju-tone";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 const GUARD_TIMEOUT_MS = 45_000;
@@ -1188,7 +1189,13 @@ async function rewriteOutput(input: GuardInput, issues: GuardIssue[], repeatedEv
 [의미 중복 클러스터 기준]
 ${SEMANTIC_CLUSTER_GUIDE}
 
-${(input.service === "hongsil" || input.service === "inyeon" || input.service === "parent-child" || input.service === "saju") ? REPETITION_TONE_GUIDE : ""}
+${
+  (input.service === "hongsil" || input.service === "inyeon")
+    ? REPETITION_TONE_GUIDE
+    : (input.service === "parent-child" || input.service === "saju")
+      ? REPETITION_TONE_GUIDE_NEUTRAL
+      : ""
+}
 
 [사주 근거]
 ${buildGuardContext(input.people)}
