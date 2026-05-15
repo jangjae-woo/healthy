@@ -590,14 +590,22 @@ function fixChartFactsMismatch(text: string, facts?: ChartFactsForGuard): string
       [/바로\s*친해지는/g,              "second", "천천히 친해지는"],
     ]},
   ];
+  // ⭐ (2026-05-15) ### / ## 헤더 줄은 절대 치환 금지.
+  // 발견 사례: writeDom "말형" 사주에서 /글로 정리/ 스왑이 본문뿐 아니라
+  // "### 글로 정리할까, 말로 표현할까" 헤더 줄까지 매칭 →
+  // "### 말로 표현할까, 말로 표현할까"로 변형 → 클라이언트 sub 매핑 실패 → "(본문 없어요)".
+  // 차트 의존 버그라 말형 자녀에서만 재현 (글형·양면은 swap 자체 skip).
+  // 본문 키워드 정합 스왑은 유지하되, # 헤더 줄만 보호.
+  const swapSkippingHeaders = (src: string, re: RegExp, swap: string): string =>
+    src.split("\n").map((line) => (/^#{1,6}\s/.test(line) ? line : line.replace(re, swap))).join("\n");
   for (const r of rules) {
     if (!r.dom) continue;
     if (!r.valid.includes(r.dom)) continue; // 양면 skip
     for (const [re, direction, swap] of r.swaps) {
       const expressionMatchesDom = (direction === "first" && r.dom === r.valid[0]) || (direction === "second" && r.dom === r.valid[1]);
       if (expressionMatchesDom) continue; // 표현 방향이 dominant와 일치 → no-op
-      // dominant와 충돌 → swap
-      out = out.replace(re, swap);
+      // dominant와 충돌 → swap (단 ### / ## 헤더 줄은 제외)
+      out = swapSkippingHeaders(out, re, swap);
     }
   }
   return out;
