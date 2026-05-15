@@ -196,6 +196,34 @@ function getSipseongCounts(sipseong:SajuAnalysis['sipseong']) {
   return cat;
 }
 
+// ⭐ V2.2.4 (2026-05-15) — 1장 친절화: EducationPage 다크 골드판 (연애사주 패턴 이식)
+// 각 sub = 큰 제목 + 부제목 + 본문(친절 어미) + 시각화. WordMarkGold로 핵심 용어 강조.
+function EducationPageDark({
+  title, subtitle, children,
+}: { title: string; subtitle?: string; children: React.ReactNode }) {
+  return (
+    <div className="py-7 first:pt-2" style={{ borderBottom: "1px solid rgba(201,150,12,0.18)" }}>
+      <div className="text-center mb-5">
+        <h2 className="text-[20px] font-bold leading-tight" style={{ color: '#f0c040' }}>{title}</h2>
+        {subtitle && (
+          <p className="text-[13px] mt-1.5" style={{ color: 'rgba(201,150,12,0.78)' }}>{subtitle}</p>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+}
+function BodyCopyDark({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="text-[15px] leading-[1.95] mt-5 mb-5 px-1" style={{ color: 'rgba(255,255,255,0.86)' }}>
+      {children}
+    </div>
+  );
+}
+function WordMarkGold({ children }: { children: React.ReactNode }) {
+  return <b style={{ color: '#f0c040', fontWeight: 700 }}>{children}</b>;
+}
+
 // 텍스트 포맷터
 function stripBold(s: string) { return s.replace(/\*\*/g, ''); }
 function renderHeading(raw: string, size: 'h2'|'h3', key: number) {
@@ -1242,11 +1270,15 @@ export default function SajuSlideResult() {
         { label:'연주(年柱)', sub:'뿌리·유년', p:pillars.year,  ss:sipseong.year,  empty:false,          isDay:false },
       ];
       return (
-        <div className="flex-1 py-3 flex flex-col gap-3">
-          <div className="text-center">
-            <h2 className="text-lg font-bold text-white">사주원국 (四柱原局)</h2>
-            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>태어난 연·월·일·시로 본 당신의 타고난 운명 설계도</p>
-          </div>
+        <EducationPageDark title="사주란? — 네 기둥, 여덟 글자" subtitle="四柱八字 — 운명의 설계도">
+          <BodyCopyDark>
+            사주(<WordMarkGold>四柱</WordMarkGold>)는 <WordMarkGold>네 개의 기둥</WordMarkGold>, 팔자(<WordMarkGold>八字</WordMarkGold>)는 <WordMarkGold>여덟 글자</WordMarkGold>를 뜻해요.
+            태어난 연·월·일·시 네 기둥에 천간과 지지가 한 글자씩 — 모두 여덟 글자가 {name||'본인'}님만의 운명 설계도가 됩니다.
+          </BodyCopyDark>
+          <BodyCopyDark>
+            그 가운데 가장 중요한 기둥이 <WordMarkGold>일주(日柱)</WordMarkGold> — {name||'본인'}님의 본질이 담긴 자리예요.
+            양옆의 연주·월주·시주는 그 본질을 둘러싼 환경의 결을 보여줍니다.
+          </BodyCopyDark>
           <div className="flex gap-1.5">
             {cols.map(c=>(
               <div key={c.label} className="flex-1 flex flex-col items-center rounded-xl py-3 px-1 gap-1"
@@ -1285,13 +1317,13 @@ export default function SajuSlideResult() {
               </div>
             ))}
           </div>
-          <div className="rounded-xl p-3 space-y-2" style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
+          <div className="rounded-xl p-3 space-y-2 mt-4" style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
             <p className="text-xs font-semibold mb-2" style={{color:BRIGHT}}>각 기둥이 말하는 것</p>
             {([
-              { k:'연주(年柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 해의 기운. 조상에게 물려받은 기질과 어린 시절 환경을 담고 있습니다.' },
-              { k:'월주(月柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 달의 기운. 청년기의 성장 환경과 사회에서의 역할·직업운을 나타냅니다.' },
-              { k:'일주(日柱)', color:BRIGHT,                   desc:'태어난 날의 기운. 나 자신의 본질과 배우자 자리. 사주에서 가장 핵심 기둥입니다.' },
-              { k:'시주(時柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 시의 기운. 노년의 삶과 자녀와의 인연, 말년 복을 나타냅니다.' },
+              { k:'연주(年柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 해의 기운. 조상에게 물려받은 기질과 어린 시절 환경을 담고 있어요.' },
+              { k:'월주(月柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 달의 기운. 청년기의 성장 환경과 사회에서의 역할·직업운을 나타내요.' },
+              { k:'일주(日柱)', color:BRIGHT,                   desc:'태어난 날의 기운. 나 자신의 본질과 배우자 자리. 사주에서 가장 핵심 기둥이에요.' },
+              { k:'시주(時柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 시의 기운. 노년의 삶과 자녀와의 인연, 말년 복을 나타내요.' },
             ] as const).map(({k,color,desc})=>(
               <div key={k}>
                 <span className="text-xs font-bold" style={{color}}>{k}</span>
@@ -1299,33 +1331,45 @@ export default function SajuSlideResult() {
               </div>
             ))}
           </div>
-        </div>
+        </EducationPageDark>
       );
     };
 
-    // ─ Slide 3: 일간 소개 ─
-    if (slide===3) {
+    // ─ Slide 3: 일간 소개 (1장 통합 스크롤에 포함되도록 함수화) ─
+    const renderSlide3 = () => {
       const info = ILGAN_INFO[sajuData!.ilgan];
       return (
-        <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 py-6">
-          <p className="text-sm font-semibold" style={{color:'rgba(255,255,255,0.85)'}}>일간(日干) 소개</p>
-          <div className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-bold"
-            style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}99`,color:'#f0c040'}}>
-            {info?.hanja||'?'}
+        <EducationPageDark title="일주 — 사주의 중심" subtitle="日柱 — 본인의 본질이 담긴 자리">
+          <BodyCopyDark>
+            일주는 태어난 날을 뜻해요. 네 기둥 중에서도 가장 중요한 자리지요.
+            {' '}{name||'본인'}님의 본질은 일간 <WordMarkGold>{info?.hanja}({info?.name})</WordMarkGold>에 담겨 있어요.
+          </BodyCopyDark>
+          <div className="flex flex-col items-center text-center gap-4 py-2">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold"
+              style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}99`,color:'#f0c040'}}>
+              {info?.hanja||'?'}
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-white">{info?.name}</h3>
+              <p className="text-sm mt-2 leading-relaxed max-w-[280px]" style={{color:'rgba(255,255,255,0.82)'}}>{info?.desc}</p>
+            </div>
+            <div className="flex gap-2 flex-wrap justify-center">
+              {info?.tags.map(t=>(
+                <span key={t} className="text-xs px-3 py-1 rounded-full"
+                  style={{backgroundColor:`${ACCENT}25`,color:'#f0c040'}}>{t}</span>
+              ))}
+            </div>
           </div>
-          <div>
-            <h3 className="text-lg font-bold text-white">{info?.name}</h3>
-            <p className="text-sm mt-2 leading-relaxed max-w-[260px]" style={{color:'rgba(255,255,255,0.82)'}}>{info?.desc}</p>
-          </div>
-          <div className="flex gap-2 flex-wrap justify-center">
-            {info?.tags.map(t=>(
-              <span key={t} className="text-xs px-3 py-1 rounded-full"
-                style={{backgroundColor:`${ACCENT}25`,color:'#f0c040'}}>{t}</span>
-            ))}
-          </div>
-        </div>
+          <BodyCopyDark>
+            이 결이 {name||'본인'}님의 본 모습이에요.
+            앞으로 풀어나갈 모든 풀이의 출발점이 바로 이 일간이지요.
+          </BodyCopyDark>
+        </EducationPageDark>
       );
-    }
+    };
+
+    // 슬라이드 3 단독 진입 — 1장 스크롤이 아닌 직접 슬라이드 3으로 왔을 때
+    if (slide===3) return renderSlide3();
 
     // ─ Slide 4: 오행 분포 (거미줄 레이더) ─
     const renderSlide4 = () => {
@@ -1356,12 +1400,20 @@ export default function SajuSlideResult() {
         return pt(i,s).join(',');
       }).join(' ');
       const LO = 1.48;
+      const elemStrongName = topEl;
+      const elemEntries = Object.entries(elements).sort((a,b)=>(a[1] as number)-(b[1] as number));
+      const elemWeakName = (elemEntries[0]?.[0] as string) || '목';
       return (
-        <div className="flex-1 py-2 flex flex-col gap-3">
-          <div className="text-center">
-            <h2 className="text-xl font-bold text-white">오행 분포</h2>
-            <p className="text-sm mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>타고난 다섯 에너지의 균형</p>
-          </div>
+        <EducationPageDark title="오행 — 다섯 결의 균형" subtitle="木·火·土·金·水">
+          <BodyCopyDark>
+            사주의 여덟 글자는 결국 <WordMarkGold>목·화·토·금·수</WordMarkGold> 다섯 결로 나뉘어요.
+            이 다섯 결이 어떻게 분포해 있는지가 {name||'본인'}님의 성격·재능·삶의 결을 만들지요.
+          </BodyCopyDark>
+          <BodyCopyDark>
+            {name||'본인'}님 사주는 <WordMarkGold>{elemStrongName}({ELEM_HANJA[elemStrongName]})</WordMarkGold>의 결이 넘치고
+            {' '}<WordMarkGold>{elemWeakName}({ELEM_HANJA[elemWeakName]})</WordMarkGold>의 결이 옅게 자리한 분포예요.
+            그래서 가장 필요한 보충제가 아래 <WordMarkGold>용신(用神)</WordMarkGold>이에요 — 평생 채워가야 할 결이지요.
+          </BodyCopyDark>
           {/* 거미줄 SVG */}
           <div className="flex justify-center">
             <svg width="340" height="330" viewBox="0 0 340 330">
@@ -1425,10 +1477,10 @@ export default function SajuSlideResult() {
           {/* 정체성 */}
           <div className="rounded-xl px-4 py-3 text-center"
             style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
-            <p className="text-sm" style={{color:'rgba(255,255,255,0.60)'}}>당신은</p>
+            <p className="text-sm" style={{color:'rgba(255,255,255,0.60)'}}>{name||'본인'}님은</p>
             <p className="text-base font-bold text-white mt-1">{ELEM_HANJA[topEl]}{topEl}형 — {TYPE_DESC[topEl]}</p>
           </div>
-        </div>
+        </EducationPageDark>
       );
     };
 
@@ -1437,35 +1489,40 @@ export default function SajuSlideResult() {
       const { score, label, max } = calcEnergyScore(sajuData!.elements);
       const pct = Math.round((score/max)*100);
       return (
-        <div className="flex flex-col items-center gap-4 py-2">
-          <div className="text-center">
-            <h2 className="text-lg font-bold text-white">신강신약 (身强身弱)</h2>
-            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.60)'}}>일간의 힘이 강한지 약한지 — 용신 결정의 출발점</p>
-          </div>
-          <div className="text-center">
-            <div className="text-5xl font-bold" style={{color:ACCENT}}>{score}</div>
-            <div className="text-sm text-white/40 mt-1">/ {max}</div>
-          </div>
-          <div className="w-full">
-            <div className="h-3 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}15`}}>
-              <div className="h-full rounded-full" style={{width:`${pct}%`,background:`linear-gradient(90deg,${ACCENT}88,${ACCENT})`}}/>
+        <EducationPageDark title="신강신약 — 일간의 두께" subtitle="身强身弱 — 본인 결의 강도">
+          <BodyCopyDark>
+            일간(<WordMarkGold>{name||'본인'}님의 본질</WordMarkGold>)의 힘이 사주 안에서 얼마나 두텁게 자리하는지 보는 게 <WordMarkGold>신강신약</WordMarkGold>이에요.
+            오행 분포와 자리(월지·일지)에서 받는 힘을 종합해 결정됩니다.
+          </BodyCopyDark>
+          <div className="flex flex-col items-center gap-4 py-2">
+            <div className="text-center">
+              <div className="text-5xl font-bold" style={{color:ACCENT}}>{score}</div>
+              <div className="text-sm text-white/40 mt-1">/ {max}</div>
             </div>
-            <div className="flex justify-between mt-1">
-              <span className="text-[10px] text-white/30">신약</span>
-              <span className="text-[10px] text-white/30">신왕</span>
+            <div className="w-full">
+              <div className="h-3 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}15`}}>
+                <div className="h-full rounded-full" style={{width:`${pct}%`,background:`linear-gradient(90deg,${ACCENT}88,${ACCENT})`}}/>
+              </div>
+              <div className="flex justify-between mt-1">
+                <span className="text-[10px] text-white/30">신약</span>
+                <span className="text-[10px] text-white/30">신왕</span>
+              </div>
+            </div>
+            <div className="text-center py-3 px-6 rounded-2xl" style={{backgroundColor:`${ACCENT}15`}}>
+              <p className="text-base font-bold" style={{color:ACCENT}}>{label}</p>
+              <p className="text-xs text-white/50 mt-1">
+                {label==='신약(身弱)'?'에너지를 아끼고 기를 보충하는 게 중요해요':
+                 label==='편약(偏弱)'?'특정 오행이 치우쳐 균형이 필요해요':
+                 label==='중화(中和)'?'오행이 균형 잡혀 안정적인 기운이에요':
+                 label==='신강(身强)'?'강한 기운을 발산할 출구가 필요해요':
+                 '넘치는 에너지를 잘 다스리는 게 핵심이에요'}
+              </p>
             </div>
           </div>
-          <div className="text-center py-3 px-6 rounded-2xl" style={{backgroundColor:`${ACCENT}15`}}>
-            <p className="text-base font-bold" style={{color:ACCENT}}>{label}</p>
-            <p className="text-xs text-white/50 mt-1">
-              {label==='신약(身弱)'?'에너지를 아끼고 기를 보충하는 것이 중요합니다':
-               label==='편약(偏弱)'?'특정 오행이 치우쳐 균형이 필요합니다':
-               label==='중화(中和)'?'오행이 균형 잡혀 안정적인 기운입니다':
-               label==='신강(身强)'?'강한 기운을 발산할 출구가 필요합니다':
-               '넘치는 에너지를 잘 다스리는 것이 핵심입니다'}
-            </p>
-          </div>
-        </div>
+          <BodyCopyDark>
+            {name||'본인'}님은 <WordMarkGold>{label}</WordMarkGold> — 신강하면 에너지를 발산할 출구를, 신약하면 받쳐줄 결을 챙겨야 균형이 잡혀요.
+          </BodyCopyDark>
+        </EducationPageDark>
       );
     };
 
@@ -1495,11 +1552,12 @@ export default function SajuSlideResult() {
         { label:'시주(時柱)', sub:'노년·자녀', p:isHourUnknown?null:pillars.hour, ss:isHourUnknown?null:sipseong.hour, isDay:false },
       ];
       return (
-        <div className="flex-1 py-3 flex flex-col gap-3">
-          <div className="text-center">
-            <h2 className="text-lg font-bold text-white">사주팔자 (四柱八字)</h2>
-            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.60)'}}>여덟 글자에 담긴 나의 운명 코드</p>
-          </div>
+        <EducationPageDark title="사주팔자 — 여덟 글자에 담긴 코드" subtitle="四柱八字 — 글자별 십성 보기">
+          <BodyCopyDark>
+            같은 네 기둥을 이번엔 글자별로 한 번 더 봐요.
+            각 글자마다 일간과 어떤 관계인지 — <WordMarkGold>십성(十星)</WordMarkGold>이 함께 표시됩니다.
+            십성은 비견·식상·재성·관성·인성 다섯 가지 기능으로 나뉘어 {name||'본인'}님의 성향과 재능 결을 가르지요.
+          </BodyCopyDark>
           <div className="grid grid-cols-2 gap-2">
             {rows.map(r=>(
               <div key={r.label} className="rounded-xl p-3 flex flex-col gap-1.5"
@@ -1557,7 +1615,7 @@ export default function SajuSlideResult() {
               </div>
             ))}
           </div>
-        </div>
+        </EducationPageDark>
       );
     };
 
@@ -1599,11 +1657,14 @@ export default function SajuSlideResult() {
       }).join(' ');
       const LO = 1.48;
       return (
-        <div className="flex-1 py-3 flex flex-col gap-3">
-          <div className="text-center">
-            <h2 className="text-lg font-bold text-white">십성 배치도</h2>
-            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>나를 구성하는 다섯 가지 관계 에너지</p>
-          </div>
+        <EducationPageDark title="십성 — 자리마다의 역할" subtitle="十星 — 다섯 가지 관계 에너지">
+          <BodyCopyDark>
+            앞에서 본 글자별 십성을 다섯 범주로 묶으면 <WordMarkGold>비겁·식상·재성·관성·인성</WordMarkGold>이 돼요.
+            어느 결이 많고 적은지가 {name||'본인'}님의 성향과 재능의 큰 줄기를 결정하지요.
+          </BodyCopyDark>
+          <BodyCopyDark>
+            가장 많이 자리한 결이 <WordMarkGold>{topCat}</WordMarkGold> — {SS_DESC_LONG[topCat]}.
+          </BodyCopyDark>
           <div className="flex justify-center">
             <svg width="360" height="300" viewBox="-10 10 360 300">
               {[0.25,0.5,0.75,1.0].map((s,gi)=>(
@@ -1661,7 +1722,7 @@ export default function SajuSlideResult() {
               {topCat} — {SS_DESC_LONG[topCat]}
             </p>
           </div>
-        </div>
+        </EducationPageDark>
       );
     };
 
@@ -1866,8 +1927,9 @@ export default function SajuSlideResult() {
       </div>
     );
     if (slide===2) return (
-      <div className="flex-1 flex flex-col overflow-y-auto gap-6 py-2">
+      <div className="flex-1 flex flex-col overflow-y-auto gap-2 py-2">
         {renderSlide2()}
+        {renderSlide3()}
         {renderSlide4()}
         {renderSlide5()}
         {renderSlide6()}
