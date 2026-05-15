@@ -2876,6 +2876,44 @@ export function computeParentChildChartFacts(sajuChild: SajuAnalysis, birthYear?
 // ─── V2 자도인 (브라덜 7장 요청건) — 컴포넌트 SLIDES 매핑과 정확 정합, 격국 삭제, 양육 톤 흡수 ──
 type V2Phase = "ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "outro";
 
+// ⭐ (2026-05-15) ch3 파일럿 — B+C 결합 (Gemini responseSchema + {{CHILD}} sentinel).
+// 자녀 호칭 누출 0% 목표: subtitle enum 강제(constrained decoding) + body 안에서
+// 자녀 주어·호칭은 {{CHILD}} 토큰만 — 후처리에서 성+이름+군/양으로 결정론 치환.
+// 부수 효과: subtitle 변형(쉼표 drop·치환 등) 자체가 불가능 → 헤더 매핑 실패 클래스 소멸.
+function parentChildCh3SchemaResponse(lieSubtitle: string): Record<string, unknown> {
+  return {
+    type: "OBJECT",
+    properties: {
+      subs: {
+        type: "ARRAY",
+        minItems: 5,
+        maxItems: 5,
+        items: {
+          type: "OBJECT",
+          required: ["subtitle", "body"],
+          properties: {
+            subtitle: {
+              type: "STRING",
+              enum: [
+                "화났을 때 입을 닫을까, 폭발할까",
+                "아이 감정이 가라앉는 환경",
+                "마음 열리는 칭찬",
+                lieSubtitle,
+                "이 아이가 무너지는 자극",
+              ],
+            },
+            body: {
+              type: "STRING",
+              description: "본문 prose (450~600자). 자녀를 가리키는 주어·호칭은 반드시 '{{CHILD}}' 토큰만 사용 — 실제 이름·호칭(군/양)·firstName(성 뺀 이름) 절대 X. 시스템이 토큰을 올바른 호칭으로 결정론 치환한다.",
+            },
+          },
+        },
+      },
+    },
+    required: ["subs"],
+  };
+}
+
 function buildParentChildPromptV2(
   d: Record<string, string>,
   sajuChild: SajuAnalysis,
@@ -4178,9 +4216,43 @@ export async function POST(req: NextRequest) {
         if (!validPhases.includes(phase as ValidPhase)) {
           return NextResponse.json({ error: `Invalid phase: ${phase}` }, { status: 400 });
         }
-        const chPrompt = buildParentChildPromptV2(data, sajuChild, sajuMom, sajuDad, momCompat, dadCompat, familySaja, phase as ValidPhase);
+        let chPrompt = buildParentChildPromptV2(data, sajuChild, sajuMom, sajuDad, momCompat, dadCompat, familySaja, phase as ValidPhase);
+        // ⭐ ch3 파일럿 — B+C 결합 (JSON 출력 + {{CHILD}} sentinel)
+        const _ch3JsonMode = phase === "ch3";
+        const _ch3YearNum = data.childYear ? parseInt(data.childYear, 10) : NaN;
+        const _ch3AgeStage = !Number.isNaN(_ch3YearNum) ? classifyAgeStageFromYear(_ch3YearNum) : "elementary";
+        const _ch3Ah = getAgeAdaptedHeaders(_ch3AgeStage);
+        if (_ch3JsonMode) {
+          // @CHILD@ → {{CHILD}} (LLM이 더 잘 학습한 Mustache 표준 sentinel)
+          chPrompt = chPrompt.replace(/@CHILD@/g, "{{CHILD}}") + `
+
+[★★★★★ 출력 형식 — JSON only (Gemini responseSchema 강제 적용 중)]
+위 5개 sub 구성 지시 그대로 따르되, 출력은 마크다운 X — 다음 JSON 한 객체만:
+{
+  "subs": [
+    { "subtitle": "화났을 때 입을 닫을까, 폭발할까", "body": "(450~600자 prose, {{CHILD}} 토큰 사용)" },
+    { "subtitle": "아이 감정이 가라앉는 환경", "body": "..." },
+    { "subtitle": "마음 열리는 칭찬", "body": "..." },
+    { "subtitle": "${_ch3Ah.ch3_lie}", "body": "..." },
+    { "subtitle": "이 아이가 무너지는 자극", "body": "..." }
+  ]
+}
+
+[★★★★★ body 필드 작성 절대 룰]
+- subtitle은 위 5개 그대로 (한 글자도 변경 X — Gemini enum이 강제하므로 변형 불가).
+- body 안에서 자녀 주어·호칭은 **반드시 "{{CHILD}}" 토큰만 사용**. 실제 이름·호칭(군/양)·firstName(성 뺀 이름)·"○○야" 같은 호명 절대 X. 시스템이 토큰을 올바른 호칭으로 치환한다.
+- body 안에 \`### sub 헤더\`·\`## 챕터 헤더\` 마크다운 절대 출력 X — JSON 필드 안에 prose만.`;
+        }
+        const _generationConfig: Record<string, unknown> = {
+          maxOutputTokens: 16384,
+          thinkingConfig: { thinkingBudget: 0 },
+        };
+        if (_ch3JsonMode) {
+          _generationConfig.responseMimeType = "application/json";
+          _generationConfig.responseSchema = parentChildCh3SchemaResponse(_ch3Ah.ch3_lie);
+        }
         const tStart = Date.now();
-        console.log(`[v2/${phase}] start model=${GEMINI_MODEL} promptLen=${chPrompt.length}`);
+        console.log(`[v2/${phase}] start model=${GEMINI_MODEL} promptLen=${chPrompt.length}${_ch3JsonMode ? " json=schema" : ""}`);
         const chRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${apiKey}`,
           {
@@ -4189,7 +4261,7 @@ export async function POST(req: NextRequest) {
             body: JSON.stringify({
               systemInstruction: { parts: [{ text: SAJU_SYSTEM_INSTRUCTION }] },
               contents: [{ parts: [{ text: chPrompt }] }],
-              generationConfig: { maxOutputTokens: 16384, thinkingConfig: { thinkingBudget: 0 } },
+              generationConfig: _generationConfig,
             }),
           }
         );
@@ -4254,11 +4326,31 @@ export async function POST(req: NextRequest) {
               console.error(`[v2/${phase}] empty or filtered finish=${finishReason} block=${blockReason} safety=${JSON.stringify(safetyRatings).slice(0, 400)}`);
               enqueue({ t: 'err', phase, finishReason, blockReason, chunks: chunkCount });
             }
-            // ⭐ (2026-05-15) @CHILD@ 토큰 → 실제 호칭(성+이름+군/양) 결정론 치환.
+            // ⭐ (2026-05-15) @CHILD@ / {{CHILD}} 토큰 → 실제 호칭(성+이름+군/양) 결정론 치환.
             // 프롬프트는 자녀 이름을 토큰으로만 노출 → LLM 이름 변형·대사 누출 차단.
             // 가드 전에 치환 → 가드(G1/G19 등)가 실제 이름 기준 안전망으로 동작.
+            // ch3 파일럿: Gemini JSON 응답 먼저 파싱해 마크다운으로 재조립 후 토큰 치환.
+            if (phase === "ch3") {
+              try {
+                const parsed = JSON.parse(accumulatedText);
+                const subs = Array.isArray(parsed?.subs) ? parsed.subs : [];
+                if (subs.length === 5) {
+                  accumulatedText = subs.map((sub: { subtitle?: string; body?: string }) => {
+                    return `### ${sub.subtitle ?? ""}\n\n${sub.body ?? ""}`;
+                  }).join("\n\n");
+                  console.log(`[v2/ch3] JSON parsed OK: 5 subs reconstructed → markdown (len=${accumulatedText.length})`);
+                } else {
+                  console.error(`[v2/ch3] JSON parsed but subs invalid (length=${subs.length})`);
+                }
+              } catch (e) {
+                console.error(`[v2/ch3] JSON parse FAIL: ${(e as Error).message} head=${accumulatedText.slice(0, 200)}`);
+                // raw text 유지 — 아래 토큰 치환이 fallback
+              }
+            }
             const _cnhResolved = `${data.childName ?? ""}${data.childGender === "여" ? "양" : "군"}`;
-            accumulatedText = accumulatedText.replace(/@\s*CHILD\s*@/gi, _cnhResolved);
+            accumulatedText = accumulatedText
+              .replace(/@\s*CHILD\s*@/gi, _cnhResolved)
+              .replace(/\{\{\s*CHILD\s*\}\}/gi, _cnhResolved);
             let finalText = accumulatedText;
             // Step 5: cross-chapter usedTokens — 클라이언트가 누적해서 보낸 Map 받아 가드에 전달.
             // 가드가 mutate 후 응답 stream에 직렬화해서 push (클라이언트가 다음 phase 요청에 또 보냄).
