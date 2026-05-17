@@ -54,3 +54,12 @@ next-env.d.ts
 
 # video backups (pre-compression originals)
 public/_video_backup/
+
+# 아이기질과부모양육 generated cache data
+# These files are kept locally under 아이기질브라덜, but are too large for GitHub.
+아이기질브라덜/**/cache/**/*.jsonl
+아이기질브라덜/**/cache/**/*.sqlite
+아이기질브라덜/**/cache/**/index.json
+
+# nested prototype dependencies
+형과함께NEW/**/node_modules/

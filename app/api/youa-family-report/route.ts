@@ -1,0 +1,63 @@
+import { NextRequest, NextResponse } from "next/server";
+import { assembleYouaFamilyReport, type YouaFamilyReportInput } from "@/lib/youa-cache/family-report";
+
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function requireString(record: Record<string, unknown>, key: string) {
+  const value = record[key];
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new Error(`${key} is required`);
+  }
+  return value.trim();
+}
+
+function parseInput(body: unknown): YouaFamilyReportInput {
+  if (!isRecord(body)) throw new Error("request body must be an object");
+  if (!isRecord(body.child)) throw new Error("child is required");
+  if (!isRecord(body.mother)) throw new Error("mother is required");
+  if (!isRecord(body.father)) throw new Error("father is required");
+
+  const gender = requireString(body.child, "gender");
+  if (gender !== "female" && gender !== "male") {
+    throw new Error("child.gender must be female or male");
+  }
+
+  return {
+    child: {
+      name: typeof body.child.name === "string" ? body.child.name.trim() : "child",
+      birthDate: requireString(body.child, "birthDate"),
+      gender,
+      hour: requireString(body.child, "hour"),
+    },
+    mother: {
+      name: typeof body.mother.name === "string" ? body.mother.name.trim() : "mother",
+      birthDate: requireString(body.mother, "birthDate"),
+      hour: requireString(body.mother, "hour"),
+    },
+    father: {
+      name: typeof body.father.name === "string" ? body.father.name.trim() : "father",
+      birthDate: requireString(body.father, "birthDate"),
+      hour: requireString(body.father, "hour"),
+    },
+  };
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const includeFacts = isRecord(body) && body.includeFacts === true;
+    const input = parseInput(body);
+    const result = await assembleYouaFamilyReport(input);
+    const { facts: _facts, ...publicResult } = result;
+    return NextResponse.json(includeFacts ? result : publicResult);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    const status = message.includes("cache miss") || message.includes("not found") ? 404 : 400;
+    return NextResponse.json({ ok: false, error: message }, { status });
+  }
+}
