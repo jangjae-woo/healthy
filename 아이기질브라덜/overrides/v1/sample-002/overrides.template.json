@@ -1,0 +1,343 @@
+{
+  "version": "youa-v1-overrides-template-v1",
+  "sampleId": "sample-002",
+  "note": "이 파일을 overrides.json으로 복사한 뒤 text만 수정한다. 점수/등급/관계판정/시너지-충돌 판정은 수정하지 않는다.",
+  "editable": {
+    "standalone.factors.활기.whyIntro": {
+      "title": "활기 왜 이런 결인가",
+      "path": "standalone.factors.활기.whyIntro",
+      "currentText": "이도윤 군의 활기 78점은 사주에서 에너지를 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.활기.whyDetailBody": {
+      "title": "활기 사주 근거 상세문",
+      "path": "standalone.factors.활기.whyDetailBody",
+      "currentText": "표현하는 기운과 끌고 나가는 기운이 두 자리에서 작동하면서 에너지를 바깥으로 보내는 흐름이 분명하게 우세합니다.\n안으로 모으는 기운은 멀리서 약하게 자리해 큰 제동을 걸지 않기 때문에, 활기 점수가 높음 구간에 자리합니다.\n만드는 기운 2가지가 누르는 기운 1가지보다 우세하기 때문에, 이도윤 군의 활기는 또래보다 바깥으로 활기가 드러나는 결로 자리합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.활기.dailyBody": {
+      "title": "활기 일상 본문",
+      "path": "standalone.factors.활기.dailyBody",
+      "currentText": "놀이터에 들어서면 가장 먼저 가장 높은 미끄럼틀로 달려가 한 바퀴를 돌고 와야 비로소 다른 놀이로 옮겨가는 흐름이 보입니다.\n오래 앉아 있어야 하는 식사 자리에서는 다리가 먼저 움직이기 시작하고, 충분히 몸을 쓴 날의 저녁에는 오히려 잠자리에 빠르게 안착합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.활기.parentingTipTime.body": {
+      "title": "활기 시간 Tip",
+      "path": "standalone.factors.활기.parentingTipTime.body",
+      "currentText": "병화의 햇빛 같은 결은 에너지를 먼저 풀어내야 안에서 정리됩니다. 하루의 첫 일정으로 30분 이상 몸을 쓰는 시간을 두면 이후 활동이 부드럽게 이어집니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.활기.parentingTipCommunication.body": {
+      "title": "활기 소통 Tip",
+      "path": "standalone.factors.활기.parentingTipCommunication.body",
+      "currentText": "뛰지 마 대신 여기서 뛰자라는 말이 결에 잘 닿습니다. 에너지의 방향만 정해주면 결이 충돌 없이 흐릅니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.활기.parentingTipEnvironment.body": {
+      "title": "활기 환경 Tip",
+      "path": "standalone.factors.활기.parentingTipEnvironment.body",
+      "currentText": "거실 한쪽에 매트나 작은 트램펄린처럼 큰 움직임이 허용되는 공간을 두면 결이 안전한 자리에서 풀려나옵니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.조심.whyIntro": {
+      "title": "조심 왜 이런 결인가",
+      "path": "standalone.factors.조심.whyIntro",
+      "currentText": "이도윤 군의 조심 35점은 살피는 기운과 밀고 나가는 기운이 결합되어 나온 결과로, 밀고 나가는 흐름이 더 우세합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.조심.whyDetailBody": {
+      "title": "조심 사주 근거 상세문",
+      "path": "standalone.factors.조심.whyDetailBody",
+      "currentText": "절제하는 기운은 한 자리에 가볍게 머물러 있고, 끌고 나가는 기운과 표현하는 기운이 두 자리에서 함께 작동하면서 먼저 다가가는 흐름이 분명합니다.\n그래서 새 자극 앞에서 망설임이 적고, 살피기 전에 먼저 손을 뻗는 결이 자연스럽게 나오며 점수가 낮음 구간에 자리합니다.\n만드는 기운 1가지보다 누르는 기운 2가지가 우세하기 때문에, 이도윤 군의 조심은 또래보다 먼저 다가가는 결이 됩니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.조심.dailyBody": {
+      "title": "조심 일상 본문",
+      "path": "standalone.factors.조심.dailyBody",
+      "currentText": "처음 보는 놀이기구 앞에서도 다른 친구들이 어떻게 노는지 보기 전에 먼저 올라가 직접 해보며 감각으로 익히는 모습이 자주 보입니다.\n낯선 어른에게도 인사를 먼저 건네고 친구가 되자고 말할 만큼 접근성이 빠른 결이라, 작은 실수도 경험으로 자연스럽게 받아들입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.조심.parentingTipTime.body": {
+      "title": "조심 시간 Tip",
+      "path": "standalone.factors.조심.parentingTipTime.body",
+      "currentText": "밀고 나가는 결이 강한 아이는 행동 전 짧은 멈춤이 가장 큰 안전장치가 됩니다. 하나 둘 셋 세는 단순한 약속이 결을 잘 잡아줍니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.조심.parentingTipCommunication.body": {
+      "title": "조심 소통 Tip",
+      "path": "standalone.factors.조심.parentingTipCommunication.body",
+      "currentText": "결과만 칭찬하면 더 거칠게 가속됩니다. 살피고 시작한 부분을 짚어주면 살피는 결도 함께 자랍니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.조심.parentingTipEnvironment.body": {
+      "title": "조심 환경 Tip",
+      "path": "standalone.factors.조심.parentingTipEnvironment.body",
+      "currentText": "도전을 막기보다 안전한 범위를 미리 정해두면 결이 그 안에서 충분히 펼쳐집니다. 울타리가 있어야 햇빛도 마음껏 쏟아질 수 있습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.만족.whyIntro": {
+      "title": "만족 왜 이런 결인가",
+      "path": "standalone.factors.만족.whyIntro",
+      "currentText": "이도윤 군의 만족 65점은 흥을 만드는 기운이 절제하는 기운보다 분명하게 우세하면서 나온 결과입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.만족.whyDetailBody": {
+      "title": "만족 사주 근거 상세문",
+      "path": "standalone.factors.만족.whyDetailBody",
+      "currentText": "흥을 만드는 기운이 강하게 자리잡고 절제하는 기운은 약하게 머무는 구성이라, 좋은 자극에 빠르고 크게 반응하는 결이 자연스럽게 우세합니다.\n긍정적인 감정 표현이 빠른 만큼 점수가 높음 구간에 자리합니다.\n만드는 기운 1가지와 누르는 기운 1가지가 비슷한 무게로 자리하기 때문에, 이도윤 군의 만족은 또래보다 한쪽으로 치우치기보다 기쁨을 잘 발견하는 결로 나타납니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.만족.dailyBody": {
+      "title": "만족 일상 본문",
+      "path": "standalone.factors.만족.dailyBody",
+      "currentText": "맛있는 간식이 나오면 한입 먹기 전부터 표정이 환해지고 가족 모두에게 맛있다고 자랑하는 모습이 자연스럽게 나옵니다.\n주말 외출이 정해지면 며칠 전부터 기대를 말로 표현해, 어른의 하루 기분까지 함께 끌어올리는 결이 분명하게 보입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.만족.parentingTipTime.body": {
+      "title": "만족 시간 Tip",
+      "path": "standalone.factors.만족.parentingTipTime.body",
+      "currentText": "좋은 감정을 한 번 더 말하게 하면 결이 더 단단해집니다. 잠들기 전 짧은 회상 시간이면 충분합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.만족.parentingTipCommunication.body": {
+      "title": "만족 소통 Tip",
+      "path": "standalone.factors.만족.parentingTipCommunication.body",
+      "currentText": "재밌었지 대신 어떤 부분이 가장 재밌었어를 물어 주세요. 흥을 만드는 결이 풍부해지고 표현이 깊어집니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.만족.parentingTipEnvironment.body": {
+      "title": "만족 환경 Tip",
+      "path": "standalone.factors.만족.parentingTipEnvironment.body",
+      "currentText": "체크리스트 스티커, 작은 완성 트로피처럼 즐거움을 시각화하는 도구가 곁에 있으면 결이 자주 살아납니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.흔들림.whyIntro": {
+      "title": "흔들림 왜 이런 결인가",
+      "path": "standalone.factors.흔들림.whyIntro",
+      "currentText": "이도윤 군의 흔들림 42점은 마음을 받는 기운과 정리해주는 기운이 비슷한 무게로 균형을 이루며 나온 결과입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.흔들림.whyDetailBody": {
+      "title": "흔들림 사주 근거 상세문",
+      "path": "standalone.factors.흔들림.whyDetailBody",
+      "currentText": "받쳐주는 기운은 멀리서 가볍게 작동하고, 끌고 나가는 기운이 자리잡고 있어 감정을 안으로 깊이 들이기보다 바깥으로 풀어내는 흐름이 함께 있습니다.\n그래서 평소에는 비교적 잔잔하지만 피곤하거나 낯선 상황에서는 감정이 크게 올라오는 일이 있고, 점수가 중간 구간에 자리합니다.\n만드는 기운 1가지와 누르는 기운 1가지가 비슷한 무게로 자리하기 때문에, 이도윤 군의 흔들림은 또래보다 한쪽으로 치우치기보다 감정의 깊이와 회복이 함께 있는 균형의 결로 나타납니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.흔들림.dailyBody": {
+      "title": "흔들림 일상 본문",
+      "path": "standalone.factors.흔들림.dailyBody",
+      "currentText": "평소 다툼에는 금방 표정이 풀리지만 잠이 부족한 날 저녁에는 작은 말에도 울음이 크게 올라오는 모습이 보입니다.\n가까운 사람의 말에는 민감하게 반응하면서도 익숙한 환경에서는 비교적 빠르게 회복하는 결이 자연스럽게 함께 있습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.흔들림.parentingTipTime.body": {
+      "title": "흔들림 시간 Tip",
+      "path": "standalone.factors.흔들림.parentingTipTime.body",
+      "currentText": "큰 감정이 올라온 순간 바로 가르치려 하면 더 길게 갑니다. 가라앉은 뒤 5분이면 말이 잘 닿습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.흔들림.parentingTipCommunication.body": {
+      "title": "흔들림 소통 Tip",
+      "path": "standalone.factors.흔들림.parentingTipCommunication.body",
+      "currentText": "결의 크기를 먼저 인정해주는 한마디가 감정 회복의 가장 빠른 길입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.흔들림.parentingTipEnvironment.body": {
+      "title": "흔들림 환경 Tip",
+      "path": "standalone.factors.흔들림.parentingTipEnvironment.body",
+      "currentText": "잠이 부족한 날에는 일정과 자극을 평소의 70% 정도로 줄여 주세요. 결이 흔들리는 폭이 자연스럽게 작아집니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.어울림.whyIntro": {
+      "title": "어울림 왜 이런 결인가",
+      "path": "standalone.factors.어울림.whyIntro",
+      "currentText": "이도윤 군의 어울림 70점은 표현하는 기운과 끌고 나가는 기운이 함께 작동하면서 나온 결과입니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.어울림.whyDetailBody": {
+      "title": "어울림 사주 근거 상세문",
+      "path": "standalone.factors.어울림.whyDetailBody",
+      "currentText": "표현하는 기운과 끌고 나가는 기운이 두 자리에서 함께 작동해 사람을 모으고 같이 노는 흐름을 만드는 결이 분명합니다.\n혼자 가는 기운은 멀리서 약하게 머물러 균형은 잡아주되 크게 제동을 걸지 않아 점수가 높음 구간에 자리합니다.\n만드는 기운 2가지가 누르는 기운 1가지보다 우세하기 때문에, 이도윤 군의 어울림은 또래보다 사람 쪽으로 마음이 열리는 결로 자리합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.어울림.dailyBody": {
+      "title": "어울림 일상 본문",
+      "path": "standalone.factors.어울림.dailyBody",
+      "currentText": "놀이터에서 처음 만난 친구에게도 같이 놀자고 먼저 말을 걸고 자기 놀이의 규칙을 알려주며 흐름을 만드는 모습이 자주 보입니다.\n여럿이 함께한 자리 뒤에는 표정이 더 밝아지고 집에 와서도 친구 이름을 여러 번 말하며 관계를 마음 안에서 한 번 더 즐깁니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.어울림.parentingTipTime.body": {
+      "title": "어울림 시간 Tip",
+      "path": "standalone.factors.어울림.parentingTipTime.body",
+      "currentText": "결이 자라는 가장 큰 토양은 또래와의 시간입니다. 일주일에 1~2회는 친구와 노는 일정을 안정적으로 두면 결이 더 깊어집니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.어울림.parentingTipCommunication.body": {
+      "title": "어울림 소통 Tip",
+      "path": "standalone.factors.어울림.parentingTipCommunication.body",
+      "currentText": "친구가 왜 그랬을지 함께 생각해보는 질문을 건네 주세요. 어울림 결이 공감으로 자라납니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.어울림.parentingTipEnvironment.body": {
+      "title": "어울림 환경 Tip",
+      "path": "standalone.factors.어울림.parentingTipEnvironment.body",
+      "currentText": "지나치게 경쟁적인 환경에서는 결이 빠르게 지칩니다. 협동 중심의 자리가 결과 가장 잘 맞습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.끈기.whyIntro": {
+      "title": "끈기 왜 이런 결인가",
+      "path": "standalone.factors.끈기.whyIntro",
+      "currentText": "이도윤 군의 끈기 28점은 붙잡는 기운과 흐름을 바꾸는 기운이 결합되어 나온 결과로, 흐름을 바꾸는 쪽이 우세합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.끈기.whyDetailBody": {
+      "title": "끈기 사주 근거 상세문",
+      "path": "standalone.factors.끈기.whyDetailBody",
+      "currentText": "절제하는 기운은 약하게 자리잡고 있고 흥을 만드는 기운과 표현하는 기운이 두 자리에서 강하게 작동해 새 자극으로 옮겨가는 흐름이 분명합니다.\n끝까지 가는 힘이 부족한 것이 아니라 다양한 자극을 통해 감각을 넓히는 결이 우세해 점수가 낮음 구간에 자리합니다.\n만드는 기운 1가지보다 누르는 기운 2가지가 우세하기 때문에, 이도윤 군의 끈기는 또래보다 새 자극으로 옮겨가는 결이 됩니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.끈기.dailyBody": {
+      "title": "끈기 일상 본문",
+      "path": "standalone.factors.끈기.dailyBody",
+      "currentText": "퍼즐을 시작한 지 5분 만에 색칠 도구로 옮겨가고 다시 자석 블록으로 넘어가며 여러 놀이의 입구를 빠르게 오갑니다.\n한 가지 일을 길게 시키면 흥미가 빨리 빠지지만, 짧은 단계로 나눠주면 결국 마무리까지 가는 힘이 살아나는 결이 자연스럽습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.끈기.parentingTipTime.body": {
+      "title": "끈기 시간 Tip",
+      "path": "standalone.factors.끈기.parentingTipTime.body",
+      "currentText": "5~10분 단위의 작은 과제를 여러 번 성공하게 해 주세요. 짧은 성취가 쌓일수록 결의 지속력도 함께 자랍니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.끈기.parentingTipCommunication.body": {
+      "title": "끈기 소통 Tip",
+      "path": "standalone.factors.끈기.parentingTipCommunication.body",
+      "currentText": "완성을 강요하면 결이 더 빨리 빠집니다. 분명한 종료 지점을 함께 정하면 끝맺는 힘이 자연스럽게 살아납니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.factors.끈기.parentingTipEnvironment.body": {
+      "title": "끈기 환경 Tip",
+      "path": "standalone.factors.끈기.parentingTipEnvironment.body",
+      "currentText": "주변에 자극이 너무 많으면 결이 더 빨리 옮겨갑니다. 한 번에 두세 가지 선택지만 두고 완료 표시가 보이는 환경을 만들어 주세요.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.parents.mother.parentSajuBody": {
+      "title": "mother 부모 사주 본문",
+      "path": "standalone.parents.mother.parentSajuBody",
+      "currentText": "정수아 어머님의 일간은 임수(壬)입니다. 강물·큰 물처럼 부드럽게 흐르면서도 큰 흐름을 만들어내는 결이 자연스럽습니다. 사주에는 표현하는 기운과 받쳐주는 기운이 함께 있어 아이의 마음을 빠르게 알아차리고 흐름을 부드럽게 바꾸는 힘이 강합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.parents.mother.parentSajuBridge": {
+      "title": "mother 부모 사주 연결",
+      "path": "standalone.parents.mother.parentSajuBridge",
+      "currentText": "이 결은 이도윤 군의 빠른 에너지를 막지 않고 물길처럼 방향만 잡아주는 방식으로 자연스럽게 이어집니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.parents.father.parentSajuBody": {
+      "title": "father 부모 사주 본문",
+      "path": "standalone.parents.father.parentSajuBody",
+      "currentText": "이성준 아버님의 일간은 갑목(甲)입니다. 큰 나무처럼 곧게 자라며 기준을 세우는 결이 자연스럽습니다. 사주에는 끌고 나가는 기운과 절제하는 기운이 함께 자리해 가족의 방향을 분명하게 잡아가는 힘이 있습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "standalone.parents.father.parentSajuBridge": {
+      "title": "father 부모 사주 연결",
+      "path": "standalone.parents.father.parentSajuBridge",
+      "currentText": "이 결은 이도윤 군이 자유롭게 가지를 뻗을 수 있도록 단단한 줄기 역할을 해주지만, 가지치기를 자주 하면 아이의 결이 답답해질 수 있어 살펴주는 것이 좋습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.compatibility.motherChildCompatibility": {
+      "title": "궁합 motherChildCompatibility",
+      "path": "pair.compatibility.motherChildCompatibility",
+      "currentText": "정수아 어머님의 임수(壬)와 이도윤 군의 병화(丙)는 큰 물과 한낮의 해의 관계로, 물이 해의 열기를 부드럽게 식혀주는 흐름입니다.\n아이가 에너지를 크게 쏟아낼 때 어머님의 차분한 한마디나 분위기 전환이 결을 자연스럽게 정리해주는 자리가 됩니다.\n다만 물의 흐름이 너무 강하면 햇빛이 작아질 수 있으니, 정리는 짧게 두고 다시 빛을 낼 자리를 함께 열어주는 균형이 중요합니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.compatibility.fatherChildCompatibility": {
+      "title": "궁합 fatherChildCompatibility",
+      "path": "pair.compatibility.fatherChildCompatibility",
+      "currentText": "이성준 아버님의 갑목(甲)과 이도윤 군의 병화(丙)는 큰 나무와 햇빛의 관계로, 나무가 햇빛을 더 크게 살려주는 흐름입니다.\n아버님이 큰 방향을 정해주는 자리에서는 아이의 결이 더 분명하게 펼쳐지고, 함께하는 활동에서 에너지가 한층 살아납니다.\n다만 갑목의 곧은 결이 아이의 즉흥성과 부딪힐 수 있어, 큰 방향만 잡아주고 세부는 아이에게 맡기는 흐름이 가장 좋습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.compatibility.parentPalaceSummary": {
+      "title": "궁합 parentPalaceSummary",
+      "path": "pair.compatibility.parentPalaceSummary",
+      "currentText": "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.\n어머님의 생활의 기준과 경계를 세워주는 흐름과 아버님의 아이 마음을 먼저 받아주고 안정시키는 흐름이 함께 들어오면, 아이는 정서적 반응과 생활의 기준을 동시에 배웁니다. 두 흐름의 속도가 맞을수록 아이의 결은 더 안정적으로 자리를 잡습니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.togetherMatrix.mother.motherConflictBody": {
+      "title": "함께 살펴줄 결 motherConflictBody",
+      "path": "pair.togetherMatrix.mother.motherConflictBody",
+      "currentText": "정수아 어머님의 임수는 흐름을 빠르게 정리해주는 결입니다.\n이도윤 군의 끈기와 만족은 흥미가 빠르게 옮겨가며 즐거움을 발견하는 결입니다.\n어머님이 다음 활동으로 빠르게 옮기게 하면 아이의 즐거움 결이 미처 마무리되지 못한 채 끊기면서 충돌이 생깁니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.togetherMatrix.mother.motherConflictDaily": {
+      "title": "함께 살펴줄 결 motherConflictDaily",
+      "path": "pair.togetherMatrix.mother.motherConflictDaily",
+      "currentText": "놀이가 한창인 순간 정리할 시간이라는 말에 아이가 강하게 거부하는 장면.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.togetherMatrix.mother.motherConflictResolution": {
+      "title": "함께 살펴줄 결 motherConflictResolution",
+      "path": "pair.togetherMatrix.mother.motherConflictResolution",
+      "currentText": "이렇게 풀어보세요. 바로 정리하라고 말하기보다 마무리까지 3분 남았다고 미리 알려주고, 아이가 스스로 마지막 한 단락을 끝내게 해 주세요. 정리의 흐름은 그대로 두되 마무리 자리만 열어주면 충돌이 협력으로 바뀝니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.togetherMatrix.father.fatherSynergyBody": {
+      "title": "함께 살펴줄 결 fatherSynergyBody",
+      "path": "pair.togetherMatrix.father.fatherSynergyBody",
+      "currentText": "이성준 아버님의 갑목은 큰 줄기처럼 방향을 분명하게 잡아주는 결입니다.\n이도윤 군의 활기는 방향이 정해진 자리에서 가장 건강하게 풀려나가는 결입니다.\n두 결이 만나면 아이의 에너지가 흩어지지 않고 한 방향으로 쏟아져 큰 성취로 이어집니다.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    },
+    "pair.togetherMatrix.father.fatherSynergyDaily": {
+      "title": "함께 살펴줄 결 fatherSynergyDaily",
+      "path": "pair.togetherMatrix.father.fatherSynergyDaily",
+      "currentText": "주말 오전 함께 자전거 코스를 정한 뒤 끝까지 달리기.\n저녁 산책 시간에 오늘 갈 거리를 함께 정하고 시작하기.",
+      "text": "",
+      "memo": "형 검수 후 바꿀 문장만 text에 입력. 비워두면 기존 문장 유지."
+    }
+  }
+}

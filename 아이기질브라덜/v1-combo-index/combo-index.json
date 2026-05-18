@@ -1,0 +1,2736 @@
+{
+  "version": "youa-v1-combo-index-v1",
+  "generatedAt": "2026-05-18T19:25:34.134Z",
+  "files": [
+    {
+      "file": "factor-combo-blocks.json",
+      "label": "아이 6요소 기본 조합",
+      "description": "요인 x 점수구간 x 만드는 기운 그룹 x 누르는 기운 그룹",
+      "dimensions": {
+        "factor": [
+          {
+            "value": "끈기",
+            "count": 180
+          },
+          {
+            "value": "만족",
+            "count": 180
+          },
+          {
+            "value": "어울림",
+            "count": 180
+          },
+          {
+            "value": "조심",
+            "count": 180
+          },
+          {
+            "value": "활기",
+            "count": 180
+          },
+          {
+            "value": "흔들림",
+            "count": 180
+          }
+        ],
+        "level": [
+          {
+            "value": "낮음",
+            "count": 216
+          },
+          {
+            "value": "높음",
+            "count": 216
+          },
+          {
+            "value": "매우낮음",
+            "count": 216
+          },
+          {
+            "value": "매우높음",
+            "count": 216
+          },
+          {
+            "value": "중간",
+            "count": 216
+          }
+        ],
+        "dominantSide": [
+          {
+            "value": "maker",
+            "count": 432
+          },
+          {
+            "value": "suppressor",
+            "count": 432
+          },
+          {
+            "value": "balanced",
+            "count": 216
+          }
+        ],
+        "makerGroup.label": [
+          {
+            "value": "같은 결의 기운",
+            "count": 180
+          },
+          {
+            "value": "결과를 기대하는 기운",
+            "count": 180
+          },
+          {
+            "value": "받쳐주는 기운",
+            "count": 180
+          },
+          {
+            "value": "오행·조후의 기운",
+            "count": 180
+          },
+          {
+            "value": "절제하는 기운",
+            "count": 180
+          },
+          {
+            "value": "표현하는 기운",
+            "count": 180
+          }
+        ],
+        "suppressorGroup.label": [
+          {
+            "value": "같은 결의 기운",
+            "count": 180
+          },
+          {
+            "value": "결과를 기대하는 기운",
+            "count": 180
+          },
+          {
+            "value": "받쳐주는 기운",
+            "count": 180
+          },
+          {
+            "value": "오행·조후의 기운",
+            "count": 180
+          },
+          {
+            "value": "절제하는 기운",
+            "count": 180
+          },
+          {
+            "value": "표현하는 기운",
+            "count": 180
+          }
+        ]
+      },
+      "count": 1080,
+      "keyExamples": [
+        "factorCombo|활기|매우낮음|support|support",
+        "factorCombo|활기|매우낮음|support|expression",
+        "factorCombo|활기|매우낮음|support|standard",
+        "factorCombo|활기|매우낮음|support|result",
+        "factorCombo|활기|매우낮음|support|same",
+        "factorCombo|활기|매우낮음|support|climate",
+        "factorCombo|활기|매우낮음|expression|support",
+        "factorCombo|활기|매우낮음|expression|expression",
+        "factorCombo|활기|매우낮음|expression|standard",
+        "factorCombo|활기|매우낮음|expression|result",
+        "factorCombo|활기|매우낮음|expression|same",
+        "factorCombo|활기|매우낮음|expression|climate",
+        "factorCombo|활기|매우낮음|standard|support",
+        "factorCombo|활기|매우낮음|standard|expression",
+        "factorCombo|활기|매우낮음|standard|standard",
+        "factorCombo|활기|매우낮음|standard|result",
+        "factorCombo|활기|매우낮음|standard|same",
+        "factorCombo|활기|매우낮음|standard|climate",
+        "factorCombo|활기|매우낮음|result|support",
+        "factorCombo|활기|매우낮음|result|expression"
+      ],
+      "samples": [
+        {
+          "key": "factorCombo|활기|매우낮음|support|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|support|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|support|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|support|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|support|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|support|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|expression|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|expression|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|expression|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|expression|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|expression|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|expression|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|standard|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|standard|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|standard|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|standard|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|standard|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|standard|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|result|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|result|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|result|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|result|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|result|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|result|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|same|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|same|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|same|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|same|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|same|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|same|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|climate|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|climate|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|climate|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|climate|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|climate|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|매우낮음|climate|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|support|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|support|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|support|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|support|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|support|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|support|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|expression|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|expression|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|expression|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|expression|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|expression|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|expression|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|standard|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|standard|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|standard|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|standard|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|standard|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|standard|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|result|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|result|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|result|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|result|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|result|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|result|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|same|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|same|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|same|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|same|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|same|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|same|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|climate|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|climate|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|climate|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|climate|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|climate|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|낮음|climate|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|support|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|support|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|support|standard",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|support|result",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|support|same",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|support|climate",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|expression|support",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        },
+        {
+          "key": "factorCombo|활기|중간|expression|expression",
+          "text": "{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다."
+        }
+      ]
+    },
+    {
+      "file": "factor-cause-blocks.json",
+      "label": "아이 6요소 원인 조합",
+      "description": "요인 x 점수구간 x 만드는 원인 x 누르는 원인",
+      "dimensions": {
+        "factor": [
+          {
+            "value": "끈기",
+            "count": 845
+          },
+          {
+            "value": "만족",
+            "count": 845
+          },
+          {
+            "value": "어울림",
+            "count": 845
+          },
+          {
+            "value": "조심",
+            "count": 845
+          },
+          {
+            "value": "활기",
+            "count": 845
+          },
+          {
+            "value": "흔들림",
+            "count": 845
+          }
+        ],
+        "level": [
+          {
+            "value": "낮음",
+            "count": 1014
+          },
+          {
+            "value": "높음",
+            "count": 1014
+          },
+          {
+            "value": "매우낮음",
+            "count": 1014
+          },
+          {
+            "value": "매우높음",
+            "count": 1014
+          },
+          {
+            "value": "중간",
+            "count": 1014
+          }
+        ],
+        "makerCause": [
+          {
+            "value": "bigyeop",
+            "count": 390
+          },
+          {
+            "value": "chilsal-sinyak",
+            "count": 390
+          },
+          {
+            "value": "general",
+            "count": 390
+          },
+          {
+            "value": "gwanin-sangsaeng",
+            "count": 390
+          },
+          {
+            "value": "gwanseong",
+            "count": 390
+          },
+          {
+            "value": "inseong",
+            "count": 390
+          },
+          {
+            "value": "jaeseong",
+            "count": 390
+          },
+          {
+            "value": "johu-imbalance",
+            "count": 390
+          },
+          {
+            "value": "neutral-strength",
+            "count": 390
+          },
+          {
+            "value": "siksang",
+            "count": 390
+          },
+          {
+            "value": "unseong-strong",
+            "count": 390
+          },
+          {
+            "value": "unseong-weak",
+            "count": 390
+          },
+          {
+            "value": "yangin",
+            "count": 390
+          }
+        ],
+        "suppressorCause": [
+          {
+            "value": "bigyeop",
+            "count": 390
+          },
+          {
+            "value": "chilsal-sinyak",
+            "count": 390
+          },
+          {
+            "value": "general",
+            "count": 390
+          },
+          {
+            "value": "gwanin-sangsaeng",
+            "count": 390
+          },
+          {
+            "value": "gwanseong",
+            "count": 390
+          },
+          {
+            "value": "inseong",
+            "count": 390
+          },
+          {
+            "value": "jaeseong",
+            "count": 390
+          },
+          {
+            "value": "johu-imbalance",
+            "count": 390
+          },
+          {
+            "value": "neutral-strength",
+            "count": 390
+          },
+          {
+            "value": "siksang",
+            "count": 390
+          },
+          {
+            "value": "unseong-strong",
+            "count": 390
+          },
+          {
+            "value": "unseong-weak",
+            "count": 390
+          },
+          {
+            "value": "yangin",
+            "count": 390
+          }
+        ]
+      },
+      "count": 5070,
+      "keyExamples": [
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=general",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=gwanseong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=inseong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=siksang",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=jaeseong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=bigyeop",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=yangin",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=johu-imbalance",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=chilsal-sinyak",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=gwanin-sangsaeng",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=unseong-strong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=unseong-weak",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=neutral-strength",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=general",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=gwanseong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=inseong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=siksang",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=jaeseong",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=bigyeop",
+        "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=yangin"
+      ],
+      "samples": [
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=inseong",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=siksang",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=jaeseong",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=bigyeop",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=yangin",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=johu-imbalance",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=chilsal-sinyak",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=gwanin-sangsaeng",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=unseong-strong",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=unseong-weak",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=neutral-strength",
+          "text": "{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=inseong",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=siksang",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=jaeseong",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=bigyeop",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=yangin",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=johu-imbalance",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=chilsal-sinyak",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=gwanin-sangsaeng",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=unseong-strong",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=unseong-weak",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=neutral-strength",
+          "text": "{childName}의 {factor}은 사주에서 관성의 흐름과 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=inseong",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=siksang",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=jaeseong",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=bigyeop",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=yangin",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=johu-imbalance",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=chilsal-sinyak",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=gwanin-sangsaeng",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=unseong-strong",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=unseong-weak",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=neutral-strength",
+          "text": "{childName}의 {factor}은 사주에서 인성의 흐름과 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=inseong",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=siksang",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=jaeseong",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=bigyeop",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=yangin",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=johu-imbalance",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=chilsal-sinyak",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=gwanin-sangsaeng",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=unseong-strong",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=unseong-weak",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=siksang|suppressor=neutral-strength",
+          "text": "{childName}의 {factor}은 사주에서 식상의 흐름과 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=inseong",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=siksang",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=jaeseong",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=bigyeop",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=yangin",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=johu-imbalance",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=chilsal-sinyak",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=gwanin-sangsaeng",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=unseong-strong",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=unseong-weak",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=jaeseong|suppressor=neutral-strength",
+          "text": "{childName}의 {factor}은 사주에서 재성의 흐름과 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=inseong",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=siksang",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=jaeseong",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=bigyeop",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=yangin",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=johu-imbalance",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=chilsal-sinyak",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=gwanin-sangsaeng",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=unseong-strong",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=unseong-weak",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=bigyeop|suppressor=neutral-strength",
+          "text": "{childName}의 {factor}은 사주에서 비겁의 흐름과 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=yangin|suppressor=general",
+          "text": "{childName}의 {factor}은 사주에서 양인의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        },
+        {
+          "key": "factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=yangin|suppressor=gwanseong",
+          "text": "{childName}의 {factor}은 사주에서 양인의 흐름과 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다."
+        }
+      ]
+    },
+    {
+      "file": "parent-cause-blocks.json",
+      "label": "부모 단독 사주 원인 조합",
+      "description": "엄마/아빠 x 일간 x 부모축 x 원인",
+      "dimensions": {
+        "role": [
+          {
+            "value": "father",
+            "count": 780
+          },
+          {
+            "value": "mother",
+            "count": 780
+          }
+        ],
+        "dayMaster": [
+          {
+            "value": "갑목(甲)",
+            "count": 156
+          },
+          {
+            "value": "경금(庚)",
+            "count": 156
+          },
+          {
+            "value": "계수(癸)",
+            "count": 156
+          },
+          {
+            "value": "기토(己)",
+            "count": 156
+          },
+          {
+            "value": "무토(戊)",
+            "count": 156
+          },
+          {
+            "value": "병화(丙)",
+            "count": 156
+          },
+          {
+            "value": "신금(辛)",
+            "count": 156
+          },
+          {
+            "value": "을목(乙)",
+            "count": 156
+          },
+          {
+            "value": "임수(壬)",
+            "count": 156
+          },
+          {
+            "value": "정화(丁)",
+            "count": 156
+          }
+        ],
+        "axis": [
+          {
+            "value": "baram",
+            "count": 260
+          },
+          {
+            "value": "ilgwan",
+            "count": 260
+          },
+          {
+            "value": "jayul",
+            "count": 260
+          },
+          {
+            "value": "jungsim",
+            "count": 260
+          },
+          {
+            "value": "ongi",
+            "count": 260
+          },
+          {
+            "value": "pyohyeon",
+            "count": 260
+          }
+        ],
+        "cause": [
+          {
+            "value": "bigyeop",
+            "count": 120
+          },
+          {
+            "value": "chilsal-sinyak",
+            "count": 120
+          },
+          {
+            "value": "general",
+            "count": 120
+          },
+          {
+            "value": "gwanin-sangsaeng",
+            "count": 120
+          },
+          {
+            "value": "gwanseong",
+            "count": 120
+          },
+          {
+            "value": "inseong",
+            "count": 120
+          },
+          {
+            "value": "jaeseong",
+            "count": 120
+          },
+          {
+            "value": "johu-imbalance",
+            "count": 120
+          },
+          {
+            "value": "neutral-strength",
+            "count": 120
+          },
+          {
+            "value": "siksang",
+            "count": 120
+          },
+          {
+            "value": "unseong-strong",
+            "count": 120
+          },
+          {
+            "value": "unseong-weak",
+            "count": 120
+          },
+          {
+            "value": "yangin",
+            "count": 120
+          }
+        ]
+      },
+      "count": 1560,
+      "keyExamples": [
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=general",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=gwanseong",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=inseong",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=siksang",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=jaeseong",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=bigyeop",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=yangin",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=johu-imbalance",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=chilsal-sinyak",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=gwanin-sangsaeng",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=unseong-strong",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=unseong-weak",
+        "parentCause|slot7_8|mother|gap|axis=ongi|cause=neutral-strength",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=general",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=gwanseong",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=inseong",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=siksang",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=jaeseong",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=bigyeop",
+        "parentCause|slot7_8|mother|gap|axis=jungsim|cause=yangin"
+      ],
+      "samples": [
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=general",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=gwanseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=inseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=siksang",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=jaeseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=bigyeop",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=yangin",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=johu-imbalance",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배경"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=chilsal-sinyak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=gwanin-sangsaeng",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=unseong-strong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=unseong-weak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ongi|cause=neutral-strength",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배경"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=general",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=gwanseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=inseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=siksang",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=jaeseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=bigyeop",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=yangin",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=johu-imbalance",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=chilsal-sinyak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=gwanin-sangsaeng",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=unseong-strong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=unseong-weak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jungsim|cause=neutral-strength",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=general",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=gwanseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=inseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=siksang",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=jaeseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=bigyeop",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=yangin",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=johu-imbalance",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배경"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=chilsal-sinyak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=gwanin-sangsaeng",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=unseong-strong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=unseong-weak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=ilgwan|cause=neutral-strength",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배경"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=general",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=gwanseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=inseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=siksang",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=jaeseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=bigyeop",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=yangin",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=johu-imbalance",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=chilsal-sinyak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=gwanin-sangsaeng",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=unseong-strong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=unseong-weak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=jayul|cause=neutral-strength",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 아이의 자리를 열어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=general",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=gwanseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=inseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=siksang",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=jaeseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=bigyeop",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=yangin",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=johu-imbalance",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=chilsal-sinyak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=gwanin-sangsaeng",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=unseong-strong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=unseong-weak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=pyohyeon|cause=neutral-strength",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 말과 표현으로 풀어 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=general",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=gwanseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=inseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=siksang",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=jaeseong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=bigyeop",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=yangin",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=johu-imbalance",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=chilsal-sinyak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 "
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=gwanin-sangsaeng",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=unseong-strong",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=unseong-weak",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|gap|axis=baram|cause=neutral-strength",
+          "text": "{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 기대와 결과를 보여 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|eul|axis=ongi|cause=general",
+          "text": "{parentName}의 일간은 을목(乙)입니다. 을목(乙)은 작은 풀과 덩굴처럼 부드럽게 스며들며 적응하는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는"
+        },
+        {
+          "key": "parentCause|slot7_8|mother|eul|axis=ongi|cause=gwanseong",
+          "text": "{parentName}의 일간은 을목(乙)입니다. 을목(乙)은 작은 풀과 덩굴처럼 부드럽게 스며들며 적응하는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 "
+        }
+      ]
+    },
+    {
+      "file": "compatibility-cause-blocks.json",
+      "label": "아이-부모 궁합 원인 조합",
+      "description": "엄마/아빠 x 아이 일간 x 부모 일간 x 관계패턴 x 케어/위험/아이기질 패턴",
+      "dimensions": {
+        "role": [
+          {
+            "value": "father",
+            "count": 4000
+          },
+          {
+            "value": "mother",
+            "count": 4000
+          }
+        ],
+        "childIlgan": [
+          {
+            "value": "byeong",
+            "count": 800
+          },
+          {
+            "value": "eul",
+            "count": 800
+          },
+          {
+            "value": "gap",
+            "count": 800
+          },
+          {
+            "value": "gi",
+            "count": 800
+          },
+          {
+            "value": "gye",
+            "count": 800
+          },
+          {
+            "value": "gyeong",
+            "count": 800
+          },
+          {
+            "value": "im",
+            "count": 800
+          },
+          {
+            "value": "jeong",
+            "count": 800
+          },
+          {
+            "value": "mu",
+            "count": 800
+          },
+          {
+            "value": "sin",
+            "count": 800
+          }
+        ],
+        "parentIlgan": [
+          {
+            "value": "byeong",
+            "count": 800
+          },
+          {
+            "value": "eul",
+            "count": 800
+          },
+          {
+            "value": "gap",
+            "count": 800
+          },
+          {
+            "value": "gi",
+            "count": 800
+          },
+          {
+            "value": "gye",
+            "count": 800
+          },
+          {
+            "value": "gyeong",
+            "count": 800
+          },
+          {
+            "value": "im",
+            "count": 800
+          },
+          {
+            "value": "jeong",
+            "count": 800
+          },
+          {
+            "value": "mu",
+            "count": 800
+          },
+          {
+            "value": "sin",
+            "count": 800
+          }
+        ],
+        "relationType": [
+          {
+            "value": "childControlsParent",
+            "count": 1600
+          },
+          {
+            "value": "childGivesParent",
+            "count": 1600
+          },
+          {
+            "value": "parentControlsChild",
+            "count": 1600
+          },
+          {
+            "value": "parentGivesChild",
+            "count": 1600
+          },
+          {
+            "value": "same",
+            "count": 1600
+          }
+        ],
+        "relationPattern": [
+          {
+            "value": "child_activates_parent_result",
+            "count": 1600
+          },
+          {
+            "value": "child_expresses_to_parent",
+            "count": 1600
+          },
+          {
+            "value": "parent_sets_boundary",
+            "count": 1600
+          },
+          {
+            "value": "parent_supports_child",
+            "count": 1600
+          },
+          {
+            "value": "same_element_mirroring",
+            "count": 1600
+          }
+        ],
+        "relationCarePattern": [
+          {
+            "value": "boundary_and_direction",
+            "count": 1600
+          },
+          {
+            "value": "expression_and_response",
+            "count": 1600
+          },
+          {
+            "value": "mirroring_and_space",
+            "count": 1600
+          },
+          {
+            "value": "result_and_confirmation",
+            "count": 1600
+          },
+          {
+            "value": "support_and_acceptance",
+            "count": 1600
+          }
+        ],
+        "relationRiskPattern": [
+          {
+            "value": "low_relation_risk",
+            "count": 3200
+          },
+          {
+            "value": "boundary_may_pressure_sensitive_child",
+            "count": 1600
+          },
+          {
+            "value": "expectation_feedback_loop",
+            "count": 1600
+          },
+          {
+            "value": "similarity_can_amplify_stubbornness",
+            "count": 1600
+          }
+        ],
+        "childTemperamentPattern": [
+          {
+            "value": "active_expression",
+            "count": 1000
+          },
+          {
+            "value": "balanced_moderate",
+            "count": 1000
+          },
+          {
+            "value": "cautious_stability",
+            "count": 1000
+          },
+          {
+            "value": "contentment_stability",
+            "count": 1000
+          },
+          {
+            "value": "persistent_rhythm",
+            "count": 1000
+          },
+          {
+            "value": "sensitive_recovery",
+            "count": 1000
+          },
+          {
+            "value": "social_attachment",
+            "count": 1000
+          },
+          {
+            "value": "social_open",
+            "count": 1000
+          }
+        ]
+      },
+      "count": 8000,
+      "keyExamples": [
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=active_expression|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=cautious_stability|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_attachment|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_open|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=contentment_stability|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=balanced_moderate|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=contentment_stability|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=balanced_moderate|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=active_expression|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=cautious_stability|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+        "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_attachment|tone=brother-index"
+      ],
+      "samples": [
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 동기 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이를 생하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 부모가 아이에게 기준을 주는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=active_expression|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=cautious_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=sensitive_recovery|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=social_attachment|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=social_open|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=persistent_rhythm|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=contentment_stability|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        },
+        {
+          "key": "youa.compatibility|role=mother|childIlgan=gap|parentIlgan=eul|relationPattern=child_activates_parent_result|relationCarePattern=result_and_confirmation|relationRiskPattern=expectation_feedback_loop|childTemperamentPattern=balanced_moderate|tone=brother-index",
+          "text": "어머님과 {childName}의 아이가 부모에게 결과를 묻게 하는 관계"
+        }
+      ]
+    },
+    {
+      "file": "matrix-combo-blocks.json",
+      "label": "함께 살펴볼 결 매트릭스 조합",
+      "description": "엄마/아빠 x 부모축 x 아이요인 x 시너지/충돌 x 부모원인 x 아이원인",
+      "dimensions": {
+        "role": [
+          {
+            "value": "father",
+            "count": 12168
+          },
+          {
+            "value": "mother",
+            "count": 12168
+          }
+        ],
+        "parentAxis": [
+          {
+            "value": "consistent",
+            "count": 4056
+          },
+          {
+            "value": "expression",
+            "count": 4056
+          },
+          {
+            "value": "result",
+            "count": 4056
+          },
+          {
+            "value": "same",
+            "count": 4056
+          },
+          {
+            "value": "standard",
+            "count": 4056
+          },
+          {
+            "value": "support",
+            "count": 4056
+          }
+        ],
+        "childFactor": [
+          {
+            "value": "eoullim",
+            "count": 4056
+          },
+          {
+            "value": "heundeullim",
+            "count": 4056
+          },
+          {
+            "value": "hwalgi",
+            "count": 4056
+          },
+          {
+            "value": "josim",
+            "count": 4056
+          },
+          {
+            "value": "kkeungi",
+            "count": 4056
+          },
+          {
+            "value": "manjok",
+            "count": 4056
+          }
+        ],
+        "type": [
+          {
+            "value": "conflict",
+            "count": 12168
+          },
+          {
+            "value": "synergy",
+            "count": 12168
+          }
+        ],
+        "parentCause": [
+          {
+            "value": "bigyeop",
+            "count": 1872
+          },
+          {
+            "value": "chilsal-sinyak",
+            "count": 1872
+          },
+          {
+            "value": "general",
+            "count": 1872
+          },
+          {
+            "value": "gwanin-sangsaeng",
+            "count": 1872
+          },
+          {
+            "value": "gwanseong",
+            "count": 1872
+          },
+          {
+            "value": "inseong",
+            "count": 1872
+          },
+          {
+            "value": "jaeseong",
+            "count": 1872
+          },
+          {
+            "value": "johu-imbalance",
+            "count": 1872
+          },
+          {
+            "value": "neutral-strength",
+            "count": 1872
+          },
+          {
+            "value": "siksang",
+            "count": 1872
+          },
+          {
+            "value": "unseong-strong",
+            "count": 1872
+          },
+          {
+            "value": "unseong-weak",
+            "count": 1872
+          },
+          {
+            "value": "yangin",
+            "count": 1872
+          }
+        ],
+        "childCause": [
+          {
+            "value": "bigyeop",
+            "count": 1872
+          },
+          {
+            "value": "chilsal-sinyak",
+            "count": 1872
+          },
+          {
+            "value": "general",
+            "count": 1872
+          },
+          {
+            "value": "gwanin-sangsaeng",
+            "count": 1872
+          },
+          {
+            "value": "gwanseong",
+            "count": 1872
+          },
+          {
+            "value": "inseong",
+            "count": 1872
+          },
+          {
+            "value": "jaeseong",
+            "count": 1872
+          },
+          {
+            "value": "johu-imbalance",
+            "count": 1872
+          },
+          {
+            "value": "neutral-strength",
+            "count": 1872
+          },
+          {
+            "value": "siksang",
+            "count": 1872
+          },
+          {
+            "value": "unseong-strong",
+            "count": 1872
+          },
+          {
+            "value": "unseong-weak",
+            "count": 1872
+          },
+          {
+            "value": "yangin",
+            "count": 1872
+          }
+        ]
+      },
+      "count": 24336,
+      "keyExamples": [
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=general",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=gwanseong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=inseong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=siksang",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=jaeseong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=bigyeop",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=yangin",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=johu-imbalance",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=chilsal-sinyak",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=gwanin-sangsaeng",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=unseong-strong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=unseong-weak",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=neutral-strength",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=general",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=gwanseong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=inseong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=siksang",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=jaeseong",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=bigyeop",
+        "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=yangin"
+      ],
+      "samples": [
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=inseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=siksang",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=jaeseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=bigyeop",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=yangin",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=johu-imbalance",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=chilsal-sinyak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=gwanin-sangsaeng",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=unseong-strong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=unseong-weak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=neutral-strength",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=inseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=siksang",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=jaeseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=bigyeop",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=yangin",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=johu-imbalance",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=chilsal-sinyak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=gwanin-sangsaeng",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=unseong-strong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=unseong-weak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=neutral-strength",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=inseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=siksang",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=jaeseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=bigyeop",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=yangin",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=johu-imbalance",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=chilsal-sinyak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=gwanin-sangsaeng",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=unseong-strong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=unseong-weak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=neutral-strength",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=inseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=siksang",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=jaeseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=bigyeop",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=yangin",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=johu-imbalance",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=chilsal-sinyak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=gwanin-sangsaeng",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=unseong-strong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=unseong-weak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=siksang|c=neutral-strength",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=inseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=siksang",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=jaeseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=bigyeop",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=yangin",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=johu-imbalance",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=chilsal-sinyak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=gwanin-sangsaeng",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=unseong-strong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=unseong-weak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=jaeseong|c=neutral-strength",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=inseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=siksang",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=jaeseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=bigyeop",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=yangin",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=johu-imbalance",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=chilsal-sinyak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=gwanin-sangsaeng",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=unseong-strong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=unseong-weak",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=bigyeop|c=neutral-strength",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=yangin|c=general",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        },
+        {
+          "key": "matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=yangin|c=gwanseong",
+          "text": "{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리"
+        }
+      ]
+    },
+    {
+      "file": "parent-palace-blocks.json",
+      "label": "부모궁 요약 조합",
+      "description": "어머니축 x 아버지축",
+      "dimensions": {
+        "motherAxis": [
+          {
+            "value": "같은 결의 기운",
+            "count": 5
+          },
+          {
+            "value": "결과를 기대하는 기운",
+            "count": 5
+          },
+          {
+            "value": "받쳐주는 기운",
+            "count": 5
+          },
+          {
+            "value": "절제하는 기운",
+            "count": 5
+          },
+          {
+            "value": "표현하는 기운",
+            "count": 5
+          }
+        ],
+        "fatherAxis": [
+          {
+            "value": "같은 결의 기운",
+            "count": 5
+          },
+          {
+            "value": "결과를 기대하는 기운",
+            "count": 5
+          },
+          {
+            "value": "받쳐주는 기운",
+            "count": 5
+          },
+          {
+            "value": "절제하는 기운",
+            "count": 5
+          },
+          {
+            "value": "표현하는 기운",
+            "count": 5
+          }
+        ]
+      },
+      "count": 25,
+      "keyExamples": [
+        "parentPalace|support|support",
+        "parentPalace|support|expression",
+        "parentPalace|support|standard",
+        "parentPalace|support|result",
+        "parentPalace|support|same",
+        "parentPalace|expression|support",
+        "parentPalace|expression|expression",
+        "parentPalace|expression|standard",
+        "parentPalace|expression|result",
+        "parentPalace|expression|same",
+        "parentPalace|standard|support",
+        "parentPalace|standard|expression",
+        "parentPalace|standard|standard",
+        "parentPalace|standard|result",
+        "parentPalace|standard|same",
+        "parentPalace|result|support",
+        "parentPalace|result|expression",
+        "parentPalace|result|standard",
+        "parentPalace|result|result",
+        "parentPalace|result|same"
+      ],
+      "samples": [
+        {
+          "key": "parentPalace|support|support",
+          "text": "아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|support|expression",
+          "text": "아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|support|standard",
+          "text": "아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|support|result",
+          "text": "아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|support|same",
+          "text": "아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|expression|support",
+          "text": "아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|expression|expression",
+          "text": "아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|expression|standard",
+          "text": "아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|expression|result",
+          "text": "아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|expression|same",
+          "text": "아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|standard|support",
+          "text": "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|standard|expression",
+          "text": "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|standard|standard",
+          "text": "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|standard|result",
+          "text": "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|standard|same",
+          "text": "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|result|support",
+          "text": "아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|result|expression",
+          "text": "아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|result|standard",
+          "text": "아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|result|result",
+          "text": "아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|result|same",
+          "text": "아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|same|support",
+          "text": "아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|same|expression",
+          "text": "아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|same|standard",
+          "text": "아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|same|result",
+          "text": "아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        },
+        {
+          "key": "parentPalace|same|same",
+          "text": "아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다."
+        }
+      ]
+    }
+  ]
+}

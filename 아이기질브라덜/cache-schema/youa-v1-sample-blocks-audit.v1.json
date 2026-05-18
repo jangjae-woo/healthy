@@ -1,0 +1,142 @@
+{
+  "version": "youa-v1-sample-blocks-audit-v1",
+  "generatedAt": "2026-05-18T19:19:46.886Z",
+  "progress": {
+    "currentPercent": 72,
+    "reason": "parentPalaceSummary fallback 보완 후 샘플 block 산출물의 구조 QA를 통과한 상태."
+  },
+  "summary": {
+    "ok": true,
+    "samples": 4,
+    "errors": 0,
+    "warnings": 22,
+    "productFallbacks": 0,
+    "allowedMissing": 22
+  },
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "ok": true,
+      "files": {
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\block-manifest.json",
+        "standalone": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\standalone-blocks.json",
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\pair-generation-output.json"
+      },
+      "counts": {
+        "factors": 6,
+        "manifestMissingBlocks": 5
+      },
+      "errors": [],
+      "warnings": [
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictBody",
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictDaily",
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictResolution",
+        "matrix:allowed-missing:togetherMatrix.father.fatherSynergyBody",
+        "matrix:allowed-missing:togetherMatrix.father.fatherSynergyDaily"
+      ],
+      "productFallbacks": [],
+      "allowedMissing": [
+        "togetherMatrix.mother.motherConflictBody",
+        "togetherMatrix.mother.motherConflictDaily",
+        "togetherMatrix.mother.motherConflictResolution",
+        "togetherMatrix.father.fatherSynergyBody",
+        "togetherMatrix.father.fatherSynergyDaily"
+      ]
+    },
+    {
+      "sampleId": "sample-002",
+      "ok": true,
+      "files": {
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\block-manifest.json",
+        "standalone": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\standalone-blocks.json",
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\pair-generation-output.json"
+      },
+      "counts": {
+        "factors": 6,
+        "manifestMissingBlocks": 5
+      },
+      "errors": [],
+      "warnings": [
+        "matrix:allowed-missing:togetherMatrix.mother.motherSynergyBody",
+        "matrix:allowed-missing:togetherMatrix.mother.motherSynergyDaily",
+        "matrix:allowed-missing:togetherMatrix.father.fatherConflictBody",
+        "matrix:allowed-missing:togetherMatrix.father.fatherConflictDaily",
+        "matrix:allowed-missing:togetherMatrix.father.fatherConflictResolution"
+      ],
+      "productFallbacks": [],
+      "allowedMissing": [
+        "togetherMatrix.mother.motherSynergyBody",
+        "togetherMatrix.mother.motherSynergyDaily",
+        "togetherMatrix.father.fatherConflictBody",
+        "togetherMatrix.father.fatherConflictDaily",
+        "togetherMatrix.father.fatherConflictResolution"
+      ]
+    },
+    {
+      "sampleId": "sample-003",
+      "ok": true,
+      "files": {
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\block-manifest.json",
+        "standalone": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\standalone-blocks.json",
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\pair-generation-output.json"
+      },
+      "counts": {
+        "factors": 6,
+        "manifestMissingBlocks": 5
+      },
+      "errors": [],
+      "warnings": [
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictBody",
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictDaily",
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictResolution",
+        "matrix:allowed-missing:togetherMatrix.father.fatherSynergyBody",
+        "matrix:allowed-missing:togetherMatrix.father.fatherSynergyDaily",
+        "manifest:allowed-warning:unknown-hour:1"
+      ],
+      "productFallbacks": [],
+      "allowedMissing": [
+        "togetherMatrix.mother.motherConflictBody",
+        "togetherMatrix.mother.motherConflictDaily",
+        "togetherMatrix.mother.motherConflictResolution",
+        "togetherMatrix.father.fatherSynergyBody",
+        "togetherMatrix.father.fatherSynergyDaily",
+        "manifest.warning.unknown-hour"
+      ]
+    },
+    {
+      "sampleId": "sample-004",
+      "ok": true,
+      "files": {
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\block-manifest.json",
+        "standalone": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\standalone-blocks.json",
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\pair-generation-output.json"
+      },
+      "counts": {
+        "factors": 6,
+        "manifestMissingBlocks": 5
+      },
+      "errors": [],
+      "warnings": [
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictBody",
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictDaily",
+        "matrix:allowed-missing:togetherMatrix.mother.motherConflictResolution",
+        "matrix:allowed-missing:togetherMatrix.father.fatherSynergyBody",
+        "matrix:allowed-missing:togetherMatrix.father.fatherSynergyDaily",
+        "manifest:allowed-warning:unknown-hour:1"
+      ],
+      "productFallbacks": [],
+      "allowedMissing": [
+        "togetherMatrix.mother.motherConflictBody",
+        "togetherMatrix.mother.motherConflictDaily",
+        "togetherMatrix.mother.motherConflictResolution",
+        "togetherMatrix.father.fatherSynergyBody",
+        "togetherMatrix.father.fatherSynergyDaily",
+        "manifest.warning.unknown-hour"
+      ]
+    }
+  ]
+}

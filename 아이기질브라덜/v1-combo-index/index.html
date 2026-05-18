@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>아이기질+부모양육 v1 조합 인덱스</title>
+  <style>
+    body{margin:0;background:#f5f1ea;color:#302820;font-family:Arial,'Noto Sans KR',sans-serif}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 14px 60px}
+    .top,.section{background:#fffdf9;border:1px solid #e3d7c8;border-radius:8px;padding:18px;margin-bottom:14px}
+    h1{font-size:28px;margin:4px 0 10px} h2{font-size:20px;margin:0 0 8px;color:#b84e24} h3{font-size:15px;margin:14px 0 8px;color:#6d5b4a}
+    p{line-height:1.7} code{background:#f1e8dd;border-radius:4px;padding:2px 5px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+    .stat{background:#f8f4ee;border-left:4px solid #8fab3d;border-radius:7px;padding:10px}
+    .count{font-size:24px;font-weight:700}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{border-top:1px solid #eadfd2;padding:8px;text-align:left;vertical-align:top}
+    th{background:#f8f4ee;color:#6d5b4a}
+    .dim{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+    .dimbox{background:#fbf7f1;border:1px solid #eadfd2;border-radius:7px;padding:10px}
+    .chips{display:flex;flex-wrap:wrap;gap:5px}
+    .chip{background:#efe4d8;border-radius:999px;padding:4px 8px;font-size:12px}
+    .sample-key{font-family:Consolas,monospace;font-size:12px;word-break:break-all}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="top">
+      <h1>아이기질+부모양육 v1 조합 인덱스</h1>
+      <p>현재 캐시에 세팅된 조합 버튼/키를 종류별로 압축해서 보는 화면입니다. 전체 원본 목록은 <code>combo-index.json</code>에 있습니다.</p>
+      <div class="grid">
+        <div class="stat"><div>전체 조합 블록</div><div class="count">40,071</div></div>
+        <div class="stat"><div>아이 6요소 기본 조합</div><div class="count">1,080</div><div>factor-combo-blocks.json</div></div><div class="stat"><div>아이 6요소 원인 조합</div><div class="count">5,070</div><div>factor-cause-blocks.json</div></div><div class="stat"><div>부모 단독 사주 원인 조합</div><div class="count">1,560</div><div>parent-cause-blocks.json</div></div><div class="stat"><div>아이-부모 궁합 원인 조합</div><div class="count">8,000</div><div>compatibility-cause-blocks.json</div></div><div class="stat"><div>함께 살펴볼 결 매트릭스 조합</div><div class="count">24,336</div><div>matrix-combo-blocks.json</div></div><div class="stat"><div>부모궁 요약 조합</div><div class="count">25</div><div>parent-palace-blocks.json</div></div>
+      </div>
+    </section>
+    
+      <section class="section">
+        <h2>아이 6요소 기본 조합</h2>
+        <p>요인 x 점수구간 x 만드는 기운 그룹 x 누르는 기운 그룹</p>
+        <p><code>factor-combo-blocks.json</code> / 1,080개</p>
+        <h3>축별 세팅</h3>
+        <div class="dim">
+          
+            <div class="dimbox">
+              <b>factor</b>
+              <div class="chips">
+                <span class="chip">끈기 180</span><span class="chip">만족 180</span><span class="chip">어울림 180</span><span class="chip">조심 180</span><span class="chip">활기 180</span><span class="chip">흔들림 180</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>level</b>
+              <div class="chips">
+                <span class="chip">낮음 216</span><span class="chip">높음 216</span><span class="chip">매우낮음 216</span><span class="chip">매우높음 216</span><span class="chip">중간 216</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>dominantSide</b>
+              <div class="chips">
+                <span class="chip">maker 432</span><span class="chip">suppressor 432</span><span class="chip">balanced 216</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>makerGroup.label</b>
+              <div class="chips">
+                <span class="chip">같은 결의 기운 180</span><span class="chip">결과를 기대하는 기운 180</span><span class="chip">받쳐주는 기운 180</span><span class="chip">오행·조후의 기운 180</span><span class="chip">절제하는 기운 180</span><span class="chip">표현하는 기운 180</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>suppressorGroup.label</b>
+              <div class="chips">
+                <span class="chip">같은 결의 기운 180</span><span class="chip">결과를 기대하는 기운 180</span><span class="chip">받쳐주는 기운 180</span><span class="chip">오행·조후의 기운 180</span><span class="chip">절제하는 기운 180</span><span class="chip">표현하는 기운 180</span>
+              </div>
+            </div>
+          
+        </div>
+        <h3>키 예시</h3>
+        <table>
+          <thead><tr><th style="width:45%">key</th><th>본문 예시</th></tr></thead>
+          <tbody>
+            <tr><td class="sample-key">factorCombo|활기|매우낮음|support|support</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|support|expression</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|support|standard</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|support|result</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|support|same</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|support|climate</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|expression|support</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|expression|expression</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|expression|standard</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|expression|result</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|expression|same</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|expression|climate</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|standard|support</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|standard|expression</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|standard|standard</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|standard|result</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|standard|same</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|standard|climate</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|result|support</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|result|expression</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|result|standard</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|result|result</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|result|same</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|result|climate</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|same|support</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|same|expression</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|same|standard</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|same|result</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|same|same</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr><tr><td class="sample-key">factorCombo|활기|매우낮음|same|climate</td><td>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    
+      <section class="section">
+        <h2>아이 6요소 원인 조합</h2>
+        <p>요인 x 점수구간 x 만드는 원인 x 누르는 원인</p>
+        <p><code>factor-cause-blocks.json</code> / 5,070개</p>
+        <h3>축별 세팅</h3>
+        <div class="dim">
+          
+            <div class="dimbox">
+              <b>factor</b>
+              <div class="chips">
+                <span class="chip">끈기 845</span><span class="chip">만족 845</span><span class="chip">어울림 845</span><span class="chip">조심 845</span><span class="chip">활기 845</span><span class="chip">흔들림 845</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>level</b>
+              <div class="chips">
+                <span class="chip">낮음 1014</span><span class="chip">높음 1014</span><span class="chip">매우낮음 1014</span><span class="chip">매우높음 1014</span><span class="chip">중간 1014</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>makerCause</b>
+              <div class="chips">
+                <span class="chip">bigyeop 390</span><span class="chip">chilsal-sinyak 390</span><span class="chip">general 390</span><span class="chip">gwanin-sangsaeng 390</span><span class="chip">gwanseong 390</span><span class="chip">inseong 390</span><span class="chip">jaeseong 390</span><span class="chip">johu-imbalance 390</span><span class="chip">neutral-strength 390</span><span class="chip">siksang 390</span><span class="chip">unseong-strong 390</span><span class="chip">unseong-weak 390</span><span class="chip">yangin 390</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>suppressorCause</b>
+              <div class="chips">
+                <span class="chip">bigyeop 390</span><span class="chip">chilsal-sinyak 390</span><span class="chip">general 390</span><span class="chip">gwanin-sangsaeng 390</span><span class="chip">gwanseong 390</span><span class="chip">inseong 390</span><span class="chip">jaeseong 390</span><span class="chip">johu-imbalance 390</span><span class="chip">neutral-strength 390</span><span class="chip">siksang 390</span><span class="chip">unseong-strong 390</span><span class="chip">unseong-weak 390</span><span class="chip">yangin 390</span>
+              </div>
+            </div>
+          
+        </div>
+        <h3>키 예시</h3>
+        <table>
+          <thead><tr><th style="width:45%">key</th><th>본문 예시</th></tr></thead>
+          <tbody>
+            <tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=general</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=gwanseong</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=inseong</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=siksang</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=jaeseong</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=bigyeop</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=yangin</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=johu-imbalance</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=chilsal-sinyak</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=gwanin-sangsaeng</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=unseong-strong</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=unseong-weak</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=general|suppressor=neutral-strength</td><td>{childName}의 {factor}은 사주에서 전체 사주 흐름 위에 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=general</td><td>{childName}의 {factor}은 사주에서 관성의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=gwanseong</td><td>{childName}의 {factor}은 사주에서 관성의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=inseong</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 인성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=siksang</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=jaeseong</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 재성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=bigyeop</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 비겁의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=yangin</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 양인의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=johu-imbalance</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 조후 불균형의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=chilsal-sinyak</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 칠살/신약의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=gwanin-sangsaeng</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 관인상생의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=unseong-strong</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 12운성 강세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=unseong-weak</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 12운성 약세의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=gwanseong|suppressor=neutral-strength</td><td>{childName}의 {factor}은 사주에서 관성의 흐름과 중화의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=general</td><td>{childName}의 {factor}은 사주에서 인성의 흐름이 중심이 되고, 전체 사주 흐름이 함께 조절하며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=gwanseong</td><td>{childName}의 {factor}은 사주에서 인성의 흐름과 관성의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=inseong</td><td>{childName}의 {factor}은 사주에서 인성의 흐름이 반복해서 강조되며 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr><tr><td class="sample-key">factorCause|slot1_4_5_6|hwalgi|매우낮음|maker=inseong|suppressor=siksang</td><td>{childName}의 {factor}은 사주에서 인성의 흐름과 식상의 흐름이 함께 작용해 나온 결과입니다. 어떤 인자들이 어떻게 작용했는지 살펴봅니다.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    
+      <section class="section">
+        <h2>부모 단독 사주 원인 조합</h2>
+        <p>엄마/아빠 x 일간 x 부모축 x 원인</p>
+        <p><code>parent-cause-blocks.json</code> / 1,560개</p>
+        <h3>축별 세팅</h3>
+        <div class="dim">
+          
+            <div class="dimbox">
+              <b>role</b>
+              <div class="chips">
+                <span class="chip">father 780</span><span class="chip">mother 780</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>dayMaster</b>
+              <div class="chips">
+                <span class="chip">갑목(甲) 156</span><span class="chip">경금(庚) 156</span><span class="chip">계수(癸) 156</span><span class="chip">기토(己) 156</span><span class="chip">무토(戊) 156</span><span class="chip">병화(丙) 156</span><span class="chip">신금(辛) 156</span><span class="chip">을목(乙) 156</span><span class="chip">임수(壬) 156</span><span class="chip">정화(丁) 156</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>axis</b>
+              <div class="chips">
+                <span class="chip">baram 260</span><span class="chip">ilgwan 260</span><span class="chip">jayul 260</span><span class="chip">jungsim 260</span><span class="chip">ongi 260</span><span class="chip">pyohyeon 260</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>cause</b>
+              <div class="chips">
+                <span class="chip">bigyeop 120</span><span class="chip">chilsal-sinyak 120</span><span class="chip">general 120</span><span class="chip">gwanin-sangsaeng 120</span><span class="chip">gwanseong 120</span><span class="chip">inseong 120</span><span class="chip">jaeseong 120</span><span class="chip">johu-imbalance 120</span><span class="chip">neutral-strength 120</span><span class="chip">siksang 120</span><span class="chip">unseong-strong 120</span><span class="chip">unseong-weak 120</span><span class="chip">yangin 120</span>
+              </div>
+            </div>
+          
+        </div>
+        <h3>키 예시</h3>
+        <table>
+          <thead><tr><th style="width:45%">key</th><th>본문 예시</th></tr></thead>
+          <tbody>
+            <tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=general</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=gwanseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=inseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=siksang</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=jaeseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=bigyeop</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=yangin</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=johu-imbalance</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배경</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=chilsal-sinyak</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=gwanin-sangsaeng</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=unseong-strong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=unseong-weak</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ongi|cause=neutral-strength</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 따뜻하게 받아 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배경</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=general</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=gwanseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=inseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=siksang</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 </td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=jaeseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 재성의 현실감과 결과 의식이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=bigyeop</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 비겁의 자기 페이스이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=yangin</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 양인의 단단한 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=johu-imbalance</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 조후의 온도차이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=chilsal-sinyak</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 칠살/신약의 긴장이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=gwanin-sangsaeng</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관인상생의 기준과 보호이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=unseong-strong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 강세의 힘이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=unseong-weak</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 12운성 약세의 조심성이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=jungsim|cause=neutral-strength</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 중화된 균형감이 함께 작용하면서, 어머님의 결은 가족 안에서 기준과 방향을 세우는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ilgwan|cause=general</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 전체 사주 흐름이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본 배</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ilgwan|cause=gwanseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 관성의 책임감과 기준이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ilgwan|cause=inseong</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 인성의 보호와 수용이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기본</td></tr><tr><td class="sample-key">parentCause|slot7_8|mother|gap|axis=ilgwan|cause=siksang</td><td>{parentName}의 일간은 갑목(甲)입니다. 갑목(甲)은 큰 나무처럼 곧게 자라 방향을 세우는 기운입니다. 여기에 식상의 표현과 활동성이 함께 작용하면서, 어머님의 결은 가족 안에서 꾸준히 반복해 주는 방식으로 드러납니다. 이 흐름은 정서적으로 먼저 닿는 자리이 되어 {childName}가 부모님의 반응을 느끼는 기</td></tr>
+          </tbody>
+        </table>
+      </section>
+    
+      <section class="section">
+        <h2>아이-부모 궁합 원인 조합</h2>
+        <p>엄마/아빠 x 아이 일간 x 부모 일간 x 관계패턴 x 케어/위험/아이기질 패턴</p>
+        <p><code>compatibility-cause-blocks.json</code> / 8,000개</p>
+        <h3>축별 세팅</h3>
+        <div class="dim">
+          
+            <div class="dimbox">
+              <b>role</b>
+              <div class="chips">
+                <span class="chip">father 4000</span><span class="chip">mother 4000</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>childIlgan</b>
+              <div class="chips">
+                <span class="chip">byeong 800</span><span class="chip">eul 800</span><span class="chip">gap 800</span><span class="chip">gi 800</span><span class="chip">gye 800</span><span class="chip">gyeong 800</span><span class="chip">im 800</span><span class="chip">jeong 800</span><span class="chip">mu 800</span><span class="chip">sin 800</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>parentIlgan</b>
+              <div class="chips">
+                <span class="chip">byeong 800</span><span class="chip">eul 800</span><span class="chip">gap 800</span><span class="chip">gi 800</span><span class="chip">gye 800</span><span class="chip">gyeong 800</span><span class="chip">im 800</span><span class="chip">jeong 800</span><span class="chip">mu 800</span><span class="chip">sin 800</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>relationType</b>
+              <div class="chips">
+                <span class="chip">childControlsParent 1600</span><span class="chip">childGivesParent 1600</span><span class="chip">parentControlsChild 1600</span><span class="chip">parentGivesChild 1600</span><span class="chip">same 1600</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>relationPattern</b>
+              <div class="chips">
+                <span class="chip">child_activates_parent_result 1600</span><span class="chip">child_expresses_to_parent 1600</span><span class="chip">parent_sets_boundary 1600</span><span class="chip">parent_supports_child 1600</span><span class="chip">same_element_mirroring 1600</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>relationCarePattern</b>
+              <div class="chips">
+                <span class="chip">boundary_and_direction 1600</span><span class="chip">expression_and_response 1600</span><span class="chip">mirroring_and_space 1600</span><span class="chip">result_and_confirmation 1600</span><span class="chip">support_and_acceptance 1600</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>relationRiskPattern</b>
+              <div class="chips">
+                <span class="chip">low_relation_risk 3200</span><span class="chip">boundary_may_pressure_sensitive_child 1600</span><span class="chip">expectation_feedback_loop 1600</span><span class="chip">similarity_can_amplify_stubbornness 1600</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>childTemperamentPattern</b>
+              <div class="chips">
+                <span class="chip">active_expression 1000</span><span class="chip">balanced_moderate 1000</span><span class="chip">cautious_stability 1000</span><span class="chip">contentment_stability 1000</span><span class="chip">persistent_rhythm 1000</span><span class="chip">sensitive_recovery 1000</span><span class="chip">social_attachment 1000</span><span class="chip">social_open 1000</span>
+              </div>
+            </div>
+          
+        </div>
+        <h3>키 예시</h3>
+        <table>
+          <thead><tr><th style="width:45%">key</th><th>본문 예시</th></tr></thead>
+          <tbody>
+            <tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=active_expression|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=cautious_stability|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=sensitive_recovery|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_attachment|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=social_open|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=persistent_rhythm|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=contentment_stability|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=same_element_mirroring|relationCarePattern=mirroring_and_space|relationRiskPattern=similarity_can_amplify_stubbornness|childTemperamentPattern=balanced_moderate|tone=brother-index</td><td>어머님과 {childName}의 동기 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=contentment_stability|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_supports_child|relationCarePattern=support_and_acceptance|relationRiskPattern=low_relation_risk|childTemperamentPattern=balanced_moderate|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이를 생하는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=active_expression|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=cautious_stability|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=sensitive_recovery|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_attachment|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=social_open|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=persistent_rhythm|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=contentment_stability|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=parent_sets_boundary|relationCarePattern=boundary_and_direction|relationRiskPattern=boundary_may_pressure_sensitive_child|childTemperamentPattern=balanced_moderate|tone=brother-index</td><td>어머님과 {childName}의 부모가 아이에게 기준을 주는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=active_expression|tone=brother-index</td><td>어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=cautious_stability|tone=brother-index</td><td>어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=sensitive_recovery|tone=brother-index</td><td>어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_attachment|tone=brother-index</td><td>어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=social_open|tone=brother-index</td><td>어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계</td></tr><tr><td class="sample-key">youa.compatibility|role=mother|childIlgan=gap|parentIlgan=gap|relationPattern=child_expresses_to_parent|relationCarePattern=expression_and_response|relationRiskPattern=low_relation_risk|childTemperamentPattern=persistent_rhythm|tone=brother-index</td><td>어머님과 {childName}의 아이가 부모에게 표현을 보내는 관계</td></tr>
+          </tbody>
+        </table>
+      </section>
+    
+      <section class="section">
+        <h2>함께 살펴볼 결 매트릭스 조합</h2>
+        <p>엄마/아빠 x 부모축 x 아이요인 x 시너지/충돌 x 부모원인 x 아이원인</p>
+        <p><code>matrix-combo-blocks.json</code> / 24,336개</p>
+        <h3>축별 세팅</h3>
+        <div class="dim">
+          
+            <div class="dimbox">
+              <b>role</b>
+              <div class="chips">
+                <span class="chip">father 12168</span><span class="chip">mother 12168</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>parentAxis</b>
+              <div class="chips">
+                <span class="chip">consistent 4056</span><span class="chip">expression 4056</span><span class="chip">result 4056</span><span class="chip">same 4056</span><span class="chip">standard 4056</span><span class="chip">support 4056</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>childFactor</b>
+              <div class="chips">
+                <span class="chip">eoullim 4056</span><span class="chip">heundeullim 4056</span><span class="chip">hwalgi 4056</span><span class="chip">josim 4056</span><span class="chip">kkeungi 4056</span><span class="chip">manjok 4056</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>type</b>
+              <div class="chips">
+                <span class="chip">conflict 12168</span><span class="chip">synergy 12168</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>parentCause</b>
+              <div class="chips">
+                <span class="chip">bigyeop 1872</span><span class="chip">chilsal-sinyak 1872</span><span class="chip">general 1872</span><span class="chip">gwanin-sangsaeng 1872</span><span class="chip">gwanseong 1872</span><span class="chip">inseong 1872</span><span class="chip">jaeseong 1872</span><span class="chip">johu-imbalance 1872</span><span class="chip">neutral-strength 1872</span><span class="chip">siksang 1872</span><span class="chip">unseong-strong 1872</span><span class="chip">unseong-weak 1872</span><span class="chip">yangin 1872</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>childCause</b>
+              <div class="chips">
+                <span class="chip">bigyeop 1872</span><span class="chip">chilsal-sinyak 1872</span><span class="chip">general 1872</span><span class="chip">gwanin-sangsaeng 1872</span><span class="chip">gwanseong 1872</span><span class="chip">inseong 1872</span><span class="chip">jaeseong 1872</span><span class="chip">johu-imbalance 1872</span><span class="chip">neutral-strength 1872</span><span class="chip">siksang 1872</span><span class="chip">unseong-strong 1872</span><span class="chip">unseong-weak 1872</span><span class="chip">yangin 1872</span>
+              </div>
+            </div>
+          
+        </div>
+        <h3>키 예시</h3>
+        <table>
+          <thead><tr><th style="width:45%">key</th><th>본문 예시</th></tr></thead>
+          <tbody>
+            <tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=general</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=gwanseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=inseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=siksang</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=jaeseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=bigyeop</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=yangin</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=johu-imbalance</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=chilsal-sinyak</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=gwanin-sangsaeng</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=unseong-strong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=unseong-weak</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=general|c=neutral-strength</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=general</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=gwanseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=inseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=siksang</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=jaeseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=bigyeop</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=yangin</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=johu-imbalance</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=chilsal-sinyak</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=gwanin-sangsaeng</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=unseong-strong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=unseong-weak</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=gwanseong|c=neutral-strength</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=general</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=gwanseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=inseong</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr><tr><td class="sample-key">matrixCombo|slot11_21|mother|support|hwalgi|synergy|p=inseong|c=siksang</td><td>{childName}의 활기을 {parentTitle}의 받쳐주는 기운이 받쳐주는 자리</td></tr>
+          </tbody>
+        </table>
+      </section>
+    
+      <section class="section">
+        <h2>부모궁 요약 조합</h2>
+        <p>어머니축 x 아버지축</p>
+        <p><code>parent-palace-blocks.json</code> / 25개</p>
+        <h3>축별 세팅</h3>
+        <div class="dim">
+          
+            <div class="dimbox">
+              <b>motherAxis</b>
+              <div class="chips">
+                <span class="chip">같은 결의 기운 5</span><span class="chip">결과를 기대하는 기운 5</span><span class="chip">받쳐주는 기운 5</span><span class="chip">절제하는 기운 5</span><span class="chip">표현하는 기운 5</span>
+              </div>
+            </div>
+          
+            <div class="dimbox">
+              <b>fatherAxis</b>
+              <div class="chips">
+                <span class="chip">같은 결의 기운 5</span><span class="chip">결과를 기대하는 기운 5</span><span class="chip">받쳐주는 기운 5</span><span class="chip">절제하는 기운 5</span><span class="chip">표현하는 기운 5</span>
+              </div>
+            </div>
+          
+        </div>
+        <h3>키 예시</h3>
+        <table>
+          <thead><tr><th style="width:45%">key</th><th>본문 예시</th></tr></thead>
+          <tbody>
+            <tr><td class="sample-key">parentPalace|support|support</td><td>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|support|expression</td><td>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|support|standard</td><td>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|support|result</td><td>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|support|same</td><td>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|expression|support</td><td>아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|expression|expression</td><td>아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|expression|standard</td><td>아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|expression|result</td><td>아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|expression|same</td><td>아이 사주 안에서 어머님은 표현하는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|standard|support</td><td>아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|standard|expression</td><td>아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|standard|standard</td><td>아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|standard|result</td><td>아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|standard|same</td><td>아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|result|support</td><td>아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|result|expression</td><td>아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|result|standard</td><td>아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|result|result</td><td>아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|result|same</td><td>아이 사주 안에서 어머님은 결과를 기대하는 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|same|support</td><td>아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|same|expression</td><td>아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|same|standard</td><td>아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|same|result</td><td>아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr><tr><td class="sample-key">parentPalace|same|same</td><td>아이 사주 안에서 어머님은 같은 결의 기운으로, 아버님은 같은 결의 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    
+  </main>
+</body>
+</html>

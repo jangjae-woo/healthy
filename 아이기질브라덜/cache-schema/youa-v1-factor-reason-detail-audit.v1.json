@@ -1,0 +1,183 @@
+{
+  "version": "youa-v1-factor-reason-detail-audit-v1",
+  "generatedAt": "2026-05-18T19:19:37.747Z",
+  "ok": true,
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "childName": "김수민 양",
+      "factors": [
+        {
+          "factor": "활기",
+          "makers": 1,
+          "suppressors": 2,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "조심",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "만족",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "흔들림",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "어울림",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "끈기",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        }
+      ],
+      "errors": [],
+      "ok": true
+    },
+    {
+      "sampleId": "sample-002",
+      "childName": "이도윤 군",
+      "factors": [
+        {
+          "factor": "활기",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "조심",
+          "makers": 1,
+          "suppressors": 2,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "만족",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "흔들림",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "어울림",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "끈기",
+          "makers": 1,
+          "suppressors": 2,
+          "detailParagraphs": 3
+        }
+      ],
+      "errors": [],
+      "ok": true
+    },
+    {
+      "sampleId": "sample-003",
+      "childName": "최서아 양",
+      "factors": [
+        {
+          "factor": "활기",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "조심",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "만족",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "흔들림",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "어울림",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "끈기",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        }
+      ],
+      "errors": [],
+      "ok": true
+    },
+    {
+      "sampleId": "sample-004",
+      "childName": "강예린 양",
+      "factors": [
+        {
+          "factor": "활기",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "조심",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "만족",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "흔들림",
+          "makers": 3,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "어울림",
+          "makers": 2,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        },
+        {
+          "factor": "끈기",
+          "makers": 1,
+          "suppressors": 1,
+          "detailParagraphs": 3
+        }
+      ],
+      "errors": [],
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "version": "youa-v1-block-preview-report-v1",
+  "generatedAt": "2026-05-18T19:19:46.930Z",
+  "sampleCount": 4,
+  "indexPath": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\index.html",
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-001.html"
+    },
+    {
+      "sampleId": "sample-002",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-002.html"
+    },
+    {
+      "sampleId": "sample-003",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-003.html"
+    },
+    {
+      "sampleId": "sample-004",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-004.html"
+    }
+  ]
+}

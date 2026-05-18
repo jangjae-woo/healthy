@@ -1,0 +1,64 @@
+{
+  "version": "youa-v1-allowed-missing-policy-v1",
+  "updatedAt": "2026-05-19",
+  "progressImpact": {
+    "fromPercent": 62,
+    "toPercentAfterQa": 65
+  },
+  "policy": [
+    {
+      "pathPattern": "compatibility.parentPalaceSummary",
+      "classification": "fallback_required_for_product",
+      "severity": "warning_before_product",
+      "reason": "샘플 원본에는 일지/부모자리 요약 필드가 없지만, 운영 엔진에는 parent-palace block cache가 있으므로 최종 상품에서는 fallback 또는 계산 기반 요약을 붙여야 한다.",
+      "requiredBeforePaid": true
+    },
+    {
+      "pathPattern": "togetherMatrix.*.*SynergyBody",
+      "classification": "normal_absence",
+      "severity": "allowed",
+      "reason": "해당 부모에게 시너지 카드가 선택되지 않은 경우 본문이 없는 것이 정상이다.",
+      "requiredBeforePaid": false
+    },
+    {
+      "pathPattern": "togetherMatrix.*.*SynergyDaily",
+      "classification": "normal_absence",
+      "severity": "allowed",
+      "reason": "시너지 카드가 없으면 일상 예시도 없는 것이 정상이다.",
+      "requiredBeforePaid": false
+    },
+    {
+      "pathPattern": "togetherMatrix.*.*ConflictBody",
+      "classification": "normal_absence",
+      "severity": "allowed",
+      "reason": "해당 부모에게 충돌 카드가 선택되지 않은 경우 본문이 없는 것이 정상이다.",
+      "requiredBeforePaid": false
+    },
+    {
+      "pathPattern": "togetherMatrix.*.*ConflictDaily",
+      "classification": "normal_absence",
+      "severity": "allowed",
+      "reason": "충돌 카드가 없으면 일상 예시도 없는 것이 정상이다.",
+      "requiredBeforePaid": false
+    },
+    {
+      "pathPattern": "togetherMatrix.*.*ConflictResolution",
+      "classification": "normal_absence",
+      "severity": "allowed",
+      "reason": "충돌 카드가 없으면 해결 카드가 없는 것이 정상이다. 반대로 충돌 본문이 있을 때 resolution이 없으면 오류다.",
+      "requiredBeforePaid": false
+    },
+    {
+      "pathPattern": "manifest.warning.unknown-hour",
+      "classification": "normal_guardrail",
+      "severity": "allowed",
+      "reason": "출생 시간이 모르는 경우 시주 근거를 본문 근거에서 제외했다는 안전 경고다.",
+      "requiredBeforePaid": false
+    }
+  ],
+  "productDecision": {
+    "normalAbsence": "카드를 숨기거나 해당 섹션에서 제외한다.",
+    "fallbackRequired": "유료 상품에서는 빈칸 대신 계산 기반 fallback 문장을 넣는다.",
+    "unknownHour": "시간 모름은 결함이 아니라 입력 조건으로 표시하되, 시주 근거를 쓰지 않는다."
+  }
+}

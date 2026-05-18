@@ -1,0 +1,26 @@
+{
+  "version": "youa-v1-override-template-audit-v1",
+  "generatedAt": "2026-05-18T19:19:47.097Z",
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "editableCount": 48,
+      "templatePath": "아이기질브라덜\\overrides\\v1\\sample-001\\overrides.template.json"
+    },
+    {
+      "sampleId": "sample-002",
+      "editableCount": 48,
+      "templatePath": "아이기질브라덜\\overrides\\v1\\sample-002\\overrides.template.json"
+    },
+    {
+      "sampleId": "sample-003",
+      "editableCount": 48,
+      "templatePath": "아이기질브라덜\\overrides\\v1\\sample-003\\overrides.template.json"
+    },
+    {
+      "sampleId": "sample-004",
+      "editableCount": 48,
+      "templatePath": "아이기질브라덜\\overrides\\v1\\sample-004\\overrides.template.json"
+    }
+  ]
+}

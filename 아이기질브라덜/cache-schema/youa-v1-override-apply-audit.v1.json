@@ -1,0 +1,35 @@
+{
+  "version": "youa-v1-override-apply-audit-v1",
+  "generatedAt": "2026-05-18T19:19:54.828Z",
+  "summary": {
+    "samples": 4,
+    "applied": 0,
+    "errors": 0
+  },
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "overridesPath": "아이기질브라덜\\overrides\\v1\\sample-001\\overrides.json",
+      "applied": 0,
+      "errors": []
+    },
+    {
+      "sampleId": "sample-002",
+      "overridesPath": "아이기질브라덜\\overrides\\v1\\sample-002\\overrides.json",
+      "applied": 0,
+      "errors": []
+    },
+    {
+      "sampleId": "sample-003",
+      "overridesPath": "아이기질브라덜\\overrides\\v1\\sample-003\\overrides.json",
+      "applied": 0,
+      "errors": []
+    },
+    {
+      "sampleId": "sample-004",
+      "overridesPath": "아이기질브라덜\\overrides\\v1\\sample-004\\overrides.json",
+      "applied": 0,
+      "errors": []
+    }
+  ]
+}

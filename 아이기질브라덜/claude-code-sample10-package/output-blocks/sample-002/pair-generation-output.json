@@ -21,7 +21,16 @@
       ],
       "daily": "주말 오전 이성준 아버님과 이도윤 군이 함께 자전거 코스를 정한 뒤 출발하는 시간은, 두 결이 가장 깊게 만나며 아이의 활기가 건강하게 흐르는 자리가 됩니다."
     },
-    "parentPalaceSummary": null
+    "parentPalaceSummary": {
+      "source": "parent-palace-block-cache",
+      "cacheKey": "parentPalace|standard|support",
+      "motherGroup": "standard",
+      "fatherGroup": "support",
+      "paragraphs": [
+        "아이 사주 안에서 어머님은 절제하는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.",
+        "어머님의 생활의 기준과 경계를 세워주는 흐름과 아버님의 아이 마음을 먼저 받아주고 안정시키는 흐름이 함께 들어오면, 아이는 정서적 반응과 생활의 기준을 동시에 배웁니다. 두 흐름의 속도가 맞을수록 아이의 결은 더 안정적으로 자리를 잡습니다."
+      ]
+    }
   },
   "togetherMatrix": {
     "mother": {

@@ -1,0 +1,68 @@
+{
+  "version": "youa-v1-parent-palace-fill-audit-v1",
+  "generatedAt": "2026-05-18T18:57:17.823Z",
+  "summary": {
+    "ok": true,
+    "samples": 4,
+    "filled": 4,
+    "errors": 0
+  },
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "ok": true,
+      "motherGroup": "support",
+      "fatherGroup": "standard",
+      "cacheKey": "parentPalace|support|standard",
+      "filled": true,
+      "files": {
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\pair-generation-output.json",
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\block-manifest.json"
+      },
+      "errors": []
+    },
+    {
+      "sampleId": "sample-002",
+      "ok": true,
+      "motherGroup": "standard",
+      "fatherGroup": "support",
+      "cacheKey": "parentPalace|standard|support",
+      "filled": true,
+      "files": {
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\pair-generation-output.json",
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\block-manifest.json"
+      },
+      "errors": []
+    },
+    {
+      "sampleId": "sample-003",
+      "ok": true,
+      "motherGroup": "same",
+      "fatherGroup": "standard",
+      "cacheKey": "parentPalace|same|standard",
+      "filled": true,
+      "files": {
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\pair-generation-output.json",
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\block-manifest.json"
+      },
+      "errors": []
+    },
+    {
+      "sampleId": "sample-004",
+      "ok": true,
+      "motherGroup": "support",
+      "fatherGroup": "standard",
+      "cacheKey": "parentPalace|support|standard",
+      "filled": true,
+      "files": {
+        "pairInput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\pair-generation-input.json",
+        "pairOutput": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\pair-generation-output.json",
+        "manifest": "아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\block-manifest.json"
+      },
+      "errors": []
+    }
+  ]
+}

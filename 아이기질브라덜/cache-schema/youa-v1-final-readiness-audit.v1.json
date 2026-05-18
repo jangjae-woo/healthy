@@ -1,0 +1,187 @@
+{
+  "version": "youa-v1-final-readiness-audit-v1",
+  "generatedAt": "2026-05-18T19:35:12.909Z",
+  "ok": true,
+  "progress": 92,
+  "samples": [
+    {
+      "sampleId": "sample-001",
+      "requiredFiles": [
+        {
+          "fileName": "standalone-blocks.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\standalone-blocks.json"
+        },
+        {
+          "fileName": "pair-generation-input.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\pair-generation-input.json"
+        },
+        {
+          "fileName": "pair-generation-output.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\pair-generation-output.json"
+        },
+        {
+          "fileName": "block-manifest.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-001\\block-manifest.json"
+        }
+      ],
+      "previewHtml": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-001.html",
+      "overrideTemplate": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\overrides\\v1\\sample-001\\overrides.template.json",
+      "overrideEditableCount": 48
+    },
+    {
+      "sampleId": "sample-002",
+      "requiredFiles": [
+        {
+          "fileName": "standalone-blocks.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\standalone-blocks.json"
+        },
+        {
+          "fileName": "pair-generation-input.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\pair-generation-input.json"
+        },
+        {
+          "fileName": "pair-generation-output.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\pair-generation-output.json"
+        },
+        {
+          "fileName": "block-manifest.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-002\\block-manifest.json"
+        }
+      ],
+      "previewHtml": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-002.html",
+      "overrideTemplate": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\overrides\\v1\\sample-002\\overrides.template.json",
+      "overrideEditableCount": 48
+    },
+    {
+      "sampleId": "sample-003",
+      "requiredFiles": [
+        {
+          "fileName": "standalone-blocks.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\standalone-blocks.json"
+        },
+        {
+          "fileName": "pair-generation-input.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\pair-generation-input.json"
+        },
+        {
+          "fileName": "pair-generation-output.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\pair-generation-output.json"
+        },
+        {
+          "fileName": "block-manifest.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-003\\block-manifest.json"
+        }
+      ],
+      "previewHtml": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-003.html",
+      "overrideTemplate": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\overrides\\v1\\sample-003\\overrides.template.json",
+      "overrideEditableCount": 48
+    },
+    {
+      "sampleId": "sample-004",
+      "requiredFiles": [
+        {
+          "fileName": "standalone-blocks.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\standalone-blocks.json"
+        },
+        {
+          "fileName": "pair-generation-input.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\pair-generation-input.json"
+        },
+        {
+          "fileName": "pair-generation-output.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\pair-generation-output.json"
+        },
+        {
+          "fileName": "block-manifest.json",
+          "ok": true,
+          "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\claude-code-sample10-package\\output-blocks\\sample-004\\block-manifest.json"
+        }
+      ],
+      "previewHtml": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\v1-block-preview\\sample-004.html",
+      "overrideTemplate": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\overrides\\v1\\sample-004\\overrides.template.json",
+      "overrideEditableCount": 48
+    }
+  ],
+  "audits": [
+    {
+      "name": "factor-reason-detail",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\cache-schema\\youa-v1-factor-reason-detail-audit.v1.json",
+      "ok": true,
+      "summary": {
+        "ok": true,
+        "samples": 4
+      }
+    },
+    {
+      "name": "sample-blocks",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\cache-schema\\youa-v1-sample-blocks-audit.v1.json",
+      "ok": true,
+      "summary": {
+        "ok": true,
+        "totalErrors": 0,
+        "productFallbacks": 0,
+        "errors": 0,
+        "samples": 4
+      }
+    },
+    {
+      "name": "text-safety",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\cache-schema\\youa-v1-text-safety-audit.v1.json",
+      "ok": true,
+      "summary": {
+        "ok": true,
+        "totalErrors": 0,
+        "errors": 0,
+        "samples": 4
+      }
+    },
+    {
+      "name": "parent-palace-fill",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\cache-schema\\youa-v1-parent-palace-fill-audit.v1.json",
+      "ok": true,
+      "summary": {
+        "ok": true,
+        "totalErrors": 0,
+        "filled": 4,
+        "errors": 0,
+        "samples": 4
+      }
+    },
+    {
+      "name": "override-template",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\cache-schema\\youa-v1-override-template-audit.v1.json",
+      "ok": true,
+      "summary": {
+        "samples": 4
+      }
+    },
+    {
+      "name": "override-apply",
+      "path": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\cache-schema\\youa-v1-override-apply-audit.v1.json",
+      "ok": true,
+      "summary": {
+        "totalErrors": 0,
+        "errors": 0,
+        "applied": 0,
+        "samples": 4
+      }
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}
