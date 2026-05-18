@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-career-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "stress",
+  "sectionTitle": "직장 스트레스",
+  "sampleId": "장재우",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "career.stress|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang",
+  "cacheKey": "career.stress|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang|variant:02",
+  "text": "장재우 님의 직장 스트레스는 강한 기운을 쉬지 않고 쓰거나 약한 기운만 요구받을 때 피로가 커지는 타입이에요. 수 기운은 본인의 장점이지만 계속 과열되면 생각과 몸의 리듬이 같이 지치고, 약한 금 기운은 결핍 구간이라 보완이 필요합니다.\n\n기준, 문서, 결정권이 모호한 자리에서 스트레스가 오래 쌓이기 쉽습니다. 일정, 문서, 보고선, 결정권, 쉬는 시간을 눈에 보이게 나누어야 부담이 줄어듭니다. 직장 스트레스는 일을 못해서가 아니라 본인 결에 맞지 않는 방식으로 오래 버틸 때 커집니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

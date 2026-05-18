@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-business-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "solo-partner",
+  "sectionTitle": "1인 vs 동업",
+  "sampleId": "장재형",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "business.solo-partner|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang",
+  "cacheKey": "business.solo-partner|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang|variant:02",
+  "text": "장재형 님은 역할과 권한이 분명할 때 동업도 가능한 사업 결이에요. 동료·경쟁 결은 79점대, 짊어지는 결은 38점대로 잡혀 사람과 책임을 함께 볼 필요가 있습니다.\n\n같이 하더라도 돈, 권한, 책임 범위를 처음부터 나누면 사업이 안정됩니다. 정재 기운이 강하게 반복되면 비슷한 결의 사람과 한 자리에서 속도와 기준이 충돌할 수 있습니다. 동업은 친한 사람인지보다 문서로 나눌 수 있는 사람인지가 기준입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

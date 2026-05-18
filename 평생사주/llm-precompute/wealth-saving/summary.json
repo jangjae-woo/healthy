@@ -1,0 +1,50 @@
+{
+  "version": "lifesaju-wealth-saving-demo-summary-v2",
+  "generatedAt": "2026-05-18",
+  "count": 6,
+  "referenceStructure": [
+    "돈이 머무는 핵심 결론",
+    "사주 인자 근거",
+    "맞는 자산군과 보유 기간",
+    "안 맞는 자산군",
+    "안정/운용 비중"
+  ],
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "judgementType": "leak_guard_first",
+      "judgementLabel": "자산 이탈 방어형",
+      "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:mixed|accumulate:mid|strong:수:중상|weak:금:결핍|shinkang:태강|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "judgementType": "asset_bucket_builder",
+      "judgementLabel": "자산 그릇 확장형",
+      "cacheKey": "wealth.saving|pattern:asset_bucket_builder|keep:high|accumulate:very_high|strong:토:보통|weak:금:약|shinkang:신약|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "judgementType": "asset_bucket_builder",
+      "judgementLabel": "자산 그릇 확장형",
+      "cacheKey": "wealth.saving|pattern:asset_bucket_builder|keep:mid|accumulate:very_high|strong:목:보통|weak:수:없음|shinkang:중화|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "judgementType": "rule_first_saver",
+      "judgementLabel": "기준 먼저 저축형",
+      "cacheKey": "wealth.saving|pattern:rule_first_saver|keep:high|accumulate:mid|strong:목:보통|weak:금:결핍|shinkang:신약|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "judgementType": "leak_guard_first",
+      "judgementLabel": "자산 이탈 방어형",
+      "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:mixed|strong:화:강|weak:금:없음|shinkang:태강|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "judgementType": "leak_guard_first",
+      "judgementLabel": "자산 이탈 방어형",
+      "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang"
+    }
+  ]
+}

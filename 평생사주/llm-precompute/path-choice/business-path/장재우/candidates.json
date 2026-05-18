@@ -1,0 +1,57 @@
+{
+  "version": "lifesaju-path-choice-candidate-set-v1",
+  "generatedAt": "2026-05-18",
+  "group": "path-choice",
+  "sectionKey": "business-path",
+  "sampleId": "장재우",
+  "candidates": [
+    {
+      "version": "lifesaju-path-choice-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "장재우",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+      "cacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:01",
+      "text": "장재우 님이 자영업·사업의 길로 가면, 처음부터 큰 판을 벌이기보다 본인이 만든 가치가 실제로 팔리는지 작게 확인하는 흐름이 맞아요. 사업은 바로 크게 벌이기보다 검증 뒤에 붙여야 하는 사주라서 규모보다 검증 순서가 중요합니다.\n\n사업에서 살아나는 자리는 본인 이름, 콘텐츠, 전문 서비스, 노하우, 상담, 기획, 운영처럼 결과물이 눈에 보이는 쪽입니다. 수 기운이 강한 만큼 깊이 파고들어 차별점을 만드는 힘이 있습니다.\n\n반대로 유행만 따라가거나 고정비가 큰 방식은 본인 결을 흔들 수 있어요. 약한 금 자리는 가격표, 계약서, 일정표, 비용표처럼 눈에 보이는 장치로 보완해야 합니다.\n\n25~34세 을사 흐름에는 사업성이 더 선명해질 수 있습니다. 이 시기에는 완전히 새로 시작하기보다 이미 반응이 있던 것을 상품 구조로 묶는 편이 좋습니다.\n\n사업으로 간다면 핵심은 크게 보이는 일이 아니라 반복 구매와 소개가 생기는 구조입니다. 본인 결은 한 번에 터뜨리는 방식보다, 오래 쌓은 신뢰가 브랜드가 되는 방식에서 안정됩니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-path-choice-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "장재우",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+      "cacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:02",
+      "text": "장재우 님이 자영업·사업의 길로 가면, 처음부터 큰 판을 벌이기보다 본인이 만든 가치가 실제로 팔리는지 작게 확인하는 흐름이 맞아요. 사업은 바로 크게 벌이기보다 검증 뒤에 붙여야 하는 사주라서 규모보다 검증 순서가 중요합니다.\n\n사업에서 살아나는 자리는 본인 이름, 콘텐츠, 전문 서비스, 노하우, 상담, 기획, 운영처럼 결과물이 눈에 보이는 쪽입니다. 수 기운이 강한 만큼 깊이 파고들어 차별점을 만드는 힘이 있습니다.\n\n반대로 유행만 따라가거나 고정비가 큰 방식은 본인 결을 흔들 수 있어요. 약한 금 자리는 가격표, 계약서, 일정표, 비용표처럼 눈에 보이는 장치로 보완해야 합니다.\n\n25~34세 을사 흐름에는 사업성이 더 선명해질 수 있습니다. 이 시기에는 완전히 새로 시작하기보다 이미 반응이 있던 것을 상품 구조로 묶는 편이 좋습니다.\n\n사업으로 간다면 핵심은 크게 보이는 일이 아니라 반복 구매와 소개가 생기는 구조입니다. 본인 결은 한 번에 터뜨리는 방식보다, 오래 쌓은 신뢰가 브랜드가 되는 방식에서 안정됩니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-path-choice-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "장재우",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+      "cacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:03",
+      "text": "장재우 님이 자영업·사업의 길로 가면, 처음부터 큰 판을 벌이기보다 본인이 만든 가치가 실제로 팔리는지 작게 확인하는 흐름이 맞아요. 사업은 바로 크게 벌이기보다 검증 뒤에 붙여야 하는 사주라서 규모보다 검증 순서가 중요합니다.\n\n사업에서 살아나는 자리는 본인 이름, 콘텐츠, 전문 서비스, 노하우, 상담, 기획, 운영처럼 결과물이 눈에 보이는 쪽입니다. 수 기운이 강한 만큼 깊이 파고들어 차별점을 만드는 힘이 있습니다.\n\n반대로 유행만 따라가거나 고정비가 큰 방식은 본인 결을 흔들 수 있어요. 약한 금 자리는 가격표, 계약서, 일정표, 비용표처럼 눈에 보이는 장치로 보완해야 합니다.\n\n25~34세 을사 흐름에는 사업성이 더 선명해질 수 있습니다. 이 시기에는 완전히 새로 시작하기보다 이미 반응이 있던 것을 상품 구조로 묶는 편이 좋습니다.\n\n사업으로 간다면 핵심은 크게 보이는 일이 아니라 반복 구매와 소개가 생기는 구조입니다. 본인 결은 한 번에 터뜨리는 방식보다, 오래 쌓은 신뢰가 브랜드가 되는 방식에서 안정됩니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    }
+  ]
+}

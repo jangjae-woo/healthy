@@ -1,0 +1,113 @@
+{
+  "version": "lifesaju-area-score-rules-v1",
+  "generatedAt": "2026-05-18",
+  "inputFields": [
+    "elements",
+    "sipseongCounts",
+    "sipseong.day.branch",
+    "shinkang",
+    "yongsin",
+    "daeun.cycles",
+    "sinsal",
+    "gender"
+  ],
+  "areas": [
+    "wealth",
+    "career",
+    "business",
+    "marriage",
+    "health"
+  ],
+  "levels": [
+    {
+      "min": 86,
+      "label": "빛남",
+      "cls": "very-strong",
+      "dots": "●●●●●"
+    },
+    {
+      "min": 72,
+      "label": "시너지",
+      "cls": "strong",
+      "dots": "●●●●○"
+    },
+    {
+      "min": 56,
+      "label": "보완",
+      "cls": "mid",
+      "dots": "●●●○○"
+    },
+    {
+      "min": 42,
+      "label": "양면",
+      "cls": "ambivalent",
+      "dots": "●●○○○"
+    },
+    {
+      "min": 0,
+      "label": "살펴줄",
+      "cls": "care",
+      "dots": "●○○○○"
+    }
+  ],
+  "weights": {
+    "wealth": {
+      "재성": 24,
+      "식상": 14,
+      "관성": 4,
+      "인성": 2,
+      "비겁": -12
+    },
+    "career": {
+      "관성": 18,
+      "인성": 12,
+      "식상": 7,
+      "재성": 4,
+      "비겁": -3
+    },
+    "business": {
+      "식상": 16,
+      "재성": 14,
+      "비겁": 4,
+      "관성": -3,
+      "인성": 5
+    },
+    "marriage": {
+      "관성": 10,
+      "재성": 10,
+      "식상": 4,
+      "인성": 5,
+      "비겁": -5
+    },
+    "health": {
+      "인성": 9,
+      "관성": -4,
+      "식상": -2,
+      "재성": -2,
+      "비겁": -1
+    }
+  },
+  "ageWindows": {
+    "wealth": [
+      15,
+      64
+    ],
+    "career": [
+      15,
+      64
+    ],
+    "business": [
+      25,
+      74
+    ],
+    "marriage": [
+      15,
+      64
+    ],
+    "health": [
+      15,
+      74
+    ]
+  },
+  "note": "초기 결정론 산출기. 실제 샘플 화면 검수 후 축 가중치와 bright/care 산식을 조정한다."
+}

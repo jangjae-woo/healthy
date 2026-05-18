@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang|variant:01",
+  "baseCacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "장재형",
+  "status": "ready",
+  "text": "장재형 님은 본인이 만든 결과물이 곧 자산이 되는 결이에요. 사주 안에서는 표현, 재능, 기획, 노하우가 돈으로 이어지는 통로가 살아 있어, 남이 짜준 판보다 본인이 만든 가치가 수입으로 바뀔 때 결이 가장 선명합니다.\n\n구체적으로는 본인 이름을 건 콘텐츠, 노하우 기반 서비스, 1인 사업, 전문 컨설팅 같은 자리가 잘 맞아요. 회사 월급도 안정적인 바탕이 될 수 있지만, 본인은 \"내가 만든 가치가 직접 돈으로 흐르는 자리\"에서 더 살아납니다. 시간이 지날수록 결과물의 가치가 쌓이는 구조라, 오래 축적한 노하우가 평생의 수입 자리가 될 수 있습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

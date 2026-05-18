@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "weak-part",
+  "sectionTitle": "약해지기 쉬운 부위",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.weak-part|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang",
+  "cacheKey": "health.weak-part|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang|variant:03",
+  "text": "화토운영형 님은 약한 금 기운의 생활 신호를 먼저 살펴야 하는 결이에요. 금 기운은 없음 구간이라 건강운에서는 호흡, 피부, 정리된 생활 루틴과 판단 기준 쪽을 생활 리듬으로 챙기는 것이 중요합니다.\n\n38~47세 기해 흐름에는 무리한 일정과 회복 부족을 먼저 조심해야 합니다.\n\n몸이 보내는 작은 신호를 늦게 알아차리지 않도록, 피로가 쌓이는 시간대와 반복되는 생활 패턴을 기록해두면 좋습니다.\n\n건강운은 병명을 단정하기보다 오행 균형을 생활 리듬으로 살피는 쪽이 맞습니다.\n\n불편한 증상이 반복되면 생활 리듬만으로 버티지 말고 전문가 확인을 우선하는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

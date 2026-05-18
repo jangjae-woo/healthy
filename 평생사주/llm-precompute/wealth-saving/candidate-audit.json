@@ -1,0 +1,117 @@
+{
+  "version": "lifesaju-wealth-saving-candidate-audit-v1",
+  "generatedAt": "2026-05-18",
+  "sampleCount": 6,
+  "checkedCount": 18,
+  "issueCount": 0,
+  "report": [
+    {
+      "sampleId": "장재우",
+      "file": "candidate-v01.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "장재우",
+      "file": "candidate-v02.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "장재우",
+      "file": "candidate-v03.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "장재형",
+      "file": "candidate-v01.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "장재형",
+      "file": "candidate-v02.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "장재형",
+      "file": "candidate-v03.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-001",
+      "file": "candidate-v01.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-001",
+      "file": "candidate-v02.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-001",
+      "file": "candidate-v03.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-002",
+      "file": "candidate-v01.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-002",
+      "file": "candidate-v02.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-002",
+      "file": "candidate-v03.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-003",
+      "file": "candidate-v01.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-003",
+      "file": "candidate-v02.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-003",
+      "file": "candidate-v03.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-004",
+      "file": "candidate-v01.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-004",
+      "file": "candidate-v02.json",
+      "status": "ready",
+      "issues": []
+    },
+    {
+      "sampleId": "sample-004",
+      "file": "candidate-v03.json",
+      "status": "ready",
+      "issues": []
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang|variant:01",
+  "baseCacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-002",
+  "status": "ready",
+  "text": "수금연구형 님은 돈을 크게 흔드는 결보다 안정적으로 들어오는 수입을 오래 남기는 결이 먼저 살아나요. 한 번에 크게 벌겠다는 방식보다 매달 반복되는 구조, 제도권 안의 역할, 꾸준한 축적이 재물의 바탕이 됩니다.\n\n구체적으로는 고정급, 장기 프로젝트, 안정적인 조직, 반복 수입이 있는 자리가 잘 맞아요. 본인이 감당할 수 있는 범위 안에서 돈의 흐름을 만들면 시간이 지날수록 자산의 모양이 차분히 잡힙니다. 무리한 확장보다 오래 유지되는 수입 구조를 먼저 세우는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

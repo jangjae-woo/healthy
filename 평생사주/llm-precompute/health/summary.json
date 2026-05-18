@@ -1,0 +1,209 @@
+{
+  "version": "lifesaju-health-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 30,
+  "sections": {
+    "vitality": {
+      "title": "체력 기본 결",
+      "paragraphCount": 2
+    },
+    "weak-part": {
+      "title": "약해지기 쉬운 부위",
+      "paragraphCount": 5
+    },
+    "emotion": {
+      "title": "정신·정서 결",
+      "paragraphCount": 2
+    },
+    "lifestyle": {
+      "title": "본인에 맞는 운동·생활",
+      "paragraphCount": 3
+    },
+    "lifetime-care": {
+      "title": "살아갈수록 챙길 결",
+      "paragraphCount": 2
+    }
+  },
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "sectionKey": "vitality",
+      "sectionTitle": "체력 기본 결",
+      "baseCacheKey": "health.vitality|strong:수:중상|weak:금:결핍|shinkang:태강|balance:mid|vitality:high|lowConflict:mixed|johu:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "weak-part",
+      "sectionTitle": "약해지기 쉬운 부위",
+      "baseCacheKey": "health.weak-part|strong:수:중상|weak:금:결핍|shinkang:태강|balance:mid|vitality:high|lowConflict:mixed|johu:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "emotion",
+      "sectionTitle": "정신·정서 결",
+      "baseCacheKey": "health.emotion|strong:수:중상|weak:금:결핍|shinkang:태강|balance:mid|vitality:high|lowConflict:mixed|johu:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "lifestyle",
+      "sectionTitle": "본인에 맞는 운동·생활",
+      "baseCacheKey": "health.lifestyle|strong:수:중상|weak:금:결핍|shinkang:태강|balance:mid|vitality:high|lowConflict:mixed|johu:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "lifetime-care",
+      "sectionTitle": "살아갈수록 챙길 결",
+      "baseCacheKey": "health.lifetime-care|strong:수:중상|weak:금:결핍|shinkang:태강|balance:mid|vitality:high|lowConflict:mixed|johu:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "vitality",
+      "sectionTitle": "체력 기본 결",
+      "baseCacheKey": "health.vitality|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "weak-part",
+      "sectionTitle": "약해지기 쉬운 부위",
+      "baseCacheKey": "health.weak-part|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "emotion",
+      "sectionTitle": "정신·정서 결",
+      "baseCacheKey": "health.emotion|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "lifestyle",
+      "sectionTitle": "본인에 맞는 운동·생활",
+      "baseCacheKey": "health.lifestyle|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "lifetime-care",
+      "sectionTitle": "살아갈수록 챙길 결",
+      "baseCacheKey": "health.lifetime-care|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "vitality",
+      "sectionTitle": "체력 기본 결",
+      "baseCacheKey": "health.vitality|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "weak-part",
+      "sectionTitle": "약해지기 쉬운 부위",
+      "baseCacheKey": "health.weak-part|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "emotion",
+      "sectionTitle": "정신·정서 결",
+      "baseCacheKey": "health.emotion|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "lifestyle",
+      "sectionTitle": "본인에 맞는 운동·생활",
+      "baseCacheKey": "health.lifestyle|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "lifetime-care",
+      "sectionTitle": "살아갈수록 챙길 결",
+      "baseCacheKey": "health.lifetime-care|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "vitality",
+      "sectionTitle": "체력 기본 결",
+      "baseCacheKey": "health.vitality|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "weak-part",
+      "sectionTitle": "약해지기 쉬운 부위",
+      "baseCacheKey": "health.weak-part|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "emotion",
+      "sectionTitle": "정신·정서 결",
+      "baseCacheKey": "health.emotion|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "lifestyle",
+      "sectionTitle": "본인에 맞는 운동·생활",
+      "baseCacheKey": "health.lifestyle|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "lifetime-care",
+      "sectionTitle": "살아갈수록 챙길 결",
+      "baseCacheKey": "health.lifetime-care|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "vitality",
+      "sectionTitle": "체력 기본 결",
+      "baseCacheKey": "health.vitality|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "weak-part",
+      "sectionTitle": "약해지기 쉬운 부위",
+      "baseCacheKey": "health.weak-part|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "emotion",
+      "sectionTitle": "정신·정서 결",
+      "baseCacheKey": "health.emotion|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "lifestyle",
+      "sectionTitle": "본인에 맞는 운동·생활",
+      "baseCacheKey": "health.lifestyle|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "lifetime-care",
+      "sectionTitle": "살아갈수록 챙길 결",
+      "baseCacheKey": "health.lifetime-care|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "vitality",
+      "sectionTitle": "체력 기본 결",
+      "baseCacheKey": "health.vitality|strong:토:강|weak:화:없음|shinkang:극왕|balance:care|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "weak-part",
+      "sectionTitle": "약해지기 쉬운 부위",
+      "baseCacheKey": "health.weak-part|strong:토:강|weak:화:없음|shinkang:극왕|balance:care|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "emotion",
+      "sectionTitle": "정신·정서 결",
+      "baseCacheKey": "health.emotion|strong:토:강|weak:화:없음|shinkang:극왕|balance:care|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "lifestyle",
+      "sectionTitle": "본인에 맞는 운동·생활",
+      "baseCacheKey": "health.lifestyle|strong:토:강|weak:화:없음|shinkang:극왕|balance:care|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "lifetime-care",
+      "sectionTitle": "살아갈수록 챙길 결",
+      "baseCacheKey": "health.lifetime-care|strong:토:강|weak:화:없음|shinkang:극왕|balance:care|vitality:high|lowConflict:mid|johu:mid|tone:index-jang"
+    }
+  ]
+}

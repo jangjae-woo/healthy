@@ -1,0 +1,198 @@
+{
+  "version": "lifesaju-wealth-earning-judgement-v1",
+  "generatedAt": "2026-05-18",
+  "sampleId": "장재형",
+  "personKey": "1989-12-10_미시_male",
+  "personName": "장재형",
+  "pageAlias": "wealth",
+  "sectionRole": "earning",
+  "sectionTitle": "돈을 버는 결",
+  "judgementType": "created_value_to_asset",
+  "judgementLabel": "본인 결과물 자산화형",
+  "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+  "factors": {
+    "ilgan": "갑",
+    "dayPillar": "갑진",
+    "shinkang": "신약",
+    "strongestElement": "토",
+    "weakestElement": "금",
+    "elementBands": {
+      "목": "약",
+      "화": "약",
+      "토": "보통",
+      "금": "약",
+      "수": "약"
+    },
+    "elementShape": "earth_보통_metal_약",
+    "sipseongCounts": {
+      "정재": 2,
+      "식신": 2,
+      "정인": 1,
+      "비견": 1,
+      "편재": 1,
+      "정관": 1
+    },
+    "sipseongBands": {
+      "정재": "보통",
+      "식신": "보통",
+      "정인": "약",
+      "비견": "약",
+      "편재": "약",
+      "정관": "약"
+    },
+    "sipseongCategories": {
+      "비겁": 1,
+      "식상": 2,
+      "재성": 3,
+      "관성": 1,
+      "인성": 1
+    },
+    "sipseongCategoryBands": {
+      "비겁": "약",
+      "식상": "보통",
+      "재성": "강",
+      "관성": "약",
+      "인성": "약"
+    },
+    "topSipseong": "정재",
+    "topSipseongBand": "보통",
+    "topCategory": "재성",
+    "topCategoryBand": "강",
+    "yongsin": "목"
+  },
+  "wealthAxes": {
+    "support": {
+      "id": "support",
+      "label": "받쳐주는 결",
+      "score": 54,
+      "level": "양면",
+      "className": "ambivalent",
+      "dots": "●●○○○",
+      "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+      "sourceFactors": [
+        "인성",
+        "용신",
+        "신강신약"
+      ]
+    },
+    "make": {
+      "id": "make",
+      "label": "만드는 결",
+      "score": 78,
+      "level": "시너지",
+      "className": "strong",
+      "dots": "●●●●○",
+      "reason": "식상과 재성이 수입을 만드는 통로",
+      "sourceFactors": [
+        "식상",
+        "재성"
+      ]
+    },
+    "keep": {
+      "id": "keep",
+      "label": "지키는 결",
+      "score": 77,
+      "level": "시너지",
+      "className": "strong",
+      "dots": "●●●●○",
+      "reason": "비겁 과다 여부와 관성의 정리력",
+      "sourceFactors": [
+        "비겁",
+        "관성",
+        "신강신약"
+      ]
+    },
+    "accumulate": {
+      "id": "accumulate",
+      "label": "모이는 결",
+      "score": 97,
+      "level": "빛남",
+      "className": "very-strong",
+      "dots": "●●●●●",
+      "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+      "sourceFactors": [
+        "재성",
+        "토",
+        "오행균형"
+      ]
+    }
+  },
+  "timing": {
+    "bright": {
+      "ageStart": 61,
+      "ageEnd": 70,
+      "ganji": "기사",
+      "stemSipseong": "정재",
+      "branchSipseong": "상관",
+      "score": 100,
+      "level": "빛남"
+    },
+    "care": {
+      "ageStart": 11,
+      "ageEnd": 20,
+      "ganji": "갑술",
+      "stemSipseong": "비견",
+      "branchSipseong": "편재",
+      "score": 74,
+      "level": "시너지"
+    },
+    "brightTimingBand": "very_high",
+    "careTimingBand": "high"
+  },
+  "derivedFlags": {
+    "hasSiksangToJaeseong": true,
+    "siksangBand": "보통",
+    "jaeseongBand": "강",
+    "bigyeopDrainRisk": "low",
+    "incomeCapacityByShinkang": "needs_support",
+    "contractPriceBoundaryRisk": "standard_boundary",
+    "brightTimingBand": "very_high",
+    "careTimingBand": "high"
+  },
+  "llmPrecomputeInput": {
+    "pageAlias": "wealth",
+    "sectionRole": "earning",
+    "personName": "장재형",
+    "tone": "index-jang",
+    "judgementType": "created_value_to_asset",
+    "judgementLabel": "본인 결과물 자산화형",
+    "requiredFacts": [
+      "본인이 만든 결과물이 수입 구조가 되는 타입",
+      "표현·재능·기획·노하우가 돈으로 이어지는 결",
+      "시간이 쌓일수록 결과물 가치가 누적됨",
+      "주의점: standard_boundary"
+    ],
+    "forbiddenFacts": [
+      "점수 숫자 직접 노출 금지",
+      "대운 간지와 십성을 계산표처럼 나열 금지",
+      "투자 확정 수익 표현 금지",
+      "무조건 부자/평생 돈복 같은 과장 금지"
+    ],
+    "fitIncomeSeats": [
+      "본인 이름 콘텐츠",
+      "노하우 기반 서비스",
+      "1인 사업",
+      "전문 컨설팅",
+      "전문직 자격"
+    ],
+    "positiveFactors": [
+      "토 기운은 축적, 안정, 현실 감각 쪽으로 번역한다.",
+      "재성 흐름은 강 단계로 본다.",
+      "재물 bright 시기는 내부적으로 very_high 단계다."
+    ],
+    "riskFactors": [
+      "금 기운은 약 단계다.",
+      "돈을 지키는 축은 high 단계다.",
+      "리스크 패턴은 standard_boundary다."
+    ],
+    "outputShape": {
+      "paragraphs": 2,
+      "sentencesPerParagraph": [
+        2,
+        3
+      ],
+      "exposeInternalScores": false,
+      "exposeCacheKeys": false
+    }
+  }
+}

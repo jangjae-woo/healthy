@@ -1,0 +1,168 @@
+{
+  "version": "lifesaju-preview-consistency-audit-v1",
+  "generatedAt": "2026-05-18",
+  "report": [
+    {
+      "sampleId": "sample-001",
+      "expected": {
+        "shinkang": "중화",
+        "yongsin": "수",
+        "strongestElement": "목",
+        "weakestElement": "수",
+        "elementPercent": {
+          "목": 35,
+          "화": 12,
+          "토": 32,
+          "금": 21,
+          "수": 0
+        },
+        "sipCategory": {
+          "비겁": 3,
+          "식상": 1,
+          "재성": 2,
+          "관성": 2,
+          "인성": 0
+        }
+      },
+      "pageCount": 12,
+      "pageIdsMatch": true,
+      "issueCount": 0,
+      "issues": []
+    },
+    {
+      "sampleId": "sample-002",
+      "expected": {
+        "shinkang": "신약",
+        "yongsin": "화",
+        "strongestElement": "목",
+        "weakestElement": "금",
+        "elementPercent": {
+          "목": 29,
+          "화": 23,
+          "토": 29,
+          "금": 2,
+          "수": 17
+        },
+        "sipCategory": {
+          "비겁": 2,
+          "식상": 2,
+          "재성": 0,
+          "관성": 2,
+          "인성": 2
+        }
+      },
+      "pageCount": 12,
+      "pageIdsMatch": true,
+      "issueCount": 0,
+      "issues": []
+    },
+    {
+      "sampleId": "sample-003",
+      "expected": {
+        "shinkang": "태강",
+        "yongsin": "금",
+        "strongestElement": "화",
+        "weakestElement": "금",
+        "elementPercent": {
+          "목": 33,
+          "화": 50,
+          "토": 14,
+          "금": 0,
+          "수": 4
+        },
+        "sipCategory": {
+          "비겁": 4,
+          "식상": 2,
+          "재성": 0,
+          "관성": 0,
+          "인성": 2
+        }
+      },
+      "pageCount": 12,
+      "pageIdsMatch": true,
+      "issueCount": 0,
+      "issues": []
+    },
+    {
+      "sampleId": "sample-004",
+      "expected": {
+        "shinkang": "극왕",
+        "yongsin": "목",
+        "strongestElement": "토",
+        "weakestElement": "화",
+        "elementPercent": {
+          "목": 2,
+          "화": 0,
+          "토": 67,
+          "금": 23,
+          "수": 8
+        },
+        "sipCategory": {
+          "비겁": 5,
+          "식상": 1,
+          "재성": 0,
+          "관성": 0,
+          "인성": 0
+        }
+      },
+      "pageCount": 12,
+      "pageIdsMatch": true,
+      "issueCount": 0,
+      "issues": []
+    },
+    {
+      "sampleId": "장재형",
+      "expected": {
+        "shinkang": "신약",
+        "yongsin": "목",
+        "strongestElement": "토",
+        "weakestElement": "금",
+        "elementPercent": {
+          "목": 15,
+          "화": 19,
+          "토": 27,
+          "금": 14,
+          "수": 25
+        },
+        "sipCategory": {
+          "비겁": 1,
+          "식상": 2,
+          "재성": 3,
+          "관성": 1,
+          "인성": 1
+        }
+      },
+      "pageCount": 12,
+      "pageIdsMatch": true,
+      "issueCount": 0,
+      "issues": []
+    },
+    {
+      "sampleId": "장재우",
+      "expected": {
+        "shinkang": "태강",
+        "yongsin": "목",
+        "strongestElement": "수",
+        "weakestElement": "금",
+        "elementPercent": {
+          "목": 14,
+          "화": 20,
+          "토": 15,
+          "금": 6,
+          "수": 46
+        },
+        "sipCategory": {
+          "비겁": 4,
+          "식상": 1,
+          "재성": 1,
+          "관성": 1,
+          "인성": 1
+        }
+      },
+      "pageCount": 12,
+      "pageIdsMatch": true,
+      "issueCount": 0,
+      "issues": []
+    }
+  ]
+}

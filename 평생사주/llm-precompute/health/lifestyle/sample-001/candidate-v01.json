@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "lifestyle",
+  "sectionTitle": "본인에 맞는 운동·생활",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.lifestyle|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang",
+  "cacheKey": "health.lifestyle|strong:목:보통|weak:수:없음|shinkang:중화|balance:mid|vitality:very_high|lowConflict:mid|johu:mid|tone:index-jang|variant:01",
+  "text": "목화표현형 님에게 맞는 운동·생활은 강도보다 반복 가능한 운동과 생활 기준이 맞는 결이에요. 다섯 결의 균형은 66점대라, 한 가지를 과하게 몰아가기보다 수면, 식사, 움직임, 쉬는 시간을 나누어 잡는 편이 안정됩니다.\n\n목 기운은 강하게 쓰되 약한 수 기운을 소모하지 않는 방식이 좋습니다.\n\n운동은 기록을 남길 수 있는 가벼운 반복, 생활은 같은 시간에 자고 먹는 기준부터 잡는 편이 맞습니다. 무리한 계획보다 오래 반복할 수 있는 기준이 본인 결에 맞습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

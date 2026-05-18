@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "youa-block-cache-v1",
+  "generatedAt": "2026-05-17T16:42:46.423Z",
+  "files": [
+    {
+      "name": "factor-blocks.json",
+      "count": 30
+    },
+    {
+      "name": "factor-combo-blocks.json",
+      "count": 1080
+    },
+    {
+      "name": "parent-saju-blocks.json",
+      "count": 20
+    },
+    {
+      "name": "compatibility-blocks.json",
+      "count": 200
+    },
+    {
+      "name": "parent-palace-blocks.json",
+      "count": 25
+    },
+    {
+      "name": "matrix-card-blocks.json",
+      "count": 432
+    },
+    {
+      "name": "parent-cause-blocks.json",
+      "count": 1560
+    },
+    {
+      "name": "matrix-combo-blocks.json",
+      "count": 24336
+    },
+    {
+      "name": "compatibility-cause-blocks.json",
+      "count": 8000
+    },
+    {
+      "name": "factor-cause-blocks.json",
+      "count": 5070
+    }
+  ],
+  "totalBlocks": 40753
+}

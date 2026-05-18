@@ -1,6 +1,5 @@
 import type { SajuAnalysisCore } from "@/lib/saju-core";
 import { REPETITION_TONE_GUIDE } from "@/lib/hongsil/prompts/refinement/repetition-tone";
-import { REPETITION_TONE_GUIDE_NEUTRAL } from "@/lib/parent-child-saju-tone";
 
 const GEMINI_MODEL = "gemini-2.5-flash";
 const GUARD_TIMEOUT_MS = 45_000;
@@ -448,41 +447,6 @@ function fixChildHonorificCorruption(text: string, stem?: string, honorific?: st
   return text.replace(re, `${stem}${honorific}`);
 }
 
-// ⭐ V2.1 (2026-05-15) — 자녀 호칭 0% 오타 가드 (G19)
-// LLM이 "이주희양" 대신 "이주희야"·"이주희님"·"이주희씨"·성별 반대 호칭으로 부르는 케이스 강제 복원.
-// 반드시 fixParentDirectAddress 호출 전에 적용 — 그래야 따옴표 안 의도 변환이 망가지지 않음.
-// 단독 stem(호칭 없음)은 fixParentDirectAddress 흐름과 충돌 우려로 건드리지 않음.
-//
-// ⭐ V2.1.2 (2026-05-15) lookahead FIX —
-// 기존 (?![가-힣]) lookahead가 한글 조사(은·는·이·가 등)를 차단해서
-// "이주희야은" 같은 명백한 오타가 매칭 안 되던 버그 수정.
-// 한국어 격조사·구두점·공백·문장끝만 허용으로 변경.
-function normalizeChildHonorific(text: string, stem?: string, honorific?: string): string {
-  if (!stem || !honorific) return text;
-  const cnh = `${stem}${honorific}`;
-  // 명백한 잘못된 호칭 패턴 + 성별 반대 호칭
-  const wrongSuffixes = ["야", "님", "씨"];
-  if (honorific === "양") wrongSuffixes.push("군");
-  else if (honorific === "군") wrongSuffixes.push("양");
-  let out = text;
-  // 한국어 격조사·종결어미 + 구두점·공백·문장끝
-  const ALLOWED_AFTER = `[은는이가을를도만에서로의과와로서께부터까지마저조차\\s,.;:!?'"“”‘’「」『』。、]|$`;
-  const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  // ⭐ (2026-05-15) 풀스템 + firstName(성 빼고) 둘 다 복구.
-  // V2는 @CHILD@ 토큰화로 LLM에 실제 이름 노출 X. 그래도 어떤 경로로든
-  // "하나야"·"군야"(firstName+vocative)가 새면 가드가 한 번 더 잡음.
-  // "최군"처럼 firstName이 호칭과 겹치는 pathological 케이스도 커버.
-  const candidates = stem.length >= 2 ? [stem, stem.slice(1)] : [stem];
-  for (const cand of candidates) {
-    const esc = escapeRe(cand);
-    for (const suffix of wrongSuffixes) {
-      const re = new RegExp(`${esc}${suffix}(?=${ALLOWED_AFTER})`, "g");
-      out = out.replace(re, cnh);
-    }
-  }
-  return out;
-}
-
 // ⭐ G12 v2 (2026-05-14) — 풀 phrase + 한자 잘못 합성 strip
 // 발견 사례 (555 이미지): "사주의 결(균화)한 구조" — 풀 phrase("사주의 결") 뒤에 한자 괄호("(균화)") 직접 결합 어색.
 // 풀 phrase 뒤 즉시 한자 괄호가 오면 괄호 제거. (정상 한자 토큰은 풀 phrase 없이 단독)
@@ -511,12 +475,10 @@ function stripPhraseHanjaMisbinding(text: string): string {
 function fixParentDirectAddress(text: string, childName?: string, cnh?: string): string {
   if (!childName || !cnh || childName === cnh) return text;
   const escapedCnh = cnh.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  // ⭐ V2.1.2 (2026-05-15) — 친구·가족 대사 호칭은 성을 빼고 이름만 (예: "주희야", "이주희야" X)
-  // 한 글자 성 가정 (대부분 한국 성), 한 글자 이름 fallback (드문 케이스)
-  const firstName = childName.length >= 2 ? childName.slice(1) : childName;
+  // 따옴표 안 첫 cnh 등장 → childName + 야
+  // 본문에 "...어머님께서는 '동희양' 라고..." / `"동희양, ~"` 등 인용 안 호명 케이스만 swap.
   let out = text;
-  // 따옴표 안 첫 cnh 등장 → firstName + 야 ("주희야" 형태, 친구·가족 대사 자연스럽게)
-  out = out.replace(new RegExp(`(["'“‘])([^"'“”‘’]{0,200}?)${escapedCnh}(?=[은는이가을를도아야!?,.\\s])`, "g"), `$1$2${firstName}야`);
+  out = out.replace(new RegExp(`(["'“‘])([^"'“”‘’]{0,200}?)${escapedCnh}(?=[은는이가을를도아야!?,.\\s])`, "g"), `$1$2${childName}야`);
   return out;
 }
 
@@ -599,22 +561,14 @@ function fixChartFactsMismatch(text: string, facts?: ChartFactsForGuard): string
       [/바로\s*친해지는/g,              "second", "천천히 친해지는"],
     ]},
   ];
-  // ⭐ (2026-05-15) ### / ## 헤더 줄은 절대 치환 금지.
-  // 발견 사례: writeDom "말형" 사주에서 /글로 정리/ 스왑이 본문뿐 아니라
-  // "### 글로 정리할까, 말로 표현할까" 헤더 줄까지 매칭 →
-  // "### 말로 표현할까, 말로 표현할까"로 변형 → 클라이언트 sub 매핑 실패 → "(본문 없어요)".
-  // 차트 의존 버그라 말형 자녀에서만 재현 (글형·양면은 swap 자체 skip).
-  // 본문 키워드 정합 스왑은 유지하되, # 헤더 줄만 보호.
-  const swapSkippingHeaders = (src: string, re: RegExp, swap: string): string =>
-    src.split("\n").map((line) => (/^#{1,6}\s/.test(line) ? line : line.replace(re, swap))).join("\n");
   for (const r of rules) {
     if (!r.dom) continue;
     if (!r.valid.includes(r.dom)) continue; // 양면 skip
     for (const [re, direction, swap] of r.swaps) {
       const expressionMatchesDom = (direction === "first" && r.dom === r.valid[0]) || (direction === "second" && r.dom === r.valid[1]);
       if (expressionMatchesDom) continue; // 표현 방향이 dominant와 일치 → no-op
-      // dominant와 충돌 → swap (단 ### / ## 헤더 줄은 제외)
-      out = swapSkippingHeaders(out, re, swap);
+      // dominant와 충돌 → swap
+      out = out.replace(re, swap);
     }
   }
   return out;
@@ -707,6 +661,25 @@ function stripPronounDuplication(text: string): string {
 // 발견 사례: "사고 유형 도미넌트 깊이 사색형 70%", "아침 시간대(45%)"
 // charts helper 결과를 prompt context로 넣었더니 LLM이 본문에 % 그대로 박음.
 // 일반 독자에겐 어색·UX 손상. strip.
+// Parent-child outputs can overuse vague bridge phrases even after prompt bans.
+// Keep this deterministic and mild: remove template smell without changing chart meaning.
+function softenParentChildRepetitivePhrases(text: string): string {
+  let out = text;
+  out = out.replace(/그 결 기운/g, "해당 인자");
+  out = out.replace(/그 흐름 기운/g, "해당 흐름");
+  out = out.replace(/앞서 본 결/g, "이 결");
+  out = out.replace(/앞서 본 신살/g, "이 신살");
+  out = out.replace(/본인 결이 옅게 자리하고 있어/g, "자기 기준을 세우는 데 시간이 들어");
+  out = out.replace(/타고난 결이 옅게 자리하고 있어/g, "혼자 밀어붙이는 힘이 천천히 켜져");
+  out = out.replace(/옅게 자리해 있어/g, "천천히 작동해");
+  out = out.replace(/옅게 자리하고 있어/g, "천천히 작동해");
+  out = out.replace(/옅게 자리하고 있으며/g, "천천히 작동하며");
+  out = out.replace(/옅게 자리하여/g, "천천히 작동해");
+  out = out.replace(/옅게 자리한 편이라/g, "천천히 작동하는 편이라");
+  out = out.replace(/옅게 자리한/g, "천천히 작동하는");
+  return out;
+}
+
 function stripChartScoreLeakage(text: string): string {
   let out = text;
   // "도미넌트 ... 70%" / "사고 유형 도미넌트 깊이 사색형 70%"
@@ -756,15 +729,10 @@ function normalizeCharacterName(text: string): string {
 // CHARACTER_NAMES(12 캐릭터)에 안 들어가는 이름만 처리.
 function stripUserNameSangSuffix(text: string, userNames: string[]): string {
   let out = text;
-  // ⭐ V2.2.0 (2026-05-15) lookahead FIX — 기존 (?![가-힣])가 한국어 조사(은·는·이·가)를
-  // 차단해서 "수리당상은"·"수리당상의" 같은 명백한 오류를 못 잡던 버그 (G19와 동일 패턴).
-  // 한국어 격조사·구두점·공백·문장끝만 허용으로 변경.
-  const ALLOWED_AFTER = `[은는이가을를도만에서로의과와로서께부터까지마저조차\\s,.;:!?'"“”‘’「」『』。、]|$`;
   for (const name of userNames) {
     if (!name || name.length < 2) continue;
     if (CHARACTER_NAMES.includes(name)) continue;
-    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const re = new RegExp(`${escaped}상(?=${ALLOWED_AFTER})`, "g");
+    const re = new RegExp(`${name}상(?![가-힣])`, "g");
     out = out.replace(re, `${name}님`);
   }
   return out;
@@ -802,28 +770,6 @@ function stripChapter5Hanja(text: string): string {
   // 3. 공백 정리
   out = out.replace(/[ \t]+([,.!?])/g, "$1");
   return out;
-}
-
-// ── G21 (2026-05-15) — 신살 한자명에 한글 혼입 오타 복원 ──
-// 발견 사례: 평생사주4차.txt L6 "월덕귀인(月德貴인)" — 한자 "人" 자리에 한글 "인"
-// 한자+한글 혼합(貴인 / 귀人)만 복원. 순수 한글("귀인")·순수 한자("貴人")는 건드리지 않음.
-function fixHanjaCorruption(text: string): string {
-  return text
-    .replace(/貴인/g, "貴人")
-    .replace(/귀人/g, "貴人")
-    .replace(/天乙귀/g, "天乙貴")
-    .replace(/月德귀/g, "月德貴")
-    .replace(/學堂귀/g, "學堂貴")
-    .replace(/太極귀/g, "太極貴");
-}
-
-// ── V2.2.2 (2026-05-15) — "결론적으로" 마무리 접속어 strip ──
-// 발견 사례: 평생사주4차.txt L222·252·310·321 — sub 마지막 문단을 "결론적으로,"로 시작.
-// 문장/문단 첫머리의 "결론적으로 / 즉, / 이렇듯" 요약 접속어만 제거. 본문 중간은 보존.
-function stripConclusionFiller(text: string): string {
-  return text
-    .replace(/(^|\n)\s*결론적으로[,，]?\s*/g, "$1")
-    .replace(/([.!?]\s+)결론적으로[,，]?\s*/g, "$1");
 }
 
 // ── Fix #4: 환각 방지 가드 ────────────────────────────────
@@ -1013,19 +959,22 @@ function suppressRepeatedHongsilEvidence(
       return segment.body;
     }
 
-    // ⭐ (2026-05-15) 풀 phrase 치환 비활성 — V2.2.2 톤("같은 인자명 반복 OK")과 정렬.
-    // 가드가 "본인 결"·"타고난 결"·"그 기운" 등을 박던 게 vague pronoun 누출의 주범.
-    // 4 서비스(부모자녀·hongsil·inyeon·평생사주) 공통 적용.
-    // 카운팅은 유지 — cross-chapter usedTokens 흐름과 다른 가드 로직 정합 보존.
+    // 그 외 sub — 등장마다 카운트, 3회째부터 풀 대명사로 치환.
     let body = segment.body.replace(HANJA_TOKEN_REGEX, (raw) => {
       const key = normalizeHanjaToken(raw);
-      counts.set(key, (counts.get(key) ?? 0) + 1);
-      return raw;
+      const count = (counts.get(key) ?? 0) + 1;
+      counts.set(key, count);
+      if (count <= 2) return raw;
+      const pool = poolForHanja(key);
+      return pool[(count - 3) % pool.length];
     });
 
     body = body.replace(KOREAN_TERM_REGEX, (term) => {
-      counts.set(term, (counts.get(term) ?? 0) + 1);
-      return term;
+      const count = (counts.get(term) ?? 0) + 1;
+      counts.set(term, count);
+      if (count <= 2) return term;
+      const pool = poolForKorean(term);
+      return pool[(count - 3) % pool.length];
     });
 
     return body;
@@ -1189,13 +1138,7 @@ async function rewriteOutput(input: GuardInput, issues: GuardIssue[], repeatedEv
 [의미 중복 클러스터 기준]
 ${SEMANTIC_CLUSTER_GUIDE}
 
-${
-  (input.service === "hongsil" || input.service === "inyeon")
-    ? REPETITION_TONE_GUIDE
-    : (input.service === "parent-child" || input.service === "saju")
-      ? REPETITION_TONE_GUIDE_NEUTRAL
-      : ""
-}
+${(input.service === "hongsil" || input.service === "inyeon" || input.service === "parent-child" || input.service === "saju") ? REPETITION_TONE_GUIDE : ""}
 
 [사주 근거]
 ${buildGuardContext(input.people)}
@@ -1368,16 +1311,14 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
     text = suppressRepeatedHongsilEvidence(text, input.usedTokens);
     text = fixJosaAfterPronouns(text); // ⭐ G5 — 풀 phrase 받침에 맞춰 조사 보정 ("자리이"→"자리가", "자리은"→"자리는")
     text = stripPronounDuplication(text); // ⭐ Step D — 풀 대명사 치환 후 "그 기운 기운" 중복 차단 (suppress 직후)
+    text = softenParentChildRepetitivePhrases(text); // G20 — "옅게 자리" / "앞서 본 결" 반복 완화
     text = stripBrokenQuotes(text); // ⭐ Step E — 미완 인용구 strip ("" 하고 ... " 같은 잔존)
     text = forceSubHeaderNewlines(text); // ⭐ F1 — ### sub 헤더 줄바꿈 강제 (본문 중간 ### 박힘 fix)
     text = stripAgeInappropriateWords(text, input.childAgeStage); // ⭐ F3 — 영유아 케이스 학령기·성인 어휘 strip
     text = fixChartFactsMismatch(text, input.chartFacts); // ⭐ G17 — 차트 dominant ↔ 본문 키워드 치환
     text = fixShineAgeMismatch(text, input.chartFacts?.shineGroup); // ⭐ G7 v2 — ShineAge 시기 결정론 치환
     text = stripPhraseHanjaMisbinding(text); // ⭐ G12 v2 — "사주의 결(균화)" 같이 풀 phrase + 한자 괄호 잘못 합성 strip
-    text = fixHanjaCorruption(text); // ⭐ G21 — 신살 한자명 한글 혼입 오타 복원 (月德貴인→月德貴人)
     {
-      // ⭐ V2.1 G19 (2026-05-15) — 호칭 normalize 먼저 (parent direct address 전)
-      text = normalizeChildHonorific(text, input.childNameStem, input.childHonorific);
       const _cnh = input.childNameStem && input.childHonorific ? `${input.childNameStem}${input.childHonorific}` : "";
       text = fixParentDirectAddress(text, input.childNameStem, _cnh); // ⭐ G18 — 부모 직접 인용 호칭 동희양→동희야
     }
@@ -1427,8 +1368,6 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
           text = fixChartFactsMismatch(text, input.chartFacts);
           text = fixShineAgeMismatch(text, input.chartFacts?.shineGroup); // ⭐ G7 v2 rewrite 후 재적용
           text = stripPhraseHanjaMisbinding(text); // ⭐ G12 v2 rewrite 후 재적용
-          // ⭐ G19 V2.1 (2026-05-15) rewrite 후에도 호칭 0% 오타 가드 재적용
-          text = normalizeChildHonorific(text, input.childNameStem, input.childHonorific);
           // ⭐ G18 rewrite 후 호칭 분기 재적용
           {
             const _cnh = input.childNameStem && input.childHonorific ? `${input.childNameStem}${input.childHonorific}` : "";
@@ -1436,6 +1375,7 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
           }
           text = fixChildHonorificCorruption(text, input.childNameStem, input.childHonorific);
           text = stripAgeInappropriateWords(text, input.childAgeStage);
+          text = softenParentChildRepetitivePhrases(text);
         }
       } catch {
         // rewrite 실패는 무시
@@ -1464,8 +1404,6 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
     text = suppressRepeatedHongsilEvidence(text, input.usedTokens);
     text = fixJosaAfterPronouns(text); // ⭐ G5 — 받침 기반 조사 보정
     text = stripUserNameSangSuffix(text, input.people.map(p => p.name));
-    text = fixHanjaCorruption(text); // ⭐ G21 — 신살 한자명 한글 혼입 오타 복원 (月德貴인→月德貴人)
-    text = stripConclusionFiller(text); // ⭐ V2.2.2 — "결론적으로" 마무리 접속어 strip
 
     // ── Phase 2: LLM judge + rewrite (모든 섹션) ───────────────
     const repeatedEvidenceSaju = findRepeatedEvidence(text, input.people);
@@ -1489,15 +1427,6 @@ export async function guardGeneratedText(input: GuardInput): Promise<{ text: str
           text = applyHongsilLifestyleRepair(applyDeterministicRepair(rewritten.trim()), input.chapter);
           text = stripPartnerHallucination(text);
           text = stripSipseongScoreLeakage(text);
-          // ⭐ V2.2.6 (2026-05-15) — rewrite 후 결정론 가드 재적용 누락 fix
-          // 평생사주5차 분석 결과: rewrite가 호칭 변질("장재형→장재형상"),
-          // "결론적으로" 마무리, 신살 한자 오타("貴인"), 풀 phrase 조사를
-          // 다시 만들어내는데 재적용 안 돼서 그대로 새어나감.
-          // parent-child 브랜치는 이미 재적용 중. saju도 같은 패턴으로 정렬.
-          text = fixJosaAfterPronouns(text);
-          text = stripUserNameSangSuffix(text, input.people.map(p => p.name));
-          text = fixHanjaCorruption(text);
-          text = stripConclusionFiller(text);
         }
       } catch {
         // rewrite 실패는 무시

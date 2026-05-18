@@ -1,0 +1,1104 @@
+{
+  "version": "lifesaju-area-scores-v1",
+  "sampleId": "장재형",
+  "personKey": "1989-12-10_미시_male",
+  "generatedAt": "2026-05-18",
+  "source": {
+    "calculated": "calculated.json from lib/saju-core.ts#computeFullSajuCore",
+    "method": "deterministic rules from elements/sipseong/shinkang/yongsin/daeun"
+  },
+  "axes": {
+    "wealth": [
+      {
+        "id": "support",
+        "label": "받쳐주는 결",
+        "score": 54,
+        "level": "양면",
+        "className": "ambivalent",
+        "dots": "●●○○○",
+        "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+        "sourceFactors": [
+          "인성",
+          "용신",
+          "신강신약"
+        ]
+      },
+      {
+        "id": "make",
+        "label": "만드는 결",
+        "score": 78,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "식상과 재성이 수입을 만드는 통로",
+        "sourceFactors": [
+          "식상",
+          "재성"
+        ]
+      },
+      {
+        "id": "keep",
+        "label": "지키는 결",
+        "score": 77,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "비겁 과다 여부와 관성의 정리력",
+        "sourceFactors": [
+          "비겁",
+          "관성",
+          "신강신약"
+        ]
+      },
+      {
+        "id": "accumulate",
+        "label": "모이는 결",
+        "score": 97,
+        "level": "빛남",
+        "className": "very-strong",
+        "dots": "●●●●●",
+        "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+        "sourceFactors": [
+          "재성",
+          "토",
+          "오행균형"
+        ]
+      }
+    ],
+    "career": [
+      {
+        "id": "responsibility",
+        "label": "책임감 기운",
+        "score": 50,
+        "level": "양면",
+        "className": "ambivalent",
+        "dots": "●●○○○",
+        "reason": "관성의 사회적 책임감",
+        "sourceFactors": [
+          "관성",
+          "신강신약"
+        ]
+      },
+      {
+        "id": "support",
+        "label": "받쳐주는 기운",
+        "score": 59,
+        "level": "보완",
+        "className": "mid",
+        "dots": "●●●○○",
+        "reason": "인성·용신의 학습/보호력",
+        "sourceFactors": [
+          "인성",
+          "용신"
+        ]
+      },
+      {
+        "id": "expression",
+        "label": "자기 표현 자유도",
+        "score": 70,
+        "level": "보완",
+        "className": "mid",
+        "dots": "●●●○○",
+        "reason": "식상과 비겁이 만드는 표현력",
+        "sourceFactors": [
+          "식상",
+          "비겁"
+        ]
+      },
+      {
+        "id": "stability",
+        "label": "일간 안정",
+        "score": 78,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "오행 균형과 신강신약 안정성",
+        "sourceFactors": [
+          "오행균형",
+          "신강신약"
+        ]
+      }
+    ],
+    "business": [
+      {
+        "id": "make",
+        "label": "만드는 결",
+        "score": 85,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "식상생재에 가까운 사업화 힘",
+        "sourceFactors": [
+          "식상",
+          "재성"
+        ]
+      },
+      {
+        "id": "partner",
+        "label": "동료·경쟁 결",
+        "score": 79,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "비겁 과다에 따른 동업/경쟁 부담",
+        "sourceFactors": [
+          "비겁",
+          "관성"
+        ]
+      },
+      {
+        "id": "burden",
+        "label": "짊어지는 결",
+        "score": 38,
+        "level": "살펴줄",
+        "className": "care",
+        "dots": "●○○○○",
+        "reason": "사업 책임을 감당하는 힘",
+        "sourceFactors": [
+          "관성",
+          "신강신약"
+        ]
+      },
+      {
+        "id": "learning",
+        "label": "배우는 결",
+        "score": 55,
+        "level": "양면",
+        "className": "ambivalent",
+        "dots": "●●○○○",
+        "reason": "학습·자격·보완 시스템",
+        "sourceFactors": [
+          "인성",
+          "용신"
+        ]
+      }
+    ],
+    "marriage": [
+      {
+        "id": "stability",
+        "label": "자리 안정",
+        "score": 78,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "일지 배우자 자리와 오행 균형",
+        "sourceFactors": [
+          "일지",
+          "오행균형"
+        ]
+      },
+      {
+        "id": "spouse",
+        "label": "짝 결 본기",
+        "score": 75,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "성별 기준 배우자성의 강도",
+        "sourceFactors": [
+          "재성/관성",
+          "성별"
+        ]
+      },
+      {
+        "id": "meeting",
+        "label": "만남 자리",
+        "score": 68,
+        "level": "보완",
+        "className": "mid",
+        "dots": "●●●○○",
+        "reason": "식상·재성·관성의 관계 통로",
+        "sourceFactors": [
+          "식상",
+          "재성",
+          "관성",
+          "비겁"
+        ]
+      },
+      {
+        "id": "protection",
+        "label": "인연 보호",
+        "score": 67,
+        "level": "보완",
+        "className": "mid",
+        "dots": "●●●○○",
+        "reason": "귀인성·인성의 관계 보호",
+        "sourceFactors": [
+          "신살",
+          "인성"
+        ]
+      }
+    ],
+    "health": [
+      {
+        "id": "balance",
+        "label": "다섯 결의 균형",
+        "score": 87,
+        "level": "빛남",
+        "className": "very-strong",
+        "dots": "●●●●●",
+        "reason": "오행 분산이 낮을수록 안정",
+        "sourceFactors": [
+          "오행균형"
+        ]
+      },
+      {
+        "id": "vitality",
+        "label": "체력 기본",
+        "score": 73,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "신강신약과 전체 기운량",
+        "sourceFactors": [
+          "신강신약",
+          "오행총량"
+        ]
+      },
+      {
+        "id": "lowConflict",
+        "label": "흔들림 적음",
+        "score": 60,
+        "level": "보완",
+        "className": "mid",
+        "dots": "●●●○○",
+        "reason": "강한 흉살/예민 신호가 적을수록 안정",
+        "sourceFactors": [
+          "신살"
+        ]
+      },
+      {
+        "id": "johu",
+        "label": "따뜻함·차가움 균형",
+        "score": 65,
+        "level": "보완",
+        "className": "mid",
+        "dots": "●●●○○",
+        "reason": "화/수 균형으로 본 조후",
+        "sourceFactors": [
+          "화",
+          "수",
+          "조후"
+        ]
+      }
+    ]
+  },
+  "timing": {
+    "wealth": {
+      "baseScore": 77,
+      "ageWindow": {
+        "min": 15,
+        "max": 64
+      },
+      "periods": [
+        {
+          "ageStart": 1,
+          "ageEnd": 10,
+          "ganji": "을해",
+          "stemSipseong": "겁재",
+          "branchSipseong": "정인",
+          "score": 63,
+          "level": "보완"
+        },
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 74,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 79,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 79,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 91,
+          "level": "빛남"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 86,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 100,
+          "level": "빛남"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 100,
+          "level": "빛남"
+        }
+      ],
+      "displayPeriods": [
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 74,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 79,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 79,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 91,
+          "level": "빛남"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 86,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 100,
+          "level": "빛남"
+        }
+      ],
+      "bright": {
+        "ageStart": 61,
+        "ageEnd": 70,
+        "ganji": "기사",
+        "stemSipseong": "정재",
+        "branchSipseong": "상관",
+        "score": 100,
+        "level": "빛남"
+      },
+      "care": {
+        "ageStart": 11,
+        "ageEnd": 20,
+        "ganji": "갑술",
+        "stemSipseong": "비견",
+        "branchSipseong": "편재",
+        "score": 74,
+        "level": "시너지"
+      }
+    },
+    "career": {
+      "baseScore": 64,
+      "ageWindow": {
+        "min": 15,
+        "max": 64
+      },
+      "periods": [
+        {
+          "ageStart": 1,
+          "ageEnd": 10,
+          "ganji": "을해",
+          "stemSipseong": "겁재",
+          "branchSipseong": "정인",
+          "score": 76,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 72,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 86,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 86,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 83,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 74,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 73,
+          "level": "시너지"
+        }
+      ],
+      "displayPeriods": [
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 72,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 86,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 86,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 83,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 74,
+          "level": "시너지"
+        }
+      ],
+      "bright": {
+        "ageStart": 21,
+        "ageEnd": 30,
+        "ganji": "계유",
+        "stemSipseong": "정인",
+        "branchSipseong": "정관",
+        "score": 86,
+        "level": "시너지"
+      },
+      "care": {
+        "ageStart": 11,
+        "ageEnd": 20,
+        "ganji": "갑술",
+        "stemSipseong": "비견",
+        "branchSipseong": "편재",
+        "score": 72,
+        "level": "시너지"
+      }
+    },
+    "business": {
+      "baseScore": 64,
+      "ageWindow": {
+        "min": 25,
+        "max": 74
+      },
+      "periods": [
+        {
+          "ageStart": 1,
+          "ageEnd": 10,
+          "ganji": "을해",
+          "stemSipseong": "겁재",
+          "branchSipseong": "정인",
+          "score": 78,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 83,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 70,
+          "level": "보완"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 70,
+          "level": "보완"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 64,
+          "level": "보완"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 65,
+          "level": "보완"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 86,
+          "level": "빛남"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 85,
+          "level": "시너지"
+        }
+      ],
+      "displayPeriods": [
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 70,
+          "level": "보완"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 70,
+          "level": "보완"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 64,
+          "level": "보완"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 65,
+          "level": "보완"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 86,
+          "level": "빛남"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 85,
+          "level": "시너지"
+        }
+      ],
+      "bright": {
+        "ageStart": 61,
+        "ageEnd": 70,
+        "ganji": "기사",
+        "stemSipseong": "정재",
+        "branchSipseong": "상관",
+        "score": 86,
+        "level": "빛남"
+      },
+      "care": {
+        "ageStart": 41,
+        "ageEnd": 50,
+        "ganji": "신미",
+        "stemSipseong": "편관",
+        "branchSipseong": "정재",
+        "score": 64,
+        "level": "보완"
+      }
+    },
+    "marriage": {
+      "baseScore": 72,
+      "ageWindow": {
+        "min": 15,
+        "max": 64
+      },
+      "periods": [
+        {
+          "ageStart": 1,
+          "ageEnd": 10,
+          "ganji": "을해",
+          "stemSipseong": "겁재",
+          "branchSipseong": "정인",
+          "score": 76,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 79,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 81,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 81,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 82,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 82,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 85,
+          "level": "시너지"
+        }
+      ],
+      "displayPeriods": [
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 79,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 81,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 81,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 82,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 82,
+          "level": "시너지"
+        }
+      ],
+      "bright": {
+        "ageStart": 41,
+        "ageEnd": 50,
+        "ganji": "신미",
+        "stemSipseong": "편관",
+        "branchSipseong": "정재",
+        "score": 85,
+        "level": "시너지"
+      },
+      "care": {
+        "ageStart": 11,
+        "ageEnd": 20,
+        "ganji": "갑술",
+        "stemSipseong": "비견",
+        "branchSipseong": "편재",
+        "score": 79,
+        "level": "시너지"
+      }
+    },
+    "health": {
+      "baseScore": 71,
+      "ageWindow": {
+        "min": 15,
+        "max": 74
+      },
+      "periods": [
+        {
+          "ageStart": 1,
+          "ageEnd": 10,
+          "ganji": "을해",
+          "stemSipseong": "겁재",
+          "branchSipseong": "정인",
+          "score": 81,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 75,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 68,
+          "level": "보완"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 68,
+          "level": "보완"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 70,
+          "level": "보완"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 70,
+          "level": "보완"
+        }
+      ],
+      "displayPeriods": [
+        {
+          "ageStart": 11,
+          "ageEnd": 20,
+          "ganji": "갑술",
+          "stemSipseong": "비견",
+          "branchSipseong": "편재",
+          "score": 75,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 21,
+          "ageEnd": 30,
+          "ganji": "계유",
+          "stemSipseong": "정인",
+          "branchSipseong": "정관",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 31,
+          "ageEnd": 40,
+          "ganji": "임신",
+          "stemSipseong": "편인",
+          "branchSipseong": "편관",
+          "score": 85,
+          "level": "시너지"
+        },
+        {
+          "ageStart": 41,
+          "ageEnd": 50,
+          "ganji": "신미",
+          "stemSipseong": "편관",
+          "branchSipseong": "정재",
+          "score": 68,
+          "level": "보완"
+        },
+        {
+          "ageStart": 51,
+          "ageEnd": 60,
+          "ganji": "경오",
+          "stemSipseong": "편관",
+          "branchSipseong": "식신",
+          "score": 68,
+          "level": "보완"
+        },
+        {
+          "ageStart": 61,
+          "ageEnd": 70,
+          "ganji": "기사",
+          "stemSipseong": "정재",
+          "branchSipseong": "상관",
+          "score": 70,
+          "level": "보완"
+        },
+        {
+          "ageStart": 71,
+          "ageEnd": 80,
+          "ganji": "무진",
+          "stemSipseong": "편재",
+          "branchSipseong": "편재",
+          "score": 70,
+          "level": "보완"
+        }
+      ],
+      "bright": {
+        "ageStart": 21,
+        "ageEnd": 30,
+        "ganji": "계유",
+        "stemSipseong": "정인",
+        "branchSipseong": "정관",
+        "score": 85,
+        "level": "시너지"
+      },
+      "care": {
+        "ageStart": 41,
+        "ageEnd": 50,
+        "ganji": "신미",
+        "stemSipseong": "편관",
+        "branchSipseong": "정재",
+        "score": 68,
+        "level": "보완"
+      }
+    }
+  },
+  "summaries": {
+    "wealth": {
+      "brightTitle": "재물운 — 61~70세 (기사 대운)",
+      "careTitle": "재물운 — 11~20세 (갑술 대운)",
+      "brightPattern": "정재/상관 흐름 · 점수 100",
+      "carePattern": "비견/편재 흐름 · 점수 74"
+    },
+    "career": {
+      "brightTitle": "직업운 — 21~30세 (계유 대운)",
+      "careTitle": "직업운 — 11~20세 (갑술 대운)",
+      "brightPattern": "정인/정관 흐름 · 점수 86",
+      "carePattern": "비견/편재 흐름 · 점수 72"
+    },
+    "business": {
+      "brightTitle": "사업운 — 61~70세 (기사 대운)",
+      "careTitle": "사업운 — 41~50세 (신미 대운)",
+      "brightPattern": "정재/상관 흐름 · 점수 86",
+      "carePattern": "편관/정재 흐름 · 점수 64"
+    },
+    "marriage": {
+      "brightTitle": "결혼운 — 41~50세 (신미 대운)",
+      "careTitle": "결혼운 — 11~20세 (갑술 대운)",
+      "brightPattern": "편관/정재 흐름 · 점수 85",
+      "carePattern": "비견/편재 흐름 · 점수 79"
+    },
+    "health": {
+      "brightTitle": "건강운 — 21~30세 (계유 대운)",
+      "careTitle": "건강운 — 41~50세 (신미 대운)",
+      "brightPattern": "정인/정관 흐름 · 점수 85",
+      "carePattern": "편관/정재 흐름 · 점수 68"
+    }
+  }
+}

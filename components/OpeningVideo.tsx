@@ -9,13 +9,14 @@ interface Props {
   theme?: 'inyeon' | 'saju';  // 'inyeon' (default): 분홍·자두·금 / 'saju': 짙은 초록·금
   // ⭐ LLM 진행률 (0~1, 50% 도달 = 1.0). 지정 시 진행바가 영상·LLM 중 느린 쪽을 따름.
   loadProgress?: number;
+  postVideoLoadingMessages?: string[];
 }
 
 // 풀이 진입 로딩 — 오프닝 영상 (소리 자동재생) + 진행바 sync
 // - 진행바 = min(영상 진행, LLM 진행률) — 둘 중 느린 쪽 (loadProgress 지정 시)
 // - 영상 끝 + 데이터 준비 → onComplete()
 // - 영상 끝 + 데이터 미준비 → 진행바가 LLM 따라 계속 차오르며 대기
-export default function OpeningVideo({ dataReady, onComplete, loadingMessage, src = "/opening.mp4", theme = 'inyeon', loadProgress }: Props) {
+export default function OpeningVideo({ dataReady, onComplete, loadingMessage, src = "/opening.mp4", theme = 'inyeon', loadProgress, postVideoLoadingMessages }: Props) {
   const SAJU = theme === 'saju';
   const bgGradient = SAJU
     ? `radial-gradient(ellipse at 50% 0%, #1a2a1e 0%, transparent 60%),
@@ -37,6 +38,7 @@ export default function OpeningVideo({ dataReady, onComplete, loadingMessage, sr
   const videoRef = useRef<HTMLVideoElement>(null);
   const [progress, setProgress] = useState(0);
   const [videoEnded, setVideoEnded] = useState(false);
+  const [postVideoMessageIndex, setPostVideoMessageIndex] = useState(0);
   const completedRef = useRef(false);
 
   // 진행 중 표시용 애니메이션 점 — 1초마다 1개 → 2개 → 3개 → 1개 …
@@ -48,6 +50,14 @@ export default function OpeningVideo({ dataReady, onComplete, loadingMessage, sr
     }, 1000);
     return () => clearInterval(id);
   }, []);
+
+  useEffect(() => {
+    if (!videoEnded || dataReady || !postVideoLoadingMessages?.length) return;
+    const id = setInterval(() => {
+      setPostVideoMessageIndex((i) => (i + 1) % postVideoLoadingMessages.length);
+    }, 700);
+    return () => clearInterval(id);
+  }, [dataReady, postVideoLoadingMessages, videoEnded]);
 
   // 자동재생 시도 (사운드 포함)
   useEffect(() => {
@@ -128,19 +138,21 @@ export default function OpeningVideo({ dataReady, onComplete, loadingMessage, sr
         style={{ color: msgColor, fontFamily: "'Nanum Myeongjo', 'Gowun Batang', serif", fontWeight: 700 }}
       >
         {(videoEnded && !dataReady
-          ? "거의 다 됐어요"
+          ? (postVideoLoadingMessages?.[postVideoMessageIndex] ?? "거의 다 됐어요")
           : (loadingMessage ?? "사주를 펼치는 중")
         ).replace(/[.…\s]+$/u, "")}
-        <span
-          style={{
-            display: "inline-block",
-            width: "1.6em",
-            textAlign: "left",
-            letterSpacing: "0.1em",
-          }}
-        >
-          {".".repeat(dotCount)}
-        </span>
+        {!videoEnded || dataReady || !postVideoLoadingMessages?.length ? (
+          <span
+            style={{
+              display: "inline-block",
+              width: "1.6em",
+              textAlign: "left",
+              letterSpacing: "0.1em",
+            }}
+          >
+            {".".repeat(dotCount)}
+          </span>
+        ) : null}
       </div>
 
       {/* 진행바 */}

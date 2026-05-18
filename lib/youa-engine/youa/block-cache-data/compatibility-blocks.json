@@ -1,0 +1,3007 @@
+{
+  "schemaVersion": "youa-block-cache-v1",
+  "blockSet": "compatibility",
+  "count": 200,
+  "blocks": [
+    {
+      "key": "compatibility|mother|gap|gap|same",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|eul|same",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|byeong|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|jeong|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|mu|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|gi|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|gyeong|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|sin|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|im|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gap|gye|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|gap|same",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|eul|same",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|byeong|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|jeong|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|mu|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|gi|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|gyeong|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|sin|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|im|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|eul|gye|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|gap|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|eul|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|byeong|same",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|jeong|same",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|mu|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|gi|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|gyeong|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|sin|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|im|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|byeong|gye|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|gap|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|eul|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|byeong|same",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|jeong|same",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|mu|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|gi|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|gyeong|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|sin|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|im|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|jeong|gye|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|gap|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|eul|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|byeong|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|jeong|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|mu|same",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|gi|same",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|gyeong|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|sin|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|im|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|mu|gye|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|gap|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|eul|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|byeong|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|jeong|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|mu|same",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|gi|same",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|gyeong|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|sin|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|im|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gi|gye|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|gap|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|eul|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|byeong|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|jeong|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|mu|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|gi|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|gyeong|same",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|sin|same",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|im|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gyeong|gye|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|gap|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|eul|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|byeong|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|jeong|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|mu|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|gi|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|gyeong|same",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|sin|same",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|im|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|sin|gye|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|gap|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|eul|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|byeong|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|jeong|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|mu|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|gi|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|gyeong|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|sin|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|im|same",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|im|gye|same",
+      "role": "mother",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|gap|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|eul|childGivesParent",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|byeong|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|jeong|childControlsParent",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|mu|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|gi|parentControlsChild",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|gyeong|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|sin|parentGivesChild",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|im|same",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|mother|gye|gye|same",
+      "role": "mother",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|gap|same",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|eul|same",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|byeong|childGivesParent",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|jeong|childGivesParent",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|mu|childControlsParent",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|gi|childControlsParent",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|gyeong|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|sin|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|im|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gap|gye|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "갑목(甲)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 나무(갑목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|gap|same",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|eul|same",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|byeong|childGivesParent",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|jeong|childGivesParent",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|mu|childControlsParent",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|gi|childControlsParent",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|gyeong|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|sin|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|im|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|eul|gye|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "을목(乙)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|gap|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|eul|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|byeong|same",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|jeong|same",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|mu|childGivesParent",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|gi|childGivesParent",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|gyeong|childControlsParent",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|sin|childControlsParent",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|im|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|byeong|gye|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "병화(丙)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 불(병화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|gap|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|eul|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|byeong|same",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|jeong|same",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|mu|childGivesParent",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|gi|childGivesParent",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|gyeong|childControlsParent",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|sin|childControlsParent",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|im|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|jeong|gye|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "정화(丁)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 불(정화)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|gap|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|eul|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|byeong|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|jeong|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|mu|same",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|gi|same",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|gyeong|childGivesParent",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|sin|childGivesParent",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|im|childControlsParent",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|mu|gye|childControlsParent",
+      "role": "father",
+      "childDayMaster": "무토(戊)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 흙(무토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|gap|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|eul|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|byeong|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|jeong|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|mu|same",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|gi|same",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|gyeong|childGivesParent",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|sin|childGivesParent",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|im|childControlsParent",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gi|gye|childControlsParent",
+      "role": "father",
+      "childDayMaster": "기토(己)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 흙(기토)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|gap|childControlsParent",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|eul|childControlsParent",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|byeong|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|jeong|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|mu|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|gi|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|gyeong|same",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|sin|same",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|im|childGivesParent",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gyeong|gye|childGivesParent",
+      "role": "father",
+      "childDayMaster": "경금(庚)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 쇠(경금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|gap|childControlsParent",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|eul|childControlsParent",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|byeong|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|jeong|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|mu|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|gi|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|gyeong|same",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|sin|same",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|im|childGivesParent",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|sin|gye|childGivesParent",
+      "role": "father",
+      "childDayMaster": "신금(辛)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|gap|childGivesParent",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|eul|childGivesParent",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|byeong|childControlsParent",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|jeong|childControlsParent",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|mu|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|gi|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|gyeong|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|sin|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|im|same",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|im|gye|same",
+      "role": "father",
+      "childDayMaster": "임수(壬)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 큰 물(임수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|gap|childGivesParent",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "갑목(甲)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 나무(갑목), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|eul|childGivesParent",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "을목(乙)",
+      "relationType": "childGivesParent",
+      "relationLabel": "아이가 부모를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 나무(을목), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 생하는 관계로 볼 수 있으며, 아이의 존재가 부모의 흐름을 움직이게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|byeong|childControlsParent",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "병화(丙)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 불(병화), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|jeong|childControlsParent",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "정화(丁)",
+      "relationType": "childControlsParent",
+      "relationLabel": "아이가 부모를 자극하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 불(정화), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 아이가 부모를 자극하는 관계로 볼 수 있으며, 아이의 결이 부모의 반응을 새롭게 조정하게 하는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|mu|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "무토(戊)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 흙(무토), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|gi|parentControlsChild",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "기토(己)",
+      "relationType": "parentControlsChild",
+      "relationLabel": "부모가 아이에게 기준을 주는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 흙(기토), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|gyeong|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "경금(庚)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 쇠(경금), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|sin|parentGivesChild",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "신금(辛)",
+      "relationType": "parentGivesChild",
+      "relationLabel": "부모가 아이를 생하는 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 쇠(신금), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|im|same",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "임수(壬)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 큰 물(임수), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    },
+    {
+      "key": "compatibility|father|gye|gye|same",
+      "role": "father",
+      "childDayMaster": "계수(癸)",
+      "parentDayMaster": "계수(癸)",
+      "relationType": "same",
+      "relationLabel": "동기 관계",
+      "compatibilityTitle": "{parentTitle}과 {childName}의 결합",
+      "compatibilityBody": [
+        "{parentTitle}은 작은 물(계수), {childName}은 작은 물(계수)의 결을 가지고 있습니다. 두 기운은 명리에서 동기 관계로 볼 수 있으며, 비슷한 결이 서로를 알아보는 관계로 풀이할 수 있습니다.",
+        "이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.",
+        "따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다."
+      ],
+      "compatibilityDaily": "일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다."
+    }
+  ]
+}

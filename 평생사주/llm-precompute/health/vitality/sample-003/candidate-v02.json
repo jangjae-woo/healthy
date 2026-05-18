@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "vitality",
+  "sectionTitle": "체력 기본 결",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.vitality|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang",
+  "cacheKey": "health.vitality|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang|variant:02",
+  "text": "화토운영형 님의 체력 기본 결은 태강 구조와 강한 화 기운을 오래 쓰는 타입이에요. 체력 기본 결은 86점대이고 화 기운이 50%로 가장 두드러져, 한 번 몰아붙이는 힘보다 회복 리듬을 함께 둘 때 안정됩니다.\n\n표현하고 땀을 내되, 과열 뒤에는 식히는 시간이 필요합니다. 피로가 쌓일 때는 더 밀어붙이기보다 수면, 식사, 쉬는 시간을 먼저 고정하는 편이 좋습니다. 건강운은 타고난 체력보다 그 체력을 어떻게 회복시키는지에서 갈립니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

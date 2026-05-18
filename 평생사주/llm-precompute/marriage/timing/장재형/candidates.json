@@ -1,0 +1,58 @@
+{
+  "version": "lifesaju-marriage-candidate-set-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "timing",
+  "sectionTitle": "결혼 시기",
+  "paragraphCount": 3,
+  "sampleId": "장재형",
+  "candidates": [
+    {
+      "version": "lifesaju-marriage-llm-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "sampleId": "장재형",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang",
+      "cacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang|variant:01",
+      "text": "장재형 님의 결혼 시기는 41~50세 신미 대운에 관계 흐름이 가장 선명해지는 결이에요. 편관/정재 흐름과 85점대의 결혼운이 함께 떠서 관계를 구체화하는 힘이 생깁니다.\n\n다만 결혼 결정은 운의 점수보다 생활 기준, 돈, 가족 문제, 거주 리듬이 맞는지까지 함께 봐야 합니다. 11~20세 갑술 흐름에는 감정의 속도보다 현실 조건을 먼저 확인하는 편이 안정됩니다.\n\n시기는 문을 열어주는 역할이고, 실제 결혼의 안정은 두 사람이 같은 생활 기준을 만들 수 있는지에서 갈립니다. 그래서 좋은 시기라도 서두르기보다 생활의 합이 맞는지를 먼저 확인하는 편이 좋습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-marriage-llm-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "sampleId": "장재형",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang",
+      "cacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang|variant:02",
+      "text": "장재형 님의 결혼 시기는 41~50세 신미 대운에 관계 흐름이 가장 선명해지는 결이에요. 편관/정재 흐름과 85점대의 결혼운이 함께 떠서 관계를 구체화하는 힘이 생깁니다.\n\n다만 결혼 결정은 운의 점수보다 생활 기준, 돈, 가족 문제, 거주 리듬이 맞는지까지 함께 봐야 합니다. 11~20세 갑술 흐름에는 감정의 속도보다 현실 조건을 먼저 확인하는 편이 안정됩니다.\n\n시기는 문을 열어주는 역할이고, 실제 결혼의 안정은 두 사람이 같은 생활 기준을 만들 수 있는지에서 갈립니다. 그래서 좋은 시기라도 서두르기보다 생활의 합이 맞는지를 먼저 확인하는 편이 좋습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-marriage-llm-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "sampleId": "장재형",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang",
+      "cacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang|variant:03",
+      "text": "장재형 님의 결혼 시기는 41~50세 신미 대운에 관계 흐름이 가장 선명해지는 결이에요. 편관/정재 흐름과 85점대의 결혼운이 함께 떠서 관계를 구체화하는 힘이 생깁니다.\n\n다만 결혼 결정은 운의 점수보다 생활 기준, 돈, 가족 문제, 거주 리듬이 맞는지까지 함께 봐야 합니다. 11~20세 갑술 흐름에는 감정의 속도보다 현실 조건을 먼저 확인하는 편이 안정됩니다.\n\n시기는 문을 열어주는 역할이고, 실제 결혼의 안정은 두 사람이 같은 생활 기준을 만들 수 있는지에서 갈립니다. 그래서 좋은 시기라도 서두르기보다 생활의 합이 맞는지를 먼저 확인하는 편이 좋습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    }
+  ]
+}

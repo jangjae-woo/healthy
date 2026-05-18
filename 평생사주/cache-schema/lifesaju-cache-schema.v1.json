@@ -1,0 +1,291 @@
+{
+  "version": "lifesaju-cache-prototype-v1",
+  "sourceHtml": "index-jang.html",
+  "cacheKeys": {
+    "personKey": "YYYY-MM-DD_{timeBranch|unknown}_{gender}",
+    "optionsKey": "{jobStatus}_{maritalStatus}_{interestArea}_{reportVersion}"
+  },
+  "recommendedPaths": {
+    "calculated": "lifesaju/v1/calculated/{personKey}.json",
+    "standalone": "lifesaju/v1/standalone/{personKey}.json",
+    "options": "lifesaju/v1/options/{personKey}_{optionsKey}.json",
+    "final": "lifesaju/v1/final/{personKey}_{optionsKey}.json"
+  },
+  "fields": {
+    "calculated": {
+      "personProfile": [
+        "birthDate",
+        "birthTimeBranch",
+        "gender",
+        "calendarType",
+        "currentAge",
+        "currentDaewoon"
+      ],
+      "sajuPillars": [
+        "year",
+        "month",
+        "day",
+        "hour",
+        "hiddenStems",
+        "tenGods",
+        "twelveStages"
+      ],
+      "dayMaster": [
+        "stem",
+        "element",
+        "yinYang",
+        "ilju",
+        "iljuLabel"
+      ],
+      "ohaengBalance": [
+        "wood",
+        "fire",
+        "earth",
+        "metal",
+        "water",
+        "strongElements",
+        "weakElements",
+        "neededElement"
+      ],
+      "sipsungBalance": [
+        "bigyeop",
+        "siksang",
+        "jaeseong",
+        "gwanseong",
+        "inseong",
+        "dominant",
+        "weak"
+      ],
+      "sinkang": [
+        "level7",
+        "score",
+        "supportingEnergy",
+        "burdenEnergy"
+      ],
+      "specialLabels": [
+        "gyeokguk",
+        "yongsin",
+        "heesin",
+        "gisin",
+        "johu",
+        "sinsal",
+        "relations"
+      ],
+      "areaScores": [
+        "wealth",
+        "career",
+        "business",
+        "marriage",
+        "health"
+      ],
+      "timingMatrix": [
+        "ages",
+        "wealth",
+        "career",
+        "business",
+        "marriage",
+        "health"
+      ]
+    },
+    "standaloneBlocks": {
+      "saju": [
+        "sajuStructureIntro",
+        "pillarOverviewBody",
+        "iljuIntroBody",
+        "ohaengBalanceBody",
+        "yongsinBody",
+        "sinkangBody",
+        "sipsungBalanceBody",
+        "specialLabelBody"
+      ],
+      "identity": [
+        "identityOneLine",
+        "identityCoreBody",
+        "publicPersonaIntro",
+        "publicPersonaList",
+        "publicPersonaBody",
+        "privateSelfIntro",
+        "privateSelfOutsideList",
+        "privateSelfInsideList",
+        "privateSelfBody",
+        "childhoodPhraseIntro",
+        "childhoodPhraseList",
+        "childhoodPhraseSourceList",
+        "childhoodPhraseBody",
+        "lifelongEssenceQuote",
+        "lifelongEssenceSub",
+        "lifelongEssenceBody"
+      ],
+      "wealth": [
+        "wealthTypeCard",
+        "wealthAxisSummary",
+        "wealthOverview",
+        "wealthEarningBody",
+        "wealthSavingBody",
+        "wealthBigMoneyTimingBody",
+        "wealthLeakRiskBody",
+        "wealthLifetimeAssetBody",
+        "wealthBrightTitle",
+        "wealthBrightPattern",
+        "wealthBrightBody",
+        "wealthBrightDailyList",
+        "wealthCareTitle",
+        "wealthCarePattern",
+        "wealthCareBody",
+        "wealthCareDailyList",
+        "wealthCareResolution"
+      ],
+      "career": [
+        "careerTypeCard",
+        "careerAxisSummary",
+        "careerOverview",
+        "careerFieldFitBody",
+        "careerChangeBody",
+        "careerPromotionBody",
+        "careerCoworkerBody",
+        "careerStressBody",
+        "careerBrightTitle",
+        "careerBrightPattern",
+        "careerBrightBody",
+        "careerBrightDailyList",
+        "careerCareTitle",
+        "careerCarePattern",
+        "careerCareBody",
+        "careerCareDailyList",
+        "careerCareResolution"
+      ],
+      "business": [
+        "businessTypeCard",
+        "businessAxisSummary",
+        "businessOverview",
+        "businessTypeBody",
+        "businessStartTimingBody",
+        "businessSoloVsPartnerBody",
+        "businessScaleBody",
+        "businessRiskBody",
+        "businessBrightTitle",
+        "businessBrightPattern",
+        "businessBrightBody",
+        "businessBrightDailyList",
+        "businessCareTitle",
+        "businessCarePattern",
+        "businessCareBody",
+        "businessCareDailyList",
+        "businessCareResolution"
+      ],
+      "marriage": [
+        "marriageTypeCard",
+        "marriageAxisSummary",
+        "marriageOverview",
+        "partnerTypeBody",
+        "meetingPlaceBody",
+        "marriageTimingBody",
+        "couplePatternBody",
+        "marriageConflictBody",
+        "marriageBrightTitle",
+        "marriageBrightPattern",
+        "marriageBrightBody",
+        "marriageBrightDailyList",
+        "marriageCareTitle",
+        "marriageCarePattern",
+        "marriageCareBody",
+        "marriageCareDailyList",
+        "marriageCareResolution"
+      ],
+      "health": [
+        "healthTypeCard",
+        "healthAxisSummary",
+        "healthOverview",
+        "healthVitalityBody",
+        "healthWeakPartsBody",
+        "healthWeakPartsList",
+        "healthEmotionBody",
+        "healthLifestyleBody",
+        "healthFoodBody",
+        "healthLifetimeCareBody",
+        "healthStableTitle",
+        "healthStablePattern",
+        "healthStableBody",
+        "healthStableDailyList",
+        "healthCareTitle",
+        "healthCarePattern",
+        "healthCareBody",
+        "healthCareDailyList",
+        "healthCareResolution"
+      ],
+      "timing": [
+        "lifeTimingIntro",
+        "lifeTimingHighlights",
+        "currentPeriodSummary",
+        "nextPeriodSummary",
+        "lifeTimingSummary"
+      ],
+      "outro": [
+        "outroThanks",
+        "outroSelfUnderstandingBody",
+        "outroTimingMeaningBody",
+        "outroFinalAdvice",
+        "outroLastLine",
+        "outroDisclaimer"
+      ]
+    },
+    "optionBlocks": {
+      "pathChoice": [
+        "pathChoiceIntro",
+        "pathChoiceMainQuote",
+        "pathChoiceRatio",
+        "pathChoiceSummaryBody",
+        "employeePathBody",
+        "employeeFitJobList",
+        "employeeRiskBody",
+        "businessPathBody",
+        "businessFitList",
+        "businessRiskForPathBody",
+        "decisionTimingBody",
+        "decisionTimelineLabels",
+        "lifetimePathFlowBody",
+        "employeeLifetimeFlow",
+        "businessLifetimeFlow",
+        "pathFinalSummary"
+      ]
+    }
+  },
+  "notes": [
+    "HTML 전체가 아니라 실제 엔진 계산값과 LLM 문장 블록을 캐싱한다.",
+    "calculated.json은 lib/saju-core.ts#computeFullSajuCore 반환값을 정규화한 파일이다.",
+    "원국표, 차트, 대운 바, 매트릭스는 calculated 데이터를 기존 렌더에 주입한다.",
+    "나란 사람은/재물/직업/사업/결혼/건강/시기/아웃트로 문장은 standalone 캐시로 둔다.",
+    "직장인 vs 자영업은 사용자 상태값에 따라 options 캐시로 분리한다.",
+    "샘플 4개의 calculated.json은 실제 엔진 호출로 생성했고, standalone/options 문장은 블록 구조 확인용 초안이다."
+  ],
+  "engine": {
+    "source": "옵시디언/룰북/평생사주1/1_엔진레이어.md",
+    "entrypoint": "lib/saju-core.ts#computeFullSajuCore",
+    "actualCoreReturn": [
+      "pillars",
+      "ilgan",
+      "sipseong",
+      "elements",
+      "yongsin",
+      "daeun",
+      "sinsal",
+      "isHourUnknown",
+      "shinkang",
+      "solarDate",
+      "inputCalendar",
+      "supportElement",
+      "yongsinModel"
+    ],
+    "calculatorFiles": [
+      "lib/saju-core.ts",
+      "lib/saju-calculator.ts",
+      "lib/saju-traditional.ts",
+      "lib/jpjjeon.ts",
+      "lib/sibiunseong.ts",
+      "lib/tonggeun.ts",
+      "lib/samhap.ts",
+      "lib/seun.ts",
+      "lib/personal-traits-block-v2.ts"
+    ]
+  }
+}

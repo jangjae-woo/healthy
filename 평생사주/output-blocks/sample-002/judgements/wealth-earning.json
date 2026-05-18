@@ -1,0 +1,201 @@
+{
+  "version": "lifesaju-wealth-earning-judgement-v1",
+  "generatedAt": "2026-05-18",
+  "sampleId": "sample-002",
+  "personKey": "1984-11-08_축시_female",
+  "personName": "수금연구형",
+  "pageAlias": "wealth",
+  "sectionRole": "earning",
+  "sectionTitle": "돈을 버는 결",
+  "judgementType": "salary_stability_accumulation",
+  "judgementLabel": "월급 안정 축적형",
+  "cacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+  "factors": {
+    "ilgan": "병",
+    "dayPillar": "병오",
+    "shinkang": "신약",
+    "strongestElement": "목",
+    "weakestElement": "금",
+    "elementBands": {
+      "목": "보통",
+      "화": "약",
+      "토": "약",
+      "금": "결핍",
+      "수": "약"
+    },
+    "elementShape": "wood_보통_metal_deficit",
+    "sipseongCounts": {
+      "상관": 2,
+      "편인": 1,
+      "정관": 1,
+      "정인": 1,
+      "편관": 1,
+      "비견": 1,
+      "겁재": 1
+    },
+    "sipseongBands": {
+      "상관": "보통",
+      "편인": "약",
+      "정관": "약",
+      "정인": "약",
+      "편관": "약",
+      "비견": "약",
+      "겁재": "약"
+    },
+    "sipseongCategories": {
+      "비겁": 2,
+      "식상": 2,
+      "재성": 0,
+      "관성": 2,
+      "인성": 2
+    },
+    "sipseongCategoryBands": {
+      "비겁": "보통",
+      "식상": "보통",
+      "재성": "없음",
+      "관성": "보통",
+      "인성": "보통"
+    },
+    "topSipseong": "상관",
+    "topSipseongBand": "보통",
+    "topCategory": "비겁",
+    "topCategoryBand": "보통",
+    "yongsin": "화"
+  },
+  "wealthAxes": {
+    "support": {
+      "id": "support",
+      "label": "받쳐주는 결",
+      "score": 63,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+      "sourceFactors": [
+        "인성",
+        "용신",
+        "신강신약"
+      ]
+    },
+    "make": {
+      "id": "make",
+      "label": "만드는 결",
+      "score": 63,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "식상과 재성이 수입을 만드는 통로",
+      "sourceFactors": [
+        "식상",
+        "재성"
+      ]
+    },
+    "keep": {
+      "id": "keep",
+      "label": "지키는 결",
+      "score": 82,
+      "level": "시너지",
+      "className": "strong",
+      "dots": "●●●●○",
+      "reason": "비겁 과다 여부와 관성의 정리력",
+      "sourceFactors": [
+        "비겁",
+        "관성",
+        "신강신약"
+      ]
+    },
+    "accumulate": {
+      "id": "accumulate",
+      "label": "모이는 결",
+      "score": 66,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+      "sourceFactors": [
+        "재성",
+        "토",
+        "오행균형"
+      ]
+    }
+  },
+  "timing": {
+    "bright": {
+      "ageStart": 31,
+      "ageEnd": 40,
+      "ganji": "신미",
+      "stemSipseong": "편재",
+      "branchSipseong": "상관",
+      "score": 96,
+      "level": "빛남"
+    },
+    "care": {
+      "ageStart": 51,
+      "ageEnd": 60,
+      "ganji": "기사",
+      "stemSipseong": "상관",
+      "branchSipseong": "겁재",
+      "score": 75,
+      "level": "시너지"
+    },
+    "brightTimingBand": "very_high",
+    "careTimingBand": "high"
+  },
+  "derivedFlags": {
+    "hasSiksangToJaeseong": false,
+    "siksangBand": "보통",
+    "jaeseongBand": "없음",
+    "bigyeopDrainRisk": "low",
+    "incomeCapacityByShinkang": "needs_support",
+    "contractPriceBoundaryRisk": "contract_price_boundary",
+    "brightTimingBand": "very_high",
+    "careTimingBand": "high"
+  },
+  "llmPrecomputeInput": {
+    "pageAlias": "wealth",
+    "sectionRole": "earning",
+    "personName": "수금연구형",
+    "tone": "index-jang",
+    "judgementType": "salary_stability_accumulation",
+    "judgementLabel": "월급 안정 축적형",
+    "requiredFacts": [
+      "안정 수입과 반복 축적이 먼저 살아나는 타입",
+      "큰 확장보다 고정 수입과 장기 구조가 맞음",
+      "돈은 천천히 남기는 방식에서 쌓임",
+      "주의점: contract_price_boundary"
+    ],
+    "forbiddenFacts": [
+      "점수 숫자 직접 노출 금지",
+      "대운 간지와 십성을 계산표처럼 나열 금지",
+      "투자 확정 수익 표현 금지",
+      "무조건 부자/평생 돈복 같은 과장 금지",
+      "식상생재가 있다고 쓰지 말 것"
+    ],
+    "fitIncomeSeats": [
+      "고정급",
+      "제도권 조직",
+      "장기 저축",
+      "안정 자산",
+      "반복 수입"
+    ],
+    "positiveFactors": [
+      "목 기운은 성장성, 기획, 확장 쪽으로 번역한다.",
+      "비겁 흐름은 보통 단계로 본다.",
+      "재물 bright 시기는 내부적으로 very_high 단계다."
+    ],
+    "riskFactors": [
+      "금 기운은 결핍 단계다.",
+      "돈을 지키는 축은 high 단계다.",
+      "리스크 패턴은 contract_price_boundary다."
+    ],
+    "outputShape": {
+      "paragraphs": 2,
+      "sentencesPerParagraph": [
+        2,
+        3
+      ],
+      "exposeInternalScores": false,
+      "exposeCacheKeys": false
+    }
+  }
+}

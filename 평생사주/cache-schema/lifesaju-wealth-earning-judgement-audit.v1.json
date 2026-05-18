@@ -1,0 +1,50 @@
+{
+  "version": "lifesaju-wealth-earning-judgement-audit-v1",
+  "generatedAt": "2026-05-18",
+  "total": 6,
+  "issueCount": 0,
+  "report": [
+    {
+      "sampleId": "장재우",
+      "issues": [],
+      "judgementType": "cashflow_guard_first",
+      "judgementLabel": "현금흐름 방어 우선형",
+      "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:약|topSip:겁재:강|topCat:비겁:과다|shinkang:태강|elementShape:water_중상_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "issues": [],
+      "judgementType": "created_value_to_asset",
+      "judgementLabel": "본인 결과물 자산화형",
+      "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "issues": [],
+      "judgementType": "skill_knowhow_service",
+      "judgementLabel": "기술 노하우 서비스형",
+      "cacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "issues": [],
+      "judgementType": "salary_stability_accumulation",
+      "judgementLabel": "월급 안정 축적형",
+      "cacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "issues": [],
+      "judgementType": "cashflow_guard_first",
+      "judgementLabel": "현금흐름 방어 우선형",
+      "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:보통|jaeseong:없음|topSip:겁재:보통|topCat:비겁:과다|shinkang:태강|elementShape:fire_강_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "issues": [],
+      "judgementType": "cashflow_guard_first",
+      "judgementLabel": "현금흐름 방어 우선형",
+      "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:없음|topSip:비견:과다|topCat:비겁:과다|shinkang:극왕|elementShape:earth_강_fire_deficit|risk:cashflow_boundary|timing:high|tone:index-jang"
+    }
+  ]
+}

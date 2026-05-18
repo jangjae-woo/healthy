@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 7 — 100개 캘리브레이션</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 1200px; margin: auto; background: #fafaf8; color: #333; line-height: 1.6; }
+    h1 { color: #c84d20; margin-bottom: 6px; }
+    h2 { color: #d97757; margin-top: 24px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    .controls { background: white; padding: 14px 18px; border-radius: 10px; margin: 12px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .controls label { font-size: 12px; color: #666; margin-right: 6px; }
+    .controls input[type=number] { padding: 6px 10px; border: 1px solid #f0d9c4; border-radius: 6px; width: 80px; font-size: 13px; }
+    .controls button { background: #d97757; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+
+    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
+    .factor-card { background: white; padding: 16px 18px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .factor-card h3 { font-size: 15px; color: #d97757; margin-bottom: 8px; }
+    .factor-card .verdict { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-left: 8px; }
+    .verdict-pass { background: #E5F2D1; color: #5d8225; }
+    .verdict-fail { background: #FFE5DA; color: #c84d20; }
+    .pct-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 8px 0; }
+    .pct-cell { padding: 8px; border-radius: 6px; text-align: center; font-size: 12px; }
+    .pct-low { background: #DBE9F5; color: #2d5a8a; }
+    .pct-mid { background: #f5f5f7; color: #666; }
+    .pct-high { background: #FFE5DA; color: #c84d20; }
+    .pct-cell strong { font-size: 18px; display: block; }
+    .stats { font-size: 11px; color: #888; margin-top: 8px; }
+    .issues { background: #fef0e6; padding: 6px 10px; border-radius: 6px; margin-top: 8px; font-size: 11px; color: #c84d20; }
+
+    .histogram { display: flex; align-items: flex-end; height: 80px; gap: 2px; margin: 10px 0; }
+    .hist-bar { flex: 1; background: #d97757; border-radius: 2px 2px 0 0; min-height: 2px; position: relative; }
+    .hist-bar .count { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 9px; color: #666; }
+    .hist-labels { display: flex; font-size: 9px; color: #888; gap: 2px; }
+    .hist-label { flex: 1; text-align: center; }
+
+    .animal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 12px 0; }
+    .animal-cell { background: white; padding: 14px 8px; border-radius: 8px; text-align: center; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+    .animal-emoji { font-size: 28px; }
+    .animal-count { font-size: 18px; font-weight: 700; color: #c84d20; }
+    .animal-pct { font-size: 11px; color: #888; }
+
+    .recommendation { background: #fef0e6; padding: 14px 18px; border-radius: 10px; margin: 16px 0; border-left: 4px solid #c84d20; }
+    .recommendation h3 { color: #c84d20; font-size: 14px; margin-bottom: 8px; }
+    .recommendation ul { margin: 8px 0 0 18px; font-size: 12px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <h1>Phase 7 — 100개 캘리브레이션</h1>
+  <p style="font-size:12px;color:#888;">무작위 자녀 사주 N개 → 6요인 점수 분포 검증. 이상: 낮음 25~30% / 중간 40~50% / 높음 25~30%</p>
+
+  <div class="controls">
+    <label>샘플 수</label>
+    <input type="number" id="N" value="100" min="10" max="1000" step="10" />
+    <button id="run-btn">▶ 캘리브레이션 실행</button>
+    <span id="status" style="margin-left:12px;font-size:12px;color:#666;"></span>
+  </div>
+
+  <h2>6요인 분포</h2>
+  <div class="summary-grid" id="dist-grid"></div>
+
+  <h2>동물 매칭 분포</h2>
+  <div class="animal-grid" id="animal-grid"></div>
+
+  <h2>조정 권고</h2>
+  <div id="recommendation"></div>
+
+  <script type="module">
+    import { calibrate, evaluateDistribution } from '../lib/youa/calibration.mjs';
+
+    const FACTOR_KO = { hwalgi: '활기', josim: '조심', manjok: '만족', heundeullim: '흔들림', eoullim: '어울림', kkeungi: '끈기' };
+    const ANIMAL = {
+      tiger: { name: '호랑이', emoji: '🐯' }, rabbit: { name: '토끼', emoji: '🐰' },
+      horse: { name: '말', emoji: '🐴' }, pig: { name: '돼지', emoji: '🐷' },
+      sheep: { name: '양', emoji: '🐑' }, cow: { name: '소', emoji: '🐮' },
+      dragon: { name: '용', emoji: '🐉' },
+    };
+
+    function renderDistribution(distribution, evaluation) {
+      let h = '';
+      for (const [k, d] of Object.entries(distribution)) {
+        const ev = evaluation[k];
+        h += `
+          <div class="factor-card">
+            <h3>${FACTOR_KO[k]}<span class="verdict ${ev.ok ? 'verdict-pass' : 'verdict-fail'}">${ev.verdict}</span></h3>
+            <div class="pct-row">
+              <div class="pct-cell pct-low"><strong>${d.lowPct}%</strong>낮음 (${d.lowCount})</div>
+              <div class="pct-cell pct-mid"><strong>${d.midPct}%</strong>중간 (${d.midCount})</div>
+              <div class="pct-cell pct-high"><strong>${d.highPct}%</strong>높음 (${d.highCount})</div>
+            </div>
+            <div class="stats">평균 ${d.avg} · 표준편차 ${d.std} · 최소 ${d.min} · 최대 ${d.max}</div>
+            <div class="histogram">${d.histogram.map(c => {
+              const maxH = Math.max(...d.histogram);
+              const h = Math.max(2, Math.round((c / maxH) * 70));
+              return `<div class="hist-bar" style="height:${h}px;"><span class="count">${c}</span></div>`;
+            }).join('')}</div>
+            <div class="hist-labels">
+              <span class="hist-label">0</span><span class="hist-label">10</span><span class="hist-label">20</span><span class="hist-label">30</span><span class="hist-label">40</span><span class="hist-label">50</span><span class="hist-label">60</span><span class="hist-label">70</span><span class="hist-label">80</span><span class="hist-label">90+</span>
+            </div>
+            ${ev.issues.length > 0 ? `<div class="issues">${ev.issues.map(i => '• ' + i).join('<br/>')}</div>` : ''}
+          </div>
+        `;
+      }
+      document.getElementById('dist-grid').innerHTML = h;
+    }
+
+    function renderAnimal(animalDist, N) {
+      let h = '';
+      for (const [k, ad] of Object.entries(ANIMAL)) {
+        const c = animalDist[k] ?? 0;
+        const pct = Math.round((c / N) * 100);
+        h += `
+          <div class="animal-cell">
+            <div class="animal-emoji">${ad.emoji}</div>
+            <div style="font-size:11px;color:#666;">${ad.name}</div>
+            <div class="animal-count">${c}</div>
+            <div class="animal-pct">${pct}%</div>
+          </div>
+        `;
+      }
+      document.getElementById('animal-grid').innerHTML = h;
+    }
+
+    function renderRecommendation(evaluation) {
+      const fails = Object.entries(evaluation).filter(([, e]) => !e.ok);
+      let h = '';
+      if (fails.length === 0) {
+        h = '<div class="recommendation" style="background:#E5F2D1;border-color:#5d8225;"><h3 style="color:#5d8225;">✓ 캘리브레이션 통과</h3><p style="font-size:12px;">모든 6요인이 이상 분포 (낮음 25~30% / 중간 40~50% / 높음 25~30%) 범위 안. 정규화 ÷6 + 신강 점수 매핑 조정 불필요.</p></div>';
+      } else {
+        h = '<div class="recommendation"><h3>⚠ 조정 권고</h3><ul>';
+        for (const [k, e] of fails) {
+          h += `<li><strong>${FACTOR_KO[k]}</strong>: ${e.issues.join(', ')}</li>`;
+        }
+        h += '</ul><p style="font-size:12px;margin-top:10px;">조정 옵션: ① <code>SHINKANG_SCORE</code> 매핑 조정 ② 정규화 ÷6 변경 (÷5 또는 ÷7) ③ 본기/상조/여기 가중치 미세 조정 ④ 인자 본기 매핑 재검토 (Phase 0-B 봉인된 매핑 재방문)</p></div>';
+      }
+      document.getElementById('recommendation').innerHTML = h;
+    }
+
+    async function run() {
+      const N = parseInt(document.getElementById('N').value, 10);
+      document.getElementById('status').textContent = `${N}개 샘플 생성 중...`;
+      await new Promise(r => setTimeout(r, 50));
+
+      const t0 = performance.now();
+      const result = calibrate(N);
+      const t1 = performance.now();
+
+      document.getElementById('status').textContent = `${result.successCount}/${N} 성공 (${Math.round(t1 - t0)}ms)`;
+
+      const evaluation = evaluateDistribution(result.distribution);
+      renderDistribution(result.distribution, evaluation);
+      renderAnimal(result.animalDist, result.successCount);
+      renderRecommendation(evaluation);
+    }
+
+    document.getElementById('run-btn').addEventListener('click', run);
+    run();
+  </script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://paljawon.com/schema/youa-cache-v1.json",
+  "title": "Youa Precomputed Report Cache",
+  "type": "object",
+  "required": ["version", "cacheKey", "inputHash", "sections", "validation"],
+  "properties": {
+    "version": {
+      "const": "youa-v1"
+    },
+    "cacheKey": {
+      "type": "string",
+      "minLength": 8
+    },
+    "inputHash": {
+      "type": "string",
+      "minLength": 8
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "generatedAt": { "type": "string" },
+        "generator": { "type": "string" },
+        "sourceGuide": { "type": "string" },
+        "hourKnownPolicy": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "facts": {
+      "type": "object",
+      "description": "Code-calculated saju facts. LLM must not invent these values.",
+      "additionalProperties": true
+    },
+    "sections": {
+      "type": "object",
+      "required": ["overview", "factors", "animal", "parents", "compatibility", "matrix", "outro"],
+      "properties": {
+        "overview": {
+          "type": "object",
+          "required": ["scores"],
+          "properties": {
+            "scores": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/factorScore" },
+              "minItems": 6,
+              "maxItems": 6
+            },
+            "summary": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "factors": {
+          "type": "object",
+          "required": ["활기", "조심", "만족", "흔들림", "어울림", "끈기"],
+          "properties": {
+            "활기": { "$ref": "#/$defs/factorSection" },
+            "조심": { "$ref": "#/$defs/factorSection" },
+            "만족": { "$ref": "#/$defs/factorSection" },
+            "흔들림": { "$ref": "#/$defs/factorSection" },
+            "어울림": { "$ref": "#/$defs/factorSection" },
+            "끈기": { "$ref": "#/$defs/factorSection" }
+          },
+          "additionalProperties": false
+        },
+        "animal": { "$ref": "#/$defs/animalSection" },
+        "parents": {
+          "type": "object",
+          "required": ["mother", "father"],
+          "properties": {
+            "mother": { "$ref": "#/$defs/parentSection" },
+            "father": { "$ref": "#/$defs/parentSection" }
+          },
+          "additionalProperties": false
+        },
+        "compatibility": {
+          "type": "object",
+          "required": ["motherChild", "fatherChild"],
+          "properties": {
+            "motherChild": { "$ref": "#/$defs/compatibilitySection" },
+            "fatherChild": { "$ref": "#/$defs/compatibilitySection" }
+          },
+          "additionalProperties": true
+        },
+        "matrix": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/matrixCard" },
+          "minItems": 1
+        },
+        "outro": {
+          "type": "object",
+          "required": ["paragraphs"],
+          "properties": {
+            "paragraphs": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 20 },
+              "minItems": 3
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "validation": {
+      "type": "object",
+      "required": ["scoreLevelChecked", "noUndefinedText", "noInventedFacts"],
+      "properties": {
+        "scoreLevelChecked": { "type": "boolean" },
+        "noUndefinedText": { "type": "boolean" },
+        "noInventedFacts": { "type": "boolean" },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "level": {
+      "enum": ["매우낮음", "낮음", "중간", "높음", "매우높음"]
+    },
+    "factorName": {
+      "enum": ["활기", "조심", "만족", "흔들림", "어울림", "끈기"]
+    },
+    "factorScore": {
+      "type": "object",
+      "required": ["factor", "score", "level"],
+      "properties": {
+        "factor": { "$ref": "#/$defs/factorName" },
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "level": { "$ref": "#/$defs/level" }
+      },
+      "additionalProperties": true
+    },
+    "factorSection": {
+      "type": "object",
+      "required": ["summaryBox", "why", "daily", "parentingTips"],
+      "properties": {
+        "summaryBox": {
+          "type": "object",
+          "required": ["line1", "line2"],
+          "properties": {
+            "line1": { "type": "string", "minLength": 10 },
+            "line2": { "type": "string", "minLength": 10 }
+          },
+          "additionalProperties": false
+        },
+        "why": {
+          "type": "object",
+          "required": ["intro", "makerItems", "suppressorItems", "body"],
+          "properties": {
+            "intro": { "type": "string", "minLength": 20 },
+            "makerItems": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/evidenceItem" }
+            },
+            "suppressorItems": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/evidenceItem" }
+            },
+            "body": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 20 },
+              "minItems": 2
+            }
+          },
+          "additionalProperties": true
+        },
+        "daily": {
+          "type": "object",
+          "required": ["paragraphs"],
+          "properties": {
+            "paragraphs": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 30 },
+              "minItems": 1
+            }
+          },
+          "additionalProperties": true
+        },
+        "parentingTips": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/parentingTip" },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "additionalProperties": true
+    },
+    "evidenceItem": {
+      "type": "object",
+      "required": ["label", "raw", "position"],
+      "properties": {
+        "label": { "type": "string" },
+        "raw": { "type": "string" },
+        "position": { "type": "string" },
+        "strength": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "parentingTip": {
+      "type": "object",
+      "required": ["axis", "title", "body"],
+      "properties": {
+        "axis": { "enum": ["시간", "소통", "환경"] },
+        "title": { "type": "string", "minLength": 4 },
+        "body": { "type": "string", "minLength": 30 }
+      },
+      "additionalProperties": true
+    },
+    "animalSection": {
+      "type": "object",
+      "required": ["animalName", "matchCase", "topFactors", "summary", "strengths", "watchouts", "coaching"],
+      "properties": {
+        "animalName": { "type": "string" },
+        "matchCase": { "enum": ["A", "B", "C"] },
+        "topFactors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/factorScore" },
+          "minItems": 3
+        },
+        "summary": { "type": "string", "minLength": 30 },
+        "strengths": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 3
+        },
+        "watchouts": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 3
+        },
+        "coaching": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/parentingTip" },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "additionalProperties": true
+    },
+    "parentSection": {
+      "type": "object",
+      "required": ["dayMaster", "paragraphs"],
+      "properties": {
+        "dayMaster": {
+          "type": "object",
+          "required": ["ko", "han", "metaphor"],
+          "properties": {
+            "ko": { "type": "string" },
+            "han": { "type": "string" },
+            "metaphor": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "paragraphs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 20 },
+          "minItems": 2
+        }
+      },
+      "additionalProperties": true
+    },
+    "compatibilitySection": {
+      "type": "object",
+      "required": ["relationType", "paragraphs", "daily"],
+      "properties": {
+        "relationType": { "type": "string" },
+        "paragraphs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 20 },
+          "minItems": 3
+        },
+        "daily": { "type": "string", "minLength": 30 }
+      },
+      "additionalProperties": true
+    },
+    "matrixCard": {
+      "type": "object",
+      "required": ["type", "header", "sub", "body", "daily"],
+      "properties": {
+        "type": { "enum": ["synergy", "conflict"] },
+        "header": { "type": "string", "minLength": 10 },
+        "sub": { "type": "string", "minLength": 10 },
+        "body": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 20 },
+          "minItems": 3
+        },
+        "daily": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 20 },
+          "minItems": 1
+        },
+        "resolution": {
+          "type": "string",
+          "description": "Only for conflict cards."
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
+

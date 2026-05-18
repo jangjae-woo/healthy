@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "lifetime-care",
+  "sectionTitle": "살아갈수록 챙길 결",
+  "sampleId": "장재형",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.lifetime-care|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang",
+  "cacheKey": "health.lifetime-care|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang|variant:03",
+  "text": "장재형 님이 살아갈수록 챙길 결은 나이가 들수록 성과보다 회복 기준을 먼저 세워야 하는 결이에요. 21~30세 계유 대운에는 정인/정관 흐름과 85점대의 건강운이 떠서 생활 리듬을 안정시키기 좋은 구간입니다.\n\n41~50세 신미 흐름에는 몸의 신호를 늦게 알아차리지 않도록 일정을 줄이는 판단이 필요합니다. 평생 건강 관리는 강한 기운을 오래 쓰되, 약한 기운을 매일의 생활 기준으로 살펴주는 방향이 맞습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

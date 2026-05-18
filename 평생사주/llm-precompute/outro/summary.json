@@ -1,0 +1,79 @@
+{
+  "version": "lifesaju-outro-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 12,
+  "summary": [
+    {
+      "group": "outro",
+      "sectionKey": "body",
+      "sampleId": "장재우",
+      "baseCacheKey": "outro.body|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "last-line",
+      "sampleId": "장재우",
+      "baseCacheKey": "outro.last-line|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "body",
+      "sampleId": "장재형",
+      "baseCacheKey": "outro.body|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "last-line",
+      "sampleId": "장재형",
+      "baseCacheKey": "outro.last-line|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "body",
+      "sampleId": "sample-001",
+      "baseCacheKey": "outro.body|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "last-line",
+      "sampleId": "sample-001",
+      "baseCacheKey": "outro.last-line|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "body",
+      "sampleId": "sample-002",
+      "baseCacheKey": "outro.body|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "last-line",
+      "sampleId": "sample-002",
+      "baseCacheKey": "outro.last-line|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "body",
+      "sampleId": "sample-003",
+      "baseCacheKey": "outro.body|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "last-line",
+      "sampleId": "sample-003",
+      "baseCacheKey": "outro.last-line|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "body",
+      "sampleId": "sample-004",
+      "baseCacheKey": "outro.body|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    },
+    {
+      "group": "outro",
+      "sectionKey": "last-line",
+      "sampleId": "sample-004",
+      "baseCacheKey": "outro.last-line|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    }
+  ]
+}

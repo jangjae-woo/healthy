@@ -1,0 +1,170 @@
+{
+  "version": "lifesaju-calculated-v1",
+  "sampleId": "sample-004",
+  "personKey": "2001-01-26_unknown_female",
+  "profileName": "관성조직형",
+  "generatedAt": "2026-05-18",
+  "calculated": {
+    "engine": {
+      "entrypoint": "lib/saju-core.ts#computeFullSajuCore",
+      "calculatorFiles": [
+        "lib/saju-core.ts",
+        "lib/saju-calculator.ts",
+        "lib/saju-traditional.ts",
+        "lib/jpjjeon.ts",
+        "lib/sibiunseong.ts",
+        "lib/tonggeun.ts",
+        "lib/samhap.ts",
+        "lib/seun.ts"
+      ],
+      "note": "이 파일은 실제 엔진 출력값을 캐시용으로 정규화한 샘플이다."
+    },
+    "input": {
+      "year": 2001,
+      "month": 1,
+      "day": 26,
+      "hour": "시간 모름",
+      "calendar": "양력",
+      "gender": "여"
+    },
+    "solarDate": {
+      "year": 2001,
+      "month": 1,
+      "day": 26
+    },
+    "inputCalendar": "양력",
+    "isHourUnknown": true,
+    "pillars": {
+      "year": {
+        "stem": "경",
+        "branch": "진"
+      },
+      "month": {
+        "stem": "기",
+        "branch": "축"
+      },
+      "day": {
+        "stem": "기",
+        "branch": "축"
+      },
+      "hour": null
+    },
+    "ilgan": "기",
+    "sipseong": {
+      "year": {
+        "stem": "상관",
+        "branch": "겁재"
+      },
+      "month": {
+        "stem": "비견",
+        "branch": "비견"
+      },
+      "day": {
+        "stem": "비견",
+        "branch": "비견"
+      },
+      "hour": null
+    },
+    "sipseongCounts": {
+      "비견": 4,
+      "상관": 1,
+      "겁재": 1
+    },
+    "elements": {
+      "목": 0.1,
+      "화": 0,
+      "토": 4,
+      "금": 1.4,
+      "수": 0.5
+    },
+    "elementRank": [
+      [
+        "토",
+        4
+      ],
+      [
+        "금",
+        1.4
+      ],
+      [
+        "수",
+        0.5
+      ],
+      [
+        "목",
+        0.1
+      ],
+      [
+        "화",
+        0
+      ]
+    ],
+    "strongestElement": "토",
+    "weakestElement": "화",
+    "shinkang": "극왕",
+    "yongsin": "목",
+    "supportElement": "목",
+    "yongsinModel": "service-support-element",
+    "daeun": {
+      "number": 7,
+      "direction": "역행",
+      "cycles": [
+        {
+          "age": 7,
+          "stem": "무",
+          "branch": "자",
+          "ganji": "무자"
+        },
+        {
+          "age": 17,
+          "stem": "정",
+          "branch": "해",
+          "ganji": "정해"
+        },
+        {
+          "age": 27,
+          "stem": "병",
+          "branch": "술",
+          "ganji": "병술"
+        },
+        {
+          "age": 37,
+          "stem": "을",
+          "branch": "유",
+          "ganji": "을유"
+        },
+        {
+          "age": 47,
+          "stem": "갑",
+          "branch": "신",
+          "ganji": "갑신"
+        },
+        {
+          "age": 57,
+          "stem": "계",
+          "branch": "미",
+          "ganji": "계미"
+        },
+        {
+          "age": 67,
+          "stem": "임",
+          "branch": "오",
+          "ganji": "임오"
+        },
+        {
+          "age": 77,
+          "stem": "신",
+          "branch": "사",
+          "ganji": "신사"
+        }
+      ]
+    },
+    "sinsal": [
+      "천덕귀인",
+      "월덕귀인",
+      "태극귀인",
+      "반안살",
+      "홍염살"
+    ]
+  }
+}

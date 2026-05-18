@@ -1,0 +1,546 @@
+{
+  "version": "lifesaju-health-audit-v1",
+  "issueCount": 0,
+  "results": [
+    {
+      "sectionKey": "vitality",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "vitality",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "weak-part",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "emotion",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifestyle",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-care",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    }
+  ]
+}

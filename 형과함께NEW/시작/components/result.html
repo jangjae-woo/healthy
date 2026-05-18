@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>유아용 부모-자녀 궁합 사주 — 보고서</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', -apple-system, sans-serif; background: linear-gradient(180deg, #fef9f6 0%, #f5f0eb 100%); color: #333; line-height: 1.65; padding: 16px 8px; font-size: 14px; }
+    .loading-box {
+      max-width: 420px; margin: 100px auto; padding: 40px 24px;
+      background: white; border-radius: 14px; text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .loading-box h1 { font-size: 20px; color: #c84d20; margin-bottom: 12px; }
+    .loading-box p { font-size: 13px; color: #666; }
+    .progress-bar {
+      width: 100%; height: 6px; background: #f0ebe5; border-radius: 3px;
+      margin: 20px 0; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: linear-gradient(90deg, #d97757, #FF8FA3);
+      width: 0%; transition: width 0.3s;
+    }
+    .stage-list { text-align: left; margin-top: 16px; font-size: 12px; color: #666; }
+    .stage-item { padding: 4px 0; }
+    .stage-done { color: #5d8225; }
+    .stage-current { color: #c84d20; font-weight: 700; }
+    .validation-fail {
+      background: #fef0e6; padding: 12px 16px; border-radius: 8px;
+      border-left: 3px solid #c84d20; margin: 16px 0; font-size: 12px; color: #c84d20;
+    }
+
+    /* 보고서 스타일 (report.html과 동일) */
+    .page { max-width: 420px; margin: 0 auto 20px; padding: 30px 20px; background: white; border-radius: 14px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); min-height: 640px; position: relative; }
+    .page-num { position: absolute; top: 14px; right: 18px; color: #aaa; font-size: 11px; }
+    .chapter-header { padding: 12px 18px; border-radius: 10px; margin-bottom: 22px; font-size: 18px; font-weight: 700; display: inline-block; }
+    .ch-hwalgi { background: #FFE5DA; color: #c84d20; }
+    .ch-josim { background: #E5F2D1; color: #5d8225; }
+    .ch-manjok { background: #FFF6CC; color: #b89400; }
+    .ch-heundeullim { background: #EBDAF5; color: #6e4099; }
+    .ch-eoullim { background: #FFE0E8; color: #c44366; }
+    .ch-kkeungi { background: #DBE9F5; color: #2d5a8a; }
+    .ch-parent { background: #F0E7DC; color: #8a6332; }
+    .ch-outro { background: #F5E4D8; color: #a16a3a; }
+    .score-box { background: #fef9f6; border-left: 4px solid #d97757; padding: 12px 14px; border-radius: 8px; margin: 16px 0; font-size: 13px; }
+    .llm-placeholder { background: #ecf6f5; border: 1px dashed #6ba8a8; padding: 8px 12px; border-radius: 6px; font-size: 11px; color: #3d7373; font-style: italic; margin: 8px 0; }
+    .llm-content { background: #fdfaf6; padding: 10px 14px; border-radius: 6px; margin: 8px 0; font-size: 13px; color: #444; line-height: 1.7; }
+    .radar-wrap { display: flex; justify-content: center; margin: 20px 0; }
+    .radar { width: 100%; max-width: 320px; }
+    .radar-label { font-size: 12px; font-weight: 600; fill: #555; }
+    .radar-score { font-size: 10px; fill: #d97757; font-weight: 700; }
+    .bar-row { display: flex; align-items: center; margin: 8px 0; gap: 8px; }
+    .bar-name { width: 48px; font-size: 12px; font-weight: 600; color: #555; }
+    .bar-track { flex: 1; height: 11px; background: #f0ebe5; border-radius: 6px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 6px; }
+    .bar-score { width: 44px; text-align: right; font-size: 12px; font-weight: 700; color: #d97757; }
+    .bar-label { width: 62px; font-size: 11px; }
+    .level-low { color: #2d5a8a; font-weight: 600; }
+    .level-mid { color: #888; font-weight: 600; }
+    .level-high { color: #c84d20; font-weight: 600; }
+    .bipolar-section { margin: 24px 0; }
+    .bipolar-title { text-align: center; font-size: 14px; font-weight: 700; color: #444; margin-bottom: 4px; }
+    .bipolar-subtitle { text-align: center; font-size: 11px; color: #888; margin-bottom: 14px; }
+    .bipolar-list { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+    .bipolar-item { border-bottom: 1px solid #f0ebe5; cursor: pointer; }
+    .bipolar-row { display: grid; grid-template-columns: 1fr 60px 1fr 22px; gap: 6px; align-items: center; padding: 12px 10px; }
+    .bp-low-mini { text-align: right; font-size: 10.5px; color: #888; }
+    .bp-high-mini { text-align: left; font-size: 10.5px; color: #c84d20; font-weight: 500; }
+    .bipolar-label { padding: 5px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; text-align: center; }
+    .bp-toggle { font-size: 15px; color: #9a9a9a; text-align: center; font-weight: 700; line-height: 1; }
+    .bipolar-detail { display: none; padding: 0 14px 14px; background: #faf6f1; }
+    .bipolar-item.expanded .bipolar-detail { display: block; }
+    .bp-full { font-size: 11px; padding: 8px 10px; margin: 6px 0; border-radius: 6px; }
+    .bp-low-full { background: #f8f5f1; color: #666; border-left: 3px solid #bbb; }
+    .bp-high-full { background: #fff5ec; color: #444; border-left: 3px solid #d97757; }
+    .bp-low-full::before { content: "낮음 — "; color: #999; font-weight: 600; }
+    .bp-high-full::before { content: "높음 — "; color: #d97757; font-weight: 600; }
+    .bp-hwalgi { background: #FFE5DA; color: #c84d20; }
+    .bp-josim { background: #E5F2D1; color: #5d8225; }
+    .bp-manjok { background: #FFF6CC; color: #b89400; }
+    .bp-heundeullim { background: #EBDAF5; color: #6e4099; }
+    .bp-eoullim { background: #FFE0E8; color: #c44366; }
+    .bp-kkeungi { background: #DBE9F5; color: #2d5a8a; }
+    .saju8-box { background: #faf6f1; padding: 14px; border-radius: 10px; margin: 14px 0; }
+    .saju8-title { font-size: 12px; color: #888; margin-bottom: 10px; }
+    .saju8-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; }
+    .saju8-cell { background: white; padding: 8px 4px; border-radius: 6px; border: 1px solid #eee; }
+    .saju8-cell .pos { font-size: 10px; color: #aaa; }
+    .saju8-cell .char { font-size: 18px; font-weight: 700; color: #555; }
+    .saju8-cell.day .char { color: #d97757; font-size: 22px; }
+    .saju8-info { font-size: 11px; color: #666; margin-top: 10px; text-align: center; }
+    .factor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+    .factor-card { padding: 10px 12px; border-radius: 10px; }
+    .factor-card .icon { font-size: 14px; }
+    .factor-card .name { font-size: 12px; font-weight: 700; }
+    .factor-card .kind { font-size: 10px; color: #666; margin: 2px 0 6px; }
+    .factor-card .strength-bar { height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden; margin: 5px 0; }
+    .factor-card .strength-fill { height: 100%; border-radius: 3px; }
+    .factor-card .strength-label { font-size: 10.5px; font-weight: 700; }
+    .factor-card .position { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 9.5px; color: #888; margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgba(0,0,0,0.08); }
+    .factor-card .card-toggle { color: #aaa; font-size: 13px; font-weight: 700; line-height: 1; }
+    .factor-card .note { font-size: 9.5px; color: #999; margin-top: 4px; font-style: italic; }
+    .factor-card .card-detail { display: none; font-size: 10.5px; line-height: 1.65; color: #555; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(0,0,0,0.08); }
+    .factor-card.expanded .card-detail { display: block; }
+    .han { font-family: "Times New Roman", serif; color: #777; display: inline-block; margin-left: 2px; line-height: 1.25; }
+    .matrix-card { padding: 14px 16px; border-radius: 12px; margin: 12px 0; }
+    .syn-card { background: linear-gradient(135deg, #fff5e8 0%, #fef0d8 100%); border-left: 4px solid #d4a838; }
+    .con-card { background: linear-gradient(135deg, #f5f5f7 0%, #eaeaef 100%); border-left: 4px solid #8a8a9e; }
+    .amb-card { background: linear-gradient(135deg, #fdf0e6 0%, #fae0c8 100%); border-left: 4px solid #c4a578; }
+    .matrix-card .header { font-size: 13px; font-weight: 700; }
+    .syn-card .header { color: #8a6e1a; }
+    .con-card .header { color: #5a5a73; }
+    .matrix-card .sub { font-size: 11px; color: #888; margin-bottom: 10px; }
+    .matrix-card .body { font-size: 12px; color: #444; line-height: 1.7; }
+    .tip-box { background: linear-gradient(135deg, #f5f8e8 0%, #ecf4d5 100%); padding: 14px; border-radius: 12px; margin: 16px 0; border: 1px solid #d4e4a8; }
+    .tip-box .tip-label { font-size: 12px; color: #5d8225; font-weight: 700; margin-bottom: 10px; }
+    .tip-box .tip-item { background: white; padding: 12px 14px; border-radius: 8px; margin: 8px 0; border-left: 3px solid #95C540; }
+    .tip-box .tip-item .tip-title { font-weight: 700; color: #5d8225; font-size: 13px; margin-bottom: 5px; }
+    .tip-box .tip-item .tip-desc { font-size: 12px; color: #555; line-height: 1.65; }
+    .strength-box, .care-box { background: white; padding: 12px 14px; border-radius: 10px; margin: 10px 0; }
+    .strength-box .title { color: #c84d20; font-weight: 600; font-size: 13px; }
+    .care-box .title { color: #5d8225; font-weight: 600; font-size: 13px; }
+    .strength-box ul, .care-box ul { list-style: none; padding-left: 2px; margin: 8px 0 0; }
+    .strength-box li, .care-box li { font-size: 12.5px; line-height: 1.75; color: #555; margin: 5px 0; }
+    .gunghap { background: #faf6f1; padding: 18px; border-radius: 14px; margin: 18px 0; text-align: center; }
+    .gunghap-summary { text-align: center; font-size: 12px; color: #666; margin-top: 14px; padding: 12px 14px; background: white; border-radius: 8px; }
+    .cover { min-height: 640px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #fef0e6 0%, #fdfaf6 100%); }
+    .cover .title { font-size: 26px; font-weight: 800; color: #c84d20; margin-bottom: 12px; }
+    .cover .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
+    .cover .info { font-size: 12px; color: #555; line-height: 1.9; }
+    .cover .jado-mark { margin-top: 40px; font-size: 11px; color: #aaa; }
+    .disclaimer { background: #fafaf8; padding: 10px 14px; border-radius: 8px; font-size: 11px; color: #888; margin: 18px 0; border: 1px dashed #ddd; }
+    .transition-page { background: linear-gradient(180deg, #fef9f6 0%, #faf0e8 100%); display: flex; flex-direction: column; justify-content: center; }
+    .transition-content { text-align: center; padding: 30px 0; }
+    .transition-icon { font-size: 42px; }
+    .transition-title { font-size: 18px; font-weight: 700; color: #c84d20; line-height: 1.6; }
+    .transition-divider { width: 36px; height: 2px; background: #d97757; margin: 20px auto; opacity: 0.5; }
+    .transition-body { font-size: 13px; line-height: 1.9; color: #555; margin: 14px 0; }
+    .transition-body.emphasis { font-weight: 600; color: #c84d20; }
+    .preview-item { display: flex; gap: 10px; padding: 12px 14px; background: #faf6f1; border-radius: 10px; margin-bottom: 8px; }
+    .preview-num { font-size: 18px; color: #d97757; font-weight: 700; }
+    .preview-title { font-weight: 700; color: #444; font-size: 13px; }
+    .preview-desc { font-size: 11px; color: #777; }
+    .value-message { background: linear-gradient(135deg, #fef0e6 0%, #fdfaf6 100%); padding: 20px 16px; border-radius: 12px; text-align: center; }
+    .value-mark { font-size: 20px; }
+    .value-message p { font-size: 12px; }
+    .value-final { font-weight: 700; color: #c84d20; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 12px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #eee; text-align: left; }
+    th { background: #f8f5f1; color: #555; }
+    h3 { font-size: 15px; font-weight: 700; margin: 16px 0 8px; color: #444; }
+    p { font-size: 13px; line-height: 1.75; color: #444; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div id="loading" class="loading-box">
+    <h1>🐮 보고서 생성 중...</h1>
+    <p>자녀 사주를 분석하고 있습니다</p>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="stage-list" id="stages"></div>
+  </div>
+
+  <div id="report-container" style="display:none;"></div>
+
+  <script type="module">
+    import { KIMSUMIN_SAJU } from '../fixtures/child-kimsumin.mjs';
+    import { PARK_JIYOUNG_SAJU } from '../fixtures/mother-park.mjs';
+    import { KIM_JAEHUN_SAJU } from '../fixtures/father-kim.mjs';
+    import { buildFacts } from '../lib/youa/facts-builder.mjs';
+    import { buildPrompt } from '../lib/youa/prompt-builder.mjs';
+    import { mockLLMResponse } from '../lib/youa/mock-llm.mjs';
+    import { parseLLMOutput, attachLLMTextToFacts } from '../lib/youa/output-parser.mjs';
+    import { validateLLMOutput } from '../lib/youa/output-validator.mjs';
+    import { renderReport } from '../lib/youa/render.mjs';
+
+    const STAGES = [
+      { id: 'saju', label: '사주 8자 변환' },
+      { id: 'factors', label: '자녀 여섯 결 위치 산출' },
+      { id: 'axes', label: '부모 6축 결 분석' },
+      { id: 'matrix', label: '36셀 매트릭스 매칭' },
+      { id: 'animal', label: '동물 유형 매칭' },
+      { id: 'ilgan', label: '부모-자녀 일간 관계 분석' },
+      { id: 'prompt', label: 'LLM 프롬프트 빌드' },
+      { id: 'llm', label: 'LLM 산문 생성' },
+      { id: 'validate', label: '출력 검증 (헤더·금지 톤·분량)' },
+      { id: 'render', label: '17p 보고서 렌더' },
+    ];
+
+    function renderStages(currentIdx, doneIdx) {
+      return STAGES.map((s, i) => {
+        const cls = i < doneIdx ? 'stage-done' : i === currentIdx ? 'stage-current' : '';
+        const mark = i < doneIdx ? '✓' : i === currentIdx ? '▶' : '○';
+        return `<div class="stage-item ${cls}">${mark} ${s.label}</div>`;
+      }).join('');
+    }
+
+    async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function generate() {
+      const inputJSON = localStorage.getItem('youa-input');
+      if (!inputJSON) {
+        alert('입력 데이터가 없습니다. 폼으로 이동합니다.');
+        window.location.href = 'form.html';
+        return;
+      }
+      const input = JSON.parse(inputJSON);
+
+      const stagesEl = document.getElementById('stages');
+      const fillEl = document.getElementById('progress-fill');
+
+      let currentIdx = 0;
+      let doneIdx = 0;
+
+      function advance() {
+        doneIdx = currentIdx + 1;
+        currentIdx = doneIdx;
+        const pct = (doneIdx / STAGES.length) * 100;
+        fillEl.style.width = pct + '%';
+        stagesEl.innerHTML = renderStages(currentIdx, doneIdx);
+      }
+
+      stagesEl.innerHTML = renderStages(0, 0);
+
+      // SSE 시뮬레이션: 각 단계 짧은 지연으로 진행
+      await sleep(300); advance();  // 사주 변환
+      await sleep(200); advance();  // 6요인
+      await sleep(200); advance();  // 6축
+      await sleep(200); advance();  // 매트릭스
+      await sleep(150); advance();  // 동물
+      await sleep(150); advance();  // 일간
+
+      // facts 빌드
+      const facts = buildFacts({
+        childSaju: KIMSUMIN_SAJU,
+        motherSaju: input.mother ? PARK_JIYOUNG_SAJU : null,
+        fatherSaju: input.father ? KIM_JAEHUN_SAJU : null,
+        testDate: '2026-05-17',
+      });
+
+      await sleep(200); advance();  // 프롬프트
+      const prompt = buildPrompt(facts);
+
+      // LLM 시뮬레이션 (실제 saju-site에서는 fetch + SSE)
+      await sleep(800); advance();  // LLM (제일 오래)
+      const llmRaw = mockLLMResponse(facts);
+
+      // 검증
+      await sleep(200); advance();  // 검증
+      const parsed = parseLLMOutput(llmRaw);
+      const validation = validateLLMOutput(parsed, facts);
+
+      if (!validation.valid) {
+        // 재시도 룰 (1회) — 실제 환경에서는 LLM 재호출
+        console.warn('LLM 출력 검증 실패. 재시도 1회.', validation.violations);
+        // 시뮬레이션에서는 mock이 항상 통과해야 하므로 fallback
+      }
+
+      // 렌더
+      await sleep(200); advance();  // 렌더
+      const factsWithLLM = attachLLMTextToFacts(facts, parsed);
+
+      document.getElementById('loading').style.display = 'none';
+      const container = document.getElementById('report-container');
+      container.style.display = 'block';
+
+      if (!validation.valid) {
+        container.innerHTML = `<div class="validation-fail">⚠️ LLM 출력 검증 실패. 재시도 룰 작동 필요 (saju-site 이관 시 구현).<br/>위반: ${validation.violations.map(v => v.detail).join(' / ')}</div>`;
+      }
+      container.innerHTML += renderReport(factsWithLLM);
+    }
+
+    generate();
+  </script>
+</body>
+</html>

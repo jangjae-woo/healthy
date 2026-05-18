@@ -1,0 +1,1244 @@
+{
+  "version": "lifesaju-cache-recollection-from-image-audit-v1",
+  "generatedAt": "2026-05-18",
+  "referencePath": "C:\\Users\\new\\Documents\\카카오톡 받은 파일\\index (1).html",
+  "currentPath": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\sample-001.html",
+  "imageFindings": [
+    {
+      "pair": "222 -> 111",
+      "issue": "현재 사업운/시기 카드가 기준 화면보다 짧고, 살펴줄 시기 카드의 본문/일상/추천 박스 깊이가 부족하다.",
+      "cacheAction": "business timeCard bright/care, daily list, recommend resolution을 reference 수준으로 재수집"
+    },
+    {
+      "pair": "444 -> 333",
+      "issue": "현재 직업운은 상단 카드와 짧은 설명 뒤에 바로 소제목으로 넘어가며, 기준 화면처럼 세부 직업 분야/이직/승진/상사·동료운 본문이 길게 채워지지 않는다.",
+      "cacheAction": "career sectionBody 5개와 deprecated가 아닌 본문형 상세 캐시를 재수집"
+    },
+    {
+      "pair": "555/777 -> 111 style",
+      "issue": "재물운 하단과 재물운 시기 앞쪽이 기준 화면보다 짧다. 한 줄 placeholder를 실제 대운과 원국 인자를 넣은 2~3문단형 캐시로 바꿔야 한다.",
+      "cacheAction": "wealth earning/saving/bigMoney/leak/asset 및 timeCard 캐시를 확장"
+    },
+    {
+      "pair": "000",
+      "issue": "직장인 vs 자영업 페이지는 path compare 영역과 마지막 요약이 기준보다 덜 자연스럽고, 실제 대운 나이와 직장/사업 흐름을 분리한 캐시가 더 필요하다.",
+      "cacheAction": "pathChoice employee/business/decision/lifetimeFlow 문단을 reference 길이로 재수집"
+    }
+  ],
+  "pages": [
+    {
+      "id": "p5",
+      "reference": {
+        "id": "p5",
+        "chars": 3596,
+        "htmlChars": 8161,
+        "h3": [
+          "돈을 버는 결 만드는 받쳐주는",
+          "돈을 모으는 결 모이는 지키는",
+          "큰 돈 시기 만드는 모이는",
+          "돈이 새는 결 지키는 받쳐주는",
+          "평생 자산 결 모이는 만드는",
+          "재물운 시기"
+        ],
+        "paragraphCount": 20,
+        "paragraphChars": [
+          135,
+          104,
+          184,
+          121,
+          224,
+          122,
+          186,
+          118,
+          129,
+          127,
+          132,
+          156,
+          126,
+          74,
+          119,
+          154,
+          156,
+          115,
+          140,
+          88
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 579,
+            "textPreview": "✨ 가장 빛나는 시기 재물운 — 45~54세 (5대운 안정 자산 흐름) 강한 시너지 — 만드는 결 본기 × 5대운 정재(안정 자산) 흐름 이지윤 님 재물운이 가장 빛나는 시기는 45~54세 5대운 안정 자산 흐름 이에요. 본인이 만드는 결이 본기로 자리한 사주에 안정 자산의 결이 직접 "
+          },
+          {
+            "kind": "care",
+            "chars": 748,
+            "textPreview": "⚠ 가장 살펴줄 시기 재물운 — 35~44세 (4대운 결과 압력 흐름) 양면 — 결과 압력 — 신약 본기 × 4대운 편관(외부 압력) = 큰 지출·압력 자극 이지윤 님 재물운에서 가장 살펴줄 시기는 35~44세 4대운 결과 압력 흐름 이에요. 이 시기에 일·가정의 자리가 동시에 자리잡으"
+          }
+        ],
+        "dailyBoxes": 2,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p5",
+        "chars": 4974,
+        "htmlChars": 8600,
+        "h3": [
+          "돈을 버는 결 만드는 받쳐주는",
+          "돈을 모으는 결 모이는 지키는",
+          "큰 돈 시기 만드는 모이는",
+          "돈이 새는 결 지키는 받쳐주는",
+          "평생 자산 결 모이는 만드는",
+          "재물운 시기"
+        ],
+        "paragraphCount": 34,
+        "paragraphChars": [
+          235,
+          113,
+          175,
+          131,
+          182,
+          108,
+          231,
+          167,
+          113,
+          167,
+          182,
+          170,
+          168,
+          131,
+          53,
+          68,
+          68,
+          53,
+          68,
+          59,
+          53,
+          62,
+          466,
+          59,
+          53,
+          68,
+          362,
+          106,
+          220,
+          88,
+          49,
+          90,
+          52,
+          32
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 230,
+            "textPreview": "✨ 가장 빛나는 시기 재물운 — 35~44세 (계미 대운) 편인/편재 흐름 · 점수 87 35~44세 계미 대운에는 편인/편재 흐름 · 점수 87이 들어와 재물운이 가장 선명하게 살아납니다. 본인이 이미 쌓아둔 결이 결과로 보이기 쉬운 구간입니다. 이 시기에는 새로 벌이는 일보다 잘 되"
+          },
+          {
+            "kind": "care",
+            "chars": 261,
+            "textPreview": "⚠ 가장 살펴줄 시기 재물운 — 45~54세 (갑신 대운) 겁재/정관 흐름 · 점수 51 45~54세 갑신 대운에는 겁재/정관 흐름 · 점수 51이 들어와 재물운에서 살펴줄 지점이 생깁니다. 좋은 기회처럼 보여도 부담과 비용이 함께 커질 수 있습니다. 이 시기에는 결론을 서두르기보다 문"
+          }
+        ],
+        "dailyBoxes": 1,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 1.38,
+        "charsMissing": 0,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 1,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p5.돈을 버는 결 만드는 받쳐주는.body",
+          "type": "sectionBody",
+          "sourceHeading": "돈을 버는 결 만드는 받쳐주는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p5.돈을 모으는 결 모이는 지키는.body",
+          "type": "sectionBody",
+          "sourceHeading": "돈을 모으는 결 모이는 지키는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p5.큰 돈 시기 만드는 모이는.body",
+          "type": "sectionBody",
+          "sourceHeading": "큰 돈 시기 만드는 모이는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p5.돈이 새는 결 지키는 받쳐주는.body",
+          "type": "sectionBody",
+          "sourceHeading": "돈이 새는 결 지키는 받쳐주는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p5.평생 자산 결 모이는 만드는.body",
+          "type": "sectionBody",
+          "sourceHeading": "평생 자산 결 모이는 만드는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p5.재물운 시기.body",
+          "type": "sectionBody",
+          "sourceHeading": "재물운 시기",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p5.timeCard.bright.1",
+          "type": "timeCard",
+          "requiredMinChars": 405,
+          "referencePreview": "✨ 가장 빛나는 시기 재물운 — 45~54세 (5대운 안정 자산 흐름) 강한 시너지 — 만드는 결 본기 × 5대운 정재(안정 자산) 흐름 이지윤 님 재물운이 가장 빛나는 시기는 45~54세 5대운 안정 자산 흐름 이에요. 본인이 만드는 결이 본기로 자리한 사주에 안정 자산의 결이 직접 ",
+          "status": "tooShortOrBroken"
+        },
+        {
+          "unit": "p5.timeCard.care.2",
+          "type": "timeCard",
+          "requiredMinChars": 524,
+          "referencePreview": "⚠ 가장 살펴줄 시기 재물운 — 35~44세 (4대운 결과 압력 흐름) 양면 — 결과 압력 — 신약 본기 × 4대운 편관(외부 압력) = 큰 지출·압력 자극 이지윤 님 재물운에서 가장 살펴줄 시기는 35~44세 4대운 결과 압력 흐름 이에요. 이 시기에 일·가정의 자리가 동시에 자리잡으",
+          "status": "tooShortOrBroken"
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "reference": {
+        "id": "p7",
+        "chars": 6772,
+        "htmlChars": 13793,
+        "h3": [
+          "어떤 분야가 맞나 표현 받쳐주는",
+          "이직운 표현 일간 안정",
+          "승진운 책임감 일간 안정",
+          "상사·동료운 책임감 받쳐주는",
+          "직장 스트레스 책임감 일간 안정",
+          "직업운 시기",
+          "왜 이런 결인가",
+          "이 결을 만드는 기운 · 누르는 기운 한눈 요약",
+          "직업 결을 잘 키우는 길"
+        ],
+        "paragraphCount": 39,
+        "paragraphChars": [
+          153,
+          108,
+          164,
+          119,
+          99,
+          96,
+          136,
+          105,
+          127,
+          209,
+          177,
+          134,
+          130,
+          143,
+          44,
+          110,
+          117,
+          88,
+          160,
+          81,
+          128,
+          179,
+          122,
+          164,
+          107,
+          160,
+          107,
+          157,
+          194,
+          135,
+          155,
+          136,
+          117,
+          153,
+          98,
+          158,
+          196,
+          152,
+          94
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 417,
+            "textPreview": "✨ 가장 빛나는 시기 직업운 — 55~64세 (6대운 큰 무대·기회 흐름) 강한 시너지 — 자기 표현 본기 × 6대운 편재(큰 무대) 흐름 이지윤 님의 사주는 자기 표현 기운이 일지에 본기로 자리한 결이에요. 6대운에 들어오는 큰 무대·기회 흐름은 본인이 평생 자기 자리에서 다듬어 온 "
+          },
+          {
+            "kind": "care",
+            "chars": 4085,
+            "textPreview": "⚠ 가장 살펴줄 시기 직업운 — 35~44세 (4대운 외부 압박 흐름) 양면 — 일간 안정 약 × 4대운 편관(외부 자극) = 큰 책임 자리의 자극·부담 이지윤 님의 사주는 일간이 신약에 자리한 결이에요. 4대운에 들어오는 외부 압박 흐름(편관)은 큰 책임 자리·새 자리·큰 결정이 외부"
+          }
+        ],
+        "dailyBoxes": 2,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p7",
+        "chars": 8955,
+        "htmlChars": 13231,
+        "h3": [
+          "어떤 분야가 맞나 표현 받쳐주는",
+          "이직운 표현 일간 안정",
+          "승진운 책임감 일간 안정",
+          "상사·동료운 책임감 받쳐주는",
+          "직장 스트레스 책임감 일간 안정",
+          "직업운 시기",
+          "왜 이런 결인가",
+          "이 결을 만드는 기운 · 누르는 기운 한눈 요약",
+          "직업 결을 잘 키우는 길"
+        ],
+        "paragraphCount": 70,
+        "paragraphChars": [
+          157,
+          121,
+          158,
+          105,
+          98,
+          122,
+          126,
+          106,
+          98,
+          214,
+          242,
+          190,
+          151,
+          189,
+          48,
+          49,
+          48,
+          49,
+          49,
+          56,
+          48,
+          72,
+          48,
+          230,
+          101,
+          56,
+          48,
+          276,
+          100,
+          117,
+          48,
+          49,
+          49,
+          95,
+          160,
+          98,
+          49,
+          328,
+          48,
+          281,
+          48,
+          298,
+          54,
+          260,
+          208,
+          72,
+          50,
+          48,
+          56,
+          53,
+          49,
+          56,
+          49,
+          49,
+          50,
+          170,
+          174,
+          56,
+          168,
+          182,
+          50,
+          105,
+          188,
+          56,
+          107,
+          170,
+          56,
+          199,
+          180,
+          118
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 232,
+            "textPreview": "✨ 가장 빛나는 시기 직업운 — 25~34세 (임오 대운) 정인/상관 흐름 · 점수 83 신약 구조에서는 큰 자리보다 본인 페이스로 지속 가능한 권한과 회복 리듬이 중요합니다. 일간 을과 을유(乙酉)의 결을 보면 본인이 오래 감당할 수 있는 일의 방식이 중요합니다. 일간 을과 을유(乙酉"
+          },
+          {
+            "kind": "care",
+            "chars": 4881,
+            "textPreview": "⚠ 가장 살펴줄 시기 직업운 — 45~54세 (갑신 대운) 양면 — 일간 안정 약 × 4대운 편관(외부 자극) = 큰 책임 자리의 자극·부담 sample-001 님의 사주는 일간이 신약에 자리한 결이에요. 4대운에 들어오는 외부 압박 흐름(편관)은 큰 책임 자리·새 자리·큰 결정이 외부"
+          }
+        ],
+        "dailyBoxes": 2,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 1.32,
+        "charsMissing": 0,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 0,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p7.어떤 분야가 맞나 표현 받쳐주는.body",
+          "type": "sectionBody",
+          "sourceHeading": "어떤 분야가 맞나 표현 받쳐주는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.이직운 표현 일간 안정.body",
+          "type": "sectionBody",
+          "sourceHeading": "이직운 표현 일간 안정",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.승진운 책임감 일간 안정.body",
+          "type": "sectionBody",
+          "sourceHeading": "승진운 책임감 일간 안정",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.상사·동료운 책임감 받쳐주는.body",
+          "type": "sectionBody",
+          "sourceHeading": "상사·동료운 책임감 받쳐주는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.직장 스트레스 책임감 일간 안정.body",
+          "type": "sectionBody",
+          "sourceHeading": "직장 스트레스 책임감 일간 안정",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.직업운 시기.body",
+          "type": "sectionBody",
+          "sourceHeading": "직업운 시기",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.왜 이런 결인가.body",
+          "type": "sectionBody",
+          "sourceHeading": "왜 이런 결인가",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.이 결을 만드는 기운 · 누르는 기운 한눈 요약.body",
+          "type": "sectionBody",
+          "sourceHeading": "이 결을 만드는 기운 · 누르는 기운 한눈 요약",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.직업 결을 잘 키우는 길.body",
+          "type": "sectionBody",
+          "sourceHeading": "직업 결을 잘 키우는 길",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p7.timeCard.bright.1",
+          "type": "timeCard",
+          "requiredMinChars": 292,
+          "referencePreview": "✨ 가장 빛나는 시기 직업운 — 55~64세 (6대운 큰 무대·기회 흐름) 강한 시너지 — 자기 표현 본기 × 6대운 편재(큰 무대) 흐름 이지윤 님의 사주는 자기 표현 기운이 일지에 본기로 자리한 결이에요. 6대운에 들어오는 큰 무대·기회 흐름은 본인이 평생 자기 자리에서 다듬어 온 ",
+          "status": "tooShortOrBroken"
+        },
+        {
+          "unit": "p7.timeCard.care.2",
+          "type": "timeCard",
+          "requiredMinChars": 2860,
+          "referencePreview": "⚠ 가장 살펴줄 시기 직업운 — 35~44세 (4대운 외부 압박 흐름) 양면 — 일간 안정 약 × 4대운 편관(외부 자극) = 큰 책임 자리의 자극·부담 이지윤 님의 사주는 일간이 신약에 자리한 결이에요. 4대운에 들어오는 외부 압박 흐름(편관)은 큰 책임 자리·새 자리·큰 결정이 외부",
+          "status": "ok"
+        }
+      ]
+    },
+    {
+      "id": "p9",
+      "reference": {
+        "id": "p9",
+        "chars": 3635,
+        "htmlChars": 8346,
+        "h3": [
+          "어떤 사업이 맞나 만드는 짊어지는",
+          "사업 시작 시기 만드는 동료·경쟁",
+          "1인 vs 동업 동료·경쟁 짊어지는",
+          "키우는 결 만드는 배우는",
+          "사업이 흔들릴 때 동료·경쟁 배우는",
+          "사업운 시기"
+        ],
+        "paragraphCount": 21,
+        "paragraphChars": [
+          137,
+          123,
+          140,
+          136,
+          135,
+          178,
+          98,
+          120,
+          149,
+          105,
+          103,
+          157,
+          120,
+          167,
+          83,
+          94,
+          160,
+          120,
+          106,
+          165,
+          97
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 552,
+            "textPreview": "✨ 가장 빛나는 시기 사업운 — 55~64세 (6대운 큰 무대·기회 흐름) 강한 시너지 — 만드는 결 본기 × 6대운 편재(큰 기회) 흐름 이지윤 님 사업운이 가장 빛나는 시기는 55~64세 6대운 큰 무대·기회 흐름 이에요. 평소 본인 사주에 옅게 자리한 큰 기회의 결이 대운에서 강하"
+          },
+          {
+            "kind": "care",
+            "chars": 776,
+            "textPreview": "⚠ 가장 살펴줄 시기 사업운 — 35~44세 (4대운 외부 압력 흐름) 양면 — 사업 압력 자극 — 신약 본기 × 4대운 편관(외부 압력) = 사업 부담 자극 이지윤 님 사업운에서 가장 살펴줄 시기는 35~44세 4대운 외부 압력 흐름 이에요. 사업 시작이 자연스러운 시기이긴 하지만, "
+          }
+        ],
+        "dailyBoxes": 2,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p9",
+        "chars": 4439,
+        "htmlChars": 8210,
+        "h3": [
+          "어떤 사업이 맞나 만드는 짊어지는",
+          "사업 시작 시기 만드는 동료·경쟁",
+          "1인 vs 동업 동료·경쟁 짊어지는",
+          "키우는 결 만드는 배우는",
+          "사업이 흔들릴 때 동료·경쟁 배우는",
+          "사업운 시기"
+        ],
+        "paragraphCount": 33,
+        "paragraphChars": [
+          161,
+          167,
+          94,
+          119,
+          139,
+          178,
+          66,
+          127,
+          149,
+          118,
+          118,
+          175,
+          127,
+          167,
+          115,
+          66,
+          52,
+          52,
+          66,
+          48,
+          48,
+          52,
+          52,
+          387,
+          119,
+          52,
+          52,
+          372,
+          102,
+          216,
+          66,
+          37,
+          35
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 149,
+            "textPreview": "✨ 가장 빛나는 시기 사업운 — 65~74세 (병술 대운) 상관/정재 흐름 · 점수 82 45~54세 갑신 대운에는 겁재/정관 흐름 · 점수 65이 들어오므로 고정비, 계약, 확장 속도를 먼저 살펴야 합니다. 이 시기에 하면 좋은 것 작게 검증 반복 고객 브랜드 정리"
+          },
+          {
+            "kind": "care",
+            "chars": 150,
+            "textPreview": "⚠ 가장 살펴줄 시기 사업운 — 45~54세 (갑신 대운) 겁재/정관 흐름 · 점수 65 외부 제안과 큰 확장이 들어오는 시기에는 고정비를 먼저 확인합니다. 이 시기의 약 계약 검토 고정비 제한 단계 확장 사업은 테스트, 본업화, 확장 순서로 나누는 것이 안정적입니다."
+          }
+        ],
+        "dailyBoxes": 1,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 1.22,
+        "charsMissing": 0,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 1,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p9.어떤 사업이 맞나 만드는 짊어지는.body",
+          "type": "sectionBody",
+          "sourceHeading": "어떤 사업이 맞나 만드는 짊어지는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p9.사업 시작 시기 만드는 동료·경쟁.body",
+          "type": "sectionBody",
+          "sourceHeading": "사업 시작 시기 만드는 동료·경쟁",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p9.1인 vs 동업 동료·경쟁 짊어지는.body",
+          "type": "sectionBody",
+          "sourceHeading": "1인 vs 동업 동료·경쟁 짊어지는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p9.키우는 결 만드는 배우는.body",
+          "type": "sectionBody",
+          "sourceHeading": "키우는 결 만드는 배우는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p9.사업이 흔들릴 때 동료·경쟁 배우는.body",
+          "type": "sectionBody",
+          "sourceHeading": "사업이 흔들릴 때 동료·경쟁 배우는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p9.사업운 시기.body",
+          "type": "sectionBody",
+          "sourceHeading": "사업운 시기",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p9.timeCard.bright.1",
+          "type": "timeCard",
+          "requiredMinChars": 386,
+          "referencePreview": "✨ 가장 빛나는 시기 사업운 — 55~64세 (6대운 큰 무대·기회 흐름) 강한 시너지 — 만드는 결 본기 × 6대운 편재(큰 기회) 흐름 이지윤 님 사업운이 가장 빛나는 시기는 55~64세 6대운 큰 무대·기회 흐름 이에요. 평소 본인 사주에 옅게 자리한 큰 기회의 결이 대운에서 강하",
+          "status": "tooShortOrBroken"
+        },
+        {
+          "unit": "p9.timeCard.care.2",
+          "type": "timeCard",
+          "requiredMinChars": 543,
+          "referencePreview": "⚠ 가장 살펴줄 시기 사업운 — 35~44세 (4대운 외부 압력 흐름) 양면 — 사업 압력 자극 — 신약 본기 × 4대운 편관(외부 압력) = 사업 부담 자극 이지윤 님 사업운에서 가장 살펴줄 시기는 35~44세 4대운 외부 압력 흐름 이에요. 사업 시작이 자연스러운 시기이긴 하지만, ",
+          "status": "tooShortOrBroken"
+        }
+      ]
+    },
+    {
+      "id": "p-jobsbiz",
+      "reference": {
+        "id": "p-jobsbiz",
+        "chars": 3777,
+        "htmlChars": 7613,
+        "h3": [
+          "본인은 어느 쪽에 더 자연스러운가 만드는 본질",
+          "직장인의 길로 가면 책임감 받쳐주는",
+          "자영업·사업의 길로 가면 만드는 단독",
+          "결정의 시기 — 언제 정하면 좋은가 시기 대운",
+          "본인 결로 갔을 때의 평생 흐름 평생 결 정점"
+        ],
+        "paragraphCount": 21,
+        "paragraphChars": [
+          59,
+          40,
+          168,
+          125,
+          167,
+          231,
+          222,
+          179,
+          204,
+          161,
+          263,
+          212,
+          160,
+          232,
+          187,
+          113,
+          154,
+          114,
+          90,
+          100,
+          91
+        ],
+        "timeCards": [],
+        "dailyBoxes": 0,
+        "recommendBoxes": 0,
+        "pathCompareAges": 1,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p-jobsbiz",
+        "chars": 4219,
+        "htmlChars": 7784,
+        "h3": [
+          "본인은 어느 쪽에 더 자연스러운가 만드는 본질",
+          "직장인의 길로 가면 책임감 받쳐주는",
+          "자영업·사업의 길로 가면 만드는 단독",
+          "결정의 시기 — 언제 정하면 좋은가 시기 대운",
+          "본인 결로 갔을 때의 평생 흐름 평생 결 정점"
+        ],
+        "paragraphCount": 21,
+        "paragraphChars": [
+          94,
+          40,
+          175,
+          125,
+          167,
+          268,
+          240,
+          244,
+          288,
+          131,
+          235,
+          270,
+          189,
+          427,
+          159,
+          113,
+          154,
+          114,
+          90,
+          100,
+          91
+        ],
+        "timeCards": [],
+        "dailyBoxes": 0,
+        "recommendBoxes": 0,
+        "pathCompareAges": 1,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 1.12,
+        "charsMissing": 0,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 0,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p-jobsbiz.본인은 어느 쪽에 더 자연스러운가 만드는 본질.body",
+          "type": "sectionBody",
+          "sourceHeading": "본인은 어느 쪽에 더 자연스러운가 만드는 본질",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p-jobsbiz.직장인의 길로 가면 책임감 받쳐주는.body",
+          "type": "sectionBody",
+          "sourceHeading": "직장인의 길로 가면 책임감 받쳐주는",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p-jobsbiz.자영업·사업의 길로 가면 만드는 단독.body",
+          "type": "sectionBody",
+          "sourceHeading": "자영업·사업의 길로 가면 만드는 단독",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p-jobsbiz.결정의 시기 — 언제 정하면 좋은가 시기 대운.body",
+          "type": "sectionBody",
+          "sourceHeading": "결정의 시기 — 언제 정하면 좋은가 시기 대운",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p-jobsbiz.본인 결로 갔을 때의 평생 흐름 평생 결 정점.body",
+          "type": "sectionBody",
+          "sourceHeading": "본인 결로 갔을 때의 평생 흐름 평생 결 정점",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        }
+      ]
+    },
+    {
+      "id": "p11",
+      "reference": {
+        "id": "p11",
+        "chars": 3340,
+        "htmlChars": 7877,
+        "h3": [
+          "어떤 사람이 맞나 짝 결 인연 보호",
+          "만나는 자리 만남 자리 인연 보호",
+          "결혼 시기 짝 결 자리 안정",
+          "부부 결 자리 안정 짝 결",
+          "갈등이 올 때 자리 안정 만남 자리",
+          "결혼운 시기"
+        ],
+        "paragraphCount": 19,
+        "paragraphChars": [
+          154,
+          122,
+          152,
+          111,
+          114,
+          124,
+          115,
+          125,
+          105,
+          110,
+          165,
+          101,
+          157,
+          164,
+          75,
+          103,
+          117,
+          132,
+          156
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 396,
+            "textPreview": "✨ 가장 빛나는 시기 결혼운 — 25~34세 (3대운 짝 결 본기 흐름) 강한 시너지 — 짝 결 일지 본기 × 3대운 같은 자리 흐름 · 현재 시기 이지윤 님의 사주는 짝 결이 본인 본질 자리(일지)에 본기로 빛나게 자리해 있어요. 3대운에 들어오는 같은 자리 흐름은 본인의 결혼 결을 "
+          },
+          {
+            "kind": "care",
+            "chars": 646,
+            "textPreview": "⚠ 가장 살펴줄 시기 결혼운 — 35~44세 (4대운 외부 자극 흐름) 충돌 위험 — 짝 결 본기 × 4대운 편관(외부 자극) = 결혼 결에 외부 환경 자극 이지윤 님의 사주는 짝 결이 본기로 단단히 자리한 결이에요. 4대운에 들어오는 외부 자극 흐름은 본인 결혼 결 자체를 흔드는 자리"
+          }
+        ],
+        "dailyBoxes": 2,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p11",
+        "chars": 4335,
+        "htmlChars": 8060,
+        "h3": [
+          "어떤 사람이 맞나 짝 결 인연 보호",
+          "만나는 자리 만남 자리 인연 보호",
+          "결혼 시기 짝 결 자리 안정",
+          "부부 결 자리 안정 짝 결",
+          "갈등이 올 때 자리 안정 만남 자리",
+          "결혼운 시기"
+        ],
+        "paragraphCount": 33,
+        "paragraphChars": [
+          170,
+          166,
+          166,
+          154,
+          156,
+          113,
+          113,
+          113,
+          76,
+          113,
+          181,
+          144,
+          181,
+          200,
+          113,
+          49,
+          33,
+          67,
+          63,
+          49,
+          33,
+          67,
+          63,
+          249,
+          101,
+          63,
+          67,
+          268,
+          102,
+          156,
+          76,
+          37,
+          27
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 161,
+            "textPreview": "✨ 가장 빛나는 시기 결혼운 — 35~44세 (계미 대운) 편인/편재 흐름 · 점수 80 약한 수 기운을 몰아붙이지 않는 관계일수록 오래 안정됩니다. 이 문장은 원본 위치의 역할을 유지하되 실제 사주 인자만 바꾸어 캐시합니다. 이 시기에 하면 좋은 것 관계 기준 정리 대화 리듬 생활 안"
+          },
+          {
+            "kind": "care",
+            "chars": 147,
+            "textPreview": "⚠ 가장 살펴줄 시기 결혼운 — 45~54세 (갑신 대운) 겁재/정관 흐름 · 점수 68 외부 자극이 관계 안으로 들어오는 구간은 결정을 서두르지 않습니다. 이 시기의 약 둘만의 시간 외부 문제 분리 큰 결정 보류 갈등 시기에는 결론보다 리듬 회복을 먼저 둡니다."
+          }
+        ],
+        "dailyBoxes": 1,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 1.3,
+        "charsMissing": 0,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 1,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p11.어떤 사람이 맞나 짝 결 인연 보호.body",
+          "type": "sectionBody",
+          "sourceHeading": "어떤 사람이 맞나 짝 결 인연 보호",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p11.만나는 자리 만남 자리 인연 보호.body",
+          "type": "sectionBody",
+          "sourceHeading": "만나는 자리 만남 자리 인연 보호",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p11.결혼 시기 짝 결 자리 안정.body",
+          "type": "sectionBody",
+          "sourceHeading": "결혼 시기 짝 결 자리 안정",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p11.부부 결 자리 안정 짝 결.body",
+          "type": "sectionBody",
+          "sourceHeading": "부부 결 자리 안정 짝 결",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p11.갈등이 올 때 자리 안정 만남 자리.body",
+          "type": "sectionBody",
+          "sourceHeading": "갈등이 올 때 자리 안정 만남 자리",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p11.결혼운 시기.body",
+          "type": "sectionBody",
+          "sourceHeading": "결혼운 시기",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p11.timeCard.bright.1",
+          "type": "timeCard",
+          "requiredMinChars": 277,
+          "referencePreview": "✨ 가장 빛나는 시기 결혼운 — 25~34세 (3대운 짝 결 본기 흐름) 강한 시너지 — 짝 결 일지 본기 × 3대운 같은 자리 흐름 · 현재 시기 이지윤 님의 사주는 짝 결이 본인 본질 자리(일지)에 본기로 빛나게 자리해 있어요. 3대운에 들어오는 같은 자리 흐름은 본인의 결혼 결을 ",
+          "status": "tooShortOrBroken"
+        },
+        {
+          "unit": "p11.timeCard.care.2",
+          "type": "timeCard",
+          "requiredMinChars": 452,
+          "referencePreview": "⚠ 가장 살펴줄 시기 결혼운 — 35~44세 (4대운 외부 자극 흐름) 충돌 위험 — 짝 결 본기 × 4대운 편관(외부 자극) = 결혼 결에 외부 환경 자극 이지윤 님의 사주는 짝 결이 본기로 단단히 자리한 결이에요. 4대운에 들어오는 외부 자극 흐름은 본인 결혼 결 자체를 흔드는 자리",
+          "status": "tooShortOrBroken"
+        }
+      ]
+    },
+    {
+      "id": "p13",
+      "reference": {
+        "id": "p13",
+        "chars": 3345,
+        "htmlChars": 8153,
+        "h3": [
+          "체력 기본 결 체력 균형",
+          "약해지기 쉬운 부위 균형 따뜻함",
+          "정신·정서 결 체력 따뜻함",
+          "본인에 맞는 운동·생활 따뜻함 체력",
+          "살아갈수록 챙길 결 균형 흔들림 적음",
+          "건강운 시기"
+        ],
+        "paragraphCount": 21,
+        "paragraphChars": [
+          138,
+          129,
+          137,
+          114,
+          45,
+          41,
+          42,
+          96,
+          87,
+          237,
+          106,
+          129,
+          158,
+          128,
+          158,
+          80,
+          97,
+          101,
+          101,
+          167,
+          90
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 346,
+            "textPreview": "✨ 가장 안정된 시기 건강운 — 45~54세 (5대운 정재 흐름) 시너지 — 재성·정서·일상 안정 = 건강 결 가장 단단 이지윤 님 건강운이 가장 안정되는 시기는 45~54세 5대운 정재 흐름 이에요. 이 시기는 재물·정서·일상 모두 안정된 흐름이라, 건강 결도 자연스럽게 가장 단단한 "
+          },
+          {
+            "kind": "care",
+            "chars": 810,
+            "textPreview": "⚠ 가장 살펴줄 시기 건강운 — 35~44세 (4대운 외부 자극 흐름) 양면 — 스트레스 자극 — 신약 본기 × 4대운 편관(외부 자극) 이지윤 님 건강운이 가장 살펴줄 시기는 35~44세 4대운 외부 자극 흐름 이에요. 편관은 명리에서 외부 자극·압박·도전의 별인데, 신약인 본인 그릇"
+          }
+        ],
+        "dailyBoxes": 2,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p13",
+        "chars": 4867,
+        "htmlChars": 8615,
+        "h3": [
+          "체력 기본 결 체력 균형",
+          "약해지기 쉬운 부위 균형 따뜻함",
+          "정신·정서 결 체력 따뜻함",
+          "본인에 맞는 운동·생활 따뜻함 체력",
+          "살아갈수록 챙길 결 균형 흔들림 적음",
+          "건강운 시기"
+        ],
+        "paragraphCount": 39,
+        "paragraphChars": [
+          166,
+          161,
+          141,
+          141,
+          98,
+          118,
+          118,
+          86,
+          118,
+          244,
+          110,
+          171,
+          160,
+          151,
+          150,
+          118,
+          61,
+          65,
+          32,
+          56,
+          61,
+          65,
+          32,
+          56,
+          65,
+          272,
+          56,
+          32,
+          65,
+          377,
+          109,
+          324,
+          65,
+          32,
+          56,
+          65,
+          32,
+          56,
+          39
+        ],
+        "timeCards": [
+          {
+            "kind": "bright",
+            "chars": 219,
+            "textPreview": "✨ 가장 빛나는 시기 건강운 — 25~34세 (임오 대운) 정인/상관 흐름 · 점수 83 15~24세 신사 대운에는 정관/식신 흐름 · 점수 59이 들어오므로 수면, 식사, 회복 시간을 먼저 챙겨야 합니다. 건강 문장은 진단이 아니라 생활 리듬 안내로만 캐시합니다. sample-001 "
+          },
+          {
+            "kind": "care",
+            "chars": 271,
+            "textPreview": "⚠ 가장 살펴줄 시기 건강운 — 15~24세 (신사 대운) 정관/식신 흐름 · 점수 59 15~24세 신사 대운에는 정관/식신 흐름 · 점수 59이 들어오므로 수면, 식사, 회복 시간을 먼저 챙겨야 합니다. 건강 문장은 진단이 아니라 생활 리듬 안내로만 캐시합니다. sample-001 "
+          }
+        ],
+        "dailyBoxes": 1,
+        "recommendBoxes": 1,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 1.46,
+        "charsMissing": 0,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 1,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p13.체력 기본 결 체력 균형.body",
+          "type": "sectionBody",
+          "sourceHeading": "체력 기본 결 체력 균형",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p13.약해지기 쉬운 부위 균형 따뜻함.body",
+          "type": "sectionBody",
+          "sourceHeading": "약해지기 쉬운 부위 균형 따뜻함",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p13.정신·정서 결 체력 따뜻함.body",
+          "type": "sectionBody",
+          "sourceHeading": "정신·정서 결 체력 따뜻함",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p13.본인에 맞는 운동·생활 따뜻함 체력.body",
+          "type": "sectionBody",
+          "sourceHeading": "본인에 맞는 운동·생활 따뜻함 체력",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p13.살아갈수록 챙길 결 균형 흔들림 적음.body",
+          "type": "sectionBody",
+          "sourceHeading": "살아갈수록 챙길 결 균형 흔들림 적음",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p13.건강운 시기.body",
+          "type": "sectionBody",
+          "sourceHeading": "건강운 시기",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        },
+        {
+          "unit": "p13.timeCard.bright.1",
+          "type": "timeCard",
+          "requiredMinChars": 242,
+          "referencePreview": "✨ 가장 안정된 시기 건강운 — 45~54세 (5대운 정재 흐름) 시너지 — 재성·정서·일상 안정 = 건강 결 가장 단단 이지윤 님 건강운이 가장 안정되는 시기는 45~54세 5대운 정재 흐름 이에요. 이 시기는 재물·정서·일상 모두 안정된 흐름이라, 건강 결도 자연스럽게 가장 단단한 ",
+          "status": "tooShortOrBroken"
+        },
+        {
+          "unit": "p13.timeCard.care.2",
+          "type": "timeCard",
+          "requiredMinChars": 567,
+          "referencePreview": "⚠ 가장 살펴줄 시기 건강운 — 35~44세 (4대운 외부 자극 흐름) 양면 — 스트레스 자극 — 신약 본기 × 4대운 편관(외부 자극) 이지윤 님 건강운이 가장 살펴줄 시기는 35~44세 4대운 외부 자극 흐름 이에요. 편관은 명리에서 외부 자극·압박·도전의 별인데, 신약인 본인 그릇",
+          "status": "tooShortOrBroken"
+        }
+      ]
+    },
+    {
+      "id": "p15",
+      "reference": {
+        "id": "p15",
+        "chars": 282,
+        "htmlChars": 3353,
+        "h3": [
+          "평생 시기 한눈에"
+        ],
+        "paragraphCount": 2,
+        "paragraphChars": [
+          88,
+          54
+        ],
+        "timeCards": [],
+        "dailyBoxes": 0,
+        "recommendBoxes": 0,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "current": {
+        "id": "p15",
+        "chars": 277,
+        "htmlChars": 3258,
+        "h3": [
+          "평생 시기 한눈에"
+        ],
+        "paragraphCount": 2,
+        "paragraphChars": [
+          95,
+          51
+        ],
+        "timeCards": [],
+        "dailyBoxes": 0,
+        "recommendBoxes": 0,
+        "pathCompareAges": 0,
+        "placeholders": 0
+      },
+      "gap": {
+        "charsRatio": 0.98,
+        "charsMissing": 5,
+        "paragraphMissing": 0,
+        "timeCardMissing": 0,
+        "dailyBoxMissing": 0,
+        "recommendBoxMissing": 0
+      },
+      "missingHeadings": [],
+      "cacheUnitsToCollect": [
+        {
+          "unit": "p15.평생 시기 한눈에.body",
+          "type": "sectionBody",
+          "sourceHeading": "평생 시기 한눈에",
+          "requiredStyle": "reference-like paragraph depth, not one-line placeholder",
+          "status": "existsButNeedsDepthCheck"
+        }
+      ]
+    }
+  ]
+}

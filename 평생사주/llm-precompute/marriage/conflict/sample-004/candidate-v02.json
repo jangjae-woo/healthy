@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-marriage-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "conflict",
+  "sectionTitle": "갈등이 올 때",
+  "sampleId": "sample-004",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "marriage.conflict|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang",
+  "cacheKey": "marriage.conflict|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang|variant:02",
+  "text": "관성조직형 님의 갈등 포인트는 감정 표현과 인정 욕구가 서로 다르게 움직일 때 갈등이 커지기 쉬운 결이에요. 약한 화 기운은 없음 구간이라 관계에서 이 자리가 계속 건드려질 때 피로가 쌓입니다.\n\n7~16세 무자 흐름에는 외부 문제, 돈, 가족, 역할 부담이 관계 안으로 들어오기 쉽습니다. 갈등을 풀 때는 누가 맞는지보다 생활 기준, 말의 속도, 돈의 경계, 각자의 시간을 먼저 정리해야 합니다. 관계를 지키려면 감정이 올라온 뒤보다 기준이 흐려지기 전에 조율하는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

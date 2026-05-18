@@ -1,0 +1,48 @@
+{
+  "version": "lifesaju-rich-sentence-cache-summary-v1",
+  "generatedAt": "2026-05-18",
+  "summary": [
+    {
+      "sampleId": "sample-001",
+      "personKey": "1990-03-21_묘시_male",
+      "pages": 11,
+      "paragraphs": 356,
+      "sentences": 621
+    },
+    {
+      "sampleId": "sample-002",
+      "personKey": "1984-11-08_축시_female",
+      "pages": 11,
+      "paragraphs": 356,
+      "sentences": 621
+    },
+    {
+      "sampleId": "sample-003",
+      "personKey": "1976-07-14_오시_male",
+      "pages": 11,
+      "paragraphs": 356,
+      "sentences": 621
+    },
+    {
+      "sampleId": "sample-004",
+      "personKey": "2001-01-26_unknown_female",
+      "pages": 11,
+      "paragraphs": 356,
+      "sentences": 621
+    },
+    {
+      "sampleId": "장재형",
+      "personKey": "1989-12-10_미시_male",
+      "pages": 11,
+      "paragraphs": 356,
+      "sentences": 621
+    },
+    {
+      "sampleId": "장재우",
+      "personKey": "1992-02-17_오시_male",
+      "pages": 11,
+      "paragraphs": 356,
+      "sentences": 621
+    }
+  ]
+}

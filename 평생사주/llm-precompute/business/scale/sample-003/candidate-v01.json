@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-business-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "scale",
+  "sectionTitle": "키우는 결",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "business.scale|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang",
+  "cacheKey": "business.scale|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang|variant:01",
+  "text": "화토운영형 님의 사업 규모는 크게 한 번에 키우기보다 검증된 구조를 반복해서 넓혀야 하는 결이에요. 만드는 결 64점대와 짊어지는 결 48점대를 함께 보면, 확장력은 있으나 감당 범위를 넘기면 부담이 빨리 커집니다.\n\n사업 규모는 고객, 상품, 비용, 인력을 한꺼번에 키우지 말고 한 축씩 올리는 방식이 좋습니다. 58~67세 신축 대운에는 확장성이 보이지만, 68~77세 임인 흐름에는 관리 비용이 먼저 커질 수 있습니다.\n\n큰 그림보다 작은 검증을 여러 번 통과시키는 방식이 본인 사업 결을 지켜줍니다. 무리한 확장보다 반복 가능한 상품과 운영표를 만드는 것이 먼저입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 1-A v2 — 활기·끈기 점수 산출</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 920px; margin: auto; background: #fafaf8; color: #333; line-height: 1.7; }
+    h1 { color: #c84d20; margin-bottom: 8px; }
+    h2 { color: #d97757; margin-top: 28px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    h3 { color: #444; margin-top: 18px; }
+    .note { background: #fef9f6; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #d97757; font-size: 13px; color: #555; margin: 14px 0; }
+    .summary-box { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin: 16px 0; }
+    .saju-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; margin: 12px 0; }
+    .saju-cell { background: #fef9f6; padding: 10px; border-radius: 8px; border: 1px solid #f0d9c4; }
+    .saju-cell .pos { font-size: 10px; color: #888; }
+    .saju-cell .stem { font-size: 18px; font-weight: 700; color: #c84d20; }
+    .saju-cell .branch { font-size: 18px; font-weight: 700; color: #2d5a8a; }
+    .score-card { background: white; padding: 18px 20px; border-radius: 12px; margin: 16px 0; border-left: 4px solid #d97757; }
+    .score-card .factor-name { font-size: 13px; color: #666; }
+    .score-card .score { font-size: 40px; font-weight: 800; color: #c84d20; }
+    .score-card .level { font-size: 13px; padding: 3px 10px; border-radius: 12px; }
+    .level-low  { background: #DBE9F5; color: #2d5a8a; }
+    .level-mid  { background: #f5f5f7; color: #666; }
+    .level-high { background: #FFE5DA; color: #c84d20; }
+    .siaan { font-size: 12px; color: #888; }
+    .trace { background: #faf6f1; padding: 12px 14px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 11px; color: #555; line-height: 1.7; white-space: pre-wrap; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f8f5f1; color: #555; }
+    .strength-bar { display: inline-block; width: 80px; height: 8px; background: #f0ebe5; border-radius: 4px; overflow: hidden; vertical-align: middle; margin: 0 6px; }
+    .strength-fill { height: 100%; background: #d97757; }
+  </style>
+</head>
+<body>
+  <h1>Phase 1-A v2 — 활기·끈기 점수 산출</h1>
+  <p class="siaan">자녀: 김수민 양 (壬子年 庚申月 乙亥日 戊寅時 / 을목 일간)</p>
+
+  <div class="note">
+    <strong>원칙</strong><br/>
+    공식 = 명리 통설(2_child_6factors.md 룰) 그대로. 시안 점수 비교 X.<br/>
+    위치 가중치는 fixture의 weightedStrength에 이미 반영.<br/>
+    캘리브레이션 대상: 신강 점수 매핑 + 정규화 ÷6 (Phase 7).
+  </div>
+
+  <div class="summary-box">
+    <h2 style="margin-top:0;">사주 8자</h2>
+    <div class="saju-grid" id="saju-grid"></div>
+    <div id="saju-summary"></div>
+  </div>
+
+  <h2>6셋 통칭 인자 강도 (weightedStrength)</h2>
+  <div class="summary-box" id="factor-strengths"></div>
+
+  <h2>점수 산출 결과</h2>
+  <div id="results"></div>
+
+  <h2>상세 가산·감산 추적</h2>
+  <div id="trace"></div>
+
+  <script type="module">
+    import { KIMSUMIN_SAJU, summarize, recomputeWeightedStrength } from '../fixtures/child-kimsumin.mjs';
+    import { calcAll6Factors } from '../lib/youa/factors.mjs';
+
+    // 사주 8자
+    const grid = document.getElementById('saju-grid');
+    const order = ['hour', 'day', 'month', 'year'];
+    const labels = { hour: '時', day: '日', month: '月', year: '年' };
+    for (const k of order) {
+      const p = KIMSUMIN_SAJU.pillars[k];
+      const isDay = k === 'day';
+      grid.innerHTML += `<div class="saju-cell" style="${isDay ? 'background:#fdebe0;border-color:#d97757;' : ''}"><div class="pos">${labels[k]}</div><div class="stem">${p.stem}</div><div class="branch">${p.branch}</div></div>`;
+    }
+
+    const summary = summarize();
+    document.getElementById('saju-summary').innerHTML = `
+      <table>
+        <tr><th>일간</th><td>${summary.ilgan} (${KIMSUMIN_SAJU.ilganElement}·${KIMSUMIN_SAJU.yinyang})</td></tr>
+        <tr><th>사주 본기 인자</th><td>${summary.bongi.join(', ')}</td></tr>
+        <tr><th>신강 레벨</th><td>${summary.shinkang} (raw score ${KIMSUMIN_SAJU.shinkang.score})</td></tr>
+        <tr><th>조후</th><td>${summary.johu}</td></tr>
+        <tr><th>특수 슬롯 (동적)</th><td>${summary.specialSlot}</td></tr>
+      </table>
+    `;
+
+    // 인자 강도
+    const fs = document.getElementById('factor-strengths');
+    let strHtml = `<table><tr><th>인자</th><th>weightedStrength</th><th>검증 재산출</th><th>본기?</th></tr>`;
+    for (const [name, f] of Object.entries(KIMSUMIN_SAJU.factorStrength)) {
+      const re = recomputeWeightedStrength(f);
+      const match = re === f.weightedStrength ? '✓' : `⚠️ ${re}`;
+      strHtml += `<tr>
+        <td><strong>${name}</strong></td>
+        <td>${f.weightedStrength}<span class="strength-bar"><span class="strength-fill" style="width:${f.weightedStrength}%"></span></span></td>
+        <td>${match}</td>
+        <td>${f.isBongi ? '✓' : ''}</td>
+      </tr>`;
+    }
+    strHtml += `</table>`;
+    fs.innerHTML = strHtml;
+
+    // 점수 — 6요인 전체
+    const factors = calcAll6Factors(KIMSUMIN_SAJU);
+    const factorList = [
+      factors.hwalgi, factors.josim, factors.manjok,
+      factors.heundeullim, factors.eoullim, factors.kkeungi
+    ];
+
+    const results = document.getElementById('results');
+    for (const result of factorList) {
+      results.innerHTML += `
+        <div class="score-card">
+          <div class="factor-name">${result.factorKorean} (${result.factor})</div>
+          <div style="display:flex;align-items:baseline;gap:14px;margin:6px 0;">
+            <span class="score">${result.score}</span>
+            <span class="level level-${result.level}">${{low:'낮음',mid:'중간',high:'높음'}[result.level]}</span>
+          </div>
+          <div class="siaan">sum=${result.sum.toFixed(1)} → 50 + ${result.sum.toFixed(1)}/6 = ${(50 + result.sum/6).toFixed(2)}</div>
+        </div>
+      `;
+    }
+
+    // Trace
+    const trace = document.getElementById('trace');
+    for (const result of factorList) {
+      trace.innerHTML += `
+        <h3>${result.factorKorean} 가산·감산 흐름</h3>
+        <div class="trace">${result.trace.join('\n')}</div>
+      `;
+    }
+  </script>
+</body>
+</html>

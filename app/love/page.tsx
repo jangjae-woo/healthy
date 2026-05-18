@@ -296,6 +296,16 @@ export default function LoveLandingPage() {
                 <span className="card-cta-arrow">→</span>
               </div>
             </Link>
+
+            <Link href="/love/youa" className="card reveal d4">
+              <div className="card-en">F O R &nbsp; C H I L D</div>
+              <div className="card-title">사주로 풀어보는 우리 아이 마음</div>
+              <p className="card-quote">"우리 아이의 기질과 부모의 양육 결을 함께 읽어드립니다"</p>
+              <div className="card-cta">
+                <span>사주 보러가기</span>
+                <span className="card-cta-arrow">→</span>
+              </div>
+            </Link>
           </div>
         </section>
 

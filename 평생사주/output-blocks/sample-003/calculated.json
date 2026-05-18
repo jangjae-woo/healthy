@@ -1,0 +1,176 @@
+{
+  "version": "lifesaju-calculated-v1",
+  "sampleId": "sample-003",
+  "personKey": "1976-07-14_오시_male",
+  "profileName": "화토운영형",
+  "generatedAt": "2026-05-18",
+  "calculated": {
+    "engine": {
+      "entrypoint": "lib/saju-core.ts#computeFullSajuCore",
+      "calculatorFiles": [
+        "lib/saju-core.ts",
+        "lib/saju-calculator.ts",
+        "lib/saju-traditional.ts",
+        "lib/jpjjeon.ts",
+        "lib/sibiunseong.ts",
+        "lib/tonggeun.ts",
+        "lib/samhap.ts",
+        "lib/seun.ts"
+      ],
+      "note": "이 파일은 실제 엔진 출력값을 캐시용으로 정규화한 샘플이다."
+    },
+    "input": {
+      "year": 1976,
+      "month": 7,
+      "day": 14,
+      "hour": "오시 (11:30~13:29)",
+      "calendar": "양력",
+      "gender": "남"
+    },
+    "solarDate": {
+      "year": 1976,
+      "month": 7,
+      "day": 14
+    },
+    "inputCalendar": "양력",
+    "isHourUnknown": false,
+    "pillars": {
+      "year": {
+        "stem": "병",
+        "branch": "진"
+      },
+      "month": {
+        "stem": "을",
+        "branch": "미"
+      },
+      "day": {
+        "stem": "정",
+        "branch": "묘"
+      },
+      "hour": {
+        "stem": "병",
+        "branch": "오"
+      }
+    },
+    "ilgan": "정",
+    "sipseong": {
+      "year": {
+        "stem": "겁재",
+        "branch": "상관"
+      },
+      "month": {
+        "stem": "편인",
+        "branch": "식신"
+      },
+      "day": {
+        "stem": "비견",
+        "branch": "편인"
+      },
+      "hour": {
+        "stem": "겁재",
+        "branch": "비견"
+      }
+    },
+    "sipseongCounts": {
+      "겁재": 2,
+      "편인": 2,
+      "비견": 2,
+      "상관": 1,
+      "식신": 1
+    },
+    "elements": {
+      "목": 2.81,
+      "화": 4.2299999999999995,
+      "토": 1.16,
+      "금": 0,
+      "수": 0.3
+    },
+    "elementRank": [
+      [
+        "화",
+        4.2299999999999995
+      ],
+      [
+        "목",
+        2.81
+      ],
+      [
+        "토",
+        1.16
+      ],
+      [
+        "수",
+        0.3
+      ],
+      [
+        "금",
+        0
+      ]
+    ],
+    "strongestElement": "화",
+    "weakestElement": "금",
+    "shinkang": "태강",
+    "yongsin": "금",
+    "supportElement": "금",
+    "yongsinModel": "service-support-element",
+    "daeun": {
+      "number": 8,
+      "direction": "순행",
+      "cycles": [
+        {
+          "age": 8,
+          "stem": "병",
+          "branch": "신",
+          "ganji": "병신"
+        },
+        {
+          "age": 18,
+          "stem": "정",
+          "branch": "유",
+          "ganji": "정유"
+        },
+        {
+          "age": 28,
+          "stem": "무",
+          "branch": "술",
+          "ganji": "무술"
+        },
+        {
+          "age": 38,
+          "stem": "기",
+          "branch": "해",
+          "ganji": "기해"
+        },
+        {
+          "age": 48,
+          "stem": "경",
+          "branch": "자",
+          "ganji": "경자"
+        },
+        {
+          "age": 58,
+          "stem": "신",
+          "branch": "축",
+          "ganji": "신축"
+        },
+        {
+          "age": 68,
+          "stem": "임",
+          "branch": "인",
+          "ganji": "임인"
+        },
+        {
+          "age": 78,
+          "stem": "계",
+          "branch": "묘",
+          "ganji": "계묘"
+        }
+      ]
+    },
+    "sinsal": [
+      "태극귀인",
+      "현침살",
+      "홍염살"
+    ]
+  }
+}

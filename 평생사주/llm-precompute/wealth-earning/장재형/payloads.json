@@ -1,0 +1,104 @@
+{
+  "version": "lifesaju-wealth-earning-llm-payload-set-v1",
+  "generatedAt": "2026-05-18",
+  "sampleId": "장재형",
+  "count": 3,
+  "payloads": [
+    {
+      "version": "lifesaju-wealth-earning-llm-payload-v1",
+      "generatedAt": "2026-05-18",
+      "sampleId": "장재형",
+      "personKey": "1989-12-10_미시_male",
+      "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang|variant:01",
+      "baseCacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+      "pageAlias": "wealth",
+      "sectionRole": "earning",
+      "tone": "index-jang",
+      "variant": 1,
+      "judgementType": "created_value_to_asset",
+      "judgementLabel": "본인 결과물 자산화형",
+      "messages": [
+        {
+          "role": "system",
+          "content": "너는 사주를 계산하지 않는다.\n제공된 판단 타입과 필수/금지 조건만 사용해 index-jang.html 톤의 자연스러운 해석문을 쓴다.\n계산표, 내부 키, 점수, 캐시 키, 프롬프트 설명을 출력하지 않는다.\n없는 사주 인자나 구조를 새로 만들지 않는다.\n출력은 반드시 2문단이다. 1문단은 2문장, 2문단은 3문장으로 쓴다."
+        },
+        {
+          "role": "user",
+          "content": "섹션: 돈을 버는 결\n대상 이름: 장재형\n문체: index-jang\n판단 타입: 본인 결과물 자산화형 (created_value_to_asset)\n\n이 판단 타입의 문장 방향:\n본인이 만든 결과물, 표현, 기획, 노하우가 수입 구조가 되는 사람처럼 쓴다. 회사 월급을 부정하지 말고, 직접 만든 가치가 돈으로 흐르는 자리에서 결이 더 살아난다고 표현한다.\n\n반드시 반영할 사실:\n- 본인이 만든 결과물이 수입 구조가 되는 타입이다.\n- 표현, 재능, 기획, 노하우가 돈으로 이어지는 결을 말해야 한다.\n- 시간이 쌓일수록 결과물의 가치가 누적되는 방향을 포함한다.\n- 주의점은 잘 되는 방식을 유지하되 기준을 문서와 루틴으로 남겨야 한다.\n\n맞는 수입 자리:\n- 본인 이름 콘텐츠\n- 노하우 기반 서비스\n- 1인 사업\n- 전문 컨설팅\n- 전문직 자격\n\n좋게 번역할 보조 요인:\n- 맞는 수입 자리 후보는 본인 이름 콘텐츠, 노하우 기반 서비스, 1인 사업, 전문 컨설팅, 전문직 자격 쪽이다.\n- 계산 인자는 드러내지 말고, 이 후보들을 생활어로 자연스럽게 풀어 쓴다.\n\n주의점으로 자연스럽게 반영할 요인:\n- 잘 되는 방식을 유지하되 기준을 문서와 루틴으로 남겨야 한다\n- 주의점은 겁주는 말이 아니라 돈이 남게 만드는 기준으로 표현한다.\n\n절대 쓰면 안 되는 내용:\n- 점수 숫자 직접 노출 금지\n- 대운 간지와 십성을 계산표처럼 나열 금지\n- 투자 확정 수익 표현 금지\n- 무조건 부자/평생 돈복 같은 과장 금지\n\n출력 규칙:\n- 계산값, 점수, 대운 간지, 십성 조합을 표처럼 나열하지 말 것.\n- '사주 안에', '본인의 결', '시간이 지날수록' 같은 index-jang.html 톤은 허용한다.\n- 투자 수익을 보장하거나 부자가 된다고 단정하지 말 것.\n- 문단 사이에는 빈 줄 하나만 둔다."
+        }
+      ],
+      "expectedOutput": {
+        "paragraphs": 2,
+        "sentencesPerParagraph": [
+          2,
+          3
+        ],
+        "status": "pending_llm"
+      }
+    },
+    {
+      "version": "lifesaju-wealth-earning-llm-payload-v1",
+      "generatedAt": "2026-05-18",
+      "sampleId": "장재형",
+      "personKey": "1989-12-10_미시_male",
+      "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang|variant:02",
+      "baseCacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+      "pageAlias": "wealth",
+      "sectionRole": "earning",
+      "tone": "index-jang",
+      "variant": 2,
+      "judgementType": "created_value_to_asset",
+      "judgementLabel": "본인 결과물 자산화형",
+      "messages": [
+        {
+          "role": "system",
+          "content": "너는 사주를 계산하지 않는다.\n제공된 판단 타입과 필수/금지 조건만 사용해 index-jang.html 톤의 자연스러운 해석문을 쓴다.\n계산표, 내부 키, 점수, 캐시 키, 프롬프트 설명을 출력하지 않는다.\n없는 사주 인자나 구조를 새로 만들지 않는다.\n출력은 반드시 2문단이다. 1문단은 2문장, 2문단은 3문장으로 쓴다."
+        },
+        {
+          "role": "user",
+          "content": "섹션: 돈을 버는 결\n대상 이름: 장재형\n문체: index-jang\n판단 타입: 본인 결과물 자산화형 (created_value_to_asset)\n\n이 판단 타입의 문장 방향:\n본인이 만든 결과물, 표현, 기획, 노하우가 수입 구조가 되는 사람처럼 쓴다. 회사 월급을 부정하지 말고, 직접 만든 가치가 돈으로 흐르는 자리에서 결이 더 살아난다고 표현한다.\n\n반드시 반영할 사실:\n- 본인이 만든 결과물이 수입 구조가 되는 타입이다.\n- 표현, 재능, 기획, 노하우가 돈으로 이어지는 결을 말해야 한다.\n- 시간이 쌓일수록 결과물의 가치가 누적되는 방향을 포함한다.\n- 주의점은 잘 되는 방식을 유지하되 기준을 문서와 루틴으로 남겨야 한다.\n\n맞는 수입 자리:\n- 본인 이름 콘텐츠\n- 노하우 기반 서비스\n- 1인 사업\n- 전문 컨설팅\n- 전문직 자격\n\n좋게 번역할 보조 요인:\n- 맞는 수입 자리 후보는 본인 이름 콘텐츠, 노하우 기반 서비스, 1인 사업, 전문 컨설팅, 전문직 자격 쪽이다.\n- 계산 인자는 드러내지 말고, 이 후보들을 생활어로 자연스럽게 풀어 쓴다.\n\n주의점으로 자연스럽게 반영할 요인:\n- 잘 되는 방식을 유지하되 기준을 문서와 루틴으로 남겨야 한다\n- 주의점은 겁주는 말이 아니라 돈이 남게 만드는 기준으로 표현한다.\n\n절대 쓰면 안 되는 내용:\n- 점수 숫자 직접 노출 금지\n- 대운 간지와 십성을 계산표처럼 나열 금지\n- 투자 확정 수익 표현 금지\n- 무조건 부자/평생 돈복 같은 과장 금지\n\n출력 규칙:\n- 계산값, 점수, 대운 간지, 십성 조합을 표처럼 나열하지 말 것.\n- '사주 안에', '본인의 결', '시간이 지날수록' 같은 index-jang.html 톤은 허용한다.\n- 투자 수익을 보장하거나 부자가 된다고 단정하지 말 것.\n- 문단 사이에는 빈 줄 하나만 둔다."
+        }
+      ],
+      "expectedOutput": {
+        "paragraphs": 2,
+        "sentencesPerParagraph": [
+          2,
+          3
+        ],
+        "status": "pending_llm"
+      }
+    },
+    {
+      "version": "lifesaju-wealth-earning-llm-payload-v1",
+      "generatedAt": "2026-05-18",
+      "sampleId": "장재형",
+      "personKey": "1989-12-10_미시_male",
+      "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang|variant:03",
+      "baseCacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+      "pageAlias": "wealth",
+      "sectionRole": "earning",
+      "tone": "index-jang",
+      "variant": 3,
+      "judgementType": "created_value_to_asset",
+      "judgementLabel": "본인 결과물 자산화형",
+      "messages": [
+        {
+          "role": "system",
+          "content": "너는 사주를 계산하지 않는다.\n제공된 판단 타입과 필수/금지 조건만 사용해 index-jang.html 톤의 자연스러운 해석문을 쓴다.\n계산표, 내부 키, 점수, 캐시 키, 프롬프트 설명을 출력하지 않는다.\n없는 사주 인자나 구조를 새로 만들지 않는다.\n출력은 반드시 2문단이다. 1문단은 2문장, 2문단은 3문장으로 쓴다."
+        },
+        {
+          "role": "user",
+          "content": "섹션: 돈을 버는 결\n대상 이름: 장재형\n문체: index-jang\n판단 타입: 본인 결과물 자산화형 (created_value_to_asset)\n\n이 판단 타입의 문장 방향:\n본인이 만든 결과물, 표현, 기획, 노하우가 수입 구조가 되는 사람처럼 쓴다. 회사 월급을 부정하지 말고, 직접 만든 가치가 돈으로 흐르는 자리에서 결이 더 살아난다고 표현한다.\n\n반드시 반영할 사실:\n- 본인이 만든 결과물이 수입 구조가 되는 타입이다.\n- 표현, 재능, 기획, 노하우가 돈으로 이어지는 결을 말해야 한다.\n- 시간이 쌓일수록 결과물의 가치가 누적되는 방향을 포함한다.\n- 주의점은 잘 되는 방식을 유지하되 기준을 문서와 루틴으로 남겨야 한다.\n\n맞는 수입 자리:\n- 본인 이름 콘텐츠\n- 노하우 기반 서비스\n- 1인 사업\n- 전문 컨설팅\n- 전문직 자격\n\n좋게 번역할 보조 요인:\n- 맞는 수입 자리 후보는 본인 이름 콘텐츠, 노하우 기반 서비스, 1인 사업, 전문 컨설팅, 전문직 자격 쪽이다.\n- 계산 인자는 드러내지 말고, 이 후보들을 생활어로 자연스럽게 풀어 쓴다.\n\n주의점으로 자연스럽게 반영할 요인:\n- 잘 되는 방식을 유지하되 기준을 문서와 루틴으로 남겨야 한다\n- 주의점은 겁주는 말이 아니라 돈이 남게 만드는 기준으로 표현한다.\n\n절대 쓰면 안 되는 내용:\n- 점수 숫자 직접 노출 금지\n- 대운 간지와 십성을 계산표처럼 나열 금지\n- 투자 확정 수익 표현 금지\n- 무조건 부자/평생 돈복 같은 과장 금지\n\n출력 규칙:\n- 계산값, 점수, 대운 간지, 십성 조합을 표처럼 나열하지 말 것.\n- '사주 안에', '본인의 결', '시간이 지날수록' 같은 index-jang.html 톤은 허용한다.\n- 투자 수익을 보장하거나 부자가 된다고 단정하지 말 것.\n- 문단 사이에는 빈 줄 하나만 둔다."
+        }
+      ],
+      "expectedOutput": {
+        "paragraphs": 2,
+        "sentencesPerParagraph": [
+          2,
+          3
+        ],
+        "status": "pending_llm"
+      }
+    }
+  ]
+}

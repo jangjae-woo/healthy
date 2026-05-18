@@ -1,0 +1,209 @@
+{
+  "version": "lifesaju-marriage-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 30,
+  "sections": {
+    "partner-type": {
+      "title": "어떤 사람이 맞나",
+      "paragraphCount": 3
+    },
+    "meeting-place": {
+      "title": "만나는 자리",
+      "paragraphCount": 2
+    },
+    "timing": {
+      "title": "결혼 시기",
+      "paragraphCount": 3
+    },
+    "couple-pattern": {
+      "title": "부부 결",
+      "paragraphCount": 3
+    },
+    "conflict": {
+      "title": "갈등이 올 때",
+      "paragraphCount": 2
+    }
+  },
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "sectionKey": "partner-type",
+      "sectionTitle": "어떤 사람이 맞나",
+      "baseCacheKey": "marriage.partner-type|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "meeting-place",
+      "sectionTitle": "만나는 자리",
+      "baseCacheKey": "marriage.meeting-place|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "baseCacheKey": "marriage.timing|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "couple-pattern",
+      "sectionTitle": "부부 결",
+      "baseCacheKey": "marriage.couple-pattern|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "conflict",
+      "sectionTitle": "갈등이 올 때",
+      "baseCacheKey": "marriage.conflict|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "partner-type",
+      "sectionTitle": "어떤 사람이 맞나",
+      "baseCacheKey": "marriage.partner-type|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "meeting-place",
+      "sectionTitle": "만나는 자리",
+      "baseCacheKey": "marriage.meeting-place|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "baseCacheKey": "marriage.timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "couple-pattern",
+      "sectionTitle": "부부 결",
+      "baseCacheKey": "marriage.couple-pattern|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "conflict",
+      "sectionTitle": "갈등이 올 때",
+      "baseCacheKey": "marriage.conflict|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "partner-type",
+      "sectionTitle": "어떤 사람이 맞나",
+      "baseCacheKey": "marriage.partner-type|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|stability:high|spouse:mid|meeting:mid|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "meeting-place",
+      "sectionTitle": "만나는 자리",
+      "baseCacheKey": "marriage.meeting-place|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|stability:high|spouse:mid|meeting:mid|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "baseCacheKey": "marriage.timing|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|stability:high|spouse:mid|meeting:mid|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "couple-pattern",
+      "sectionTitle": "부부 결",
+      "baseCacheKey": "marriage.couple-pattern|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|stability:high|spouse:mid|meeting:mid|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "conflict",
+      "sectionTitle": "갈등이 올 때",
+      "baseCacheKey": "marriage.conflict|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|stability:high|spouse:mid|meeting:mid|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "partner-type",
+      "sectionTitle": "어떤 사람이 맞나",
+      "baseCacheKey": "marriage.partner-type|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|stability:mid|spouse:mid|meeting:mid|protection:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "meeting-place",
+      "sectionTitle": "만나는 자리",
+      "baseCacheKey": "marriage.meeting-place|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|stability:mid|spouse:mid|meeting:mid|protection:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "baseCacheKey": "marriage.timing|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|stability:mid|spouse:mid|meeting:mid|protection:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "couple-pattern",
+      "sectionTitle": "부부 결",
+      "baseCacheKey": "marriage.couple-pattern|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|stability:mid|spouse:mid|meeting:mid|protection:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "conflict",
+      "sectionTitle": "갈등이 올 때",
+      "baseCacheKey": "marriage.conflict|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|stability:mid|spouse:mid|meeting:mid|protection:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "partner-type",
+      "sectionTitle": "어떤 사람이 맞나",
+      "baseCacheKey": "marriage.partner-type|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|stability:mixed|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "meeting-place",
+      "sectionTitle": "만나는 자리",
+      "baseCacheKey": "marriage.meeting-place|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|stability:mixed|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "baseCacheKey": "marriage.timing|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|stability:mixed|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "couple-pattern",
+      "sectionTitle": "부부 결",
+      "baseCacheKey": "marriage.couple-pattern|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|stability:mixed|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "conflict",
+      "sectionTitle": "갈등이 올 때",
+      "baseCacheKey": "marriage.conflict|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|stability:mixed|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "partner-type",
+      "sectionTitle": "어떤 사람이 맞나",
+      "baseCacheKey": "marriage.partner-type|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "meeting-place",
+      "sectionTitle": "만나는 자리",
+      "baseCacheKey": "marriage.meeting-place|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "timing",
+      "sectionTitle": "결혼 시기",
+      "baseCacheKey": "marriage.timing|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "couple-pattern",
+      "sectionTitle": "부부 결",
+      "baseCacheKey": "marriage.couple-pattern|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "conflict",
+      "sectionTitle": "갈등이 올 때",
+      "baseCacheKey": "marriage.conflict|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang"
+    }
+  ]
+}

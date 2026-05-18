@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "youa-blocks-v1",
+  "cacheKey": "youa-v1-sample-004",
+  "source": "output/sample-004.json",
+  "child": { "name": "강예린 양", "dayMaster": "신금(辛)", "birthKnownHour": true },
+  "mother": { "name": "윤서영 어머님", "dayMaster": "을목(乙)", "birthKnownHour": true },
+  "father": { "name": "강태현 아버님", "dayMaster": "병화(丙)", "birthKnownHour": false },
+  "standalone": {
+    "factors": ["활기", "조심", "만족", "흔들림", "어울림", "끈기"],
+    "factorBlocksPerFactor": ["whyIntro", "dailyBody", "parentingTipTime", "parentingTipCommunication", "parentingTipEnvironment"],
+    "parentBlocks": ["parentSajuBody", "parentSajuBridge"],
+    "totalBlocks": 34
+  },
+  "pair": {
+    "compatibilityKeys": ["motherChildCompatibility", "fatherChildCompatibility", "parentPalaceSummary"],
+    "togetherMatrixKeys": ["motherSynergyBody", "motherSynergyDaily", "motherConflictBody", "motherConflictDaily", "motherConflictResolution", "fatherSynergyBody", "fatherSynergyDaily", "fatherConflictBody", "fatherConflictDaily", "fatherConflictResolution"],
+    "totalBlocks": 13
+  },
+  "missingBlocks": [
+    { "path": "compatibility.parentPalaceSummary", "reason": "원본 sample-004.json에 일지 관계 별도 필드 없음" },
+    { "path": "togetherMatrix.mother.motherConflictBody", "reason": "원본 matrix에 어머님 충돌 카드 없음" },
+    { "path": "togetherMatrix.mother.motherConflictDaily", "reason": "원본 matrix에 어머님 충돌 카드 없음" },
+    { "path": "togetherMatrix.mother.motherConflictResolution", "reason": "원본 matrix에 어머님 충돌 카드 없음" },
+    { "path": "togetherMatrix.father.fatherSynergyBody", "reason": "원본 matrix에 아버님 시너지 카드 없음" },
+    { "path": "togetherMatrix.father.fatherSynergyDaily", "reason": "원본 matrix에 아버님 시너지 카드 없음" }
+  ],
+  "warnings": ["아버님 출생 시각 미상으로 시주 인자를 본문 근거에서 제외"]
+}

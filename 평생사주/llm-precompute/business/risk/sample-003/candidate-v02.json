@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-business-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "risk",
+  "sectionTitle": "사업이 흔들릴 때",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "business.risk|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang",
+  "cacheKey": "business.risk|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang|variant:02",
+  "text": "화토운영형 님의 사업 리스크는 계약, 가격, 정산, 권한 기준이 늦게 세워지는 지점에서 사업이 흔들리기 쉬운 결이에요. 약한 금 기운은 없음 구간이라 사업에서 정리, 기준, 확인의 자리가 흔들릴 때 리스크가 커집니다.\n\n큰 대출, 갑작스러운 확장, 여러 분야 다각화, 큰 자본 합류는 본인 페이스를 흐릴 수 있습니다. 풀어내는 결은 내 페이스에서 한 박자 뒤로 가는 것입니다. 큰 결정은 한 달 이상 두고 보고, 계약·비용·권한을 문서로 확인한 뒤 움직이는 편이 맞습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

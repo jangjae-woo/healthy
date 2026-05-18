@@ -1,0 +1,20 @@
+{
+  "name": "youa-validation",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "유아 SKU 검증 — 진짜 만세력 기반 캘리브레이션",
+  "scripts": {
+    "calibrate": "tsx scripts/calibrate-real.mjs 500",
+    "fixture": "tsx scripts/build-kimsumin-real.mjs",
+    "edge-cases": "node scripts/run-edge-cases.mjs",
+    "human-qa": "tsx scripts/qa-human-summary-real.mjs 100",
+    "review-html": "tsx scripts/build-review-html.mjs 5"
+  },
+  "dependencies": {
+    "manseryeok": "^1.0.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.0"
+  }
+}

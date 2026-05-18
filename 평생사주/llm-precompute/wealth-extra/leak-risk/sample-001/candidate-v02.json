@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-wealth-extra-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "leak-risk",
+  "sectionTitle": "돈이 새는 결",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "wealth.leak-risk|strong:목:보통|weak:수:없음|shinkang:중화|support:mixed|make:mid|keep:mid|accumulate:very_high|tone:index-jang",
+  "cacheKey": "wealth.leak-risk|strong:목:보통|weak:수:없음|shinkang:중화|support:mixed|make:mid|keep:mid|accumulate:very_high|tone:index-jang|variant:02",
+  "text": "목화표현형 님의 돈이 새는 결은 돈이 새는 구멍을 기준으로 줄이면 안정되는 결으로 볼 수 있어요. 지키는 결은 70점대, 모이는 결은 86점대로 잡혀 수입보다 보관 방식과 지출 경계가 중요하게 드러납니다.\n\n큰 결제, 공동돈, 자동이체, 단기 매매처럼 돈이 움직이는 통로를 따로 분리하면 같은 수입에서도 남는 돈이 달라집니다. 수 기운은 없음 구간이라 현금 흐름과 회수 계획이 느슨해지는 지점에서 재물 흐름이 흔들리기 쉽습니다. 이 사주는 돈을 못 버는 결로 보기보다, 돈이 들어온 뒤 머무는 길을 설계해야 하는 결로 보는 편이 정확합니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

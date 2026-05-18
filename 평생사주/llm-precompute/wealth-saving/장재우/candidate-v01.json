@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-saving-llm-candidate-v2",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:mixed|accumulate:mid|strong:수:중상|weak:금:결핍|shinkang:태강|tone:index-jang|variant:01",
+  "baseCacheKey": "wealth.saving|pattern:leak_guard_first|keep:mixed|accumulate:mid|strong:수:중상|weak:금:결핍|shinkang:태강|tone:index-jang",
+  "sampleId": "장재우",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "text": "장재우 님은 돈을 벌어도 그냥 두면 머물기 어려운 결이에요. 사주 안에서 수 기운이 46%로 강하게 흐르지만, 가격 기준과 정리 기준이 약해지면 좋은 자산도 사고파는 타이밍이 흔들릴 수 있기 때문에 자산은 빨리 굴리는 쪽보다 일부러 묶어두는 장치가 필요합니다.\n\n본인 결에 맞는 자산은 한 번 넣으면 최소 2~5년은 쉽게 풀지 않는 방식이에요. 현금성 자산, 정보 기반 장기 운용, 유동성을 남겨둔 자산, 예금·적금, 연금, 장기 보유형 자산, 비상금처럼 시간이 쌓일수록 자리가 단단해지는 자산이 잘 맞습니다. 반대로 코인 단타, 테마주 단기 매매, 레버리지, 충동적으로 사고파는 자산은 본인 결과 어긋나서 들어와도 잘 머물기 어렵고, 자산의 70% 정도는 안정 자산과 비상금에 묶어두고, 30% 이내만 본인이 충분히 이해한 분야의 중장기 운용에 두는 비중이 본인 결과 맞아요.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

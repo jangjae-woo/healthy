@@ -47,12 +47,32 @@ function parseInput(body: unknown): YouaFamilyReportInput {
   };
 }
 
+function sanitizeReportText(text: string) {
+  return text.replace(/\bundefined\b/g, "모름");
+}
+
 export async function POST(request: NextRequest) {
   try {
+    if (!process.env.YOUA_CACHE_SOURCE && request.nextUrl.hostname === "localhost") {
+      const bodyText = await request.text();
+      const upstream = await fetch("https://www.paljawon.com/api/youa-family-report", {
+        method: "POST",
+        headers: { "content-type": request.headers.get("content-type") || "application/json; charset=utf-8" },
+        body: bodyText,
+      });
+      return new NextResponse(sanitizeReportText(await upstream.text()), {
+        status: upstream.status,
+        headers: { "content-type": upstream.headers.get("content-type") || "application/json; charset=utf-8" },
+      });
+    }
+
     const body = await request.json();
     const includeFacts = isRecord(body) && body.includeFacts === true;
     const input = parseInput(body);
     const result = await assembleYouaFamilyReport(input);
+    if (typeof result.html === "string") {
+      result.html = sanitizeReportText(result.html);
+    }
     const { facts: _facts, ...publicResult } = result;
     return NextResponse.json(includeFacts ? result : publicResult);
   } catch (error) {

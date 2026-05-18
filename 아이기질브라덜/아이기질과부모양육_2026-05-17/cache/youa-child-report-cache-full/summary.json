@@ -1,0 +1,51 @@
+{
+  "range": {
+    "start": "2020-01-01",
+    "end": "2023-12-31"
+  },
+  "totalCombinations": 37986,
+  "generated": 37986,
+  "failed": 0,
+  "validationFailed": 0,
+  "elapsedSec": 52.51,
+  "reportsPerSec": 723.41,
+  "totalBytes": 3489802788,
+  "totalMb": 3328.14,
+  "outDir": "C:\\tmp\\youa-child-report-cache-full",
+  "files": [
+    {
+      "path": "C:\\tmp\\youa-child-report-cache-full\\child-report-cache-2020.jsonl",
+      "count": 9516,
+      "bytes": 873583710,
+      "mb": 833.11
+    },
+    {
+      "path": "C:\\tmp\\youa-child-report-cache-full\\child-report-cache-2021.jsonl",
+      "count": 9490,
+      "bytes": 872259546,
+      "mb": 831.85
+    },
+    {
+      "path": "C:\\tmp\\youa-child-report-cache-full\\child-report-cache-2022.jsonl",
+      "count": 9490,
+      "bytes": 872813802,
+      "mb": 832.38
+    },
+    {
+      "path": "C:\\tmp\\youa-child-report-cache-full\\child-report-cache-2023.jsonl",
+      "count": 9490,
+      "bytes": 871145730,
+      "mb": 830.79
+    }
+  ],
+  "animalCounts": {
+    "용": 18722,
+    "말": 3036,
+    "양": 2904,
+    "돼지": 2610,
+    "호랑이": 4334,
+    "소": 3082,
+    "토끼": 3298
+  },
+  "errors": []
+}

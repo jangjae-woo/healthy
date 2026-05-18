@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-career-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "field-fit",
+  "sectionTitle": "어떤 분야가 맞나",
+  "sampleId": "sample-004",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "career.field-fit|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang",
+  "cacheKey": "career.field-fit|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang|variant:02",
+  "text": "관성조직형 님은 본인 기준과 주도권이 분명한 자리에서 직업 결이 살아나는 타입이에요. 비견 기운이 반복되고 토 기운이 67%로 가장 두드러져, 일을 할 때도 본인만의 방식과 깊이가 먼저 살아납니다.\n\n구체적으로는 리더 보조, 프로젝트 운영, 커뮤니티 운영, 독립 권한이 있는 실무, 운영, 부동산, 관리, 안정형 조직 실무 같은 분야가 잘 맞습니다. 반대로 표현과 인정이 지나치게 눌리는 자리는 오래 버티기 어렵습니다.\n\n37~46세 을유 대운은 편관/식신 흐름과 85점대의 직업 기운이 떠서, 방향을 밖으로 보이기 좋은 구간입니다. 그래서 직업 분야는 지금 잘하는 일보다 오래 쌓였을 때 본인 이름과 결과가 남는지를 함께 봐야 합니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

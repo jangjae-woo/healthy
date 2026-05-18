@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "lifetime-care",
+  "sectionTitle": "살아갈수록 챙길 결",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.lifetime-care|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang",
+  "cacheKey": "health.lifetime-care|strong:화:강|weak:금:없음|shinkang:태강|balance:care|vitality:very_high|lowConflict:mid|johu:care|tone:index-jang|variant:02",
+  "text": "화토운영형 님이 살아갈수록 챙길 결은 나이가 들수록 성과보다 회복 기준을 먼저 세워야 하는 결이에요. 58~67세 신축 대운에는 정재/식신 흐름과 65점대의 건강운이 떠서 생활 리듬을 안정시키기 좋은 구간입니다.\n\n38~47세 기해 흐름에는 몸의 신호를 늦게 알아차리지 않도록 일정을 줄이는 판단이 필요합니다. 평생 건강 관리는 강한 기운을 오래 쓰되, 약한 기운을 매일의 생활 기준으로 살펴주는 방향이 맞습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

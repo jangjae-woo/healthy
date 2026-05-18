@@ -1,0 +1,38 @@
+{
+  "version": "lifesaju-block-manifest-v1",
+  "sampleId": "sample-003",
+  "personKey": "1976-07-14_o_male",
+  "profileType": "화 강 / 금 약 / 겁재 우세 / 태강",
+  "files": [
+    "calculated.json",
+    "area-scores.json",
+    "standalone-blocks.json",
+    "options-blocks.json",
+    "block-manifest.json"
+  ],
+  "pageMap": {
+    "p1": "existing-render",
+    "p2": [
+      "outro.outroDisclaimer",
+      "saju.sajuStructureIntro"
+    ],
+    "p4": "standalone.blocks.saju",
+    "p-naran": "standalone.blocks.identity",
+    "p5": "standalone.blocks.wealth + area-scores.axes.wealth + area-scores.timing.wealth",
+    "p7": "standalone.blocks.career + area-scores.axes.career + area-scores.timing.career",
+    "p9": "standalone.blocks.business + area-scores.axes.business + area-scores.timing.business",
+    "p-jobsbiz": "options.blocks.pathChoice",
+    "p11": "standalone.blocks.marriage + area-scores.axes.marriage + area-scores.timing.marriage",
+    "p13": "standalone.blocks.health + area-scores.axes.health + area-scores.timing.health",
+    "p15": "standalone.blocks.timing + calculated.timingMatrix",
+    "p16": "standalone.blocks.outro"
+  },
+  "cachePolicy": {
+    "calculated": "deterministic, regenerate only when calculator version changes",
+    "standalone": "personKey scoped, regenerate when prompt/report version changes",
+    "options": "personKey + optionsKey scoped",
+    "final": "assembled result for paid/review reuse"
+  },
+  "prototypeWarning": "calculated.json은 실제 saju 엔진 출력 기반. standalone/options 문장은 블록 구조 확인용 초안.",
+  "engineEntrypoint": "lib/saju-core.ts#computeFullSajuCore"
+}

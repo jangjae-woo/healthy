@@ -1,0 +1,209 @@
+{
+  "version": "lifesaju-career-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 30,
+  "sections": {
+    "field-fit": {
+      "title": "어떤 분야가 맞나",
+      "paragraphCount": 3
+    },
+    "change": {
+      "title": "이직운",
+      "paragraphCount": 3
+    },
+    "promotion": {
+      "title": "승진운",
+      "paragraphCount": 3
+    },
+    "coworker": {
+      "title": "상사·동료운",
+      "paragraphCount": 2
+    },
+    "stress": {
+      "title": "직장 스트레스",
+      "paragraphCount": 2
+    }
+  },
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "sectionKey": "field-fit",
+      "sectionTitle": "어떤 분야가 맞나",
+      "baseCacheKey": "career.field-fit|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "change",
+      "sectionTitle": "이직운",
+      "baseCacheKey": "career.change|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "promotion",
+      "sectionTitle": "승진운",
+      "baseCacheKey": "career.promotion|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "coworker",
+      "sectionTitle": "상사·동료운",
+      "baseCacheKey": "career.coworker|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "stress",
+      "sectionTitle": "직장 스트레스",
+      "baseCacheKey": "career.stress|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|responsibility:mid|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "field-fit",
+      "sectionTitle": "어떤 분야가 맞나",
+      "baseCacheKey": "career.field-fit|strong:토:보통|weak:금:약|shinkang:신약|top:정재|responsibility:mixed|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "change",
+      "sectionTitle": "이직운",
+      "baseCacheKey": "career.change|strong:토:보통|weak:금:약|shinkang:신약|top:정재|responsibility:mixed|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "promotion",
+      "sectionTitle": "승진운",
+      "baseCacheKey": "career.promotion|strong:토:보통|weak:금:약|shinkang:신약|top:정재|responsibility:mixed|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "coworker",
+      "sectionTitle": "상사·동료운",
+      "baseCacheKey": "career.coworker|strong:토:보통|weak:금:약|shinkang:신약|top:정재|responsibility:mixed|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "stress",
+      "sectionTitle": "직장 스트레스",
+      "baseCacheKey": "career.stress|strong:토:보통|weak:금:약|shinkang:신약|top:정재|responsibility:mixed|support:mid|expression:mid|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "field-fit",
+      "sectionTitle": "어떤 분야가 맞나",
+      "baseCacheKey": "career.field-fit|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "change",
+      "sectionTitle": "이직운",
+      "baseCacheKey": "career.change|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "promotion",
+      "sectionTitle": "승진운",
+      "baseCacheKey": "career.promotion|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "coworker",
+      "sectionTitle": "상사·동료운",
+      "baseCacheKey": "career.coworker|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "stress",
+      "sectionTitle": "직장 스트레스",
+      "baseCacheKey": "career.stress|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "field-fit",
+      "sectionTitle": "어떤 분야가 맞나",
+      "baseCacheKey": "career.field-fit|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|responsibility:mid|support:mid|expression:high|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "change",
+      "sectionTitle": "이직운",
+      "baseCacheKey": "career.change|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|responsibility:mid|support:mid|expression:high|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "promotion",
+      "sectionTitle": "승진운",
+      "baseCacheKey": "career.promotion|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|responsibility:mid|support:mid|expression:high|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "coworker",
+      "sectionTitle": "상사·동료운",
+      "baseCacheKey": "career.coworker|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|responsibility:mid|support:mid|expression:high|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "stress",
+      "sectionTitle": "직장 스트레스",
+      "baseCacheKey": "career.stress|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|responsibility:mid|support:mid|expression:high|stability:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "field-fit",
+      "sectionTitle": "어떤 분야가 맞나",
+      "baseCacheKey": "career.field-fit|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "change",
+      "sectionTitle": "이직운",
+      "baseCacheKey": "career.change|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "promotion",
+      "sectionTitle": "승진운",
+      "baseCacheKey": "career.promotion|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "coworker",
+      "sectionTitle": "상사·동료운",
+      "baseCacheKey": "career.coworker|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "stress",
+      "sectionTitle": "직장 스트레스",
+      "baseCacheKey": "career.stress|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "field-fit",
+      "sectionTitle": "어떤 분야가 맞나",
+      "baseCacheKey": "career.field-fit|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "change",
+      "sectionTitle": "이직운",
+      "baseCacheKey": "career.change|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "promotion",
+      "sectionTitle": "승진운",
+      "baseCacheKey": "career.promotion|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "coworker",
+      "sectionTitle": "상사·동료운",
+      "baseCacheKey": "career.coworker|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "stress",
+      "sectionTitle": "직장 스트레스",
+      "baseCacheKey": "career.stress|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|responsibility:mixed|support:mixed|expression:mid|stability:mid|tone:index-jang"
+    }
+  ]
+}

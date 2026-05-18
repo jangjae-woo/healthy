@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:없음|topSip:비견:과다|topCat:비겁:과다|shinkang:극왕|elementShape:earth_강_fire_deficit|risk:cashflow_boundary|timing:high|tone:index-jang|variant:01",
+  "baseCacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:없음|topSip:비견:과다|topCat:비겁:과다|shinkang:극왕|elementShape:earth_강_fire_deficit|risk:cashflow_boundary|timing:high|tone:index-jang",
+  "sampleId": "sample-004",
+  "status": "ready",
+  "text": "관성조직형 님은 돈을 버는 힘보다 돈이 남게 만드는 기준이 먼저 서야 하는 결이에요. 수입을 키우는 힘은 있지만 계약, 가격표, 지출 경계가 흐려지면 결과가 손에 오래 머물지 못합니다.\n\n구체적으로는 공동돈을 섞지 않는 일, 비용을 먼저 정하는 일, 반복 지출을 분리하는 자리가 중요해요. 사업이나 프리랜스 흐름을 쓰더라도 \"얼마를 벌까\"보다 \"어떤 기준으로 남길까\"를 먼저 잡을 때 결이 안정됩니다. 시간이 지날수록 돈을 버는 방식보다 돈이 새지 않는 구조가 수입 자리가 됩니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

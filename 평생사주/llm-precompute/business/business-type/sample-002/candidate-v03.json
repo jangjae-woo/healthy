@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-business-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "business-type",
+  "sectionTitle": "어떤 사업이 맞나",
+  "sampleId": "sample-002",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "business.business-type|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang",
+  "cacheKey": "business.business-type|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang|variant:03",
+  "text": "수금연구형 님은 목 기운을 시장에서 작게 검증할 때 살아나는 사업 결이에요. 상관 기운이 반복되고 목 기운이 29%로 가장 두드러져, 사업도 한 번에 크게 벌이기보다 본인 강점을 작은 결과물로 확인하는 흐름이 맞습니다.\n\n구체적으로는 본인 주도권이 분명한 1인형, 전문가형, 커뮤니티 기반 사업, 성장형 브랜드, 교육, 기획 서비스가 잘 맞습니다. 반대로 계약, 가격, 정산, 권한 기준이 늦게 세워지는 지점은 본인 사업 결을 흔들기 쉽습니다.\n\n사업 아이템은 멋진 이름보다 반복 고객, 재구매, 소개가 생기는지로 판단하는 편이 정확합니다. 처음부터 큰 사업을 꿈꾸기보다 작게 팔아보고 반복되는 반응을 구조로 바꾸는 쪽이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

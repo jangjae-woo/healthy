@@ -1,0 +1,57 @@
+{
+  "version": "lifesaju-wealth-extra-candidate-set-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "big-money-timing",
+  "sectionTitle": "큰 돈 시기",
+  "sampleId": "장재형",
+  "candidates": [
+    {
+      "version": "lifesaju-wealth-extra-llm-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "sampleId": "장재형",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang",
+      "cacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang|variant:01",
+      "text": "장재형 님은 61~70세 기사 대운에 재물 흐름이 가장 선명해지는 결이에요. 이 구간은 정재/상관 흐름과 100점대의 재물 기운이 함께 떠서, 시장 감각과 현실 수입으로 연결하는 힘이 돈으로 이어지기 쉽습니다.\n\n이때는 무작정 넓히기보다 이미 반응이 있는 방식에 이름, 가격, 반복 구조를 붙이는 편이 좋습니다. 함께 참고할 구간은 41~50세 신미 흐름이며, 이때는 다음 확장보다 정리와 누적을 확인하는 쪽이 안정적입니다. 토 기운이 27%로 가장 두드러지기 때문에, 본인의 강한 결을 수입 구조로 바꾸는 시기를 놓치지 않는 것이 핵심입니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-wealth-extra-llm-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "sampleId": "장재형",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang",
+      "cacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang|variant:02",
+      "text": "장재형 님의 큰돈 흐름은 61~70세 기사 대운에 재물 흐름이 가장 선명해지는 결으로 볼 수 있어요. 이 구간은 정재/상관 흐름과 100점대의 재물 기운이 함께 떠서, 시장 감각과 현실 수입으로 연결하는 힘이 돈으로 이어지기 쉽습니다.\n\n이때는 무작정 넓히기보다 이미 반응이 있는 방식에 이름, 가격, 반복 구조를 붙이는 편이 좋습니다. 토 기운이 27%로 가장 두드러지기 때문에, 본인의 강한 결을 수입 구조로 바꾸는 시기를 놓치지 않는 것이 핵심입니다. 함께 참고할 구간은 41~50세 신미 흐름이며, 이때는 다음 확장보다 정리와 누적을 확인하는 쪽이 안정적입니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-wealth-extra-llm-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "sampleId": "장재형",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang",
+      "cacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang|variant:03",
+      "text": "장재형 님에게 재물 흐름이 크게 살아나는 때는 61~70세 기사 대운에 재물 흐름이 가장 선명해지는 결입니다. 이 구간은 정재/상관 흐름과 100점대의 재물 기운이 함께 떠서, 시장 감각과 현실 수입으로 연결하는 힘이 돈으로 이어지기 쉽습니다.\n\n토 기운이 27%로 가장 두드러지기 때문에, 본인의 강한 결을 수입 구조로 바꾸는 시기를 놓치지 않는 것이 핵심입니다. 이때는 무작정 넓히기보다 이미 반응이 있는 방식에 이름, 가격, 반복 구조를 붙이는 편이 좋습니다. 함께 참고할 구간은 41~50세 신미 흐름이며, 이때는 다음 확장보다 정리와 누적을 확인하는 쪽이 안정적입니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    }
+  ]
+}

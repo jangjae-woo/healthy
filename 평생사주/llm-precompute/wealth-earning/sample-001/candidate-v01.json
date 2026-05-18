@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang|variant:01",
+  "baseCacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "text": "목화표현형 님은 배운 것과 노하우를 서비스로 바꿀 때 돈이 살아나는 결이에요. 단순히 많이 움직이는 것보다, 알고 있는 것을 정리해서 누군가의 문제를 해결해줄 때 수입의 길이 열립니다.\n\n구체적으로는 교육, 컨설팅, 기술 노하우, 전문 서비스, 문제 해결형 일이 잘 맞아요. 본인이 쌓은 경험을 말과 구조로 정리하면 그것이 곧 팔리는 가치가 됩니다. 시간이 지날수록 지식과 경험을 반복 가능한 서비스로 만드는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

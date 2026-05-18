@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 3 — facts JSON 빌드 검증</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 1200px; margin: auto; background: #fafaf8; color: #333; line-height: 1.6; }
+    h1 { color: #c84d20; margin-bottom: 6px; }
+    h2 { color: #d97757; margin-top: 28px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    h3 { color: #444; margin-top: 14px; font-size: 15px; }
+    .note { background: #fef9f6; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #d97757; font-size: 13px; color: #555; margin: 14px 0; }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 11px;
+      line-height: 1.55;
+      max-height: 700px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+    .summary { background: white; padding: 14px 18px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin: 12px 0; font-size: 13px; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 4px; }
+    .tag-meta { background: #DBE9F5; color: #2d5a8a; }
+    .tag-data { background: #FFE5DA; color: #c84d20; }
+    .tag-llm  { background: #E5F2D1; color: #5d8225; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { padding: 6px 8px; border-bottom: 1px solid #f0ebe5; text-align: left; }
+    th { background: #f8f5f1; color: #555; }
+    .tabs { display: flex; gap: 6px; margin: 16px 0 8px; }
+    .tab {
+      padding: 8px 14px;
+      background: white;
+      border: 1px solid #f0d9c4;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #888;
+    }
+    .tab.active { background: #d97757; color: white; border-color: #d97757; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+  </style>
+</head>
+<body>
+  <h1>Phase 3 — facts JSON 빌드 검증</h1>
+  <p style="font-size:12px;color:#888;">자녀+부모 fixture → 단일 facts JSON 통합. 클라이언트·LLM 양쪽 입력.</p>
+
+  <div class="note">
+    <strong>facts JSON 영역 분류</strong><br/>
+    <span class="tag tag-meta">META</span> 페이지 수·hasMother 등 메타<br/>
+    <span class="tag tag-data">DATA</span> 결정론 산출 (점수·인자·동물·카드 — 클라이언트가 직접 렌더)<br/>
+    <span class="tag tag-llm">LLM</span> LLM이 산문 생성 시 인용 (인자명·점수·동물명을 facts에서 그대로 박음)
+  </div>
+
+  <h2>1. facts 요약 (사람이 보기 쉽게)</h2>
+  <div class="summary" id="summary-table"></div>
+
+  <h2>2. 부모 인자 카드 6셋 (8-a, 8-b 페이지용)</h2>
+  <div class="summary" id="inja-cards"></div>
+
+  <h2>3. 매트릭스 카드 픽 결과</h2>
+  <div class="summary" id="matrix-summary"></div>
+
+  <h2>4. 전체 facts JSON</h2>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('full')">전체</div>
+    <div class="tab" onclick="showTab('child')">자녀</div>
+    <div class="tab" onclick="showTab('parents')">부모</div>
+    <div class="tab" onclick="showTab('cards')">카드</div>
+    <div class="tab" onclick="showTab('ilgan')">일간 관계</div>
+  </div>
+  <div class="panel active" id="panel-full"><pre id="json-full"></pre></div>
+  <div class="panel" id="panel-child"><pre id="json-child"></pre></div>
+  <div class="panel" id="panel-parents"><pre id="json-parents"></pre></div>
+  <div class="panel" id="panel-cards"><pre id="json-cards"></pre></div>
+  <div class="panel" id="panel-ilgan"><pre id="json-ilgan"></pre></div>
+
+  <script type="module">
+    import { KIMSUMIN_SAJU } from '../fixtures/child-kimsumin.mjs';
+    import { PARK_JIYOUNG_SAJU } from '../fixtures/mother-park.mjs';
+    import { KIM_JAEHUN_SAJU } from '../fixtures/father-kim.mjs';
+    import { buildFacts } from '../lib/youa/facts-builder.mjs';
+
+    const facts = buildFacts({
+      childSaju: KIMSUMIN_SAJU,
+      motherSaju: PARK_JIYOUNG_SAJU,
+      fatherSaju: KIM_JAEHUN_SAJU,
+      testDate: '2026-05-16',
+    });
+
+    // 요약 표
+    let s = '<table>';
+    s += `<tr><th>스키마 버전</th><td>${facts.meta.version}</td></tr>`;
+    s += `<tr><th>페이지 수</th><td>${facts.meta.reportPageCount}p (부모 둘 다 ${facts.meta.hasMother && facts.meta.hasFather ? '✓' : '한쪽'})</td></tr>`;
+    s += `<tr><th>자녀</th><td>${facts.child.fullTitle} · ${facts.child.saju8} · 일간 ${facts.child.ilgan}(${facts.child.ilganBiyu})</td></tr>`;
+    s += `<tr><th>어머님</th><td>${facts.mother?.name} · ${facts.mother?.saju8} · 일간 ${facts.mother?.ilgan}</td></tr>`;
+    s += `<tr><th>아버님</th><td>${facts.father?.name} · ${facts.father?.saju8} · 일간 ${facts.father?.ilgan}</td></tr>`;
+    s += `<tr><th>자녀 6요인</th><td>${Object.entries(facts.childFactors).map(([k, v]) => `${v.factorKorean} ${v.score}`).join(' / ')}</td></tr>`;
+    s += `<tr><th>동물</th><td>${facts.animal.emoji} ${facts.animal.name} (케이스 ${facts.animal.case})</td></tr>`;
+    s += `<tr><th>일간 관계</th><td>어머님: ${facts.ilganRelations.mother?.typeLabel} / 아버님: ${facts.ilganRelations.father?.typeLabel}</td></tr>`;
+    s += '</table>';
+    document.getElementById('summary-table').innerHTML = s;
+
+    // 인자 카드
+    function renderInjaCards(title, cards) {
+      let h = `<h3>${title}</h3><table><tr><th>아이콘</th><th>인자</th><th>호명</th><th>강도</th><th>위치</th><th>라벨</th></tr>`;
+      for (const c of cards) {
+        h += `<tr style="background:${c.color}1a;">
+          <td>${c.icon}</td>
+          <td><strong>${c.label}</strong></td>
+          <td>${c.tongMyeong}</td>
+          <td>${c.strength}</td>
+          <td>${c.primaryPosition}</td>
+          <td>${c.strengthLabel}</td>
+        </tr>`;
+      }
+      h += '</table>';
+      return h;
+    }
+    document.getElementById('inja-cards').innerHTML =
+      renderInjaCards('어머님 박지영 (戊辰·乙卯·丁亥·丙午)', facts.parentFactorCards.mother) +
+      renderInjaCards('아버님 김재훈 (乙丑·乙酉·庚申·丙子)', facts.parentFactorCards.father);
+
+    // 매트릭스 요약
+    function renderCardSummary(title, cards) {
+      let h = `<h3>${title}</h3>`;
+      if (!cards.length) return h + '<div>—</div>';
+      h += '<table><tr><th>유형</th><th>헤더</th><th>패턴</th><th>점수</th></tr>';
+      for (const c of cards) {
+        h += `<tr>
+          <td>${c.isSynergy ? '시너지' : c.isConflict ? '충돌' : c.isAmbivalent ? '양면' : '보완'}</td>
+          <td>${c.header}</td>
+          <td>${c.pattern}</td>
+          <td>${c.axisScore}×${c.factorScore}</td>
+        </tr>`;
+      }
+      h += '</table>';
+      return h;
+    }
+    document.getElementById('matrix-summary').innerHTML =
+      renderCardSummary('어머님 카드', facts.matrixCards.motherCards) +
+      renderCardSummary('아버님 카드', facts.matrixCards.fatherCards);
+
+    // JSON 출력
+    document.getElementById('json-full').textContent = JSON.stringify(facts, null, 2);
+    document.getElementById('json-child').textContent = JSON.stringify({ child: facts.child, childFactors: facts.childFactors, childOverview: facts.childOverview, animal: facts.animal }, null, 2);
+    document.getElementById('json-parents').textContent = JSON.stringify({ mother: facts.mother, father: facts.father, motherAxes: facts.motherAxes, fatherAxes: facts.fatherAxes, parentFactorCards: facts.parentFactorCards }, null, 2);
+    document.getElementById('json-cards').textContent = JSON.stringify(facts.matrixCards, null, 2);
+    document.getElementById('json-ilgan').textContent = JSON.stringify(facts.ilganRelations, null, 2);
+
+    window.showTab = function(t) {
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('panel-' + t).classList.add('active');
+    };
+  </script>
+</body>
+</html>

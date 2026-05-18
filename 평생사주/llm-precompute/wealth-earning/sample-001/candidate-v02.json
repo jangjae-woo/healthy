@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang|variant:02",
+  "baseCacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "text": "목화표현형 님은 전문성과 설명력이 돈으로 이어지는 결이에요. 배운 것을 그냥 가지고 있는 것보다, 필요한 사람에게 이해되게 풀어주고 실제 해결로 연결할 때 재물 흐름이 살아납니다.\n\n잘 맞는 자리는 컨설팅, 교육, 기술 서비스, 매뉴얼화된 노하우, 문제 해결형 프로젝트예요. 혼자만 아는 실력으로 두면 돈이 늦게 움직이고, 구조화하면 수입이 빨라집니다. 이 결은 경험을 상품처럼 정리할수록 오래 쓰이는 수입 자리가 됩니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

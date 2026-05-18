@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:보통|jaeseong:없음|topSip:겁재:보통|topCat:비겁:과다|shinkang:태강|elementShape:fire_강_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang|variant:02",
+  "baseCacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:보통|jaeseong:없음|topSip:겁재:보통|topCat:비겁:과다|shinkang:태강|elementShape:fire_강_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "text": "화토운영형 님의 재물 결은 들어오는 돈보다 남는 돈의 기준에서 갈립니다. 돈을 만들 기회가 와도 가격, 계약, 지출의 경계가 흐리면 재물 흐름이 쉽게 흩어질 수 있어요.\n\n잘 맞는 방식은 가격표를 먼저 세우고, 공동 지출을 분리하고, 돈의 약속을 문서로 남기는 것입니다. 큰 수입원을 찾기보다 이미 들어오는 돈이 새지 않게 만드는 구조가 먼저예요. 이 기준이 잡히면 이후에 들어오는 기회도 훨씬 안정적으로 남습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

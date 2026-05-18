@@ -1,0 +1,546 @@
+{
+  "version": "lifesaju-marriage-audit-v1",
+  "issueCount": 0,
+  "results": [
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "partner-type",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "meeting-place",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "timing",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "couple-pattern",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "conflict",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    }
+  ]
+}

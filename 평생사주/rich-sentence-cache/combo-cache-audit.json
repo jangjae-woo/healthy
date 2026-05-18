@@ -1,0 +1,912 @@
+{
+  "version": "lifesaju-combo-cache-audit-v1",
+  "generatedAt": "2026-05-18",
+  "report": [
+    {
+      "sampleId": "sample-001",
+      "totalUnits": 621,
+      "missingMeta": 0,
+      "roleCount": 36,
+      "comboCount": 36,
+      "topCombos": [
+        {
+          "comboKey": "career|overview|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:신사:정관/식신:80|care:갑신:겁재/정관:70",
+          "count": 104
+        },
+        {
+          "comboKey": "saju|structure|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:계미:편인/편재:80|care:갑신:겁재/정관:under60",
+          "count": 57
+        },
+        {
+          "comboKey": "identity|identity|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:계미:편인/편재:80|care:갑신:겁재/정관:under60",
+          "count": 54
+        },
+        {
+          "comboKey": "health|overview|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:임오:정인/상관:80|care:신사:정관/식신:60",
+          "count": 41
+        },
+        {
+          "comboKey": "business|overview|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:병술:상관/정재:80|care:갑신:겁재/정관:60",
+          "count": 40
+        },
+        {
+          "comboKey": "wealth|timing|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:계미:편인/편재:80|care:갑신:겁재/정관:under60",
+          "count": 36
+        },
+        {
+          "comboKey": "marriage|timing|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:계미:편인/편재:80|care:갑신:겁재/정관:60",
+          "count": 25
+        },
+        {
+          "comboKey": "marriage|meeting|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:계미:편인/편재:80|care:갑신:겁재/정관:60",
+          "count": 22
+        },
+        {
+          "comboKey": "pathChoice|employee|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:병술:상관/정재:80|care:갑신:겁재/정관:60",
+          "count": 19
+        },
+        {
+          "comboKey": "pathChoice|businessPath|ilgan:을|day:을유(乙酉)|strong:목:high:35|weak:수:veryLow:0|second:토:high:32|shape:목high>토high>금mid>화low>수veryLow|sip:비견|cat:비겁:3|shinkang:중화|yongsin:수|bright:병술:상관/정재:80|care:갑신:겁재/정관:60",
+          "count": 19
+        }
+      ],
+      "repeatedSentences": [
+        {
+          "pageAlias": "career",
+          "count": 14,
+          "sentence": "전체 흐름에서는, sample-001 님의 직업운은 을 일간, 을유(乙酉), 중화 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 12,
+          "sentence": "기본 구조를 보면, 강한 목 기운은 성장과 방향으로 드러나고, 약한 수 기운은 생각과 회복에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "시기를 볼 때, 편인/편재 조합은 결과와 수입의 감각을 키우므로, 이때는 수익 모델을 구체화하기 좋습니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "재물 흐름이 모이는 구간에서는, 45~54세 갑신 대운 점수 52 구간은 돈을 키우기보다 새는 곳을 줄이는 판단이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "오행과 십성을 같이 놓으면, 15~24세 신사 대운에는 정관/식신 흐름 · 점수 86이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "대운의 방향까지 함께 보면, 강한 목 기운은 성장과 방향으로 드러나고, 약한 수 기운은 생각과 회복에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "identity",
+          "count": 9,
+          "sentence": "오행과 십성을 같이 놓으면, 35~44세 계미 대운에는 편인/편재 흐름 · 점수 87이 들어와 본질의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 9,
+          "sentence": "좋은 시기와 조심할 시기를 함께 보면, 45~54세 갑신 대운에는 겁재/정관 흐름 · 점수 76이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "대운 흐름에서는, 35~44세 계미 대운 점수 87 구간은 재물 흐름이 가장 강하게 모이는 시기입니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "큰돈의 타이밍에서는, 35~44세 계미 대운에는 재물 판단을 밖으로 꺼내도 되는 힘이 강해지고, 45~54세 갑신 대운에는 지키는 기준이 더 중요해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "이 사주의 결에서는, 45~54세 갑신 대운에는 겁재/정관 흐름 · 점수 76이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "원국과 대운을 함께 놓으면, 15~24세 신사 대운에는 정관/식신 흐름 · 점수 86이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "강한 기운과 약한 기운을 나란히 보면, 15~24세 신사 대운에는 정관/식신 흐름 · 점수 86이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 8,
+          "sentence": "인연은 목 기운이 자연스럽게 드러나는 자리에서 이어지기 쉽습니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 7,
+          "sentence": "대운의 방향까지 함께 보면, 강한 목 기운은 성장과 방향으로 드러나고, 약한 수 기운은 생각과 회복에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "계산된 강약을 기준으로 보면, sample-001 님의 직업운은 을 일간, 을유(乙酉), 중화 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "생활에서 드러나는 방식은, 45~54세 갑신 대운에는 겁재/정관 흐름 · 점수 76이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 7,
+          "sentence": "sample-001 님의 결혼운은 을 일간, 을유(乙酉), 중화 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "시간이 쌓이는 흐름에서는, sample-001 님의 사주는 을 일간, 을유(乙酉), 중화 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "이 사주의 결에서는, 45~54세 갑신 대운에는 겁재/정관 흐름 · 점수 52이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        }
+      ]
+    },
+    {
+      "sampleId": "sample-002",
+      "totalUnits": 621,
+      "missingMeta": 0,
+      "roleCount": 36,
+      "comboCount": 36,
+      "topCombos": [
+        {
+          "comboKey": "career|overview|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:계유:정관/정재:80|care:경오:편재/비견:70",
+          "count": 104
+        },
+        {
+          "comboKey": "saju|structure|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:신미:편재/상관:90+|care:기사:상관/겁재:70",
+          "count": 57
+        },
+        {
+          "comboKey": "identity|identity|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:신미:편재/상관:90+|care:기사:상관/겁재:70",
+          "count": 54
+        },
+        {
+          "comboKey": "health|overview|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:정묘:겁재/정인:70|care:기사:상관/겁재:60",
+          "count": 41
+        },
+        {
+          "comboKey": "business|overview|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:무진:식신/식신:80|care:임신:편관/편재:60",
+          "count": 40
+        },
+        {
+          "comboKey": "wealth|timing|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:신미:편재/상관:90+|care:기사:상관/겁재:70",
+          "count": 36
+        },
+        {
+          "comboKey": "marriage|timing|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:계유:정관/정재:80|care:기사:상관/겁재:70",
+          "count": 25
+        },
+        {
+          "comboKey": "marriage|meeting|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:계유:정관/정재:80|care:기사:상관/겁재:70",
+          "count": 22
+        },
+        {
+          "comboKey": "pathChoice|employee|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:무진:식신/식신:80|care:임신:편관/편재:60",
+          "count": 19
+        },
+        {
+          "comboKey": "pathChoice|businessPath|ilgan:병|day:병오(丙午)|strong:목:mid:29|weak:금:veryLow:2|second:토:mid:29|shape:목mid>토mid>화mid>수low>금veryLow|sip:상관|cat:비겁:2|shinkang:신약|yongsin:화|bright:무진:식신/식신:80|care:임신:편관/편재:60",
+          "count": 19
+        }
+      ],
+      "repeatedSentences": [
+        {
+          "pageAlias": "career",
+          "count": 14,
+          "sentence": "전체 흐름에서는, sample-002 님의 직업운은 병 일간, 병오(丙午), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 12,
+          "sentence": "기본 구조를 보면, 강한 목 기운은 성장과 방향으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "시기를 볼 때, 편재/상관 조합은 결과와 수입의 감각을 키우므로, 이때는 수익 모델을 구체화하기 좋습니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "재물 흐름이 모이는 구간에서는, 51~60세 기사 대운 점수 75 구간은 돈을 키우기보다 새는 곳을 줄이는 판단이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "오행과 십성을 같이 놓으면, 11~20세 계유 대운에는 정관/정재 흐름 · 점수 87이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "대운의 방향까지 함께 보면, 강한 목 기운은 성장과 방향으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "identity",
+          "count": 9,
+          "sentence": "오행과 십성을 같이 놓으면, 31~40세 신미 대운에는 편재/상관 흐름 · 점수 96이 들어와 본질의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 9,
+          "sentence": "좋은 시기와 조심할 시기를 함께 보면, 41~50세 경오 대운에는 편재/비견 흐름 · 점수 73이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "대운 흐름에서는, 31~40세 신미 대운 점수 96 구간은 재물 흐름이 가장 강하게 모이는 시기입니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "큰돈의 타이밍에서는, 31~40세 신미 대운에는 재물 판단을 밖으로 꺼내도 되는 힘이 강해지고, 51~60세 기사 대운에는 지키는 기준이 더 중요해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "이 사주의 결에서는, 41~50세 경오 대운에는 편재/비견 흐름 · 점수 73이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "원국과 대운을 함께 놓으면, 11~20세 계유 대운에는 정관/정재 흐름 · 점수 87이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "강한 기운과 약한 기운을 나란히 보면, 11~20세 계유 대운에는 정관/정재 흐름 · 점수 87이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 8,
+          "sentence": "인연은 목 기운이 자연스럽게 드러나는 자리에서 이어지기 쉽습니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 7,
+          "sentence": "대운의 방향까지 함께 보면, 강한 목 기운은 성장과 방향으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "계산된 강약을 기준으로 보면, sample-002 님의 직업운은 병 일간, 병오(丙午), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "생활에서 드러나는 방식은, 41~50세 경오 대운에는 편재/비견 흐름 · 점수 73이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 7,
+          "sentence": "sample-002 님의 결혼운은 병 일간, 병오(丙午), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "시간이 쌓이는 흐름에서는, sample-002 님의 사주는 병 일간, 병오(丙午), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "이 사주의 결에서는, 51~60세 기사 대운에는 상관/겁재 흐름 · 점수 75이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        }
+      ]
+    },
+    {
+      "sampleId": "sample-003",
+      "totalUnits": 621,
+      "missingMeta": 0,
+      "roleCount": 36,
+      "comboCount": 36,
+      "topCombos": [
+        {
+          "comboKey": "career|overview|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:경자:정재/정관:80|care:병신:겁재/정재:60",
+          "count": 104
+        },
+        {
+          "comboKey": "saju|structure|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:90+|care:병신:겁재/정재:under60",
+          "count": 57
+        },
+        {
+          "comboKey": "identity|identity|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:90+|care:병신:겁재/정재:under60",
+          "count": 54
+        },
+        {
+          "comboKey": "health|overview|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:60|care:기해:식신/편관:under60",
+          "count": 41
+        },
+        {
+          "comboKey": "business|overview|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:80|care:임인:정관/정인:60",
+          "count": 40
+        },
+        {
+          "comboKey": "wealth|timing|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:90+|care:병신:겁재/정재:under60",
+          "count": 36
+        },
+        {
+          "comboKey": "marriage|timing|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:경자:정재/정관:70|care:병신:겁재/정재:60",
+          "count": 25
+        },
+        {
+          "comboKey": "marriage|meeting|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:경자:정재/정관:70|care:병신:겁재/정재:60",
+          "count": 22
+        },
+        {
+          "comboKey": "pathChoice|employee|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:80|care:임인:정관/정인:60",
+          "count": 19
+        },
+        {
+          "comboKey": "pathChoice|businessPath|ilgan:정|day:정묘(丁卯)|strong:화:veryHigh:50|weak:금:veryLow:0|second:목:high:33|shape:화veryHigh>목high>토low>수veryLow>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:금|bright:신축:정재/식신:80|care:임인:정관/정인:60",
+          "count": 19
+        }
+      ],
+      "repeatedSentences": [
+        {
+          "pageAlias": "career",
+          "count": 14,
+          "sentence": "전체 흐름에서는, sample-003 님의 직업운은 정 일간, 정묘(丁卯), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 12,
+          "sentence": "기본 구조를 보면, 강한 화 기운은 표현과 온기으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "시기를 볼 때, 정재/식신 조합은 결과와 수입의 감각을 키우므로, 이때는 수익 모델을 구체화하기 좋습니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "재물 흐름이 모이는 구간에서는, 8~17세 병신 대운 점수 55 구간은 돈을 키우기보다 새는 곳을 줄이는 판단이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "오행과 십성을 같이 놓으면, 48~57세 경자 대운에는 정재/정관 흐름 · 점수 85이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "대운의 방향까지 함께 보면, 강한 화 기운은 표현과 온기으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "identity",
+          "count": 9,
+          "sentence": "오행과 십성을 같이 놓으면, 58~67세 신축 대운에는 정재/식신 흐름 · 점수 92이 들어와 본질의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 9,
+          "sentence": "좋은 시기와 조심할 시기를 함께 보면, 8~17세 병신 대운에는 겁재/정재 흐름 · 점수 67이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "대운 흐름에서는, 58~67세 신축 대운 점수 92 구간은 재물 흐름이 가장 강하게 모이는 시기입니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "큰돈의 타이밍에서는, 58~67세 신축 대운에는 재물 판단을 밖으로 꺼내도 되는 힘이 강해지고, 8~17세 병신 대운에는 지키는 기준이 더 중요해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "이 사주의 결에서는, 8~17세 병신 대운에는 겁재/정재 흐름 · 점수 67이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "원국과 대운을 함께 놓으면, 48~57세 경자 대운에는 정재/정관 흐름 · 점수 85이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "강한 기운과 약한 기운을 나란히 보면, 48~57세 경자 대운에는 정재/정관 흐름 · 점수 85이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 8,
+          "sentence": "인연은 화 기운이 자연스럽게 드러나는 자리에서 이어지기 쉽습니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 7,
+          "sentence": "대운의 방향까지 함께 보면, 강한 화 기운은 표현과 온기으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "계산된 강약을 기준으로 보면, sample-003 님의 직업운은 정 일간, 정묘(丁卯), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "생활에서 드러나는 방식은, 8~17세 병신 대운에는 겁재/정재 흐름 · 점수 67이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 7,
+          "sentence": "sample-003 님의 결혼운은 정 일간, 정묘(丁卯), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "시간이 쌓이는 흐름에서는, sample-003 님의 사주는 정 일간, 정묘(丁卯), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "이 사주의 결에서는, 8~17세 병신 대운에는 겁재/정재 흐름 · 점수 55이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        }
+      ]
+    },
+    {
+      "sampleId": "sample-004",
+      "totalUnits": 621,
+      "missingMeta": 0,
+      "roleCount": 36,
+      "comboCount": 36,
+      "topCombos": [
+        {
+          "comboKey": "career|overview|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:을유:편관/식신:80|care:무자:겁재/정재:60",
+          "count": 104
+        },
+        {
+          "comboKey": "saju|structure|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:을유:편관/식신:70|care:무자:겁재/정재:under60",
+          "count": 57
+        },
+        {
+          "comboKey": "identity|identity|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:을유:편관/식신:70|care:무자:겁재/정재:under60",
+          "count": 54
+        },
+        {
+          "comboKey": "health|overview|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:정해:편인/편재:70|care:을유:편관/식신:60",
+          "count": 41
+        },
+        {
+          "comboKey": "business|overview|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:계미:편재/비견:70|care:병술:정인/겁재:60",
+          "count": 40
+        },
+        {
+          "comboKey": "wealth|timing|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:을유:편관/식신:70|care:무자:겁재/정재:under60",
+          "count": 36
+        },
+        {
+          "comboKey": "marriage|timing|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:을유:편관/식신:70|care:무자:겁재/정재:under60",
+          "count": 25
+        },
+        {
+          "comboKey": "marriage|meeting|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:을유:편관/식신:70|care:무자:겁재/정재:under60",
+          "count": 22
+        },
+        {
+          "comboKey": "pathChoice|employee|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:계미:편재/비견:70|care:병술:정인/겁재:60",
+          "count": 19
+        },
+        {
+          "comboKey": "pathChoice|businessPath|ilgan:기|day:기축(己丑)|strong:토:veryHigh:67|weak:화:veryLow:0|second:금:mid:23|shape:토veryHigh>금mid>수veryLow>목veryLow>화veryLow|sip:비견|cat:비겁:5|shinkang:극왕|yongsin:목|bright:계미:편재/비견:70|care:병술:정인/겁재:60",
+          "count": 19
+        }
+      ],
+      "repeatedSentences": [
+        {
+          "pageAlias": "career",
+          "count": 14,
+          "sentence": "전체 흐름에서는, sample-004 님의 직업운은 기 일간, 기축(己丑), 극왕 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 12,
+          "sentence": "기본 구조를 보면, 강한 토 기운은 현실감과 축적으로 드러나고, 약한 화 기운은 표현과 온기에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "시기를 볼 때, 편관/식신 조합은 결과와 수입의 감각을 키우므로, 이때는 수익 모델을 구체화하기 좋습니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "재물 흐름이 모이는 구간에서는, 7~16세 무자 대운 점수 53 구간은 돈을 키우기보다 새는 곳을 줄이는 판단이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "오행과 십성을 같이 놓으면, 37~46세 을유 대운에는 편관/식신 흐름 · 점수 85이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "대운의 방향까지 함께 보면, 강한 토 기운은 현실감과 축적으로 드러나고, 약한 화 기운은 표현과 온기에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "identity",
+          "count": 9,
+          "sentence": "오행과 십성을 같이 놓으면, 37~46세 을유 대운에는 편관/식신 흐름 · 점수 75이 들어와 본질의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 9,
+          "sentence": "좋은 시기와 조심할 시기를 함께 보면, 7~16세 무자 대운에는 겁재/정재 흐름 · 점수 63이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "대운 흐름에서는, 37~46세 을유 대운 점수 75 구간은 재물 흐름이 가장 강하게 모이는 시기입니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "큰돈의 타이밍에서는, 37~46세 을유 대운에는 재물 판단을 밖으로 꺼내도 되는 힘이 강해지고, 7~16세 무자 대운에는 지키는 기준이 더 중요해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "이 사주의 결에서는, 7~16세 무자 대운에는 겁재/정재 흐름 · 점수 63이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "원국과 대운을 함께 놓으면, 37~46세 을유 대운에는 편관/식신 흐름 · 점수 85이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "강한 기운과 약한 기운을 나란히 보면, 37~46세 을유 대운에는 편관/식신 흐름 · 점수 85이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 8,
+          "sentence": "인연은 토 기운이 자연스럽게 드러나는 자리에서 이어지기 쉽습니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 7,
+          "sentence": "대운의 방향까지 함께 보면, 강한 토 기운은 현실감과 축적으로 드러나고, 약한 화 기운은 표현과 온기에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "계산된 강약을 기준으로 보면, sample-004 님의 직업운은 기 일간, 기축(己丑), 극왕 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "생활에서 드러나는 방식은, 7~16세 무자 대운에는 겁재/정재 흐름 · 점수 63이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 7,
+          "sentence": "sample-004 님의 결혼운은 기 일간, 기축(己丑), 극왕 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "시간이 쌓이는 흐름에서는, sample-004 님의 사주는 기 일간, 기축(己丑), 극왕 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "이 사주의 결에서는, 7~16세 무자 대운에는 겁재/정재 흐름 · 점수 53이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        }
+      ]
+    },
+    {
+      "sampleId": "장재형",
+      "totalUnits": 621,
+      "missingMeta": 0,
+      "roleCount": 36,
+      "comboCount": 36,
+      "topCombos": [
+        {
+          "comboKey": "career|overview|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:계유:정인/정관:80|care:갑술:비견/편재:70",
+          "count": 104
+        },
+        {
+          "comboKey": "saju|structure|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:기사:정재/상관:90+|care:갑술:비견/편재:70",
+          "count": 57
+        },
+        {
+          "comboKey": "identity|identity|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:기사:정재/상관:90+|care:갑술:비견/편재:70",
+          "count": 54
+        },
+        {
+          "comboKey": "health|overview|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:계유:정인/정관:80|care:신미:편관/정재:60",
+          "count": 41
+        },
+        {
+          "comboKey": "business|overview|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:기사:정재/상관:80|care:신미:편관/정재:60",
+          "count": 40
+        },
+        {
+          "comboKey": "wealth|timing|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:기사:정재/상관:90+|care:갑술:비견/편재:70",
+          "count": 36
+        },
+        {
+          "comboKey": "marriage|timing|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:신미:편관/정재:80|care:갑술:비견/편재:70",
+          "count": 25
+        },
+        {
+          "comboKey": "marriage|meeting|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:신미:편관/정재:80|care:갑술:비견/편재:70",
+          "count": 22
+        },
+        {
+          "comboKey": "pathChoice|employee|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:기사:정재/상관:80|care:신미:편관/정재:60",
+          "count": 19
+        },
+        {
+          "comboKey": "pathChoice|businessPath|ilgan:갑|day:갑진(甲辰)|strong:토:mid:27|weak:금:low:14|second:수:mid:25|shape:토mid>수mid>화low>목low>금low|sip:정재|cat:재성:3|shinkang:신약|yongsin:목|bright:기사:정재/상관:80|care:신미:편관/정재:60",
+          "count": 19
+        }
+      ],
+      "repeatedSentences": [
+        {
+          "pageAlias": "career",
+          "count": 14,
+          "sentence": "전체 흐름에서는, 장재형 님의 직업운은 갑 일간, 갑진(甲辰), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 12,
+          "sentence": "기본 구조를 보면, 강한 토 기운은 현실감과 축적으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "시기를 볼 때, 정재/상관 조합은 결과와 수입의 감각을 키우므로, 이때는 수익 모델을 구체화하기 좋습니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "재물 흐름이 모이는 구간에서는, 11~20세 갑술 대운 점수 74 구간은 돈을 키우기보다 새는 곳을 줄이는 판단이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "오행과 십성을 같이 놓으면, 21~30세 계유 대운에는 정인/정관 흐름 · 점수 86이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "대운의 방향까지 함께 보면, 강한 토 기운은 현실감과 축적으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "identity",
+          "count": 9,
+          "sentence": "오행과 십성을 같이 놓으면, 61~70세 기사 대운에는 정재/상관 흐름 · 점수 100이 들어와 본질의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 9,
+          "sentence": "좋은 시기와 조심할 시기를 함께 보면, 11~20세 갑술 대운에는 비견/편재 흐름 · 점수 72이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "대운 흐름에서는, 61~70세 기사 대운 점수 100 구간은 재물 흐름이 가장 강하게 모이는 시기입니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "큰돈의 타이밍에서는, 61~70세 기사 대운에는 재물 판단을 밖으로 꺼내도 되는 힘이 강해지고, 11~20세 갑술 대운에는 지키는 기준이 더 중요해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "이 사주의 결에서는, 11~20세 갑술 대운에는 비견/편재 흐름 · 점수 72이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "원국과 대운을 함께 놓으면, 21~30세 계유 대운에는 정인/정관 흐름 · 점수 86이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "강한 기운과 약한 기운을 나란히 보면, 21~30세 계유 대운에는 정인/정관 흐름 · 점수 86이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 8,
+          "sentence": "인연은 토 기운이 자연스럽게 드러나는 자리에서 이어지기 쉽습니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 7,
+          "sentence": "대운의 방향까지 함께 보면, 강한 토 기운은 현실감과 축적으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "계산된 강약을 기준으로 보면, 장재형 님의 직업운은 갑 일간, 갑진(甲辰), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "생활에서 드러나는 방식은, 11~20세 갑술 대운에는 비견/편재 흐름 · 점수 72이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 7,
+          "sentence": "장재형 님의 결혼운은 갑 일간, 갑진(甲辰), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "시간이 쌓이는 흐름에서는, 장재형 님의 사주는 갑 일간, 갑진(甲辰), 신약 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "이 사주의 결에서는, 11~20세 갑술 대운에는 비견/편재 흐름 · 점수 74이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        }
+      ]
+    },
+    {
+      "sampleId": "장재우",
+      "totalUnits": 621,
+      "missingMeta": 0,
+      "roleCount": 36,
+      "comboCount": 36,
+      "topCombos": [
+        {
+          "comboKey": "career|overview|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:갑진:상관/정관:80|care:병오:정재/정재:70",
+          "count": 104
+        },
+        {
+          "comboKey": "saju|structure|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:병오:정재/정재:90+|care:무신:정관/정인:60",
+          "count": 57
+        },
+        {
+          "comboKey": "identity|identity|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:병오:정재/정재:90+|care:무신:정관/정인:60",
+          "count": 54
+        },
+        {
+          "comboKey": "health|overview|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:무신:정관/정인:70|care:정미:편재/편관:60",
+          "count": 41
+        },
+        {
+          "comboKey": "business|overview|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:을사:식신/편재:80|care:무신:정관/정인:60",
+          "count": 40
+        },
+        {
+          "comboKey": "wealth|timing|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:병오:정재/정재:90+|care:무신:정관/정인:60",
+          "count": 36
+        },
+        {
+          "comboKey": "marriage|timing|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:갑진:상관/정관:70|care:무신:정관/정인:70",
+          "count": 25
+        },
+        {
+          "comboKey": "marriage|meeting|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:갑진:상관/정관:70|care:무신:정관/정인:70",
+          "count": 22
+        },
+        {
+          "comboKey": "pathChoice|employee|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:을사:식신/편재:80|care:무신:정관/정인:60",
+          "count": 19
+        },
+        {
+          "comboKey": "pathChoice|businessPath|ilgan:계|day:계해(癸亥)|strong:수:veryHigh:46|weak:금:veryLow:6|second:화:mid:20|shape:수veryHigh>화mid>토low>목low>금veryLow|sip:겁재|cat:비겁:4|shinkang:태강|yongsin:목|bright:을사:식신/편재:80|care:무신:정관/정인:60",
+          "count": 19
+        }
+      ],
+      "repeatedSentences": [
+        {
+          "pageAlias": "career",
+          "count": 14,
+          "sentence": "전체 흐름에서는, 장재우 님의 직업운은 계 일간, 계해(癸亥), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 12,
+          "sentence": "기본 구조를 보면, 강한 수 기운은 생각과 회복으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "시기를 볼 때, 정재/정재 조합은 결과와 수입의 감각을 키우므로, 이때는 수익 모델을 구체화하기 좋습니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 10,
+          "sentence": "재물 흐름이 모이는 구간에서는, 55~64세 무신 대운 점수 69 구간은 돈을 키우기보다 새는 곳을 줄이는 판단이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "오행과 십성을 같이 놓으면, 15~24세 갑진 대운에는 상관/정관 흐름 · 점수 88이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 10,
+          "sentence": "대운의 방향까지 함께 보면, 강한 수 기운은 생각과 회복으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "identity",
+          "count": 9,
+          "sentence": "오행과 십성을 같이 놓으면, 35~44세 병오 대운에는 정재/정재 흐름 · 점수 95이 들어와 본질의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 9,
+          "sentence": "좋은 시기와 조심할 시기를 함께 보면, 35~44세 병오 대운에는 정재/정재 흐름 · 점수 74이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "대운 흐름에서는, 35~44세 병오 대운 점수 95 구간은 재물 흐름이 가장 강하게 모이는 시기입니다."
+        },
+        {
+          "pageAlias": "wealth",
+          "count": 8,
+          "sentence": "큰돈의 타이밍에서는, 35~44세 병오 대운에는 재물 판단을 밖으로 꺼내도 되는 힘이 강해지고, 55~64세 무신 대운에는 지키는 기준이 더 중요해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "이 사주의 결에서는, 35~44세 병오 대운에는 정재/정재 흐름 · 점수 74이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "원국과 대운을 함께 놓으면, 15~24세 갑진 대운에는 상관/정관 흐름 · 점수 88이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 8,
+          "sentence": "강한 기운과 약한 기운을 나란히 보면, 15~24세 갑진 대운에는 상관/정관 흐름 · 점수 88이 들어와 직업운의 흐름이 가장 선명해집니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 8,
+          "sentence": "인연은 수 기운이 자연스럽게 드러나는 자리에서 이어지기 쉽습니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 7,
+          "sentence": "대운의 방향까지 함께 보면, 강한 수 기운은 생각과 회복으로 드러나고, 약한 금 기운은 정리와 결단에서 보완이 필요합니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "계산된 강약을 기준으로 보면, 장재우 님의 직업운은 계 일간, 계해(癸亥), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "career",
+          "count": 7,
+          "sentence": "생활에서 드러나는 방식은, 35~44세 병오 대운에는 정재/정재 흐름 · 점수 74이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        },
+        {
+          "pageAlias": "marriage",
+          "count": 7,
+          "sentence": "장재우 님의 결혼운은 계 일간, 계해(癸亥), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "시간이 쌓이는 흐름에서는, 장재우 님의 사주는 계 일간, 계해(癸亥), 태강 구조를 기준으로 봅니다."
+        },
+        {
+          "pageAlias": "saju",
+          "count": 6,
+          "sentence": "이 사주의 결에서는, 55~64세 무신 대운에는 정관/정인 흐름 · 점수 69이 함께 들어오므로 속도보다 기준과 확인이 중요합니다."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,546 @@
+{
+  "version": "lifesaju-career-audit-v1",
+  "issueCount": 0,
+  "results": [
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "field-fit",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "change",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "promotion",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "coworker",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "stress",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    }
+  ]
+}

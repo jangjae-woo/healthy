@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-marriage-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "timing",
+  "sectionTitle": "결혼 시기",
+  "sampleId": "sample-004",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "marriage.timing|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang",
+  "cacheKey": "marriage.timing|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|stability:mixed|spouse:mixed|meeting:care|protection:mixed|tone:index-jang|variant:02",
+  "text": "관성조직형 님의 결혼 시기는 37~46세 을유 대운에 관계 흐름이 가장 선명해지는 결이에요. 편관/식신 흐름과 72점대의 결혼운이 함께 떠서 관계를 구체화하는 힘이 생깁니다.\n\n다만 결혼 결정은 운의 점수보다 생활 기준, 돈, 가족 문제, 거주 리듬이 맞는지까지 함께 봐야 합니다. 7~16세 무자 흐름에는 감정의 속도보다 현실 조건을 먼저 확인하는 편이 안정됩니다.\n\n시기는 문을 열어주는 역할이고, 실제 결혼의 안정은 두 사람이 같은 생활 기준을 만들 수 있는지에서 갈립니다. 그래서 좋은 시기라도 서두르기보다 생활의 합이 맞는지를 먼저 확인하는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "version": "lifesaju-business-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 30,
+  "sections": {
+    "business-type": {
+      "title": "어떤 사업이 맞나",
+      "paragraphCount": 3
+    },
+    "start-timing": {
+      "title": "사업 시작 시기",
+      "paragraphCount": 3
+    },
+    "solo-partner": {
+      "title": "1인 vs 동업",
+      "paragraphCount": 2
+    },
+    "scale": {
+      "title": "키우는 결",
+      "paragraphCount": 3
+    },
+    "risk": {
+      "title": "사업이 흔들릴 때",
+      "paragraphCount": 2
+    }
+  },
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "sectionKey": "business-type",
+      "sectionTitle": "어떤 사업이 맞나",
+      "baseCacheKey": "business.business-type|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "start-timing",
+      "sectionTitle": "사업 시작 시기",
+      "baseCacheKey": "business.start-timing|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "solo-partner",
+      "sectionTitle": "1인 vs 동업",
+      "baseCacheKey": "business.solo-partner|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "scale",
+      "sectionTitle": "키우는 결",
+      "baseCacheKey": "business.scale|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "risk",
+      "sectionTitle": "사업이 흔들릴 때",
+      "baseCacheKey": "business.risk|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "business-type",
+      "sectionTitle": "어떤 사업이 맞나",
+      "baseCacheKey": "business.business-type|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "start-timing",
+      "sectionTitle": "사업 시작 시기",
+      "baseCacheKey": "business.start-timing|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "solo-partner",
+      "sectionTitle": "1인 vs 동업",
+      "baseCacheKey": "business.solo-partner|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "scale",
+      "sectionTitle": "키우는 결",
+      "baseCacheKey": "business.scale|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "risk",
+      "sectionTitle": "사업이 흔들릴 때",
+      "baseCacheKey": "business.risk|strong:토:보통|weak:금:약|shinkang:신약|top:정재|make:high|partner:high|burden:care|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "business-type",
+      "sectionTitle": "어떤 사업이 맞나",
+      "baseCacheKey": "business.business-type|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|make:mid|partner:high|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "start-timing",
+      "sectionTitle": "사업 시작 시기",
+      "baseCacheKey": "business.start-timing|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|make:mid|partner:high|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "solo-partner",
+      "sectionTitle": "1인 vs 동업",
+      "baseCacheKey": "business.solo-partner|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|make:mid|partner:high|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "scale",
+      "sectionTitle": "키우는 결",
+      "baseCacheKey": "business.scale|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|make:mid|partner:high|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "risk",
+      "sectionTitle": "사업이 흔들릴 때",
+      "baseCacheKey": "business.risk|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|make:mid|partner:high|burden:mid|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "business-type",
+      "sectionTitle": "어떤 사업이 맞나",
+      "baseCacheKey": "business.business-type|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "start-timing",
+      "sectionTitle": "사업 시작 시기",
+      "baseCacheKey": "business.start-timing|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "solo-partner",
+      "sectionTitle": "1인 vs 동업",
+      "baseCacheKey": "business.solo-partner|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "scale",
+      "sectionTitle": "키우는 결",
+      "baseCacheKey": "business.scale|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "risk",
+      "sectionTitle": "사업이 흔들릴 때",
+      "baseCacheKey": "business.risk|strong:목:보통|weak:금:결핍|shinkang:신약|top:상관|make:mid|partner:high|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "business-type",
+      "sectionTitle": "어떤 사업이 맞나",
+      "baseCacheKey": "business.business-type|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "start-timing",
+      "sectionTitle": "사업 시작 시기",
+      "baseCacheKey": "business.start-timing|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "solo-partner",
+      "sectionTitle": "1인 vs 동업",
+      "baseCacheKey": "business.solo-partner|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "scale",
+      "sectionTitle": "키우는 결",
+      "baseCacheKey": "business.scale|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "risk",
+      "sectionTitle": "사업이 흔들릴 때",
+      "baseCacheKey": "business.risk|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mixed|learning:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "business-type",
+      "sectionTitle": "어떤 사업이 맞나",
+      "baseCacheKey": "business.business-type|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|make:mixed|partner:mixed|burden:mixed|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "start-timing",
+      "sectionTitle": "사업 시작 시기",
+      "baseCacheKey": "business.start-timing|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|make:mixed|partner:mixed|burden:mixed|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "solo-partner",
+      "sectionTitle": "1인 vs 동업",
+      "baseCacheKey": "business.solo-partner|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|make:mixed|partner:mixed|burden:mixed|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "scale",
+      "sectionTitle": "키우는 결",
+      "baseCacheKey": "business.scale|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|make:mixed|partner:mixed|burden:mixed|learning:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "risk",
+      "sectionTitle": "사업이 흔들릴 때",
+      "baseCacheKey": "business.risk|strong:토:강|weak:화:없음|shinkang:극왕|top:비견|make:mixed|partner:mixed|burden:mixed|learning:mixed|tone:index-jang"
+    }
+  ]
+}

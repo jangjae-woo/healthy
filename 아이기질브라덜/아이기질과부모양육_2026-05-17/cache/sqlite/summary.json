@@ -1,0 +1,13 @@
+{
+  "createdAt": "2026-05-17T08:56:14.917Z",
+  "cacheRoot": "C:\\Users\\new\\Desktop\\saju\\아이기질브라덜\\아이기질과부모양육_2026-05-17\\cache",
+  "sqlite": "C:\\tmp\\youa-sqlite-cache\\youa-cache.sqlite",
+  "childRows": 37986,
+  "parentRows": 579254,
+  "totalRows": 617240,
+  "elapsedSec": 186.644,
+  "dbBytes": 8727625728,
+  "dbMb": 8323.31,
+  "sqliteStdout": "delete\r\nexclusive",
+  "sqliteStderr": ""
+}

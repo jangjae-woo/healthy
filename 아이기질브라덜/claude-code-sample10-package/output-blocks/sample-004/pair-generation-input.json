@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "youa-blocks-v1",
+  "blockType": "pair-input",
+  "cacheKey": "youa-v1-sample-004",
+  "child": {
+    "name": "강예린 양",
+    "gender": "female",
+    "ageText": "만 6세 2개월",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "신금", "han": "辛", "metaphor": "보석·정제된 금속" },
+    "scores": {
+      "활기": { "score": 50, "level": "중간" },
+      "조심": { "score": 60, "level": "중간" },
+      "만족": { "score": 55, "level": "중간" },
+      "흔들림": { "score": 88, "level": "매우높음" },
+      "어울림": { "score": 75, "level": "높음" },
+      "끈기": { "score": 62, "level": "높음" }
+    }
+  },
+  "mother": {
+    "name": "윤서영 어머님",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "을목", "han": "乙", "metaphor": "들풀과 작은 꽃나무" }
+  },
+  "father": {
+    "name": "강태현 아버님",
+    "birthKnownHour": false,
+    "dayMaster": { "ko": "병화", "han": "丙", "metaphor": "한낮의 태양" }
+  },
+  "relations": {
+    "motherChild": { "relationType": "목생금(서로 기운을 주고받는 부드러운 관계)" },
+    "fatherChild": { "relationType": "화극금(빛을 비추는 관계)" }
+  },
+  "hourUnknownPolicy": "아버님 출생 시각 미상으로 시주 인자는 본문 근거에서 제외"
+}

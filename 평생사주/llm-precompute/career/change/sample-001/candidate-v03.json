@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-career-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "change",
+  "sectionTitle": "이직운",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "career.change|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang",
+  "cacheKey": "career.change|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang|variant:03",
+  "text": "목화표현형 님의 이직운은 불만 때문에 옮기기보다 본인 결이 더 잘 쓰이는 자리로 옮겨야 하는 타입이에요. 표현 결 65점대와 안정 결 87점대를 함께 보면, 이동 자체보다 새 자리의 역할 구조가 더 중요합니다.\n\n목 기운을 더 잘 쓰고 수 기운을 무리하게 소모하지 않는 자리라면 이직이 도움이 됩니다. 45~54세 갑신 흐름에는 조건이 좋아 보여도 책임 범위와 회복 리듬을 먼저 확인해야 합니다.\n\n이직 판단은 연봉 한 줄보다 1년 뒤에도 같은 방식으로 버틸 수 있는 구조인지가 기준입니다. 이직은 지금의 불편함을 피하는 선택이 아니라, 본인 강점이 더 오래 쓰이는 구조로 옮기는 선택이어야 합니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

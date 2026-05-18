@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-path-choice-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "group": "path-choice",
+  "sectionKey": "overview",
+  "sampleId": "장재형",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "path-choice.overview|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang",
+  "cacheKey": "path-choice.overview|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang|variant:02",
+  "text": "장재형 님은 토 기운이 27%로 가장 두드러지고 정재 흐름이 반복되어, 정재 기운을 먼저 전문성으로 쌓고, 이후 본인 이름의 일로 넓히는 쪽이 핵심이에요. 그래서 직장과 사업을 하나의 정답으로 가르기보다 본인 결을 어떤 그릇에 담을지로 봐야 합니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

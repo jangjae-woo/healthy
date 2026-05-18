@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-career-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "field-fit",
+  "sectionTitle": "어떤 분야가 맞나",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "career.field-fit|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang",
+  "cacheKey": "career.field-fit|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang|variant:02",
+  "text": "화토운영형 님은 본인 기준과 주도권이 분명한 자리에서 직업 결이 살아나는 타입이에요. 겁재 기운이 반복되고 화 기운이 50%로 가장 두드러져, 일을 할 때도 본인만의 방식과 깊이가 먼저 살아납니다.\n\n구체적으로는 리더 보조, 프로젝트 운영, 커뮤니티 운영, 독립 권한이 있는 실무, 콘텐츠, 홍보, 강의, 발표, 디자인 같은 분야가 잘 맞습니다. 반대로 기준, 문서, 결정권이 모호한 자리는 오래 버티기 어렵습니다.\n\n48~57세 경자 대운은 정재/정관 흐름과 85점대의 직업 기운이 떠서, 방향을 밖으로 보이기 좋은 구간입니다. 그래서 직업 분야는 지금 잘하는 일보다 오래 쌓였을 때 본인 이름과 결과가 남는지를 함께 봐야 합니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

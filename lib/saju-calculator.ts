@@ -26,6 +26,10 @@ const BRANCH_YY: Record<Branch, '양'|'음'> = {
   자:'양', 축:'음', 인:'양', 묘:'음', 진:'양', 사:'음',
   오:'양', 미:'음', 신:'양', 유:'음', 술:'양', 해:'음',
 };
+const BRANCH_MAIN_STEM: Record<Branch, Stem> = {
+  자:'계', 축:'기', 인:'갑', 묘:'을', 진:'무', 사:'병',
+  오:'정', 미:'기', 신:'경', 유:'신', 술:'무', 해:'임',
+};
 
 // 오행 상생/상극
 const GENERATES: Record<string,string> = { 목:'화', 화:'토', 토:'금', 금:'수', 수:'목' };
@@ -43,8 +47,9 @@ export const BRANCH_HANJA: Record<Branch, string> = {
 
 // ─── 십성 계산 ────────────────────────────────
 export function getSipseong(ilgan: string, target: string, isBranch: boolean): string {
-  const te = isBranch ? BRANCH_ELEM[target as Branch] : STEM_ELEM[target as Stem];
-  const ty = isBranch ? BRANCH_YY[target as Branch]   : STEM_YY[target as Stem];
+  const branchMainStem = isBranch ? BRANCH_MAIN_STEM[target as Branch] : null;
+  const te = branchMainStem ? STEM_ELEM[branchMainStem] : STEM_ELEM[target as Stem];
+  const ty = branchMainStem ? STEM_YY[branchMainStem] : STEM_YY[target as Stem];
   const ie = STEM_ELEM[ilgan as Stem];
   const iy = STEM_YY[ilgan as Stem];
   if (!te || !ie) return '─';

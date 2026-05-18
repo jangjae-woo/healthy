@@ -1,0 +1,23 @@
+{
+  "version": "lifesaju-block-manifest-v1",
+  "sampleId": "장재형",
+  "personKey": "1989-12-10_미시_male",
+  "generatedAt": "2026-05-18",
+  "profileType": "토 강 / 금 약 / 정재 우세 / 신약",
+  "prototypeWarning": "calculated.json은 실제 saju 엔진 출력 기반. standalone/options 문장은 블록 구조 확인용 초안.",
+  "engineEntrypoint": "lib/saju-core.ts#computeFullSajuCore",
+  "files": [
+    "calculated.json",
+    "area-scores.json",
+    "standalone-blocks.json",
+    "options-blocks.json",
+    "block-manifest.json"
+  ],
+  "pageMap": {
+    "p5": "standalone.blocks.wealth + area-scores.axes.wealth + area-scores.timing.wealth",
+    "p7": "standalone.blocks.career + area-scores.axes.career + area-scores.timing.career",
+    "p9": "standalone.blocks.business + area-scores.axes.business + area-scores.timing.business",
+    "p11": "standalone.blocks.marriage + area-scores.axes.marriage + area-scores.timing.marriage",
+    "p13": "standalone.blocks.health + area-scores.axes.health + area-scores.timing.health"
+  }
+}

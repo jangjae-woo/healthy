@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-career-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "coworker",
+  "sectionTitle": "상사·동료운",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "career.coworker|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang",
+  "cacheKey": "career.coworker|strong:목:보통|weak:수:없음|shinkang:중화|top:비견|responsibility:mid|support:mixed|expression:mid|stability:very_high|tone:index-jang|variant:01",
+  "text": "목화표현형 님의 상사·동료운은 역할 분담과 기준이 분명한 사람과 일할 때 안정되는 타입이에요. 받쳐주는 결은 45점대이고, 약한 수 기운은 없음 구간이라 협업에서 기준이 흐려지면 피로가 빨리 쌓입니다.\n\n상사나 동료는 감정으로 밀어붙이는 사람보다 일의 범위, 일정, 책임선을 분명히 해주는 사람이 잘 맞습니다. 비견 기운이 강하게 반복되므로 비슷한 주도권을 가진 사람과 한 자리에서 부딪히면 경쟁심이 커질 수 있습니다. 같이 일할수록 친해지는 관계보다, 처음부터 역할이 정해진 관계가 본인 직업 결을 지켜줍니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

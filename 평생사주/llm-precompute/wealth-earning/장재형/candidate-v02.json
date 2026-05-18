@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang|variant:02",
+  "baseCacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "장재형",
+  "status": "ready",
+  "text": "장재형 님은 자기 손으로 만든 결과가 돈의 자리로 이어지는 결이에요. 생각만 쌓아두기보다 표현, 기획, 서비스, 노하우처럼 밖으로 꺼낸 결과물이 있을 때 수입의 길이 열립니다.\n\n잘 맞는 자리는 본인 이름 콘텐츠, 전문 컨설팅, 노하우 기반 서비스, 1인 사업처럼 결과물이 남는 쪽이에요. 조직 안에서도 성과가 본인 이름으로 정리되는 역할이면 충분히 좋습니다. 시간이 갈수록 한 번 만든 결과가 다음 수입을 부르는 구조가 되므로, 넓히기보다 오래 남길 대표 결과물을 키우는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

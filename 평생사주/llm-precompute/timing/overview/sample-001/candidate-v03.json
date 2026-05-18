@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-timing-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "group": "timing",
+  "sectionKey": "overview",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "timing.overview|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang",
+  "cacheKey": "timing.overview|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang|variant:03",
+  "text": "sample-001 님의 활동기 흐름은 재물·직업·사업·결혼·건강을 같은 나이표 위에서 함께 보는 페이지예요. 목 기운과 비견 흐름이 어느 시기에 가장 잘 쓰이는지, 또 약한 수 자리를 어느 구간에서 더 살펴야 하는지를 한눈에 비교합니다. 특히 35~44세 재물 흐름, 15~24세 직업 흐름, 35~44세 관계 흐름을 따로 보지 않고 이어서 보는 것이 중요합니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

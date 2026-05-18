@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang|variant:02",
+  "baseCacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-002",
+  "status": "ready",
+  "text": "수금연구형 님의 돈 버는 결은 빠른 승부보다 안정된 흐름에 가까워요. 수입원이 규칙적으로 들어오고, 그 안에서 지출과 저축의 기준이 잡힐 때 돈이 남습니다.\n\n맞는 자리는 고정 수입이 있는 직장, 제도권 전문 역할, 장기 계약형 일처럼 예측 가능한 구조예요. 부업이나 사업을 하더라도 기본 수입을 흔들지 않는 선에서 천천히 키우는 방식이 맞습니다. 시간이 지날수록 작은 축적이 큰 안정으로 바뀌는 결입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

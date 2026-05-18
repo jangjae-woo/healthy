@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "vitality",
+  "sectionTitle": "체력 기본 결",
+  "sampleId": "장재형",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.vitality|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang",
+  "cacheKey": "health.vitality|strong:토:보통|weak:금:약|shinkang:신약|balance:very_high|vitality:high|lowConflict:mid|johu:mid|tone:index-jang|variant:01",
+  "text": "장재형 님의 체력 기본 결은 신약 구조와 강한 토 기운을 오래 쓰는 타입이에요. 체력 기본 결은 73점대이고 토 기운이 27%로 가장 두드러져, 한 번 몰아붙이는 힘보다 회복 리듬을 함께 둘 때 안정됩니다.\n\n일정한 식사와 느린 반복에서 몸이 안정됩니다. 피로가 쌓일 때는 더 밀어붙이기보다 수면, 식사, 쉬는 시간을 먼저 고정하는 편이 좋습니다. 건강운은 타고난 체력보다 그 체력을 어떻게 회복시키는지에서 갈립니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

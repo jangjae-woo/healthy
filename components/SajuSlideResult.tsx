@@ -25,8 +25,6 @@ import {
 import {
   type SajuAnalysis,
   getSipseong,
-  getDayMasterStrength,
-  type DayMasterStrengthLevel,
   STEM_HANJA, BRANCH_HANJA, SIPSEONG_COLOR, SINSAL_INFO,
 } from "@/lib/saju-calculator";
 
@@ -74,18 +72,20 @@ const SEUN_YEARS = [
 ];
 
 // 섹션 첫 슬라이드에 표시할 인라인 헤더
-// ⭐ V2.4.0 (2026-05-15) — 목차 정리: 11 챕터 → 10 챕터, 47 sub → 25 sub
-// 삭제: love2/love3/timeline2/closing. 챕터명·sub 이름 일부 변경.
 const SECTION_LABELS: Record<number,{ title:string; icon:string }> = {
   13:{ title:'나는 어떤 사람인가', icon:'✦' },
-  14:{ title:'타고난 재능과 강점', icon:'✦' },
-  15:{ title:'돈의 결 — 재물·재테크', icon:'✦' },
-  16:{ title:'일의 결 — 직업·사업', icon:'✦' },
-  17:{ title:'인연과 결혼', icon:'✦' },
-  18:{ title:'몸과 마음의 리듬', icon:'✦' },
-  19:{ title:'사주의 그늘 — 신살·조심할 흐름', icon:'✦' },
-  20:{ title:'시기별 흐름 — 지금~향후 5년', icon:'✦' },
-  21:{ title:'종합 — 평생 가져갈 방향', icon:'✦' },
+  14:{ title:'타고난 재능의 방향', icon:'✦' },
+  15:{ title:'돈과 현실 감각', icon:'✦' },
+  16:{ title:'일과 직업의 방향', icon:'✦' },
+  17:{ title:'사람과 인연', icon:'✦' },
+  18:{ title:'사람과 인연', icon:'✦' },
+  19:{ title:'사람과 인연', icon:'✦' },
+  20:{ title:'몸과 마음의 리듬', icon:'✦' },
+  21:{ title:'조심해야 할 반복 패턴', icon:'✦' },
+  22:{ title:'시기별 흐름', icon:'✦' },
+  23:{ title:'앞으로 5년의 흐름', icon:'✦' },
+  24:{ title:'종합 해석과 앞으로의 방향', icon:'✦' },
+  25:{ title:'묵도인의 마지막 한 마디', icon:'✦' },
 };
 
 // 슬라이드 → AI 섹션 키 매핑 (overview는 백그라운드 fetch — 다른 섹션의 참조용)
@@ -94,33 +94,33 @@ const SLIDE_AI: Record<number,string> = {
   12: 'overview',
   13: 'personality1', 14: 'personality2',
   15: 'money1',       16: 'money2',
-  17: 'love1',
-  18: 'health',
-  19: 'hidden',
-  20: 'timeline1',
-  21: 'compass',
+  17: 'love1',        18: 'love2', 19: 'love3',
+  20: 'health',
+  21: 'hidden',
+  22: 'timeline1',    23: 'timeline2',
+  24: 'compass',
+  25: 'closing',
 };
 
 // TOC 섹션 목록
 const TOC_ITEMS = [
   { label:'내 사주의 기본 구조', slide:2  },
   { label:'나는 어떤 사람인가', slide:13 },
-  { label:'타고난 재능과 강점', slide:14 },
-  { label:'돈의 결 — 재물·재테크', slide:15 },
-  { label:'일의 결 — 직업·사업', slide:16 },
-  { label:'인연과 결혼', slide:17 },
-  { label:'몸과 마음의 리듬', slide:18 },
-  { label:'사주의 그늘 — 신살·조심할 흐름', slide:19 },
-  { label:'시기별 흐름 — 지금~향후 5년', slide:20 },
-  { label:'종합 — 평생 가져갈 방향', slide:21 },
+  { label:'타고난 재능의 방향', slide:14 },
+  { label:'돈과 현실 감각', slide:15 },
+  { label:'일과 직업의 방향', slide:16 },
+  { label:'사람과 인연', slide:17 },
+  { label:'몸과 마음의 리듬', slide:20 },
+  { label:'조심해야 할 반복 패턴', slide:21 },
+  { label:'시기별 흐름', slide:22 },
+  { label:'종합 해석과 앞으로의 방향', slide:24 },
 ];
 
 // 슬라이드 상수
 const FREE_END  = 11;  // GUIDE가 마지막 무료 슬라이드
-const AI_START  = 13;  // 당신은 누구부터 유료
+const AI_START  = 13;  // 당신은 누구부터 유료 (핵심 요약 아이템 슬라이드 12 제거)
 const GUIDE     = 11;  // 목차 안내 슬라이드
-// ⭐ V2.4.0 (2026-05-15) — 목차 정리로 마지막 슬라이드 25 → 21
-const TOTAL     = 22;
+const TOTAL     = 28;
 const PRICE     = 32900;  // 평생사주 소비자가
 
 // 에너지 점수
@@ -194,124 +194,6 @@ function getSipseongCounts(sipseong:SajuAnalysis['sipseong']) {
   cl(sipseong.day.branch);
   if (sipseong.hour) { cl(sipseong.hour.stem); cl(sipseong.hour.branch); }
   return cat;
-}
-
-// ⭐ V2.2.4 (2026-05-15) — 1장 친절화: EducationPage 다크 골드판 (연애사주 패턴 이식)
-// 각 sub = 큰 제목 + 부제목 + 본문(친절 어미) + 시각화. WordMarkGold로 핵심 용어 강조.
-function EducationPageDark({
-  title, subtitle, children,
-}: { title: string; subtitle?: string; children: React.ReactNode }) {
-  return (
-    <div className="py-7 first:pt-2" style={{ borderBottom: "1px solid rgba(201,150,12,0.18)" }}>
-      <div className="text-center mb-5">
-        <h2 className="text-[20px] font-bold leading-tight" style={{ color: '#f0c040' }}>{title}</h2>
-        {subtitle && (
-          <p className="text-[13px] mt-1.5" style={{ color: 'rgba(201,150,12,0.78)' }}>{subtitle}</p>
-        )}
-      </div>
-      {children}
-    </div>
-  );
-}
-function BodyCopyDark({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-[15px] leading-[1.95] mt-5 mb-5 px-1" style={{ color: 'rgba(255,255,255,0.86)' }}>
-      {children}
-    </div>
-  );
-}
-function WordMarkGold({ children }: { children: React.ReactNode }) {
-  return <b style={{ color: '#f0c040', fontWeight: 700 }}>{children}</b>;
-}
-
-// ⭐ V2.2.5 (2026-05-15) — 신강신약 7단계 게이지 (연애사주판 다크 골드 포팅)
-// 기존 평생사주 신강신약 (큰 점수 게이지)을 7단계 점진형으로 교체.
-const SHINKANG_LEVELS_DARK = ["극약", "태약", "신약", "중화", "신강", "태강", "극왕"] as const;
-const SHINKANG_LABEL_DARK: Record<DayMasterStrengthLevel, string> = {
-  극약: "극약(極弱)", 태약: "태약(太弱)", 신약: "신약(身弱)", 중화: "중화(中和)",
-  신강: "신강(身强)", 태강: "태강(太强)", 극왕: "극왕(極旺)",
-};
-const SHINKANG_SHORT_DARK: Record<DayMasterStrengthLevel, string> = {
-  극약: "외부 결을 받아 자라는 사주",
-  태약: "의지할 결을 찾는 협력형",
-  신약: "신중하게 받아들이는 결",
-  중화: "균형 잡힌 결",
-  신강: "자기 결이 단단한 사주",
-  태강: "강한 자기 색을 가진 결",
-  극왕: "독자적으로 길을 만드는 결",
-};
-function ShinkangGaugeDark({ level }: { level: DayMasterStrengthLevel }) {
-  const activeIdx = SHINKANG_LEVELS_DARK.indexOf(level);
-  const GOLD = '#f0c040';
-  return (
-    <div className="my-5">
-      {/* 상단 7 점 가로 게이지 */}
-      <div className="relative my-5">
-        <div className="absolute left-0 right-0 h-px" style={{ top: 6, background: "rgba(201,150,12,0.35)" }} />
-        <div className="relative grid grid-cols-7 gap-0">
-          {SHINKANG_LEVELS_DARK.map((lv, i) => {
-            const isActive = i === activeIdx;
-            return (
-              <div key={lv} className="flex flex-col items-center">
-                <div
-                  className="rounded-full transition-all"
-                  style={{
-                    width: isActive ? 13 : 9,
-                    height: isActive ? 13 : 9,
-                    background: isActive ? GOLD : "rgba(201,150,12,0.45)",
-                    boxShadow: isActive ? `0 0 0 3px ${GOLD}33` : undefined,
-                  }}
-                />
-                <div
-                  className="text-[11px] mt-2"
-                  style={{
-                    color: isActive ? GOLD : "rgba(255,255,255,0.55)",
-                    fontWeight: isActive ? 800 : 500,
-                  }}
-                >{lv}</div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      {/* 본인 결 단언 박스 */}
-      <div className="mx-auto my-5 px-5 py-3 rounded-md text-center"
-        style={{ maxWidth: 320, border: `1px solid ${GOLD}55`, background: `${GOLD}10` }}>
-        <div className="text-[13px] font-bold" style={{ color: GOLD }}>
-          일간 깊은 {SHINKANG_LABEL_DARK[level]} 사주
-        </div>
-        <div className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.65)" }}>
-          · {SHINKANG_SHORT_DARK[level]} ·
-        </div>
-      </div>
-      {/* 하단 7단계 한 줄 설명 표 */}
-      <div className="mt-5">
-        <div className="text-[11px] mb-2 text-center" style={{ color: "rgba(255,255,255,0.55)" }}>
-          7단계가 뭔가요?
-        </div>
-        <div className="rounded-md overflow-hidden" style={{ border: "1px solid rgba(201,150,12,0.25)" }}>
-          {SHINKANG_LEVELS_DARK.map((lv, i) => {
-            const isActive = i === activeIdx;
-            return (
-              <div key={lv}
-                className="grid grid-cols-[80px_1fr] items-center py-2 px-3"
-                style={{
-                  background: isActive ? "rgba(240,192,64,0.12)" : i % 2 === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)",
-                  borderTop: i > 0 ? "1px solid rgba(201,150,12,0.15)" : undefined,
-                }}>
-                <div className="text-[12px] font-bold"
-                  style={{ color: isActive ? GOLD : "rgba(255,255,255,0.7)" }}>{lv}</div>
-                <div className="text-[11.5px]"
-                  style={{ color: isActive ? GOLD : "rgba(255,255,255,0.7)", fontWeight: isActive ? 700 : 400 }}>
-                  {SHINKANG_SHORT_DARK[lv]}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 // 텍스트 포맷터
@@ -505,17 +387,20 @@ function getSectionBadges(key: string, data: SajuAnalysis): string[] {
   const jaesong = allSS.filter(s => s==='편재'||s==='정재');
   const bigyeop = allSS.filter(s => s==='비견'||s==='겁재');
 
-  // ⭐ V2.4.0 — love2/love3/timeline2/closing 키 제거
   const map: Record<string, string[]> = {
     personality1: [ilchu, wolji, yongsin],
     personality2: [ilchu, `일지 ${data.sipseong.day.branch}`, `월간 ${data.sipseong.month.stem}`],
     money1:       [`재성 ${jaesong.length ? jaesong.join('·') : '없음'}`, `비겁 ${bigyeop.length}개`, yongsin],
     money2:       [yongsin, wolji, ilchu],
     love1:        [baewoo, ilchu, sinsal].filter(Boolean) as string[],
+    love2:        [baewoo, `식상 ${allSS.filter(s=>s==='식신'||s==='상관').length}개`, ilchu],
+    love3:        [baewoo, yongsin, sinsal].filter(Boolean) as string[],
     health:       [`부족 오행 ${weakEl.length ? weakEl.join('·') : '없음'}`, yongsin, ilchu],
     hidden:       [ilchu, sinsal || '신살 없음', yongsin],
     timeline1:    [ilchu, wolji, yongsin],
+    timeline2:    [`2026~2030 세운`, ilchu, yongsin],
     compass:      [yongsin, ilchu, wolji],
+    closing:      [ilchu, yongsin, sinsal || ''],
   };
   return (map[key] ?? [ilchu, yongsin]).filter(Boolean).slice(0, 3);
 }
@@ -653,12 +538,9 @@ export default function SajuSlideResult() {
       const newSearch = urlParams.toString();
       window.history.replaceState({}, '', `${window.location.pathname}${newSearch ? '?' + newSearch : ''}`);
     }
-    // ⭐ V2.2.8 (2026-05-15) — 결제 완료 직후 → 1장(slide 2 = 내 사주의 기본 구조)부터
-    // 시작. 기존엔 AI_START(13 = 챕터2)로 바로 점프해서 친절 안내 1장을 건너뛰던 문제.
-    // 영상이 끝나면 1장 통합 스크롤(사주란?·일주·오행·신강신약·사주팔자·십성)을 보고
-    // "다음 챕터" 누르면 그때 AI 섹션(slide 13)으로 진입.
+    // 결제 완료 직후 (unlocked=1 또는 justpaid=1) → 당신은 누구(AI_START)로 자동 점프
     if (isUnlocked || justPaid) {
-      setSlide(2);
+      setSlide(AI_START);
       setOvPage(0);
     }
   }, []);
@@ -850,17 +732,14 @@ export default function SajuSlideResult() {
     setQaLoading(true);
 
     // 각 섹션의 인트로(핵심 요약)를 모아 Q&A context 구성
-    // ⭐ V2.4.0 — love2/love3/timeline2/closing 제거
     const KEY_LABELS: Record<string,string> = {
-      personality1:'나라는 사람',
-      personality2:'타고난 재능',
-      money1:'재물·재테크',
-      money2:'직업·사업',
-      love1:'인연과 결혼',
-      health:'몸·마음 리듬',
-      hidden:'사주의 그늘',
-      timeline1:'시기 흐름',
-      compass:'평생 방향',
+      personality1:'나라는 사람 (강점·성격)',
+      personality2:'나라는 사람 (일주·재능)',
+      money1:'재물운', money2:'직업운',
+      love1:'사랑·궁합', love2:'연애 스타일', love3:'결혼운',
+      health:'건강', hidden:'숨겨진 카드',
+      timeline1:'대운 흐름', timeline2:'세운 흐름',
+      compass:'나침반', closing:'마무리',
     };
     const summaries = Object.entries(KEY_LABELS).map(([key, label]) => {
       const pages = aiPages[key];
@@ -1103,7 +982,14 @@ export default function SajuSlideResult() {
     if (slide===6)        { setSlide(2); return; }
     if (slide===7)        { setSlide(2); return; }
     if (slide===12)       { setSlide(13); return; }   // 핵심 요약 슬라이드 제거 — 직접 진입 시 다음으로 점프
-    // ⭐ V2.4.0 — 슬라이드 17(love1) → 18(health), 18→19(hidden), ... 21(compass) 마지막 (연속 1씩 증가, 건너뛰기 없음)
+    if (slide===17)       { setSlide(20); return; }   // 인연의 자리 머지 → 몸과 마음 (love2·3 건너뜀)
+    if (slide===18)       { setSlide(20); return; }   // love2/3 직접 진입 시 다음으로
+    if (slide===19)       { setSlide(20); return; }
+    if (slide===22)       { setSlide(24); return; }   // 시기별 흐름 머지 → 종합 해석 (timeline2 건너뜀)
+    if (slide===23)       { setSlide(24); return; }   // timeline2 직접 진입 시
+    if (slide===24)       { setSlide(27); return; }   // 종합 해석 머지 → 마지막 (closing·Q&A 건너뜀)
+    if (slide===25)       { setSlide(27); return; }   // closing 직접 진입 시
+    if (slide===26)       { setSlide(27); return; }   // Q&A 직접 진입 시
     if (slide<TOTAL-1)    setSlide(s=>s+1);
   }
   function goPrev() {
@@ -1120,7 +1006,19 @@ export default function SajuSlideResult() {
     if (slide===1)   { setSlide(0); return; }    // 직접 진입 대비
     if (slide===13)  { setSlide(2); return; }    // 첫 유료 페이지 → 무료 머지 페이지 B
     if (slide===12)  { setSlide(2); return; }    // 핵심 요약 슬라이드 제거 — 무료로 복귀
-    // ⭐ V2.4.0 — 슬라이드 14~21 모두 1씩 감소 (건너뛰기 없음)
+    if (slide===14)  { setSlide(13); return; }   // 타고난 재능의 방향 → 나는 어떤 사람인가
+    if (slide===15)  { setSlide(14); return; }   // 돈과 현실 감각 → 타고난 재능의 방향
+    if (slide===16)  { setSlide(15); return; }   // 일과 직업의 방향 → 돈과 현실 감각
+    if (slide===17)  { setSlide(16); return; }   // 사람과 인연 → 일과 직업의 방향
+    if (slide===20)  { setSlide(17); return; }   // 몸과 마음 → 인연의 자리 (love2·3 건너뜀)
+    if (slide===18)  { setSlide(17); return; }   // 직접 진입 대비
+    if (slide===19)  { setSlide(17); return; }
+    if (slide===21)  { setSlide(20); return; }   // 특수 기운 → 몸과 마음
+    if (slide===22)  { setSlide(21); return; }   // 시기별 흐름 → 특수 기운
+    if (slide===24)  { setSlide(22); return; }   // 종합 해석 → 시기별 흐름 (timeline2 건너뜀)
+    if (slide===25)  { setSlide(24); return; }   // closing 직접 진입 시
+    if (slide===26)  { setSlide(24); return; }   // Q&A 직접 진입 시
+    if (slide===27)  { setSlide(24); return; }   // 마지막 → 종합 해석 (Q&A·closing 건너뜀)
     if (slide>0) setSlide(s=>s-1);
   }
   function goSlide(n:number) {
@@ -1136,15 +1034,15 @@ export default function SajuSlideResult() {
 
   // 전체 풀이 공유
   function handleShareFull() {
-    // ⭐ V2.4.0 — 9 섹션 (love2·3·timeline2·closing 제거)
     const aiKeys = [
-      { title:'나라는 사람',     keys:['personality1','personality2'] },
-      { title:'돈과 일',         keys:['money1','money2'] },
-      { title:'인연과 결혼',     keys:['love1'] },
-      { title:'몸과 마음',       keys:['health'] },
-      { title:'사주의 그늘',     keys:['hidden'] },
-      { title:'시기별 흐름',     keys:['timeline1'] },
-      { title:'평생 방향',       keys:['compass'] },
+      { title:'나라는 사람',   keys:['personality1','personality2'] },
+      { title:'돈과 일',       keys:['money1','money2'] },
+      { title:'사람과 사랑',   keys:['love1','love2','love3'] },
+      { title:'몸과 마음',     keys:['health'] },
+      { title:'숨겨진 카드',   keys:['hidden'] },
+      { title:'흐르는 시간',   keys:['timeline1','timeline2'] },
+      { title:'나침반',        keys:['compass'] },
+      { title:'결',            keys:['closing'] },
     ];
     const opener = aiContent['opener']?.content || '';
     const body = aiKeys.map(sec => {
@@ -1156,6 +1054,35 @@ export default function SajuSlideResult() {
       navigator.share({ title:`${name}님의 평생 사주 풀이`, text }).catch(()=>{});
     } else {
       navigator.clipboard?.writeText(text).then(()=>alert('풀이 전체가 복사되었습니다!')).catch(()=>{});
+    }
+  }
+
+  // 사주 아이템 6가지 공유
+  function handleShareItems() {
+    const overviewContent = aiContent['overview']?.content || '';
+    function extractItem(emoji: string): string {
+      const line = overviewContent.split('\n').find(l => l.includes(emoji));
+      if (!line) return '';
+      const dashIdx = line.indexOf('—');
+      const colonIdx = line.indexOf(':');
+      if (colonIdx < 0) return '';
+      const raw = dashIdx >= 0 ? line.slice(colonIdx + 1, dashIdx) : line.slice(colonIdx + 1);
+      return raw.replace(/\*\*/g, '').trim();
+    }
+    const items = [
+      { emoji:'🐯', label:'수호 동물' },
+      { emoji:'🌸', label:'궁합 식물' },
+      { emoji:'🎨', label:'행운 색깔' },
+      { emoji:'🔢', label:'행운 숫자' },
+      { emoji:'🐾', label:'궁합 동물' },
+      { emoji:'💎', label:'궁합 보석' },
+    ];
+    const lines = items.map(({ emoji, label }) => `${emoji} ${label}: ${extractItem(emoji) || '?'}`).join('\n');
+    const text = `✨ 내 사주 아이템 6가지\n\n${lines}\n\n나도 알아보기 → https://saju-kappa-hazel.vercel.app/saju`;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      navigator.share({ title:'내 사주 아이템 6가지', text }).catch(()=>{});
+    } else {
+      navigator.clipboard?.writeText(text).then(()=>alert('복사되었습니다!')).catch(()=>{});
     }
   }
 
@@ -1315,15 +1242,11 @@ export default function SajuSlideResult() {
         { label:'연주(年柱)', sub:'뿌리·유년', p:pillars.year,  ss:sipseong.year,  empty:false,          isDay:false },
       ];
       return (
-        <EducationPageDark title="사주란? — 네 기둥, 여덟 글자" subtitle="四柱八字 — 운명의 설계도">
-          <BodyCopyDark>
-            사주(<WordMarkGold>四柱</WordMarkGold>)는 <WordMarkGold>네 개의 기둥</WordMarkGold>, 팔자(<WordMarkGold>八字</WordMarkGold>)는 <WordMarkGold>여덟 글자</WordMarkGold>를 뜻해요.
-            태어난 연·월·일·시 네 기둥에 천간과 지지가 한 글자씩 — 모두 여덟 글자가 {name||'본인'}님만의 운명 설계도가 됩니다.
-          </BodyCopyDark>
-          <BodyCopyDark>
-            그 가운데 가장 중요한 기둥이 <WordMarkGold>일주(日柱)</WordMarkGold> — {name||'본인'}님의 본질이 담긴 자리예요.
-            양옆의 연주·월주·시주는 그 본질을 둘러싼 환경의 결을 보여줍니다.
-          </BodyCopyDark>
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">사주원국 (四柱原局)</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>태어난 연·월·일·시로 본 당신의 타고난 운명 설계도</p>
+          </div>
           <div className="flex gap-1.5">
             {cols.map(c=>(
               <div key={c.label} className="flex-1 flex flex-col items-center rounded-xl py-3 px-1 gap-1"
@@ -1362,13 +1285,13 @@ export default function SajuSlideResult() {
               </div>
             ))}
           </div>
-          <div className="rounded-xl p-3 space-y-2 mt-4" style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
+          <div className="rounded-xl p-3 space-y-2" style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
             <p className="text-xs font-semibold mb-2" style={{color:BRIGHT}}>각 기둥이 말하는 것</p>
             {([
-              { k:'연주(年柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 해의 기운. 조상에게 물려받은 기질과 어린 시절 환경을 담고 있어요.' },
-              { k:'월주(月柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 달의 기운. 청년기의 성장 환경과 사회에서의 역할·직업운을 나타내요.' },
-              { k:'일주(日柱)', color:BRIGHT,                   desc:'태어난 날의 기운. 나 자신의 본질과 배우자 자리. 사주에서 가장 핵심 기둥이에요.' },
-              { k:'시주(時柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 시의 기운. 노년의 삶과 자녀와의 인연, 말년 복을 나타내요.' },
+              { k:'연주(年柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 해의 기운. 조상에게 물려받은 기질과 어린 시절 환경을 담고 있습니다.' },
+              { k:'월주(月柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 달의 기운. 청년기의 성장 환경과 사회에서의 역할·직업운을 나타냅니다.' },
+              { k:'일주(日柱)', color:BRIGHT,                   desc:'태어난 날의 기운. 나 자신의 본질과 배우자 자리. 사주에서 가장 핵심 기둥입니다.' },
+              { k:'시주(時柱)', color:'rgba(255,255,255,0.90)', desc:'태어난 시의 기운. 노년의 삶과 자녀와의 인연, 말년 복을 나타냅니다.' },
             ] as const).map(({k,color,desc})=>(
               <div key={k}>
                 <span className="text-xs font-bold" style={{color}}>{k}</span>
@@ -1376,49 +1299,38 @@ export default function SajuSlideResult() {
               </div>
             ))}
           </div>
-        </EducationPageDark>
+        </div>
       );
     };
 
-    // ─ Slide 3: 일간 소개 (1장 통합 스크롤에 포함되도록 함수화) ─
-    const renderSlide3 = () => {
+    // ─ Slide 3: 일간 소개 ─
+    if (slide===3) {
       const info = ILGAN_INFO[sajuData!.ilgan];
       return (
-        <EducationPageDark title="일주 — 사주의 중심" subtitle="日柱 — 본인의 본질이 담긴 자리">
-          <BodyCopyDark>
-            일주는 태어난 날을 뜻해요. 네 기둥 중에서도 가장 중요한 자리지요.
-            {' '}{name||'본인'}님의 본질은 일간 <WordMarkGold>{info?.hanja}({info?.name})</WordMarkGold>에 담겨 있어요.
-          </BodyCopyDark>
-          <div className="flex flex-col items-center text-center gap-4 py-2">
-            <div className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold"
-              style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}99`,color:'#f0c040'}}>
-              {info?.hanja||'?'}
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-white">{info?.name}</h3>
-              <p className="text-sm mt-2 leading-relaxed max-w-[280px]" style={{color:'rgba(255,255,255,0.82)'}}>{info?.desc}</p>
-            </div>
-            <div className="flex gap-2 flex-wrap justify-center">
-              {info?.tags.map(t=>(
-                <span key={t} className="text-xs px-3 py-1 rounded-full"
-                  style={{backgroundColor:`${ACCENT}25`,color:'#f0c040'}}>{t}</span>
-              ))}
-            </div>
+        <div className="flex-1 flex flex-col items-center justify-center text-center gap-5 py-6">
+          <p className="text-sm font-semibold" style={{color:'rgba(255,255,255,0.85)'}}>일간(日干) 소개</p>
+          <div className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-bold"
+            style={{backgroundColor:`${ACCENT}20`,border:`2px solid ${ACCENT}99`,color:'#f0c040'}}>
+            {info?.hanja||'?'}
           </div>
-          <BodyCopyDark>
-            이 결이 {name||'본인'}님의 본 모습이에요.
-            앞으로 풀어나갈 모든 풀이의 출발점이 바로 이 일간이지요.
-          </BodyCopyDark>
-        </EducationPageDark>
+          <div>
+            <h3 className="text-lg font-bold text-white">{info?.name}</h3>
+            <p className="text-sm mt-2 leading-relaxed max-w-[260px]" style={{color:'rgba(255,255,255,0.82)'}}>{info?.desc}</p>
+          </div>
+          <div className="flex gap-2 flex-wrap justify-center">
+            {info?.tags.map(t=>(
+              <span key={t} className="text-xs px-3 py-1 rounded-full"
+                style={{backgroundColor:`${ACCENT}25`,color:'#f0c040'}}>{t}</span>
+            ))}
+          </div>
+        </div>
       );
-    };
-
-    // 슬라이드 3 단독 진입 — 1장 스크롤이 아닌 직접 슬라이드 3으로 왔을 때
-    if (slide===3) return renderSlide3();
+    }
 
     // ─ Slide 4: 오행 분포 (거미줄 레이더) ─
     const renderSlide4 = () => {
       const { elements, yongsin } = sajuData!;
+      const total = Object.values(elements).reduce((a,b)=>a+b,0)||1;
       const ELEM_DESC: Record<string,string> = {
         목:'창의·성장', 화:'열정·표현', 토:'안정·신뢰', 금:'결단·의지', 수:'지혜·직관',
       };
@@ -1427,27 +1339,79 @@ export default function SajuSlideResult() {
         토:'믿음직하고 안정감을 주는 사람', 금:'논리적이고 결단력 있는 사람',
         수:'직관이 강하고 유연한 사람',
       };
+      const ELEM_ORDER = ['목','화','토','금','수'];
       const topEl = (Object.entries(elements).sort((a,b)=>b[1]-a[1])[0]?.[0]) ?? '목';
-      const elemStrongName = topEl;
-      const elemEntries = Object.entries(elements).sort((a,b)=>(a[1] as number)-(b[1] as number));
-      const elemWeakName = (elemEntries[0]?.[0] as string) || '목';
+      const cx=170, cy=175, R=88;
+      const MIN_SCALE = 0.05;
+      const maxVal = Math.max(...ELEM_ORDER.map(el=>((elements as Record<string,number>)[el]||0)), 1);
+      const angs = ELEM_ORDER.map((_,i)=>(i*72-90)*Math.PI/180);
+      const pt = (i:number, s:number):[number,number] => [
+        cx + R*s*Math.cos(angs[i]),
+        cy + R*s*Math.sin(angs[i]),
+      ];
+      const gridPts = (s:number) => ELEM_ORDER.map((_,i)=>pt(i,s).join(',')).join(' ');
+      const dataPts = ELEM_ORDER.map((el,i)=>{
+        const raw = ((elements as Record<string,number>)[el]||0)/maxVal;
+        const s = Math.max(MIN_SCALE, raw);
+        return pt(i,s).join(',');
+      }).join(' ');
+      const LO = 1.48;
       return (
-        <EducationPageDark title="오행 — 다섯 결의 균형" subtitle="木·火·土·金·水">
-          <BodyCopyDark>
-            사주의 여덟 글자는 결국 <WordMarkGold>목·화·토·금·수</WordMarkGold> 다섯 결로 나뉘어요.
-            이 다섯 결이 어떻게 분포해 있는지가 {name||'본인'}님의 성격·재능·삶의 결을 만들지요.
-          </BodyCopyDark>
-          <BodyCopyDark>
-            {name||'본인'}님 사주는 <WordMarkGold>{elemStrongName}({ELEM_HANJA[elemStrongName]})</WordMarkGold>의 결이 넘치고
-            {' '}<WordMarkGold>{elemWeakName}({ELEM_HANJA[elemWeakName]})</WordMarkGold>의 결이 옅게 자리한 분포예요.
-            그래서 가장 필요한 보충제가 아래 <WordMarkGold>용신(用神)</WordMarkGold>이에요 — 평생 채워가야 할 결이지요.
-          </BodyCopyDark>
-          {/* ⭐ V2.2.5 — 작은 거미줄 (SajuVisuals 컴포넌트로 교체) */}
-          <SajuElementsRadar elements={elements as Record<string, number>} />
-          {/* ⭐ V2.2.5 — 오행 강·약 막대 리스트 (부모와자녀에서 가져온 것) */}
-          <SajuElementsSpectrum elements={elements as Record<string, number>} />
+        <div className="flex-1 py-2 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-white">오행 분포</h2>
+            <p className="text-sm mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>타고난 다섯 에너지의 균형</p>
+          </div>
+          {/* 거미줄 SVG */}
+          <div className="flex justify-center">
+            <svg width="340" height="330" viewBox="0 0 340 330">
+              {/* 그리드 거미줄 */}
+              {[0.25,0.5,0.75,1.0].map((s,gi)=>(
+                <polygon key={gi} points={gridPts(s)}
+                  fill="none"
+                  stroke={s===1.0?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.10)'}
+                  strokeWidth={s===1.0?1.2:0.8}/>
+              ))}
+              {/* 축선 (중심 → 꼭짓점) */}
+              {ELEM_ORDER.map((_,i)=>{
+                const [x,y]=pt(i,1);
+                return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
+                  stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>;
+              })}
+              {/* 데이터 폴리곤 */}
+              <polygon points={dataPts}
+                fill={`${ELEM_COLORS[topEl]}35`}
+                stroke={ELEM_COLORS[topEl]}
+                strokeWidth="2.5"
+                strokeLinejoin="round"/>
+              {/* 외부 레이블 */}
+              {ELEM_ORDER.map((el,i)=>{
+                const [lx,ly]=pt(i,LO);
+                const pct=Math.round(((elements as Record<string,number>)[el]||0)/total*100);
+                const isTop=el===topEl;
+                const anchor = lx<cx-10?'end':lx>cx+10?'start':'middle';
+                const dx = anchor==='end'?-4:anchor==='start'?4:0;
+                return (
+                  <g key={i}>
+                    <text x={lx+dx} y={ly-12} textAnchor={anchor} fontSize="24" fontWeight="bold"
+                      fill={ELEM_COLORS[el]}>
+                      {ELEM_HANJA[el]}
+                    </text>
+                    <text x={lx+dx} y={ly+12} textAnchor={anchor} fontSize="18" fontWeight={isTop?'bold':'normal'}
+                      fill={ELEM_COLORS[el]}>
+                      {pct}%
+                    </text>
+                    <text x={lx+dx} y={ly+28} textAnchor={anchor} fontSize="13"
+                      fill="rgba(255,255,255,0.65)">
+                      {ELEM_DESC[el].split('·')[0]}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
           {/* 용신 */}
-          <div className="rounded-xl px-4 py-3 flex items-center gap-3 mt-4"
+          <div className="rounded-xl px-4 py-3 flex items-center gap-3"
             style={{backgroundColor:`${ELEM_COLORS[yongsin]}22`,border:`1.5px solid ${ELEM_COLORS[yongsin]}77`}}>
             <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
               style={{backgroundColor:`${ELEM_COLORS[yongsin]}33`,border:`1.5px solid ${ELEM_COLORS[yongsin]}`}}>
@@ -1459,45 +1423,49 @@ export default function SajuSlideResult() {
             </div>
           </div>
           {/* 정체성 */}
-          <div className="rounded-xl px-4 py-3 text-center mt-2"
+          <div className="rounded-xl px-4 py-3 text-center"
             style={{backgroundColor:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.14)'}}>
-            <p className="text-sm" style={{color:'rgba(255,255,255,0.60)'}}>{name||'본인'}님은</p>
+            <p className="text-sm" style={{color:'rgba(255,255,255,0.60)'}}>당신은</p>
             <p className="text-base font-bold text-white mt-1">{ELEM_HANJA[topEl]}{topEl}형 — {TYPE_DESC[topEl]}</p>
           </div>
-        </EducationPageDark>
+        </div>
       );
     };
 
     // ─ Slide 5: 신강신약 (에너지 총량) — 무료 영역에 복원 (2026-05-14) ─
     const renderSlide5 = () => {
-      const sd = sajuData!;
-      // ⭐ V2.2.5 — 7단계 신강신약 (연애사주판 ShinkangGauge 다크 골드 포팅)
-      const allBranches = [
-        sd.pillars.year.branch,
-        sd.pillars.month.branch,
-        sd.pillars.day.branch,
-        ...(sd.pillars.hour ? [sd.pillars.hour.branch] : []),
-      ];
-      const otherStems = [
-        sd.pillars.year.stem,
-        sd.pillars.month.stem,
-        ...(sd.pillars.hour ? [sd.pillars.hour.stem] : []),
-      ];
-      let level: DayMasterStrengthLevel = '중화';
-      try {
-        level = getDayMasterStrength(sd.ilgan, sd.pillars.month.branch, allBranches, otherStems).level;
-      } catch {}
+      const { score, label, max } = calcEnergyScore(sajuData!.elements);
+      const pct = Math.round((score/max)*100);
       return (
-        <EducationPageDark title="신강신약 — 일간의 두께" subtitle="身强身弱 — 본인 결의 강도">
-          <BodyCopyDark>
-            일간(<WordMarkGold>{name||'본인'}님의 본질</WordMarkGold>)의 힘이 사주 안에서 얼마나 두텁게 자리하는지 보는 게 <WordMarkGold>신강신약</WordMarkGold>이에요.
-            오행 분포와 자리(월지·일지)에서 받는 힘을 종합해 7단계로 나뉩니다.
-          </BodyCopyDark>
-          <ShinkangGaugeDark level={level} />
-          <BodyCopyDark>
-            {name||'본인'}님은 <WordMarkGold>{SHINKANG_LABEL_DARK[level]}</WordMarkGold> — 신강 쪽이면 에너지를 발산할 출구를, 신약 쪽이면 받쳐줄 결을 챙겨야 균형이 잡혀요.
-          </BodyCopyDark>
-        </EducationPageDark>
+        <div className="flex flex-col items-center gap-4 py-2">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">신강신약 (身强身弱)</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.60)'}}>일간의 힘이 강한지 약한지 — 용신 결정의 출발점</p>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold" style={{color:ACCENT}}>{score}</div>
+            <div className="text-sm text-white/40 mt-1">/ {max}</div>
+          </div>
+          <div className="w-full">
+            <div className="h-3 rounded-full overflow-hidden" style={{backgroundColor:`${ACCENT}15`}}>
+              <div className="h-full rounded-full" style={{width:`${pct}%`,background:`linear-gradient(90deg,${ACCENT}88,${ACCENT})`}}/>
+            </div>
+            <div className="flex justify-between mt-1">
+              <span className="text-[10px] text-white/30">신약</span>
+              <span className="text-[10px] text-white/30">신왕</span>
+            </div>
+          </div>
+          <div className="text-center py-3 px-6 rounded-2xl" style={{backgroundColor:`${ACCENT}15`}}>
+            <p className="text-base font-bold" style={{color:ACCENT}}>{label}</p>
+            <p className="text-xs text-white/50 mt-1">
+              {label==='신약(身弱)'?'에너지를 아끼고 기를 보충하는 것이 중요합니다':
+               label==='편약(偏弱)'?'특정 오행이 치우쳐 균형이 필요합니다':
+               label==='중화(中和)'?'오행이 균형 잡혀 안정적인 기운입니다':
+               label==='신강(身强)'?'강한 기운을 발산할 출구가 필요합니다':
+               '넘치는 에너지를 잘 다스리는 것이 핵심입니다'}
+            </p>
+          </div>
+        </div>
       );
     };
 
@@ -1527,12 +1495,11 @@ export default function SajuSlideResult() {
         { label:'시주(時柱)', sub:'노년·자녀', p:isHourUnknown?null:pillars.hour, ss:isHourUnknown?null:sipseong.hour, isDay:false },
       ];
       return (
-        <EducationPageDark title="사주팔자 — 여덟 글자에 담긴 코드" subtitle="四柱八字 — 글자별 십성 보기">
-          <BodyCopyDark>
-            같은 네 기둥을 이번엔 글자별로 한 번 더 봐요.
-            각 글자마다 일간과 어떤 관계인지 — <WordMarkGold>십성(十星)</WordMarkGold>이 함께 표시됩니다.
-            십성은 비견·식상·재성·관성·인성 다섯 가지 기능으로 나뉘어 {name||'본인'}님의 성향과 재능 결을 가르지요.
-          </BodyCopyDark>
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">사주팔자 (四柱八字)</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.60)'}}>여덟 글자에 담긴 나의 운명 코드</p>
+          </div>
           <div className="grid grid-cols-2 gap-2">
             {rows.map(r=>(
               <div key={r.label} className="rounded-xl p-3 flex flex-col gap-1.5"
@@ -1590,7 +1557,7 @@ export default function SajuSlideResult() {
               </div>
             ))}
           </div>
-        </EducationPageDark>
+        </div>
       );
     };
 
@@ -1614,18 +1581,68 @@ export default function SajuSlideResult() {
         { key:'관성', desc:'책임감·명예욕·조직 적응력이 강합니다' },
         { key:'인성', desc:'공부 운·어머니 덕·배움의 욕구가 있습니다' },
       ];
+      const SS_ORDER = ['비겁','식상','재성','관성','인성'];
+      const maxCount = Math.max(...Object.values(counts),1);
       const topCat = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]?.[0] ?? '비겁';
+      const cx=170, cy=175, R=88;
+      const MIN_SCALE = 0.05;
+      const angs = SS_ORDER.map((_,i)=>(i*72-90)*Math.PI/180);
+      const pt = (i:number, s:number):[number,number] => [
+        cx + R*s*Math.cos(angs[i]),
+        cy + R*s*Math.sin(angs[i]),
+      ];
+      const gridPts = (s:number) => SS_ORDER.map((_,i)=>pt(i,s).join(',')).join(' ');
+      const dataPts = SS_ORDER.map((cat,i)=>{
+        const raw = (counts[cat]||0)/maxCount;
+        const s = Math.max(MIN_SCALE, raw);
+        return pt(i,s).join(',');
+      }).join(' ');
+      const LO = 1.48;
       return (
-        <EducationPageDark title="십성 — 자리마다의 역할" subtitle="十星 — 다섯 가지 관계 에너지">
-          <BodyCopyDark>
-            앞에서 본 글자별 십성을 다섯 범주로 묶으면 <WordMarkGold>비겁·식상·재성·관성·인성</WordMarkGold>이 돼요.
-            어느 결이 많고 적은지가 {name||'본인'}님의 성향과 재능의 큰 줄기를 결정하지요.
-          </BodyCopyDark>
-          <BodyCopyDark>
-            가장 많이 자리한 결이 <WordMarkGold>{topCat}</WordMarkGold> — {SS_DESC_LONG[topCat]}.
-          </BodyCopyDark>
-          {/* ⭐ V2.2.5 — 작은 십성 레이더 (SajuVisuals 컴포넌트로 교체) */}
-          <SajuSipseongRadar counts={countSipseongFromSaju(sajuData!)} />
+        <div className="flex-1 py-3 flex flex-col gap-3">
+          <div className="text-center">
+            <h2 className="text-lg font-bold text-white">십성 배치도</h2>
+            <p className="text-xs mt-0.5" style={{color:'rgba(255,255,255,0.70)'}}>나를 구성하는 다섯 가지 관계 에너지</p>
+          </div>
+          <div className="flex justify-center">
+            <svg width="360" height="300" viewBox="-10 10 360 300">
+              {[0.25,0.5,0.75,1.0].map((s,gi)=>(
+                <polygon key={gi} points={gridPts(s)}
+                  fill="none"
+                  stroke={s===1.0?'rgba(255,255,255,0.25)':'rgba(255,255,255,0.10)'}
+                  strokeWidth={s===1.0?1.2:0.8}/>
+              ))}
+              {SS_ORDER.map((_,i)=>{
+                const [x,y]=pt(i,1);
+                return <line key={i} x1={cx} y1={cy} x2={x} y2={y}
+                  stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>;
+              })}
+              <polygon points={dataPts}
+                fill={`${catColors[topCat]}35`}
+                stroke={catColors[topCat]}
+                strokeWidth="2.5"
+                strokeLinejoin="round"/>
+              {SS_ORDER.map((cat,i)=>{
+                const [lx,ly]=pt(i,LO);
+                const n = counts[cat]||0;
+                const isTop = cat===topCat;
+                const anchor = lx<cx-10?'end':lx>cx+10?'start':'middle';
+                const dx = anchor==='end'?-4:anchor==='start'?4:0;
+                return (
+                  <g key={i}>
+                    <text x={lx+dx} y={ly-6} textAnchor={anchor} fontSize="18" fontWeight="bold"
+                      fill={catColors[cat]}>
+                      {cat}
+                    </text>
+                    <text x={lx+dx} y={ly+14} textAnchor={anchor} fontSize="16" fontWeight={isTop?'bold':'normal'}
+                      fill={catColors[cat]}>
+                      {n}개
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
           {/* 기운 설명 리스트 */}
           <div className="rounded-xl px-4 py-3 space-y-2"
             style={{backgroundColor:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.12)'}}>
@@ -1644,7 +1661,7 @@ export default function SajuSlideResult() {
               {topCat} — {SS_DESC_LONG[topCat]}
             </p>
           </div>
-        </EducationPageDark>
+        </div>
       );
     };
 
@@ -1849,9 +1866,8 @@ export default function SajuSlideResult() {
       </div>
     );
     if (slide===2) return (
-      <div className="flex-1 flex flex-col overflow-y-auto gap-2 py-2">
+      <div className="flex-1 flex flex-col overflow-y-auto gap-6 py-2">
         {renderSlide2()}
-        {renderSlide3()}
         {renderSlide4()}
         {renderSlide5()}
         {renderSlide6()}
@@ -1890,66 +1906,41 @@ export default function SajuSlideResult() {
       //   timeline2(앞으로 5년) = 십성 막대 — 5년 운 톤
       //   compass(종합) = 용신 카드
       //   closing(마지막 한 마디) = 일간 키워드
-      // ⭐ V2.1.10 (2026-05-15) Session H — sub별 시각화 매핑 확장
-      // 기존: pgIdx===0 (첫 sub)만 시각화 / 나머지 sub는 텍스트만 (사용자 "볼맛 떨어짐" 피드백)
-      // 신: 14개 saju-visuals 풀을 13섹션 × sub들에 골고루 분배
       const renderSectionVisual = () => {
-        if (!sajuData) return null;
+        if (!sajuData || pgIdx !== 0) return null;
         const ilganTags = ILGAN_INFO[sajuData.ilgan]?.tags ?? [];
         const counts = countSipseongFromSaju(sajuData);
         const byInt = parseInt(year, 10);
         const ageNow = isFinite(byInt) ? (new Date().getFullYear() - byInt) : 30;
-        const filteredLoveSinsal = (sajuData.sinsal || []).filter(s => ['도화살','홍염살','천을귀인','금여'].includes(s));
-        // 섹션·sub별 시각화 매트릭스
-        const key = `${aiKey}-${pgIdx}`;
-        switch (key) {
-          // personality1 — 나는 어떤 사람인가 (4 sub)
-          case 'personality1-0': return <SajuElementsRadar elements={sajuData.elements} />;
-          case 'personality1-1': return <SajuElementsSpectrum elements={sajuData.elements} />;
-          case 'personality1-2': return <SajuSipseongRadar counts={counts} />;
-          case 'personality1-3': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-
-          // personality2 — 타고난 재능의 방향 (4 sub)
-          case 'personality2-0': return <SajuTalentTop3 counts={counts} />;
-          case 'personality2-1': return <SajuSipseongSpectrum counts={counts} />;
-          case 'personality2-2': return <SajuKeywordCard keywords={ilganTags} />;
-          case 'personality2-3': return <SajuElementsRadar elements={sajuData.elements} />;
-
-          // money1 — 돈과 현실 감각 (4 sub)
-          case 'money1-0': return <SajuLifeWealthCurve saju={sajuData} />;
-          case 'money1-1': return <SajuMoneyMeter counts={counts} />;
-          case 'money1-2': return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
-          case 'money1-3': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-
-          // money2 — 일과 직업의 방향 (4 sub)
-          case 'money2-0': return <SajuJobRadar counts={counts} elements={sajuData.elements} />;
-          case 'money2-1': return <SajuSipseongRadar counts={counts} />;
-          case 'money2-2': return <SajuElementsSpectrum elements={sajuData.elements} />;
-          case 'money2-3': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
-
-          // ⭐ V2.4.0 — love1 인연과 결혼 (3 sub)
-          case 'love1-0': return <SajuSipseongRadar counts={counts} />;
-          case 'love1-1': return <SajuKeywordCard keywords={ilganTags} />;
-          case 'love1-2': return <SajuSinsalCards sinsal={filteredLoveSinsal} />;
-
-          // ⭐ V2.4.0 — health 몸과 마음의 리듬 (2 sub)
-          case 'health-0': return <SajuHealthMap elements={sajuData.elements} />;
-          case 'health-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-
-          // ⭐ V2.4.0 — hidden 사주의 그늘 (3 sub)
-          case 'hidden-0': return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
-          case 'hidden-1': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['괴강살','백호대살','양인살','현침살'].includes(s))} />;
-          case 'hidden-2': return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['천을귀인','월덕귀인','문창귀인','학당귀인','복성귀인','태극귀인','금여'].includes(s))} />;
-
-          // ⭐ V2.4.0 — timeline1 (3 sub) + money1-0에 SajuLifeWealthCurve 차트 (4-1 인생 4단계 재산 흐름)
-          case 'timeline1-0': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
-          case 'timeline1-1': return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
-          case 'timeline1-2': return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow + 5} />;
-
-          // ⭐ V2.4.0 — compass 종합 평생 가져갈 방향 (2 sub, closing 통합)
-          case 'compass-0': return <SajuKeywordCard keywords={ilganTags} />;
-          case 'compass-1': return <SajuYongsinCard yongsin={sajuData.yongsin} />;
-
+        switch (aiKey) {
+          case 'personality1':
+            return <SajuElementsRadar elements={sajuData.elements} />;
+          case 'personality2':
+            return <SajuTalentTop3 counts={counts} />;
+          case 'money1':
+            // 999 사용자 요청: SajuMoneyMeter 폐기 → 인생 4단계 재산 곡선으로 교체
+            return <SajuLifeWealthCurve saju={sajuData} />;
+          case 'money2':
+            return <SajuJobRadar counts={counts} elements={sajuData.elements} />;
+          case 'love1':
+            return <SajuSipseongRadar counts={counts} />;
+          case 'love2':
+            return <SajuKeywordCard keywords={ilganTags} />;
+          case 'love3':
+            return <SajuSinsalCards sinsal={(sajuData.sinsal || []).filter(s => ['도화살','홍염살','천을귀인','금여'].includes(s))} />;
+          case 'health':
+            return <SajuHealthMap elements={sajuData.elements} />;
+          case 'hidden':
+            return <SajuSinsalCards sinsal={sajuData.sinsal || []} />;
+          case 'timeline1':
+            return <SajuDaeunTimeline cycles={sajuData.daeun?.cycles ?? []} currentAge={ageNow} />;
+          case 'timeline2':
+            return <SajuSeunGrid thisYear={new Date().getFullYear()} />;
+          case 'compass':
+            // 기신은 SajuYongsinCard가 yongsin에서 자동 도출 (용신≠기신 보장)
+            return <SajuYongsinCard yongsin={sajuData.yongsin} />;
+          case 'closing':
+            return <SajuKeywordCard keywords={ilganTags} />;
           default:
             return null;
         }
@@ -2164,6 +2155,12 @@ export default function SajuSlideResult() {
               className="w-full py-4 rounded-2xl text-sm font-bold transition-all active:scale-95"
               style={{backgroundColor:ACCENT,color:BG}}>
               💬 &nbsp;풀이 전체 공유하기
+            </button>
+            <button
+              onClick={handleShareItems}
+              className="w-full py-3.5 rounded-2xl text-sm font-medium transition-all active:scale-95"
+              style={{backgroundColor:`${ACCENT}22`,color:ACCENT,border:`1px solid ${ACCENT}44`}}>
+              🐾 &nbsp;사주 아이템 6가지 공유하기
             </button>
             <button
               onClick={handleCopyUrl}

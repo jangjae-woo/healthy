@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-marriage-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "meeting-place",
+  "sectionTitle": "만나는 자리",
+  "sampleId": "장재형",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "marriage.meeting-place|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang",
+  "cacheKey": "marriage.meeting-place|strong:토:보통|weak:금:약|shinkang:신약|top:정재|stability:high|spouse:high|meeting:mid|protection:mid|tone:index-jang|variant:03",
+  "text": "장재형 님의 만나는 자리는 일상권, 직장, 소개, 안정적인 생활 루틴 안의 자리에서 인연이 자연스럽게 이어지는 결이에요. 만남 자리 결은 68점대, 인연 보호 결은 67점대로 잡혀 낯선 자극보다 반복해서 마주치는 환경이 중요합니다.\n\n토 기운이 편하게 드러나는 자리에서는 본인이 억지로 꾸미지 않아도 매력이 보입니다. 41~50세 신미 대운에는 관계의 방향과 기준이 더 선명해질 수 있습니다. 인연은 갑자기 떨어지는 사건보다 생활권 안에서 자주 겹치는 흐름으로 들어올 가능성이 큽니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

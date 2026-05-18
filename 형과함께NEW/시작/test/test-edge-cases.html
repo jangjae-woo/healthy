@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 8 — 7가지 edge case 통과 검증</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 1200px; margin: auto; background: #fafaf8; color: #333; line-height: 1.6; }
+    h1 { color: #c84d20; margin-bottom: 6px; }
+    h2 { color: #d97757; margin-top: 24px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    h3 { color: #444; margin-top: 12px; font-size: 15px; }
+
+    .summary-banner {
+      background: white; padding: 18px 24px; border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin: 12px 0;
+      display: flex; align-items: center; gap: 20px;
+    }
+    .summary-banner .big { font-size: 36px; font-weight: 800; }
+    .summary-banner.pass .big { color: #5d8225; }
+    .summary-banner.fail .big { color: #c84d20; }
+    .summary-banner .info { font-size: 13px; color: #666; }
+
+    .case-card {
+      background: white; padding: 16px 20px; border-radius: 12px;
+      margin: 12px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-left: 4px solid #d97757;
+    }
+    .case-card.pass { border-left-color: #5d8225; }
+    .case-card.fail { border-left-color: #c84d20; }
+    .case-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .case-title { font-size: 16px; font-weight: 700; color: #444; }
+    .case-verdict { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+    .case-verdict.pass { background: #E5F2D1; color: #5d8225; }
+    .case-verdict.fail { background: #FFE5DA; color: #c84d20; }
+    .case-desc { font-size: 12px; color: #888; margin-bottom: 10px; }
+
+    .check-list { margin-top: 8px; }
+    .check-item {
+      display: grid; grid-template-columns: 1fr auto auto auto;
+      gap: 8px; padding: 6px 10px; margin: 4px 0;
+      background: #faf6f1; border-radius: 6px;
+      font-size: 12px; align-items: center;
+    }
+    .check-item.pass { background: #f5fae8; }
+    .check-item.fail { background: #fef0e6; }
+    .check-name { color: #555; }
+    .check-expected { color: #888; font-family: monospace; font-size: 11px; }
+    .check-actual { font-family: monospace; font-size: 11px; }
+    .check-mark.pass { color: #5d8225; font-weight: 700; }
+    .check-mark.fail { color: #c84d20; font-weight: 700; }
+
+    .meta-box { font-size: 11px; color: #888; margin: 8px 0; padding: 8px 12px; background: #fef9f6; border-radius: 6px; font-family: monospace; }
+    .meta-box span { display: inline-block; margin-right: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Phase 8 — 7가지 edge case 통과 검증</h1>
+  <p style="font-size:12px;color:#888;">출시 전 마지막 검증. 각 case fixture로 폼 17p/14p가 깨지지 않고 합리적으로 산출되는지 자동 평가.</p>
+
+  <div id="summary"></div>
+  <div id="cases"></div>
+
+  <script type="module">
+    import { runAllCases } from '../lib/youa/edge-cases.mjs';
+
+    const results = runAllCases();
+
+    // 전체 summary
+    const totalPass = results.filter(r => r.overallPass).length;
+    const allChecks = results.reduce((acc, r) => acc + r.totalCount, 0);
+    const passChecks = results.reduce((acc, r) => acc + r.passCount, 0);
+    const allPassed = totalPass === results.length;
+
+    document.getElementById('summary').innerHTML = `
+      <div class="summary-banner ${allPassed ? 'pass' : 'fail'}">
+        <div class="big">${totalPass}/${results.length}</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:${allPassed ? '#5d8225' : '#c84d20'};">
+            ${allPassed ? '✓ 모든 edge case 통과' : `⚠ ${results.length - totalPass}개 case 실패`}
+          </div>
+          <div class="info">개별 체크 통과: ${passChecks}/${allChecks}</div>
+        </div>
+      </div>
+    `;
+
+    // 케이스별 상세
+    let h = '<h2>케이스별 상세</h2>';
+    for (let i = 0; i < results.length; i++) {
+      const r = results[i];
+      const tc = r.case;
+      const facts = r.facts;
+      const pass = r.overallPass;
+
+      h += `
+        <div class="case-card ${pass ? 'pass' : 'fail'}">
+          <div class="case-header">
+            <div class="case-title">${i + 1}. ${tc.name}</div>
+            <div class="case-verdict ${pass ? 'pass' : 'fail'}">${pass ? '✓ 통과' : '✗ 실패'} (${r.passCount}/${r.totalCount})</div>
+          </div>
+          <div class="case-desc">${tc.description}</div>
+          <div class="meta-box">
+            <span>📄 ${facts.meta.reportPageCount}p</span>
+            <span>👶 ${facts.child.fullTitle} · ${facts.child.saju8}</span>
+            <span>${facts.animal.emoji} ${facts.animal.name} (${facts.animal.case})</span>
+            <span>🎴 카드 어머님 ${facts.matrixCards.motherCards.length} / 아버님 ${facts.matrixCards.fatherCards.length}</span>
+          </div>
+          <div class="check-list">
+            ${r.checks.map(c => `
+              <div class="check-item ${c.pass ? 'pass' : 'fail'}">
+                <span class="check-name">${c.name}</span>
+                <span class="check-expected">기대: ${c.expected}</span>
+                <span class="check-actual">실제: ${c.actual}</span>
+                <span class="check-mark ${c.pass ? 'pass' : 'fail'}">${c.pass ? '✓' : '✗'}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+    document.getElementById('cases').innerHTML = h;
+  </script>
+</body>
+</html>

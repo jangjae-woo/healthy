@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-health-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "emotion",
+  "sectionTitle": "정신·정서 결",
+  "sampleId": "sample-002",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "health.emotion|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang",
+  "cacheKey": "health.emotion|strong:목:보통|weak:금:결핍|shinkang:신약|balance:high|vitality:mid|lowConflict:care|johu:mid|tone:index-jang|variant:01",
+  "text": "수금연구형 님의 정신·정서 결은 강한 목 기운이 과하게 쓰일 때 마음 리듬이 흔들리기 쉬운 결이에요. 흔들림 적음 결은 40점대, 따뜻함·차가움 균형은 65점대로 잡혀 몸의 리듬과 마음의 속도를 함께 봐야 합니다.\n\n생각이나 감정이 빨라질수록 바로 결론을 내리기보다 잠, 식사, 산책, 혼자 있는 시간을 먼저 회복해야 합니다. 마음의 피로는 의지 문제가 아니라 리듬이 무너졌다는 신호로 보는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

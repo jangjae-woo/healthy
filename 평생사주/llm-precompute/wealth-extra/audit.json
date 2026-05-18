@@ -1,0 +1,330 @@
+{
+  "version": "lifesaju-wealth-extra-audit-v1",
+  "issueCount": 0,
+  "results": [
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "big-money-timing",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "leak-risk",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "장재우",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "장재우",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "장재우",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "장재형",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "장재형",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "장재형",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-001",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-001",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-001",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-002",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-002",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-002",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-003",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-003",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-003",
+      "variant": "03",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-004",
+      "variant": "01",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-004",
+      "variant": "02",
+      "issues": []
+    },
+    {
+      "sectionKey": "lifetime-asset",
+      "sampleId": "sample-004",
+      "variant": "03",
+      "issues": []
+    }
+  ]
+}

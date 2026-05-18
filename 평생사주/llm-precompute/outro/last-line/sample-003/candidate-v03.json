@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-outro-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "group": "outro",
+  "sectionKey": "last-line",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "outro.last-line|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+  "cacheKey": "outro.last-line|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:03",
+  "text": "sample-003 님의 자리에서, 본인의 결이 가장 자연스럽게 살아나는 선택을 함께 살펴주세요.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

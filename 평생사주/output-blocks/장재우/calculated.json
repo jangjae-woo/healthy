@@ -1,0 +1,180 @@
+{
+  "version": "lifesaju-calculated-v1",
+  "sampleId": "장재우",
+  "personKey": "1992-02-17_오시_male",
+  "profileName": "장재우",
+  "generatedAt": "2026-05-18",
+  "calculated": {
+    "engine": {
+      "entrypoint": "lib/saju-core.ts#computeFullSajuCore",
+      "calculatorFiles": [
+        "lib/saju-core.ts",
+        "lib/saju-calculator.ts",
+        "lib/saju-traditional.ts",
+        "lib/jpjjeon.ts",
+        "lib/sibiunseong.ts",
+        "lib/tonggeun.ts",
+        "lib/samhap.ts",
+        "lib/seun.ts"
+      ],
+      "note": "이 파일은 실제 엔진 출력값을 캐시용으로 정규화한 샘플이다."
+    },
+    "input": {
+      "year": 1992,
+      "month": 2,
+      "day": 17,
+      "hour": "오시 (11:30~13:29)",
+      "calendar": "양력",
+      "gender": "남"
+    },
+    "solarDate": {
+      "year": 1992,
+      "month": 2,
+      "day": 17
+    },
+    "inputCalendar": "양력",
+    "isHourUnknown": false,
+    "pillars": {
+      "year": {
+        "stem": "임",
+        "branch": "신"
+      },
+      "month": {
+        "stem": "임",
+        "branch": "인"
+      },
+      "day": {
+        "stem": "계",
+        "branch": "해"
+      },
+      "hour": {
+        "stem": "무",
+        "branch": "오"
+      }
+    },
+    "ilgan": "계",
+    "sipseong": {
+      "year": {
+        "stem": "겁재",
+        "branch": "정인"
+      },
+      "month": {
+        "stem": "겁재",
+        "branch": "상관"
+      },
+      "day": {
+        "stem": "비견",
+        "branch": "겁재"
+      },
+      "hour": {
+        "stem": "정관",
+        "branch": "편재"
+      }
+    },
+    "sipseongCounts": {
+      "겁재": 3,
+      "정인": 1,
+      "상관": 1,
+      "비견": 1,
+      "정관": 1,
+      "편재": 1
+    },
+    "elements": {
+      "목": 1.014,
+      "화": 1.447,
+      "토": 1.089,
+      "금": 0.42,
+      "수": 3.33
+    },
+    "elementRank": [
+      [
+        "수",
+        3.33
+      ],
+      [
+        "화",
+        1.447
+      ],
+      [
+        "토",
+        1.089
+      ],
+      [
+        "목",
+        1.014
+      ],
+      [
+        "금",
+        0.42
+      ]
+    ],
+    "strongestElement": "수",
+    "weakestElement": "금",
+    "shinkang": "태강",
+    "yongsin": "목",
+    "supportElement": "목",
+    "yongsinModel": "service-support-element",
+    "daeun": {
+      "number": 5,
+      "direction": "순행",
+      "cycles": [
+        {
+          "age": 5,
+          "stem": "계",
+          "branch": "묘",
+          "ganji": "계묘"
+        },
+        {
+          "age": 15,
+          "stem": "갑",
+          "branch": "진",
+          "ganji": "갑진"
+        },
+        {
+          "age": 25,
+          "stem": "을",
+          "branch": "사",
+          "ganji": "을사"
+        },
+        {
+          "age": 35,
+          "stem": "병",
+          "branch": "오",
+          "ganji": "병오"
+        },
+        {
+          "age": 45,
+          "stem": "정",
+          "branch": "미",
+          "ganji": "정미"
+        },
+        {
+          "age": 55,
+          "stem": "무",
+          "branch": "신",
+          "ganji": "무신"
+        },
+        {
+          "age": 65,
+          "stem": "기",
+          "branch": "유",
+          "ganji": "기유"
+        },
+        {
+          "age": 75,
+          "stem": "경",
+          "branch": "술",
+          "ganji": "경술"
+        }
+      ]
+    },
+    "sinsal": [
+      "태극귀인",
+      "금여",
+      "역마살",
+      "양인살",
+      "현침살",
+      "홍염살"
+    ]
+  }
+}

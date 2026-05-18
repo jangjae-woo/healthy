@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "youa-blocks-v1",
+  "blockType": "pair-input",
+  "cacheKey": "youa-v1-sample-002",
+  "child": {
+    "name": "이도윤 군",
+    "gender": "male",
+    "ageText": "만 5세 3개월",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "병화", "han": "丙", "metaphor": "한낮의 태양" },
+    "scores": {
+      "활기": { "score": 78, "level": "높음" },
+      "조심": { "score": 35, "level": "낮음" },
+      "만족": { "score": 65, "level": "높음" },
+      "흔들림": { "score": 42, "level": "중간" },
+      "어울림": { "score": 70, "level": "높음" },
+      "끈기": { "score": 28, "level": "낮음" }
+    }
+  },
+  "mother": {
+    "name": "정수아 어머님",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "임수", "han": "壬", "metaphor": "강물·큰 물" }
+  },
+  "father": {
+    "name": "이성준 아버님",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "갑목", "han": "甲", "metaphor": "큰 나무" }
+  },
+  "relations": {
+    "motherChild": { "relationType": "수극화(흐름을 정리하는 관계)" },
+    "fatherChild": { "relationType": "목생화(에너지를 더해주는 관계)" }
+  }
+}

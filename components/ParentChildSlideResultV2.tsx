@@ -85,22 +85,19 @@ const SLIDES: SlideSpec[] = [
     { subtitle: "인생을 바꿀 친구는 따로 있다", indicator: "귀인 신살" },
     { subtitle: "친구들 속에서 지치는 패턴", indicator: "신강/신약" },
   ]},
-  // 5장 — 빛날 (3 sub → 1 슬라이드) [V2.1 2026-05-15: 10대·20대·30대 + 리더 vs 전문가 sub 2개 삭제]
+  // 5장 — 빛날 (5 sub → 1 슬라이드)
   { chapter: "5장", chapterTitle: "우리 아이는 무엇으로 빛날까", kind: "scroll-chapter", subs: [
     { subtitle: "진짜 빛날 분야", indicator: "식상 + 재성" },
     { subtitle: "아이만의 무기", indicator: "일주", visualKey: "ch6-weapon" },
     { subtitle: "환하게 빛나게 해주는 결 한 가지", indicator: "용신", visualKey: "ch6-shine-key" },
+    { subtitle: "10대·20대·30대 어느 때 가장 빛날까", indicator: "대운", visualKey: "ch6-shine-age" },
+    { subtitle: "리더로 클까, 깊이 있는 전문가로 클까", indicator: "관성 + 인성", visualKey: "ch6-leader-expert" },
   ]},
   // 6장 — 셋의 결 (3 sub → 1 슬라이드)
   { chapter: "6장", chapterTitle: "엄마아빠와 우리 셋의 결", kind: "scroll-chapter", subs: [
     { subtitle: "엄마와 통하는 결, 아빠와 통하는 결", indicator: "인성 + 관성 + 일주", visualKey: "ch7-ilgan-rel" },
     { subtitle: "셋이 함께 가장 편안한 순간", indicator: "오행", visualKey: "ch7-trio-radar" },
     { subtitle: "부모가 채워줄 결 / 살펴줄 결", indicator: "용신 + 기신", visualKey: "ch7-flow" },
-  ]},
-  // ⭐ V2.1 (2026-05-15) — 7장 신설: 몸 그리고 채워줄 한 그릇 (sub 2)
-  { chapter: "7장", chapterTitle: "우리 아이 몸 그리고 채워줄 한 그릇", kind: "scroll-chapter", subs: [
-    { subtitle: "이 아이가 약하게 타고난 자리", indicator: "약한 오행" },
-    { subtitle: "사주에 채워주면 좋은 음식", indicator: "용신 + 한국 식재료" },
   ]},
   // 마지막 당부
   { chapter: "마지막", chapterTitle: "자도인의 마지막 당부", kind: "outro" },
@@ -160,7 +157,7 @@ const CHAPTER_KEY = "__chapter__";
 // 마커로 phase 분기 → phase → 챕터 매핑 → ### sub 헤더만 매칭.
 // hongsil/inyeon은 cs/cd 이벤트 패턴, 부모자녀 V2는 phase별 단일 fetch라 마커 방식 채택.
 const PHASE_TO_CHAPTER: Record<string, string> = {
-  ch1: "1장", ch2: "2장", ch3: "3장", ch4: "4장", ch5: "5장", ch6: "6장", ch7: "7장", outro: "마지막",
+  ch1: "1장", ch2: "2장", ch3: "3장", ch4: "4장", ch5: "5장", ch6: "6장", outro: "마지막",
 };
 
 function buildSlideTextMap(full: string): SlideTextMap {
@@ -168,7 +165,7 @@ function buildSlideTextMap(full: string): SlideTextMap {
   if (!full) return result;
 
   // phase 마커로 본문 분기
-  const markerRegex = /<<<PARENT_CHILD_PHASE:(ch[1-7]|outro)>>>/g;
+  const markerRegex = /<<<PARENT_CHILD_PHASE:(ch[1-6]|outro)>>>/g;
   const markers = [...full.matchAll(markerRegex)];
 
   // 마커 없으면 옛 패턴 fallback (회귀 안전망 — 다만 신규 fetch 루프 후엔 안 들어옴)
@@ -279,10 +276,6 @@ const SUB_HEADER_ALIASES: Record<string, string[]> = {
   "책상 앞 머릿속": ["혼자 놀이할 때 머릿속", "놀이매트 위 머릿속"],
   "거짓말 했을 때": ["고집부릴 때", "거짓말이나 고집이 시작될 때"],
 };
-// ⭐ V2.2.2 (2026-05-15) — sub 헤더 매칭용 정규화 (구두점·공백·괄호 제거)
-function normalizeSubKey(s: string): string {
-  return s.replace(/[?？!！.。·・,，、\s~―—()（）-]/g, "");
-}
 function getSubText(map: SlideTextMap, slideIdx: number, subtitle: string): string {
   const direct = map[slideIdx]?.[subtitle];
   if (direct) return direct;
@@ -296,19 +289,6 @@ function getSubText(map: SlideTextMap, slideIdx: number, subtitle: string): stri
     if (alts.includes(subtitle)) {
       const t = map[slideIdx]?.[canonical];
       if (t) return t;
-    }
-  }
-  // ⭐ V2.2.2 (2026-05-15) — 정규화 매칭 (최후 fallback)
-  // 발견 사례: LLM이 "### 글로 정리할까, 말로 표현할까?"처럼 물음표·콤마를 변형 출력 → 본문 미노출
-  const wanted = new Set<string>([subtitle, ...aliases]);
-  for (const [canonical, alts] of Object.entries(SUB_HEADER_ALIASES)) {
-    if (alts.includes(subtitle)) { wanted.add(canonical); alts.forEach((a) => wanted.add(a)); }
-  }
-  const wantedNorm = new Set([...wanted].map(normalizeSubKey));
-  const sectionMap = map[slideIdx];
-  if (sectionMap) {
-    for (const [k, v] of Object.entries(sectionMap)) {
-      if (v && wantedNorm.has(normalizeSubKey(k))) return v;
     }
   }
   return "";
@@ -470,8 +450,8 @@ export default function ParentChildSlideResultV2() {
         setMeta(computeJson as MetaEvent);
 
         // Stage 1~7 — 챕터별 streaming 순차 호출
-        const phases: Array<"ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "ch7" | "outro"> =
-          ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "outro"];
+        const phases: Array<"ch1" | "ch2" | "ch3" | "ch4" | "ch5" | "ch6" | "outro"> =
+          ["ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "outro"];
         let full = "";
         // ⭐ Step 5 (2026-05-13) — cross-chapter usedTokens 누적
         // 매 phase 응답에서 가드가 mutate한 token 카운트 받아 누적, 다음 phase 요청에 보냄.
@@ -537,39 +517,6 @@ export default function ParentChildSlideResultV2() {
       }
     })();
   }, [childName, childGender, params, unlocked]);
-
-  // ⭐ V2.2.3 (2026-05-15) — 모든 phase 완료 시 Google Sheets에 저장 (1회)
-  // 시트 탭: "부모와자녀" — 가족 단위 1행 (자녀+엄마+아빠 cacheKey에 포함)
-  const savedRef = useRef(false);
-  const cacheKey = useMemo(() => {
-    if (!childName) return "";
-    const cy = params.get("childYear") || "";
-    const cm = params.get("childMonth") || "";
-    const cd = params.get("childDay") || "";
-    const ch = params.get("childHour") || "";
-    const cc = params.get("childCalendar") || "양력";
-    const my = params.get("momYear") || "";
-    const mm = params.get("momMonth") || "";
-    const md = params.get("momDay") || "";
-    const dy = params.get("dadYear") || "";
-    const dm = params.get("dadMonth") || "";
-    const dd = params.get("dadDay") || "";
-    return `parentchild_v1_${childName}_${cy}${cm}${cd}_${ch}_${childGender}_${cc}_M${my}${mm}${md}_D${dy}${dm}${dd}`;
-  }, [childName, childGender, params]);
-  useEffect(() => {
-    if (!cacheKey || !unlocked || savedRef.current) return;
-    if (loading || !streamText || phasesDone < 8) return;
-    savedRef.current = true;
-    fetch('/api/save-reading', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        service: 'parentchild',
-        key: cacheKey,
-        payload: { streamText, meta },
-      }),
-    }).catch(() => {});
-  }, [cacheKey, unlocked, loading, streamText, phasesDone, meta]);
 
   const ageStage = useMemo(() => {
     const y = parseInt(params.get("childYear") || "", 10);
@@ -2370,6 +2317,7 @@ function TrioRadarCard({ meta }: { meta: MetaEvent }) {
   const cmp: ElementCompare | null = cmpMom ?? cmpDad;
   return (
     <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.92)", border: `1px solid ${ACCENT}33` }}>
+      <p className="text-[14px] tracking-[0.15em] text-center font-semibold mb-3" style={{ color: ACCENT }}>─ 셋이 함께 편안한 순간 (오행 3겹) ─</p>
       <div className="flex justify-center">
         <TrioRadar
           child={meta.sajuChild.elements as Record<string, number>}

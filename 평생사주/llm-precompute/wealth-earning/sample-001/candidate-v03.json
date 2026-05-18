@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang|variant:03",
+  "baseCacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-001",
+  "status": "ready",
+  "text": "목화표현형 님의 돈 버는 결은 노하우를 꺼내 쓸 때 강해져요. 복잡한 것을 정리하고, 막힌 문제를 풀어주고, 배운 것을 실전형 서비스로 바꿀 때 돈이 따라옵니다.\n\n구체적으로는 전문 서비스, 상담, 교육, 컨설팅, 기술 기반 일이 잘 맞습니다. 처음부터 크게 벌리기보다 한 가지 문제를 반복해서 잘 해결하는 구조가 좋아요. 시간이 쌓이면 그 해결 방식 자체가 본인의 수입 자리가 됩니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}

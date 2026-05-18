@@ -1,0 +1,38 @@
+{
+  "version": "lifesaju-wealth-earning-llm-payload-audit-v1",
+  "generatedAt": "2026-05-18",
+  "sampleCount": 6,
+  "issueCount": 0,
+  "report": [
+    {
+      "sampleId": "장재우",
+      "issues": [],
+      "payloadCount": 3
+    },
+    {
+      "sampleId": "장재형",
+      "issues": [],
+      "payloadCount": 3
+    },
+    {
+      "sampleId": "sample-001",
+      "issues": [],
+      "payloadCount": 3
+    },
+    {
+      "sampleId": "sample-002",
+      "issues": [],
+      "payloadCount": 3
+    },
+    {
+      "sampleId": "sample-003",
+      "issues": [],
+      "payloadCount": 3
+    },
+    {
+      "sampleId": "sample-004",
+      "issues": [],
+      "payloadCount": 3
+    }
+  ]
+}

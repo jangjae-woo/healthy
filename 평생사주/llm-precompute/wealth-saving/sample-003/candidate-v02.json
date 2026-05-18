@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-saving-llm-candidate-v2",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:mixed|strong:화:강|weak:금:없음|shinkang:태강|tone:index-jang|variant:02",
+  "baseCacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:mixed|strong:화:강|weak:금:없음|shinkang:태강|tone:index-jang",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "text": "화토운영형 님의 돈을 모으는 결은 돈을 벌어도 그냥 두면 머물기 어려운 결으로 볼 수 있어요. 사주 안에서 화 기운이 50%로 강하게 흐르지만, 가격 기준과 정리 기준이 약해지면 좋은 자산도 사고파는 타이밍이 흔들릴 수 있기 때문에 자산은 빨리 굴리는 쪽보다 일부러 묶어두는 장치가 필요합니다.\n\n자산은 한 번 넣으면 최소 2~5년은 쉽게 풀지 않는 방식으로 잡는 편이 좋아요. 브랜드 가치와 시간이 지나며 드러나는 성과형 자산, 예금·적금, 연금, 장기 보유형 자산, 비상금처럼 자리가 정해진 돈은 오래 남기 쉽습니다. 반대로 코인 단타, 테마주 단기 매매, 레버리지, 충동적으로 사고파는 자산은 돈의 흐름을 흩뜨리기 쉬우니, 자산의 70% 정도는 안정 자산과 비상금에 묶어두고, 30% 이내만 본인이 충분히 이해한 분야의 중장기 운용에 두는 비중으로 잡는 것이 안정적입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-business-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "solo-partner",
+  "sectionTitle": "1인 vs 동업",
+  "sampleId": "장재우",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "business.solo-partner|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang",
+  "cacheKey": "business.solo-partner|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|make:mid|partner:mid|burden:mid|learning:mixed|tone:index-jang|variant:02",
+  "text": "장재우 님은 본인 단독 주도형이 더 안정되는 사업 결이에요. 동료·경쟁 결은 59점대, 짊어지는 결은 56점대로 잡혀 사람과 책임을 함께 볼 필요가 있습니다.\n\n본인은 결정권을 직접 쥐고, 필요한 부분만 외주나 파트너로 붙이는 구조가 더 맞습니다. 겁재 기운이 강하게 반복되면 비슷한 결의 사람과 한 자리에서 속도와 기준이 충돌할 수 있습니다. 동업은 친한 사람인지보다 문서로 나눌 수 있는 사람인지가 기준입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

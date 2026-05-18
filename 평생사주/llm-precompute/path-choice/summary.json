@@ -1,0 +1,187 @@
+{
+  "version": "lifesaju-path-choice-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 30,
+  "summary": [
+    {
+      "group": "path-choice",
+      "sectionKey": "overview",
+      "sampleId": "장재우",
+      "baseCacheKey": "path-choice.overview|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "장재우",
+      "baseCacheKey": "path-choice.employee-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "장재우",
+      "baseCacheKey": "path-choice.business-path|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "decision-timing",
+      "sampleId": "장재우",
+      "baseCacheKey": "path-choice.decision-timing|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "lifetime-flow",
+      "sampleId": "장재우",
+      "baseCacheKey": "path-choice.lifetime-flow|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "overview",
+      "sampleId": "장재형",
+      "baseCacheKey": "path-choice.overview|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "장재형",
+      "baseCacheKey": "path-choice.employee-path|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "장재형",
+      "baseCacheKey": "path-choice.business-path|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "decision-timing",
+      "sampleId": "장재형",
+      "baseCacheKey": "path-choice.decision-timing|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "lifetime-flow",
+      "sampleId": "장재형",
+      "baseCacheKey": "path-choice.lifetime-flow|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "overview",
+      "sampleId": "sample-001",
+      "baseCacheKey": "path-choice.overview|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-001",
+      "baseCacheKey": "path-choice.employee-path|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "sample-001",
+      "baseCacheKey": "path-choice.business-path|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "decision-timing",
+      "sampleId": "sample-001",
+      "baseCacheKey": "path-choice.decision-timing|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "lifetime-flow",
+      "sampleId": "sample-001",
+      "baseCacheKey": "path-choice.lifetime-flow|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "overview",
+      "sampleId": "sample-002",
+      "baseCacheKey": "path-choice.overview|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-002",
+      "baseCacheKey": "path-choice.employee-path|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "sample-002",
+      "baseCacheKey": "path-choice.business-path|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "decision-timing",
+      "sampleId": "sample-002",
+      "baseCacheKey": "path-choice.decision-timing|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "lifetime-flow",
+      "sampleId": "sample-002",
+      "baseCacheKey": "path-choice.lifetime-flow|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "overview",
+      "sampleId": "sample-003",
+      "baseCacheKey": "path-choice.overview|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-003",
+      "baseCacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "sample-003",
+      "baseCacheKey": "path-choice.business-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "decision-timing",
+      "sampleId": "sample-003",
+      "baseCacheKey": "path-choice.decision-timing|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "lifetime-flow",
+      "sampleId": "sample-003",
+      "baseCacheKey": "path-choice.lifetime-flow|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "overview",
+      "sampleId": "sample-004",
+      "baseCacheKey": "path-choice.overview|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-004",
+      "baseCacheKey": "path-choice.employee-path|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "business-path",
+      "sampleId": "sample-004",
+      "baseCacheKey": "path-choice.business-path|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "decision-timing",
+      "sampleId": "sample-004",
+      "baseCacheKey": "path-choice.decision-timing|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    },
+    {
+      "group": "path-choice",
+      "sectionKey": "lifetime-flow",
+      "sampleId": "sample-004",
+      "baseCacheKey": "path-choice.lifetime-flow|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    }
+  ]
+}

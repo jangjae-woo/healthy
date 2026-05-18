@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-marriage-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "couple-pattern",
+  "sectionTitle": "부부 결",
+  "sampleId": "장재우",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "marriage.couple-pattern|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang",
+  "cacheKey": "marriage.couple-pattern|strong:수:중상|weak:금:결핍|shinkang:태강|top:겁재|stability:mid|spouse:mixed|meeting:mixed|protection:mixed|tone:index-jang|variant:01",
+  "text": "장재우 님의 부부 결은 서로의 리듬을 존중할 때 오래 가는 결이에요. 자리 안정 결은 59점대, 짝 결 본기는 53점대로 잡혀 감정보다 생활 구조가 중요하게 작동합니다.\n\n태강 구조에서는 관계의 속도보다 본인 페이스와 회복 시간을 존중받을 때 마음이 안정됩니다. 부부가 되었을 때는 돈, 일, 가족, 쉬는 시간을 미리 말로 정해두는 편이 좋습니다.\n\n서로 맞춰주는 관계보다 서로의 기준을 알고 조율하는 관계가 더 오래 갑니다. 부부 관계는 큰 이벤트보다 매일 반복되는 기준이 맞을 때 안정됩니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

@@ -1,0 +1,1764 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>아이기질 샘플 미리보기</title>
+  <style>
+    body { margin:0; background:#eee8df; color:#342b25; font-family: Georgia, 'Times New Roman', 'Noto Serif KR', serif; }
+    .toolbar { position:sticky; top:0; z-index:10; display:flex; gap:8px; overflow:auto; padding:10px; background:#2f2924; }
+    button { border:0; border-radius:7px; padding:9px 12px; background:#6d6259; color:white; font-size:13px; cursor:pointer; white-space:nowrap; }
+    button.active { background:#d97757; }
+    .wrap { max-width:760px; margin:0 auto; padding:16px 12px 40px; }
+    .sample { display:none; }
+    .sample.active { display:block; }
+    .cover, .page { background:#fffdf9; border:1px solid #e7d8c9; border-radius:10px; margin:0 0 14px; padding:22px 20px; box-shadow:0 2px 10px rgba(45,32,22,.06); }
+    .cover { min-height:260px; display:flex; flex-direction:column; justify-content:center; text-align:center; background:linear-gradient(135deg,#fff7ed,#fffdf9); }
+    .sample-file { color:#a36a4c; font-size:12px; margin-bottom:16px; font-family:Arial,sans-serif; }
+    h1 { margin:0 0 18px; font-size:28px; line-height:1.25; }
+    h3 { margin:20px 0 8px; font-size:16px; color:#8a6332; }
+    p, li { font-size:14px; line-height:1.85; }
+    ul { padding-left:20px; }
+    .chapter { font-size:18px; font-weight:700; color:#c84d20; border-bottom:1px solid #ead8c8; padding-bottom:8px; margin-bottom:14px; }
+    .score-box { background:#fef9f6; border-left:4px solid #d97757; padding:14px 16px; border-radius:8px; margin:14px 0; }
+    .scores { display:grid; gap:10px; margin-top:16px; }
+    .score-row { display:grid; grid-template-columns:56px 1fr 88px; align-items:center; gap:10px; font-family:Arial,'Noto Sans KR',sans-serif; }
+    .score-name { font-weight:700; font-size:13px; }
+    .score-track { height:9px; border-radius:999px; background:#eee1d5; overflow:hidden; }
+    .score-fill { height:100%; border-radius:999px; background:#d97757; }
+    .score-num { text-align:right; font-size:13px; font-weight:700; }
+    .score-num span { color:#7a6a5d; font-weight:500; }
+    .factor-table { display:grid; grid-template-columns:1fr 1fr; gap:10px; background:#fef9f6; border-radius:8px; padding:12px; border:1px solid #f0e0d2; }
+    .factor-table h4 { margin:0 0 8px; font-size:13px; color:#7a6a5d; }
+    .factor-table li { font-size:13px; line-height:1.55; margin-bottom:6px; }
+    .factor-table span, .mini { color:#857568; font-size:12px; font-family:Arial,'Noto Sans KR',sans-serif; }
+    .tips { display:grid; gap:10px; }
+    .tip { background:#f5f8e8; border-left:3px solid #95c540; border-radius:8px; padding:12px 14px; }
+    .tip b { color:#5d8225; font-size:13px; }
+    .tip p { margin:6px 0 0; font-size:13px; }
+    .daily { background:#f7f1ea; border-left:3px solid #c8a47f; border-radius:8px; padding:10px 12px; margin:12px 0; }
+    .matrix { border-radius:10px; padding:14px 16px; margin:12px 0; border-left:4px solid #d7ad32; background:linear-gradient(135deg,#fff8e1,#fffdf8); }
+    .matrix.conflict { border-left-color:#8a8a9e; background:linear-gradient(135deg,#f5f5f7,#fbfbfd); }
+    .matrix h3 { margin-top:0; }
+    .resolve { margin-top:10px; background:#edf6dd; color:#55752a; border-left:3px solid #95c540; border-radius:7px; padding:10px 12px; font-size:13px; line-height:1.7; }
+    @media (max-width:560px) { .wrap { padding:10px 8px 28px; } .cover,.page { padding:18px 15px; } .factor-table { grid-template-columns:1fr; } h1 { font-size:24px; } }
+  </style>
+</head>
+<body>
+  <nav class="toolbar"><button class="active" data-sample="0">sample-001</button>
+<button class="" data-sample="1">sample-002</button>
+<button class="" data-sample="2">sample-003</button>
+<button class="" data-sample="3">sample-004</button></nav>
+  <main class="wrap">
+    <article class="sample active" id="sample-0">
+      <section class="cover">
+        <div class="sample-file">sample-001.json</div>
+        <h1>사주로 풀어보는 우리 아이 마음</h1>
+        <p>김수민 양 · 만 4세 0개월</p>
+        <p>박지영 어머님 · 김재훈 아버님</p>
+      </section>
+      <section class="page">
+        <div class="chapter">아이기질 한눈에 보기</div>
+        <p>김수민 양은 차분히 머무는 결과 안전을 살피는 결이 함께 두텁고, 관계 안에서 마음이 살아나는 따뜻한 흐름을 가진 아이입니다.</p>
+        <div class="scores">
+    <div class="score-row">
+      <div class="score-name">활기</div>
+      <div class="score-track"><div class="score-fill" style="width:30%"></div></div>
+      <div class="score-num">30 <span>낮음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">조심</div>
+      <div class="score-track"><div class="score-fill" style="width:72%"></div></div>
+      <div class="score-num">72 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">만족</div>
+      <div class="score-track"><div class="score-fill" style="width:45%"></div></div>
+      <div class="score-num">45 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">흔들림</div>
+      <div class="score-track"><div class="score-fill" style="width:68%"></div></div>
+      <div class="score-num">68 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">어울림</div>
+      <div class="score-track"><div class="score-fill" style="width:74%"></div></div>
+      <div class="score-num">74 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">끈기</div>
+      <div class="score-track"><div class="score-fill" style="width:55%"></div></div>
+      <div class="score-num">55 <span>중간</span></div>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">활기</div>
+      <div class="score-box">
+        <strong>김수민 양의 활기는 30점, 낮음 결입니다.</strong>
+        <p>활동성은 은은하고 차분한 놀이와 회복 시간이 더 잘 맞는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>김수민 양의 활기 30점은 사주에서 활기를 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 월지)</span></li>
+<li>절제하는 기운 <span>(정관 시주)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운은 한 자리에 가볍게 머물러 있고, 받쳐주는 기운과 절제하는 기운이 양쪽에서 자리를 잡아 안쪽으로 모으는 흐름이 더 분명합니다.</p>
+<p>그래서 에너지를 바깥으로 크게 내보내기보다 안에서 차분히 정리하는 결이 우세하게 나오고, 점수가 낮음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>키즈카페에 가도 미끄럼틀이나 트램펄린보다 한쪽 구석에 앉아 색종이를 접거나 스티커를 붙이며 시간을 보내는 모습이 더 자연스럽습니다.</p>
+<p>오전 일정이 많은 날의 저녁 시간에는 말수가 줄고 부모 곁에 몸을 기대는 모습이 빨리 나타나며, 또래보다 회복 시간이 조금 더 필요합니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 활동 사이 쉬는 틈 끼우기</b>
+      <p>받쳐주는 기운이 두터운 아이라 자극이 길어지면 안에서 천천히 가라앉습니다. 오전 외출 뒤에는 30분 정도의 조용한 자리를 일정의 일부로 미리 잡아 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 또래 활동량과 비교하지 않기</b>
+      <p>활기가 적은 결을 부족함으로 읽으면 아이가 자기 속도를 의심합니다. 친구는 뛰고 너는 왜 안 뛰어 대신 지금은 보고 싶은 거구나 한마디로 결을 인정해 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 돌아올 자리 만들기</b>
+      <p>들풀 같은 일간은 흙과 햇볕이 적당히 있는 곳에서 가장 편합니다. 거실 한쪽에 작은 매트나 쿠션 자리처럼 언제든 돌아올 수 있는 회복 공간을 두면 활동도 더 길게 이어집니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">조심</div>
+      <div class="score-box">
+        <strong>김수민 양의 조심은 72점, 높음 결입니다.</strong>
+        <p>새 자극 앞에서 신중하고 안전한 자리부터 찾는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>김수민 양의 조심 72점은 사주에서 살피는 기운과 밀고 나가는 기운이 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 시주)</span></li>
+<li>받쳐주는 기운 <span>(정인 월지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>밀어붙이는 기운 <span>(편재 년간)</span></li></ul>
+        </div>
+      </div>
+      <p>절제하는 기운과 받쳐주는 기운이 함께 자리잡고 밀어붙이는 기운은 멀리 떨어져 있어, 첫 자극 앞에서 한 박자 살피는 결이 자연스럽게 우세합니다.</p>
+<p>위험을 미리 그리는 힘이 분명한 만큼 점수가 높음 구간에 자리하고, 안전이 확보된 다음에는 자기 방식으로 잘 참여합니다.</p>
+      <h3>일상에서는</h3>
+      <p>처음 가는 문화센터 수업에서는 바로 자리에 앉지 않고 어른 곁에 서서 다른 친구들이 어떻게 하는지 한참을 살핀 뒤 천천히 자리로 들어갑니다.</p>
+<p>괜찮다고 느낀 뒤에는 오히려 규칙을 잘 지키며 진지하게 참여해, 수줍음처럼 보이던 결이 안정감으로 바뀌는 모습이 자주 보입니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 적응 시간을 일정에 미리 넣기</b>
+      <p>받쳐주는 기운이 강한 아이는 예고가 있어야 안에서 마음의 자리를 만듭니다. 새 활동 전 10분의 살핌 시간을 일정 안에 함께 적어두면 본 활동 참여가 훨씬 부드러워집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 괜찮아 빨리 가 대신 먼저 보고 와도 돼</b>
+      <p>신중함을 재촉하면 안에서 더 굳습니다. 천천히 가도 돼라는 한마디로 자기 속도를 허락받으면, 살피는 시간이 도리어 짧아지고 마음이 빨리 안정됩니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 처음 앉을 자리 정해두기</b>
+      <p>낯선 공간에서는 첫 자리가 가장 중요합니다. 입구 가까이 혹은 어른이 보이는 위치에 처음 앉을 자리를 정해두면 안전이 확인되는 순간 결이 부드럽게 열립니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">만족</div>
+      <div class="score-box">
+        <strong>김수민 양의 만족은 45점, 중간 결입니다.</strong>
+        <p>표현과 절제가 함께 있어 상황에 따라 만족감의 표현이 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>김수민 양의 만족 45점은 즐거움을 끌어올리는 기운과 정리하는 기운이 비슷한 무게로 균형을 이루며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 시주)</span></li></ul>
+        </div>
+      </div>
+      <p>흥을 만드는 기운과 절제하는 기운이 한 칸씩 자리하면서 어느 한쪽이 크게 앞서지 않습니다.</p>
+<p>그래서 좋은 일에는 자연스럽게 반응하면서도 마음에 걸리는 점을 함께 알아차리는 균형이 만들어지고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>좋아하는 간식이나 새 책 앞에서는 표정이 환해지지만, 자리 분위기가 어수선해지면 같은 자극에도 반응이 한 단계 차분해집니다.</p>
+<p>기뻐할 때와 한 박자 가라앉을 때가 같은 하루 안에서 자연스럽게 오가는 결이라, 아이의 표정 변화를 흐름으로 읽어주면 마음이 더 잘 풀립니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 좋았던 점과 아쉬운 점 함께 떠올리기</b>
+      <p>하루 끝에 오늘 가장 좋았던 일과 조금 아쉬웠던 일을 한 가지씩만 말해보는 시간을 두면, 양쪽 결이 모두 자기 자리를 찾습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 기뻐해야지 대신 어떤 점이 좋았어</b>
+      <p>감정을 정답으로 강요하지 말고 구체적으로 이름 붙이는 질문을 건네 주세요. 만족의 표현이 더 풍부해지고 절제도 자연스럽게 흘러갑니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 즐거움 뒤 조용한 정리 시간</b>
+      <p>흥을 만드는 기운과 절제하는 기운이 함께 있는 결은, 신나는 활동 뒤 5~10분의 조용한 정리 시간이 있으면 다음 활동에서도 표정이 한결 부드럽습니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">흔들림</div>
+      <div class="score-box">
+        <strong>김수민 양의 흔들림은 68점, 높음 결입니다.</strong>
+        <p>감정에 민감하고 한 번 받은 느낌이 마음 안에 오래 머무는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>김수민 양의 흔들림 68점은 마음을 깊게 받는 기운과 정리해주는 기운의 결합으로 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 월지)</span></li>
+<li>끌어안는 기운 <span>(편인 년간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 일간)</span></li></ul>
+        </div>
+      </div>
+      <p>받쳐주는 기운과 끌어안는 기운이 두 자리에서 작동하고, 바깥으로 끌고 나가는 기운은 약하게 머물러 있어 감정을 안으로 더 깊이 끌어들이는 결이 우세합니다.</p>
+<p>그래서 작은 자극도 마음 안에 한참 머무를 수 있고, 점수가 높음 구간으로 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>낮에 친구가 무심코 한 말이 잠자리에 누운 뒤에야 다시 떠올라 작은 목소리로 그때 왜 그랬을까 하고 묻는 일이 종종 있습니다.</p>
+<p>큰 일이 아니더라도 표정과 어른의 말투에 민감하게 반응하기 때문에, 충분히 들어주고 가볍게 안아주면 감정이 부드럽게 가라앉습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 하루 끝 감정 정리 시간 만들기</b>
+      <p>잠들기 전 5분, 오늘 가장 마음에 남은 일을 한 가지만 말해보는 시간을 정기 일정으로 두면, 안에 쌓인 결이 그날 밤에 풀려나옵니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 별일 아니야 대신 네 마음에는 크게 남았구나</b>
+      <p>감정을 줄이려 하는 말은 받쳐주는 기운이 강한 결에는 닿지 않습니다. 크기를 인정해주는 한마디가 회복의 가장 빠른 길이 됩니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 잠들기 전 자극 줄이기</b>
+      <p>잠자리 한 시간 전부터는 큰 화면, 큰 소리, 강한 조명을 줄여 주세요. 감정을 깊게 받는 결은 외부 자극이 줄어들 때 비로소 내면 정리가 시작됩니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">어울림</div>
+      <div class="score-box">
+        <strong>김수민 양의 어울림은 74점, 높음 결입니다.</strong>
+        <p>공감적이고 사교적이며 함께 노는 흐름에서 마음이 살아나는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>김수민 양의 어울림 74점은 관계 감각을 키우는 기운과 자기 자리를 지키는 기운이 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li>
+<li>끌어안는 기운 <span>(편인 년간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>혼자 가는 기운 <span>(비견 일간)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 끌어안는 기운이 두 자리에서 함께 작동하면서 관계로 마음을 여는 결이 분명하게 자리잡습니다.</p>
+<p>혼자 가는 기운은 자리에 머물러 있어 균형은 잃지 않지만, 마음의 흐름이 사람 쪽으로 더 쏠려 점수가 높음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>어린이집에서 누군가가 울고 있으면 가장 먼저 다가가 등을 토닥이고 자기 인형을 건네는 모습이 자주 보입니다.</p>
+<p>어른의 기분 변화에도 민감해서 부모가 피곤한 날에는 평소보다 말투가 조심스러워지고 작은 도움을 먼저 내미는 결이 살아납니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 함께한 뒤 마음 정리 시간 두기</b>
+      <p>관계 감각이 높은 결은 함께 있을 때 받은 감정이 안에 쌓입니다. 외출 뒤 짧게라도 혼자 그림을 그리는 시간 같은 자기 정리 자리를 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 네 마음과 친구 마음 구분하기</b>
+      <p>친구가 울면 자기 잘못처럼 느끼는 결입니다. 친구가 속상한 일은 친구의 마음, 네가 도와준 마음은 너의 마음이라고 짚어주면 경계가 건강하게 자랍니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 따뜻하지만 과밀하지 않은 관계 환경</b>
+      <p>한 번에 많은 친구와 만나는 일정은 결을 빨리 지치게 합니다. 가까운 한두 명과 정기적으로 만나는 환경이 결을 가장 깊게 자라게 합니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">끈기</div>
+      <div class="score-box">
+        <strong>김수민 양의 끈기는 55점, 중간 결입니다.</strong>
+        <p>인내와 즉흥이 함께 있어 흥미가 맞으면 오래 붙잡고 아니면 유연하게 바꾸는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>김수민 양의 끈기 55점은 붙잡는 기운과 흐름을 바꾸는 기운이 비슷한 무게로 균형을 이루며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 시주)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 년지)</span></li></ul>
+        </div>
+      </div>
+      <p>절제하는 기운이 한 자리에서 일을 마무리하라고 말하고, 흥을 만드는 기운이 다른 자리에서 새 자극을 권하기 때문에 두 흐름이 비슷한 힘으로 마주섭니다.</p>
+<p>그래서 좋아하는 일에는 충분히 머물지만 의미가 줄어들면 자연스럽게 옮겨가는 결이 함께 보이고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>퍼즐을 시작하면 한 자리에서 끝내기보다 10~15분 정도 집중한 뒤 한 번 쉬고 돌아와 마저 맞추는 방식으로 자기 페이스를 잡습니다.</p>
+<p>어른이 끝까지 한 번에 하라고 누르면 흥미가 빠르게 빠지지만, 작은 단락으로 나눠주면 결국 마무리까지 가는 힘이 살아납니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 작은 목표와 쉬는 시간 함께 잡기</b>
+      <p>10분 집중, 3분 쉬는 구조처럼 작은 단락을 만들어 주세요. 끈기와 유연함이 함께 있는 결은 단락이 보일 때 가장 길게 이어집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 얼마나 했는지보다 어디까지 해냈는지</b>
+      <p>양이 아니라 완료 지점을 짚어주는 말이 결에 잘 닿습니다. 여기까지 해냈네 한마디가 다음 단락의 동력이 됩니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 중간 완료 지점이 보이는 환경</b>
+      <p>퍼즐 판처럼 진행이 눈에 보이는 도구를 곁에 두면 자기 페이스로 자연스럽게 마무리합니다. 진행도가 보이지 않으면 흥미가 먼저 사라집니다.</p>
+    </div>
+  </div>
+    </section>
+  
+      <section class="page">
+        <div class="chapter">양 유형 자세히 살펴보기</div>
+        <p>김수민 양은 관계 안에서 마음이 살아나고, 새 자극 앞에서는 한 박자 살피며, 한 번 들어온 감정을 오래 머금는 결이 비슷한 무게로 함께 자리한 양 결의 아이입니다.</p>
+        <h3>이런 결이 강점입니다</h3>
+        <ul><li>친구와 어른의 마음을 잘 읽고 먼저 다가가 위로하는 따뜻함이 있습니다.</li><li>낯선 자리에서도 안전을 확인한 뒤에는 규칙을 정확히 지키며 진지하게 참여합니다.</li><li>감정을 깊이 받는 결이라 한 번 좋아하는 사람이 생기면 오래 마음을 두고 다정하게 대합니다.</li></ul>
+        <h3>이런 점은 살펴주세요</h3>
+        <ul><li>다른 사람의 감정을 자기 일처럼 가져와 마음에 쌓아두는 모습이 나타날 수 있습니다.</li><li>새 환경에 들어가기까지 시간이 필요하기 때문에 일정이 촉박하면 결이 굳어 보일 수 있습니다.</li><li>표현이 크지 않아 속이 풀리지 않은 채 다음 자리로 넘어가는 일이 종종 생길 수 있습니다.</li></ul>
+        <h3>양육 코칭</h3>
+        <div class="tips">
+    <div class="tip">
+      <b>시간 · 감정 정리 시간을 일정에 포함</b>
+      <p>외출이나 친구 만남 뒤에는 짧은 회복 시간을 일정의 일부로 잡아주면, 다음 활동에서도 표정이 부드럽게 살아납니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 마음의 크기를 먼저 인정</b>
+      <p>별일 아니라는 말보다 네 마음에는 크게 남았구나라는 한마디가 결을 가장 부드럽게 풀어줍니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 따뜻하지만 과밀하지 않은 관계권</b>
+      <p>가까운 한두 사람과의 안정적인 만남을 정기적으로 유지하면 양 결의 따뜻함이 가장 깊게 자랍니다.</p>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">어머님 사주</div>
+      <p>박지영 어머님의 일간은 정화(丁)입니다. 촛불·작은 등불처럼 안에서 따스하게 비추는 작은 불의 기운으로, 한 자리에 머물러 주변을 밝히는 결이 자연스럽습니다.</p>
+<p>사주에는 받쳐주는 기운과 표현하는 기운이 함께 있어 사람의 마음을 살피고 조용히 다독이는 흐름이 강합니다. 큰 소리로 끌어가기보다 곁에 머물러 빛을 비추는 방식으로 가족을 움직이는 결입니다.</p>
+<p>이 결은 김수민 양의 살피는 결을 너무 다그치지 않고 천천히 마음의 자리를 만들어주는 방향으로 자연스럽게 이어집니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님 사주</div>
+      <p>김재훈 아버님의 일간은 경금(庚)입니다. 도끼·큰 칼처럼 기준을 세우고 필요할 때 단단하게 잘라내는 큰 쇠의 기운으로, 옳고 그름의 선을 분명히 긋는 결이 자연스럽습니다.</p>
+<p>사주에는 절제하는 기운과 끌고 나가는 기운이 두텁게 자리해 일을 끝까지 매듭짓는 힘과 가족을 보호하려는 책임감이 깊게 자리잡고 있습니다.</p>
+<p>이 단단한 결은 김수민 양에게 안전한 울타리가 되어주지만, 말의 속도가 빨라지면 살피는 결의 아이가 한 박자 물러설 수 있으니 강도와 속도를 함께 살펴주는 것이 좋습니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">어머님과 아이의 궁합</div>
+      <div class="mini">정인(받쳐주는 흐름) 중심</div>
+      <p>박지영 어머님의 정화(丁)와 김수민 양의 을목(乙)은 받쳐주는 흐름의 관계입니다. 어머님의 작은 불은 아이의 들풀이 천천히 자랄 수 있도록 안에서 따뜻하게 비추는 결로 이어집니다.</p>
+<p>아이의 마음에 무언가가 쌓였을 때 어머님이 곁에 조용히 머물러 주는 것만으로도 결이 부드럽게 풀려나갑니다. 큰 설명보다 곁의 온기가 더 큰 위로가 되는 관계입니다.</p>
+<p>다만 어머님이 너무 많이 살피면 아이가 자기 결을 작게 가져갈 수 있어, 아이가 스스로 살펴볼 시간을 함께 비워두는 것이 두 결을 모두 살리는 길입니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>잠들기 전 박지영 어머님이 김수민 양 곁에 누워 오늘 가장 마음에 남았던 일을 한 줄만 들어주는 시간은, 두 결이 가장 깊게 만나는 자리이며 다음 날의 안정으로 이어집니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님과 아이의 궁합</div>
+      <div class="mini">정관(절제하는 흐름) 중심</div>
+      <p>김재훈 아버님의 경금(庚)과 김수민 양의 을목(乙)은 기준을 세워주는 흐름의 관계입니다. 아버님의 큰 쇠는 아이의 들풀에게 어디까지 자라도 되는지를 분명하게 알려주는 결로 작동합니다.</p>
+<p>아버님의 기준이 분명할수록 아이는 어디까지 해도 되는지 빨리 이해하지만, 말의 속도가 빨라지면 한 박자 물러서는 결도 함께 나타납니다.</p>
+<p>단호함을 줄이라기보다 단호함의 속도를 한 박자 늦추는 것이 살피는 결의 아이에게는 가장 큰 안정감을 줍니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>주말 외출 전 김재훈 아버님이 김수민 양에게 오늘 갈 곳과 시간 흐름을 짧게 그림처럼 설명해주면, 아이의 살피는 결이 안에서 미리 자리를 만들어 본 일정 동안 표정이 한결 부드럽습니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">함께 살펴줄 결</div>
+      
+        <div class="matrix synergy">
+          <h3>어머님의 받쳐주는 결이 아이의 깊은 마음을 부드럽게 풀어주는 자리</h3>
+          <div class="mini">강한 시너지 - 받쳐주는 흐름(정인) x 어울림(74) · 흔들림(68)</div>
+          <p>박지영 어머님의 정화는 아이의 마음을 다그치지 않고 곁에서 비춰주는 결로 작동합니다.</p>
+<p>김수민 양의 어울림과 흔들림은 마음의 크기를 인정받을 때 가장 건강하게 풀려나가는 결입니다.</p>
+<p>두 결이 만나면 아이가 안에 쌓아둔 감정을 잠자리 시간에 자연스럽게 풀어내는 흐름이 만들어집니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>잠들기 전 5분 동안 어머님이 아이의 등을 가볍게 토닥이며 오늘 어땠어 한 줄 묻기.</p><p>어린이집에서 돌아온 직후 간식 곁에서 가장 좋았던 장면 한 가지만 함께 떠올리기.</p></div>
+          
+        </div>
+      
+
+        <div class="matrix conflict">
+          <h3>아버님의 빠른 단호함이 아이의 살피는 결을 굳히는 자리</h3>
+          <div class="mini">보통 충돌 - 절제하는 흐름(정관) x 조심(72)</div>
+          <p>김재훈 아버님의 경금은 옳고 그름의 기준을 빠르게 짚어주는 결로 작동합니다.</p>
+<p>김수민 양의 조심 결은 자극이 들어오는 속도가 빠르면 마음의 자리를 만들기 전에 굳어버립니다.</p>
+<p>기준 자체가 충돌하는 것이 아니라 전달되는 속도가 결의 살피는 시간을 가로채면서 충돌이 생깁니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>외출 직전 빠르게 신발 신어라는 말에 아이가 굳어서 더 느려지는 장면.</p></div>
+          <div class="resolve">이렇게 풀어보세요. 단호한 말을 하기 전에 한 박자 숨을 고르고, 무엇을 왜 해야 하는지 짧게 그림처럼 그려준 뒤 행동을 요청해 보세요. 단호함의 강도는 그대로 두고 속도만 한 박자 늦춰주면, 아이의 살피는 결이 굳지 않고 협력으로 이어집니다.</div>
+        </div>
+      
+    </section>
+  
+      <section class="page">
+        <div class="chapter">마지막 당부</div>
+        <p>김수민 양은 차분히 머무는 결과 안전을 살피는 결, 그리고 관계 안에서 마음이 살아나는 결을 함께 가진 아이입니다. 한 가지 결로 단정하기보다 여러 결이 비슷한 무게로 자리한 양 결의 아이로 바라봐 주세요.</p>
+<p>박지영 어머님의 받쳐주는 흐름은 아이의 마음을 천천히 풀어주는 가장 큰 자원이고, 김재훈 아버님의 단단한 기준은 아이가 세상의 선을 빨리 배우게 하는 자원입니다. 두 결의 속도만 살펴주시면 아이의 결은 안에서 충분히 자랍니다.</p>
+<p>이 보고서는 정해진 결을 말하는 것이 아니라 지금 시점의 결을 함께 읽어보는 자료입니다. 아이가 자라며 결의 표현은 달라지지만, 마음을 알아주는 어른의 자리가 가장 큰 영향으로 남는다는 점만 기억해 주세요.</p>
+      </section>
+    </article>
+  
+
+    <article class="sample " id="sample-1">
+      <section class="cover">
+        <div class="sample-file">sample-002.json</div>
+        <h1>사주로 풀어보는 우리 아이 마음</h1>
+        <p>이도윤 군 · 만 5세 3개월</p>
+        <p>정수아 어머님 · 이성준 아버님</p>
+      </section>
+      <section class="page">
+        <div class="chapter">아이기질 한눈에 보기</div>
+        <p>이도윤 군은 한낮의 햇빛처럼 에너지를 빠르게 풀어내고 새 자극에 거침없이 다가가는 결이 두드러지고, 관심사가 다양해 여러 자리를 빠르게 옮겨다니는 흐름이 함께 있는 아이입니다.</p>
+        <div class="scores">
+    <div class="score-row">
+      <div class="score-name">활기</div>
+      <div class="score-track"><div class="score-fill" style="width:78%"></div></div>
+      <div class="score-num">78 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">조심</div>
+      <div class="score-track"><div class="score-fill" style="width:35%"></div></div>
+      <div class="score-num">35 <span>낮음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">만족</div>
+      <div class="score-track"><div class="score-fill" style="width:65%"></div></div>
+      <div class="score-num">65 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">흔들림</div>
+      <div class="score-track"><div class="score-fill" style="width:42%"></div></div>
+      <div class="score-num">42 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">어울림</div>
+      <div class="score-track"><div class="score-fill" style="width:70%"></div></div>
+      <div class="score-num">70 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">끈기</div>
+      <div class="score-track"><div class="score-fill" style="width:28%"></div></div>
+      <div class="score-num">28 <span>낮음</span></div>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">활기</div>
+      <div class="score-box">
+        <strong>이도윤 군의 활기는 78점, 높음 결입니다.</strong>
+        <p>몸을 움직이며 에너지를 풀어내고 바깥 자극에 생기가 살아나는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>이도윤 군의 활기 78점은 사주에서 에너지를 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li>
+<li>끌고 나가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 시지)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 끌고 나가는 기운이 두 자리에서 작동하면서 에너지를 바깥으로 보내는 흐름이 분명하게 우세합니다.</p>
+<p>안으로 모으는 기운은 멀리서 약하게 자리해 큰 제동을 걸지 않기 때문에, 활기 점수가 높음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>놀이터에 들어서면 가장 먼저 가장 높은 미끄럼틀로 달려가 한 바퀴를 돌고 와야 비로소 다른 놀이로 옮겨가는 흐름이 보입니다.</p>
+<p>오래 앉아 있어야 하는 식사 자리에서는 다리가 먼저 움직이기 시작하고, 충분히 몸을 쓴 날의 저녁에는 오히려 잠자리에 빠르게 안착합니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 몸 쓰는 시간 먼저 확보</b>
+      <p>병화의 햇빛 같은 결은 에너지를 먼저 풀어내야 안에서 정리됩니다. 하루의 첫 일정으로 30분 이상 몸을 쓰는 시간을 두면 이후 활동이 부드럽게 이어집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 막기보다 방향 정하기</b>
+      <p>뛰지 마 대신 여기서 뛰자라는 말이 결에 잘 닿습니다. 에너지의 방향만 정해주면 결이 충돌 없이 흐릅니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 안전하게 큰 움직임 허용</b>
+      <p>거실 한쪽에 매트나 작은 트램펄린처럼 큰 움직임이 허용되는 공간을 두면 결이 안전한 자리에서 풀려나옵니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">조심</div>
+      <div class="score-box">
+        <strong>이도윤 군의 조심은 35점, 낮음 결입니다.</strong>
+        <p>도전성이 있고 새 자극에도 비교적 빠르게 다가가는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>이도윤 군의 조심 35점은 살피는 기운과 밀고 나가는 기운이 결합되어 나온 결과로, 밀고 나가는 흐름이 더 우세합니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 년간)</span></li>
+<li>표현하는 기운 <span>(식신 월간)</span></li></ul>
+        </div>
+      </div>
+      <p>절제하는 기운은 한 자리에 가볍게 머물러 있고, 끌고 나가는 기운과 표현하는 기운이 두 자리에서 함께 작동하면서 먼저 다가가는 흐름이 분명합니다.</p>
+<p>그래서 새 자극 앞에서 망설임이 적고, 살피기 전에 먼저 손을 뻗는 결이 자연스럽게 나오며 점수가 낮음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>처음 보는 놀이기구 앞에서도 다른 친구들이 어떻게 노는지 보기 전에 먼저 올라가 직접 해보며 감각으로 익히는 모습이 자주 보입니다.</p>
+<p>낯선 어른에게도 인사를 먼저 건네고 친구가 되자고 말할 만큼 접근성이 빠른 결이라, 작은 실수도 경험으로 자연스럽게 받아들입니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 시작 전 10초 멈춤 연습</b>
+      <p>밀고 나가는 결이 강한 아이는 행동 전 짧은 멈춤이 가장 큰 안전장치가 됩니다. 하나 둘 셋 세는 단순한 약속이 결을 잘 잡아줍니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 잘했어 대신 어떻게 살폈는지 짚기</b>
+      <p>결과만 칭찬하면 더 거칠게 가속됩니다. 살피고 시작한 부분을 짚어주면 살피는 결도 함께 자랍니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 다치지 않는 도전 범위</b>
+      <p>도전을 막기보다 안전한 범위를 미리 정해두면 결이 그 안에서 충분히 펼쳐집니다. 울타리가 있어야 햇빛도 마음껏 쏟아질 수 있습니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">만족</div>
+      <div class="score-box">
+        <strong>이도윤 군의 만족은 65점, 높음 결입니다.</strong>
+        <p>일상에서 좋은 결을 자주 발견하고 즐거움을 비교적 쉽게 표현하는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>이도윤 군의 만족 65점은 흥을 만드는 기운이 절제하는 기운보다 분명하게 우세하면서 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 월지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 년지)</span></li></ul>
+        </div>
+      </div>
+      <p>흥을 만드는 기운이 강하게 자리잡고 절제하는 기운은 약하게 머무는 구성이라, 좋은 자극에 빠르고 크게 반응하는 결이 자연스럽게 우세합니다.</p>
+<p>긍정적인 감정 표현이 빠른 만큼 점수가 높음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>맛있는 간식이 나오면 한입 먹기 전부터 표정이 환해지고 가족 모두에게 맛있다고 자랑하는 모습이 자연스럽게 나옵니다.</p>
+<p>주말 외출이 정해지면 며칠 전부터 기대를 말로 표현해, 어른의 하루 기분까지 함께 끌어올리는 결이 분명하게 보입니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 좋았던 순간 하루 끝에 다시 떠올리기</b>
+      <p>좋은 감정을 한 번 더 말하게 하면 결이 더 단단해집니다. 잠들기 전 짧은 회상 시간이면 충분합니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 즐거움에 구체적인 이름 붙이기</b>
+      <p>재밌었지 대신 어떤 부분이 가장 재밌었어를 물어 주세요. 흥을 만드는 결이 풍부해지고 표현이 깊어집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 작은 성취 자주 보이는 환경</b>
+      <p>체크리스트 스티커, 작은 완성 트로피처럼 즐거움을 시각화하는 도구가 곁에 있으면 결이 자주 살아납니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">흔들림</div>
+      <div class="score-box">
+        <strong>이도윤 군의 흔들림은 42점, 중간 결입니다.</strong>
+        <p>안정과 민감함이 함께 있어 상황에 따라 감정의 폭이 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>이도윤 군의 흔들림 42점은 마음을 받는 기운과 정리해주는 기운이 비슷한 무게로 균형을 이루며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 시지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+      </div>
+      <p>받쳐주는 기운은 멀리서 가볍게 작동하고, 끌고 나가는 기운이 자리잡고 있어 감정을 안으로 깊이 들이기보다 바깥으로 풀어내는 흐름이 함께 있습니다.</p>
+<p>그래서 평소에는 비교적 잔잔하지만 피곤하거나 낯선 상황에서는 감정이 크게 올라오는 일이 있고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>평소 다툼에는 금방 표정이 풀리지만 잠이 부족한 날 저녁에는 작은 말에도 울음이 크게 올라오는 모습이 보입니다.</p>
+<p>가까운 사람의 말에는 민감하게 반응하면서도 익숙한 환경에서는 비교적 빠르게 회복하는 결이 자연스럽게 함께 있습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 감정이 올라온 뒤 말할 시간 따로 두기</b>
+      <p>큰 감정이 올라온 순간 바로 가르치려 하면 더 길게 갑니다. 가라앉은 뒤 5분이면 말이 잘 닿습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 지금 마음이 커졌구나 먼저 받기</b>
+      <p>결의 크기를 먼저 인정해주는 한마디가 감정 회복의 가장 빠른 길입니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 피곤한 날 자극 줄이기</b>
+      <p>잠이 부족한 날에는 일정과 자극을 평소의 70% 정도로 줄여 주세요. 결이 흔들리는 폭이 자연스럽게 작아집니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">어울림</div>
+      <div class="score-box">
+        <strong>이도윤 군의 어울림은 70점, 높음 결입니다.</strong>
+        <p>함께하는 흐름에서 마음이 살아나고 친구를 잘 끌어모으는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>이도윤 군의 어울림 70점은 표현하는 기운과 끌고 나가는 기운이 함께 작동하면서 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li>
+<li>끌고 나가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>혼자 가는 기운 <span>(겁재 시간)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 끌고 나가는 기운이 두 자리에서 함께 작동해 사람을 모으고 같이 노는 흐름을 만드는 결이 분명합니다.</p>
+<p>혼자 가는 기운은 멀리서 약하게 머물러 균형은 잡아주되 크게 제동을 걸지 않아 점수가 높음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>놀이터에서 처음 만난 친구에게도 같이 놀자고 먼저 말을 걸고 자기 놀이의 규칙을 알려주며 흐름을 만드는 모습이 자주 보입니다.</p>
+<p>여럿이 함께한 자리 뒤에는 표정이 더 밝아지고 집에 와서도 친구 이름을 여러 번 말하며 관계를 마음 안에서 한 번 더 즐깁니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 함께 노는 시간 충분히 확보</b>
+      <p>결이 자라는 가장 큰 토양은 또래와의 시간입니다. 일주일에 1~2회는 친구와 노는 일정을 안정적으로 두면 결이 더 깊어집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 친구 마음 함께 읽어주기</b>
+      <p>친구가 왜 그랬을지 함께 생각해보는 질문을 건네 주세요. 어울림 결이 공감으로 자라납니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 따뜻한 또래 환경 유지</b>
+      <p>지나치게 경쟁적인 환경에서는 결이 빠르게 지칩니다. 협동 중심의 자리가 결과 가장 잘 맞습니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">끈기</div>
+      <div class="score-box">
+        <strong>이도윤 군의 끈기는 28점, 낮음 결입니다.</strong>
+        <p>관심사가 다양하고 한 자리에 오래 묶이기보다 유연하게 옮겨가는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>이도윤 군의 끈기 28점은 붙잡는 기운과 흐름을 바꾸는 기운이 결합되어 나온 결과로, 흐름을 바꾸는 쪽이 우세합니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 월지)</span></li>
+<li>표현하는 기운 <span>(식신 월간)</span></li></ul>
+        </div>
+      </div>
+      <p>절제하는 기운은 약하게 자리잡고 있고 흥을 만드는 기운과 표현하는 기운이 두 자리에서 강하게 작동해 새 자극으로 옮겨가는 흐름이 분명합니다.</p>
+<p>끝까지 가는 힘이 부족한 것이 아니라 다양한 자극을 통해 감각을 넓히는 결이 우세해 점수가 낮음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>퍼즐을 시작한 지 5분 만에 색칠 도구로 옮겨가고 다시 자석 블록으로 넘어가며 여러 놀이의 입구를 빠르게 오갑니다.</p>
+<p>한 가지 일을 길게 시키면 흥미가 빨리 빠지지만, 짧은 단계로 나눠주면 결국 마무리까지 가는 힘이 살아나는 결이 자연스럽습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 짧은 과제 여러 번 나누기</b>
+      <p>5~10분 단위의 작은 과제를 여러 번 성공하게 해 주세요. 짧은 성취가 쌓일수록 결의 지속력도 함께 자랍니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 끝까지 해 대신 여기까지 해보자</b>
+      <p>완성을 강요하면 결이 더 빨리 빠집니다. 분명한 종료 지점을 함께 정하면 끝맺는 힘이 자연스럽게 살아납니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 선택지를 줄이고 완료 지점을 보이게</b>
+      <p>주변에 자극이 너무 많으면 결이 더 빨리 옮겨갑니다. 한 번에 두세 가지 선택지만 두고 완료 표시가 보이는 환경을 만들어 주세요.</p>
+    </div>
+  </div>
+    </section>
+  
+      <section class="page">
+        <div class="chapter">원숭이 유형 자세히 살펴보기</div>
+        <p>이도윤 군은 활기와 어울림이 가장 두드러지고 즐거움을 빠르게 발견하는 흐름이 함께 있어, 자리 분위기를 먼저 만들고 또래를 자연스럽게 모으는 원숭이 결의 아이입니다.</p>
+        <h3>이런 결이 강점입니다</h3>
+        <ul><li>에너지가 풍부해 새 자리에서도 분위기를 빠르게 만들어냅니다.</li><li>친구를 잘 끌어모으고 함께 노는 흐름을 자연스럽게 설계합니다.</li><li>긍정적인 감정 표현이 빠르고 가족의 분위기까지 함께 끌어올립니다.</li></ul>
+        <h3>이런 점은 살펴주세요</h3>
+        <ul><li>흥미가 빨리 옮겨가 한 가지 일을 끝까지 가져가는 데 시간이 더 필요합니다.</li><li>살피는 시간이 짧아 작은 사고로 이어지지 않도록 안전 약속이 필요합니다.</li><li>기대가 큰 만큼 약속이 어긋났을 때의 실망도 크게 표현될 수 있습니다.</li></ul>
+        <h3>양육 코칭</h3>
+        <div class="tips">
+    <div class="tip">
+      <b>시간 · 몸 쓰기와 짧은 과제 번갈아</b>
+      <p>큰 활동과 짧은 집중 과제를 번갈아 두면 결이 가장 건강하게 흐릅니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 안전 약속과 칭찬 함께</b>
+      <p>도전을 막기보다 약속을 먼저 정하고 지킨 부분을 짚어 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 완료 지점이 보이는 자리</b>
+      <p>끝맺는 자리가 눈에 보이는 환경에서 결이 마무리까지 잘 갑니다.</p>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">어머님 사주</div>
+      <p>정수아 어머님의 일간은 임수(壬)입니다. 강물·큰 물처럼 부드럽게 흐르면서도 큰 흐름을 만들어내는 결이 자연스럽습니다.</p>
+<p>사주에는 표현하는 기운과 받쳐주는 기운이 함께 있어 아이의 마음을 빠르게 알아차리고 흐름을 부드럽게 바꾸는 힘이 강합니다.</p>
+<p>이 결은 이도윤 군의 빠른 에너지를 막지 않고 물길처럼 방향만 잡아주는 방식으로 자연스럽게 이어집니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님 사주</div>
+      <p>이성준 아버님의 일간은 갑목(甲)입니다. 큰 나무처럼 곧게 자라며 기준을 세우는 결이 자연스럽습니다.</p>
+<p>사주에는 끌고 나가는 기운과 절제하는 기운이 함께 자리해 가족의 방향을 분명하게 잡아가는 힘이 있습니다.</p>
+<p>이 결은 이도윤 군이 자유롭게 가지를 뻗을 수 있도록 단단한 줄기 역할을 해주지만, 가지치기를 자주 하면 아이의 결이 답답해질 수 있어 살펴주는 것이 좋습니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">어머님과 아이의 궁합</div>
+      <div class="mini">수극화(흐름을 정리하는 관계)</div>
+      <p>정수아 어머님의 임수(壬)와 이도윤 군의 병화(丙)는 큰 물과 한낮의 해의 관계로, 물이 해의 열기를 부드럽게 식혀주는 흐름입니다.</p>
+<p>아이가 에너지를 크게 쏟아낼 때 어머님의 차분한 한마디나 분위기 전환이 결을 자연스럽게 정리해주는 자리가 됩니다.</p>
+<p>다만 물의 흐름이 너무 강하면 햇빛이 작아질 수 있으니, 정리는 짧게 두고 다시 빛을 낼 자리를 함께 열어주는 균형이 중요합니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>외출 직후 정수아 어머님이 이도윤 군에게 시원한 음료를 내밀며 5분만 앉아서 이야기하자고 권하는 순간은, 두 결이 가장 자연스럽게 만나는 자리이며 다음 활동의 안정으로 이어집니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님과 아이의 궁합</div>
+      <div class="mini">목생화(에너지를 더해주는 관계)</div>
+      <p>이성준 아버님의 갑목(甲)과 이도윤 군의 병화(丙)는 큰 나무와 햇빛의 관계로, 나무가 햇빛을 더 크게 살려주는 흐름입니다.</p>
+<p>아버님이 큰 방향을 정해주는 자리에서는 아이의 결이 더 분명하게 펼쳐지고, 함께하는 활동에서 에너지가 한층 살아납니다.</p>
+<p>다만 갑목의 곧은 결이 아이의 즉흥성과 부딪힐 수 있어, 큰 방향만 잡아주고 세부는 아이에게 맡기는 흐름이 가장 좋습니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>주말 오전 이성준 아버님과 이도윤 군이 함께 자전거 코스를 정한 뒤 출발하는 시간은, 두 결이 가장 깊게 만나며 아이의 활기가 건강하게 흐르는 자리가 됩니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">함께 살펴줄 결</div>
+      
+        <div class="matrix synergy">
+          <h3>아버님의 단단한 방향이 아이의 에너지를 살려주는 자리</h3>
+          <div class="mini">강한 시너지 - 큰 나무(갑목) x 활기(78)</div>
+          <p>이성준 아버님의 갑목은 큰 줄기처럼 방향을 분명하게 잡아주는 결입니다.</p>
+<p>이도윤 군의 활기는 방향이 정해진 자리에서 가장 건강하게 풀려나가는 결입니다.</p>
+<p>두 결이 만나면 아이의 에너지가 흩어지지 않고 한 방향으로 쏟아져 큰 성취로 이어집니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>주말 오전 함께 자전거 코스를 정한 뒤 끝까지 달리기.</p><p>저녁 산책 시간에 오늘 갈 거리를 함께 정하고 시작하기.</p></div>
+          
+        </div>
+      
+
+        <div class="matrix conflict">
+          <h3>어머님의 빠른 정리가 아이의 즉흥성을 막는 자리</h3>
+          <div class="mini">보통 충돌 - 큰 물(임수) x 끈기(28)·만족(65)</div>
+          <p>정수아 어머님의 임수는 흐름을 빠르게 정리해주는 결입니다.</p>
+<p>이도윤 군의 끈기와 만족은 흥미가 빠르게 옮겨가며 즐거움을 발견하는 결입니다.</p>
+<p>어머님이 다음 활동으로 빠르게 옮기게 하면 아이의 즐거움 결이 미처 마무리되지 못한 채 끊기면서 충돌이 생깁니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>놀이가 한창인 순간 정리할 시간이라는 말에 아이가 강하게 거부하는 장면.</p></div>
+          <div class="resolve">이렇게 풀어보세요. 바로 정리하라고 말하기보다 마무리까지 3분 남았다고 미리 알려주고, 아이가 스스로 마지막 한 단락을 끝내게 해 주세요. 정리의 흐름은 그대로 두되 마무리 자리만 열어주면 충돌이 협력으로 바뀝니다.</div>
+        </div>
+      
+    </section>
+  
+      <section class="page">
+        <div class="chapter">마지막 당부</div>
+        <p>이도윤 군은 한낮의 햇빛처럼 에너지를 빠르게 풀어내고 사람을 모으는 결이 가장 두드러지는 원숭이 결의 아이입니다. 빠른 흐름은 약점이 아니라 결의 본 모양입니다.</p>
+<p>정수아 어머님의 부드러운 흐름은 아이의 큰 에너지를 정리해주는 자원이고, 이성준 아버님의 단단한 방향성은 그 에너지를 한 방향으로 쏟아내게 해주는 자원입니다.</p>
+<p>이 보고서는 정해진 결을 말하는 것이 아니라 지금 시점의 결을 함께 읽어보는 자료입니다. 아이가 자라며 결의 표현은 달라지지만, 결을 알아주는 어른의 자리가 가장 큰 영향으로 남는다는 점만 기억해 주세요.</p>
+      </section>
+    </article>
+  
+
+    <article class="sample " id="sample-2">
+      <section class="cover">
+        <div class="sample-file">sample-003.json</div>
+        <h1>사주로 풀어보는 우리 아이 마음</h1>
+        <p>최서아 양 · 만 3세 6개월</p>
+        <p>한지윤 어머님 · 최민호 아버님</p>
+      </section>
+      <section class="page">
+        <div class="chapter">아이기질 한눈에 보기</div>
+        <p>최서아 양은 어느 한 결이 크게 앞서지 않고 6요인이 비슷한 무게로 자리한 균형형 결의 아이로, 상황에 따라 다양한 결을 자연스럽게 꺼내 쓰는 흐름이 두드러집니다.</p>
+        <div class="scores">
+    <div class="score-row">
+      <div class="score-name">활기</div>
+      <div class="score-track"><div class="score-fill" style="width:55%"></div></div>
+      <div class="score-num">55 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">조심</div>
+      <div class="score-track"><div class="score-fill" style="width:50%"></div></div>
+      <div class="score-num">50 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">만족</div>
+      <div class="score-track"><div class="score-fill" style="width:52%"></div></div>
+      <div class="score-num">52 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">흔들림</div>
+      <div class="score-track"><div class="score-fill" style="width:48%"></div></div>
+      <div class="score-num">48 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">어울림</div>
+      <div class="score-track"><div class="score-fill" style="width:58%"></div></div>
+      <div class="score-num">58 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">끈기</div>
+      <div class="score-track"><div class="score-fill" style="width:54%"></div></div>
+      <div class="score-num">54 <span>중간</span></div>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">활기</div>
+      <div class="score-box">
+        <strong>최서아 양의 활기는 55점, 중간 결입니다.</strong>
+        <p>차분함과 활발함이 함께 있어 상황에 따라 에너지가 달라지는 균형의 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>최서아 양의 활기 55점은 사주에서 에너지를 만드는 기운과 누르는 기운이 비슷한 무게로 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 년지)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 받쳐주는 기운이 한 칸씩 자리하면서 어느 한쪽이 크게 앞서지 않는 균형이 만들어졌습니다.</p>
+<p>그래서 자리 분위기와 컨디션에 따라 활동성이 부드럽게 바뀌고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>익숙한 거실에서는 음악에 맞춰 몸을 흔들며 노래를 부르다가도, 낯선 가족 모임에서는 한 자리에 앉아 조용히 분위기를 살피는 모습이 함께 보입니다.</p>
+<p>좋아하는 놀이가 분명할 때는 오래 움직이지만 흥미가 떨어지면 자연스럽게 조용한 놀이로 옮겨가는 결이 자리잡고 있습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 움직이는 시간과 머무는 시간 번갈아</b>
+      <p>균형형 결은 한쪽으로 일정을 몰면 다른 결이 살아나지 못합니다. 오전 활동, 오후 차분 놀이처럼 두 결을 모두 쓰는 흐름이 좋습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 오늘의 에너지 상태 먼저 물어보기</b>
+      <p>에너지가 매일 다르게 흘러갑니다. 활동 전에 오늘은 뛰고 싶어 앉고 싶어를 물어주면 결이 자기 자리를 잘 찾습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 활동 선택지 두 가지로 좁히기</b>
+      <p>선택지가 많으면 결이 흩어집니다. 정적인 놀이와 동적인 놀이 한 가지씩 두 개로 좁혀 주세요.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">조심</div>
+      <div class="score-box">
+        <strong>최서아 양의 조심은 50점, 중간 결입니다.</strong>
+        <p>도전과 신중함이 함께 있어 익숙함에 따라 접근 속도가 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>최서아 양의 조심 50점은 살피는 기운과 밀고 나가는 기운이 비슷한 무게로 균형을 이루며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 월간)</span></li></ul>
+        </div>
+      </div>
+      <p>절제하는 기운과 끌고 나가는 기운이 한 칸씩 자리잡아 양쪽이 비슷한 힘으로 마주섭니다.</p>
+<p>그래서 익숙한 자리에서는 빠르게 다가가고 낯선 자리에서는 한 박자 살피는 흐름이 함께 보이며, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>친한 친구와의 자리에서는 먼저 이름을 부르며 다가가지만, 처음 가는 키즈카페에서는 입구에서 한참을 살핀 뒤에야 안으로 들어갑니다.</p>
+<p>처음에는 살피고 괜찮다고 느끼면 금방 참여하는 식으로 속도가 바뀌는 결이 자연스럽게 보입니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 처음에는 살피는 시간 허용</b>
+      <p>균형형 결은 첫 자리에서 살펴볼 짧은 시간이 주어지면 본 활동에 빠르게 합류합니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 할래 말래 대신 어느 것부터 볼까</b>
+      <p>양자택일 질문은 결을 굳게 합니다. 선택의 폭을 단계로 풀어주면 결이 자연스럽게 열립니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 낯선 자극은 작은 단계로 나누기</b>
+      <p>한 번에 큰 자극을 주기보다 작은 자극을 여러 번 만나게 해 주세요. 결이 그 안에서 자기 페이스를 만듭니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">만족</div>
+      <div class="score-box">
+        <strong>최서아 양의 만족은 52점, 중간 결입니다.</strong>
+        <p>표현과 절제가 함께 있어 상황에 따라 만족감의 표현이 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>최서아 양의 만족 52점은 흥을 만드는 기운과 정리하는 기운이 비슷한 무게로 자리하며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 월지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 년지)</span></li></ul>
+        </div>
+      </div>
+      <p>두 기운이 한 칸씩 자리하면서 좋은 자극에는 자연스럽게 반응하지만 마음에 걸리는 점도 함께 알아차리는 결이 만들어졌습니다.</p>
+<p>그래서 표정 변화가 극단으로 가지 않고 부드럽게 흘러가는 흐름이 있고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>좋아하는 책을 선물 받으면 표정이 환해지지만 표지가 마음에 들지 않으면 잠시 한 박자 가라앉는 결이 함께 보입니다.</p>
+<p>기분 좋은 순간을 잘 느끼면서도 불편한 점을 함께 알아차리는 균형이 있어 어른이 감정을 함께 정리해주면 마음이 부드럽게 풀립니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 좋았던 점과 아쉬운 점 함께 떠올리기</b>
+      <p>하루 끝에 두 가지 결을 모두 말해보는 짧은 시간이 균형형 결을 가장 건강하게 자라게 합니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 기뻐해야지 대신 어떤 점이 좋았어</b>
+      <p>감정의 결을 정답으로 강요하지 않고 구체적인 부분을 묻는 질문이 잘 닿습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 즐거움 뒤 조용한 정리 시간</b>
+      <p>신나는 활동 뒤 5~10분의 정리 시간이 다음 활동의 표정을 한결 부드럽게 만들어 줍니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">흔들림</div>
+      <div class="score-box">
+        <strong>최서아 양의 흔들림은 48점, 중간 결입니다.</strong>
+        <p>안정과 민감함이 함께 있어 상황에 따라 감정의 폭이 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>최서아 양의 흔들림 48점은 마음을 받는 기운과 정리해주는 기운이 비슷한 무게로 균형을 이루며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 월간)</span></li></ul>
+        </div>
+      </div>
+      <p>받쳐주는 기운과 끌고 나가는 기운이 한 칸씩 자리하면서 감정을 안으로 들이는 결과 바깥으로 풀어내는 결이 함께 있습니다.</p>
+<p>그래서 평소에는 잔잔하지만 피곤하거나 낯선 자리에서는 감정이 한 단계 크게 올라올 수 있고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>어린이집에서 작은 다툼이 있어도 보통은 금방 회복하지만, 잠이 부족한 날 저녁에는 평소보다 눈물의 폭이 깊어지는 모습이 보입니다.</p>
+<p>익숙한 환경에서는 회복이 빠르고 가까운 사람의 말에는 민감하게 반응하는 결이 자연스럽게 함께 있습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 감정이 올라온 뒤 말할 시간 두기</b>
+      <p>큰 감정의 순간 바로 가르치지 말고 가라앉은 뒤 짧게 이야기 나누는 시간이 잘 닿습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 지금 마음이 커졌구나 먼저 받기</b>
+      <p>결의 크기를 인정해주는 한마디가 회복의 가장 빠른 길입니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 피곤한 날 자극 줄이기</b>
+      <p>잠이 부족한 날은 일정과 자극을 70% 정도로 줄여주면 결이 흔들리는 폭이 자연스럽게 작아집니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">어울림</div>
+      <div class="score-box">
+        <strong>최서아 양의 어울림은 58점, 중간 결입니다.</strong>
+        <p>어울림과 혼자됨이 함께 있어 관계와 개인 시간을 오가며 균형을 잡는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>최서아 양의 어울림 58점은 관계 감각을 키우는 기운과 자기 자리를 지키는 기운이 비슷한 무게로 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>혼자 가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 혼자 가는 기운이 한 칸씩 자리하면서 관계와 개인 시간을 오가는 결이 자연스럽게 자리잡았습니다.</p>
+<p>그래서 좋아하는 친구와는 즐겁게 어울리고 오래 이어지면 혼자 쉬는 시간을 필요로 하는 흐름이 있고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>친한 친구와 한 시간 정도 신나게 놀고 나면 자연스럽게 자기 책상으로 돌아가 조용히 그림을 그리며 마음을 정리합니다.</p>
+<p>분위기가 편안하면 잘 섞이고 낯선 관계에서는 잠시 거리를 두며 살피는 결이 함께 보여 양쪽 자리에서 자기 페이스를 잡아갑니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 함께 노는 시간 뒤 정리 시간</b>
+      <p>균형형 어울림 결은 관계 후 혼자 정리하는 자리가 있어야 다음 만남이 부드러워집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 오늘은 누구랑 놀고 싶어 묻기</b>
+      <p>선택권을 주는 질문이 결을 가장 자연스럽게 펼치게 합니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 소규모 관계부터 안정적으로</b>
+      <p>한 번에 많은 친구보다 소규모로 시작해 천천히 넓혀가는 환경이 결에 잘 맞습니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">끈기</div>
+      <div class="score-box">
+        <strong>최서아 양의 끈기는 54점, 중간 결입니다.</strong>
+        <p>인내와 즉흥이 함께 있어 흥미가 맞으면 오래 붙잡고 아니면 유연하게 바꾸는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>최서아 양의 끈기 54점은 붙잡는 기운과 흐름을 바꾸는 기운이 비슷한 무게로 자리하며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 월지)</span></li></ul>
+        </div>
+      </div>
+      <p>두 기운이 한 칸씩 자리하면서 어느 한쪽이 크게 앞서지 않는 균형의 결이 만들어졌습니다.</p>
+<p>그래서 좋아하는 일은 오래 이어가지만 흥미가 줄어들면 자연스럽게 옮겨가는 흐름이 함께 보이고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>좋아하는 색칠 놀이는 한 시간 가까이 이어가지만 요구된 주제가 마음에 들지 않으면 5분 만에 다른 놀이로 옮겨가는 결이 보입니다.</p>
+<p>어른이 작은 목표를 함께 정해주면 꾸준함이 살아나고 자기 페이스를 인정받을 때 결이 가장 건강하게 흐릅니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 작은 목표와 쉬는 시간 함께</b>
+      <p>10~15분 집중 후 짧은 쉬는 시간 구조가 결에 잘 맞습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 얼마나 했는지보다 어디까지 해냈는지</b>
+      <p>양보다 완료 지점을 짚어주는 말이 결의 동력이 됩니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 중간 완료 지점 보이는 환경</b>
+      <p>진행도가 시각적으로 보이는 도구가 곁에 있으면 결이 자기 페이스로 마무리합니다.</p>
+    </div>
+  </div>
+    </section>
+  
+      <section class="page">
+        <div class="chapter">사람아이 유형 자세히 살펴보기</div>
+        <p>최서아 양은 6요인이 비슷한 무게로 자리잡아 한 가지 결로 단정하기 어려운 균형형 결의 아이입니다. 상황에 따라 다양한 결을 자연스럽게 꺼내 쓰는 흐름이 가장 두드러집니다.</p>
+        <h3>이런 결이 강점입니다</h3>
+        <ul><li>한쪽 결로 치우치지 않아 다양한 자리에 부드럽게 적응합니다.</li><li>활동과 회복, 관계와 혼자됨을 자연스럽게 오가는 균형 감각이 있습니다.</li><li>상황을 읽고 자기 페이스를 만드는 흐름이 일찍부터 자리잡고 있습니다.</li></ul>
+        <h3>이런 점은 살펴주세요</h3>
+        <ul><li>어느 한 결이 강하게 드러나지 않아 어른이 결을 놓치고 지나가기 쉽습니다.</li><li>선택지가 너무 많으면 결이 흩어져 결정을 미루는 모습이 나타날 수 있습니다.</li><li>잠이 부족한 날에는 평소보다 결의 폭이 크게 흔들릴 수 있습니다.</li></ul>
+        <h3>양육 코칭</h3>
+        <div class="tips">
+    <div class="tip">
+      <b>시간 · 결의 흐름을 따라가는 일정</b>
+      <p>오늘은 어떤 결을 더 쓰고 싶은지 짧게 묻고 일정에 반영해 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 선택지를 두세 개로 좁히기</b>
+      <p>선택을 좁혀주는 한마디가 균형형 결을 가장 잘 살립니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 활동과 회복 자리 모두 두기</b>
+      <p>거실에 두 결을 모두 받아주는 자리를 만들어 주세요.</p>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">어머님 사주</div>
+      <p>한지윤 어머님의 일간은 기토(己)입니다. 작은 흙·텃밭처럼 부드럽게 곁에서 키워주는 결이 자연스럽습니다.</p>
+<p>사주에는 받쳐주는 기운과 표현하는 기운이 함께 있어 아이의 결을 단정하지 않고 자라는 흐름에 맞춰 보살피는 힘이 강합니다.</p>
+<p>이 결은 최서아 양의 균형형 결을 어느 한쪽으로 몰지 않고 다양한 흐름이 모두 자랄 수 있도록 받쳐주는 방식으로 자연스럽게 이어집니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님 사주</div>
+      <p>최민호 아버님의 일간은 계수(癸)입니다. 이슬·맑은 물처럼 섬세하고 깊이를 가진 작은 물의 기운으로, 곁에서 조용히 살펴주는 결이 자연스럽습니다.</p>
+<p>사주에는 살피는 기운과 받쳐주는 기운이 함께 자리해 아이의 결 변화를 빠르게 알아차리는 흐름이 강합니다.</p>
+<p>이 결은 균형형 결의 아이에게 자기 페이스를 인정받는 안정감을 주지만, 살핌이 지나치면 결의 자율성이 작아질 수 있어 적절한 간격이 필요합니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">어머님과 아이의 궁합</div>
+      <div class="mini">동기 토(같은 결로 받쳐주는 관계)</div>
+      <p>한지윤 어머님의 기토(己)와 최서아 양의 무토(戊)는 같은 흙의 결로 서로를 자연스럽게 알아보는 관계입니다.</p>
+<p>어머님의 부드러운 흙이 아이의 큰 산 같은 결 곁에서 함께 머무는 자리가 되어, 결의 다양성이 자연스럽게 펼쳐집니다.</p>
+<p>다만 같은 결끼리는 결이 굳어질 수 있어, 가끔은 다른 자극을 함께 만나는 시간이 균형을 살립니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>주말 오전 한지윤 어머님과 최서아 양이 함께 작은 화분을 정리하는 시간은, 두 결이 자연스럽게 만나며 아이의 균형 감각이 깊어지는 자리가 됩니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님과 아이의 궁합</div>
+      <div class="mini">수극토(흐름을 일깨우는 관계)</div>
+      <p>최민호 아버님의 계수(癸)와 최서아 양의 무토(戊)는 맑은 물과 큰 산의 관계로, 물이 산의 결을 조금씩 새기며 깊이를 더해주는 흐름입니다.</p>
+<p>아버님의 섬세한 질문이 아이의 균형형 결을 자극해 더 분명한 자기 표현으로 이끌어주는 자리가 됩니다.</p>
+<p>다만 살핌이 지나치면 결이 답답해질 수 있어, 작은 자극을 한 번에 하나씩 건네는 흐름이 가장 좋습니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>잠들기 전 최민호 아버님이 최서아 양에게 오늘 가장 신기했던 일이 뭐였어 한 가지를 물어주는 시간은, 두 결이 가장 자연스럽게 만나는 자리가 됩니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">함께 살펴줄 결</div>
+      
+        <div class="matrix synergy">
+          <h3>어머님의 같은 흙 결이 아이의 균형을 받쳐주는 자리</h3>
+          <div class="mini">강한 시너지 - 작은 흙(기토) x 균형형 결(전 요인 중간)</div>
+          <p>한지윤 어머님의 기토는 결을 단정하지 않고 키워주는 흐름입니다.</p>
+<p>최서아 양의 균형형 결은 어느 한쪽으로 몰지 않을 때 가장 잘 자라는 결입니다.</p>
+<p>두 결이 만나면 아이가 자기 페이스로 다양한 결을 펼치는 자리가 만들어집니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>주말 오전 작은 화분을 함께 정리하기.</p><p>저녁 산책에서 오늘 가장 좋았던 결 한 가지 함께 말하기.</p></div>
+          
+        </div>
+      
+
+        <div class="matrix conflict">
+          <h3>아버님의 섬세한 살핌이 아이의 자율성을 작게 만드는 자리</h3>
+          <div class="mini">약한 충돌 - 맑은 물(계수) x 균형형 결</div>
+          <p>최민호 아버님의 계수는 결을 빠르게 알아차리고 살피는 흐름입니다.</p>
+<p>최서아 양의 균형형 결은 살핌이 너무 잦으면 자기 결정을 늦추는 결이 되기 쉽습니다.</p>
+<p>두 결이 만날 때 살핌의 빈도가 자율성을 가로채면서 작은 충돌이 만들어집니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>선택을 앞두고 아버님이 자주 묻자 아이가 결정을 미루는 장면.</p></div>
+          <div class="resolve">이렇게 풀어보세요. 살피는 질문을 한 번에 하나로 줄이고, 결정의 시간을 5분 정도 아이 혼자 가지게 해주세요. 살핌의 깊이는 그대로 두고 빈도만 줄이면 결의 자율성이 자연스럽게 살아납니다.</div>
+        </div>
+      
+    </section>
+  
+      <section class="page">
+        <div class="chapter">마지막 당부</div>
+        <p>최서아 양은 한 가지 결로 단정하기 어려운 균형형 결의 아이입니다. 결이 약한 것이 아니라 다양한 결을 자유롭게 꺼내 쓰는 흐름이 본 모양입니다.</p>
+<p>이번 보고서는 출생 시각 정보가 없는 상태에서 생성되었습니다. 시주 인자는 본문 근거에서 제외했고, 시간 정보가 추가되면 결의 폭이 더 분명해질 수 있습니다.</p>
+<p>한지윤 어머님의 같은 흙 결과 최민호 아버님의 살피는 결이 함께 자리해 아이의 균형형 결이 다양한 자리에서 펼쳐질 수 있는 환경이 자연스럽게 마련되어 있습니다.</p>
+      </section>
+    </article>
+  
+
+    <article class="sample " id="sample-3">
+      <section class="cover">
+        <div class="sample-file">sample-004.json</div>
+        <h1>사주로 풀어보는 우리 아이 마음</h1>
+        <p>강예린 양 · 만 6세 2개월</p>
+        <p>윤서영 어머님 · 강태현 아버님</p>
+      </section>
+      <section class="page">
+        <div class="chapter">아이기질 한눈에 보기</div>
+        <p>강예린 양은 감정을 매우 깊게 받아들이는 결과 관계 안에서 마음을 길게 머금는 결이 함께 두드러지는 아이로, 한 번 들어온 감정을 천천히 정리해가는 사슴 같은 흐름이 두드러집니다.</p>
+        <div class="scores">
+    <div class="score-row">
+      <div class="score-name">활기</div>
+      <div class="score-track"><div class="score-fill" style="width:50%"></div></div>
+      <div class="score-num">50 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">조심</div>
+      <div class="score-track"><div class="score-fill" style="width:60%"></div></div>
+      <div class="score-num">60 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">만족</div>
+      <div class="score-track"><div class="score-fill" style="width:55%"></div></div>
+      <div class="score-num">55 <span>중간</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">흔들림</div>
+      <div class="score-track"><div class="score-fill" style="width:88%"></div></div>
+      <div class="score-num">88 <span>매우높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">어울림</div>
+      <div class="score-track"><div class="score-fill" style="width:75%"></div></div>
+      <div class="score-num">75 <span>높음</span></div>
+    </div>
+  
+
+    <div class="score-row">
+      <div class="score-name">끈기</div>
+      <div class="score-track"><div class="score-fill" style="width:62%"></div></div>
+      <div class="score-num">62 <span>높음</span></div>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">활기</div>
+      <div class="score-box">
+        <strong>강예린 양의 활기는 50점, 중간 결입니다.</strong>
+        <p>차분함과 활발함이 함께 있어 상황에 따라 에너지가 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>강예린 양의 활기 50점은 사주에서 에너지를 만드는 기운과 누르는 기운이 비슷한 무게로 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 월지)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 받쳐주는 기운이 한 칸씩 자리하면서 어느 한쪽이 크게 앞서지 않는 균형의 결이 만들어졌습니다.</p>
+<p>그래서 컨디션과 자리 분위기에 따라 활동성이 부드럽게 바뀌는 흐름이 있고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>익숙한 가족 모임에서는 노래를 부르고 춤을 추다가도 새로운 자리에서는 한 자리에 앉아 분위기를 살피는 결이 함께 나타납니다.</p>
+<p>좋아하는 일에는 오래 움직이고 흥미가 떨어지면 자연스럽게 조용한 놀이로 옮겨가는 결이 자리잡고 있습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 활동과 머무름 번갈아 두기</b>
+      <p>한쪽으로 일정을 몰지 말고 두 결을 모두 쓰는 흐름이 좋습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 오늘의 에너지 상태 먼저 묻기</b>
+      <p>오늘은 뛰고 싶어 앉고 싶어를 물어보면 결이 자기 자리를 잘 찾습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 활동 선택지 두 가지로 좁히기</b>
+      <p>정적인 놀이와 동적인 놀이 한 가지씩 두 개로 좁혀 주세요.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">조심</div>
+      <div class="score-box">
+        <strong>강예린 양의 조심은 60점, 중간 결입니다.</strong>
+        <p>도전과 신중함이 함께 있어 익숙함에 따라 접근 속도가 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>강예린 양의 조심 60점은 살피는 기운과 밀고 나가는 기운이 결합되어 나온 결과로, 살피는 쪽이 한 박자 더 우세합니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 월지)</span></li>
+<li>절제하는 기운 <span>(정관 시간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+      </div>
+      <p>받쳐주는 기운과 절제하는 기운이 두 자리에서 함께 작동하고 밀고 나가는 기운은 멀리서 약하게 머물러 있어 살피는 결이 살짝 우세합니다.</p>
+<p>그래서 새 자극 앞에서 잠시 멈춰 분위기를 읽는 결이 자연스럽게 나오고, 점수가 중간 구간 위쪽에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>새 학기 첫날 강예린 양은 교실 입구에서 잠시 멈춰 분위기를 살핀 뒤 자기 자리로 천천히 들어가는 결을 보입니다.</p>
+<p>익숙한 친구가 있는 자리에서는 비교적 빠르게 합류하지만, 처음 보는 친구 사이에서는 한 박자 살피며 페이스를 만들어갑니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 적응 시간 일정에 포함</b>
+      <p>새 활동 전 10분 정도의 살핌 시간을 일정에 함께 잡아 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 괜찮아 빨리 가 대신 천천히 가도 돼</b>
+      <p>재촉의 한마디는 결을 더 굳게 합니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 처음 앉을 자리 정해두기</b>
+      <p>낯선 공간에서는 첫 자리가 결의 안정에 가장 큰 영향을 줍니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">만족</div>
+      <div class="score-box">
+        <strong>강예린 양의 만족은 55점, 중간 결입니다.</strong>
+        <p>표현과 절제가 함께 있어 상황에 따라 만족감의 표현이 달라지는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>강예린 양의 만족 55점은 흥을 만드는 기운과 정리하는 기운이 비슷한 무게로 자리하며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 년지)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 시간)</span></li></ul>
+        </div>
+      </div>
+      <p>두 기운이 비슷한 무게로 자리하면서 기쁨에 부드럽게 반응하고 마음에 걸리는 점도 함께 알아차리는 균형의 결이 만들어졌습니다.</p>
+<p>그래서 표현이 극단으로 가지 않고 부드럽게 흐르는 흐름이 있고, 점수가 중간 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>선물을 받으면 표정은 밝아지지만 곧 정성스러운 인사로 마음을 정리하는 결이 함께 보이는 아이입니다.</p>
+<p>기분 좋은 순간을 즐기면서도 자리 분위기를 함께 살피는 결이 있어 어른이 함께 정리해주면 마음이 부드럽게 풀립니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 좋았던 점과 아쉬운 점 함께</b>
+      <p>두 결을 모두 말해보는 짧은 시간이 좋습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 기뻐해야지 대신 어떤 점이 좋았어</b>
+      <p>감정의 결을 정답으로 강요하지 않는 질문이 잘 닿습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 즐거움 뒤 조용한 정리 시간</b>
+      <p>신나는 활동 뒤 5분 정리 시간이 다음 표정을 부드럽게 합니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">흔들림</div>
+      <div class="score-box">
+        <strong>강예린 양의 흔들림은 88점, 매우높음 결입니다.</strong>
+        <p>감정을 매우 깊게 느끼고 회복에도 충분한 시간과 품이 필요한 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>강예린 양의 흔들림 88점은 마음을 깊게 받는 기운이 정리해주는 기운보다 매우 우세하게 결합되어 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>받쳐주는 기운 <span>(정인 월지)</span></li>
+<li>끌어안는 기운 <span>(편인 년간)</span></li>
+<li>절제하는 기운 <span>(정관 시간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>끌고 나가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+      </div>
+      <p>받쳐주는 기운과 끌어안는 기운이 두 자리에서 강하게 작동하고 절제하는 기운까지 함께 자리하면서 감정을 안으로 깊이 들이는 흐름이 매우 우세합니다.</p>
+<p>바깥으로 끌고 나가는 기운은 멀리서 약하게 머물러 균형을 잡지 못하기 때문에, 한 번 들어온 감정이 마음 안에 오래 머무는 결이 매우높음 구간으로 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>어린이집에서 친구가 무심코 한 말이 잠자리에 누운 뒤에야 다시 떠올라 작은 목소리로 그때 왜 그랬을까 하고 묻는 일이 자주 있습니다.</p>
+<p>작은 평가 한마디나 어른의 표정 변화도 마음에 깊이 들어와 한참을 머무르고, 몸으로 기대거나 울음으로 풀어내는 일이 자연스럽게 자주 나타납니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 회복 시간을 일정의 일부로</b>
+      <p>감정이 올라온 뒤 충분히 가라앉을 시간을 일정 안에 미리 두면, 회복의 깊이가 짧아집니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 감정을 줄이려 하지 말고 먼저 담기</b>
+      <p>별일 아니야는 결에 닿지 않습니다. 크기를 인정해주는 한마디가 가장 빠른 회복의 길입니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 큰 소리와 갑작스러운 변화 줄이기</b>
+      <p>외부 자극이 줄어들 때 비로소 내면 정리가 시작되는 결입니다. 잠자리 한 시간 전부터 자극을 낮춰 주세요.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">어울림</div>
+      <div class="score-box">
+        <strong>강예린 양의 어울림은 75점, 높음 결입니다.</strong>
+        <p>공감적이고 사교적이며 함께 노는 흐름에서 마음이 살아나는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>강예린 양의 어울림 75점은 관계 감각을 키우는 기운과 자기 자리를 지키는 기운이 결합되어 나온 결과로, 관계 결이 분명히 우세합니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>표현하는 기운 <span>(식신 월간)</span></li>
+<li>끌어안는 기운 <span>(편인 년간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>혼자 가는 기운 <span>(비견 년간)</span></li></ul>
+        </div>
+      </div>
+      <p>표현하는 기운과 끌어안는 기운이 두 자리에서 함께 작동하면서 사람의 마음을 빠르게 알아차리는 결이 분명합니다.</p>
+<p>혼자 가는 기운은 멀리서 약하게 머물러 균형은 잡아주되 큰 제동을 걸지 않아 점수가 높음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>친구가 울고 있으면 가장 먼저 다가가 등을 토닥이고 자기 손수건을 건네는 모습이 자연스럽게 보이는 아이입니다.</p>
+<p>어른의 기분 변화에도 민감해 부모가 피곤한 날에는 말투가 조심스러워지고 작은 도움을 먼저 내미는 결이 살아납니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 함께한 뒤 마음 정리 시간 두기</b>
+      <p>관계 후 짧게라도 자기 정리 자리를 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 네 마음과 친구 마음 구분하기</b>
+      <p>친구 일은 친구의 마음, 네가 도와준 마음은 너의 마음이라고 짚어 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 따뜻하지만 과밀하지 않은 관계권</b>
+      <p>가까운 한두 명과 정기적으로 만나는 환경이 결을 가장 깊게 자라게 합니다.</p>
+    </div>
+  </div>
+    </section>
+  
+
+    <section class="page">
+      <div class="chapter">끈기</div>
+      <div class="score-box">
+        <strong>강예린 양의 끈기는 62점, 높음 결입니다.</strong>
+        <p>인내심이 있고 한 번 시작한 일을 자기 페이스로 끝까지 들고 가는 결입니다.</p>
+      </div>
+      <h3>왜 이런 결인가</h3>
+      <p>강예린 양의 끈기 62점은 붙잡는 기운이 흐름을 바꾸는 기운보다 한 박자 더 우세하게 자리하며 나온 결과입니다.</p>
+      <div class="factor-table">
+        <div>
+          <h4>만드는 기운</h4>
+          <ul><li>절제하는 기운 <span>(정관 시간)</span></li></ul>
+        </div>
+        <div>
+          <h4>누르는 기운</h4>
+          <ul><li>흥을 만드는 기운 <span>(상관 년지)</span></li></ul>
+        </div>
+      </div>
+      <p>절제하는 기운이 시간 자리에 자리잡고 흥을 만드는 기운은 한 칸에서 자기 자리를 지키면서 마무리하는 흐름이 한 박자 더 우세합니다.</p>
+<p>그래서 좋아하는 일은 자기 페이스로 길게 가져가는 결이 분명해지고, 점수가 높음 구간에 자리합니다.</p>
+      <h3>일상에서는</h3>
+      <p>그림을 시작하면 한 시간 가까이 한 자리에 앉아 자기 방식대로 마무리까지 가져가는 결이 자주 보입니다.</p>
+<p>속도는 빠르지 않지만 포기하지 않고 다시 시도하며 자기 결로 끝을 보는 흐름이 자연스럽게 자리잡고 있습니다.</p>
+      <h3>양육 Tip</h3>
+      <div class="tips">
+    <div class="tip">
+      <b>시간 · 끝낼 충분한 시간 확보</b>
+      <p>중간에 흐름이 끊기면 결이 답답해집니다. 한 단락을 완성할 시간을 충분히 보장해 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 빠르게 대신 끝까지 해낸 과정 칭찬</b>
+      <p>결의 페이스를 인정하는 한마디가 다음 결을 키웁니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 흐름이 끊기지 않는 자리</b>
+      <p>한 자리에서 마무리할 수 있는 조용한 공간을 만들어 주세요.</p>
+    </div>
+  </div>
+    </section>
+  
+      <section class="page">
+        <div class="chapter">사슴 유형 자세히 살펴보기</div>
+        <p>강예린 양은 감정을 매우 깊게 받아들이는 결과 관계 안에서 마음을 길게 머금는 결, 자기 페이스로 마무리까지 가는 결이 함께 자리한 사슴 결의 아이입니다.</p>
+        <h3>이런 결이 강점입니다</h3>
+        <ul><li>친구와 어른의 마음을 깊이 알아차리고 먼저 다가가 다정하게 대합니다.</li><li>한 번 마음먹은 일은 자기 페이스로 끝까지 가져가는 힘이 분명합니다.</li><li>감정의 결을 깊게 느끼는 만큼 예술과 이야기에 깊이 몰입하는 결이 보입니다.</li></ul>
+        <h3>이런 점은 살펴주세요</h3>
+        <ul><li>작은 자극도 마음 안에 오래 머물러 회복에 충분한 시간이 필요합니다.</li><li>다른 사람의 감정을 자기 일처럼 가져와 안에 쌓아두는 결이 있습니다.</li><li>결이 깊은 만큼 일정이 빽빽하면 빠르게 지치는 모습이 나타납니다.</li></ul>
+        <h3>양육 코칭</h3>
+        <div class="tips">
+    <div class="tip">
+      <b>시간 · 회복 시간 일정 안에 명시</b>
+      <p>외출이나 친구 만남 뒤 짧은 회복 시간을 미리 일정의 일부로 잡아 주세요.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>소통 · 마음의 크기 먼저 인정</b>
+      <p>별일 아니라는 말 대신 크게 남았구나라는 한마디가 결에 닿습니다.</p>
+    </div>
+  
+
+    <div class="tip">
+      <b>환경 · 예측 가능한 따뜻한 관계권</b>
+      <p>가까운 한두 사람과의 안정적인 관계가 결의 가장 큰 자원입니다.</p>
+    </div>
+  </div>
+      </section>
+      
+    <section class="page">
+      <div class="chapter">어머님 사주</div>
+      <p>윤서영 어머님의 일간은 을목(乙)입니다. 들풀과 작은 꽃나무처럼 부드럽게 자라며 곁을 채우는 결이 자연스럽습니다.</p>
+<p>사주에는 표현하는 기운과 받쳐주는 기운이 함께 있어 아이의 결을 빠르게 알아차리고 부드럽게 안아주는 흐름이 강합니다.</p>
+<p>이 결은 강예린 양의 깊은 감정 결과 잘 맞아 결의 크기를 그대로 인정하면서 회복을 돕는 자리가 됩니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님 사주</div>
+      <p>강태현 아버님의 일간은 병화(丙)입니다. 한낮의 태양처럼 밝고 분명한 결로 가족 전체에 빛을 비추는 흐름입니다.</p>
+<p>출생 시각 정보가 없어 시주는 본문 근거에서 제외했지만, 일간과 함께 자리한 기운만으로도 가족을 끌어주는 큰 결이 분명히 드러납니다.</p>
+<p>이 결은 강예린 양의 깊은 감정에 빛을 비춰 회복을 빠르게 도와주지만, 빛의 강도가 강하면 아이의 결이 위축될 수 있어 빛의 거리만 조금 살펴주는 것이 좋습니다.</p>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">어머님과 아이의 궁합</div>
+      <div class="mini">목생금(서로 기운을 주고받는 부드러운 관계)</div>
+      <p>윤서영 어머님의 을목(乙)과 강예린 양의 신금(辛)은 풀과 보석의 관계로, 어머님의 부드러운 결이 아이의 단단한 결을 따뜻하게 감싸는 흐름입니다.</p>
+<p>아이의 마음에 무언가 쌓였을 때 어머님이 곁에 조용히 머물러 주는 것만으로도 결이 부드럽게 풀려나가는 자리가 됩니다.</p>
+<p>다만 풀이 너무 무성하면 보석의 빛이 가려질 수 있어, 살핌의 양과 자기 결의 자리를 함께 두는 균형이 중요합니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>잠들기 전 윤서영 어머님이 강예린 양 곁에 앉아 오늘 마음에 남은 일을 한 줄만 들어주는 시간은, 두 결이 가장 깊게 만나며 다음 날의 안정으로 이어지는 자리가 됩니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">아버님과 아이의 궁합</div>
+      <div class="mini">화극금(빛을 비추는 관계)</div>
+      <p>강태현 아버님의 병화(丙)와 강예린 양의 신금(辛)은 햇빛과 보석의 관계로, 빛이 보석의 결을 더 분명하게 드러내는 흐름입니다.</p>
+<p>아버님의 분명한 말과 큰 활력은 아이의 결을 빛나게 해주지만, 빛이 너무 강하면 작은 보석이 부담을 느낄 수 있습니다.</p>
+<p>강도를 줄이지 않고 빛의 거리를 한 박자 멀리하면 아이의 결이 더 잘 드러나며 회복도 빠르게 일어납니다.</p>
+      <div class="daily"><strong>일상에서는</strong><p>주말 오후 강태현 아버님이 강예린 양과 함께 그림책 한 권을 천천히 읽으며 한 장면씩 천천히 이야기 나누는 시간은, 두 결이 가장 부드럽게 만나는 자리가 됩니다.</p></div>
+    </section>
+  
+      
+    <section class="page">
+      <div class="chapter">함께 살펴줄 결</div>
+      
+        <div class="matrix synergy">
+          <h3>어머님의 부드러운 결이 아이의 깊은 감정을 안아주는 자리</h3>
+          <div class="mini">강한 시너지 - 들풀(을목) x 흔들림(88)·어울림(75)</div>
+          <p>윤서영 어머님의 을목은 결을 다그치지 않고 곁에서 키워주는 흐름입니다.</p>
+<p>강예린 양의 흔들림과 어울림은 크기를 인정받을 때 가장 건강하게 풀리는 결입니다.</p>
+<p>두 결이 만나면 아이가 안에 쌓아둔 감정을 잠자리에서 자연스럽게 풀어내는 흐름이 만들어집니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>잠들기 전 5분 동안 어머님이 아이의 등을 토닥이며 오늘 가장 마음에 남은 일 한 줄 듣기.</p><p>어린이집 하원 직후 간식과 함께 가장 좋았던 장면 함께 떠올리기.</p></div>
+          
+        </div>
+      
+
+        <div class="matrix conflict">
+          <h3>아버님의 강한 빛이 아이의 깊은 결을 위축시키는 자리</h3>
+          <div class="mini">보통 충돌 - 한낮의 해(병화) x 흔들림(88)</div>
+          <p>강태현 아버님의 병화는 결을 분명하게 드러내는 빛의 흐름입니다.</p>
+<p>강예린 양의 흔들림은 빛이 갑작스럽게 들어오면 안에서 굳어버리는 결이 있습니다.</p>
+<p>빛의 강도가 결의 크기보다 빠르게 작동하면서 결이 미처 자리잡기 전 위축되는 충돌이 만들어집니다.</p>
+          <div class="daily"><strong>일상에서는</strong><p>아이가 슬픈 일을 말하는 도중 아버님이 빠른 결론을 내리자 아이가 입을 닫는 장면.</p></div>
+          <div class="resolve">이렇게 풀어보세요. 결론을 먼저 말하지 말고 그랬구나로 한 박자 받아주신 뒤, 아이가 말을 마칠 때까지 빛의 거리를 한 박자 멀리해 주세요. 분명함은 그대로 두고 속도만 늦추면 충돌이 협력으로 바뀝니다.</div>
+        </div>
+      
+    </section>
+  
+      <section class="page">
+        <div class="chapter">마지막 당부</div>
+        <p>강예린 양은 감정을 매우 깊게 받아들이는 결과 관계 안에서 마음을 길게 머금는 결이 함께 자리한 사슴 결의 아이입니다. 깊은 결은 약점이 아니라 결의 본 모양입니다.</p>
+<p>윤서영 어머님의 부드러운 결은 아이의 결의 크기를 그대로 인정해주는 자원이고, 강태현 아버님의 분명한 결은 결을 빛나게 해주는 자원입니다. 빛의 거리만 살펴주시면 아이의 결은 안에서 충분히 자랍니다.</p>
+<p>이 보고서는 아버님의 출생 시각이 없는 상태에서 생성되었습니다. 시주 인자는 본문 근거에서 제외했고, 시간 정보가 추가되면 관계 결의 폭이 더 분명해질 수 있습니다.</p>
+      </section>
+    </article>
+  </main>
+  <script>
+    const buttons = Array.from(document.querySelectorAll('button[data-sample]'));
+    const samples = Array.from(document.querySelectorAll('.sample'));
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.remove('active'));
+      samples.forEach((s) => s.classList.remove('active'));
+      button.classList.add('active');
+      document.getElementById('sample-' + button.dataset.sample).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }));
+  </script>
+</body>
+</html>

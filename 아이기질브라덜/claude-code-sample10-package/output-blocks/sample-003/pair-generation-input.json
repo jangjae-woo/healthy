@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "youa-blocks-v1",
+  "blockType": "pair-input",
+  "cacheKey": "youa-v1-sample-003",
+  "child": {
+    "name": "최서아 양",
+    "gender": "female",
+    "ageText": "만 3세 6개월",
+    "birthKnownHour": false,
+    "dayMaster": { "ko": "무토", "han": "戊", "metaphor": "큰 산·너른 들" },
+    "scores": {
+      "활기": { "score": 55, "level": "중간" },
+      "조심": { "score": 50, "level": "중간" },
+      "만족": { "score": 52, "level": "중간" },
+      "흔들림": { "score": 48, "level": "중간" },
+      "어울림": { "score": 58, "level": "중간" },
+      "끈기": { "score": 54, "level": "중간" }
+    }
+  },
+  "mother": {
+    "name": "한지윤 어머님",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "기토", "han": "己", "metaphor": "작은 흙·텃밭" }
+  },
+  "father": {
+    "name": "최민호 아버님",
+    "birthKnownHour": true,
+    "dayMaster": { "ko": "계수", "han": "癸", "metaphor": "이슬·맑은 물" }
+  },
+  "relations": {
+    "motherChild": { "relationType": "동기 토(같은 결로 받쳐주는 관계)" },
+    "fatherChild": { "relationType": "수극토(흐름을 일깨우는 관계)" }
+  },
+  "hourUnknownPolicy": "아이 출생 시각 미상으로 시주 인자는 본문 근거에서 제외"
+}

@@ -1,0 +1,122 @@
+{
+  "version": "lifesaju-wealth-earning-judgement-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 6,
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "judgementType": "cashflow_guard_first",
+      "judgementLabel": "현금흐름 방어 우선형",
+      "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:약|topSip:겁재:강|topCat:비겁:과다|shinkang:태강|elementShape:water_중상_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+      "requiredFacts": [
+        "돈을 버는 힘보다 지키는 기준을 먼저 세워야 하는 타입",
+        "계약, 가격표, 지출 경계가 수입의 핵심 안전장치",
+        "공동돈과 충동 지출을 분리해야 함",
+        "주의점: contract_price_boundary"
+      ],
+      "forbiddenFacts": [
+        "점수 숫자 직접 노출 금지",
+        "대운 간지와 십성을 계산표처럼 나열 금지",
+        "투자 확정 수익 표현 금지",
+        "무조건 부자/평생 돈복 같은 과장 금지",
+        "돈이 들어오면 그대로 잘 남는다고 단정하지 말 것"
+      ]
+    },
+    {
+      "sampleId": "장재형",
+      "judgementType": "created_value_to_asset",
+      "judgementLabel": "본인 결과물 자산화형",
+      "cacheKey": "wealth.earning|pattern:created_value_to_asset|siksang:보통|jaeseong:강|topSip:정재:보통|topCat:재성:강|shinkang:신약|elementShape:earth_보통_metal_약|risk:standard_boundary|timing:very_high|tone:index-jang",
+      "requiredFacts": [
+        "본인이 만든 결과물이 수입 구조가 되는 타입",
+        "표현·재능·기획·노하우가 돈으로 이어지는 결",
+        "시간이 쌓일수록 결과물 가치가 누적됨",
+        "주의점: standard_boundary"
+      ],
+      "forbiddenFacts": [
+        "점수 숫자 직접 노출 금지",
+        "대운 간지와 십성을 계산표처럼 나열 금지",
+        "투자 확정 수익 표현 금지",
+        "무조건 부자/평생 돈복 같은 과장 금지"
+      ]
+    },
+    {
+      "sampleId": "sample-001",
+      "judgementType": "skill_knowhow_service",
+      "judgementLabel": "기술 노하우 서비스형",
+      "cacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang",
+      "requiredFacts": [
+        "배운 것과 노하우를 서비스화할수록 돈이 되는 타입",
+        "전문성, 문제 해결, 설명 능력이 수입 통로가 됨",
+        "반복 가능한 서비스 구조가 중요함",
+        "주의점: sharing_boundary"
+      ],
+      "forbiddenFacts": [
+        "점수 숫자 직접 노출 금지",
+        "대운 간지와 십성을 계산표처럼 나열 금지",
+        "투자 확정 수익 표현 금지",
+        "무조건 부자/평생 돈복 같은 과장 금지",
+        "돈이 들어오면 그대로 잘 남는다고 단정하지 말 것"
+      ]
+    },
+    {
+      "sampleId": "sample-002",
+      "judgementType": "salary_stability_accumulation",
+      "judgementLabel": "월급 안정 축적형",
+      "cacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+      "requiredFacts": [
+        "안정 수입과 반복 축적이 먼저 살아나는 타입",
+        "큰 확장보다 고정 수입과 장기 구조가 맞음",
+        "돈은 천천히 남기는 방식에서 쌓임",
+        "주의점: contract_price_boundary"
+      ],
+      "forbiddenFacts": [
+        "점수 숫자 직접 노출 금지",
+        "대운 간지와 십성을 계산표처럼 나열 금지",
+        "투자 확정 수익 표현 금지",
+        "무조건 부자/평생 돈복 같은 과장 금지",
+        "식상생재가 있다고 쓰지 말 것"
+      ]
+    },
+    {
+      "sampleId": "sample-003",
+      "judgementType": "cashflow_guard_first",
+      "judgementLabel": "현금흐름 방어 우선형",
+      "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:보통|jaeseong:없음|topSip:겁재:보통|topCat:비겁:과다|shinkang:태강|elementShape:fire_강_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+      "requiredFacts": [
+        "돈을 버는 힘보다 지키는 기준을 먼저 세워야 하는 타입",
+        "계약, 가격표, 지출 경계가 수입의 핵심 안전장치",
+        "공동돈과 충동 지출을 분리해야 함",
+        "주의점: contract_price_boundary"
+      ],
+      "forbiddenFacts": [
+        "점수 숫자 직접 노출 금지",
+        "대운 간지와 십성을 계산표처럼 나열 금지",
+        "투자 확정 수익 표현 금지",
+        "무조건 부자/평생 돈복 같은 과장 금지",
+        "식상생재가 있다고 쓰지 말 것",
+        "돈이 들어오면 그대로 잘 남는다고 단정하지 말 것"
+      ]
+    },
+    {
+      "sampleId": "sample-004",
+      "judgementType": "cashflow_guard_first",
+      "judgementLabel": "현금흐름 방어 우선형",
+      "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:없음|topSip:비견:과다|topCat:비겁:과다|shinkang:극왕|elementShape:earth_강_fire_deficit|risk:cashflow_boundary|timing:high|tone:index-jang",
+      "requiredFacts": [
+        "돈을 버는 힘보다 지키는 기준을 먼저 세워야 하는 타입",
+        "계약, 가격표, 지출 경계가 수입의 핵심 안전장치",
+        "공동돈과 충동 지출을 분리해야 함",
+        "주의점: cashflow_boundary"
+      ],
+      "forbiddenFacts": [
+        "점수 숫자 직접 노출 금지",
+        "대운 간지와 십성을 계산표처럼 나열 금지",
+        "투자 확정 수익 표현 금지",
+        "무조건 부자/평생 돈복 같은 과장 금지",
+        "식상생재가 있다고 쓰지 말 것",
+        "돈이 들어오면 그대로 잘 남는다고 단정하지 말 것"
+      ]
+    }
+  ]
+}

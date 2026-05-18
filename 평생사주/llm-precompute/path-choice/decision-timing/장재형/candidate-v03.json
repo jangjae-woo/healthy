@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-path-choice-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "group": "path-choice",
+  "sectionKey": "decision-timing",
+  "sampleId": "장재형",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "path-choice.decision-timing|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang",
+  "cacheKey": "path-choice.decision-timing|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang|variant:03",
+  "text": "장재형 님의 진로 결정은 한 번에 끊어 정하기보다 직장 경험, 사이드 검증, 본업화 순서로 보는 편이 안정적입니다. 지금 바로 어느 길 하나만 고르는 것보다 본인 결이 실제로 어디서 돈과 평판으로 바뀌는지 확인해야 합니다.\n\n21~30세 계유 흐름에는 직업 자리의 방향이 선명해지고, 61~70세 기사 흐름에는 본인 결과물을 밖으로 펼칠 여지가 커집니다. 이 두 흐름을 이어서 쓰면 무리 없이 방향을 잡을 수 있습니다.\n\n결정 기준은 막연한 적성보다 세 가지예요. 본인 이름으로 설명 가능한 결과물이 있는지, 반복해서 찾는 사람이 생기는지, 약한 금 기운을 보완할 계약과 돈의 기준이 있는지입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

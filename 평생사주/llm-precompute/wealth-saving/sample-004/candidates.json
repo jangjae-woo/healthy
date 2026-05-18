@@ -1,0 +1,146 @@
+{
+  "version": "lifesaju-wealth-saving-candidate-set-v2",
+  "generatedAt": "2026-05-18",
+  "sampleId": "sample-004",
+  "judgement": {
+    "version": "lifesaju-wealth-saving-judgement-v2",
+    "generatedAt": "2026-05-18",
+    "sampleId": "sample-004",
+    "personKey": "2001-01-26_unknown_female",
+    "personName": "관성조직형",
+    "pageAlias": "wealth",
+    "sectionRole": "saving",
+    "sectionTitle": "돈을 모으는 결",
+    "referenceStructure": [
+      "P1S1: 이름 + 돈이 머무는 핵심 결론",
+      "P1S2: 사주 인자 근거 + 돈이 머무는 본질",
+      "P2S1: 맞는 자산군 + 최소 보유 기간",
+      "P2S2: 안 맞는 자산군",
+      "P2S3: 안정/운용 비중"
+    ],
+    "judgementType": "leak_guard_first",
+    "judgementLabel": "자산 이탈 방어형",
+    "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang",
+    "factors": {
+      "shinkang": "극왕",
+      "strongestElement": "토",
+      "strongestPercent": 67,
+      "weakestElement": "화",
+      "elementBands": {
+        "목": "결핍",
+        "화": "없음",
+        "토": "강",
+        "금": "약",
+        "수": "결핍"
+      },
+      "sipseongCategories": {
+        "비겁": 5,
+        "식상": 1,
+        "재성": 0,
+        "관성": 0,
+        "인성": 0
+      }
+    },
+    "wealthAxes": {
+      "keep": {
+        "id": "keep",
+        "label": "지키는 결",
+        "score": 29,
+        "level": "살펴줄",
+        "className": "care",
+        "dots": "●○○○○",
+        "reason": "비겁 과다 여부와 관성의 정리력",
+        "sourceFactors": [
+          "비겁",
+          "관성",
+          "신강신약"
+        ]
+      },
+      "accumulate": {
+        "id": "accumulate",
+        "label": "모이는 결",
+        "score": 72,
+        "level": "시너지",
+        "className": "strong",
+        "dots": "●●●●○",
+        "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+        "sourceFactors": [
+          "재성",
+          "토",
+          "오행균형"
+        ]
+      },
+      "support": {
+        "id": "support",
+        "label": "받쳐주는 결",
+        "score": 49,
+        "level": "양면",
+        "className": "ambivalent",
+        "dots": "●●○○○",
+        "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+        "sourceFactors": [
+          "인성",
+          "용신",
+          "신강신약"
+        ]
+      },
+      "make": {
+        "id": "make",
+        "label": "만드는 결",
+        "score": 54,
+        "level": "양면",
+        "className": "ambivalent",
+        "dots": "●●○○○",
+        "reason": "식상과 재성이 수입을 만드는 통로",
+        "sourceFactors": [
+          "식상",
+          "재성"
+        ]
+      }
+    }
+  },
+  "candidates": [
+    {
+      "version": "lifesaju-wealth-saving-llm-candidate-v2",
+      "generatedAt": "2026-05-18",
+      "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang|variant:01",
+      "baseCacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang",
+      "sampleId": "sample-004",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "text": "관성조직형 님은 돈을 벌어도 그냥 두면 머물기 어려운 결이에요. 사주 안에서 토 기운이 67%로 강하게 흐르지만, 짧은 유행과 즉흥적인 노출형 자산은 결이 쉽게 흔들릴 수 있기 때문에 자산은 빨리 굴리는 쪽보다 일부러 묶어두는 장치가 필요합니다.\n\n본인 결에 맞는 자산은 한 번 넣으면 최소 2~5년은 쉽게 풀지 않는 방식이에요. 부동산, 예금, 연금처럼 자리가 정해진 안정 자산, 예금·적금, 연금, 장기 보유형 자산, 비상금처럼 시간이 쌓일수록 자리가 단단해지는 자산이 잘 맞습니다. 반대로 코인 단타, 테마주 단기 매매, 레버리지, 충동적으로 사고파는 자산은 본인 결과 어긋나서 들어와도 잘 머물기 어렵고, 자산의 70% 정도는 안정 자산과 비상금에 묶어두고, 30% 이내만 본인이 충분히 이해한 분야의 중장기 운용에 두는 비중이 본인 결과 맞아요.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-wealth-saving-llm-candidate-v2",
+      "generatedAt": "2026-05-18",
+      "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang|variant:02",
+      "baseCacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang",
+      "sampleId": "sample-004",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "text": "관성조직형 님의 돈을 모으는 결은 돈을 벌어도 그냥 두면 머물기 어려운 결으로 볼 수 있어요. 사주 안에서 토 기운이 67%로 강하게 흐르지만, 짧은 유행과 즉흥적인 노출형 자산은 결이 쉽게 흔들릴 수 있기 때문에 자산은 빨리 굴리는 쪽보다 일부러 묶어두는 장치가 필요합니다.\n\n자산은 한 번 넣으면 최소 2~5년은 쉽게 풀지 않는 방식으로 잡는 편이 좋아요. 부동산, 예금, 연금처럼 자리가 정해진 안정 자산, 예금·적금, 연금, 장기 보유형 자산, 비상금처럼 자리가 정해진 돈은 오래 남기 쉽습니다. 반대로 코인 단타, 테마주 단기 매매, 레버리지, 충동적으로 사고파는 자산은 돈의 흐름을 흩뜨리기 쉬우니, 자산의 70% 정도는 안정 자산과 비상금에 묶어두고, 30% 이내만 본인이 충분히 이해한 분야의 중장기 운용에 두는 비중으로 잡는 것이 안정적입니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-wealth-saving-llm-candidate-v2",
+      "generatedAt": "2026-05-18",
+      "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang|variant:03",
+      "baseCacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:high|strong:토:강|weak:화:없음|shinkang:극왕|tone:index-jang",
+      "sampleId": "sample-004",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "text": "관성조직형 님은 재물을 모을 때 돈을 벌어도 그냥 두면 머물기 어려운 결에 가까워요. 사주 안에서 토 기운이 67%로 강하게 흐르지만, 짧은 유행과 즉흥적인 노출형 자산은 결이 쉽게 흔들릴 수 있기 때문에 자산은 빨리 굴리는 쪽보다 일부러 묶어두는 장치가 필요합니다.\n\n본인에게 맞는 자산은 한 번 넣으면 최소 2~5년은 쉽게 풀지 않는 방식입니다. 부동산, 예금, 연금처럼 자리가 정해진 안정 자산, 예금·적금, 연금, 장기 보유형 자산, 비상금처럼 오래 둘수록 힘이 생기는 자산이 결에 맞아요. 반대로 코인 단타, 테마주 단기 매매, 레버리지, 충동적으로 사고파는 자산은 잘 맞지 않으니, 자산의 70% 정도는 안정 자산과 비상금에 묶어두고, 30% 이내만 본인이 충분히 이해한 분야의 중장기 운용에 두는 비중을 기준으로 삼는 편이 좋습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 2 — 매트릭스 + 동물 + 일간 관계 통합</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 1100px; margin: auto; background: #fafaf8; color: #333; line-height: 1.6; }
+    h1 { color: #c84d20; margin-bottom: 6px; }
+    h2 { color: #d97757; margin-top: 28px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    h3 { color: #444; margin-top: 16px; font-size: 16px; }
+    .note { background: #fef9f6; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #d97757; font-size: 13px; color: #555; margin: 14px 0; }
+    .summary { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { padding: 6px 8px; border-bottom: 1px solid #f0ebe5; text-align: left; }
+    th { background: #f8f5f1; color: #555; font-weight: 600; }
+    .level-low  { color: #2d5a8a; }
+    .level-mid  { color: #888; }
+    .level-high { color: #c84d20; font-weight: 700; }
+
+    .animal-card {
+      background: linear-gradient(135deg, #FFE0E8 0%, #fff5f7 100%);
+      padding: 20px;
+      border-radius: 14px;
+      text-align: center;
+      margin: 12px 0;
+    }
+    .animal-emoji { font-size: 64px; margin-bottom: 8px; }
+    .animal-name { font-size: 22px; font-weight: 700; color: #c44366; margin-bottom: 6px; }
+    .animal-one-line { font-size: 13px; color: #666; line-height: 1.7; }
+    .case-tag { display: inline-block; background: #d97757; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; margin-top: 8px; }
+
+    .matrix-card {
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin: 10px 0;
+      border-left: 4px solid #d4a838;
+    }
+    .matrix-card.synergy { background: linear-gradient(135deg, #fff5e8 0%, #fef0d8 100%); border-color: #d4a838; }
+    .matrix-card.complement { background: linear-gradient(135deg, #f0f5ff 0%, #e8efff 100%); border-color: #5b7ba8; }
+    .matrix-card.conflict { background: linear-gradient(135deg, #f5f5f7 0%, #eaeaef 100%); border-color: #8a8a9e; }
+    .matrix-card.ambivalent { background: linear-gradient(135deg, #fdf0e6 0%, #fae0c8 100%); border-color: #c4a578; }
+    .matrix-card .header { font-size: 14px; font-weight: 700; color: #8a6e1a; margin-bottom: 4px; }
+    .matrix-card.conflict .header { color: #5a5a73; }
+    .matrix-card .sub { font-size: 11px; color: #888; margin-bottom: 8px; }
+    .matrix-card .tone { font-size: 12px; color: #555; line-height: 1.6; }
+    .pattern-label { display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 4px; }
+
+    .ilgan-row { display: flex; gap: 16px; margin: 12px 0; }
+    .ilgan-card { flex: 1; background: white; padding: 14px 16px; border-radius: 10px; border: 1px solid #f0d9c4; }
+    .ilgan-card h4 { margin: 0 0 6px; color: #c84d20; font-size: 14px; }
+    .ilgan-type { display: inline-block; background: #fef0e6; padding: 2px 8px; border-radius: 4px; font-size: 11px; color: #d97757; margin-bottom: 8px; }
+    .ilgan-tone { font-size: 12px; color: #555; line-height: 1.65; }
+  </style>
+</head>
+<body>
+  <h1>Phase 2 — 매트릭스 + 동물 + 일간 관계</h1>
+  <p style="font-size:12px;color:#888;">자녀 김수민 양 + 부모 2명 fixture로 결정론 매핑 전체 산출</p>
+
+  <h2>1. 자녀 6요인 점수</h2>
+  <div class="summary" id="child-summary"></div>
+
+  <h2>2. 동물 매칭 + 케이스 분기</h2>
+  <div id="animal-section"></div>
+
+  <h2>3. 부모 6축 강한 축 (매트릭스 트리거)</h2>
+  <div class="summary" id="parent-axes-summary"></div>
+
+  <h2>4. 36셀 매트릭스 카드 픽</h2>
+  <div id="cards-section"></div>
+
+  <h2>5. 부모-자녀 일간 관계 (5유형)</h2>
+  <div class="ilgan-row" id="ilgan-section"></div>
+
+  <h2>6. 자녀 사주에서 본 부모 십성 (차원 B)</h2>
+  <div class="summary" id="parent-sipseong-section"></div>
+
+  <script type="module">
+    import { KIMSUMIN_SAJU } from '../fixtures/child-kimsumin.mjs';
+    import { PARK_JIYOUNG_SAJU } from '../fixtures/mother-park.mjs';
+    import { KIM_JAEHUN_SAJU } from '../fixtures/father-kim.mjs';
+    import { calcAll6Factors } from '../lib/youa/factors.mjs';
+    import { calcAll6Axes } from '../lib/youa/parent-axes.mjs';
+    import { matchAllCards, PATTERN } from '../lib/youa/matrix.mjs';
+    import { matchAnimal, caseToneText } from '../lib/youa/animal.mjs';
+    import { calcAllIlganRelations, getParentSipseongInChildSaju } from '../lib/youa/ilgan-relation.mjs';
+
+    const childName = '김수민 양';
+    const childFactors = calcAll6Factors(KIMSUMIN_SAJU);
+    const motherAxes = calcAll6Axes(PARK_JIYOUNG_SAJU);
+    const fatherAxes = calcAll6Axes(KIM_JAEHUN_SAJU);
+
+    // 자녀 6요인 표
+    const factorList = [
+      ['hwalgi', '활기'], ['josim', '조심'], ['manjok', '만족'],
+      ['heundeullim', '흔들림'], ['eoullim', '어울림'], ['kkeungi', '끈기']
+    ];
+    let cs = `<table><tr><th>요인</th><th>점수</th><th>구간</th></tr>`;
+    for (const [k, ko] of factorList) {
+      const r = childFactors[k];
+      cs += `<tr><td>${ko}</td><td><strong>${r.score}</strong></td><td class="level-${r.level}">${{low:'낮음',mid:'중간',high:'높음'}[r.level]}</td></tr>`;
+    }
+    cs += `</table>`;
+    document.getElementById('child-summary').innerHTML = cs;
+
+    // 동물 매칭
+    const animalResult = matchAnimal(childFactors);
+    const a = animalResult.animal;
+    document.getElementById('animal-section').innerHTML = `
+      <div class="animal-card" style="background:linear-gradient(135deg,${a.color} 0%,#fff5f7 100%);">
+        <div class="animal-emoji">${a.emoji}</div>
+        <div class="animal-name" style="color:${a.textColor};">김수민 양은 ${a.name}의 결</div>
+        <div class="animal-one-line">${a.oneLine}</div>
+        <div class="case-tag">케이스 ${animalResult.case} — ${animalResult.caseLabel}</div>
+      </div>
+      <div class="note">
+        <strong>케이스 안내 톤 (룰 29 ③번)</strong><br/>
+        ${caseToneText(animalResult, childName).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}
+      </div>
+      <div class="summary">
+        <strong>top3 매칭 점수 (시각용)</strong>
+        <table>
+          <tr><th>순위</th><th>요인</th><th>점수</th><th>라벨</th></tr>
+          <tr><td>1</td><td>${animalResult.top1.key}</td><td>${animalResult.top1.score}</td><td>가장 두드러짐</td></tr>
+          <tr><td>2</td><td>${animalResult.top2.key}</td><td>${animalResult.top2.score}</td><td>함께 깊음</td></tr>
+          <tr><td>3</td><td>${animalResult.top3.key}</td><td>${animalResult.top3.score}</td><td>함께 깊음</td></tr>
+        </table>
+      </div>
+    `;
+
+    // 매트릭스
+    const cards = matchAllCards(motherAxes, fatherAxes, childFactors, childName, true, true);
+
+    let pas = `<table><tr><th>부모</th><th>강한 축 (≥66 또는 fallback 상위 2)</th></tr>`;
+    pas += `<tr><td>어머님 박지영</td><td>${cards.motherStrongAxes.map(a => `${a.korean}(${a.score})`).join(', ')}</td></tr>`;
+    pas += `<tr><td>아버님 김재훈</td><td>${cards.fatherStrongAxes.map(a => `${a.korean}(${a.score})`).join(', ')}</td></tr>`;
+    pas += `</table>`;
+    document.getElementById('parent-axes-summary').innerHTML = pas;
+
+    // 카드 렌더
+    function patternClass(p) {
+      if (p === PATTERN.STRONG_SYNERGY || p === PATTERN.SYNERGY) return 'synergy';
+      if (p === PATTERN.COMPLEMENT) return 'complement';
+      if (p === PATTERN.CONFLICT_RISK || p === PATTERN.STRONG_CONFLICT) return 'conflict';
+      if (p === PATTERN.AMBIVALENT) return 'ambivalent';
+      return '';
+    }
+    function patternLabel(p) {
+      return {
+        strong_synergy: '★ 강한 시너지',
+        synergy: '시너지',
+        complement: '보완',
+        ambivalent: '양면',
+        conflict_risk: '충돌 위험',
+        strong_conflict: '★ 강한 충돌',
+      }[p] || p;
+    }
+    function patternColor(p) {
+      if (p === PATTERN.STRONG_SYNERGY) return '#c84d20';
+      if (p === PATTERN.SYNERGY) return '#5d8225';
+      if (p === PATTERN.COMPLEMENT) return '#2d5a8a';
+      if (p === PATTERN.CONFLICT_RISK) return '#888';
+      if (p === PATTERN.STRONG_CONFLICT) return '#c44366';
+      if (p === PATTERN.AMBIVALENT) return '#8a6332';
+      return '#666';
+    }
+    function renderCards(title, cards) {
+      let h = `<h3>${title}</h3>`;
+      if (cards.length === 0) { h += `<div class="note">픽된 카드 없음</div>`; return h; }
+      for (const c of cards) {
+        h += `
+          <div class="matrix-card ${patternClass(c.pattern)}">
+            <div class="header">${c.header}<span class="pattern-label" style="background:${patternColor(c.pattern)}1a;color:${patternColor(c.pattern)};">${patternLabel(c.pattern)}</span></div>
+            <div class="sub">${c.axisKorean}(${c.axisScore}) × ${c.factorKorean}(${c.factorScore}) — cellStrength ${c.cellStrength.toFixed(1)}</div>
+            <div class="tone">${c.tone}</div>
+          </div>
+        `;
+      }
+      return h;
+    }
+    document.getElementById('cards-section').innerHTML =
+      renderCards('어머님과 김수민 양의 결합', cards.motherCards) +
+      renderCards('아버님과 김수민 양의 결합', cards.fatherCards);
+
+    // 일간 관계
+    const ilganRelations = calcAllIlganRelations(
+      KIMSUMIN_SAJU.ilgan,
+      PARK_JIYOUNG_SAJU.ilgan,
+      KIM_JAEHUN_SAJU.ilgan,
+    );
+
+    function renderIlgan(title, r) {
+      if (!r) return `<div class="ilgan-card"><h4>${title}</h4><div>—</div></div>`;
+      return `
+        <div class="ilgan-card">
+          <h4>${title}</h4>
+          <div class="ilgan-type">${r.typeLabel}</div>
+          <div style="font-size:12px;color:#888;margin-bottom:6px;">
+            자녀 ${r.childIlgan} (${r.childBiyu}) ↔ ${r.parentLabel} ${r.parentIlgan} (${r.parentBiyu})
+          </div>
+          <div class="ilgan-tone">${r.toneA}</div>
+          <div style="font-size:11px;color:#888;margin-top:6px;">
+            자녀 입장 십성: <strong>${r.sipseong}</strong> (통칭 ${r.sipseongTong})
+          </div>
+        </div>
+      `;
+    }
+    document.getElementById('ilgan-section').innerHTML =
+      renderIlgan('어머님 ↔ 자녀', ilganRelations.mother) +
+      renderIlgan('아버님 ↔ 자녀', ilganRelations.father);
+
+    // 자녀 사주 부모 십성 (차원 B)
+    const parentSipseong = getParentSipseongInChildSaju(KIMSUMIN_SAJU.factorStrength);
+    let ps = `<table><tr><th>궁위</th><th>통칭</th><th>호명</th><th>자녀 사주 강도</th></tr>`;
+    ps += `<tr><td>어머니궁</td><td>${parentSipseong.어머니궁.sipseong}</td><td>${parentSipseong.어머니궁.tongMyeong}</td><td>${parentSipseong.어머니궁.strength}</td></tr>`;
+    ps += `<tr><td>아버지궁</td><td>${parentSipseong.아버지궁.sipseong}</td><td>${parentSipseong.아버지궁.tongMyeong}</td><td>${parentSipseong.아버지궁.strength}</td></tr>`;
+    ps += `</table>`;
+    ps += `<div class="note" style="margin-top:12px;">
+      자녀 사주의 인성 자리(받쳐주는 기운) = 어머니궁 → 자녀 사주에 인성이 ${parentSipseong.어머니궁.strength}점으로 자리.<br/>
+      자녀 사주의 관성 자리(절제하는 기운) = 아버지궁 → 자녀 사주에 관성이 ${parentSipseong.아버지궁.strength}점으로 자리.<br/>
+      이것이 8-(c) 마지막 단락의 "받쳐주는 기운/절제하는 기운" 차원 B 데이터.
+    </div>`;
+    document.getElementById('parent-sipseong-section').innerHTML = ps;
+  </script>
+</body>
+</html>

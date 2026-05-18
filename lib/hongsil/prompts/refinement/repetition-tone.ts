@@ -1,9 +1,6 @@
-// 한자 반복·결핍 낙인·동물 직역 톤 다듬기 안내 — **hongsil / inyeon 전용** (2026-05-15)
+// 한자 반복·결핍 낙인·동물 직역 톤 다듬기 안내
 // rewriteOutput 함수가 import해서 rewrite prompt에 합친다.
 // 메인 LLM에는 노출되지 않음 — rewrite 단계에서만 LLM이 본다.
-// ⚠️ 부모자녀(parent-child)·평생사주(saju)는 이 가이드 사용 금지 — 5번 캐릭터 이름 보존 룰
-//    (영철상·옥순상 등)이 cross-contamination 일으킴. 두 서비스는 lib/parent-child-saju-tone.ts
-//    의 REPETITION_TONE_GUIDE_NEUTRAL (5번 제거 버전) 사용.
 
 export const REPETITION_TONE_GUIDE = `
 [★★★★★ 톤 다듬기 안내 — 이 안내 어휘는 본문에 그대로 박지 말 것. 박으면 풀이 톤이 깨진다]

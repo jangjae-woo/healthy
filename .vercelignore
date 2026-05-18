@@ -1,0 +1,9 @@
+.git
+.next
+node_modules
+.claude
+아이기질브라덜/**/cache/**
+*.sqlite
+*.db
+*.jsonl
+*.tsbuildinfo

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 5 — 프롬프트 + Mock LLM + 검증 + 최종 렌더</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 1300px; margin: auto; background: #fafaf8; color: #333; line-height: 1.6; }
+    h1 { color: #c84d20; margin-bottom: 6px; }
+    h2 { color: #d97757; margin-top: 28px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    .panel { background: white; padding: 14px 18px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin: 12px 0; }
+    .tabs { display: flex; gap: 6px; margin: 12px 0; }
+    .tab { padding: 8px 14px; background: white; border: 1px solid #f0d9c4; border-radius: 6px; cursor: pointer; font-size: 13px; color: #888; }
+    .tab.active { background: #d97757; color: white; border-color: #d97757; }
+    .content { display: none; }
+    .content.active { display: block; }
+    pre {
+      background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px;
+      font-size: 11px; line-height: 1.6; max-height: 600px; overflow: auto;
+      white-space: pre-wrap; font-family: 'D2Coding', Menlo, monospace;
+    }
+    .verdict { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; margin: 6px 0; }
+    .verdict-pass { background: #E5F2D1; color: #5d8225; }
+    .verdict-fail { background: #FFE5DA; color: #c84d20; }
+    .violation { background: #fef0e6; padding: 8px 12px; border-radius: 6px; margin: 4px 0; font-size: 12px; color: #c84d20; border-left: 3px solid #d97757; }
+    .stat { display: inline-block; background: #fef9f6; padding: 4px 10px; border-radius: 6px; margin: 0 4px; font-size: 12px; color: #555; }
+
+    /* 최종 렌더 페이지 스타일 */
+    .report-frame {
+      background: linear-gradient(180deg, #fef9f6 0%, #f5f0eb 100%);
+      padding: 16px 8px; margin-top: 14px; border-radius: 10px;
+      max-height: 800px; overflow: auto;
+    }
+    .report-frame .page {
+      max-width: 420px; margin: 0 auto 20px; padding: 30px 20px;
+      background: white; border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      min-height: 640px; position: relative;
+    }
+    .report-frame .page-num { position: absolute; top: 14px; right: 18px; color: #aaa; font-size: 11px; }
+    .report-frame .chapter-header { padding: 12px 18px; border-radius: 10px; margin-bottom: 22px; font-size: 18px; font-weight: 700; display: inline-block; }
+    .report-frame .ch-hwalgi { background: #FFE5DA; color: #c84d20; }
+    .report-frame .ch-josim { background: #E5F2D1; color: #5d8225; }
+    .report-frame .ch-manjok { background: #FFF6CC; color: #b89400; }
+    .report-frame .ch-heundeullim { background: #EBDAF5; color: #6e4099; }
+    .report-frame .ch-eoullim { background: #FFE0E8; color: #c44366; }
+    .report-frame .ch-kkeungi { background: #DBE9F5; color: #2d5a8a; }
+    .report-frame .ch-parent { background: #F0E7DC; color: #8a6332; }
+    .report-frame .ch-outro { background: #F5E4D8; color: #a16a3a; }
+    .report-frame .score-box { background: #fef9f6; border-left: 4px solid #d97757; padding: 12px 14px; border-radius: 8px; margin: 16px 0; font-size: 13px; }
+    .report-frame .llm-placeholder { background: #ecf6f5; border: 1px dashed #6ba8a8; padding: 8px 12px; border-radius: 6px; font-size: 11px; color: #3d7373; font-style: italic; margin: 8px 0; }
+    .report-frame .llm-content { background: #fdfaf6; padding: 10px 14px; border-radius: 6px; margin: 8px 0; font-size: 13px; color: #444; line-height: 1.7; }
+    .report-frame .bar-row { display: flex; align-items: center; margin: 8px 0; gap: 8px; }
+    .report-frame .bar-name { width: 48px; font-size: 12px; font-weight: 600; color: #555; }
+    .report-frame .bar-track { flex: 1; height: 11px; background: #f0ebe5; border-radius: 6px; overflow: hidden; }
+    .report-frame .bar-fill { height: 100%; border-radius: 6px; }
+    .report-frame .bar-score { width: 44px; text-align: right; font-size: 12px; font-weight: 700; color: #d97757; }
+    .report-frame .bar-label { width: 62px; font-size: 11px; }
+    .report-frame .level-low { color: #2d5a8a; font-weight: 600; }
+    .report-frame .level-mid { color: #888; font-weight: 600; }
+    .report-frame .level-high { color: #c84d20; font-weight: 600; }
+    .report-frame .radar { width: 100%; max-width: 320px; }
+    .report-frame .radar-label { font-size: 12px; font-weight: 600; fill: #555; }
+    .report-frame .radar-score { font-size: 10px; fill: #d97757; font-weight: 700; }
+    .report-frame .saju8-box { background: #faf6f1; padding: 14px; border-radius: 10px; margin: 14px 0; }
+    .report-frame .saju8-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; }
+    .report-frame .saju8-cell { background: white; padding: 8px 4px; border-radius: 6px; border: 1px solid #eee; }
+    .report-frame .saju8-cell .pos { font-size: 10px; color: #aaa; }
+    .report-frame .saju8-cell .char { font-size: 18px; font-weight: 700; color: #555; }
+    .report-frame .saju8-cell.day .char { color: #d97757; font-size: 22px; }
+    .report-frame .factor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+    .report-frame .factor-card { padding: 10px 12px; border-radius: 10px; }
+    .report-frame .factor-card .name { font-size: 12px; font-weight: 700; }
+    .report-frame .factor-card .kind { font-size: 10px; color: #666; margin: 2px 0 6px; }
+    .report-frame .factor-card .strength-bar { height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden; margin: 5px 0; }
+    .report-frame .factor-card .strength-fill { height: 100%; border-radius: 3px; }
+    .report-frame .factor-card .strength-label { font-size: 10.5px; font-weight: 700; }
+    .report-frame .matrix-card { padding: 14px 16px; border-radius: 12px; margin: 12px 0; }
+    .report-frame .syn-card { background: linear-gradient(135deg, #fff5e8 0%, #fef0d8 100%); border-left: 4px solid #d4a838; }
+    .report-frame .con-card { background: linear-gradient(135deg, #f5f5f7 0%, #eaeaef 100%); border-left: 4px solid #8a8a9e; }
+    .report-frame .amb-card { background: linear-gradient(135deg, #fdf0e6 0%, #fae0c8 100%); border-left: 4px solid #c4a578; }
+    .report-frame .matrix-card .header { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .report-frame .syn-card .header { color: #8a6e1a; }
+    .report-frame .con-card .header { color: #5a5a73; }
+    .report-frame .matrix-card .sub { font-size: 11px; color: #888; margin-bottom: 10px; }
+    .report-frame .matrix-card .body { font-size: 12px; color: #444; line-height: 1.7; }
+    .report-frame .tip-box { background: linear-gradient(135deg, #f5f8e8 0%, #ecf4d5 100%); padding: 14px; border-radius: 12px; margin: 16px 0; border: 1px solid #d4e4a8; }
+    .report-frame .tip-box .tip-label { font-size: 12px; color: #5d8225; font-weight: 700; margin-bottom: 10px; }
+    .report-frame .tip-box .tip-item { background: white; padding: 12px 14px; border-radius: 8px; margin: 8px 0; border-left: 3px solid #95C540; }
+    .report-frame .tip-box .tip-item .tip-title { font-weight: 700; color: #5d8225; font-size: 13px; margin-bottom: 5px; }
+    .report-frame .tip-box .tip-item .tip-desc { font-size: 12px; color: #555; line-height: 1.65; }
+    .report-frame .strength-box, .report-frame .care-box { background: white; padding: 12px 14px; border-radius: 10px; margin: 10px 0; }
+    .report-frame .strength-box .title { color: #c84d20; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+    .report-frame .care-box .title { color: #5d8225; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+    .report-frame .gunghap { background: #faf6f1; padding: 18px; border-radius: 14px; margin: 18px 0; text-align: center; }
+    .report-frame .gunghap-summary { text-align: center; font-size: 12px; color: #666; margin-top: 14px; padding: 12px 14px; background: white; border-radius: 8px; }
+    .report-frame .cover { min-height: 640px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #fef0e6 0%, #fdfaf6 100%); }
+    .report-frame .cover .title { font-size: 26px; font-weight: 800; color: #c84d20; margin-bottom: 12px; }
+    .report-frame .cover .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
+    .report-frame .cover .info { font-size: 12px; color: #555; line-height: 1.9; }
+    .report-frame .cover .jado-mark { margin-top: 40px; font-size: 11px; color: #aaa; }
+    .report-frame .disclaimer { background: #fafaf8; padding: 10px 14px; border-radius: 8px; font-size: 11px; color: #888; margin: 18px 0; border: 1px dashed #ddd; }
+    .report-frame .transition-page { background: linear-gradient(180deg, #fef9f6 0%, #faf0e8 100%); display: flex; flex-direction: column; justify-content: center; }
+    .report-frame .transition-content { text-align: center; padding: 30px 0; }
+    .report-frame .transition-icon { font-size: 42px; margin-bottom: 20px; }
+    .report-frame .transition-title { font-size: 18px; font-weight: 700; color: #c84d20; line-height: 1.6; margin-bottom: 16px; }
+    .report-frame .transition-divider { width: 36px; height: 2px; background: #d97757; margin: 20px auto; opacity: 0.5; }
+    .report-frame .transition-body { font-size: 13px; line-height: 1.9; color: #555; margin: 14px 0; }
+    .report-frame .transition-body.emphasis { font-weight: 600; color: #c84d20; }
+    .report-frame .preview-item { display: flex; gap: 10px; padding: 12px 14px; background: #faf6f1; border-radius: 10px; margin-bottom: 8px; }
+    .report-frame .preview-num { font-size: 18px; color: #d97757; font-weight: 700; }
+    .report-frame .preview-title { font-weight: 700; color: #444; font-size: 13px; }
+    .report-frame .preview-desc { font-size: 11px; color: #777; }
+    .report-frame .value-message { background: linear-gradient(135deg, #fef0e6 0%, #fdfaf6 100%); padding: 20px 16px; border-radius: 12px; text-align: center; }
+    .report-frame .value-mark { font-size: 20px; }
+    .report-frame .value-message p { font-size: 12px; }
+    .report-frame .value-final { font-weight: 700; color: #c84d20; }
+    .report-frame .bipolar-item { border-bottom: 1px solid #f0ebe5; padding: 12px 10px; cursor: pointer; }
+    .report-frame .bipolar-row { display: grid; grid-template-columns: 1fr 60px 1fr 14px; gap: 6px; align-items: center; }
+    .report-frame .bp-low-mini { text-align: right; font-size: 10.5px; color: #888; }
+    .report-frame .bp-high-mini { text-align: left; font-size: 10.5px; color: #c84d20; }
+    .report-frame .bipolar-label { padding: 5px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; text-align: center; }
+    .report-frame table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 12px; }
+    .report-frame th, .report-frame td { padding: 8px 10px; border-bottom: 1px solid #eee; text-align: left; }
+    .report-frame h3 { font-size: 15px; font-weight: 700; margin: 16px 0 8px; color: #444; }
+    .report-frame p { font-size: 13px; line-height: 1.75; color: #444; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>Phase 5 — 프롬프트 + Mock LLM + 검증 + 최종 렌더</h1>
+  <p style="font-size:12px;color:#888;">Gemini API 없이 mock 응답으로 전체 흐름 검증</p>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="prompt">📝 프롬프트</div>
+    <div class="tab" data-tab="raw">🤖 LLM 응답 원문</div>
+    <div class="tab" data-tab="parsed">🔍 파싱된 섹션</div>
+    <div class="tab" data-tab="validation">✅ 검증 결과</div>
+    <div class="tab" data-tab="final">📄 최종 렌더</div>
+  </div>
+
+  <div class="content active" data-content="prompt">
+    <div class="panel"><h2>프롬프트 (시스템 + facts + 지침)</h2><pre id="prompt-out"></pre></div>
+  </div>
+
+  <div class="content" data-content="raw">
+    <div class="panel"><h2>Mock LLM 응답</h2><pre id="raw-out"></pre></div>
+  </div>
+
+  <div class="content" data-content="parsed">
+    <div class="panel"><h2>파싱된 섹션 (헤더 매칭 키 → 본문)</h2><pre id="parsed-out"></pre></div>
+  </div>
+
+  <div class="content" data-content="validation">
+    <div class="panel">
+      <h2>출력 검증</h2>
+      <div id="validation-summary"></div>
+      <div id="validation-detail"></div>
+    </div>
+  </div>
+
+  <div class="content" data-content="final">
+    <div class="panel">
+      <h2>최종 보고서 렌더 (LLM 본문 결합)</h2>
+      <p style="font-size:12px;color:#888;">청록 placeholder가 사라지고 LLM 본문이 채워진 상태</p>
+    </div>
+    <div class="report-frame" id="report-out"></div>
+  </div>
+
+  <script type="module">
+    import { KIMSUMIN_SAJU } from '../fixtures/child-kimsumin.mjs';
+    import { PARK_JIYOUNG_SAJU } from '../fixtures/mother-park.mjs';
+    import { KIM_JAEHUN_SAJU } from '../fixtures/father-kim.mjs';
+    import { buildFacts } from '../lib/youa/facts-builder.mjs';
+    import { buildPrompt } from '../lib/youa/prompt-builder.mjs';
+    import { mockLLMResponse } from '../lib/youa/mock-llm.mjs';
+    import { parseLLMOutput, attachLLMTextToFacts } from '../lib/youa/output-parser.mjs';
+    import { validateLLMOutput } from '../lib/youa/output-validator.mjs';
+    import { renderReport } from '../lib/youa/render.mjs';
+
+    // 1. facts 빌드
+    const facts = buildFacts({
+      childSaju: KIMSUMIN_SAJU,
+      motherSaju: PARK_JIYOUNG_SAJU,
+      fatherSaju: KIM_JAEHUN_SAJU,
+      testDate: '2026-05-17',
+    });
+
+    // 2. 프롬프트 생성
+    const prompt = buildPrompt(facts);
+    document.getElementById('prompt-out').textContent = prompt.full;
+
+    // 3. Mock LLM 응답
+    const llmRaw = mockLLMResponse(facts);
+    document.getElementById('raw-out').textContent = llmRaw;
+
+    // 4. 파싱
+    const parsed = parseLLMOutput(llmRaw);
+    document.getElementById('parsed-out').textContent = JSON.stringify(parsed.sections, null, 2);
+
+    // 5. 검증
+    const validation = validateLLMOutput(parsed, facts);
+    let vs = `<div class="verdict verdict-${validation.valid ? 'pass' : 'fail'}">${validation.valid ? '✓ 검증 통과' : '✗ 검증 실패'}</div>`;
+    vs += `<div style="margin:10px 0;">`;
+    vs += `<span class="stat">누락 헤더 ${validation.summary.missingHeaderCount}</span>`;
+    vs += `<span class="stat">금지 표현 ${validation.summary.forbiddenCount}</span>`;
+    vs += `<span class="stat">호칭 위반 ${validation.summary.titleViolationCount}</span>`;
+    vs += `<span class="stat">분량 위반 ${validation.summary.lengthViolationCount}</span>`;
+    vs += `</div>`;
+    document.getElementById('validation-summary').innerHTML = vs;
+
+    let vd = '';
+    if (validation.violations.length === 0) {
+      vd = '<div style="color:#5d8225;font-size:13px;">위반 사항 없음. LLM 출력이 30개 톤 룰 + 헤더 매칭 키 + 분량 룰 모두 통과.</div>';
+    } else {
+      vd = '<h3>위반 사항</h3>';
+      for (const v of validation.violations) {
+        vd += `<div class="violation"><strong>[${v.category}]</strong> ${v.detail}${v.match ? ` — 매치: "${v.match}"` : ''}</div>`;
+      }
+    }
+    document.getElementById('validation-detail').innerHTML = vd;
+
+    // 6. 최종 렌더 (LLM 본문 결합)
+    const facts2 = attachLLMTextToFacts(facts, parsed);
+    document.getElementById('report-out').innerHTML = renderReport(facts2);
+
+    // 탭 전환
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.content').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        document.querySelector(`[data-content="${t.dataset.tab}"]`).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

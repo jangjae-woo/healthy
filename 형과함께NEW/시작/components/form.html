@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>유아용 부모-자녀 궁합 사주 — 입력</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: linear-gradient(180deg, #fef9f6 0%, #f5f0eb 100%);
+      color: #333; line-height: 1.6; padding: 16px 8px; font-size: 14px;
+    }
+    .container { max-width: 420px; margin: 0 auto; padding: 30px 20px; background: white; border-radius: 14px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    h1 { font-size: 22px; color: #c84d20; margin-bottom: 6px; }
+    .subtitle { font-size: 12px; color: #888; margin-bottom: 24px; }
+    .section { margin-top: 24px; padding-top: 20px; border-top: 1px solid #f0d9c4; }
+    .section h2 { font-size: 15px; color: #d97757; margin-bottom: 12px; }
+    .row { display: flex; gap: 8px; margin: 10px 0; }
+    .field { flex: 1; }
+    .field label { display: block; font-size: 11px; color: #888; margin-bottom: 4px; font-weight: 600; }
+    .field input, .field select {
+      width: 100%; padding: 8px 10px; font-size: 13px;
+      border: 1px solid #e0d4c4; border-radius: 6px;
+      background: #fef9f6;
+    }
+    .field input:focus, .field select:focus { outline: none; border-color: #d97757; }
+    .field .hint { font-size: 10px; color: #aaa; margin-top: 2px; }
+    .field .error { font-size: 11px; color: #c84d20; margin-top: 4px; }
+    .gender-toggle { display: flex; gap: 6px; }
+    .gender-toggle button {
+      flex: 1; padding: 8px; border: 1px solid #e0d4c4; background: #fef9f6;
+      border-radius: 6px; cursor: pointer; font-size: 13px;
+    }
+    .gender-toggle button.active { background: #d97757; color: white; border-color: #d97757; }
+    .parent-toggle { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; }
+    .parent-toggle input { width: auto; }
+    .submit-btn {
+      width: 100%; padding: 14px; margin-top: 24px;
+      background: #d97757; color: white; border: none; border-radius: 8px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+    .submit-btn:hover { background: #c84d20; }
+    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .errors-box {
+      background: #fef0e6; border-left: 3px solid #c84d20;
+      padding: 10px 14px; border-radius: 6px; margin-top: 12px; display: none;
+    }
+    .errors-box.show { display: block; }
+    .errors-box .error-item { font-size: 12px; color: #c84d20; padding: 2px 0; }
+    .disclaimer { font-size: 11px; color: #888; margin-top: 16px; padding: 10px 12px; background: #fafaf8; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🐮 자녀 사주 보고서</h1>
+    <p class="subtitle">자녀와 부모님 사주 정보를 입력해 주세요</p>
+
+    <!-- 자녀 -->
+    <div class="section" style="border-top:none;padding-top:0;margin-top:0;">
+      <h2>👶 자녀 (필수)</h2>
+      <div class="row">
+        <div class="field">
+          <label>이름</label>
+          <input type="text" id="child-name" placeholder="김수민" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>성별</label>
+          <div class="gender-toggle">
+            <button type="button" data-gender="female" data-target="child">여자아이</button>
+            <button type="button" data-gender="male" data-target="child">남자아이</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>생년월일</label>
+          <input type="date" id="child-birthDate" min="2020-01-01" max="2023-12-31" value="2022-02-15" />
+          <div class="hint">만 3 ~ 만 6 사이 (2020-01-01 ~ 2023-12-31)</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>양력/음력</label>
+          <select id="child-calendar">
+            <option value="solar" selected>양력</option>
+            <option value="lunar">음력</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>태어난 시간</label>
+          <select id="child-hour"></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 어머님 -->
+    <div class="section">
+      <div class="parent-toggle">
+        <input type="checkbox" id="has-mother" checked />
+        <label for="has-mother"><strong>👩 어머님 입력</strong></label>
+      </div>
+      <div id="mother-fields">
+        <div class="row">
+          <div class="field">
+            <label>이름</label>
+            <input type="text" id="mother-name" placeholder="박지영" />
+          </div>
+          <div class="field">
+            <label>생년월일</label>
+            <input type="date" id="mother-birthDate" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>양력/음력</label>
+            <select id="mother-calendar">
+              <option value="solar" selected>양력</option>
+              <option value="lunar">음력</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>태어난 시간</label>
+            <select id="mother-hour"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 아버님 -->
+    <div class="section">
+      <div class="parent-toggle">
+        <input type="checkbox" id="has-father" checked />
+        <label for="has-father"><strong>👨 아버님 입력</strong></label>
+      </div>
+      <div id="father-fields">
+        <div class="row">
+          <div class="field">
+            <label>이름</label>
+            <input type="text" id="father-name" placeholder="김재훈" />
+          </div>
+          <div class="field">
+            <label>생년월일</label>
+            <input type="date" id="father-birthDate" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>양력/음력</label>
+            <select id="father-calendar">
+              <option value="solar" selected>양력</option>
+              <option value="lunar">음력</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>태어난 시간</label>
+            <select id="father-hour"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="errors-box" id="errors-box"></div>
+
+    <button class="submit-btn" id="submit-btn">보고서 생성하기</button>
+
+    <div class="disclaimer">
+      💡 자녀와 부모님 사주를 기반으로 여섯 결의 위치·부모 6축 매칭·36셀 결합·동물 유형을 자동 산출합니다.<br/>
+      자녀는 만 3~만 6 (2020-01-01 ~ 2023-12-31 생) 사이만 입력 가능합니다.
+    </div>
+  </div>
+
+  <script type="module">
+    import { HOUR_OPTIONS, validateAllInput, calcAge } from '../lib/youa/input-validator.mjs';
+    import { convertFormToSajuSet } from '../lib/youa/saju-converter.mjs';
+
+    // 시지 옵션 채우기
+    for (const sel of ['child-hour', 'mother-hour', 'father-hour']) {
+      const el = document.getElementById(sel);
+      for (const opt of HOUR_OPTIONS) {
+        const o = document.createElement('option');
+        o.value = opt.value;
+        o.textContent = opt.label;
+        el.appendChild(o);
+      }
+    }
+
+    // 성별 토글
+    let gender = 'female';
+    document.querySelectorAll('[data-gender]').forEach(btn => {
+      if (btn.dataset.target === 'child' && btn.dataset.gender === 'female') btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        document.querySelectorAll(`[data-target="${btn.dataset.target}"]`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        gender = btn.dataset.gender;
+      });
+    });
+
+    // 부모 체크박스 토글
+    document.getElementById('has-mother').addEventListener('change', e => {
+      document.getElementById('mother-fields').style.display = e.target.checked ? 'block' : 'none';
+    });
+    document.getElementById('has-father').addEventListener('change', e => {
+      document.getElementById('father-fields').style.display = e.target.checked ? 'block' : 'none';
+    });
+
+    // Fixture 자동 입력 (검증용 빠른 입력)
+    document.getElementById('child-name').value = '김수민';
+    document.getElementById('child-hour').value = '인시 (03:30~05:29)';
+    document.getElementById('mother-name').value = '박지영';
+    document.getElementById('mother-birthDate').value = '1988-04-20';
+    document.getElementById('mother-hour').value = '오시 (11:30~13:29)';
+    document.getElementById('father-name').value = '김재훈';
+    document.getElementById('father-birthDate').value = '1985-09-15';
+    document.getElementById('father-hour').value = '자시 (23:30~01:29)';
+
+    document.getElementById('submit-btn').addEventListener('click', () => {
+      const hasM = document.getElementById('has-mother').checked;
+      const hasF = document.getElementById('has-father').checked;
+
+      const input = {
+        child: {
+          name: document.getElementById('child-name').value.trim(),
+          gender,
+          birthDate: document.getElementById('child-birthDate').value,
+          hour: document.getElementById('child-hour').value,
+          calendar: document.getElementById('child-calendar').value,
+        },
+        mother: hasM ? {
+          name: document.getElementById('mother-name').value.trim(),
+          birthDate: document.getElementById('mother-birthDate').value,
+          hour: document.getElementById('mother-hour').value,
+          calendar: document.getElementById('mother-calendar').value,
+        } : null,
+        father: hasF ? {
+          name: document.getElementById('father-name').value.trim(),
+          birthDate: document.getElementById('father-birthDate').value,
+          hour: document.getElementById('father-hour').value,
+          calendar: document.getElementById('father-calendar').value,
+        } : null,
+      };
+
+      const result = validateAllInput(input);
+      const eb = document.getElementById('errors-box');
+
+      if (!result.valid) {
+        eb.classList.add('show');
+        eb.innerHTML = result.errors.map(e => `<div class="error-item">⚠️ ${e.message}</div>`).join('');
+        return;
+      }
+      eb.classList.remove('show');
+
+      // 사주 변환
+      const sajuSet = convertFormToSajuSet(input);
+
+      // 결과 페이지로 전달 (localStorage)
+      localStorage.setItem('youa-input', JSON.stringify(input));
+      localStorage.setItem('youa-saju-set', JSON.stringify({ allMatched: sajuSet.allMatched, warnings: sajuSet.warnings }));
+
+      if (!sajuSet.allMatched) {
+        alert('⚠️ 일부 사주가 fixture와 매칭되지 않습니다.\nsaju-site 이관 후 실제 만세력 변환으로 동작합니다.\n\nFixture 매칭용 김수민(2022-02-15)·박지영(1988-04-20)·김재훈(1985-09-15)을 사용하세요.');
+        return;
+      }
+
+      // 결과 페이지로 이동
+      window.location.href = 'result.html';
+    });
+  </script>
+</body>
+</html>

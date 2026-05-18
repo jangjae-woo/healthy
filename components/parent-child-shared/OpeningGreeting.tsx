@@ -21,7 +21,8 @@ export default function OpeningGreeting({
   onStart: () => void;
 }) {
   const childLabel = `${childName}${childGender === "남" ? "군" : "양"}`;
-  // 본문 내 일반 지칭용 (parentLabel). 첫 인사는 호칭 없이 고정 "안녕하세요."
+  // 단일 부모 입력 시 해당 부모 호칭만 노출. 양친 없을 시(자녀만) 보호자님으로 fallback.
+  const parentSalutation = hasMom && hasDad ? "어머님 · 아버님" : hasMom ? "어머님" : hasDad ? "아버님" : "보호자님";
   const parentLabel = hasMom && hasDad ? "부모님" : hasMom ? "어머님" : hasDad ? "아버님" : "보호자님";
 
   return (
@@ -44,7 +45,7 @@ export default function OpeningGreeting({
           }}
         >
           <p className="text-[16px] font-bold leading-[1.7]" style={{ color: GOLD }}>
-            안녕하세요.
+            안녕하세요, {parentSalutation}.
           </p>
 
           <p className="text-[13.5px] leading-[1.95]" style={{ color: "#1a0a14" }}>

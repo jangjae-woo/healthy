@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-career-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "promotion",
+  "sectionTitle": "승진운",
+  "sampleId": "sample-003",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "career.promotion|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang",
+  "cacheKey": "career.promotion|strong:화:강|weak:금:없음|shinkang:태강|top:겁재|responsibility:mixed|support:mid|expression:high|stability:mid|tone:index-jang|variant:01",
+  "text": "화토운영형 님의 승진운은 책임을 받을수록 자리가 커지지만 권한과 리듬이 함께 있어야 하는 타입이에요. 책임감 결은 48점대, 일간 안정 결은 62점대로 잡혀 승진은 가능성과 부담이 함께 들어옵니다.\n\n48~57세 경자 대운에는 정재/정관 흐름이 직업 결을 밖으로 드러내기 쉽습니다. 다만 직급만 커지고 결정권, 인력, 회복 시간이 따라오지 않으면 승진이 오히려 소모가 됩니다.\n\n본인에게 좋은 승진은 이름만 높은 자리가 아니라 맡은 만큼 기준을 세울 수 있는 자리입니다. 승진 제안이 들어올 때는 자리의 크기보다 실제 권한과 지속 가능한 리듬을 먼저 확인하는 편이 좋습니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

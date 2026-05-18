@@ -1,0 +1,176 @@
+[
+  {
+    "sampleId": "sample-001",
+    "file": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\sample-001.html",
+    "styleHashMatches": true,
+    "pageCount": 12,
+    "templatePageCount": 12,
+    "pageIdsMatch": true,
+    "pageIds": [
+      "p1",
+      "p2",
+      "p4",
+      "p-naran",
+      "p5",
+      "p7",
+      "p9",
+      "p-jobsbiz",
+      "p11",
+      "p13",
+      "p15",
+      "p16"
+    ],
+    "h3Count": 52,
+    "templateH3Count": 52,
+    "h3CountDelta": 0,
+    "remainingOriginalTokens": {
+      "jangMinho": 0,
+      "gapO": 0
+    }
+  },
+  {
+    "sampleId": "sample-002",
+    "file": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\sample-002.html",
+    "styleHashMatches": true,
+    "pageCount": 12,
+    "templatePageCount": 12,
+    "pageIdsMatch": true,
+    "pageIds": [
+      "p1",
+      "p2",
+      "p4",
+      "p-naran",
+      "p5",
+      "p7",
+      "p9",
+      "p-jobsbiz",
+      "p11",
+      "p13",
+      "p15",
+      "p16"
+    ],
+    "h3Count": 52,
+    "templateH3Count": 52,
+    "h3CountDelta": 0,
+    "remainingOriginalTokens": {
+      "jangMinho": 0,
+      "gapO": 0
+    }
+  },
+  {
+    "sampleId": "sample-003",
+    "file": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\sample-003.html",
+    "styleHashMatches": true,
+    "pageCount": 12,
+    "templatePageCount": 12,
+    "pageIdsMatch": true,
+    "pageIds": [
+      "p1",
+      "p2",
+      "p4",
+      "p-naran",
+      "p5",
+      "p7",
+      "p9",
+      "p-jobsbiz",
+      "p11",
+      "p13",
+      "p15",
+      "p16"
+    ],
+    "h3Count": 52,
+    "templateH3Count": 52,
+    "h3CountDelta": 0,
+    "remainingOriginalTokens": {
+      "jangMinho": 0,
+      "gapO": 0
+    }
+  },
+  {
+    "sampleId": "sample-004",
+    "file": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\sample-004.html",
+    "styleHashMatches": true,
+    "pageCount": 12,
+    "templatePageCount": 12,
+    "pageIdsMatch": true,
+    "pageIds": [
+      "p1",
+      "p2",
+      "p4",
+      "p-naran",
+      "p5",
+      "p7",
+      "p9",
+      "p-jobsbiz",
+      "p11",
+      "p13",
+      "p15",
+      "p16"
+    ],
+    "h3Count": 52,
+    "templateH3Count": 52,
+    "h3CountDelta": 0,
+    "remainingOriginalTokens": {
+      "jangMinho": 0,
+      "gapO": 0
+    }
+  },
+  {
+    "sampleId": "장재형",
+    "file": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\장재형.html",
+    "styleHashMatches": true,
+    "pageCount": 12,
+    "templatePageCount": 12,
+    "pageIdsMatch": true,
+    "pageIds": [
+      "p1",
+      "p2",
+      "p4",
+      "p-naran",
+      "p5",
+      "p7",
+      "p9",
+      "p-jobsbiz",
+      "p11",
+      "p13",
+      "p15",
+      "p16"
+    ],
+    "h3Count": 52,
+    "templateH3Count": 52,
+    "h3CountDelta": 0,
+    "remainingOriginalTokens": {
+      "jangMinho": 0,
+      "gapO": 0
+    }
+  },
+  {
+    "sampleId": "장재우",
+    "file": "C:\\Users\\new\\Desktop\\saju\\평생사주\\template-preview\\장재우.html",
+    "styleHashMatches": true,
+    "pageCount": 12,
+    "templatePageCount": 12,
+    "pageIdsMatch": true,
+    "pageIds": [
+      "p1",
+      "p2",
+      "p4",
+      "p-naran",
+      "p5",
+      "p7",
+      "p9",
+      "p-jobsbiz",
+      "p11",
+      "p13",
+      "p15",
+      "p16"
+    ],
+    "h3Count": 52,
+    "templateH3Count": 52,
+    "h3CountDelta": 0,
+    "remainingOriginalTokens": {
+      "jangMinho": 0,
+      "gapO": 0
+    }
+  }
+]

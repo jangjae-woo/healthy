@@ -44,6 +44,58 @@ interface HourSelection {
   isHourUnknown: boolean;
 }
 
+const DAYMASTER_ELEMENT: Record<string, keyof Elements> = {
+  갑: "목",
+  을: "목",
+  병: "화",
+  정: "화",
+  무: "토",
+  기: "토",
+  경: "금",
+  신: "금",
+  임: "수",
+  계: "수",
+};
+
+const STRENGTH_LEVELS: DayMasterStrengthLevel[] = ["극약", "태약", "신약", "중화", "신강", "태강", "극왕"];
+
+function levelFromStrengthScore(score: number): DayMasterStrengthLevel {
+  if (score <= -8) return "극약";
+  if (score <= -4) return "태약";
+  if (score <= -1) return "신약";
+  if (score <= 2) return "중화";
+  if (score <= 5) return "신강";
+  if (score <= 9) return "태강";
+  return "극왕";
+}
+
+function adjustStrengthByElementConcentration(
+  ilgan: string,
+  elements: Elements,
+  base: { level: DayMasterStrengthLevel; score: number; positionIdx: number },
+): { level: DayMasterStrengthLevel; score: number; positionIdx: number } {
+  const selfElement = DAYMASTER_ELEMENT[ilgan];
+  if (!selfElement) return base;
+
+  const total = Object.values(elements).reduce((sum, value) => sum + Number(value || 0), 0) || 1;
+  const selfPct = Math.round((Number(elements[selfElement] || 0) / total) * 100);
+  let adjustedScore = base.score;
+
+  // 득령/통근 점수만으로 중화에 걸리는 케이스라도, 일간 오행 자체가 과집중이면
+  // 실제 서비스 해석에서는 신강 쪽으로 보정한다.
+  if (selfPct >= 45) adjustedScore += 4;
+  else if (selfPct >= 38) adjustedScore += 3;
+  else if (selfPct >= 32) adjustedScore += 2;
+  else if (selfPct >= 25) adjustedScore += 1;
+
+  const level = levelFromStrengthScore(adjustedScore);
+  return {
+    level,
+    score: Math.round(adjustedScore * 10) / 10,
+    positionIdx: STRENGTH_LEVELS.indexOf(level),
+  };
+}
+
 const HOUR_SELECTIONS: Record<string, HourSelection> = {
   "시간 모름": { hour: 12, minute: 0, isHourUnknown: true },
   "모름": { hour: 12, minute: 0, isHourUnknown: true },
@@ -176,7 +228,11 @@ export function computeFullSajuCore(input: SajuCoreInput): SajuAnalysisCore | nu
       pillars.month.stem,
       ...(pillars.hour ? [pillars.hour.stem] : []),
     ];
-    const shinkangResult = getDayMasterStrength(ilgan, pillars.month.branch, allBranches, otherStems);
+    const shinkangResult = adjustStrengthByElementConcentration(
+      ilgan,
+      elements,
+      getDayMasterStrength(ilgan, pillars.month.branch, allBranches, otherStems),
+    );
     const supportElement = getYongsin(ilgan, elements, shinkangResult.level);
     const daeun = calcDaeun(
       solarDate.year,

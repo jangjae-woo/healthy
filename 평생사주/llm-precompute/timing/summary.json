@@ -1,0 +1,43 @@
+{
+  "version": "lifesaju-timing-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 6,
+  "summary": [
+    {
+      "group": "timing",
+      "sectionKey": "overview",
+      "sampleId": "장재우",
+      "baseCacheKey": "timing.overview|strong:수|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "timing",
+      "sectionKey": "overview",
+      "sampleId": "장재형",
+      "baseCacheKey": "timing.overview|strong:토|weak:금|shinkang:신약|top:정재|tone:index-jang"
+    },
+    {
+      "group": "timing",
+      "sectionKey": "overview",
+      "sampleId": "sample-001",
+      "baseCacheKey": "timing.overview|strong:목|weak:수|shinkang:중화|top:비견|tone:index-jang"
+    },
+    {
+      "group": "timing",
+      "sectionKey": "overview",
+      "sampleId": "sample-002",
+      "baseCacheKey": "timing.overview|strong:목|weak:금|shinkang:신약|top:상관|tone:index-jang"
+    },
+    {
+      "group": "timing",
+      "sectionKey": "overview",
+      "sampleId": "sample-003",
+      "baseCacheKey": "timing.overview|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang"
+    },
+    {
+      "group": "timing",
+      "sectionKey": "overview",
+      "sampleId": "sample-004",
+      "baseCacheKey": "timing.overview|strong:토|weak:화|shinkang:극왕|top:비견|tone:index-jang"
+    }
+  ]
+}

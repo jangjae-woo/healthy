@@ -1,0 +1,120 @@
+{
+  "version": "lifesaju-wealth-extra-demo-summary-v1",
+  "generatedAt": "2026-05-18",
+  "count": 18,
+  "sections": {
+    "big-money-timing": "큰 돈 시기",
+    "leak-risk": "돈이 새는 결",
+    "lifetime-asset": "평생 자산 결"
+  },
+  "summary": [
+    {
+      "sampleId": "장재우",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "baseCacheKey": "wealth.big-money-timing|strong:수:중상|weak:금:결핍|shinkang:태강|support:mid|make:mid|keep:mixed|accumulate:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "leak-risk",
+      "sectionTitle": "돈이 새는 결",
+      "baseCacheKey": "wealth.leak-risk|strong:수:중상|weak:금:결핍|shinkang:태강|support:mid|make:mid|keep:mixed|accumulate:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재우",
+      "sectionKey": "lifetime-asset",
+      "sectionTitle": "평생 자산 결",
+      "baseCacheKey": "wealth.lifetime-asset|strong:수:중상|weak:금:결핍|shinkang:태강|support:mid|make:mid|keep:mixed|accumulate:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "baseCacheKey": "wealth.big-money-timing|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "leak-risk",
+      "sectionTitle": "돈이 새는 결",
+      "baseCacheKey": "wealth.leak-risk|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "장재형",
+      "sectionKey": "lifetime-asset",
+      "sectionTitle": "평생 자산 결",
+      "baseCacheKey": "wealth.lifetime-asset|strong:토:보통|weak:금:약|shinkang:신약|support:mixed|make:high|keep:high|accumulate:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "baseCacheKey": "wealth.big-money-timing|strong:목:보통|weak:수:없음|shinkang:중화|support:mixed|make:mid|keep:mid|accumulate:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "leak-risk",
+      "sectionTitle": "돈이 새는 결",
+      "baseCacheKey": "wealth.leak-risk|strong:목:보통|weak:수:없음|shinkang:중화|support:mixed|make:mid|keep:mid|accumulate:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-001",
+      "sectionKey": "lifetime-asset",
+      "sectionTitle": "평생 자산 결",
+      "baseCacheKey": "wealth.lifetime-asset|strong:목:보통|weak:수:없음|shinkang:중화|support:mixed|make:mid|keep:mid|accumulate:very_high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "baseCacheKey": "wealth.big-money-timing|strong:목:보통|weak:금:결핍|shinkang:신약|support:mid|make:mid|keep:high|accumulate:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "leak-risk",
+      "sectionTitle": "돈이 새는 결",
+      "baseCacheKey": "wealth.leak-risk|strong:목:보통|weak:금:결핍|shinkang:신약|support:mid|make:mid|keep:high|accumulate:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-002",
+      "sectionKey": "lifetime-asset",
+      "sectionTitle": "평생 자산 결",
+      "baseCacheKey": "wealth.lifetime-asset|strong:목:보통|weak:금:결핍|shinkang:신약|support:mid|make:mid|keep:high|accumulate:mid|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "baseCacheKey": "wealth.big-money-timing|strong:화:강|weak:금:없음|shinkang:태강|support:mid|make:mid|keep:care|accumulate:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "leak-risk",
+      "sectionTitle": "돈이 새는 결",
+      "baseCacheKey": "wealth.leak-risk|strong:화:강|weak:금:없음|shinkang:태강|support:mid|make:mid|keep:care|accumulate:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-003",
+      "sectionKey": "lifetime-asset",
+      "sectionTitle": "평생 자산 결",
+      "baseCacheKey": "wealth.lifetime-asset|strong:화:강|weak:금:없음|shinkang:태강|support:mid|make:mid|keep:care|accumulate:mixed|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "big-money-timing",
+      "sectionTitle": "큰 돈 시기",
+      "baseCacheKey": "wealth.big-money-timing|strong:토:강|weak:화:없음|shinkang:극왕|support:mixed|make:mixed|keep:care|accumulate:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "leak-risk",
+      "sectionTitle": "돈이 새는 결",
+      "baseCacheKey": "wealth.leak-risk|strong:토:강|weak:화:없음|shinkang:극왕|support:mixed|make:mixed|keep:care|accumulate:high|tone:index-jang"
+    },
+    {
+      "sampleId": "sample-004",
+      "sectionKey": "lifetime-asset",
+      "sectionTitle": "평생 자산 결",
+      "baseCacheKey": "wealth.lifetime-asset|strong:토:강|weak:화:없음|shinkang:극왕|support:mixed|make:mixed|keep:care|accumulate:high|tone:index-jang"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "version": "lifesaju-wealth-saving-judgement-v2",
+  "generatedAt": "2026-05-18",
+  "sampleId": "sample-003",
+  "personKey": "1976-07-14_오시_male",
+  "personName": "화토운영형",
+  "pageAlias": "wealth",
+  "sectionRole": "saving",
+  "sectionTitle": "돈을 모으는 결",
+  "referenceStructure": [
+    "P1S1: 이름 + 돈이 머무는 핵심 결론",
+    "P1S2: 사주 인자 근거 + 돈이 머무는 본질",
+    "P2S1: 맞는 자산군 + 최소 보유 기간",
+    "P2S2: 안 맞는 자산군",
+    "P2S3: 안정/운용 비중"
+  ],
+  "judgementType": "leak_guard_first",
+  "judgementLabel": "자산 이탈 방어형",
+  "cacheKey": "wealth.saving|pattern:leak_guard_first|keep:care|accumulate:mixed|strong:화:강|weak:금:없음|shinkang:태강|tone:index-jang",
+  "factors": {
+    "shinkang": "태강",
+    "strongestElement": "화",
+    "strongestPercent": 50,
+    "weakestElement": "금",
+    "elementBands": {
+      "목": "보통",
+      "화": "강",
+      "토": "약",
+      "금": "없음",
+      "수": "결핍"
+    },
+    "sipseongCategories": {
+      "비겁": 4,
+      "식상": 2,
+      "재성": 0,
+      "관성": 0,
+      "인성": 2
+    }
+  },
+  "wealthAxes": {
+    "keep": {
+      "id": "keep",
+      "label": "지키는 결",
+      "score": 41,
+      "level": "살펴줄",
+      "className": "care",
+      "dots": "●○○○○",
+      "reason": "비겁 과다 여부와 관성의 정리력",
+      "sourceFactors": [
+        "비겁",
+        "관성",
+        "신강신약"
+      ]
+    },
+    "accumulate": {
+      "id": "accumulate",
+      "label": "모이는 결",
+      "score": 54,
+      "level": "양면",
+      "className": "ambivalent",
+      "dots": "●●○○○",
+      "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+      "sourceFactors": [
+        "재성",
+        "토",
+        "오행균형"
+      ]
+    },
+    "support": {
+      "id": "support",
+      "label": "받쳐주는 결",
+      "score": 62,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+      "sourceFactors": [
+        "인성",
+        "용신",
+        "신강신약"
+      ]
+    },
+    "make": {
+      "id": "make",
+      "label": "만드는 결",
+      "score": 63,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "식상과 재성이 수입을 만드는 통로",
+      "sourceFactors": [
+        "식상",
+        "재성"
+      ]
+    }
+  }
+}

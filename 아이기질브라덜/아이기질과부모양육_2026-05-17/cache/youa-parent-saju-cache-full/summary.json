@@ -1,0 +1,395 @@
+{
+  "range": {
+    "start": "1950-01-01",
+    "end": "2010-12-31"
+  },
+  "totalCombinations": 579254,
+  "generated": 579254,
+  "failed": 0,
+  "elapsedSec": 124.458,
+  "recordsPerSec": 4654.2,
+  "totalBytes": 4781820044,
+  "totalMb": 4560.3,
+  "outDir": "C:\\tmp\\youa-parent-saju-cache-full",
+  "files": [
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1950.jsonl",
+      "count": 9490,
+      "bytes": 78597928,
+      "mb": 74.96
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1951.jsonl",
+      "count": 9490,
+      "bytes": 77237112,
+      "mb": 73.66
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1952.jsonl",
+      "count": 9516,
+      "bytes": 78778982,
+      "mb": 75.13
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1953.jsonl",
+      "count": 9490,
+      "bytes": 78763226,
+      "mb": 75.11
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1954.jsonl",
+      "count": 9490,
+      "bytes": 79003488,
+      "mb": 75.34
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1955.jsonl",
+      "count": 9490,
+      "bytes": 78623704,
+      "mb": 74.98
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1956.jsonl",
+      "count": 9516,
+      "bytes": 78918938,
+      "mb": 75.26
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1957.jsonl",
+      "count": 9490,
+      "bytes": 77388030,
+      "mb": 73.8
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1958.jsonl",
+      "count": 9490,
+      "bytes": 78468626,
+      "mb": 74.83
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1959.jsonl",
+      "count": 9490,
+      "bytes": 78733182,
+      "mb": 75.09
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1960.jsonl",
+      "count": 9516,
+      "bytes": 77363200,
+      "mb": 73.78
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1961.jsonl",
+      "count": 9490,
+      "bytes": 78570296,
+      "mb": 74.93
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1962.jsonl",
+      "count": 9490,
+      "bytes": 78759240,
+      "mb": 75.11
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1963.jsonl",
+      "count": 9490,
+      "bytes": 77282650,
+      "mb": 73.7
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1964.jsonl",
+      "count": 9516,
+      "bytes": 78683260,
+      "mb": 75.04
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1965.jsonl",
+      "count": 9490,
+      "bytes": 78733374,
+      "mb": 75.09
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1966.jsonl",
+      "count": 9490,
+      "bytes": 78832434,
+      "mb": 75.18
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1967.jsonl",
+      "count": 9490,
+      "bytes": 78778080,
+      "mb": 75.13
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1968.jsonl",
+      "count": 9516,
+      "bytes": 78987262,
+      "mb": 75.33
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1969.jsonl",
+      "count": 9490,
+      "bytes": 77431698,
+      "mb": 73.84
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1970.jsonl",
+      "count": 9490,
+      "bytes": 78347814,
+      "mb": 74.72
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1971.jsonl",
+      "count": 9490,
+      "bytes": 78583040,
+      "mb": 74.94
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1972.jsonl",
+      "count": 9516,
+      "bytes": 77619334,
+      "mb": 74.02
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1973.jsonl",
+      "count": 9490,
+      "bytes": 78658750,
+      "mb": 75.01
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1974.jsonl",
+      "count": 9490,
+      "bytes": 78882378,
+      "mb": 75.23
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1975.jsonl",
+      "count": 9490,
+      "bytes": 77420290,
+      "mb": 73.83
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1976.jsonl",
+      "count": 9516,
+      "bytes": 78587382,
+      "mb": 74.95
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1977.jsonl",
+      "count": 9490,
+      "bytes": 78939664,
+      "mb": 75.28
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1978.jsonl",
+      "count": 9490,
+      "bytes": 78932620,
+      "mb": 75.28
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1979.jsonl",
+      "count": 9490,
+      "bytes": 78694394,
+      "mb": 75.05
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1980.jsonl",
+      "count": 9516,
+      "bytes": 79036664,
+      "mb": 75.38
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1981.jsonl",
+      "count": 9490,
+      "bytes": 77419174,
+      "mb": 73.83
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1982.jsonl",
+      "count": 9490,
+      "bytes": 78497376,
+      "mb": 74.86
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1983.jsonl",
+      "count": 9490,
+      "bytes": 78691842,
+      "mb": 75.05
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1984.jsonl",
+      "count": 9516,
+      "bytes": 77424288,
+      "mb": 73.84
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1985.jsonl",
+      "count": 9490,
+      "bytes": 78588254,
+      "mb": 74.95
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1986.jsonl",
+      "count": 9490,
+      "bytes": 78702848,
+      "mb": 75.06
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1987.jsonl",
+      "count": 9490,
+      "bytes": 77469024,
+      "mb": 73.88
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1988.jsonl",
+      "count": 9516,
+      "bytes": 78666806,
+      "mb": 75.02
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1989.jsonl",
+      "count": 9490,
+      "bytes": 78874302,
+      "mb": 75.22
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1990.jsonl",
+      "count": 9490,
+      "bytes": 78826698,
+      "mb": 75.17
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1991.jsonl",
+      "count": 9490,
+      "bytes": 78497376,
+      "mb": 74.86
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1992.jsonl",
+      "count": 9516,
+      "bytes": 79176382,
+      "mb": 75.51
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1993.jsonl",
+      "count": 9490,
+      "bytes": 77393472,
+      "mb": 73.81
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1994.jsonl",
+      "count": 9490,
+      "bytes": 78432914,
+      "mb": 74.8
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1995.jsonl",
+      "count": 9490,
+      "bytes": 78639948,
+      "mb": 75
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1996.jsonl",
+      "count": 9516,
+      "bytes": 77276386,
+      "mb": 73.7
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1997.jsonl",
+      "count": 9490,
+      "bytes": 78709370,
+      "mb": 75.06
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1998.jsonl",
+      "count": 9490,
+      "bytes": 78695558,
+      "mb": 75.05
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-1999.jsonl",
+      "count": 9490,
+      "bytes": 77401816,
+      "mb": 73.82
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2000.jsonl",
+      "count": 9516,
+      "bytes": 78584436,
+      "mb": 74.94
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2001.jsonl",
+      "count": 9490,
+      "bytes": 78788692,
+      "mb": 75.14
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2002.jsonl",
+      "count": 9490,
+      "bytes": 78969710,
+      "mb": 75.31
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2003.jsonl",
+      "count": 9490,
+      "bytes": 78524358,
+      "mb": 74.89
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2004.jsonl",
+      "count": 9516,
+      "bytes": 79051660,
+      "mb": 75.39
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2005.jsonl",
+      "count": 9490,
+      "bytes": 77261890,
+      "mb": 73.68
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2006.jsonl",
+      "count": 9490,
+      "bytes": 78402882,
+      "mb": 74.77
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2007.jsonl",
+      "count": 9490,
+      "bytes": 78743714,
+      "mb": 75.1
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2008.jsonl",
+      "count": 9516,
+      "bytes": 77410838,
+      "mb": 73.82
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2009.jsonl",
+      "count": 9490,
+      "bytes": 78655012,
+      "mb": 75.01
+    },
+    {
+      "path": "C:\\tmp\\youa-parent-saju-cache-full\\parent-saju-cache-2010.jsonl",
+      "count": 9464,
+      "bytes": 78405978,
+      "mb": 74.77
+    }
+  ],
+  "ilganCounts": {
+    "병": 57980,
+    "정": 57928,
+    "무": 57902,
+    "기": 57954,
+    "경": 57902,
+    "신": 57928,
+    "임": 57902,
+    "계": 57928,
+    "갑": 57902,
+    "을": 57928
+  },
+  "errors": []
+}

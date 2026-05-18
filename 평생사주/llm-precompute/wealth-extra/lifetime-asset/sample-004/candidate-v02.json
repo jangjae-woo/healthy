@@ -1,0 +1,16 @@
+{
+  "version": "lifesaju-wealth-extra-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "sectionKey": "lifetime-asset",
+  "sectionTitle": "평생 자산 결",
+  "sampleId": "sample-004",
+  "status": "ready",
+  "generatedBy": "local-reference-structure-demo-generator",
+  "baseCacheKey": "wealth.lifetime-asset|strong:토:강|weak:화:없음|shinkang:극왕|support:mixed|make:mixed|keep:care|accumulate:high|tone:index-jang",
+  "cacheKey": "wealth.lifetime-asset|strong:토:강|weak:화:없음|shinkang:극왕|support:mixed|make:mixed|keep:care|accumulate:high|tone:index-jang|variant:02",
+  "text": "관성조직형 님의 평생 자산 결은 한 번의 큰돈보다 오래 반복되는 자산 구조가 중요한 결으로 볼 수 있어요. 받쳐주는 결 49점대, 만드는 결 54점대, 모이는 결 72점대를 함께 보면 본인 주도권과 사람을 모으는 힘을 오래 쌓을 때 자산이 커집니다.\n\n평생 자산은 수입원 하나에 몰기보다 현금흐름, 장기 보유 자산, 본인 이름의 결과물을 나누어 쌓는 쪽이 좋습니다. 강한 토 기운은 본인의 추진 방식이고, 약한 화 기운은 자산을 정리하고 지키는 기준으로 보완해야 합니다. 시간이 지날수록 돈의 크기보다 돈이 반복해서 남는 구조가 더 중요해지는 사주입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  }
+}

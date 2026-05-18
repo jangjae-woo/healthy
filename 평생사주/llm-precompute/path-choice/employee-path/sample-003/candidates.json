@@ -1,0 +1,57 @@
+{
+  "version": "lifesaju-path-choice-candidate-set-v1",
+  "generatedAt": "2026-05-18",
+  "group": "path-choice",
+  "sectionKey": "employee-path",
+  "sampleId": "sample-003",
+  "candidates": [
+    {
+      "version": "lifesaju-path-choice-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-003",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+      "cacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:01",
+      "text": "sample-003 님이 직장인의 길로 가면, 조직 안에서 본인 전문성을 선명하게 맡을 때 결이 살아나요. 단순 반복 업무보다 기획, 분석, 운영, 교육, 상담처럼 본인 판단과 결과물이 남는 자리가 더 잘 맞습니다.\n\n직장 결의 장점은 평판과 경력을 차곡차곡 쌓을 수 있다는 점이에요. 48~57세 경자 흐름에는 맡은 역할이 넓어지거나 한 분야에서 이름이 보이기 쉬워집니다.\n\n다만 약한 금 기운은 계약, 기준, 마감, 권한 정리에서 보완이 필요합니다. 일이 많아지는 것보다 어디까지가 본인 책임인지 선을 먼저 정해야 피로가 줄어듭니다.\n\n잘 맞는 직장 형태는 큰 조직 안에서도 본인 영역이 분명한 자리예요. 누군가의 지시만 처리하는 자리보다, 본인이 만든 기준과 노하우가 쌓이는 팀이나 직무가 좋습니다.\n\n직장으로 간다면 목표는 오래 버티는 것이 아니라 본인 이름으로 설명 가능한 전문성을 만드는 것입니다. 그 전문성이 쌓인 뒤에는 자문, 강의, 프로젝트, 사이드 일로 자연스럽게 넓어질 수 있습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-path-choice-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-003",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+      "cacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:02",
+      "text": "sample-003 님이 직장인의 길로 가면, 조직 안에서 본인 전문성을 선명하게 맡을 때 결이 살아나요. 단순 반복 업무보다 기획, 분석, 운영, 교육, 상담처럼 본인 판단과 결과물이 남는 자리가 더 잘 맞습니다.\n\n직장 결의 장점은 평판과 경력을 차곡차곡 쌓을 수 있다는 점이에요. 48~57세 경자 흐름에는 맡은 역할이 넓어지거나 한 분야에서 이름이 보이기 쉬워집니다.\n\n다만 약한 금 기운은 계약, 기준, 마감, 권한 정리에서 보완이 필요합니다. 일이 많아지는 것보다 어디까지가 본인 책임인지 선을 먼저 정해야 피로가 줄어듭니다.\n\n잘 맞는 직장 형태는 큰 조직 안에서도 본인 영역이 분명한 자리예요. 누군가의 지시만 처리하는 자리보다, 본인이 만든 기준과 노하우가 쌓이는 팀이나 직무가 좋습니다.\n\n직장으로 간다면 목표는 오래 버티는 것이 아니라 본인 이름으로 설명 가능한 전문성을 만드는 것입니다. 그 전문성이 쌓인 뒤에는 자문, 강의, 프로젝트, 사이드 일로 자연스럽게 넓어질 수 있습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    },
+    {
+      "version": "lifesaju-path-choice-candidate-v1",
+      "generatedAt": "2026-05-18",
+      "group": "path-choice",
+      "sectionKey": "employee-path",
+      "sampleId": "sample-003",
+      "status": "ready",
+      "generatedBy": "local-reference-structure-demo-generator",
+      "baseCacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang",
+      "cacheKey": "path-choice.employee-path|strong:화|weak:금|shinkang:태강|top:겁재|tone:index-jang|variant:03",
+      "text": "sample-003 님이 직장인의 길로 가면, 조직 안에서 본인 전문성을 선명하게 맡을 때 결이 살아나요. 단순 반복 업무보다 기획, 분석, 운영, 교육, 상담처럼 본인 판단과 결과물이 남는 자리가 더 잘 맞습니다.\n\n직장 결의 장점은 평판과 경력을 차곡차곡 쌓을 수 있다는 점이에요. 48~57세 경자 흐름에는 맡은 역할이 넓어지거나 한 분야에서 이름이 보이기 쉬워집니다.\n\n다만 약한 금 기운은 계약, 기준, 마감, 권한 정리에서 보완이 필요합니다. 일이 많아지는 것보다 어디까지가 본인 책임인지 선을 먼저 정해야 피로가 줄어듭니다.\n\n잘 맞는 직장 형태는 큰 조직 안에서도 본인 영역이 분명한 자리예요. 누군가의 지시만 처리하는 자리보다, 본인이 만든 기준과 노하우가 쌓이는 팀이나 직무가 좋습니다.\n\n직장으로 간다면 목표는 오래 버티는 것이 아니라 본인 이름으로 설명 가능한 전문성을 만드는 것입니다. 그 전문성이 쌓인 뒤에는 자문, 강의, 프로젝트, 사이드 일로 자연스럽게 넓어질 수 있습니다.",
+      "qa": {
+        "checked": false,
+        "issues": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>아이기질 문장 블록 캐시 v1</title>
+  <style>
+    body { margin:0; background:#f5eee7; color:#322820; font-family: Georgia, 'Times New Roman', 'Noto Serif KR', serif; }
+    header { position:sticky; top:0; z-index:2; background:#2f2924; color:#fff; padding:14px 18px; }
+    header h1 { margin:0; font-size:18px; }
+    header p { margin:6px 0 0; font:13px Arial, sans-serif; color:#e6d8cb; }
+    main { max-width:880px; margin:0 auto; padding:18px 12px 48px; }
+    section { background:#fffdf9; border:1px solid #e7d7c8; border-radius:10px; margin:0 0 16px; padding:18px; box-shadow:0 2px 10px rgba(45,32,22,.06); }
+    h2 { margin:0 0 12px; color:#c84d20; font-size:18px; border-bottom:1px solid #ead8c8; padding-bottom:8px; }
+    h3 { margin:0 0 8px; color:#7d5a32; font-size:15px; }
+    p, li { font-size:14px; line-height:1.75; }
+    code { font-family: Consolas, monospace; background:#f3e7dc; padding:2px 5px; border-radius:4px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
+    .card { border-left:4px solid #d97757; background:#fef8f2; border-radius:8px; padding:12px 14px; }
+    .card.matrix { border-left-color:#95c540; background:#f6faed; }
+    .card.conflict { border-left-color:#8a8a9e; background:#f4f4f7; }
+    .meta { font:12px Arial, sans-serif; color:#7d6d61; margin-bottom:10px; word-break:break-all; }
+    .count { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+    .count div { background:#fff7ed; border:1px solid #efd9c8; border-radius:8px; padding:10px; font:13px Arial, sans-serif; }
+    .count b { display:block; color:#c84d20; font-size:20px; margin-top:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>아이기질 문장 블록 캐시 v1</h1>
+    <p>LLM 없이 계산 key로 조회해서 변수 치환하는 블록 캐시 미리보기</p>
+  </header>
+  <main>
+    <section>
+      <h2>총량</h2>
+      <div class="count">
+        <div>factor-blocks.json<b>30</b></div><div>factor-combo-blocks.json<b>1080</b></div><div>parent-saju-blocks.json<b>20</b></div><div>compatibility-blocks.json<b>200</b></div><div>parent-palace-blocks.json<b>25</b></div><div>matrix-card-blocks.json<b>432</b></div>
+        <div>totalBlocks<b>1787</b></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4~9페이지 요인 블록 예시</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="meta">factor|활기|낮음</div>
+          <h3>활기 · 낮음</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p>{childName}은 일상에서 활동성은 은은하고 차분한 놀이와 회복 시간이 더 잘 맞는 결이 은은하게 드러나는 아이입니다. 같은 상황에서도 반대 결과 함께 먼저 살아나기 때문에, 아이의 반응을 속도보다 결의 방향으로 읽어주는 것이 좋습니다.</p><p>움직임의 결은 하루 컨디션과 환경에 따라 표현이 달라질 수 있습니다. 익숙한 공간에서는 편안하게 드러나고, 낯선 자극이 많을수록 부모님이 리듬을 잡아줄 때 가장 자연스럽게 안정됩니다.</p>
+          <p><b>활기 리듬을 일정 안에 넣어 주세요</b><br>{childName}에게 활기 점수는 낮음 구간에 있습니다. 하루 일과 안에서 이 결이 살아나는 시간과 쉬어가는 시간을 미리 잡아주면, 아이가 자기 속도를 예측하고 더 안정적으로 움직입니다.</p>
+        </div><div class="card">
+          <div class="meta">factor|조심|높음</div>
+          <h3>조심 · 높음</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p>{childName}은 일상에서 새 자극 앞에서 신중하고 안전한 자리부터 찾는 결이 분명하게 드러나는 아이입니다. 같은 상황에서도 해당 결이 일상에서 먼저 살아나기 때문에, 아이의 반응을 속도보다 결의 방향으로 읽어주는 것이 좋습니다.</p><p>신중한 결은 하루 컨디션과 환경에 따라 표현이 달라질 수 있습니다. 익숙한 공간에서는 편안하게 드러나고, 낯선 자극이 많을수록 부모님이 리듬을 잡아줄 때 가장 자연스럽게 안정됩니다.</p>
+          <p><b>조심 리듬을 일정 안에 넣어 주세요</b><br>{childName}에게 조심 점수는 높음 구간에 있습니다. 하루 일과 안에서 이 결이 살아나는 시간과 쉬어가는 시간을 미리 잡아주면, 아이가 자기 속도를 예측하고 더 안정적으로 움직입니다.</p>
+        </div><div class="card">
+          <div class="meta">factor|흔들림|매우높음</div>
+          <h3>흔들림 · 매우높음</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p>{childName}은 일상에서 감정을 매우 깊게 느끼고 회복에도 충분한 시간과 품이 필요한 결이 매우 깊게 드러나는 아이입니다. 같은 상황에서도 해당 결이 여러 장면에서 강하게 먼저 살아나기 때문에, 아이의 반응을 속도보다 결의 방향으로 읽어주는 것이 좋습니다.</p><p>깊이 느끼는 결은 하루 컨디션과 환경에 따라 표현이 달라질 수 있습니다. 익숙한 공간에서는 편안하게 드러나고, 낯선 자극이 많을수록 부모님이 리듬을 잡아줄 때 가장 자연스럽게 안정됩니다.</p>
+          <p><b>흔들림 리듬을 일정 안에 넣어 주세요</b><br>{childName}에게 흔들림 점수는 매우높음 구간에 있습니다. 하루 일과 안에서 이 결이 살아나는 시간과 쉬어가는 시간을 미리 잡아주면, 아이가 자기 속도를 예측하고 더 안정적으로 움직입니다.</p>
+        </div><div class="card">
+          <div class="meta">factor|끈기|중간</div>
+          <h3>끈기 · 중간</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p>{childName}은 일상에서 인내와 즉흥이 함께 있어 흥미가 맞으면 오래 붙잡고 아니면 유연하게 바꾸는 결이 균형 있게 드러나는 아이입니다. 같은 상황에서도 상황에 따라 양쪽 결이 먼저 살아나기 때문에, 아이의 반응을 속도보다 결의 방향으로 읽어주는 것이 좋습니다.</p><p>끝까지 붙잡는 결은 하루 컨디션과 환경에 따라 표현이 달라질 수 있습니다. 익숙한 공간에서는 편안하게 드러나고, 낯선 자극이 많을수록 부모님이 리듬을 잡아줄 때 가장 자연스럽게 안정됩니다.</p>
+          <p><b>끈기 리듬을 일정 안에 넣어 주세요</b><br>{childName}에게 끈기 점수는 중간 구간에 있습니다. 하루 일과 안에서 이 결이 살아나는 시간과 쉬어가는 시간을 미리 잡아주면, 아이가 자기 속도를 예측하고 더 안정적으로 움직입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4~9페이지 요인 × 사주 인자 조합 블록 예시</h2>
+      <p>사주 엔진이 만드는 기운과 누르는 기운의 대표 그룹을 계산해서 아래 key로 조회합니다.</p>
+      <div class="grid">
+        <div class="card">
+          <div class="meta">factorCombo|활기|높음|expression|standard</div>
+          <h3>활기 · 높음 · 표현하는 기운 / 절제하는 기운</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p><b>whyMechanism</b></p>
+          <p>표현하는 기운이 활기 점수를 밖으로 드러내는 방향으로 더 분명하게 잡아줍니다. 이 기운은 말과 행동, 놀이를 밖으로 풀어내는 흐름으로 작용합니다.</p><p>절제하는 기운은 활기 결이 한쪽으로 치우치지 않도록 속도를 조절합니다. 이 기운은 규칙과 경계를 세우고 속도를 조절하는 흐름으로 작용합니다.</p><p>{childName}의 활기 점수는 높음 구간에서 표현하는 기운의 작용을 가장 먼저 읽어야 합니다. 말, 몸짓, 놀이 선택처럼 밖으로 드러나는 반응이 또렷해집니다. 그래서 이 결은 일상에서 비교적 쉽게 관찰됩니다.</p>
+          <p><b>dailyBody</b></p>
+          <p>{childName}은 활기 관련 장면에서 표현하는 기운과 절제하는 기운이 함께 작용하는 모습을 보입니다. 말, 몸짓, 놀이 선택처럼 밖으로 드러나는 반응이 또렷해집니다. 반면 자극이 강하거나 속도가 맞지 않을 때는 절제하는 기운의 영향으로 반응을 한 박자 조절하려는 모습도 나타납니다.</p><p>몸을 움직이며 에너지를 풀어내고 바깥 자극에 생기가 살아나는 결이 기본 방향이지만, 실제 일상에서는 사주 안의 두 기운이 만나는 방식에 따라 표현이 달라집니다. 부모님은 점수만 보기보다 어떤 기운이 만들고 어떤 기운이 조절하는지를 함께 봐주시는 것이 좋습니다.</p>
+          <p><b>표현하는 기운과 절제하는 기운의 리듬 맞추기</b><br>{childName}의 활기 점수는 표현하는 기운이 만들어내는 흐름과 절제하는 기운이 조절하는 흐름을 함께 봐야 합니다. 활동을 바로 시작하기보다 예고, 실행, 회복의 순서를 일정 안에 넣어주면 아이가 자기 결을 더 안정적으로 사용합니다.</p>
+        </div><div class="card">
+          <div class="meta">factorCombo|활기|높음|climate|support</div>
+          <h3>활기 · 높음 · 오행·조후의 기운 / 받쳐주는 기운</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p><b>whyMechanism</b></p>
+          <p>오행·조후의 기운이 활기 점수를 밖으로 드러내는 방향으로 더 분명하게 잡아줍니다. 이 기운은 사주 전체의 온도와 방향을 조절하는 큰 배경 흐름으로 작용합니다.</p><p>받쳐주는 기운은 활기 결이 한쪽으로 치우치지 않도록 속도를 조절합니다. 이 기운은 안에서 받아들이고 마음의 자리를 먼저 만드는 흐름으로 작용합니다.</p><p>{childName}의 활기 점수는 높음 구간에서 오행·조후의 기운의 작용을 가장 먼저 읽어야 합니다. 컨디션, 계절감, 공간의 자극에 따라 표현 강도가 달라집니다. 그래서 이 결은 일상에서 비교적 쉽게 관찰됩니다.</p>
+          <p><b>dailyBody</b></p>
+          <p>{childName}은 활기 관련 장면에서 오행·조후의 기운과 받쳐주는 기운이 함께 작용하는 모습을 보입니다. 컨디션, 계절감, 공간의 자극에 따라 표현 강도가 달라집니다. 반면 자극이 강하거나 속도가 맞지 않을 때는 받쳐주는 기운의 영향으로 반응을 한 박자 조절하려는 모습도 나타납니다.</p><p>몸을 움직이며 에너지를 풀어내고 바깥 자극에 생기가 살아나는 결이 기본 방향이지만, 실제 일상에서는 사주 안의 두 기운이 만나는 방식에 따라 표현이 달라집니다. 부모님은 점수만 보기보다 어떤 기운이 만들고 어떤 기운이 조절하는지를 함께 봐주시는 것이 좋습니다.</p>
+          <p><b>오행·조후의 기운과 받쳐주는 기운의 리듬 맞추기</b><br>{childName}의 활기 점수는 오행·조후의 기운이 만들어내는 흐름과 받쳐주는 기운이 조절하는 흐름을 함께 봐야 합니다. 활동을 바로 시작하기보다 예고, 실행, 회복의 순서를 일정 안에 넣어주면 아이가 자기 결을 더 안정적으로 사용합니다.</p>
+        </div><div class="card">
+          <div class="meta">factorCombo|조심|매우높음|standard|expression</div>
+          <h3>조심 · 매우높음 · 절제하는 기운 / 표현하는 기운</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p><b>whyMechanism</b></p>
+          <p>절제하는 기운이 조심 점수를 밖으로 드러내는 방향으로 더 분명하게 잡아줍니다. 이 기운은 규칙과 경계를 세우고 속도를 조절하는 흐름으로 작용합니다.</p><p>표현하는 기운은 조심 결이 한쪽으로 치우치지 않도록 속도를 조절합니다. 이 기운은 말과 행동, 놀이를 밖으로 풀어내는 흐름으로 작용합니다.</p><p>{childName}의 조심 점수는 매우높음 구간에서 절제하는 기운의 작용을 가장 먼저 읽어야 합니다. 새 상황 앞에서 먼저 기준을 확인하고 안전한 순서를 찾습니다. 그래서 이 결은 일상에서 비교적 쉽게 관찰됩니다.</p>
+          <p><b>dailyBody</b></p>
+          <p>{childName}은 조심 관련 장면에서 절제하는 기운과 표현하는 기운이 함께 작용하는 모습을 보입니다. 새 상황 앞에서 먼저 기준을 확인하고 안전한 순서를 찾습니다. 반면 자극이 강하거나 속도가 맞지 않을 때는 표현하는 기운의 영향으로 반응을 한 박자 조절하려는 모습도 나타납니다.</p><p>안전 확인이 매우 중요하고 마음의 준비 시간이 깊게 필요한 결이 기본 방향이지만, 실제 일상에서는 사주 안의 두 기운이 만나는 방식에 따라 표현이 달라집니다. 부모님은 점수만 보기보다 어떤 기운이 만들고 어떤 기운이 조절하는지를 함께 봐주시는 것이 좋습니다.</p>
+          <p><b>절제하는 기운과 표현하는 기운의 리듬 맞추기</b><br>{childName}의 조심 점수는 절제하는 기운이 만들어내는 흐름과 표현하는 기운이 조절하는 흐름을 함께 봐야 합니다. 활동을 바로 시작하기보다 예고, 실행, 회복의 순서를 일정 안에 넣어주면 아이가 자기 결을 더 안정적으로 사용합니다.</p>
+        </div><div class="card">
+          <div class="meta">factorCombo|흔들림|낮음|support|climate</div>
+          <h3>흔들림 · 낮음 · 받쳐주는 기운 / 오행·조후의 기운</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p><b>whyMechanism</b></p>
+          <p>받쳐주는 기운도 흔들림 점수를 만들지만, 그 힘이 혼자 크게 앞서지는 않습니다. 이 기운은 안에서 받아들이고 마음의 자리를 먼저 만드는 흐름으로 작용합니다.</p><p>오행·조후의 기운이 흔들림 결의 속도와 표현을 안쪽으로 조절하는 힘이 더 큽니다. 이 기운은 사주 전체의 온도와 방향을 조절하는 큰 배경 흐름으로 작용합니다.</p><p>{childName}의 흔들림 점수는 낮음 구간에서 오행·조후의 기운의 조절을 함께 읽어야 합니다. 컨디션, 계절감, 공간의 자극에 따라 표현 강도가 달라집니다. 그래서 이 결은 부족이라기보다 다른 방식으로 드러나는 흐름입니다.</p>
+          <p><b>dailyBody</b></p>
+          <p>{childName}은 흔들림 관련 장면에서 받쳐주는 기운과 오행·조후의 기운이 함께 작용하는 모습을 보입니다. 익숙한 사람과 안정된 환경 안에서 반응이 부드러워집니다. 반면 자극이 강하거나 속도가 맞지 않을 때는 오행·조후의 기운의 영향으로 반응을 한 박자 조절하려는 모습도 나타납니다.</p><p>정서가 비교적 안정적이고 기분 전환이 빠른 결이 기본 방향이지만, 실제 일상에서는 사주 안의 두 기운이 만나는 방식에 따라 표현이 달라집니다. 부모님은 점수만 보기보다 어떤 기운이 만들고 어떤 기운이 조절하는지를 함께 봐주시는 것이 좋습니다.</p>
+          <p><b>받쳐주는 기운과 오행·조후의 기운의 리듬 맞추기</b><br>{childName}의 흔들림 점수는 받쳐주는 기운이 만들어내는 흐름과 오행·조후의 기운이 조절하는 흐름을 함께 봐야 합니다. 활동을 바로 시작하기보다 예고, 실행, 회복의 순서를 일정 안에 넣어주면 아이가 자기 결을 더 안정적으로 사용합니다.</p>
+        </div><div class="card">
+          <div class="meta">factorCombo|어울림|높음|same|standard</div>
+          <h3>어울림 · 높음 · 같은 결의 기운 / 절제하는 기운</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p><b>whyMechanism</b></p>
+          <p>같은 결의 기운이 어울림 점수를 밖으로 드러내는 방향으로 더 분명하게 잡아줍니다. 이 기운은 자기 기준과 자기 속도를 분명히 세우는 흐름으로 작용합니다.</p><p>절제하는 기운은 어울림 결이 한쪽으로 치우치지 않도록 속도를 조절합니다. 이 기운은 규칙과 경계를 세우고 속도를 조절하는 흐름으로 작용합니다.</p><p>{childName}의 어울림 점수는 높음 구간에서 같은 결의 기운의 작용을 가장 먼저 읽어야 합니다. 스스로 고른 방식과 자기 페이스가 있을 때 결이 안정됩니다. 그래서 이 결은 일상에서 비교적 쉽게 관찰됩니다.</p>
+          <p><b>dailyBody</b></p>
+          <p>{childName}은 어울림 관련 장면에서 같은 결의 기운과 절제하는 기운이 함께 작용하는 모습을 보입니다. 스스로 고른 방식과 자기 페이스가 있을 때 결이 안정됩니다. 반면 자극이 강하거나 속도가 맞지 않을 때는 절제하는 기운의 영향으로 반응을 한 박자 조절하려는 모습도 나타납니다.</p><p>공감적이고 사교적이며 함께 노는 흐름에서 마음이 살아나는 결이 기본 방향이지만, 실제 일상에서는 사주 안의 두 기운이 만나는 방식에 따라 표현이 달라집니다. 부모님은 점수만 보기보다 어떤 기운이 만들고 어떤 기운이 조절하는지를 함께 봐주시는 것이 좋습니다.</p>
+          <p><b>같은 결의 기운과 절제하는 기운의 리듬 맞추기</b><br>{childName}의 어울림 점수는 같은 결의 기운이 만들어내는 흐름과 절제하는 기운이 조절하는 흐름을 함께 봐야 합니다. 활동을 바로 시작하기보다 예고, 실행, 회복의 순서를 일정 안에 넣어주면 아이가 자기 결을 더 안정적으로 사용합니다.</p>
+        </div><div class="card">
+          <div class="meta">factorCombo|끈기|중간|result|same</div>
+          <h3>끈기 · 중간 · 결과를 기대하는 기운 / 같은 결의 기운</h3>
+          <p><b>whyIntro</b><br>{childName}의 {factor} {score}점은 사주에서 {factor}을 만드는 기운과 누르는 기운이 함께 결합되어 나온 결과입니다.</p>
+          <p><b>whyMechanism</b></p>
+          <p>결과를 기대하는 기운도 끈기 점수를 만들지만, 그 힘이 혼자 크게 앞서지는 않습니다. 이 기운은 눈에 보이는 결과와 성취를 향해 움직이게 하는 흐름으로 작용합니다.</p><p>같은 결의 기운은 끈기 결이 한쪽으로 치우치지 않도록 속도를 조절합니다. 이 기운은 자기 기준과 자기 속도를 분명히 세우는 흐름으로 작용합니다.</p><p>{childName}의 끈기 점수는 중간 구간에서 결과를 기대하는 기운과 같은 결의 기운이 서로 균형을 이루며 나타납니다. 한쪽만 강하게 단정하기보다 상황마다 달라지는 반응을 함께 살피는 것이 좋습니다.</p>
+          <p><b>dailyBody</b></p>
+          <p>{childName}은 끈기 관련 장면에서 결과를 기대하는 기운과 같은 결의 기운이 함께 작용하는 모습을 보입니다. 보상, 완성, 약속처럼 결과가 보일 때 반응이 살아납니다. 반면 자극이 강하거나 속도가 맞지 않을 때는 같은 결의 기운의 영향으로 반응을 한 박자 조절하려는 모습도 나타납니다.</p><p>인내와 즉흥이 함께 있어 흥미가 맞으면 오래 붙잡고 아니면 유연하게 바꾸는 결이 기본 방향이지만, 실제 일상에서는 사주 안의 두 기운이 만나는 방식에 따라 표현이 달라집니다. 부모님은 점수만 보기보다 어떤 기운이 만들고 어떤 기운이 조절하는지를 함께 봐주시는 것이 좋습니다.</p>
+          <p><b>결과를 기대하는 기운과 같은 결의 기운의 리듬 맞추기</b><br>{childName}의 끈기 점수는 결과를 기대하는 기운이 만들어내는 흐름과 같은 결의 기운이 조절하는 흐름을 함께 봐야 합니다. 활동을 바로 시작하기보다 예고, 실행, 회복의 순서를 일정 안에 넣어주면 아이가 자기 결을 더 안정적으로 사용합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>13~14페이지 부모 사주 블록 예시</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="meta">parentSaju|mother|eul</div>
+          <h3>어머님 · 을목(乙)</h3>
+          <p>{parentName}의 일간은 을목(乙)입니다. 을목는 들풀과 꽃나무처럼 부드럽게 자라나는 작은 나무의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.</p>
+          <p>이 작은 나무의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다.</p>
+        </div><div class="card">
+          <div class="meta">parentSaju|mother|jeong</div>
+          <h3>어머님 · 정화(丁)</h3>
+          <p>{parentName}의 일간은 정화(丁)입니다. 정화는 촛불과 등불처럼 안에서 따뜻하게 비추는 작은 불의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.</p>
+          <p>이 작은 불의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다.</p>
+        </div><div class="card">
+          <div class="meta">parentSaju|father|gyeong</div>
+          <h3>아버님 · 경금(庚)</h3>
+          <p>{parentName}의 일간은 경금(庚)입니다. 경금는 도끼와 큰 칼처럼 기준을 세우고 단단하게 정리하는 큰 쇠의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.</p>
+          <p>이 큰 쇠의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다.</p>
+        </div><div class="card">
+          <div class="meta">parentSaju|father|im</div>
+          <h3>아버님 · 임수(壬)</h3>
+          <p>{parentName}의 일간은 임수(壬)입니다. 임수는 강과 바다처럼 크게 흐르고 멀리 품는 큰 물의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.</p>
+          <p>이 큰 물의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>15페이지 궁합 블록 예시</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="meta">compatibility|mother|sin|gi|parentGivesChild</div>
+          <h3>부모가 아이를 생하는 관계</h3>
+          <p>{parentTitle}은 작은 흙(기토), {childName}은 작은 쇠(신금)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이를 생하는 관계로 볼 수 있으며, 부모의 기운이 아이의 결을 살려주는 관계로 풀이할 수 있습니다.</p><p>이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.</p><p>따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다.</p>
+          <p><b>일상에서는</b><br>일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다.</p>
+        </div><div class="card">
+          <div class="meta">compatibility|father|eul|gyeong|parentControlsChild</div>
+          <h3>부모가 아이에게 기준을 주는 관계</h3>
+          <p>{parentTitle}은 큰 쇠(경금), {childName}은 작은 나무(을목)의 결을 가지고 있습니다. 두 기운은 명리에서 부모가 아이에게 기준을 주는 관계로 볼 수 있으며, 부모의 기준이 아이의 결을 다듬는 관계로 풀이할 수 있습니다.</p><p>이 관계는 성격을 단정하는 말이 아니라, 두 사람이 함께 있을 때 어떤 반응이 자연스럽게 생기는지를 보는 설명입니다. {parentTitle}의 결이 {childName}에게 닿는 방식과 {childName}이 다시 반응하는 속도가 이 궁합의 핵심입니다.</p><p>따라서 두 결이 만날 때에는 한쪽을 맞고 틀림으로 보기보다, 서로의 속도와 방향을 맞추는 것이 중요합니다. 그 균형이 잡히면 {childName}은 {parentTitle} 곁에서 자기 결을 더 편안하게 드러낼 수 있습니다.</p>
+          <p><b>일상에서는</b><br>일상에서는 {parentTitle}이 {childName}에게 먼저 방향을 보여주고, {childName}이 그 반응을 살피며 자기 속도를 잡는 장면이 자주 나타납니다. 익숙한 말투와 반복되는 루틴 안에서 두 결은 더 안정적으로 만납니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>15페이지 부모궁 요약 블록 예시</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="meta">parentPalace|support|support</div>
+          <h3>받쳐주는 기운 × 받쳐주는 기운</h3>
+          <p>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 받쳐주는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</p><p>어머님의 아이 마음을 먼저 받아주고 안정시키는 흐름과 아버님의 아이 마음을 먼저 받아주고 안정시키는 흐름이 함께 들어오면, 아이는 정서적 반응과 생활의 기준을 동시에 배웁니다. 두 흐름의 속도가 맞을수록 아이의 결은 더 안정적으로 자리를 잡습니다.</p>
+        </div><div class="card">
+          <div class="meta">parentPalace|support|expression</div>
+          <h3>받쳐주는 기운 × 표현하는 기운</h3>
+          <p>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 표현하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</p><p>어머님의 아이 마음을 먼저 받아주고 안정시키는 흐름과 아버님의 아이의 말과 행동을 밖으로 열어주는 흐름이 함께 들어오면, 아이는 정서적 반응과 생활의 기준을 동시에 배웁니다. 두 흐름의 속도가 맞을수록 아이의 결은 더 안정적으로 자리를 잡습니다.</p>
+        </div><div class="card">
+          <div class="meta">parentPalace|support|standard</div>
+          <h3>받쳐주는 기운 × 절제하는 기운</h3>
+          <p>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 절제하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</p><p>어머님의 아이 마음을 먼저 받아주고 안정시키는 흐름과 아버님의 생활의 기준과 경계를 세워주는 흐름이 함께 들어오면, 아이는 정서적 반응과 생활의 기준을 동시에 배웁니다. 두 흐름의 속도가 맞을수록 아이의 결은 더 안정적으로 자리를 잡습니다.</p>
+        </div><div class="card">
+          <div class="meta">parentPalace|support|result</div>
+          <h3>받쳐주는 기운 × 결과를 기대하는 기운</h3>
+          <p>아이 사주 안에서 어머님은 받쳐주는 기운으로, 아버님은 결과를 기대하는 기운으로 읽힙니다. 이것은 실제 부모님의 전부를 단정하는 말이 아니라, 아이가 부모의 자리를 어떤 흐름으로 받아들이기 쉬운지를 보여주는 기준입니다.</p><p>어머님의 아이 마음을 먼저 받아주고 안정시키는 흐름과 아버님의 성취와 결과를 향해 밀어주는 흐름이 함께 들어오면, 아이는 정서적 반응과 생활의 기준을 동시에 배웁니다. 두 흐름의 속도가 맞을수록 아이의 결은 더 안정적으로 자리를 잡습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>16페이지 매트릭스 카드 블록 예시</h2>
+      <div class="grid">
+        <div class="card matrix ">
+          <div class="meta">matrix|mother|support|흔들림|synergy|strong</div>
+          <h3>{childName}의 깊이 느끼는 결을 {parentTitle}의 받쳐주는 기운이 깊게 받쳐주는 자리</h3>
+          <p><code>강한 시너지 - {parentTitle}의 받쳐주는 기운({parentAxisScore}) x {childName}의 흔들림({childFactorScore})</code></p>
+          <p>{parentTitle}의 받쳐주는 기운은 아이 마음을 먼저 받아주고 안정시키는 흐름입니다. 이 흐름은 {childName}의 깊이 느끼는 결이 흔들리지 않고 자기 자리를 찾도록 깊게 받쳐줍니다.</p><p>{childName}에게 흔들림은 중요한 생활 반응으로 나타납니다. 부모님의 결이 이 반응을 인정해줄 때, 아이는 방어하기보다 자기 속도로 열리는 쪽을 선택합니다.</p><p>두 결이 만나면 {parentTitle}의 흐름이 {childName}의 흔들림을 자연스럽게 지지하는 자리가 됩니다. 아이가 가장 편안하게 자라는 방향을 함께 만들어갈 수 있습니다.</p>
+          <p><b>일상에서는</b></p>
+          <p>{childName}이 흔들림과 관련된 반응을 보일 때 {parentTitle}이 먼저 안정된 말투로 받아주면, 아이의 표정과 행동이 한 박자 부드러워집니다.</p><p>반복되는 루틴 안에서 {parentTitle}의 받쳐주는 기운이 일정하게 전해질수록 {childName}은 다음 상황을 예측하고 더 편안하게 움직입니다.</p>
+          
+        </div><div class="card matrix ">
+          <div class="meta">matrix|mother|expression|만족|synergy|middle</div>
+          <h3>{childName}의 만족의 결을 {parentTitle}의 표현하는 기운이 분명하게 받쳐주는 자리</h3>
+          <p><code>보통 시너지 - {parentTitle}의 표현하는 기운({parentAxisScore}) x {childName}의 만족({childFactorScore})</code></p>
+          <p>{parentTitle}의 표현하는 기운은 아이의 말과 행동을 밖으로 열어주는 흐름입니다. 이 흐름은 {childName}의 만족의 결이 흔들리지 않고 자기 자리를 찾도록 분명하게 받쳐줍니다.</p><p>{childName}에게 만족은 중요한 생활 반응으로 나타납니다. 부모님의 결이 이 반응을 인정해줄 때, 아이는 방어하기보다 자기 속도로 열리는 쪽을 선택합니다.</p><p>두 결이 만나면 {parentTitle}의 흐름이 {childName}의 만족을 자연스럽게 지지하는 자리가 됩니다. 아이가 가장 편안하게 자라는 방향을 함께 만들어갈 수 있습니다.</p>
+          <p><b>일상에서는</b></p>
+          <p>{childName}이 만족과 관련된 반응을 보일 때 {parentTitle}이 먼저 안정된 말투로 받아주면, 아이의 표정과 행동이 한 박자 부드러워집니다.</p><p>반복되는 루틴 안에서 {parentTitle}의 표현하는 기운이 일정하게 전해질수록 {childName}은 다음 상황을 예측하고 더 편안하게 움직입니다.</p>
+          
+        </div><div class="card matrix conflict">
+          <div class="meta">matrix|father|standard|조심|conflict|strong</div>
+          <h3>{parentTitle}의 절제하는 기운이 {childName}의 신중한 결과 부딪힐 수 있는 자리</h3>
+          <p><code>강한 충돌 - {parentTitle}의 절제하는 기운({parentAxisScore}) x {childName}의 조심({childFactorScore})</code></p>
+          <p>{parentTitle}의 절제하는 기운은 생활의 기준과 경계를 세워주는 흐름입니다. 이 흐름이 빠르거나 강하게 전달되면 {childName}의 신중한 결이 먼저 긴장할 수 있습니다.</p><p>{childName}의 조심은 자기 속도와 반응 시간이 필요한 결입니다. 부모님의 의도가 좋아도 전달 속도가 맞지 않으면 아이에게는 압박이나 재촉처럼 느껴질 수 있습니다.</p><p>이 충돌은 나쁜 궁합이라는 뜻이 아닙니다. 부모님의 결을 한 박자 낮추고 아이가 받아들일 수 있는 크기로 나누면, 같은 흐름도 아이를 도와주는 기준으로 바뀔 수 있습니다.</p>
+          <p><b>일상에서는</b></p>
+          <p>{parentTitle}이 좋은 뜻으로 바로잡거나 재촉할 때, {childName}이 말수가 줄거나 한 박자 물러서는 모습이 나타날 수 있습니다.</p><p>이럴 때는 설명을 길게 하기보다 먼저 속도를 낮추고, 아이가 받아들일 수 있는 한 가지 행동만 짚어주는 편이 좋습니다.</p>
+          <p><b>이렇게 풀어보세요</b><br>이렇게 풀어보세요. {parentTitle}의 절제하는 기운을 바로 밀어붙이기보다, 먼저 {childName}의 신중한 결을 인정해 주세요. 그 다음 한 단계 낮은 말투와 작은 선택지로 방향을 제시하면 충돌이 줄고 협력으로 이어집니다.</p>
+        </div><div class="card matrix conflict">
+          <div class="meta">matrix|father|result|흔들림|conflict|middle</div>
+          <h3>{parentTitle}의 결과를 기대하는 기운이 {childName}의 깊이 느끼는 결과 부딪힐 수 있는 자리</h3>
+          <p><code>보통 충돌 - {parentTitle}의 결과를 기대하는 기운({parentAxisScore}) x {childName}의 흔들림({childFactorScore})</code></p>
+          <p>{parentTitle}의 결과를 기대하는 기운은 성취와 결과를 향해 밀어주는 흐름입니다. 이 흐름이 빠르거나 강하게 전달되면 {childName}의 깊이 느끼는 결이 먼저 긴장할 수 있습니다.</p><p>{childName}의 흔들림은 자기 속도와 반응 시간이 필요한 결입니다. 부모님의 의도가 좋아도 전달 속도가 맞지 않으면 아이에게는 압박이나 재촉처럼 느껴질 수 있습니다.</p><p>이 충돌은 나쁜 궁합이라는 뜻이 아닙니다. 부모님의 결을 한 박자 낮추고 아이가 받아들일 수 있는 크기로 나누면, 같은 흐름도 아이를 도와주는 기준으로 바뀔 수 있습니다.</p>
+          <p><b>일상에서는</b></p>
+          <p>{parentTitle}이 좋은 뜻으로 바로잡거나 재촉할 때, {childName}이 말수가 줄거나 한 박자 물러서는 모습이 나타날 수 있습니다.</p><p>이럴 때는 설명을 길게 하기보다 먼저 속도를 낮추고, 아이가 받아들일 수 있는 한 가지 행동만 짚어주는 편이 좋습니다.</p>
+          <p><b>이렇게 풀어보세요</b><br>이렇게 풀어보세요. {parentTitle}의 결과를 기대하는 기운을 바로 밀어붙이기보다, 먼저 {childName}의 깊이 느끼는 결을 인정해 주세요. 그 다음 한 단계 낮은 말투와 작은 선택지로 방향을 제시하면 충돌이 줄고 협력으로 이어집니다.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

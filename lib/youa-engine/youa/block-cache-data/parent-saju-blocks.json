@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "youa-block-cache-v1",
+  "blockSet": "parentSaju",
+  "count": 20,
+  "blocks": [
+    {
+      "key": "parentSaju|mother|gap",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "갑목(甲)",
+      "parentSajuBody": "{parentName}의 일간은 갑목(甲)입니다. 갑목는 소나무처럼 곧게 자라 방향을 세우는 큰 나무의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 나무의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|eul",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "을목(乙)",
+      "parentSajuBody": "{parentName}의 일간은 을목(乙)입니다. 을목는 들풀과 꽃나무처럼 부드럽게 자라나는 작은 나무의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 나무의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|byeong",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "병화(丙)",
+      "parentSajuBody": "{parentName}의 일간은 병화(丙)입니다. 병화는 한낮의 햇빛처럼 밝게 퍼지고 주변을 환하게 비추는 큰 불의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 불의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|jeong",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "정화(丁)",
+      "parentSajuBody": "{parentName}의 일간은 정화(丁)입니다. 정화는 촛불과 등불처럼 안에서 따뜻하게 비추는 작은 불의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 불의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|mu",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "무토(戊)",
+      "parentSajuBody": "{parentName}의 일간은 무토(戊)입니다. 무토는 산과 언덕처럼 넓게 버티고 기준을 세우는 큰 흙의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 흙의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|gi",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "기토(己)",
+      "parentSajuBody": "{parentName}의 일간은 기토(己)입니다. 기토는 밭과 정원처럼 품고 길러내는 작은 흙의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 흙의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|gyeong",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "경금(庚)",
+      "parentSajuBody": "{parentName}의 일간은 경금(庚)입니다. 경금는 도끼와 큰 칼처럼 기준을 세우고 단단하게 정리하는 큰 쇠의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 쇠의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|sin",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "신금(辛)",
+      "parentSajuBody": "{parentName}의 일간은 신금(辛)입니다. 신금는 바늘과 보석처럼 정밀하고 섬세하게 다듬는 작은 쇠의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 쇠의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|im",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "임수(壬)",
+      "parentSajuBody": "{parentName}의 일간은 임수(壬)입니다. 임수는 강과 바다처럼 크게 흐르고 멀리 품는 큰 물의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 물의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|mother|gye",
+      "role": "mother",
+      "roleTitle": "어머님",
+      "dayMaster": "계수(癸)",
+      "parentSajuBody": "{parentName}의 일간은 계수(癸)입니다. 계수는 이슬과 샘물처럼 조용히 스며들어 살리는 작은 물의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 어머님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 물의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|gap",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "갑목(甲)",
+      "parentSajuBody": "{parentName}의 일간은 갑목(甲)입니다. 갑목는 소나무처럼 곧게 자라 방향을 세우는 큰 나무의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 나무의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|eul",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "을목(乙)",
+      "parentSajuBody": "{parentName}의 일간은 을목(乙)입니다. 을목는 들풀과 꽃나무처럼 부드럽게 자라나는 작은 나무의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 나무의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|byeong",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "병화(丙)",
+      "parentSajuBody": "{parentName}의 일간은 병화(丙)입니다. 병화는 한낮의 햇빛처럼 밝게 퍼지고 주변을 환하게 비추는 큰 불의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 불의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|jeong",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "정화(丁)",
+      "parentSajuBody": "{parentName}의 일간은 정화(丁)입니다. 정화는 촛불과 등불처럼 안에서 따뜻하게 비추는 작은 불의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 불의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|mu",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "무토(戊)",
+      "parentSajuBody": "{parentName}의 일간은 무토(戊)입니다. 무토는 산과 언덕처럼 넓게 버티고 기준을 세우는 큰 흙의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 흙의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|gi",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "기토(己)",
+      "parentSajuBody": "{parentName}의 일간은 기토(己)입니다. 기토는 밭과 정원처럼 품고 길러내는 작은 흙의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 흙의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|gyeong",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "경금(庚)",
+      "parentSajuBody": "{parentName}의 일간은 경금(庚)입니다. 경금는 도끼와 큰 칼처럼 기준을 세우고 단단하게 정리하는 큰 쇠의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 쇠의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|sin",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "신금(辛)",
+      "parentSajuBody": "{parentName}의 일간은 신금(辛)입니다. 신금는 바늘과 보석처럼 정밀하고 섬세하게 다듬는 작은 쇠의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 쇠의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|im",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "임수(壬)",
+      "parentSajuBody": "{parentName}의 일간은 임수(壬)입니다. 임수는 강과 바다처럼 크게 흐르고 멀리 품는 큰 물의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 큰 물의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    },
+    {
+      "key": "parentSaju|father|gye",
+      "role": "father",
+      "roleTitle": "아버님",
+      "dayMaster": "계수(癸)",
+      "parentSajuBody": "{parentName}의 일간은 계수(癸)입니다. 계수는 이슬과 샘물처럼 조용히 스며들어 살리는 작은 물의 기운입니다. 사주 안에서 강하게 자리한 기운들이 이 일간과 만나면, 아버님의 결은 가족 안에서 {parentMainTrait} 흐름으로 드러납니다. 이 결은 크게 앞서가기보다 자기 방식으로 관계와 생활의 리듬을 만들어가는 자리입니다.",
+      "parentSajuBridge": "이 작은 물의 결이 {childName}의 결과 만나는 자리는 뒤쪽의 함께 살펴줄 결에서 더 구체적으로 정리됩니다."
+    }
+  ]
+}

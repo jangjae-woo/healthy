@@ -1,0 +1,197 @@
+{
+  "version": "lifesaju-wealth-earning-judgement-v1",
+  "generatedAt": "2026-05-18",
+  "sampleId": "sample-001",
+  "personKey": "1990-03-21_묘시_male",
+  "personName": "목화표현형",
+  "pageAlias": "wealth",
+  "sectionRole": "earning",
+  "sectionTitle": "돈을 버는 결",
+  "judgementType": "skill_knowhow_service",
+  "judgementLabel": "기술 노하우 서비스형",
+  "cacheKey": "wealth.earning|pattern:skill_knowhow_service|siksang:약|jaeseong:보통|topSip:비견:강|topCat:비겁:강|shinkang:중화|elementShape:wood_보통_water_deficit|risk:sharing_boundary|timing:very_high|tone:index-jang",
+  "factors": {
+    "ilgan": "을",
+    "dayPillar": "을유",
+    "shinkang": "중화",
+    "strongestElement": "목",
+    "weakestElement": "수",
+    "elementBands": {
+      "목": "보통",
+      "화": "결핍",
+      "토": "보통",
+      "금": "약",
+      "수": "없음"
+    },
+    "elementShape": "wood_보통_water_deficit",
+    "sipseongCounts": {
+      "비견": 3,
+      "편재": 2,
+      "정관": 1,
+      "식신": 1,
+      "편관": 1
+    },
+    "sipseongBands": {
+      "비견": "강",
+      "편재": "보통",
+      "정관": "약",
+      "식신": "약",
+      "편관": "약"
+    },
+    "sipseongCategories": {
+      "비겁": 3,
+      "식상": 1,
+      "재성": 2,
+      "관성": 2,
+      "인성": 0
+    },
+    "sipseongCategoryBands": {
+      "비겁": "강",
+      "식상": "약",
+      "재성": "보통",
+      "관성": "보통",
+      "인성": "없음"
+    },
+    "topSipseong": "비견",
+    "topSipseongBand": "강",
+    "topCategory": "비겁",
+    "topCategoryBand": "강",
+    "yongsin": "수"
+  },
+  "wealthAxes": {
+    "support": {
+      "id": "support",
+      "label": "받쳐주는 결",
+      "score": 45,
+      "level": "양면",
+      "className": "ambivalent",
+      "dots": "●●○○○",
+      "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+      "sourceFactors": [
+        "인성",
+        "용신",
+        "신강신약"
+      ]
+    },
+    "make": {
+      "id": "make",
+      "label": "만드는 결",
+      "score": 64,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "식상과 재성이 수입을 만드는 통로",
+      "sourceFactors": [
+        "식상",
+        "재성"
+      ]
+    },
+    "keep": {
+      "id": "keep",
+      "label": "지키는 결",
+      "score": 70,
+      "level": "보완",
+      "className": "mid",
+      "dots": "●●●○○",
+      "reason": "비겁 과다 여부와 관성의 정리력",
+      "sourceFactors": [
+        "비겁",
+        "관성",
+        "신강신약"
+      ]
+    },
+    "accumulate": {
+      "id": "accumulate",
+      "label": "모이는 결",
+      "score": 86,
+      "level": "빛남",
+      "className": "very-strong",
+      "dots": "●●●●●",
+      "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+      "sourceFactors": [
+        "재성",
+        "토",
+        "오행균형"
+      ]
+    }
+  },
+  "timing": {
+    "bright": {
+      "ageStart": 35,
+      "ageEnd": 44,
+      "ganji": "계미",
+      "stemSipseong": "편인",
+      "branchSipseong": "편재",
+      "score": 87,
+      "level": "빛남"
+    },
+    "care": {
+      "ageStart": 45,
+      "ageEnd": 54,
+      "ganji": "갑신",
+      "stemSipseong": "겁재",
+      "branchSipseong": "정관",
+      "score": 52,
+      "level": "양면"
+    },
+    "brightTimingBand": "very_high",
+    "careTimingBand": "mixed"
+  },
+  "derivedFlags": {
+    "hasSiksangToJaeseong": true,
+    "siksangBand": "약",
+    "jaeseongBand": "보통",
+    "bigyeopDrainRisk": "medium",
+    "incomeCapacityByShinkang": "balanced_capacity",
+    "contractPriceBoundaryRisk": "sharing_boundary",
+    "brightTimingBand": "very_high",
+    "careTimingBand": "mixed"
+  },
+  "llmPrecomputeInput": {
+    "pageAlias": "wealth",
+    "sectionRole": "earning",
+    "personName": "목화표현형",
+    "tone": "index-jang",
+    "judgementType": "skill_knowhow_service",
+    "judgementLabel": "기술 노하우 서비스형",
+    "requiredFacts": [
+      "배운 것과 노하우를 서비스화할수록 돈이 되는 타입",
+      "전문성, 문제 해결, 설명 능력이 수입 통로가 됨",
+      "반복 가능한 서비스 구조가 중요함",
+      "주의점: sharing_boundary"
+    ],
+    "forbiddenFacts": [
+      "점수 숫자 직접 노출 금지",
+      "대운 간지와 십성을 계산표처럼 나열 금지",
+      "투자 확정 수익 표현 금지",
+      "무조건 부자/평생 돈복 같은 과장 금지",
+      "돈이 들어오면 그대로 잘 남는다고 단정하지 말 것"
+    ],
+    "fitIncomeSeats": [
+      "전문 서비스",
+      "교육",
+      "컨설팅",
+      "기술 노하우",
+      "문제 해결형 일"
+    ],
+    "positiveFactors": [
+      "목 기운은 성장성, 기획, 확장 쪽으로 번역한다.",
+      "비겁 흐름은 강 단계로 본다.",
+      "재물 bright 시기는 내부적으로 very_high 단계다."
+    ],
+    "riskFactors": [
+      "수 기운은 없음 단계다.",
+      "돈을 지키는 축은 mid 단계다.",
+      "리스크 패턴은 sharing_boundary다."
+    ],
+    "outputShape": {
+      "paragraphs": 2,
+      "sentencesPerParagraph": [
+        2,
+        3
+      ],
+      "exposeInternalScores": false,
+      "exposeCacheKeys": false
+    }
+  }
+}

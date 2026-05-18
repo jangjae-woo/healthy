@@ -1,0 +1,194 @@
+{
+  "version": "lifesaju-wealth-earning-judgement-v1",
+  "generatedAt": "2026-05-18",
+  "sampleId": "sample-004",
+  "personKey": "2001-01-26_unknown_female",
+  "personName": "관성조직형",
+  "pageAlias": "wealth",
+  "sectionRole": "earning",
+  "sectionTitle": "돈을 버는 결",
+  "judgementType": "cashflow_guard_first",
+  "judgementLabel": "현금흐름 방어 우선형",
+  "cacheKey": "wealth.earning|pattern:cashflow_guard_first|siksang:약|jaeseong:없음|topSip:비견:과다|topCat:비겁:과다|shinkang:극왕|elementShape:earth_강_fire_deficit|risk:cashflow_boundary|timing:high|tone:index-jang",
+  "factors": {
+    "ilgan": "기",
+    "dayPillar": "기축",
+    "shinkang": "극왕",
+    "strongestElement": "토",
+    "weakestElement": "화",
+    "elementBands": {
+      "목": "결핍",
+      "화": "없음",
+      "토": "강",
+      "금": "약",
+      "수": "결핍"
+    },
+    "elementShape": "earth_강_fire_deficit",
+    "sipseongCounts": {
+      "비견": 4,
+      "상관": 1,
+      "겁재": 1
+    },
+    "sipseongBands": {
+      "비견": "과다",
+      "상관": "약",
+      "겁재": "약"
+    },
+    "sipseongCategories": {
+      "비겁": 5,
+      "식상": 1,
+      "재성": 0,
+      "관성": 0,
+      "인성": 0
+    },
+    "sipseongCategoryBands": {
+      "비겁": "과다",
+      "식상": "약",
+      "재성": "없음",
+      "관성": "없음",
+      "인성": "없음"
+    },
+    "topSipseong": "비견",
+    "topSipseongBand": "과다",
+    "topCategory": "비겁",
+    "topCategoryBand": "과다",
+    "yongsin": "목"
+  },
+  "wealthAxes": {
+    "support": {
+      "id": "support",
+      "label": "받쳐주는 결",
+      "score": 49,
+      "level": "양면",
+      "className": "ambivalent",
+      "dots": "●●○○○",
+      "reason": "인성·용신이 재물 결을 받쳐주는 정도",
+      "sourceFactors": [
+        "인성",
+        "용신",
+        "신강신약"
+      ]
+    },
+    "make": {
+      "id": "make",
+      "label": "만드는 결",
+      "score": 54,
+      "level": "양면",
+      "className": "ambivalent",
+      "dots": "●●○○○",
+      "reason": "식상과 재성이 수입을 만드는 통로",
+      "sourceFactors": [
+        "식상",
+        "재성"
+      ]
+    },
+    "keep": {
+      "id": "keep",
+      "label": "지키는 결",
+      "score": 29,
+      "level": "살펴줄",
+      "className": "care",
+      "dots": "●○○○○",
+      "reason": "비겁 과다 여부와 관성의 정리력",
+      "sourceFactors": [
+        "비겁",
+        "관성",
+        "신강신약"
+      ]
+    },
+    "accumulate": {
+      "id": "accumulate",
+      "label": "모이는 결",
+      "score": 72,
+      "level": "시너지",
+      "className": "strong",
+      "dots": "●●●●○",
+      "reason": "재성·토 기운·오행 균형이 자산 축적에 작용",
+      "sourceFactors": [
+        "재성",
+        "토",
+        "오행균형"
+      ]
+    }
+  },
+  "timing": {
+    "bright": {
+      "ageStart": 37,
+      "ageEnd": 46,
+      "ganji": "을유",
+      "stemSipseong": "편관",
+      "branchSipseong": "식신",
+      "score": 75,
+      "level": "시너지"
+    },
+    "care": {
+      "ageStart": 7,
+      "ageEnd": 16,
+      "ganji": "무자",
+      "stemSipseong": "겁재",
+      "branchSipseong": "정재",
+      "score": 53,
+      "level": "양면"
+    },
+    "brightTimingBand": "high",
+    "careTimingBand": "mixed"
+  },
+  "derivedFlags": {
+    "hasSiksangToJaeseong": false,
+    "siksangBand": "약",
+    "jaeseongBand": "없음",
+    "bigyeopDrainRisk": "high",
+    "incomeCapacityByShinkang": "can_handle_scale",
+    "contractPriceBoundaryRisk": "cashflow_boundary",
+    "brightTimingBand": "high",
+    "careTimingBand": "mixed"
+  },
+  "llmPrecomputeInput": {
+    "pageAlias": "wealth",
+    "sectionRole": "earning",
+    "personName": "관성조직형",
+    "tone": "index-jang",
+    "judgementType": "cashflow_guard_first",
+    "judgementLabel": "현금흐름 방어 우선형",
+    "requiredFacts": [
+      "돈을 버는 힘보다 지키는 기준을 먼저 세워야 하는 타입",
+      "계약, 가격표, 지출 경계가 수입의 핵심 안전장치",
+      "공동돈과 충동 지출을 분리해야 함",
+      "주의점: cashflow_boundary"
+    ],
+    "forbiddenFacts": [
+      "점수 숫자 직접 노출 금지",
+      "대운 간지와 십성을 계산표처럼 나열 금지",
+      "투자 확정 수익 표현 금지",
+      "무조건 부자/평생 돈복 같은 과장 금지",
+      "식상생재가 있다고 쓰지 말 것",
+      "돈이 들어오면 그대로 잘 남는다고 단정하지 말 것"
+    ],
+    "fitIncomeSeats": [
+      "계약 관리",
+      "가격표 정리",
+      "지출 분리",
+      "공동돈 분리",
+      "현금흐름 관리"
+    ],
+    "positiveFactors": [
+      "토 기운은 축적, 안정, 현실 감각 쪽으로 번역한다.",
+      "비겁 흐름은 과다 단계로 본다.",
+      "재물 bright 시기는 내부적으로 high 단계다."
+    ],
+    "riskFactors": [
+      "화 기운은 없음 단계다.",
+      "돈을 지키는 축은 care 단계다.",
+      "리스크 패턴은 cashflow_boundary다."
+    ],
+    "outputShape": {
+      "paragraphs": 2,
+      "sentencesPerParagraph": [
+        2,
+        3
+      ],
+      "exposeInternalScores": false,
+      "exposeCacheKeys": false
+    }
+  }
+}

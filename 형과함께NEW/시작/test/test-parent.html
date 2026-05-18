@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phase 1-B — 자녀 6요인 + 부모 6축 통합</title>
+  <style>
+    body { font-family: 'Pretendard', -apple-system, sans-serif; padding: 24px; max-width: 1100px; margin: auto; background: #fafaf8; color: #333; line-height: 1.6; }
+    h1 { color: #c84d20; margin-bottom: 6px; }
+    h2 { color: #d97757; margin-top: 28px; border-bottom: 1px solid #f0d9c4; padding-bottom: 6px; }
+    h3 { color: #444; margin-top: 16px; font-size: 16px; }
+    .note { background: #fef9f6; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #d97757; font-size: 13px; color: #555; margin: 14px 0; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .person-card { background: white; padding: 16px 18px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .person-card h3 { margin-top: 0; color: #c84d20; }
+    .saju-line { font-family: monospace; font-size: 14px; color: #555; margin: 4px 0 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { padding: 6px 8px; border-bottom: 1px solid #f0ebe5; text-align: left; }
+    th { background: #f8f5f1; color: #555; font-weight: 600; }
+    .score-cell { text-align: right; font-weight: 700; }
+    .level-low  { color: #2d5a8a; }
+    .level-mid  { color: #888; }
+    .level-high { color: #c84d20; font-weight: 700; }
+    .bar { display: inline-block; width: 60px; height: 6px; background: #f0ebe5; border-radius: 3px; overflow: hidden; vertical-align: middle; margin-right: 6px; }
+    .bar-fill { height: 100%; background: #d97757; }
+    .bongi { background: #FFE5DA; color: #c84d20; padding: 1px 6px; border-radius: 4px; font-size: 11px; }
+    .summary-table { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin: 16px 0; }
+    .matrix-trigger { background: #fef0e6; padding: 12px 16px; border-radius: 8px; margin: 14px 0; font-size: 13px; }
+    .matrix-trigger strong { color: #c84d20; }
+  </style>
+</head>
+<body>
+  <h1>Phase 1-B — 자녀 6요인 + 부모 6축 통합 산출</h1>
+  <p style="font-size:12px;color:#888;">룰 그대로 (시안 점수 비교 X). 캘리브레이션 대상: 신강 점수 매핑 + 정규화 ÷6 (Phase 7)</p>
+
+  <h2>1. 6셋 통칭 인자 강도 (3인 비교)</h2>
+  <div class="summary-table" id="factor-comparison"></div>
+
+  <h2>2. 자녀 6요인</h2>
+  <div class="summary-table" id="child-factors"></div>
+
+  <h2>3. 부모 6축 (내부 로직, 결과지 노출 X)</h2>
+  <div class="grid-3" style="grid-template-columns:1fr 1fr;">
+    <div class="person-card" id="mother-axes"></div>
+    <div class="person-card" id="father-axes"></div>
+  </div>
+
+  <h2>4. 36셀 매트릭스 트리거 분석</h2>
+  <div id="matrix-trigger"></div>
+
+  <h2>5. 동물 매칭 + 케이스 분기 예측</h2>
+  <div class="summary-table" id="animal-match"></div>
+
+  <script type="module">
+    import { KIMSUMIN_SAJU } from '../fixtures/child-kimsumin.mjs';
+    import { PARK_JIYOUNG_SAJU } from '../fixtures/mother-park.mjs';
+    import { KIM_JAEHUN_SAJU } from '../fixtures/father-kim.mjs';
+    import { calcAll6Factors } from '../lib/youa/factors.mjs';
+    import { calcAll6Axes } from '../lib/youa/parent-axes.mjs';
+
+    // 인자 비교 표
+    const factorRows = ['인성', '식상', '관성', '재성', '비겁', '조후', '특수'];
+    let comp = `<table><tr><th>인자</th><th>자녀 (壬子·庚申·乙亥·戊寅)</th><th>어머님 (戊辰·乙卯·丁亥·丙午)</th><th>아버님 (乙丑·乙酉·庚申·丙子)</th></tr>`;
+    for (const k of factorRows) {
+      const c = KIMSUMIN_SAJU.factorStrength[k];
+      const m = PARK_JIYOUNG_SAJU.factorStrength[k];
+      const f = KIM_JAEHUN_SAJU.factorStrength[k];
+      const cell = (v) => v ? `<span class="bar"><span class="bar-fill" style="width:${v.weightedStrength}%"></span></span>${v.weightedStrength}${v.isBongi ? ' <span class="bongi">본기</span>' : ''}` : '—';
+      comp += `<tr><td><strong>${k}</strong></td><td>${cell(c)}</td><td>${cell(m)}</td><td>${cell(f)}</td></tr>`;
+    }
+    comp += `</table>`;
+    document.getElementById('factor-comparison').innerHTML = comp;
+
+    // 자녀 6요인
+    const childFactors = calcAll6Factors(KIMSUMIN_SAJU);
+    const factorList = [
+      ['hwalgi', '활기'], ['josim', '조심'], ['manjok', '만족'],
+      ['heundeullim', '흔들림'], ['eoullim', '어울림'], ['kkeungi', '끈기']
+    ];
+    let cf = `<table><tr><th>요인</th><th>점수</th><th>구간</th></tr>`;
+    for (const [k, ko] of factorList) {
+      const r = childFactors[k];
+      cf += `<tr><td>${ko}</td><td class="score-cell">${r.score}</td><td class="level-${r.level}">${{low:'낮음',mid:'중간',high:'높음'}[r.level]}</td></tr>`;
+    }
+    cf += `</table>`;
+    document.getElementById('child-factors').innerHTML = cf;
+
+    // 부모 6축
+    const motherAxes = calcAll6Axes(PARK_JIYOUNG_SAJU);
+    const fatherAxes = calcAll6Axes(KIM_JAEHUN_SAJU);
+    const axisList = [
+      ['ongi', '온기'], ['jungsim', '중심'], ['ilgwan', '일관'],
+      ['jayul', '자율'], ['pyohyeon', '표현'], ['baram', '바람']
+    ];
+
+    function axesTable(name, saju8, axes) {
+      let h = `<h3>${name}</h3><div class="saju-line">${saju8}</div><table><tr><th>축</th><th>점수</th><th>구간</th></tr>`;
+      for (const [k, ko] of axisList) {
+        const r = axes[k];
+        h += `<tr><td>${ko}</td><td class="score-cell">${r.score}</td><td class="level-${r.level}">${{low:'낮음',mid:'중간',high:'높음'}[r.level]}</td></tr>`;
+      }
+      h += `</table>`;
+      return h;
+    }
+    const motherSaju8 = Object.values(PARK_JIYOUNG_SAJU.pillars).map(p => `${p.stem}${p.branch}`).join(' ');
+    const fatherSaju8 = Object.values(KIM_JAEHUN_SAJU.pillars).map(p => `${p.stem}${p.branch}`).join(' ');
+    document.getElementById('mother-axes').innerHTML = axesTable('어머님 박지영', motherSaju8, motherAxes);
+    document.getElementById('father-axes').innerHTML = axesTable('아버님 김재훈', fatherSaju8, fatherAxes);
+
+    // 매트릭스 트리거 (≥66 = 강 / 픽 대상)
+    const motherStrong = axisList.filter(([k]) => motherAxes[k].score >= 66).map(([, ko]) => ko + ' ' + motherAxes[axisList.find(([k2]) => k2 === axisList.find(x => x[1] === ko)[0])[0]].score);
+    // 단순화
+    const motherStrongRaw = axisList.filter(([k]) => motherAxes[k].score >= 66);
+    const fatherStrongRaw = axisList.filter(([k]) => fatherAxes[k].score >= 66);
+
+    let mt = `<div class="matrix-trigger">`;
+    mt += `<strong>어머님 매트릭스 매칭 축 (≥66 = 자동 픽):</strong> `;
+    mt += motherStrongRaw.length > 0
+      ? motherStrongRaw.map(([k, ko]) => `${ko}(${motherAxes[k].score})`).join(', ')
+      : '없음 → fallback (상위 2축)';
+    mt += `<br/><strong>아버님 매트릭스 매칭 축 (≥66 = 자동 픽):</strong> `;
+    mt += fatherStrongRaw.length > 0
+      ? fatherStrongRaw.map(([k, ko]) => `${ko}(${fatherAxes[k].score})`).join(', ')
+      : '없음 → fallback (상위 2축)';
+    mt += `</div>`;
+
+    // 자녀 상위/하위 요인
+    const childSorted = Object.entries(childFactors).sort((a, b) => b[1].score - a[1].score);
+    mt += `<div class="matrix-trigger"><strong>자녀 6요인 정렬 (높음→낮음):</strong> ${childSorted.map(([, v]) => `${v.factorKorean}(${v.score})`).join(' / ')}</div>`;
+    document.getElementById('matrix-trigger').innerHTML = mt;
+
+    // 동물 매칭 예측
+    const top1 = childSorted[0][1];
+    const top2 = childSorted[1][1];
+    const top3 = childSorted[2][1];
+    const ANIMAL_MAP = {
+      hwalgi: '호랑이', josim: '토끼', manjok: '말',
+      heundeullim: '돼지', eoullim: '양', kkeungi: '소',
+    };
+    const allMid = Object.values(childFactors).every(r => r.score >= 41 && r.score <= 65);
+    let animal, caseLabel;
+    if (allMid || top1.score <= 65) {
+      animal = '용 (균형형)';
+      caseLabel = 'C (균형형)';
+    } else if (top1.score - top3.score <= 6) {
+      animal = ANIMAL_MAP[top1.factor];
+      caseLabel = 'B (상위 비등)';
+    } else {
+      animal = ANIMAL_MAP[top1.factor];
+      caseLabel = (top1.score - top2.score > 10) ? 'A (단독 두드러짐)' : 'A 보더라인';
+    }
+    let am = `<table><tr><th>항목</th><th>값</th></tr>`;
+    am += `<tr><td>매칭 동물</td><td><strong>${animal}</strong></td></tr>`;
+    am += `<tr><td>케이스 분기</td><td>${caseLabel}</td></tr>`;
+    am += `<tr><td>top1 (가장 두드러짐)</td><td>${top1.factorKorean} ${top1.score}</td></tr>`;
+    am += `<tr><td>top2 (함께 깊음)</td><td>${top2.factorKorean} ${top2.score}</td></tr>`;
+    am += `<tr><td>top3 (함께 깊음)</td><td>${top3.factorKorean} ${top3.score}</td></tr>`;
+    am += `</table>`;
+    document.getElementById('animal-match').innerHTML = am;
+  </script>
+</body>
+</html>

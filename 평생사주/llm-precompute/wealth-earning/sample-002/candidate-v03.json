@@ -1,0 +1,14 @@
+{
+  "version": "lifesaju-wealth-earning-llm-candidate-v1",
+  "generatedAt": "2026-05-18",
+  "cacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang|variant:03",
+  "baseCacheKey": "wealth.earning|pattern:salary_stability_accumulation|siksang:보통|jaeseong:없음|topSip:상관:보통|topCat:비겁:보통|shinkang:신약|elementShape:wood_보통_metal_deficit|risk:contract_price_boundary|timing:very_high|tone:index-jang",
+  "sampleId": "sample-002",
+  "status": "ready",
+  "text": "수금연구형 님은 돈이 들어오는 속도보다 돈이 남는 구조가 더 중요한 분이에요. 안정적인 역할 안에서 실력을 쌓고, 반복되는 수입을 오래 관리할 때 재물 결이 편안하게 살아납니다.\n\n구체적으로는 조직 안의 전문성, 장기 근속, 고정 고객, 정기 수입이 있는 일이 잘 맞습니다. 한 번의 큰 기회보다 끊기지 않는 흐름을 만드는 쪽이 유리해요. 재물은 크게 흔들수록 좋아지는 결이 아니라, 기준을 지킬수록 조용히 쌓이는 결입니다.",
+  "qa": {
+    "checked": false,
+    "issues": []
+  },
+  "generatedBy": "local-demo-llm-style-generator"
+}
